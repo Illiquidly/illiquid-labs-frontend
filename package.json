@@ -1,0 +1,40 @@
+{
+	"name": "next-template",
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "next --port 4300",
+		"build": "next build && next export",
+		"start": "next start",
+		"type-check": "tsc"
+	},
+	"dependencies": {
+		"@next/eslint-plugin-next": "^12.2.3",
+		"@terra-money/terra.js": "^3.0.11",
+		"@terra-money/use-wallet": "^3.9.4",
+		"@terra-money/wallet-provider": "^3.6.5",
+		"eslint-config-next": "^12.2.3",
+		"next": "^12.0.9",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"styled-components": "^5.3.3"
+	},
+	"devDependencies": {
+		"@types/react": "^17.0.34",
+		"@types/react-dom": "^17.0.11",
+		"@typescript-eslint/eslint-plugin": "5.12.1",
+		"eslint": "8.9.0",
+		"eslint-config-airbnb": "18.2.1",
+		"eslint-config-prettier": "8.4.0",
+		"eslint-plugin-jsx-a11y": "6.5.1",
+		"eslint-plugin-prettier": "4.0.0",
+		"eslint-plugin-react": "7.27.0",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-security": "1.4.0",
+		"eslint-plugin-simple-import-sort": "7.0.0",
+		"eslint-plugin-sonarjs": "0.12.0",
+		"husky": "^8.0.1",
+		"lint-staged": "^13.0.3",
+		"prettier": "2.5.1",
+		"typescript": "^4.4.4"
+	}
+}
