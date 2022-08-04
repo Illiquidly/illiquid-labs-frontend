@@ -1,14 +1,13 @@
-import { Button, Flex } from 'rebass/styled-components'
+import Router from 'next/router'
+import React from 'react'
 
 export default function Index() {
-	return (
-		<div>
-			<Flex>
-				<Button variant='primary' mr={2}>
-					Beep
-				</Button>
-				<Button variant='secondary'>Boop</Button>
-			</Flex>
-		</div>
-	)
+	React.useEffect(() => {
+		const { pathname } = Router
+		if (pathname === '/') {
+			Router.push('/migrate')
+		}
+	})
+
+	return <></>
 }

@@ -1,5 +1,5 @@
 {
-	"name": "next-template",
+	"name": "illiquid-labs-frontend",
 	"version": "1.0.0",
 	"scripts": {
 		"dev": "next --port 4300",
@@ -8,15 +8,28 @@
 		"type-check": "tsc"
 	},
 	"dependencies": {
+		"@emotion/core": "^11.0.0",
+		"@emotion/react": "^11.10.0",
+		"@emotion/styled": "^11.10.0",
+		"@illiquid-labs/use-wallet": "^1.0.0",
+		"@illiquid-labs/wallet-provider": "^1.0.0",
+		"@mdx-js/react": "^1.6.22",
 		"@rebass/preset": "^4.0.5",
+		"@svgr/webpack": "^6.3.1",
 		"@terra-money/terra.js": "^3.0.11",
 		"@terra-money/use-wallet": "^3.9.4",
 		"@terra-money/wallet-provider": "^3.6.5",
+		"@theme-ui/presets": "^0.13.1",
+		"emotion-theming": "^11.0.0",
 		"next": "^12.0.9",
 		"react": "^17.0.2",
+		"react-device-detect": "^2.2.2",
 		"react-dom": "^17.0.2",
+		"react-responsive": "^9.0.0-beta.10",
 		"rebass": "^4.0.7",
-		"styled-components": "^5.3.3"
+		"styled-components": "^5.3.5",
+		"styled-system": "^5.1.5",
+		"theme-ui": "^0.13.1"
 	},
 	"devDependencies": {
 		"@next/eslint-plugin-next": "^12.2.3",

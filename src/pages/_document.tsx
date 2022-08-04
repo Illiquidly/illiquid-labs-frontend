@@ -16,6 +16,11 @@ export default function Document() {
 				<meta name='theme-color' content='#000000' />
 				<meta name='description' content='Illiquid Labs | NFT Infrastructure' />
 				<title>Illiquid Labs | NFT Infrastructure</title>
+				<link rel='preconnect' href='https://fonts.googleapis.com' />
+				<link
+					href='https://fonts.googleapis.com/css2?family=Biryani:wght@200;300;400;600;700;800;900&display=swap'
+					rel='stylesheet'
+				/>
 			</Head>
 			<body>
 				<Main />

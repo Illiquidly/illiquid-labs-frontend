@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"noImplicitAny": false,
 		"target": "ES2018",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"downlevelIteration": true,
@@ -16,7 +17,8 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "preserve",
-		"baseUrl": ".",
+		"baseUrl": "./src",
+		"watch": false,
 		"incremental": true
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

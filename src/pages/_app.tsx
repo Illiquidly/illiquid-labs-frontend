@@ -3,13 +3,18 @@ import {
 	StaticWalletProvider,
 	WalletControllerChainOptions,
 	WalletProvider,
-} from '@terra-money/wallet-provider'
+} from '@illiquid-labs/wallet-provider'
 import { AppProps } from 'next/app'
-import Link from 'next/link'
 import React from 'react'
-import { theme } from 'src/components/theme'
-import { ThemeProvider } from 'styled-components'
+import { theme } from 'components/theme'
+import { ThemeProvider } from 'theme-ui'
+import './styles.css'
 
+import dynamic from 'next/dynamic'
+
+const Header = dynamic(() => import('../components/ui/Header/Header'), {
+	ssr: false,
+})
 export default function App({
 	Component,
 	defaultNetwork,
@@ -19,9 +24,7 @@ export default function App({
 	const main = (
 		<ThemeProvider theme={theme}>
 			<main>
-				<header style={{ display: 'flex', gap: '1em' }}>
-					<Link href='/'>Main</Link>
-				</header>
+				<Header />
 				<Component {...pageProps} />
 			</main>
 		</ThemeProvider>

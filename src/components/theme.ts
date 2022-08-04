@@ -31,5 +31,9 @@ export const theme = {
 			color: 'white',
 			bg: 'primary',
 		},
+		secondary: {
+			color: 'black',
+			bg: 'red',
+		},
 	},
 }

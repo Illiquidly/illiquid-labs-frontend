@@ -1,0 +1,58 @@
+body {
+	inset: 0;
+	margin: 0;
+	background: #23354d;
+	color: #89a8cf;
+	position: relative;
+	overflow: hidden;
+	font-family: 'Biryani', sans-serif;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+img {
+	-khtml-user-select: none;
+	-o-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #23354d;
+	border-radius: 0px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #566e8e;
+	border-radius: 0px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #8caad0;
+}
+@font-face {
+	font-family: 'Pixelade';
+	font-style: normal;
+	font-weight: normal;
+	src: url('../theme/fonts/pixelade.ttf') format('truetype');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Biryani:wght@200;300;400;600;700;800;900&display=swap');
