@@ -40,7 +40,16 @@ module.exports = {
 
 	rules: {
 		'@typescript-eslint/no-unused-vars': 'error',
-		'@typescript-eslint/no-explicit-any': 'error',
+		'@typescript-eslint/no-explicit-any': 'warn',
+		'react-hooks/exhaustive-deps': 'warn',
+		'import/no-named-as-default': 'off',
+		'import/no-cycle': 'warn',
+		'sonarjs/cognitive-complexity': 'warn',
+		'sonarjs/no-duplicate-string': 'warn',
+		'sonarjs/no-identical-functions': 'warn',
+		'@typescript-eslint/ban-types': 'warn',
+		'no-shadow': 'off',
+		'@typescript-eslint/no-shadow': ['error'],
 		'react/react-in-jsx-scope': 'off',
 		'react/jsx-filename-extension': [
 			1,

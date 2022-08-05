@@ -149,7 +149,14 @@ function Header() {
 				<Flex
 					width='100%'
 					height='100%'
-					style={{ position: 'fixed', bottom: 0, left: 0, right: 0, top: '64px' }}
+					style={{
+						position: 'fixed',
+						bottom: 0,
+						left: 0,
+						right: 0,
+						top: '64px',
+						zIndex: 9,
+					}}
 				>
 					<Flex
 						padding={24}

@@ -1,5 +1,9 @@
 import { Head, Html, Main, NextScript } from 'next/document'
 
+import Modal from 'react-modal'
+
+Modal.setAppElement('#__next')
+
 export default function Document() {
 	return (
 		<Html>
@@ -20,6 +24,14 @@ export default function Document() {
 				<link
 					href='https://fonts.googleapis.com/css2?family=Biryani:wght@200;300;400;600;700;800;900&display=swap'
 					rel='stylesheet'
+				/>
+				<link
+					rel='stylesheet'
+					href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+				/>
+				<link
+					rel='stylesheet'
+					href='https://fonts.googleapis.com/icon?family=Material+Icons'
 				/>
 			</Head>
 			<body>

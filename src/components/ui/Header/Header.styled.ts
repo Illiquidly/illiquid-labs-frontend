@@ -10,7 +10,6 @@ export const HeaderContainer = withAttrs(
 		margin-bottom: 0px;
 		align-items: center;
 		box-shadow: 0px 4px 20px 3px rgba(137, 168, 207, 0.35);
-		flex: 1;
 	`,
 	{
 		padding: ['24px 16px', '24px 24px'],

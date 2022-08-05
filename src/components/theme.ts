@@ -30,6 +30,7 @@ export const theme = {
 		primary: {
 			color: 'white',
 			bg: 'primary',
+			padding: '0 48px',
 		},
 		secondary: {
 			color: 'black',
