@@ -1,4 +1,5 @@
 module.exports = {
+	exportTrailingSlash: true,
 	images: {
 		loader: 'akamai',
 		path: '',
