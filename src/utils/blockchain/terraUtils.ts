@@ -20,9 +20,6 @@ export const UST_DECIMALS = 6
 export const LP_DECIMALS = 6
 export const LUNA_DECIMALS = 6
 
-// eslint-disable-next-line no-underscore-dangle
-let __cachedGasPrices__: object // Used for lazy gas prices fetching
-
 type NetworkId = 'columbus-5' | 'phoenix-1' | 'pisco-1'
 
 type NetworkName = 'mainnet' | 'classic' | 'testnet'
@@ -121,15 +118,12 @@ export async function getLCDClient(gasPrices?: any) {
 	})
 }
 
-async function lazyFetchGasPrices() {
+async function fetchGasPrices() {
 	const networkId = getNetworkId()
 
-	if (!__cachedGasPrices__) {
-		const response = await axios.get(`${FCD_URLS[networkId]}/v1/txs/gas_prices`)
-		__cachedGasPrices__ = pick(response.data, [isClassic() ? 'uusd' : 'uluna'])
-	}
+	const response = await axios.get(`${FCD_URLS[networkId]}/v1/txs/gas_prices`)
 
-	return __cachedGasPrices__
+	return pick(response.data, [isClassic() ? 'uusd' : 'uluna'])
 }
 
 const DEFAULT_DELAY = 1000
@@ -217,7 +211,7 @@ async function sendIndependentQuery(
 async function estimateTxFee(messages: Msg[]) {
 	const address = await getWalletAddress()
 
-	const gasPrices: any = await lazyFetchGasPrices()
+	const gasPrices: any = await fetchGasPrices()
 
 	const lcdClient = await getLCDClient(gasPrices)
 	const memo = 'estimate fee'
