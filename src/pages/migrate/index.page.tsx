@@ -166,7 +166,12 @@ export default function Migrate() {
 			<Modal title='TRANSACTION IN PROGRESS' open={appLoading}>
 				<Flex alignItems='center' justifyContent='center' padding={3}>
 					<BroadcastingTrxContent>
-						<Image objectFit='contain' src={migrationProgressAnimation} alt='' />
+						<Image
+							unoptimized
+							objectFit='contain'
+							src={migrationProgressAnimation}
+							alt=''
+						/>
 					</BroadcastingTrxContent>
 				</Flex>
 			</Modal>
@@ -174,7 +179,7 @@ export default function Migrate() {
 				<Flex width='100%' flexDirection='column'>
 					<Flex alignItems='center' justifyContent='center' marginLeft={[-2, 0]}>
 						<MigratorImageContainer>
-							<Image objectFit='contain' src={migratorAnimation} alt='' />
+							<Image unoptimized objectFit='contain' src={migratorAnimation} alt='' />
 						</MigratorImageContainer>
 					</Flex>
 					<TitleContainer>

@@ -45,7 +45,12 @@ export default function MyMigrations() {
 			<Modal title='TRANSACTION IN PROGRESS' open={appLoading}>
 				<Flex alignItems='center' justifyContent='center' padding={3}>
 					<BroadcastingTrxContent>
-						<Image objectFit='contain' src={migrationProgressAnimation} alt='' />
+						<Image
+							unoptimized
+							objectFit='contain'
+							src={migrationProgressAnimation}
+							alt=''
+						/>
 					</BroadcastingTrxContent>
 				</Flex>
 			</Modal>
@@ -54,7 +59,7 @@ export default function MyMigrations() {
 					<Flex width='100%' flexDirection='column'>
 						<Flex alignItems='center' justifyContent='center'>
 							<MigratorImageContainer>
-								<Image objectFit='contain' src={migratorAnimation} alt='' />
+								<Image unoptimized objectFit='contain' src={migratorAnimation} alt='' />
 							</MigratorImageContainer>
 						</Flex>
 						<TitleContainer>
