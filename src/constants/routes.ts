@@ -19,10 +19,10 @@ export const APPLICATION_FORM = ''
 export const PRICING = ''
 export const GITHUB = 'https://github.com/Illiquidly'
 export const GITBOOK =
-	'https://illiquidly-io.gitbook.io/litepaper/illiquidly-litepaper/introduction'
+	'https://illiquidlabs.gitbook.io/litepaper/illiquid-labs-litepaper/introduction'
 
 // SOCIALS
 export const DISCORD = 'https://discord.com/invite/K4P5AKugpg'
 export const TELEGRAM = ''
-export const TWITTER = 'https://twitter.com/illiquidly_NFT'
+export const TWITTER = 'https://twitter.com/illiquid_labs'
 export const MEDIUM = ''

@@ -134,6 +134,7 @@ function Header() {
 							<Flex
 								marginLeft='12px'
 								marginRight='4px'
+								padding='4px'
 								alignItems='center'
 								justifyContent='center'
 								type='button'
@@ -147,14 +148,12 @@ function Header() {
 			</HeaderContainer>
 			{isMobile && isMenuOpen && (
 				<Flex
-					width='100%'
-					height='100%'
 					style={{
 						position: 'fixed',
-						bottom: 0,
 						left: 0,
 						right: 0,
 						top: '64px',
+						bottom: 0,
 						zIndex: 9,
 					}}
 				>

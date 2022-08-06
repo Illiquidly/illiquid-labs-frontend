@@ -78,7 +78,6 @@ export const FeeCard = withAttrs(
 		flex-direction: row;
 		align-items: center;
 		padding: 10px 14px;
-		margin-right: 14px;
 		border-radius: 4px;
 		background: #18283d;
 	`,

@@ -223,6 +223,7 @@ export default function MigrationSection({
 
 					<ButtonContainer style={{ gap: '12px' }}>
 						<Button
+							fullWidth
 							onClick={() => onSubmit?.(pendingMigrations)}
 							disabled={!pendingMigrations.length}
 						>
