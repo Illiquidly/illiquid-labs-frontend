@@ -1,5 +1,4 @@
 import { useWallet, WalletStatus } from '@illiquid-labs/use-wallet'
-import { useQuery } from '@tanstack/react-query'
 import If from 'components/core/IfStatement'
 import { MainContainer } from 'components/ui/Container/Container'
 import Modal from 'components/ui/Modal/Modal'
@@ -8,7 +7,10 @@ import Image from 'next/image'
 import React from 'react'
 import { Box, Flex } from 'rebass'
 import { useRecoilState } from 'recoil'
-import { SupportedCollectionsService } from 'services/api/supportedCollectionsService'
+import {
+	SupportedCollectionGetResponse,
+	SupportedCollectionsService,
+} from 'services/api/supportedCollectionsService'
 import { appLoadingState } from 'state'
 import {
 	chainIdToNetworkName,
@@ -29,22 +31,27 @@ import {
 
 const AllMigrationsSection = withAllMigrations(MigrationSection)
 
-export default function AllMigrations() {
+export async function getStaticProps() {
+	const verifiedCollections =
+		await SupportedCollectionsService.getSupportedCollections(
+			chainIdToNetworkName('columbus-5')
+		)
+
+	return {
+		props: {
+			verifiedCollections,
+		},
+	}
+}
+
+export default function AllMigrations({
+	verifiedCollections,
+}: {
+	verifiedCollections: SupportedCollectionGetResponse[]
+}) {
 	const wallet = useWallet()
 
-	const { data: verifiedCollections, refetch } = useQuery(
-		['verifiedCollections'],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(
-				chainIdToNetworkName('columbus-5')
-			)
-	)
-
 	const [appLoading] = useRecoilState(appLoadingState)
-
-	React.useEffect(() => {
-		refetch()
-	}, [wallet.network])
 
 	return (
 		<>
