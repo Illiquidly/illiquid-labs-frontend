@@ -22,16 +22,14 @@ import {
 	getNetworkName,
 } from 'utils/blockchain/terraUtils'
 import * as yup from 'yup'
+import { useQuery } from '@tanstack/react-query'
 import {
 	SupportedCollectionGetResponse,
 	SupportedCollectionsService,
 } from 'services/api/supportedCollectionsService'
 import useTransactionError from 'hooks/useTransactionError'
 import useMyNFTs from 'hooks/useMyNFTs'
-import {
-	MigratableCollectionsService,
-	MigrationCollectionListResponse,
-} from 'services/api/migratableCollectionsService'
+import { MigratableCollectionsService } from 'services/api/migratableCollectionsService'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { useRouter } from 'next/router'
 import useBroadcastingTx from 'hooks/useBroadcastingTx'
@@ -83,22 +81,17 @@ const renderToastContent = ({ url }: { url?: string }) => (
 )
 
 export async function getStaticProps() {
-	const migratableCollections =
-		await MigratableCollectionsService.getMigratableCollections()
-
 	const verifiedCollections =
 		await SupportedCollectionsService.getSupportedCollections(
 			chainIdToNetworkName('columbus-5')
 		)
 
-	return { props: { migratableCollections, verifiedCollections } }
+	return { props: { verifiedCollections } }
 }
 
 export default function Migrate({
-	migratableCollections,
 	verifiedCollections,
 }: {
-	migratableCollections: MigrationCollectionListResponse
 	verifiedCollections: SupportedCollectionGetResponse[]
 }) {
 	const router = useRouter()
@@ -117,6 +110,11 @@ export default function Migrate({
 		nftsFullyLoading,
 		fetchMyAssets,
 	} = useMyNFTs()
+
+	const { data: migratableCollections } = useQuery(
+		['migratableCollections'],
+		async () => MigratableCollectionsService.getMigratableCollections()
+	)
 
 	const [appLoading, setAppLoading] = useRecoilState(appLoadingState)
 
