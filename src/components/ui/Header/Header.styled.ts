@@ -36,7 +36,7 @@ export const QuickLinksSection = withAttrs(
 	{
 		marginLeft: ['0', '0', '0', '64px', '64px'],
 		marginTop: ['auto', 'auto', 'auto', '10px'],
-		width: ['150px', '180px', '220px', '180px'],
+		width: ['150px', '180px', '220px', '160px'],
 	}
 )
 
