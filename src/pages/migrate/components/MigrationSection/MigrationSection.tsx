@@ -259,10 +259,12 @@ export default function MigrationSection({
 							</If.Then>
 						</If>
 					</SectionTitle>
-					<OptionsPicker
-						options={filterOptionsValue}
-						setOptions={setFilterOptions}
-					/>
+					<Box my='10px'>
+						<OptionsPicker
+							options={filterOptionsValue}
+							setOptions={setFilterOptions}
+						/>
+					</Box>
 
 					<Box marginTop={3} />
 

@@ -4,6 +4,7 @@ import { StyledLoadingOverlay } from 'components/ui/LoadingOverlay/LoadingOverla
 import { Tooltip } from 'components/ui/Tooltip/Tooltip'
 import OptionsPicker from 'components/ui/OptionsPicker/OptionsPicker'
 import { TooltipIcon } from 'components/ui/Tooltip/Tooltip.styled'
+import { Box } from 'rebass'
 import { Collection } from '../../../../hooks/useMyNFTs'
 import {
 	ActionsContainer,
@@ -109,7 +110,9 @@ function YourNFTs({
 					<LoadingText>{fullyLoadingText}</LoadingText>
 				)}
 			</Title>
-			<OptionsPicker options={filterOptionsValue} setOptions={setFilterOptions} />
+			<Box mt='10px' mb='6px'>
+				<OptionsPicker options={filterOptionsValue} setOptions={setFilterOptions} />
+			</Box>
 			<ActionsContainer>
 				<SelectButton
 					fullWidth

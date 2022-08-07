@@ -3,8 +3,6 @@ import { Button } from '../Button/Button'
 
 export const OptionPickerContainer = styled.div`
 	flex: 1;
-	margin-top: 10px;
-	margin-bottom: 10px;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 	grid-column-gap: 8px;

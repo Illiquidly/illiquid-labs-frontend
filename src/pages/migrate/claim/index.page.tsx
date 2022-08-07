@@ -60,6 +60,7 @@ export default function MyMigrations({
 					<BroadcastingTrxContent>
 						<Image
 							unoptimized
+							priority
 							objectFit='contain'
 							src={migrationProgressAnimation}
 							alt=''
@@ -72,7 +73,13 @@ export default function MyMigrations({
 					<Flex width='100%' flexDirection='column'>
 						<Flex alignItems='center' justifyContent='center'>
 							<MigratorImageContainer>
-								<Image unoptimized objectFit='contain' src={migratorAnimation} alt='' />
+								<Image
+									priority
+									unoptimized
+									objectFit='contain'
+									src={migratorAnimation}
+									alt=''
+								/>
 							</MigratorImageContainer>
 						</Flex>
 						<TitleContainer>
