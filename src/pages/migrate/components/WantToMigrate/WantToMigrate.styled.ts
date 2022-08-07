@@ -91,6 +91,5 @@ export const GridContainer = withAttrs(
 				'repeat(auto-fill, minmax(239px, 1fr))',
 			],
 		},
-		height: [400, 320],
 	}
 )

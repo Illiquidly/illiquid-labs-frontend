@@ -30,15 +30,21 @@ import {
 const AllMigrationsSection = withAllMigrations(MigrationSection)
 
 export default function AllMigrations() {
-	const { data: verifiedCollections } = useQuery(
+	const wallet = useWallet()
+
+	const { data: verifiedCollections, refetch } = useQuery(
 		['verifiedCollections'],
 		async () =>
-			SupportedCollectionsService.getSupportedCollections(getNetworkName())
+			SupportedCollectionsService.getSupportedCollections(
+				chainIdToNetworkName('columbus-5')
+			)
 	)
 
 	const [appLoading] = useRecoilState(appLoadingState)
 
-	const wallet = useWallet()
+	React.useEffect(() => {
+		refetch()
+	}, [wallet.network])
 
 	return (
 		<>

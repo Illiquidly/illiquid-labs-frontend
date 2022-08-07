@@ -221,7 +221,7 @@ export default function MigrationSection({
 					</FeeCard>
 					<div style={{ flex: 1 }} />
 
-					<ButtonContainer style={{ gap: '12px' }}>
+					<ButtonContainer>
 						<Button
 							fullWidth
 							onClick={() => onSubmit?.(pendingMigrations)}

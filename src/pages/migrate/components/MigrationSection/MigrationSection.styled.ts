@@ -72,7 +72,6 @@ export const Card = styled.div<{ isGradient?: boolean }>`
 	`
 			: ''}
 `
-
 export const FeeCard = withAttrs(
 	styled(Box)`
 		flex-direction: row;
@@ -82,8 +81,8 @@ export const FeeCard = withAttrs(
 		background: #18283d;
 	`,
 	{
-		marginRight: [0, 2],
-		marginTop: ['14px', 0],
+		marginRight: [0, 0, 0, 2],
+		marginTop: ['14px', '14px', '14px', 0],
 	}
 )
 
@@ -126,7 +125,7 @@ export const ClaimSection = withAttrs(
 		justify-content: flex-end;
 	`,
 	{
-		flexDirection: ['column', 'row'],
+		flexDirection: ['column', 'column', 'column', 'row'],
 	}
 )
 
@@ -135,7 +134,7 @@ export const ButtonContainer = withAttrs(
 		display: flex;
 	`,
 	{
-		marginTop: ['24px', 0],
-		width: '100%',
+		marginTop: ['24px', '24px', '24px', 0],
+		width: ['100%', 'unset'],
 	}
 )

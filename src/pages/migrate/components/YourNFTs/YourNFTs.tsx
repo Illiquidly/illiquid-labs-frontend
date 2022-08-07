@@ -3,7 +3,6 @@ import { useFormikContext } from 'formik'
 import { StyledLoadingOverlay } from 'components/ui/LoadingOverlay/LoadingOverlay'
 import { Tooltip } from 'components/ui/Tooltip/Tooltip'
 import OptionsPicker from 'components/ui/OptionsPicker/OptionsPicker'
-import { Flex } from 'rebass'
 import { TooltipIcon } from 'components/ui/Tooltip/Tooltip.styled'
 import { Collection } from '../../../../hooks/useMyNFTs'
 import {
@@ -107,14 +106,14 @@ function YourNFTs({
 					</Tooltip>
 				)}
 				{!isLoading && isLoadingInBackground && (
-					<LoadingText as='span'>{fullyLoadingText}</LoadingText>
+					<LoadingText>{fullyLoadingText}</LoadingText>
 				)}
 			</Title>
 			<OptionsPicker options={filterOptionsValue} setOptions={setFilterOptions} />
 			<ActionsContainer>
 				<SelectButton
 					fullWidth
-					selected={false}
+					selected={allSelected}
 					onClick={() =>
 						allSelected
 							? setFieldValue('NFTs', [])
@@ -129,24 +128,22 @@ function YourNFTs({
 				active={isLoading}
 				spinner
 			>
-				<Flex height={320}>
-					<GridContainer>
-						{filteredNFTs.map(nft => (
-							<div key={`${nft.contractAddress}_${nft.tokenId}_${nft.name}`}>
-								<NFTPreviewCard
-									onClick={() => selectNFT(nft)}
-									disabled={values.NFTs.some(
-										x => JSON.stringify(x) === JSON.stringify(nft)
-									)}
-									verified={verifiedCollections.some(
-										collection => collection.collectionAddress === nft.contractAddress
-									)}
-									nft={nft}
-								/>
-							</div>
-						))}
-					</GridContainer>
-				</Flex>
+				<GridContainer>
+					{filteredNFTs.map(nft => (
+						<div key={`${nft.contractAddress}_${nft.tokenId}_${nft.name}`}>
+							<NFTPreviewCard
+								onClick={() => selectNFT(nft)}
+								disabled={values.NFTs.some(
+									x => JSON.stringify(x) === JSON.stringify(nft)
+								)}
+								verified={verifiedCollections.some(
+									collection => collection.collectionAddress === nft.contractAddress
+								)}
+								nft={nft}
+							/>
+						</div>
+					))}
+				</GridContainer>
 			</StyledLoadingOverlay>
 		</Card>
 	)

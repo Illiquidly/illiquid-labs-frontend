@@ -29,7 +29,7 @@ function Header() {
 	const { status, connect, disconnect } = useWallet()
 
 	const router = useRouter()
-	const isMobile = useMediaQuery({ query: '(max-width: 991px)' })
+	const isMobile = useMediaQuery({ query: '(max-width: 1024px)' })
 
 	const handleConnect = () => {
 		if (isMobile) {
@@ -51,7 +51,7 @@ function Header() {
 
 	React.useEffect(() => {
 		const resize = () => {
-			if (window.innerWidth > 1010) closeMenu()
+			if (window.innerWidth > 1024) closeMenu()
 		}
 
 		window.addEventListener('resize', resize)
@@ -122,7 +122,9 @@ function Header() {
 							}
 						>
 							<Flex alignItems='center'>
-								<WalletIcon />
+								<Flex width='24px' alignItems='center'>
+									<WalletIcon />
+								</Flex>
 								<ConnectionButtonText>
 									{status === WalletStatus.WALLET_NOT_CONNECTED && 'connect'}
 									{status === WalletStatus.INITIALIZING && 'initializing...'}

@@ -48,7 +48,7 @@ export const MigratorContainer = withAttrs(
 	`,
 	{
 		marginTop: ['14px', '32px'],
-		flexDirection: ['column', 'row'],
+		flexDirection: ['column', 'column', 'column', 'row'],
 	}
 )
 
@@ -57,7 +57,7 @@ export const ButtonContainer = withAttrs(
 		display: flex;
 	`,
 	{
-		marginTop: [24, 0],
+		marginTop: ['24px', '24px', '24px', 0],
 		width: ['100%', 'unset'],
 	}
 )
@@ -95,8 +95,8 @@ export const FeeCard = withAttrs(
 		background: #18283d;
 	`,
 	{
-		marginRight: [0, 2],
-		marginTop: ['14px', 0],
+		marginRight: [0, 0, 0, 2],
+		marginTop: ['14px', '14px', '14px', 0],
 	}
 )
 
@@ -139,7 +139,7 @@ export const ModalActionsContainer = withAttrs(
 		flex: 1;
 	`,
 	{
-		padding: ['0 20px', '0 120px'],
+		padding: ['0 20px', '0 20px', '0 120px'],
 		paddingTop: ['12px', '0'],
 	}
 )
@@ -153,7 +153,7 @@ export const ModalCancelButton = withAttrs(
 		background: #18283d !important;
 	`,
 	{
-		fontSize: ['16px !important', '18px !important', '22px  !important'],
+		fontSize: ['14px !important', '18px !important', '22px  !important'],
 	}
 )
 
@@ -164,7 +164,7 @@ export const ModalConfirmButton = withAttrs(
 		justify-content: center;
 	`,
 	{
-		fontSize: ['16px !important', '18px !important', '22px  !important'],
+		fontSize: ['14px !important', '18px !important', '22px  !important'],
 	}
 )
 

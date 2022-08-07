@@ -30,15 +30,21 @@ import { withMyMigrations } from '../hoc/withMyMigrations'
 const MyMigrationsSection = withMyMigrations(MigrationSection)
 
 export default function MyMigrations() {
-	const { data: verifiedCollections } = useQuery(
+	const wallet = useWallet()
+
+	const { data: verifiedCollections, refetch } = useQuery(
 		['verifiedCollections'],
 		async () =>
-			SupportedCollectionsService.getSupportedCollections(getNetworkName())
+			SupportedCollectionsService.getSupportedCollections(
+				chainIdToNetworkName('columbus-5')
+			)
 	)
 
 	const [appLoading] = useRecoilState(appLoadingState)
 
-	const wallet = useWallet()
+	React.useEffect(() => {
+		refetch()
+	}, [wallet.network])
 
 	return (
 		<>

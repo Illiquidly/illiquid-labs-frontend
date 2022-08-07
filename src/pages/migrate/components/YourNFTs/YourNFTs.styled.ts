@@ -25,18 +25,16 @@ export const Title = styled.div`
 
 export const LoadingText = withAttrs(
 	styled(Box)`
-		margin-left: 24px;
-
 		color: rgb(211, 129, 23);
 	`,
 	{
-		marginLeft: [0, 24],
+		marginLeft: [0],
 	}
 )
 
 export const ActionsContainer = styled.div`
 	flex: 1;
-	margin-top: 4px;
+	margin-top: 0px;
 	margin-bottom: 10px;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -90,7 +88,7 @@ export const GridContainer = withAttrs(
 				'repeat(auto-fill, minmax(239px, 1fr))',
 			],
 		},
-		height: [320],
+		height: [440],
 	}
 )
 

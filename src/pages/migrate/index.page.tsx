@@ -84,11 +84,18 @@ export default function Migrate() {
 	const [modalLockCheck, setModalLockCheck] = React.useState(false)
 	const [modalTermsCheck, setModalTermsCheck] = React.useState(false)
 
-	const { data: verifiedCollections } = useQuery(
+	const wallet = useWallet()
+
+	const { data: verifiedCollections, refetch } = useQuery(
 		['verifiedCollections'],
 		async () =>
 			SupportedCollectionsService.getSupportedCollections(getNetworkName())
 	)
+
+	React.useEffect(() => {
+		refetch()
+	}, [wallet.network])
+
 	const [showTransactionError] = useTransactionError()
 	const {
 		nfts,
@@ -97,8 +104,6 @@ export default function Migrate() {
 		nftsFullyLoading,
 		fetchMyAssets,
 	} = useMyNFTs()
-
-	const wallet = useWallet()
 
 	const { data: migratableCollections } = useQuery(
 		['migratableCollections'],
@@ -380,7 +385,7 @@ export default function Migrate() {
 											</Flex>
 										</Modal>
 										{wallet.network.chainID === MIGRATOR_SOURCE_CHAIN_ID && (
-											<Flex height={[400, 420]}>
+											<Flex height={[480, 480, 420, 400]}>
 												<WantToMigrate verifiedCollections={verifiedCollections ?? []} />
 											</Flex>
 										)}

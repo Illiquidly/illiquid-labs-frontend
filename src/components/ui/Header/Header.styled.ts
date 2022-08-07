@@ -29,14 +29,14 @@ export const LogoContainer = withAttrs(
 
 export const QuickLinksSection = withAttrs(
 	styled(Flex)`
-		width: 150px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	`,
 	{
-		marginLeft: ['0', '64px'],
-		marginTop: ['auto', '10px'],
+		marginLeft: ['0', '0', '0', '64px', '64px'],
+		marginTop: ['auto', 'auto', 'auto', '10px'],
+		width: ['150px', '180px', '220px', '180px'],
 	}
 )
 
@@ -54,9 +54,9 @@ export const LinkText = withAttrs(
 		color: ${props => (props.checked ? '#fff' : '#A0BFE4')};
 	`,
 	{
-		fontSize: [4, 4, 5],
-		marginRight: [0, '48px'],
-		marginTop: [4, 5, 0],
+		fontSize: [4, 4, 4, 4, 5],
+		marginRight: [0, 0, '24px', '48px'],
+		marginTop: [4, 4, 4, 0, 0],
 		fontFamily: 'Pixelade',
 	}
 )
