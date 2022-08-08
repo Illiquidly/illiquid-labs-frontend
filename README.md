@@ -1,17 +1,33 @@
-# What is this?
+# Illiquid Labs Migrator Frontend
 
-This is an example of performing basic connect, tx, and query actions in a Next.js based web application using [wallet-provider](https://www.npmjs.com/package/@terra-money/wallet-provider).
+Illiquid Labs Migrator Frontend is UI for website https://www.illiquidlabs.io/ written in NextJS framework.
 
-# Preview this template on the CodeSandbox
+Additional info can be found on our [gitbook](https://illiquidlabs.gitbook.io/litepaper/illiquid-labs-platform/nft-migration)
 
-<https://githubbox.com/terra-money/wallet-provider/tree/main/templates/next>
+## Installation
 
-# How to use this template
+Use the yarn package manager [yarn](https://yarnpkg.com/) to node modules.
 
-```sh
-npx terra-templates get wallet-provider:next your-app-name
-cd your-app-name
+```bash
+# install node modules
 yarn
+# install husky
 yarn husky install
-yarn run dev
 ```
+
+## Usage
+
+```bash
+# for starting starting project
+yarn run dev
+# for building project
+yarn run build
+```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
