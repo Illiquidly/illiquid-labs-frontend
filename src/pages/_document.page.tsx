@@ -12,14 +12,9 @@ export default function Document() {
 				<meta name='terra-wallet' />
 				<link rel='icon' href='/logo.png' />
 				<link rel='apple-touch-icon' href='/logo.png' />
-				<meta
-					name='viewport'
-					content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
-				/>
 				<link rel='shortcut icon' href='/favicon.ico' />
 				<meta name='theme-color' content='#000000' />
 				<meta name='description' content='Illiquid Labs | NFT Infrastructure' />
-				<title>Illiquid Labs | NFT Infrastructure</title>
 				<link rel='preconnect' href='https://fonts.googleapis.com' />
 				<link
 					href='https://fonts.googleapis.com/css2?family=Biryani:wght@200;300;400;600;700;800;900&display=swap'

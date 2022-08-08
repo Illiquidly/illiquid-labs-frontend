@@ -25,6 +25,7 @@ import {
 	MainLayoutContainer,
 } from 'components/ui/Container/Container'
 import { ToastContainer } from 'components/ui/Toast/Toast.styled'
+import Head from 'next/head'
 
 const Header = dynamic(() => import('../components/ui/Header/Header'), {
 	ssr: false,
@@ -44,30 +45,40 @@ const Main = ({
 	blockchain.setWallet(wallet)
 
 	return (
-		<QueryClientProvider client={queryClient}>
-			<ThemeProvider theme={theme}>
-				<RecoilRoot>
-					<MainLayoutContainer>
-						<Header />
-						<MainContentContainer>
-							<Component {...pageProps} />
-						</MainContentContainer>
-					</MainLayoutContainer>
-					<ToastContainer
-						theme='dark'
-						position='top-right'
-						autoClose={5000}
-						hideProgressBar={false}
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss
-						draggable
-						pauseOnHover
-					/>
-				</RecoilRoot>
-			</ThemeProvider>
-		</QueryClientProvider>
+		<>
+			<Head>
+				<meta
+					name='viewport'
+					content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+				/>
+				<title>Illiquid Labs | NFT Infrastructure</title>
+			</Head>
+
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider theme={theme}>
+					<RecoilRoot>
+						<MainLayoutContainer>
+							<Header />
+							<MainContentContainer>
+								<Component {...pageProps} />
+							</MainContentContainer>
+						</MainLayoutContainer>
+						<ToastContainer
+							theme='dark'
+							position='top-right'
+							autoClose={5000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick
+							rtl={false}
+							pauseOnFocusLoss
+							draggable
+							pauseOnHover
+						/>
+					</RecoilRoot>
+				</ThemeProvider>
+			</QueryClientProvider>
+		</>
 	)
 }
 export default function App({
