@@ -6,7 +6,6 @@ import terraUtils, {
 } from 'utils/blockchain/terraUtils'
 import { keysToCamel } from 'utils/js/keysToCamel'
 import addresses, { ContractName } from 'services/blockchain/addresses'
-import { NFT } from 'pages/migrate/components/NFTPreviewCard/NFTPreviewCard'
 
 const amountConverter = converter.ust
 
@@ -48,7 +47,7 @@ interface Offer {
 	amountUST: string
 	amountLuna: string
 	comment: string
-	cw721Tokens: NFT[]
+	cw721Tokens: any[]
 	nftsWanted: string[]
 }
 
@@ -399,7 +398,7 @@ async function listCounterTradeOffer({
 	amountUST: string
 	amountLuna: string
 	comment: string
-	cw721Tokens: NFT[]
+	cw721Tokens: any[]
 }) {
 	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
 

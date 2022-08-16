@@ -1,6 +1,5 @@
-import styled from '@emotion/styled'
-import { withAttrs } from 'hoc/withAttrs'
-import { Box } from 'rebass'
+import styled from 'styled-components'
+import { Box } from 'reflexbox/styled-components'
 import ReactModal from 'react-modal'
 import { MainContainer } from '../Container/Container'
 
@@ -39,24 +38,21 @@ export const ModalBackdrop = styled.div`
 	);
 	backdrop-filter: blur(22px);
 `
-export const ModalContainer = withAttrs(
-	styled(MainContainer)`
-		z-index: 9;
-		border: 1px solid #89a8cf;
-		border-radius: 10px;
-		border: 1px solid transparent;
-		border-radius: 10px;
-		background: linear-gradient(0deg, rgb(39, 53, 75) 0%, rgb(39, 53, 75) 100%),
-			linear-gradient(90deg, #01c46c 0%, #3697f0 100%);
-		background-clip: padding-box, border-box;
-		background-origin: padding-box, border-box;
-	`,
-	{
-		maxWidth: 800,
-		margin: [12, 0],
-		padding: ['24px 24px'],
-	}
-)
+export const ModalContainer = styled(MainContainer).attrs({
+	maxWidth: 800,
+	margin: [12, 0],
+	padding: ['24px 24px'],
+})`
+	z-index: 9;
+	border: 1px solid #89a8cf;
+	border-radius: 10px;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	background: linear-gradient(0deg, rgb(39, 53, 75) 0%, rgb(39, 53, 75) 100%),
+		linear-gradient(90deg, #01c46c 0%, #3697f0 100%);
+	background-clip: padding-box, border-box;
+	background-origin: padding-box, border-box;
+`
 
 export const ModalHeader = styled.div`
 	display: flex;
@@ -79,14 +75,11 @@ export const ModalContent = styled.div`
 	padding-bottom: 0px;
 `
 
-export const ModalTitle = withAttrs(
-	styled(Box)`
-		font-family: 'Pixelade';
-		font-style: normal;
-		font-weight: 400;
-		color: #ffffff;
-	`,
-	{
-		fontSize: [32, 40],
-	}
-)
+export const ModalTitle = styled(Box).attrs({
+	fontSize: [32, 40],
+})`
+	font-family: 'Pixelade';
+	font-style: normal;
+	font-weight: 400;
+	color: #ffffff;
+`

@@ -12,8 +12,15 @@ import {
 	WalletNFTState,
 } from 'services/api/walletNFTsService'
 import { useRouter } from 'next/router'
-import { NFT } from 'pages/migrate/components/NFTPreviewCard/NFTPreviewCard'
 
+export interface NFT {
+	contractAddress: string
+	tokenId: string
+	imageUrl: string[]
+	collectionName: string
+	name: string
+	traits?: [string, string][]
+}
 export interface Collection {
 	collectionName: string
 	collectionAddress: string

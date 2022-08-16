@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 
 export const TooltipIcon = styled(HelpOutlineIcon)`

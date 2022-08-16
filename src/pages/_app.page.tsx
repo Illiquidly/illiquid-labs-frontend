@@ -11,12 +11,10 @@ import {
 import { useWallet } from '@illiquid-labs/use-wallet'
 import { AppProps } from 'next/app'
 import React from 'react'
-import { theme } from 'components/theme'
-import { ThemeProvider } from 'theme-ui'
+import { theme } from 'components/theme/theme'
+import { ThemeProvider } from 'styled-components'
 import blockchain from 'utils/blockchain/terraUtils'
 import { RecoilRoot } from 'recoil'
-
-import dynamic from 'next/dynamic'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
@@ -26,10 +24,6 @@ import {
 } from 'components/ui/Container/Container'
 import { ToastContainer } from 'components/ui/Toast/Toast.styled'
 import Head from 'next/head'
-
-const Header = dynamic(() => import('../components/ui/Header/Header'), {
-	ssr: false,
-})
 
 const queryClient = new QueryClient()
 
@@ -58,7 +52,7 @@ const Main = ({
 				<ThemeProvider theme={theme}>
 					<RecoilRoot>
 						<MainLayoutContainer>
-							<Header />
+							{/* <Header /> */}
 							<MainContentContainer>
 								<Component {...pageProps} />
 							</MainContentContainer>

@@ -4,7 +4,6 @@ import terraUtils from 'utils/blockchain/terraUtils'
 
 import pMemoize from 'p-memoize'
 import type { TransactionDetails } from 'utils/blockchain/terraUtils'
-import { NFT } from 'pages/migrate/components/NFTPreviewCard/NFTPreviewCard'
 
 const LIMIT = 30
 
@@ -47,66 +46,6 @@ async function transferMultipleToken(
 		.filter(nft => nft.contractAddress)
 	return terraUtils.postManyTransactions(txs)
 }
-
-// Those functions however do not reduce gas costs.
-async function singleMultisender(
-	recipient: string,
-	nfts: NFT[]
-): Promise<TxReceipt> {
-	const txs: TransactionDetails[] = nfts.map(cw721 => ({
-		contractAddress: cw721.contractAddress,
-		message: {
-			transfer_nft: {
-				token_id: cw721.tokenId,
-				recipient,
-			},
-		},
-	}))
-	return terraUtils.postManyTransactions(txs)
-}
-
-// async function getTokensOnWalletForUser() {
-// 	const nftCollections = await getRegisteredCollections()
-// 	const nftAddresses = nftCollections.map(
-// 		collection => collection.nftContractAddress
-// 	)
-// 	const userAddress = await terraUtils.getWalletAddress()
-
-// 	const allTokensOnWallet = []
-
-// 	for (const nftAddress of nftAddresses) {
-// 		try {
-// 			const collectionMetadata = await fetchCollectionMetadata(nftAddress)
-// 			const tokens = await getTokensOwnedByUser(
-// 				nftAddress,
-// 				userAddress,
-// 				collectionMetadata
-// 			)
-// 			allTokensOnWallet.push(...tokens)
-// 		} catch (e) {
-// 			console.warn(e)
-// 		}
-// 	}
-
-// 	return allTokensOnWallet
-// }
-
-// async function getTokensOwnedByUser(
-// 	nftContractAddress: string,
-// 	userAddress: string,
-// 	collectionMetadata: CollectionMetadata
-// ): Promise<NFTTokenDetails[]> {
-// 	const tokenIds = await getTokenIdsOwnedByUser(nftContractAddress, userAddress)
-// 	const tokens = []
-
-// 	for (const tokenId of tokenIds) {
-// 		const tokenDetails = collectionMetadata[tokenId]
-// 		tokenDetails.nftContractAddress = nftContractAddress
-// 		tokens.push(tokenDetails)
-// 	}
-
-// 	return tokens
-// }
 
 async function getTokenIdsOwnedByUserWithOffset(
 	nftContractAddress: string,
@@ -197,7 +136,6 @@ export default {
 	getOwnerOfToken,
 	transferToken,
 	transferMultipleToken,
-	singleMultisender,
 	getContractInfo,
 	getNFTInfo,
 	memoizedGetContractInfo,

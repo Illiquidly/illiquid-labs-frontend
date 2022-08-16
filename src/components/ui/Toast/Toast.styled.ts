@@ -1,5 +1,5 @@
 import { ToastContainer as ToastifyContainer } from 'react-toastify'
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 
 export const ToastContainer = styled(ToastifyContainer)`
 	.Toastify__toast {
