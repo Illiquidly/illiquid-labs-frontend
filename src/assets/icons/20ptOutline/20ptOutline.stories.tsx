@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Box, Flex } from 'reflexbox/styled-components'
 
-import { AccessibilityOutlineIcon } from './index'
+import { BackTrackIcon, ArrowshapeRightOutlineIcon } from './index'
 
 export default {
 	/* 👇 The title prop is optional.
@@ -18,7 +18,8 @@ export const Icons = () => (
 	<Box>
 		<Flex my={2} flexWrap='wrap'>
 			<Box mr={28}>
-				<AccessibilityOutlineIcon />
+				<BackTrackIcon />
+				<ArrowshapeRightOutlineIcon />
 			</Box>
 		</Flex>
 	</Box>

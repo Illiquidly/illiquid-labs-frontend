@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Box, Flex } from 'reflexbox/styled-components'
 
-import { ZeroCircleOutlineIcon } from './index'
+import { ZeroCircleOutlineIcon, ThumbsUpOutlineIcon } from './index'
 
 export default {
 	/* 👇 The title prop is optional.
@@ -16,10 +16,11 @@ export default {
 
 export const Icons = () => (
 	<Box>
-		<Box>Signs</Box>
+		<Box>Signs, that can be printed</Box>
 		<Flex my={2} flexWrap='wrap'>
 			<Box mr={28}>
 				<ZeroCircleOutlineIcon />
+				<ThumbsUpOutlineIcon />
 			</Box>
 		</Flex>
 	</Box>
