@@ -1,6 +1,6 @@
-# Illiquid Labs Migrator Frontend
+# Illiquid Labs Frontend
 
-Illiquid Labs Migrator Frontend is UI for website https://www.illiquidlabs.io/ written in NextJS framework.
+Illiquid Labs Frontend is UI for website https://www.illiquidlabs.io/ written in NextJS framework.
 
 Additional info can be found on our [gitbook](https://illiquidlabs.gitbook.io/litepaper/illiquid-labs-platform/nft-migration)
 
