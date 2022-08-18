@@ -4,13 +4,11 @@ import { Flex, Box } from 'reflexbox/styled-components'
 export default function Index() {
 	return (
 		<Flex>
-			<Box display={{ _: 'block', sm: 'none' }}>Only Mobile</Box>
-			<Box display={{ _: 'none', sm: 'block', md: 'none' }}>Only Tablet</Box>
-			<Box display={{ _: 'none', md: 'block', lg: 'none' }}>Desktop</Box>
-			<Box display={{ _: 'none', lg: 'block', xl: 'none' }}>Large Desktop</Box>
-			<Box display={{ _: 'none', xl: 'block', xxl: 'none' }}>
-				Very Large Desktop
-			</Box>
+			<Box display={['block', 'none']}> Mobile</Box>
+			<Box display={['none', 'block', 'none']}>Tablet</Box>
+			<Box display={['none', 'none', 'block', 'none']}> Laptop</Box>
+			<Box display={['none', 'none', 'none', 'block', 'none']}>Desktop</Box>
+			<Box display={['none', 'none', 'none', 'none', 'block']}>Large Desktop</Box>
 		</Flex>
 	)
 }
