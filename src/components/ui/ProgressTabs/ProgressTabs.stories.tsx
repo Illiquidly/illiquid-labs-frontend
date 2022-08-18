@@ -16,7 +16,7 @@ export default {
 }
 
 export const ProgressTabsExample = () => (
-	<Flex flexDirection='column' width={[187.5, 309]}>
+	<Flex flexDirection='column' width={{ _: 187.5, sm: 309 }}>
 		<Box flex={1} mb={2}>
 			<ProgressTabs currentStep={1} steps={4} />
 		</Box>

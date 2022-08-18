@@ -18,9 +18,12 @@ import { RecoilRoot } from 'recoil'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
+import {
+	MainContentContainer,
+	MainLayoutContainer,
+} from 'components/ui/Container/Container'
 import { ToastContainer } from 'components/ui/Toast/Toast.styled'
 import Head from 'next/head'
-import { Box, Flex } from 'reflexbox/styled-components'
 
 const queryClient = new QueryClient()
 
@@ -48,18 +51,12 @@ const Main = ({
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
 					<RecoilRoot>
-						<Flex
-							sx={{ position: 'fixed', left: 0, top: 0, bottom: 0, right: 0 }}
-							flexDirection='column'
-							flex={1}
-						>
+						<MainLayoutContainer>
 							{/* <Header /> */}
-							{/* Header placeholder */}
-							<Box bg='secondary600' width='100%' height={[79]} />
-							<Box>
+							<MainContentContainer>
 								<Component {...pageProps} />
-							</Box>
-						</Flex>
+							</MainContentContainer>
+						</MainLayoutContainer>
 						<ToastContainer
 							theme='dark'
 							position='top-right'
