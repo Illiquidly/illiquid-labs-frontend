@@ -19,6 +19,7 @@ import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
 import Head from 'next/head'
+import { OnlyOnDesktop } from 'components/ui/Layout/Layout'
 
 const queryClient = new QueryClient()
 
@@ -48,8 +49,15 @@ const Main = ({
 					<RecoilRoot>
 						<Flex sx={{ position: 'fixed', inset: 0, flexDirection: 'column' }}>
 							{/* <Header /> */}
-							<Box sx={{ height: ['79px'], width: '100%', bg: 'secondary600' }} />
+							<Box sx={{ height: '79px', width: '100%', bg: 'secondary600' }}>
+								Header
+							</Box>
 							<Component {...pageProps} />
+							<OnlyOnDesktop>
+								<Box sx={{ height: '186px', width: '100%', bg: 'secondary600' }}>
+									Footer
+								</Box>
+							</OnlyOnDesktop>
 						</Flex>
 					</RecoilRoot>
 				</ThemeProvider>

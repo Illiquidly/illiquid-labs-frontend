@@ -1,6 +1,6 @@
 import React, { ForwardedRef } from 'react'
 import styled from '@emotion/styled'
-import { Flex } from 'theme-ui'
+import { Button as ThemeUIButton, Text } from 'theme-ui'
 import { noop } from 'lodash'
 
 interface ButtonProps {
@@ -27,15 +27,10 @@ interface ButtonProps {
 	onClick?: (e: any) => void
 }
 
-const StyledButton = styled(Flex)<ButtonProps>`
+const StyledButton = styled(ThemeUIButton)<ButtonProps>`
 	justify-content: center;
 	align-items: center;
 	border-radius: 8px;
-	font-family: Inter;
-	font-style: normal;
-
-	white-space: nowrap;
-	overflow: hidden;
 
 	${props =>
 		(props.size === 'medium' || !props.size) &&
@@ -209,10 +204,10 @@ const Button = React.forwardRef(
 		} = props
 
 		return (
-			<StyledButton as='button' {...attrs} ref={ref}>
+			<StyledButton {...attrs} ref={ref}>
 				{/* {loading ? <LoadingCircular size={16} /> : icon} */}
 				{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
-				<span>{children}</span>
+				<Text variant='textMdMedium'>{children}</Text>
 				{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
 			</StyledButton>
 		)

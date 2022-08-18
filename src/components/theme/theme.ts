@@ -2,23 +2,8 @@ import { Theme } from 'theme-ui'
 
 const makeTheme = <T extends Theme>(t: T) => t
 
-const breakpoints: string[] & {
-	sm?: string
-	md?: string
-	lg?: string
-	xl?: string
-	xxl?: string
-} = ['360px', '768px', '1024px', '1280px', '1600px']
-
-const [sm, md, lg, xl, xxl] = breakpoints
-breakpoints.sm = sm
-breakpoints.md = md
-breakpoints.lg = lg
-breakpoints.xl = xl
-breakpoints.xxl = xxl
-
 export const theme = makeTheme({
-	breakpoints,
+	breakpoints: ['680px', '1024px', '1280px', '1600px'],
 	fontSizes: [12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72], // Reference: https://www.figma.com/file/aqJA7DTloCuC7LsVlwHzBb/Illiquidly-Labs-(Internal)?node-id=700%3A167217
 	colors: {
 		dark100: '#011D2C',
@@ -46,6 +31,8 @@ export const theme = makeTheme({
 		primary500: '#F8FAFD',
 		primary600: 'rgba(45, 115, 255, 0.1)',
 
+		secondary200: '#8098A4',
+		secondary500: '#013049',
 		secondary600: '#012539',
 
 		success100: '#22C55E',
