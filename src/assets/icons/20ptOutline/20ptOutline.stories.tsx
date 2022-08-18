@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Box, Flex } from 'reflexbox/styled-components'
+import { Box, Flex } from 'theme-ui'
 
 import { BackTrackIcon, ArrowshapeRightOutlineIcon } from './index'
 
@@ -16,7 +16,7 @@ export default {
 
 export const Icons = () => (
 	<Box>
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={28}>
 				<BackTrackIcon />
 				<ArrowshapeRightOutlineIcon />

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Flex, Box } from 'reflexbox/styled-components'
+import { Flex, Box } from 'theme-ui'
 
 import ProgressTabs from './ProgressTabs'
 
@@ -16,19 +16,19 @@ export default {
 }
 
 export const ProgressTabsExample = () => (
-	<Flex flexDirection='column' width={{ _: 187.5, sm: 309 }}>
-		<Box flex={1} mb={2}>
+	<Flex sx={{ flexDirection: 'column', width: [187.5, 309] }}>
+		<Box sx={{ flex: 1 }} mb={2}>
 			<ProgressTabs currentStep={1} steps={4} />
 		</Box>
 
-		<Box flex={1} mb={2}>
+		<Box sx={{ flex: 1 }} mb={2}>
 			<ProgressTabs currentStep={2} steps={4} />
 		</Box>
 
-		<Box flex={1} mb={2}>
+		<Box sx={{ flex: 1 }} mb={2}>
 			<ProgressTabs currentStep={3} steps={4} />
 		</Box>
-		<Box flex={1} mb={2}>
+		<Box sx={{ flex: 1 }} mb={2}>
 			<ProgressTabs currentStep={4} steps={4} />
 		</Box>
 	</Flex>

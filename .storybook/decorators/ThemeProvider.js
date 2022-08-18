@@ -1,5 +1,5 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'theme-ui'
 import { theme } from '../../src/components/theme/theme'
 
 const ThemeProviderDecorator = storyFn => (

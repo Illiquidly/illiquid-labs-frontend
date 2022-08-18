@@ -1,6 +1,6 @@
 import React, { ForwardedRef } from 'react'
-import styled from 'styled-components'
-import { Flex } from 'reflexbox/styled-components'
+import styled from '@emotion/styled'
+import { Flex } from 'theme-ui'
 import { noop } from 'lodash'
 
 interface ButtonProps {
@@ -24,12 +24,10 @@ interface ButtonProps {
 	endIcon?: React.ReactNode
 
 	children: React.ReactNode
-	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+	onClick?: (e: any) => void
 }
 
-const StyledButton = styled(Flex).attrs({
-	as: 'button',
-})<ButtonProps>`
+const StyledButton = styled(Flex)<ButtonProps>`
 	justify-content: center;
 	align-items: center;
 	border-radius: 8px;
@@ -211,7 +209,7 @@ const Button = React.forwardRef(
 		} = props
 
 		return (
-			<StyledButton type='button' {...attrs} ref={ref}>
+			<StyledButton as='button' {...attrs} ref={ref}>
 				{/* {loading ? <LoadingCircular size={16} /> : icon} */}
 				{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
 				<span>{children}</span>
@@ -234,8 +232,6 @@ Button.defaultProps = {
 	// Icons
 	startIcon: undefined,
 	endIcon: undefined,
-
-	// Actions
 	onClick: noop,
 }
 

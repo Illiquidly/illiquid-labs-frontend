@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Box, Flex } from 'reflexbox/styled-components'
+import styled from '@emotion/styled'
+import { Box, Flex } from 'theme-ui'
 
 export interface ProgressTabsProps {
 	currentStep?: number

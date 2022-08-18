@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Box, Flex } from 'reflexbox/styled-components'
+import { Box, Flex } from 'theme-ui'
 
 import Button from './Button'
 
@@ -27,7 +27,7 @@ export const Primary = () => (
 			</Button>
 		</Box>
 
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={2}>
 				<Button variant='primary' size='small'>
 					Small Button
@@ -66,7 +66,7 @@ export const Secondary = () => (
 			</Button>
 		</Box>
 
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={2}>
 				<Button variant='secondary' size='small'>
 					Small Button
@@ -105,7 +105,7 @@ export const Ghost = () => (
 			</Button>
 		</Box>
 
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={2}>
 				<Button variant='ghost' size='small'>
 					Small Button
@@ -144,7 +144,7 @@ export const Destructive = () => (
 			</Button>
 		</Box>
 
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={2}>
 				<Button variant='destructive' size='small'>
 					Small Button
@@ -183,7 +183,7 @@ export const Dark = () => (
 			</Button>
 		</Box>
 
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={2}>
 				<Button variant='dark' size='small'>
 					Small Button
@@ -222,7 +222,7 @@ export const Gradient = () => (
 			</Button>
 		</Box>
 
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={2}>
 				<Button variant='gradient' size='small'>
 					Small Button

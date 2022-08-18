@@ -12,17 +12,12 @@ import { useWallet } from '@illiquid-labs/use-wallet'
 import { AppProps } from 'next/app'
 import React from 'react'
 import { theme } from 'components/theme/theme'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider, Flex, Box } from 'theme-ui'
 import blockchain from 'utils/blockchain/terraUtils'
 import { RecoilRoot } from 'recoil'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
-import {
-	MainContentContainer,
-	MainLayoutContainer,
-} from 'components/ui/Container/Container'
-import { ToastContainer } from 'components/ui/Toast/Toast.styled'
 import Head from 'next/head'
 
 const queryClient = new QueryClient()
@@ -51,24 +46,11 @@ const Main = ({
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
 					<RecoilRoot>
-						<MainLayoutContainer>
+						<Flex sx={{ position: 'fixed', inset: 0, flexDirection: 'column' }}>
 							{/* <Header /> */}
-							<MainContentContainer>
-								<Component {...pageProps} />
-							</MainContentContainer>
-						</MainLayoutContainer>
-						<ToastContainer
-							theme='dark'
-							position='top-right'
-							autoClose={5000}
-							hideProgressBar={false}
-							newestOnTop={false}
-							closeOnClick
-							rtl={false}
-							pauseOnFocusLoss
-							draggable
-							pauseOnHover
-						/>
+							<Box sx={{ height: ['79px'], width: '100%', bg: 'secondary600' }} />
+							<Component {...pageProps} />
+						</Flex>
 					</RecoilRoot>
 				</ThemeProvider>
 			</QueryClientProvider>

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Box, Flex } from 'reflexbox/styled-components'
+import { Box, Flex } from 'theme-ui'
 
 import { ZeroCircleOutlineIcon, ThumbsUpOutlineIcon } from './index'
 
@@ -17,7 +17,7 @@ export default {
 export const Icons = () => (
 	<Box>
 		<Box>Signs, that can be printed</Box>
-		<Flex my={2} flexWrap='wrap'>
+		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={28}>
 				<ZeroCircleOutlineIcon />
 				<ThumbsUpOutlineIcon />

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Box } from 'reflexbox/styled-components'
+import { Box } from 'theme-ui'
 
 import Card from './Card'
 

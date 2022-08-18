@@ -1,3 +1,7 @@
+import { Theme } from 'theme-ui'
+
+const makeTheme = <T extends Theme>(t: T) => t
+
 const breakpoints: string[] & {
 	sm?: string
 	md?: string
@@ -13,7 +17,7 @@ breakpoints.lg = lg
 breakpoints.xl = xl
 breakpoints.xxl = xxl
 
-export const theme = {
+export const theme = makeTheme({
 	breakpoints,
 	fontSizes: [12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72], // Reference: https://www.figma.com/file/aqJA7DTloCuC7LsVlwHzBb/Illiquidly-Labs-(Internal)?node-id=700%3A167217
 	colors: {
@@ -42,6 +46,8 @@ export const theme = {
 		primary500: '#F8FAFD',
 		primary600: 'rgba(45, 115, 255, 0.1)',
 
+		secondary600: '#012539',
+
 		success100: '#22C55E',
 		success200: '#16A34A',
 		success300: '#16A34A',
@@ -69,5 +75,6 @@ export const theme = {
 		small: '0px 1px 2px rgba(16, 24, 40, 0.05)',
 		large: '0px 1px 2px rgba(16, 24, 40, 0.05)',
 	},
-	variants: {},
-}
+})
+
+export type ExactTheme = typeof theme

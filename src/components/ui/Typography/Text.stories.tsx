@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Box, Flex } from 'reflexbox/styled-components'
+import { Box, Flex } from 'theme-ui'
 
 import Text from './Text'
 
@@ -18,7 +18,7 @@ export default {
 export const Typography = () => (
 	<Box>
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={10} fontWeight='regular' color='gray900'>
 					Display 2xl
 				</Text>
@@ -26,7 +26,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={10} fontWeight='medium' color='gray900'>
 					Display 2xl
 				</Text>
@@ -34,7 +34,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={10} fontWeight='semibold' color='gray900'>
 					Display 2xl
 				</Text>
@@ -42,7 +42,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={10} fontWeight='bold' color='gray900'>
 					Display 2xl
 				</Text>
@@ -52,7 +52,7 @@ export const Typography = () => (
 			</Box>
 		</Flex>
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={9} fontWeight='regular' color='gray900'>
 					Display xl
 				</Text>
@@ -60,7 +60,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={9} fontWeight='medium' color='gray900'>
 					Display xl
 				</Text>
@@ -68,7 +68,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={9} fontWeight='semibold' color='gray900'>
 					Display xl
 				</Text>
@@ -76,7 +76,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={9} fontWeight='bold' color='gray900'>
 					Display xl
 				</Text>
@@ -86,7 +86,7 @@ export const Typography = () => (
 			</Box>
 		</Flex>
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={8} fontWeight='regular' color='gray900'>
 					Display lg
 				</Text>
@@ -94,7 +94,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={8} fontWeight='medium' color='gray900'>
 					Display lg
 				</Text>
@@ -102,7 +102,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={8} fontWeight='semibold' color='gray900'>
 					Display lg
 				</Text>
@@ -110,7 +110,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={8} fontWeight='bold' color='gray900'>
 					Display lg
 				</Text>
@@ -121,7 +121,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={7} fontWeight='regular' color='gray900'>
 					Display md
 				</Text>
@@ -129,7 +129,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={7} fontWeight='medium' color='gray900'>
 					Display md
 				</Text>
@@ -137,7 +137,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={7} fontWeight='semibold' color='gray900'>
 					Display md
 				</Text>
@@ -145,7 +145,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={7} fontWeight='bold' color='gray900'>
 					Display md
 				</Text>
@@ -156,7 +156,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={6} fontWeight='regular' color='gray900'>
 					Display sm
 				</Text>
@@ -164,7 +164,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={6} fontWeight='medium' color='gray900'>
 					Display sm
 				</Text>
@@ -172,7 +172,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={6} fontWeight='semibold' color='gray900'>
 					Display sm
 				</Text>
@@ -180,7 +180,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={6} fontWeight='bold' color='gray900'>
 					Display sm
 				</Text>
@@ -191,7 +191,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={5} fontWeight='regular' color='gray900'>
 					Display xs
 				</Text>
@@ -199,7 +199,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={5} fontWeight='medium' color='gray900'>
 					Display xs
 				</Text>
@@ -207,7 +207,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={5} fontWeight='semibold' color='gray900'>
 					Display xs
 				</Text>
@@ -215,7 +215,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={5} fontWeight='bold' color='gray900'>
 					Display xs
 				</Text>
@@ -226,7 +226,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={4} fontWeight='regular' color='gray900'>
 					Text xl
 				</Text>
@@ -234,7 +234,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={4} fontWeight='medium' color='gray900'>
 					Text xl
 				</Text>
@@ -242,7 +242,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={4} fontWeight='semibold' color='gray900'>
 					Text xl
 				</Text>
@@ -250,7 +250,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={4} fontWeight='bold' color='gray900'>
 					Text xl
 				</Text>
@@ -261,7 +261,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={3} fontWeight='regular' color='gray900'>
 					Text lg
 				</Text>
@@ -269,7 +269,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={3} fontWeight='medium' color='gray900'>
 					Text lg
 				</Text>
@@ -277,7 +277,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={3} fontWeight='semibold' color='gray900'>
 					Text lg
 				</Text>
@@ -285,7 +285,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={3} fontWeight='bold' color='gray900'>
 					Text lg
 				</Text>
@@ -296,7 +296,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={2} fontWeight='regular' color='gray900'>
 					Text md
 				</Text>
@@ -304,7 +304,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={2} fontWeight='medium' color='gray900'>
 					Text md
 				</Text>
@@ -312,7 +312,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={2} fontWeight='semibold' color='gray900'>
 					Text md
 				</Text>
@@ -320,7 +320,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={2} fontWeight='bold' color='gray900'>
 					Text md
 				</Text>
@@ -331,7 +331,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={1} fontWeight='regular' color='gray900'>
 					Text sm
 				</Text>
@@ -339,7 +339,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={1} fontWeight='medium' color='gray900'>
 					Text sm
 				</Text>
@@ -347,7 +347,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={1} fontWeight='semibold' color='gray900'>
 					Text sm
 				</Text>
@@ -355,7 +355,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={1} fontWeight='bold' color='gray900'>
 					Text sm
 				</Text>
@@ -366,7 +366,7 @@ export const Typography = () => (
 		</Flex>
 
 		<Flex mb={4}>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={0} fontWeight='regular' color='gray900'>
 					Text xs
 				</Text>
@@ -374,7 +374,7 @@ export const Typography = () => (
 					Regular
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={0} fontWeight='medium' color='gray900'>
 					Text xs
 				</Text>
@@ -382,7 +382,7 @@ export const Typography = () => (
 					Medium
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={0} fontWeight='semibold' color='gray900'>
 					Text xs
 				</Text>
@@ -390,7 +390,7 @@ export const Typography = () => (
 					Semibold
 				</Text>
 			</Box>
-			<Box flex={1} mr={4}>
+			<Box sx={{ flex: 1 }} mr={4}>
 				<Text fontSize={0} fontWeight='bold' color='gray900'>
 					Text xs
 				</Text>

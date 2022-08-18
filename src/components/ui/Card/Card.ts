@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Flex } from 'reflexbox/styled-components'
+import styled from '@emotion/styled'
+import { Flex } from 'theme-ui'
 
 const Card = styled(Flex)`
 	flex: 1;
