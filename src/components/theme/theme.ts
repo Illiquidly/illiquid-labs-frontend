@@ -64,12 +64,276 @@ export const theme = makeTheme({
 		warning400: '#FDE68A',
 	},
 	space: [0, 4, 8, 16, 32, 64, 128, 256],
-	fonts: {},
+	fonts: {
+		body: 'Inter',
+	},
 	fontWeights: {
 		regular: '400',
 		medium: '500',
 		semibold: '600',
 		bold: '700',
+	},
+	text: {
+		display2xlRegular: {
+			fontSize: 10,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+		display2xlMedium: {
+			fontSize: 10,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+		display2xlSemibold: {
+			fontSize: 10,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+		display2xlBold: {
+			fontSize: 10,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		displayXlRegular: {
+			fontSize: 9,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		displayXlMedium: {
+			fontSize: 9,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		displayXlSemibold: {
+			fontSize: 9,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		displayXlBold: {
+			fontSize: 9,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		displayLgRegular: {
+			fontSize: 8,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		displayLgMedium: {
+			fontSize: 8,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		displayLgSemibold: {
+			fontSize: 8,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		displayLgBold: {
+			fontSize: 8,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		displayMdRegular: {
+			fontSize: 7,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		displayMdMedium: {
+			fontSize: 7,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		displayMdSemibold: {
+			fontSize: 7,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		displayMdBold: {
+			fontSize: 7,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		displaySmRegular: {
+			fontSize: 6,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		displaySmMedium: {
+			fontSize: 6,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		displaySmSemibold: {
+			fontSize: 6,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		displaySmBold: {
+			fontSize: 6,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		displayXsRegular: {
+			fontSize: 5,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		displayXsMedium: {
+			fontSize: 5,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		displayXsSemibold: {
+			fontSize: 5,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		displayXsBold: {
+			fontSize: 5,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		textXlRegular: {
+			fontSize: 4,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		textXlMedium: {
+			fontSize: 4,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		textXlSemibold: {
+			fontSize: 4,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		textXlBold: {
+			fontSize: 4,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		textLgRegular: {
+			fontSize: 3,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		textLgMedium: {
+			fontSize: 3,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		textLgSemibold: {
+			fontSize: 3,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		textLgBold: {
+			fontSize: 3,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		textMdRegular: {
+			fontSize: 2,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		textMdMedium: {
+			fontSize: 2,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		textMdSemibold: {
+			fontSize: 2,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		textMdBold: {
+			fontSize: 2,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		textSmRegular: {
+			fontSize: 1,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		textSmMedium: {
+			fontSize: 1,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		textSmSemibold: {
+			fontSize: 1,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		textSmBold: {
+			fontSize: 1,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
+
+		textXsRegular: {
+			fontSize: 0,
+			fontWeight: 'regular',
+			color: 'gray900',
+		},
+
+		textXsMedium: {
+			fontSize: 0,
+			fontWeight: 'medium',
+			color: 'gray900',
+		},
+
+		textXsSemibold: {
+			fontSize: 0,
+			fontWeight: 'semibold',
+			color: 'gray900',
+		},
+
+		textXsBold: {
+			fontSize: 0,
+			fontWeight: 'bold',
+			color: 'gray900',
+		},
 	},
 	shadows: {
 		small: '0px 1px 2px rgba(16, 24, 40, 0.05)',
