@@ -131,8 +131,12 @@ export default function Trade() {
 						</Text>
 
 						<Flex sx={{ width: ['140px'] }}>
-							<Button fullWidth variant='gradient'>
-								Select NFTs
+							<Button
+								sx={{ padding: ['12px 0', '10px 0'] }}
+								fullWidth
+								variant='gradient'
+							>
+								<Text variant='textSmMedium'>Select NFTs</Text>
 							</Button>
 						</Flex>
 					</Card>

@@ -1,11 +1,12 @@
 import React, { ForwardedRef } from 'react'
 import styled from '@emotion/styled'
-import { Button as ThemeUIButton, Text } from 'theme-ui'
+import { Button as ThemeUIButton, ThemeUIStyleObject } from 'theme-ui'
 import { noop } from 'lodash'
 
 interface ButtonProps {
 	fullWidth?: boolean
 	disabled?: boolean
+	sx?: ThemeUIStyleObject
 
 	// Style variants
 	variant?:
@@ -207,7 +208,7 @@ const Button = React.forwardRef(
 			<StyledButton {...attrs} ref={ref}>
 				{/* {loading ? <LoadingCircular size={16} /> : icon} */}
 				{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
-				<Text variant='textMdMedium'>{children}</Text>
+				<span>{children}</span>
 				{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
 			</StyledButton>
 		)
@@ -228,6 +229,7 @@ Button.defaultProps = {
 	startIcon: undefined,
 	endIcon: undefined,
 	onClick: noop,
+	sx: {},
 }
 
 export default Button
