@@ -5,6 +5,7 @@ import { Flex, Text } from 'theme-ui'
 export const Container = styled(Flex)`
 	flex-direction: column;
 	flex: 1;
+	overflow: auto;
 `
 
 /* Responsive Styles */

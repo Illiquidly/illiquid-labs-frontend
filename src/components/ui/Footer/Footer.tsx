@@ -18,7 +18,7 @@ function Footer() {
 		>
 			<Container
 				sx={{
-					p: ['0', '0', '24px 100px', '18px 100px', '34px 100px'],
+					p: ['0', '0', '24px 100px', '14px 100px', '34px 100px'],
 				}}
 			>
 				<Flex
