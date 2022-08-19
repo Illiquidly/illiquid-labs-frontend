@@ -11,17 +11,18 @@ export const Container = styled(Flex)`
 
 export const FooterContainer = styled(Container)`
 	background-color: ${props => props.theme.colors.dark200};
-	height:287px
+	height:287px;
 `
 
 export const FooterSubContainer = styled(Flex)`
 	justify-content: space-between;
-	padding: 16px 0px;
+	padding-top: 20px;
 `
 
 export const CenteredFlex = styled(Flex)`
 	align-items: center;
-	gap:20px
+	gap:20px;
+	padding: 10px 0px
 `
 export const LightText = styled(Text)`
 	color: ${props => props.theme.colors.gray600};
@@ -39,7 +40,8 @@ export const IlliquidlyText = styled(LightText)`
 
 export const LogoContainer = styled(Container)` 
 	display: flex;
-	gap: 10px
+	gap: 15px;
+	padding-bottom: 10px;
 `
 
 export const MenuContainer = styled(Flex)`
@@ -90,7 +92,7 @@ Container.defaultProps = {
 /* Responsive Styles */
 FooterContainer.defaultProps = {
 	sx: {
-		p: ['12px 15px', '32px 34.5px', '32px 124px', '20px 100px'],
+		p: ['12px 15px', '32px 34.5px', '32px 124px', '26px 100px 24px 100px'],
 	},
 }
 
