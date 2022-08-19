@@ -61,14 +61,7 @@ const Main = ({
 							</Box>
 							<Component {...pageProps} />
 							<OnlyOnDesktop>
-								<Flex
-									sx={{
-										height: '286.89px',
-										width: '100%',
-									}}
-								>
-									<Footer />
-								</Flex>
+								<Footer />
 							</OnlyOnDesktop>
 						</Flex>
 					</RecoilRoot>

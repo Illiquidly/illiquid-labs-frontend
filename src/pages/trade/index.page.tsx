@@ -103,13 +103,10 @@ export default function Trade() {
 						sx={{
 							p: ['32px 28px', '52px 58px', '32px 28px', '52px 84px'],
 							alignItems: 'center',
-							flexDirection: 'column',
-						}}
-						css={{
 							borderRadius: '12px !important',
 						}}
 					>
-						<Box sx={{ marginBottom: '7px' }}>
+						<Box sx={{ mb: '7px' }}>
 							<TradeAssetImage />
 						</Box>
 						<Text
@@ -131,11 +128,7 @@ export default function Trade() {
 						</Text>
 
 						<Flex sx={{ width: ['140px'] }}>
-							<Button
-								sx={{ padding: ['12px 0', '10px 0'] }}
-								fullWidth
-								variant='gradient'
-							>
+							<Button sx={{ p: ['12px 0', '10px 0'] }} fullWidth variant='gradient'>
 								<Text variant='textSmMedium'>Select NFTs</Text>
 							</Button>
 						</Flex>

@@ -29,6 +29,7 @@ interface ButtonProps {
 }
 
 const StyledButton = styled(ThemeUIButton)<ButtonProps>`
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 8px;
@@ -208,7 +209,7 @@ const Button = React.forwardRef(
 			<StyledButton {...attrs} ref={ref}>
 				{/* {loading ? <LoadingCircular size={16} /> : icon} */}
 				{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
-				<span>{children}</span>
+				{children}
 				{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
 			</StyledButton>
 		)
