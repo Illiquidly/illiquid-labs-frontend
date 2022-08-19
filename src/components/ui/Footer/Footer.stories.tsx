@@ -2,19 +2,8 @@
 
 import React from 'react'
 
-import Footer from './footer';
-
-const customViewports = {
-  figmaViewPort: {
-    name: 'Figma',
-    styles: {
-      width: '1440px',
-      height: '287px',
-    },
-  },
-};
-
-
+import { Flex } from 'theme-ui'
+import Footer from './Footer'
 
 export default {
 	/* 👇 The title prop is optional.
@@ -22,15 +11,16 @@ export default {
 	 * to learn how to generate automatic titles
 	 */
 	title: 'Footer',
-	parameters:{
-	  	viewport: { viewports: customViewports },
-	  }
+	component: Footer,
 }
 
-
-
 export const FooterExample = () => (
-	
-	<Footer />
-		
+	<Flex
+		sx={{
+			height: '286.89px',
+			width: '1440px',
+		}}
+	>
+		<Footer />
+	</Flex>
 )

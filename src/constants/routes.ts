@@ -6,9 +6,11 @@ export const ACCOUNT = '/account'
 export const TRADE = '/trade'
 export const SEND = '/send'
 export const MIGRATE = '/migrate'
+export const RAFFLES = '/raffles'
 
 export const ANALYTICS = '/analytics'
-export const NFT_LOANS = '/nft-loans'
+export const LOANS = '/loans'
+export const DASHBOARD = '/dashboard'
 
 // EXTERNAL LINKS
 export const LANDING_PAGE = ''

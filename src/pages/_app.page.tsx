@@ -20,6 +20,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
 import Head from 'next/head'
 import { OnlyOnDesktop } from 'components/ui/Layout/Layout'
+import Footer from 'components/ui/Footer/Footer'
 
 const queryClient = new QueryClient()
 
@@ -47,16 +48,27 @@ const Main = ({
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
 					<RecoilRoot>
-						<Flex sx={{ position: 'fixed', inset: 0, flexDirection: 'column' }}>
+						<Flex
+							sx={{
+								position: 'fixed',
+								inset: 0,
+								flexDirection: 'column',
+							}}
+						>
 							{/* <Header /> */}
 							<Box sx={{ height: '79px', width: '100%', bg: 'secondary600' }}>
 								Header
 							</Box>
 							<Component {...pageProps} />
 							<OnlyOnDesktop>
-								<Box sx={{ height: '186px', width: '100%', bg: 'secondary600' }}>
-									Footer
-								</Box>
+								<Flex
+									sx={{
+										height: '286.89px',
+										width: '100%',
+									}}
+								>
+									<Footer />
+								</Flex>
 							</OnlyOnDesktop>
 						</Flex>
 					</RecoilRoot>

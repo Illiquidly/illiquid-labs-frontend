@@ -8,7 +8,7 @@ const Card = styled(Flex)`
 	border: 1px solid ${props => props.theme.colors.dark500};
 
 	box-shadow: ${props => props.theme.shadows.small};
-	border-radius: 12px;
+	border-radius: 8px;
 `
 
 export default Card

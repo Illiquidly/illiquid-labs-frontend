@@ -16,27 +16,32 @@ export default function Trade() {
 					mb={['16px', '16px', '24px']}
 					sx={{
 						height: ['48px'],
+						padding: ['0 0.5px', '0'],
 					}}
 				>
-					<Box>
+					<Flex sx={{ alignItems: ['initial', 'initial', 'center'] }}>
 						<Title>Trade NFTs</Title>
-					</Box>
+					</Flex>
 					{/* Only Mobile And Tablet */}
 					<Box
 						ml='auto'
 						sx={{ display: ['block', 'block', 'none'], alignSelf: 'center' }}
 					>
 						<Text color='gray1000' variant='textMdBold'>
-							1 / 4
+							1/4
 						</Text>
 					</Box>
 				</Flex>
 				{/* Only Mobile And Tablet */}
-				<Box sx={{ display: ['block', 'block', 'none'] }} mb={['13px']}>
+
+				<Box
+					sx={{ display: ['block', 'block', 'none'], padding: ['0 0.5px', '0'] }}
+					mb={['13px']}
+				>
 					<ProgressTabs steps={4} currentStep={1} />
 				</Box>
 
-				<Flex sx={{ flexDirection: ['column', 'column', 'row'] }}>
+				<Flex sx={{ flexDirection: ['column', 'column', 'row'], px: '0.5px' }}>
 					{/*  Mobile and Tablet */}
 					<Card
 						mb={['12px', '32px']}
@@ -100,13 +105,16 @@ export default function Trade() {
 							alignItems: 'center',
 							flexDirection: 'column',
 						}}
+						css={{
+							borderRadius: '12px !important',
+						}}
 					>
 						<Box sx={{ marginBottom: ['10px'] }}>
 							<TradeAssetImage />
 						</Box>
 						<Text
 							as='div'
-							variant='displayXsSemibold'
+							variant='textXlSemibold'
 							sx={{ lineHeight: '32px', mb: ['2px'], textAlign: 'center' }}
 							color='neutral50'
 						>
@@ -122,7 +130,11 @@ export default function Trade() {
 							Add them here by clicking below
 						</Text>
 
-						<Button variant='gradient'>Select NFTs</Button>
+						<Flex sx={{ width: ['140px'] }}>
+							<Button fullWidth variant='gradient'>
+								Select NFTs
+							</Button>
+						</Flex>
 					</Card>
 				</Flex>
 			</Box>
