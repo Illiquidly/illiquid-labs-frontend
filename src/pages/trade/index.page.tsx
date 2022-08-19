@@ -109,7 +109,7 @@ export default function Trade() {
 							borderRadius: '12px !important',
 						}}
 					>
-						<Box sx={{ marginBottom: ['10px'] }}>
+						<Box sx={{ marginBottom: '7px' }}>
 							<TradeAssetImage />
 						</Box>
 						<Text
@@ -123,7 +123,7 @@ export default function Trade() {
 
 						<Text
 							as='div'
-							variant='textMdRegular'
+							variant='textSmRegular'
 							color='gray700'
 							sx={{ lineHeight: '20px', mb: ['16px'], textAlign: 'center' }}
 						>
