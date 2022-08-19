@@ -5,22 +5,18 @@ import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import { TwitterIcon, DiscordIcon } from 'assets/icons/social'
 import Link from 'next/link'
 import * as ROUTES from 'constants/routes'
-import { LightText, MenuLinkText, Container } from './Footer.styled'
+import {
+	LightText,
+	MenuLinkText,
+	Container,
+	FooterWrapper,
+} from './Footer.styled'
 import Button from '../Button/Button'
 
 function Footer() {
 	return (
-		<Flex
-			sx={{
-				height: ['0', '0', '244.89px', '224.89px', '286.89px'],
-				width: '100%',
-			}}
-		>
-			<Container
-				sx={{
-					p: ['0', '0', '24px 100px', '14px 100px', '34px 100px'],
-				}}
-			>
+		<FooterWrapper>
+			<Container>
 				<Flex
 					sx={{ flexDirection: 'column', flex: '1', maxWidth: '399px', mt: '12px' }}
 				>
@@ -87,7 +83,7 @@ function Footer() {
 					</Flex>
 				</Flex>
 			</Container>
-		</Flex>
+		</FooterWrapper>
 	)
 }
 
