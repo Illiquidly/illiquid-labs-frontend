@@ -4,11 +4,44 @@ import Button from 'components/ui/Button/Button'
 import Card from 'components/ui/Card/Card'
 import ProgressTabs from 'components/ui/ProgressTabs/ProgressTabs'
 import Steps from 'components/ui/Steps/Steps'
-import React from 'react'
+import React, { useState } from 'react'
 import { Flex, Text, Box } from 'theme-ui'
-import { Circle, Container, Title } from './trade.styled'
+import {
+	CardSubtitle,
+	CardTitle,
+	Circle,
+	Container,
+	Title,
+} from './trade.styled'
 
 export default function Trade() {
+	const [steps] = useState([
+		{
+			id: 0,
+			label: 'Select NFTs',
+			highlighted: true,
+			checked: false,
+		},
+		{
+			id: 1,
+			label: 'Trade details',
+			highlighted: false,
+			checked: false,
+		},
+		{
+			id: 2,
+			label: 'Choose visibility',
+			highlighted: false,
+			checked: false,
+		},
+		{
+			id: 3,
+			label: 'Confirm listing',
+			highlighted: false,
+			checked: false,
+		},
+	])
+
 	return (
 		<Container>
 			<Flex
@@ -57,7 +90,7 @@ export default function Trade() {
 						</Text>
 					</Flex>
 				</Card>
-				{/* Only on Desktop */}
+				{/* Only on Laptop and Desktop */}
 				<Flex
 					sx={{
 						display: ['none', 'none', 'flex'],
@@ -67,35 +100,7 @@ export default function Trade() {
 						flex: 1,
 					}}
 				>
-					<Steps
-						steps={[
-							{
-								id: 0,
-								label: 'Select NFTs',
-								highlighted: true,
-								checked: false,
-							},
-
-							{
-								id: 1,
-								label: 'Trade details',
-								highlighted: false,
-								checked: false,
-							},
-							{
-								id: 2,
-								label: 'Choose visibility',
-								highlighted: false,
-								checked: false,
-							},
-							{
-								id: 3,
-								label: 'Confirm listing',
-								highlighted: false,
-								checked: false,
-							},
-						]}
-					/>
+					<Steps steps={steps} />
 				</Flex>
 
 				<Card
@@ -108,23 +113,13 @@ export default function Trade() {
 					<Box sx={{ mb: '7px' }}>
 						<TradeAssetImage />
 					</Box>
-					<Text
-						as='div'
-						variant='textXlSemibold'
-						sx={{ lineHeight: '32px', mb: ['2px'], textAlign: 'center' }}
-						color='neutral50'
-					>
-						Which NFTs are you looking to trade
-					</Text>
 
-					<Text
-						as='div'
-						variant='textSmRegular'
-						color='gray700'
-						sx={{ lineHeight: '20px', mb: ['16px'], textAlign: 'center' }}
-					>
-						Add them here by clicking below
-					</Text>
+					<Box sx={{ mb: ['2px'] }}>
+						<CardTitle>Which NFTs are you looking to trade</CardTitle>
+					</Box>
+					<Box sx={{ mb: ['16px'] }}>
+						<CardSubtitle>Add them here by clicking below</CardSubtitle>
+					</Box>
 
 					<Flex sx={{ width: ['140px'] }}>
 						<Button sx={{ p: ['12px 0', '10px 0'] }} fullWidth variant='gradient'>

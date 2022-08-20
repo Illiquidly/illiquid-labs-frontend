@@ -35,3 +35,21 @@ export const Circle = styled(Flex)`
 	width: 32px;
 	height: 32px;
 `
+
+export const CardTitle = styled(Text)``
+
+CardTitle.defaultProps = {
+	as: 'div',
+	variant: 'textXlSemibold',
+	sx: { lineHeight: '32px', textAlign: 'center' },
+	color: 'neutral50',
+}
+
+export const CardSubtitle = styled(Text)``
+
+CardSubtitle.defaultProps = {
+	as: 'div',
+	variant: 'textSmRegular',
+	color: 'gray700',
+	sx: { lineHeight: '20px', textAlign: 'center' },
+}
