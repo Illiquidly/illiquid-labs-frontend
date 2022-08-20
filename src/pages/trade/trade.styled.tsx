@@ -24,18 +24,6 @@ Title.defaultProps = {
 	variant: 'displayXsBold',
 }
 
-export const Circle = styled(Flex)`
-	align-items: center;
-	justify-content: center;
-
-	background-color: ${props => props.theme.colors.dark100};
-	border-radius: 100%;
-	padding: 4px;
-
-	width: 32px;
-	height: 32px;
-`
-
 export const CardTitle = styled(Text)``
 
 CardTitle.defaultProps = {

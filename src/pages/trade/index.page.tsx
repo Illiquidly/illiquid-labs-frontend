@@ -1,4 +1,3 @@
-import { CheckLineIcon } from 'assets/icons/24pt'
 import TradeAssetImage from 'assets/images/TradeAsset'
 import Button from 'components/ui/Button/Button'
 import Card from 'components/ui/Card/Card'
@@ -6,13 +5,7 @@ import MobileSteps from 'components/ui/MobileSteps/MobileSteps'
 import Steps from 'components/ui/Steps/Steps'
 import React, { useState } from 'react'
 import { Flex, Text, Box } from 'theme-ui'
-import {
-	CardSubtitle,
-	CardTitle,
-	Circle,
-	Container,
-	Title,
-} from './trade.styled'
+import { CardSubtitle, CardTitle, Container, Title } from './trade.styled'
 
 export default function Trade() {
 	const [steps] = useState([
@@ -64,32 +57,12 @@ export default function Trade() {
 					</Text>
 				</Box>
 			</Flex>
-			{/* Only Mobile And Tablet */}
-
-			<Box
-				sx={{ display: ['block', 'block', 'none'], padding: ['0 0.5px', '0'] }}
-				mb={['13px']}
-			>
-				<MobileSteps steps={steps} />
-			</Box>
 
 			<Flex sx={{ flexDirection: ['column', 'column', 'row'], px: '0.5px' }}>
-				{/*  Mobile and Tablet */}
-				<Card
-					mb={['12px', '32px']}
-					sx={{ p: ['16px 12px'], display: ['flex', 'flex', 'none'] }}
-				>
-					<Flex sx={{ alignItems: 'center' }}>
-						<Flex sx={{ alignItems: 'center', mr: ['12px'] }}>
-							<Circle>
-								<CheckLineIcon fill='#fff' />
-							</Circle>
-						</Flex>
-						<Text color='gray1000' variant='textMdSemibold'>
-							Select NFTs
-						</Text>
-					</Flex>
-				</Card>
+				<Box sx={{ display: ['block', 'block', 'none'], mb: ['12px', '32px'] }}>
+					<MobileSteps steps={steps} />
+				</Box>
+
 				{/* Only on Laptop and Desktop */}
 				<Flex
 					sx={{

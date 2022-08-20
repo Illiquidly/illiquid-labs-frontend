@@ -22,91 +22,28 @@ export const MobileStepsExample = () => (
 				steps={[
 					{
 						id: 0,
-						checked: true,
+						label: 'Select NFTs',
+						checked: false,
+						highlighted: true,
 					},
 
 					{
 						id: 1,
+						label: 'Trade details',
 						checked: false,
+						highlighted: false,
 					},
 					{
 						id: 2,
+						label: 'Choose visibility',
 						checked: false,
+						highlighted: false,
 					},
 					{
 						id: 3,
+						label: 'Confirm listing',
 						checked: false,
-					},
-				]}
-			/>
-		</Box>
-
-		<Box sx={{ flex: 1 }} mb={2}>
-			<MobileSteps
-				steps={[
-					{
-						id: 0,
-						checked: true,
-					},
-
-					{
-						id: 1,
-						checked: true,
-					},
-					{
-						id: 2,
-						checked: false,
-					},
-					{
-						id: 3,
-						checked: false,
-					},
-				]}
-			/>
-		</Box>
-
-		<Box sx={{ flex: 1 }} mb={2}>
-			<MobileSteps
-				steps={[
-					{
-						id: 0,
-						checked: true,
-					},
-
-					{
-						id: 1,
-						checked: true,
-					},
-					{
-						id: 2,
-						checked: true,
-					},
-					{
-						id: 3,
-						checked: false,
-					},
-				]}
-			/>
-		</Box>
-		<Box sx={{ flex: 1 }} mb={2}>
-			<MobileSteps
-				steps={[
-					{
-						id: 0,
-						checked: true,
-					},
-
-					{
-						id: 1,
-						checked: true,
-					},
-					{
-						id: 2,
-						checked: true,
-					},
-					{
-						id: 3,
-						checked: true,
+						highlighted: false,
 					},
 				]}
 			/>
