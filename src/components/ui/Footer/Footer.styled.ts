@@ -6,7 +6,7 @@ export const FooterWrapper = styled(Flex)``
 
 FooterWrapper.defaultProps = {
 	sx: {
-		height: ['0', '0', '244.89px', '224.89px', '286.89px'],
+		height: ['0', '0', '244.89px', '244.89px', '286.89px'],
 		width: '100%',
 	},
 }
@@ -19,7 +19,7 @@ export const Container = styled(Flex)`
 
 Container.defaultProps = {
 	sx: {
-		p: ['0', '0', '24px 100px', '14px 100px', '34px 100px'],
+		p: ['0', '0', '24px 100px', '24px 100px', '34px 100px'],
 	},
 }
 
