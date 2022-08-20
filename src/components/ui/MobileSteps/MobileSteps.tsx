@@ -2,12 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Box, Flex } from 'theme-ui'
 
-export interface ProgressTabsProps {
-	currentStep?: number
-	steps?: number
-}
-
-const ProgressTab = styled(Box)<{ checked?: boolean }>`
+const StepBox = styled(Box)<{ checked?: boolean }>`
 	flex: 1;
 	background: ${props =>
 		props.checked ? props.theme.colors.primary100 : props.theme.colors.dark200};
@@ -22,12 +17,19 @@ const ProgressTab = styled(Box)<{ checked?: boolean }>`
 	}
 `
 
-function ProgressTabs({ currentStep = 1, steps = 4 }: ProgressTabsProps) {
+type Step = {
+	id: number
+	checked: boolean
+}
+export interface MobileStepsProps {
+	steps: Step[]
+}
+
+function ProgressTabs({ steps }: MobileStepsProps) {
 	return (
 		<Flex>
-			{Array.from({ length: steps }).map((_, i) => (
-				// eslint-disable-next-line react/no-array-index-key
-				<ProgressTab key={`step_${i}`} checked={currentStep >= i + 1} />
+			{steps.map(({ id, checked }) => (
+				<StepBox key={id} checked={checked} />
 			))}
 		</Flex>
 	)

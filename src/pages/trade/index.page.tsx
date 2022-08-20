@@ -2,7 +2,7 @@ import { CheckLineIcon } from 'assets/icons/24pt'
 import TradeAssetImage from 'assets/images/TradeAsset'
 import Button from 'components/ui/Button/Button'
 import Card from 'components/ui/Card/Card'
-import ProgressTabs from 'components/ui/ProgressTabs/ProgressTabs'
+import MobileSteps from 'components/ui/MobileSteps/MobileSteps'
 import Steps from 'components/ui/Steps/Steps'
 import React, { useState } from 'react'
 import { Flex, Text, Box } from 'theme-ui'
@@ -20,7 +20,7 @@ export default function Trade() {
 			id: 0,
 			label: 'Select NFTs',
 			highlighted: true,
-			checked: false,
+			checked: true,
 		},
 		{
 			id: 1,
@@ -70,7 +70,7 @@ export default function Trade() {
 				sx={{ display: ['block', 'block', 'none'], padding: ['0 0.5px', '0'] }}
 				mb={['13px']}
 			>
-				<ProgressTabs steps={4} currentStep={1} />
+				<MobileSteps steps={steps} />
 			</Box>
 
 			<Flex sx={{ flexDirection: ['column', 'column', 'row'], px: '0.5px' }}>

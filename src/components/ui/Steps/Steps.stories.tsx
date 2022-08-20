@@ -15,7 +15,7 @@ export default {
 	component: Steps,
 }
 
-export const ProgressCardExample = () => (
+export const StepsExample = () => (
 	<Flex sx={{ flexDirection: 'column', width: [244] }}>
 		<Box sx={{ flex: 1 }} mb={2}>
 			<Steps

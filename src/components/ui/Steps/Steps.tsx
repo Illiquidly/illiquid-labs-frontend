@@ -42,11 +42,11 @@ type Step = {
 	highlighted: boolean
 	checked: boolean
 }
-export interface ProgressCardProps {
+export interface StepsProps {
 	steps: Step[]
 }
 
-export default function Steps({ steps }: ProgressCardProps) {
+export default function Steps({ steps }: StepsProps) {
 	return (
 		<StepsContainer>
 			{steps.map(({ id, label, highlighted, checked }) => (
