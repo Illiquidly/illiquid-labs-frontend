@@ -19,7 +19,7 @@ OnlyOnTablet.defaultProps = {
 
 export const OnlyMobileAndTablet = styled(Box)``
 
-OnlyOnTablet.defaultProps = {
+OnlyMobileAndTablet.defaultProps = {
 	sx: {
 		display: ['block', 'block', 'none'],
 	},
