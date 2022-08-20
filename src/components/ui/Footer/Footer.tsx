@@ -1,16 +1,11 @@
 import React from 'react'
 
-import { Flex, IconButton, Text } from 'theme-ui'
+import { Flex, IconButton, Box, Text } from 'theme-ui'
 import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import { TwitterIcon, DiscordIcon } from 'assets/icons/social'
 import Link from 'next/link'
 import * as ROUTES from 'constants/routes'
-import {
-	LightText,
-	MenuLinkText,
-	Container,
-	FooterWrapper,
-} from './Footer.styled'
+import { LightText, LinkText, Container, FooterWrapper } from './Footer.styled'
 import Button from '../Button/Button'
 
 function Footer() {
@@ -21,11 +16,13 @@ function Footer() {
 					sx={{ flexDirection: 'column', flex: '1', maxWidth: '399px', mt: '12px' }}
 				>
 					<IlliquidlyFooterLogo width='141px' height='42.89px' />
-					<LightText sx={{ marginTop: '16px' }}>
-						The first NFT P2P trading platform and tooling to enter the Cosmos! Trade,
-						Raffle & Collateralise your NFTs to unlock new potential for your
-						collections.
-					</LightText>
+					<Box sx={{ marginTop: '16px' }}>
+						<LightText>
+							The first NFT P2P trading platform and tooling to enter the Cosmos!
+							Trade, Raffle & Collateralise your NFTs to unlock new potential for your
+							collections.
+						</LightText>
+					</Box>
 
 					<Flex sx={{ alignItems: 'center', marginTop: 'auto', gap: 20 }}>
 						<Button
@@ -62,19 +59,19 @@ function Footer() {
 				>
 					<Flex sx={{ gap: '32px', mr: '17px' }}>
 						<Link href={ROUTES.DASHBOARD}>
-							<MenuLinkText>Dashboard</MenuLinkText>
+							<LinkText>Dashboard</LinkText>
 						</Link>
 						<Link href={ROUTES.TRADE}>
-							<MenuLinkText>Trade</MenuLinkText>
+							<LinkText>Trade</LinkText>
 						</Link>
 						<Link href={ROUTES.SEND}>
-							<MenuLinkText>Send</MenuLinkText>
+							<LinkText>Send</LinkText>
 						</Link>
 						<Link href={ROUTES.LOANS}>
-							<MenuLinkText>Loans</MenuLinkText>
+							<LinkText>Loans</LinkText>
 						</Link>
 						<Link href={ROUTES.RAFFLES}>
-							<MenuLinkText>Raffles</MenuLinkText>
+							<LinkText>Raffles</LinkText>
 						</Link>
 					</Flex>
 

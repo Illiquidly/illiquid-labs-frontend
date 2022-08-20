@@ -33,7 +33,7 @@ export const LightText = styled(Text)`
 	line-height: 24px;
 `
 
-export const MenuLinkText = styled(Text)`
+export const LinkText = styled(Text)`
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 500;
