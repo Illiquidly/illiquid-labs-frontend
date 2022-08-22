@@ -5,6 +5,9 @@ const makeTheme = <T extends Theme>(t: T) => t
 export const theme = makeTheme({
 	breakpoints: ['680px', '1024px', '1280px', '1600px'],
 	fontSizes: [12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72], // Reference: https://www.figma.com/file/aqJA7DTloCuC7LsVlwHzBb/Illiquidly-Labs-(Internal)?node-id=700%3A167217
+	zIndices: {
+		imgOverlay: 9,
+	},
 	colors: {
 		dark100: '#011D2C',
 		dark200: '#013049',
