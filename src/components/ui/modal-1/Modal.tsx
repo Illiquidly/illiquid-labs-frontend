@@ -5,7 +5,7 @@ import { ModalCloseIcon } from 'assets/icons/modal'
 import React from 'react'
 import { noop } from 'lodash'
 import { useTheme } from '@emotion/react'
-import { OnlyMobileAndTablet } from '../layout/Layout'
+import { OnlyMobileAndTablet } from '../layout-1/Layout'
 
 const StyledReactModal = styled(ReactModal)`
 	flex-direction: column;
