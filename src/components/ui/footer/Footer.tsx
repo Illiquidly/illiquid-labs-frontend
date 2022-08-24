@@ -6,7 +6,7 @@ import { TwitterIcon, DiscordIcon } from 'assets/icons/social'
 import Link from 'next/link'
 import * as ROUTES from 'constants/routes'
 import { LightText, LinkText, Container, FooterWrapper } from './Footer.styled'
-import { Button } from '../button-1'
+import { Button } from '../button'
 
 function Footer() {
 	return (

@@ -1,5 +1,5 @@
 import TradeAssetImage from 'assets/images/TradeAsset'
-import Button from 'components/ui/button-1/Button'
+import Button from 'components/ui/button/Button'
 import MobileSteps from 'components/ui/mobile-steps/MobileSteps'
 import { MyNFTsModal } from 'components/ui/my-nfts-modal'
 import Steps from 'components/ui/steps/Steps'

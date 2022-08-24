@@ -5,7 +5,7 @@ import React, {
 	ReactElement,
 	JSXElementConstructor,
 } from 'react'
-import { Tooltip } from '../tooltip/Tooltip'
+import { Tooltip } from '../tooltip-1/Tooltip'
 
 function OverflowTip({
 	children,
