@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Card } from 'components/ui/Card'
+import { Card } from 'components/ui/card'
 
 import { Box, Flex, Text } from 'theme-ui'
 

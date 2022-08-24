@@ -17,7 +17,7 @@ export default {
 export const Icons = () => (
 	<Box>
 		<Box>Signs, that can be printed</Box>
-		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
+		<Flex my={['2', '']} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={28}>
 				<ZeroCircleOutlineIcon />
 				<ThumbsUpOutlineIcon />
