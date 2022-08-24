@@ -3,8 +3,7 @@
 import React from 'react'
 
 import { Box, Flex } from 'theme-ui'
-
-import Button from './Button'
+import { Button } from 'components/ui/Button'
 
 export default {
 	/* 👇 The title prop is optional.

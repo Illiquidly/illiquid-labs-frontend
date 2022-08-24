@@ -26,6 +26,9 @@ export const theme = makeTheme({
 		gray900: '#F9FAFB',
 		gray1000: '#FFFFFF',
 
+		natural300: '#D1D5DB',
+		neutral900: '#111827',
+
 		primary90: 'linear-gradient(80.27deg, #1453CD -20.95%, #62CEFD 112.08%)',
 		primary100: '#2463EB',
 		primary200: '#4A87FF',

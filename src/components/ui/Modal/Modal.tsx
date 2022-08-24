@@ -40,7 +40,7 @@ export interface ModalProps {
 	isOpen: boolean
 	onAfterOpen?: () => void
 	onRequestClose?: () => void
-	children: React.ReactNode
+	children?: React.ReactNode
 	sx?: ThemeUIStyleObject
 }
 
@@ -83,13 +83,13 @@ const Modal = ({
 						flex: 1,
 						p: ['16px', '25px 33.5px', '32px 112px'],
 						borderRadius: [0, 0, '16px 16px 0px 0px'],
+						position: 'fixed',
+						inset: 0,
 						...sx,
 					}}
 				>
-					<Flex sx={{ flexDirection: 'column' }}>
-						<Flex
-							sx={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}
-						>
+					<Flex sx={{ flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+						<Flex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 							<ModalTitle>{title}</ModalTitle>
 							<OnlyMobileAndTablet>
 								<IconButton size='40px' onClick={onRequestClose}>
@@ -97,7 +97,6 @@ const Modal = ({
 								</IconButton>
 							</OnlyMobileAndTablet>
 						</Flex>
-
 						{children}
 					</Flex>
 				</Flex>

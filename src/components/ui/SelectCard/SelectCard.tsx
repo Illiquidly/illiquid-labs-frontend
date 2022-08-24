@@ -36,7 +36,7 @@ const StyledBox = styled(Box)`
 
 type SelectCardItem = {
 	id: number | string
-	imageUrl: string
+	imageUrl: string | string[]
 }
 
 interface SelectCardProps {
