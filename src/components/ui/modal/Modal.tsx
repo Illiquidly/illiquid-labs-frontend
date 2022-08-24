@@ -62,7 +62,15 @@ const Modal = ({
 			}}
 			overlayClassName='overlay'
 		>
-			<Flex sx={{ flex: 1, flexDirection: 'column', bg: 'rgba(0, 0, 0, 0.7)' }}>
+			<Flex
+				sx={{
+					position: 'fixed',
+					inset: 0,
+					flex: 1,
+					flexDirection: 'column',
+					bg: 'rgba(0, 0, 0, 0.7)',
+				}}
+			>
 				<Flex
 					sx={{
 						display: ['none', 'none', 'flex'],
@@ -83,8 +91,6 @@ const Modal = ({
 						flex: 1,
 						p: ['16px', '25px 33.5px', '32px 112px'],
 						borderRadius: [0, 0, '16px 16px 0px 0px'],
-						position: 'fixed',
-						inset: 0,
 						...sx,
 					}}
 				>
