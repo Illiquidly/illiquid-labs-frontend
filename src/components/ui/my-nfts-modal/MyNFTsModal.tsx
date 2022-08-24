@@ -1,9 +1,9 @@
 import { NFT } from 'hooks/useMyNFTs'
 import React from 'react'
 import { Flex, Box } from 'theme-ui'
-import { Button } from '../button'
-import { Modal } from '../modal-1'
-import { ModalProps } from '../modal-1/Modal'
+import { Button } from '../button-1'
+import { Modal } from '../modal'
+import { ModalProps } from '../modal/Modal'
 import NFTCard from '../nft-card/NFTCard'
 import { SelectCard } from '../select-card'
 import {

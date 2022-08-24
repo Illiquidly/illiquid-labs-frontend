@@ -19,8 +19,8 @@ import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
 import Head from 'next/head'
-import { OnlyOnDesktop } from 'components/ui/layout-1/Layout'
-import Footer from 'components/ui/footer-1/Footer'
+import { OnlyOnDesktop } from 'components/ui/layout/Layout'
+import Footer from 'components/ui/footer/Footer'
 
 const queryClient = new QueryClient()
 

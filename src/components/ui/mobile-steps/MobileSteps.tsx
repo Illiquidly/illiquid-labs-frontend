@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Box, Flex, Text } from 'theme-ui'
 import { CheckLineIcon } from 'assets/icons/24pt'
-import Card from '../card-1/Card'
+import Card from '../card/Card'
 
 const StepBox = styled(Box)<{ checked?: boolean }>`
 	flex: 1;
