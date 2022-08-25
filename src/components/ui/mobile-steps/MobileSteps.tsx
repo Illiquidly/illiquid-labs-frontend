@@ -41,7 +41,7 @@ export const Circle = styled(Flex)`
 	height: 32px;
 `
 
-function ProgressTabs({ steps }: MobileStepsProps) {
+function MobileSteps({ steps }: MobileStepsProps) {
 	const stepLabel = React.useMemo(
 		() => [...steps].reverse().find(x => x.checked)?.label || steps[0]?.label,
 		[steps]
@@ -70,4 +70,4 @@ function ProgressTabs({ steps }: MobileStepsProps) {
 	)
 }
 
-export default ProgressTabs
+export default MobileSteps
