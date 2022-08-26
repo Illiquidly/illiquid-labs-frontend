@@ -94,6 +94,7 @@ export const theme = makeTheme({
 			},
 		},
 		primary: {
+			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -116,6 +117,7 @@ export const theme = makeTheme({
 			},
 		},
 		secondary: {
+			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -144,6 +146,7 @@ export const theme = makeTheme({
 			},
 		},
 		ghost: {
+			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -172,6 +175,7 @@ export const theme = makeTheme({
 			},
 		},
 		destructive: {
+			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -194,6 +198,7 @@ export const theme = makeTheme({
 			},
 		},
 		dark: {
+			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -225,6 +230,7 @@ export const theme = makeTheme({
 			},
 		},
 		gradient: {
+			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
