@@ -2,10 +2,12 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Box, Flex, Text } from 'theme-ui'
 import { CheckLineIcon } from 'assets/icons/24pt'
+import { useTheme } from '@emotion/react'
 import Card from '../card/Card'
 
 const StepBox = styled(Box)<{ checked?: boolean }>`
 	flex: 1;
+	user-select: none;
 	background: ${props =>
 		props.checked ? props.theme.colors.primary100 : props.theme.colors.dark200};
 	border-radius: 8px;
@@ -47,6 +49,8 @@ function MobileSteps({ steps }: MobileStepsProps) {
 		[steps]
 	)
 
+	const theme = useTheme()
+
 	return (
 		<Flex sx={{ flexDirection: 'column' }}>
 			<Flex sx={{ mb: '13px' }}>
@@ -58,7 +62,7 @@ function MobileSteps({ steps }: MobileStepsProps) {
 				<Flex sx={{ alignItems: 'center' }}>
 					<Flex sx={{ alignItems: 'center', mr: ['12px'] }}>
 						<Circle>
-							<CheckLineIcon fill='#fff' />
+							<CheckLineIcon fill={theme.colors.gray1000} />
 						</Circle>
 					</Flex>
 					<Text color='gray1000' variant='textMdSemibold'>
