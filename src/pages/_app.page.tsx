@@ -48,13 +48,7 @@ const Main = ({
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
 					<RecoilRoot>
-						<Flex
-							sx={{
-								position: 'fixed',
-								inset: 0,
-								flexDirection: 'column',
-							}}
-						>
+						<Flex variant='appContainer'>
 							{/* <Header /> */}
 							<Box sx={{ height: '79px', width: '100%', bg: 'secondary600' }}>
 								Header

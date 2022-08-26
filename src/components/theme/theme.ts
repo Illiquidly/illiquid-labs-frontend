@@ -518,6 +518,13 @@ export const theme = makeTheme({
 			color: 'gray900',
 		},
 	},
+	variants: {
+		appContainer: {
+			width: '100%',
+			height: '100vh',
+			flexDirection: 'column',
+		},
+	},
 	shadows: {
 		small: '0px 1px 2px rgba(16, 24, 40, 0.05)',
 		large: '0px 1px 2px rgba(16, 24, 40, 0.05)',
