@@ -7,12 +7,15 @@ export const Container = styled(Flex)`
 	flex-direction: column;
 	flex: 1;
 	overflow: auto;
+	width: 100%;
+	max-width: 976px; /* 944 width from design + 32px padding */
+	margin: auto;
 `
 
 /* Responsive Styles */
 Container.defaultProps = {
 	sx: {
-		p: ['12px 15px', '32px 34.5px', '32px 124px', '32px 248px'],
+		p: ['12px 16px', '32px', '32px 16px'],
 	},
 }
 
