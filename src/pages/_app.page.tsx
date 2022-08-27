@@ -1,26 +1,24 @@
-import './styles.css'
-import 'react-toastify/dist/ReactToastify.css'
-import 'rc-tooltip/assets/bootstrap_white.css'
 import '@djthoms/pretty-checkbox'
+import { useWallet } from '@illiquid-labs/use-wallet'
 import {
 	getChainOptions,
 	StaticWalletProvider,
 	WalletControllerChainOptions,
 	WalletProvider,
 } from '@illiquid-labs/wallet-provider'
-import { useWallet } from '@illiquid-labs/use-wallet'
-import { AppProps } from 'next/app'
-import React from 'react'
 import { theme } from 'components/theme/theme'
-import { ThemeProvider, Flex, Box } from 'theme-ui'
-import blockchain from 'utils/blockchain/terraUtils'
+import { AppProps } from 'next/app'
+import 'rc-tooltip/assets/bootstrap_white.css'
+import 'react-toastify/dist/ReactToastify.css'
 import { RecoilRoot } from 'recoil'
+import { Box, Flex, ThemeProvider } from 'theme-ui'
+import blockchain from 'utils/blockchain/terraUtils'
+import './styles.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { NextComponentType, NextPageContext } from 'next/types'
-import Head from 'next/head'
-import { OnlyOnDesktop } from 'components/ui/layout/Layout'
 import Footer from 'components/ui/footer/Footer'
+import Head from 'next/head'
+import { NextComponentType, NextPageContext } from 'next/types'
 
 const queryClient = new QueryClient()
 
@@ -54,9 +52,7 @@ const Main = ({
 								Header
 							</Box>
 							<Component {...pageProps} />
-							<OnlyOnDesktop>
-								<Footer />
-							</OnlyOnDesktop>
+							<Footer />
 						</Flex>
 					</RecoilRoot>
 				</ThemeProvider>

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 
-import { Flex, Text, Box } from 'theme-ui'
+import { Box, Flex, Text } from 'theme-ui'
 
 export const FooterWrapper = styled(Flex)``
 
@@ -8,6 +8,7 @@ FooterWrapper.defaultProps = {
 	sx: {
 		height: ['0', '0', '244.89px', '244.89px', '286.89px'],
 		width: '100%',
+		mt: 'auto',
 	},
 }
 

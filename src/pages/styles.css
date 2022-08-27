@@ -6,7 +6,7 @@ body {
 	background: #011D2C;
 	color: #F9FAFB;
 	position: relative;
-	overflow: hidden;
+	/* overflow: hidden; */
 	font-family: 'Inter', sans-serif;
 }
 
