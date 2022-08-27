@@ -4,3 +4,4 @@ export {
 	OnlyOnMobile,
 	OnlyOnTablet,
 } from './Layout'
+export { LayoutContainer } from './LayoutContainer'
