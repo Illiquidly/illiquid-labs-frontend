@@ -6,7 +6,6 @@ import { Box, Flex, Text } from 'theme-ui'
 export const Container = styled(Flex)`
 	flex-direction: column;
 	flex: 1;
-	overflow: auto;
 	width: 100%;
 	max-width: 976px; /* 944 width from design + 32px padding */
 	margin: auto;
@@ -18,6 +17,18 @@ Container.defaultProps = {
 		p: ['12px 16px', '32px', '32px 16px'],
 	},
 }
+
+export const TradeBackgroundLogoContainer = styled(Box)`
+	position: absolute;
+	top: 100px;
+	z-index: -1;
+`
+export const TradeBackgroundBlobContainer = styled(Box)`
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: -1;
+`
 
 export const HeaderTitle = styled(Text)`
 	color: ${props => props.theme.colors.gray1000};
@@ -71,13 +82,14 @@ MobileStepsWrapper.defaultProps = {
 	sx: { display: ['block', 'block', 'none'], mb: ['12px', '32px'] },
 }
 
-export const ContentCard = styled(Card)``
+export const ContentCard = styled(Card)`
+	border-radius: 12px;
+`
 
 ContentCard.defaultProps = {
 	sx: {
 		p: ['32px 28px', '52px 58px', '32px 28px', '52px 84px'],
 		alignItems: 'center',
-		borderRadius: '12px !important',
 	},
 }
 
