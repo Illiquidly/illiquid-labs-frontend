@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { Card } from 'components/ui/card'
 
-import { Box, Flex, Text } from 'theme-ui'
+import { Box, css, Flex, Text } from 'theme-ui'
 
 export const Container = styled(Flex)`
 	flex-direction: column;
@@ -18,16 +18,21 @@ Container.defaultProps = {
 	},
 }
 
-export const TradeBackgroundLogoContainer = styled(Box)`
+const TradeBackground = styled(Box)`
 	position: absolute;
-	top: 100px;
 	z-index: -1;
+	${() =>
+		css({
+			display: ['none', null, null, 'block'],
+		})}
 `
-export const TradeBackgroundBlobContainer = styled(Box)`
-	position: absolute;
+
+export const TradeBackgroundLogoContainer = styled(TradeBackground)`
+	top: 100px;
+`
+export const TradeBackgroundBlobContainer = styled(TradeBackground)`
 	top: 0;
 	right: 0;
-	z-index: -1;
 `
 
 export const HeaderTitle = styled(Text)`
