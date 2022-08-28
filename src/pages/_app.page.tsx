@@ -11,12 +11,13 @@ import { AppProps } from 'next/app'
 import 'rc-tooltip/assets/bootstrap_white.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { RecoilRoot } from 'recoil'
-import { Box, Flex, ThemeProvider } from 'theme-ui'
+import { Flex, ThemeProvider } from 'theme-ui'
 import blockchain from 'utils/blockchain/terraUtils'
 import './styles.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Footer from 'components/ui/footer/Footer'
+import Header from 'components/ui/header/Header'
 import Head from 'next/head'
 import { NextComponentType, NextPageContext } from 'next/types'
 
@@ -47,10 +48,7 @@ const Main = ({
 				<ThemeProvider theme={theme}>
 					<RecoilRoot>
 						<Flex variant='appContainer'>
-							{/* <Header /> */}
-							<Box sx={{ height: '79px', width: '100%', bg: 'secondary600' }}>
-								Header
-							</Box>
+							<Header />
 							<Component {...pageProps} />
 							<Footer />
 						</Flex>
