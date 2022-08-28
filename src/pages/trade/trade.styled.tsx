@@ -11,13 +11,6 @@ export const Container = styled(Flex)`
 	margin: auto;
 `
 
-/* Responsive Styles */
-Container.defaultProps = {
-	sx: {
-		p: ['12px 16px', '32px', '32px 16px'],
-	},
-}
-
 const TradeBackground = styled(Box)`
 	position: absolute;
 	z-index: -1;
