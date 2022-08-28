@@ -11,6 +11,12 @@ export const Container = styled(Flex)`
 	margin: auto;
 `
 
+Container.defaultProps = {
+	sx: {
+		py: ['12px', '32px'],
+	},
+}
+
 const TradeBackground = styled(Box)`
 	position: absolute;
 	z-index: -1;
