@@ -17,7 +17,6 @@ FooterWrapper.defaultProps = {
 
 export const Content = styled(Flex)`
 	width: 100%;
-	background-color: green;
 `
 
 export const LightText = styled(Text)`
