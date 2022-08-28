@@ -28,11 +28,12 @@ const TradeBackground = styled(Box)`
 `
 
 export const TradeBackgroundLogoContainer = styled(TradeBackground)`
-	top: 100px;
+	top: 20px;
+	left: -84px; /* Trying to match design */
 `
 export const TradeBackgroundBlobContainer = styled(TradeBackground)`
-	top: 0;
-	right: 0;
+	top: -80px; /* height of header. TODO: store that value to variable */
+	right: -72px; /* Trying to match design */
 `
 
 export const HeaderTitle = styled(Text)`
