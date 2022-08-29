@@ -1,51 +1,161 @@
 import styled from '@emotion/styled'
+import { Img } from 'react-image'
+import { Text, Flex, Box } from 'theme-ui'
 
-import { Text, Flex } from 'theme-ui'
+export const Title = styled(Text)<{ size?: string }>`
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 28px;
+	letter-spacing: -0.02em;
+	color: ${props => props.theme.colors.natural50};
 
-export const Title = styled(Text)``
+	${props =>
+		props.size === 'small' &&
+		`
+		font-style: normal;
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 24px;
+	`}
 
-Title.defaultProps = {
-	sx: {
-		fontWeight: 700,
-		fontSize: '20px',
-		lineHeight: '28px',
-		letterSpacing: '-0.02em',
-	},
-}
+	${props =>
+		props.size === 'medium' &&
+		`
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 28px;
+		letter-spacing: -0.02em;
+	`}
+`
 
-export const Subtitle = styled(Text)``
+export const Subtitle = styled(Text)<{ size?: string }>`
+	font-weight: 300;
+	font-size: 14px;
+	line-height: 28px;
+	color: ${props => props.theme.colors.natural300};
+	${props =>
+		props.size === 'small' &&
+		`
+		font-style: normal;
+		font-weight: 500;
+		font-size: 12px;
+		line-height: 16px;
+		color: ${props.theme.colors.natural500};
+	`}
+
+	${props =>
+		props.size === 'medium' &&
+		`
+		font-weight: 300;
+		font-size: 14px;
+		line-height: 28px;
+		color: ${props.theme.colors.natural300};
+	`}
+`
 
 Subtitle.defaultProps = {
-	sx: {
-		fontWeight: 300,
-		fontSize: '14px',
-		lineHeight: '28px',
-		color: 'natural300',
-	},
+	sx: {},
 }
 
 export const ImageSection = styled(Flex)`
 	align-items: center;
 	justify-content: center;
+	position: relative;
 `
 
 ImageSection.defaultProps = {
 	sx: {
-		minWidth: '332px',
-		height: '280px',
 		bg: 'neutral900',
 		borderRadius: '8px 8px 0px 0px',
+		aspectRatio: '1 / 1',
 	},
 }
 
-export const DescriptionSection = styled(Flex)``
+export const DescriptionSection = styled(Flex)<{ size?: string }>`
+	height: 80px;
+	padding: 12px;
+
+	${props =>
+		props.size === 'small' &&
+		`
+		padding: 8px 12px 12px 15px;
+		height: 60px;
+	`}
+
+	${props =>
+		props.size === 'medium' &&
+		`
+		height: 80px;
+		padding: 12px;
+	`}
+`
 
 DescriptionSection.defaultProps = {
 	sx: {
-		height: '80px',
 		bg: 'secondary500',
-		borderRadius: '0px 0px 8px 8px',
-		p: '12px',
+
 		flexDirection: 'column',
 	},
 }
+
+export const CardContainer = styled(Box)<{
+	checked?: boolean
+	size?: string
+}>`
+	overflow: hidden;
+	flex: 1;
+	min-width: 200px;
+	${props =>
+		props.size === 'medium' &&
+		`
+			max-width: 332px;
+		`}
+
+	${props =>
+		props.size === 'small' &&
+		`
+			max-width: 200px;
+		`}
+
+	${props =>
+		props.checked
+			? `
+				border-radius: 8px;
+				border-color: ${props.theme.colors.success600};
+				border-width: 2px;
+				border-style: solid;
+				`
+			: `
+				border-radius: 0px 0px 8px 8px;
+	`};
+`
+
+export const RightImageArea = styled(Box)`
+	z-index: ${props => props.theme.zIndices.imgOverlay};
+	position: absolute;
+	right: 8px;
+	top: 8px;
+`
+
+export const LeftImageArea = styled(Box)`
+	z-index: ${props => props.theme.zIndices.imgOverlay};
+	position: absolute;
+	left: 8px;
+	top: 8px;
+`
+
+export const BottomImageArea = styled(Box)`
+	z-index: ${props => props.theme.zIndices.imgOverlay};
+	position: absolute;
+	bottom: 0px;
+	left: auto;
+	right: auto;
+`
+
+export const Image = styled(Img)`
+	max-width: 100%;
+	max-height: 100%;
+	overflow: hidden;
+	z-index: ${props => props.theme.zIndices.img};
+	position: absolute;
+`

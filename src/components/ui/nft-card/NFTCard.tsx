@@ -1,45 +1,120 @@
+import { VerifiedIcon } from 'assets/icons/16pt'
+import CheckedOutlineIcon from 'assets/icons/32pt/CheckedOutlineIcon'
+import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { noop } from 'lodash'
-import React from 'react'
-import { Box } from 'theme-ui'
+import React, { ReactNode } from 'react'
+import { Box, Flex } from 'theme-ui'
 import {
+	BottomImageArea,
+	CardContainer,
 	DescriptionSection,
+	Image,
 	ImageSection,
+	LeftImageArea,
+	RightImageArea,
 	Subtitle,
 	Title,
 } from './NFTCard.styled'
 
+type SizeVariants = 'small' | 'medium'
+
 interface NFTCardProps {
-	// checked?: boolean
-	// verified?: boolean
+	checked?: boolean
+	verified?: boolean
 	onClick?: React.MouseEventHandler<HTMLDivElement>
-	title?: string
-	subtitle?: string
+	name?: string
+	collectionName?: string
+	size?: SizeVariants
+	imageUrl?: string[]
+	placeholderImageSize?: SizeVariants
+	leftActionComponent?: ReactNode
+	bottomActionComponent?: ReactNode
+}
+
+const checkedIconSizeBySizeVariant = {
+	small: 24,
+	medium: 32,
+}
+
+const verifiedMarginTopBySizeVariant = {
+	small: 0,
+	medium: '6px',
+}
+
+const placeholderImageSizesBySizeVariant = {
+	small: {
+		width: '61.56px',
+		height: '57.87px',
+	},
+	medium: {
+		width: '85px',
+		height: '80px',
+	},
 }
 
 function NFTCard({
-	// checked,
-	// verified,
+	checked,
+	verified,
 	onClick,
-	title,
-	subtitle,
+	name,
+	collectionName,
+	size = 'medium',
+	leftActionComponent,
+	placeholderImageSize = 'medium',
+	bottomActionComponent,
+	imageUrl,
 }: NFTCardProps) {
 	return (
-		<Box onClick={onClick}>
-			<ImageSection />
-			<DescriptionSection>
-				<Title>{title}</Title>
-				<Subtitle>{subtitle}</Subtitle>
+		<CardContainer size={size} checked={checked} onClick={onClick}>
+			<ImageSection>
+				<Image src={imageUrl ?? []} />
+				<ImagePlaceholder
+					height={placeholderImageSizesBySizeVariant[placeholderImageSize].height}
+					width={placeholderImageSizesBySizeVariant[placeholderImageSize].width}
+				/>
+				{checked && (
+					<RightImageArea>
+						<CheckedOutlineIcon
+							height={checkedIconSizeBySizeVariant[size]}
+							width={checkedIconSizeBySizeVariant[size]}
+						/>
+					</RightImageArea>
+				)}
+
+				{leftActionComponent && (
+					<LeftImageArea>{leftActionComponent}</LeftImageArea>
+				)}
+
+				{bottomActionComponent && (
+					<BottomImageArea>{bottomActionComponent}</BottomImageArea>
+				)}
+			</ImageSection>
+			<DescriptionSection size={size}>
+				<Title size={size}>{name}</Title>
+				<Flex>
+					<Subtitle size={size}>{collectionName}</Subtitle>
+					{verified && (
+						<Box ml={['4px']} mt={verifiedMarginTopBySizeVariant[size]}>
+							<VerifiedIcon />
+						</Box>
+					)}
+				</Flex>
 			</DescriptionSection>
-		</Box>
+		</CardContainer>
 	)
 }
 
 NFTCard.defaultProps = {
-	// checked: false,
-	// verified: false,
+	leftActionComponent: noop,
+	bottomActionComponent: noop,
+	checked: false,
+	verified: false,
 	onClick: noop,
-	title: '',
-	subtitle: '',
+	name: '',
+	collectionName: '',
+	size: 'medium',
+	imageUrl: [],
+	placeholderImageSize: 'medium',
 }
 
 export default NFTCard
