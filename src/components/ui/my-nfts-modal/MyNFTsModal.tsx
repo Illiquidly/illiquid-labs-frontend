@@ -1,5 +1,5 @@
-import { NFT } from 'hooks/useMyNFTs'
 import React from 'react'
+import { NFT } from 'services/api/walletNFTsService'
 import { Flex, Box } from 'theme-ui'
 import { Button } from '../button'
 import { Modal } from '../modal'
@@ -17,8 +17,8 @@ interface MyNFTsModalProps extends ModalProps {
 	title?: string
 	addNFTsButtonLabel?: string
 	onRemove: (id: string | number) => void
-	NFTs: NFT[] // TODO add type for NFTs
-	selectedNFTs: NFT[] // TODO add type for NFTs
+	NFTs: NFT[]
+	selectedNFTs: NFT[]
 }
 
 function MyNFTsModal({
@@ -47,8 +47,8 @@ function MyNFTsModal({
 
 				<MyNFTsBody>
 					<NFTCardContainer>
-						{NFTs.map(({ contractAddress, tokenId }) => (
-							<NFTCard key={`${contractAddress}_${tokenId}`} />
+						{NFTs.map(({ collectionAddress, tokenId }) => (
+							<NFTCard key={`${collectionAddress}_${tokenId}`} />
 						))}
 					</NFTCardContainer>
 				</MyNFTsBody>
@@ -56,8 +56,8 @@ function MyNFTsModal({
 				{selectedNFTs.length > 0 && (
 					<NFTSelectionOverlay>
 						<SelectCard
-							items={selectedNFTs.map(({ contractAddress, tokenId, imageUrl }) => ({
-								id: `${contractAddress}_${tokenId}`,
+							items={selectedNFTs.map(({ collectionAddress, tokenId, imageUrl }) => ({
+								id: `${collectionAddress}_${tokenId}`,
 								imageUrl,
 							}))}
 							onRemove={onRemove}
