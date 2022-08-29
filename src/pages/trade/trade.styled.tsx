@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import { Card } from 'components/ui/card'
+import { HEADER_HEIGHT } from 'constants/components'
 
 import { Box, css, Flex, Text } from 'theme-ui'
 
@@ -27,11 +28,11 @@ const TradeBackground = styled(Box)`
 `
 
 export const TradeBackgroundLogoContainer = styled(TradeBackground)`
-	top: 20px;
+	top: calc(20px + ${HEADER_HEIGHT});
 	left: -84px; /* Trying to match design */
 `
 export const TradeBackgroundBlobContainer = styled(TradeBackground)`
-	top: -80px; /* height of header. TODO: store that value to variable */
+	top: 0;
 	right: -72px; /* Trying to match design */
 `
 
