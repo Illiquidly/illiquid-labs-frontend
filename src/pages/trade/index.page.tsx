@@ -1,24 +1,29 @@
 import TradeAssetImage from 'assets/images/TradeAsset'
+import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
+import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import Button from 'components/ui/button/Button'
+import { LayoutContainer } from 'components/ui/layout'
 import MobileSteps from 'components/ui/mobile-steps/MobileSteps'
 import { MyNFTsModal } from 'components/ui/my-nfts-modal'
 import Steps from 'components/ui/steps/Steps'
 import { noop } from 'lodash'
 import React, { useState } from 'react'
-import { Text, Box } from 'theme-ui'
+import { Box, Text } from 'theme-ui'
 import {
-	ContentCardSubtitle,
-	ContentCardTitle,
+	BodyContainer,
 	Container,
 	ContentCard,
+	ContentCardSubtitle,
+	ContentCardTitle,
 	HeaderContainer,
-	MobileStepsWrapper,
-	StepsWrapper,
+	HeaderSubtitleContainer,
 	HeaderTitle,
 	HeaderTitleContainer,
-	HeaderSubtitleContainer,
+	MobileStepsWrapper,
+	StepsWrapper,
 	TradeAssetImageContainer,
-	BodyContainer,
+	TradeBackgroundBlobContainer,
+	TradeBackgroundLogoContainer,
 } from './trade.styled'
 
 export default function Trade() {
@@ -52,7 +57,7 @@ export default function Trade() {
 	])
 
 	return (
-		<>
+		<LayoutContainer>
 			<MyNFTsModal
 				isOpen={isModalOpen}
 				onRequestClose={() => setIsModalOpen(false)}
@@ -60,6 +65,12 @@ export default function Trade() {
 				NFTs={[]}
 				selectedNFTs={[]}
 			/>
+			<TradeBackgroundLogoContainer>
+				<TradeBackgroundLogo />
+			</TradeBackgroundLogoContainer>
+			<TradeBackgroundBlobContainer>
+				<TradeBackgroundBlob />
+			</TradeBackgroundBlobContainer>
 			<Container>
 				<HeaderContainer>
 					<HeaderTitleContainer>
@@ -108,6 +119,6 @@ export default function Trade() {
 					</ContentCard>
 				</BodyContainer>
 			</Container>
-		</>
+		</LayoutContainer>
 	)
 }

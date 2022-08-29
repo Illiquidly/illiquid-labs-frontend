@@ -1,20 +1,39 @@
 import styled from '@emotion/styled'
 import { Card } from 'components/ui/card'
 
-import { Box, Flex, Text } from 'theme-ui'
+import { Box, css, Flex, Text } from 'theme-ui'
 
 export const Container = styled(Flex)`
 	flex-direction: column;
 	flex: 1;
-	overflow: auto;
+	width: 100%;
+	max-width: 976px; /* 944 width from design + 32px padding */
+	margin: auto;
 `
 
-/* Responsive Styles */
 Container.defaultProps = {
 	sx: {
-		p: ['12px 15px', '32px 34.5px', '32px 124px', '32px 248px'],
+		py: ['12px', '32px'],
 	},
 }
+
+const TradeBackground = styled(Box)`
+	position: absolute;
+	z-index: -1;
+	${() =>
+		css({
+			display: ['none', null, null, 'block'],
+		})}
+`
+
+export const TradeBackgroundLogoContainer = styled(TradeBackground)`
+	top: 20px;
+	left: -84px; /* Trying to match design */
+`
+export const TradeBackgroundBlobContainer = styled(TradeBackground)`
+	top: -80px; /* height of header. TODO: store that value to variable */
+	right: -72px; /* Trying to match design */
+`
 
 export const HeaderTitle = styled(Text)`
 	color: ${props => props.theme.colors.gray1000};
@@ -68,13 +87,14 @@ MobileStepsWrapper.defaultProps = {
 	sx: { display: ['block', 'block', 'none'], mb: ['12px', '32px'] },
 }
 
-export const ContentCard = styled(Card)``
+export const ContentCard = styled(Card)`
+	border-radius: 12px;
+`
 
 ContentCard.defaultProps = {
 	sx: {
 		p: ['32px 28px', '52px 58px', '32px 28px', '52px 84px'],
 		alignItems: 'center',
-		borderRadius: '12px !important',
 	},
 }
 

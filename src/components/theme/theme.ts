@@ -521,7 +521,7 @@ export const theme = makeTheme({
 	variants: {
 		appContainer: {
 			width: '100%',
-			height: '100vh',
+			minHeight: '100vh',
 			flexDirection: 'column',
 		},
 	},

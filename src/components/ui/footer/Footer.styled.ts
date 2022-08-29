@@ -1,31 +1,26 @@
 import styled from '@emotion/styled'
 
-import { Flex, Text, Box } from 'theme-ui'
+import { Flex, Text } from 'theme-ui'
 
-export const FooterWrapper = styled(Flex)``
+export const FooterWrapper = styled(Flex)`
+	background-color: ${props => props.theme.colors.dark200};
+	padding: 48px 0 34px;
+`
 
 FooterWrapper.defaultProps = {
 	sx: {
-		height: ['0', '0', '244.89px', '244.89px', '286.89px'],
+		display: ['none', 'none', 'block'],
 		width: '100%',
+		mt: 'auto',
 	},
 }
 
 export const Content = styled(Flex)`
-	background-color: ${props => props.theme.colors.dark200};
-	flex: 1;
 	width: 100%;
 `
 
-Content.defaultProps = {
-	sx: {
-		p: ['0', '0', '24px 100px', '24px 100px', '34px 100px'],
-	},
-}
-
 export const LightText = styled(Text)`
 	color: ${props => props.theme.colors.gray600};
-
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 500;
@@ -49,23 +44,20 @@ export const LitepaperText = styled(Text)`
 	font-size: 14px;
 `
 
+export const LeftFooterSection = styled(Flex)`
+	flex-direction: column;
+	max-width: 414px;
+`
+
 export const RightFooterSection = styled(Flex)`
 	flex: 1;
 	flex-direction: column;
 	align-items: flex-end;
-	margin-top: 14px;
-`
-
-export const LeftFooterSection = styled(Flex)`
-	flex-direction: column;
-	flex: 1;
-	max-width: 399px;
-	margin-top: '12px';
 `
 
 export const LinksContainer = styled(Flex)`
 	gap: 32px;
-	margin-right: 17px;
+	margin-right: 16px;
 `
 
 export const SocialActionContainer = styled(Flex)`
@@ -77,8 +69,4 @@ export const SocialActionContainer = styled(Flex)`
 export const TradeMarkContainer = styled(Flex)`
 	margin-top: auto;
 	margin-bottom: 8px;
-`
-
-export const ProductDescriptionContainer = styled(Box)`
-	margin-top: 16px;
 `
