@@ -109,7 +109,7 @@ export default function Trade() {
 						</Box>
 
 						<Button
-							sx={{ p: ['12px 0', '10px 0'], width: ['140px'] }}
+							sx={{ minWidth: ['140px'] }}
 							onClick={() => setIsModalOpen(true)}
 							fullWidth
 							variant='gradient'
