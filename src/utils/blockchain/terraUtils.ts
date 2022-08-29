@@ -242,10 +242,11 @@ async function estimateTxFee(messages: Msg[]) {
 	return fee
 }
 
-async function getTxResult(txHash: string): Promise<TxInfo> {
+async function getTxResult(txHash: string): Promise<TxInfo | undefined> {
 	const client = await getLCDClient()
 
 	const [_, response] = await asyncAction(client.tx.txInfo(txHash))
+
 	return response
 }
 

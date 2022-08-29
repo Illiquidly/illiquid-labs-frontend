@@ -1,100 +1,44 @@
 import { useWallet, WalletStatus } from '@illiquid-labs/use-wallet'
 import React from 'react'
 import { asyncAction } from 'utils/js/asyncAction'
-import { keysToCamel } from 'utils/js/keysToCamel'
-import pMap from 'p-map'
-import cw721 from 'services/blockchain/contracts/cw721'
 import promiseRetry from 'promise-retry'
 import { getNetworkName } from 'utils/blockchain/terraUtils'
-import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import {
+	Collection,
+	NFT,
+	WalletNFTsResponse,
 	WalletNFTsService,
 	WalletNFTState,
 } from 'services/api/walletNFTsService'
 import { useRouter } from 'next/router'
 
-export interface NFT {
-	contractAddress: string
-	tokenId: string
-	imageUrl: string[]
-	collectionName: string
-	name: string
-	traits?: [string, string][]
-}
-export interface Collection {
-	collectionName: string
-	collectionAddress: string
-}
-
 function useMyNFTs() {
-	const [nfts, setNfts] = React.useState<NFT[]>([])
+	const [NFTs, setNFTs] = React.useState<NFT[]>([])
 	const [collections, setCollections] = React.useState<Collection[]>([])
 	const wallet = useWallet()
 	const { query } = useRouter()
 	const myAddress = (query?.address as string) || wallet.wallets[0]?.terraAddress
 
-	const [nftsPartiallyLoading, setNFTsPartiallyLoading] = React.useState(false)
-	const [nftsFullyLoading, setNFTsFullyLoading] = React.useState(false)
+	const [partiallyLoading, setPartiallyLoading] = React.useState(false)
+	const [fullyLoading, setFullyLoading] = React.useState(false)
 
-	async function setNFTs(oNfts = {}): Promise<void> {
-		const ownerCW721sContractInfo = await pMap(
-			Object.values(oNfts).filter((o: any) => Object.keys(o.tokens).length),
-			async (contract: any) => {
-				const [error, contractInfo] = await asyncAction(
-					cw721.memoizedGetContractInfo(contract.contract as string)
-				)
-
-				if (error) {
-					return null
-				}
-
-				return {
-					...contract,
-					contractInfo,
-				}
-			},
-			{ concurrency: 10 }
-		)
-
-		const ownedCW721s = ownerCW721sContractInfo.filter(x => x)
-
-		setCollections(
-			ownedCW721s.map(({ contractInfo, contract }: any) => ({
-				collectionName: contractInfo?.name ?? '',
-				collectionAddress: contract,
-			}))
-		)
-
-		setNfts(
-			keysToCamel(ownedCW721s).flatMap(({ contract, tokens, contractInfo }: any) =>
-				Object.values(tokens).map(({ tokenId, nftInfo }: any) => ({
-					tokenId: tokenId?.tokenId ? tokenId?.tokenId : tokenId,
-					contractAddress: contract,
-					...nftInfo,
-					...nftInfo.extension,
-					collectionName: contractInfo?.name ?? '',
-					imageUrl: fromIPFSImageURLtoImageURL(nftInfo?.extension?.image),
-				}))
-			)
-		)
-	}
-
-	async function fetchMyAssets() {
-		setNFTsPartiallyLoading(true)
-		setNFTsFullyLoading(true)
+	async function fetchMyNFTs() {
+		setPartiallyLoading(true)
+		setFullyLoading(true)
 
 		if (myAddress) {
 			const [, partialNFTs] = await asyncAction(
 				WalletNFTsService.requestUpdateNFTs(getNetworkName(), myAddress)
 			)
 
-			if (partialNFTs?.data) {
-				const { ownedTokens } = partialNFTs?.data ?? {}
+			if (partialNFTs) {
+				const { ownedTokens, ownedCollections } = partialNFTs ?? {}
 
+				setCollections(ownedCollections)
 				setNFTs(ownedTokens)
 			}
 
-			setNFTsPartiallyLoading(false)
+			setPartiallyLoading(false)
 
 			const [, fullNFTs] = await asyncAction(
 				promiseRetry(
@@ -104,7 +48,7 @@ function useMyNFTs() {
 							WalletNFTsService.requestNFTs(getNetworkName(), myAddress)
 						)
 
-						if (response?.data?.state === WalletNFTState.isUpdating) {
+						if (response?.state === WalletNFTState.isUpdating) {
 							return retry("Try again, It's not ready yet!")
 						}
 
@@ -114,30 +58,31 @@ function useMyNFTs() {
 
 						return response
 					}
-				)
+				) as Promise<WalletNFTsResponse>
 			)
 
-			if (fullNFTs?.data) {
-				const { ownedTokens } = fullNFTs?.data ?? {}
+			if (fullNFTs) {
+				const { ownedTokens, ownedCollections } = fullNFTs ?? {}
 
+				setCollections(ownedCollections)
 				setNFTs(ownedTokens)
 			}
 		}
-		setNFTsFullyLoading(false)
+		setFullyLoading(false)
 	}
 
 	React.useEffect(() => {
 		if (wallet.status === WalletStatus.WALLET_CONNECTED) {
-			fetchMyAssets()
+			fetchMyNFTs()
 		}
 	}, [wallet.connection, wallet.network])
 
 	return {
-		nfts,
-		collections,
-		nftsPartiallyLoading,
-		nftsFullyLoading,
-		fetchMyAssets,
+		ownedNFTs: NFTs,
+		ownedCollections: collections,
+		partiallyLoading,
+		fullyLoading,
+		fetchMyNFTs,
 	}
 }
 
