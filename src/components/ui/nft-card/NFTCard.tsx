@@ -32,8 +32,14 @@ interface NFTCardProps {
 }
 
 const checkedIconSizeBySizeVariant = {
-	small: 24,
-	medium: 32,
+	small: {
+		width: '24px',
+		height: '24px',
+	},
+	medium: {
+		width: '32px',
+		height: '32px',
+	},
 }
 
 const verifiedMarginTopBySizeVariant = {
@@ -69,15 +75,11 @@ function NFTCard({
 			<ImageSection>
 				<Image src={imageUrl ?? []} />
 				<ImagePlaceholder
-					height={placeholderImageSizesBySizeVariant[placeholderImageSize].height}
-					width={placeholderImageSizesBySizeVariant[placeholderImageSize].width}
+					{...placeholderImageSizesBySizeVariant[placeholderImageSize]}
 				/>
 				{checked && (
 					<RightImageArea>
-						<CheckedOutlineIcon
-							height={checkedIconSizeBySizeVariant[size]}
-							width={checkedIconSizeBySizeVariant[size]}
-						/>
+						<CheckedOutlineIcon {...checkedIconSizeBySizeVariant[size]} />
 					</RightImageArea>
 				)}
 

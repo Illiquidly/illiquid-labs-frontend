@@ -47,8 +47,8 @@ function MyNFTsModal({
 
 				<MyNFTsBody>
 					<NFTCardContainer>
-						{NFTs.map(({ collectionAddress, tokenId }) => (
-							<NFTCard key={`${collectionAddress}_${tokenId}`} />
+						{NFTs.map(({ collectionAddress, tokenId, imageUrl }) => (
+							<NFTCard imageUrl={imageUrl} key={`${collectionAddress}_${tokenId}`} />
 						))}
 					</NFTCardContainer>
 				</MyNFTsBody>
