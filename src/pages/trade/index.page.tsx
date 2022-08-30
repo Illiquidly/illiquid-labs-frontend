@@ -62,7 +62,6 @@ export default function Trade() {
 				isOpen={isModalOpen}
 				onRequestClose={() => setIsModalOpen(false)}
 				onRemove={noop}
-				NFTs={[]}
 				selectedNFTs={[]}
 			/>
 			<TradeBackgroundLogoContainer>

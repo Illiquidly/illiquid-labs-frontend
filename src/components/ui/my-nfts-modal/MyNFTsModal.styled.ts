@@ -5,13 +5,15 @@ export const NFTSelectionOverlay = styled(Flex)``
 
 NFTSelectionOverlay.defaultProps = {
 	sx: {
-		zIndex: 9,
 		position: 'absolute',
 		bottom: 0,
+		justifyContent: 'center',
 		left: ['47px', '128px'],
 		right: ['47px', '128px'],
 		height: ['160px'],
 		display: 'flex',
+		zIndex: 9999,
+		p: '14px',
 	},
 }
 
@@ -19,21 +21,17 @@ export const NFTCardContainer = styled(Flex)``
 
 NFTCardContainer.defaultProps = {
 	sx: {
-		flex: 1,
-		overflow: 'scroll',
-		gap: '16px',
-		flexDirection: 'column',
-	},
-}
-
-export const MyNFTsBody = styled(Flex)``
-
-MyNFTsBody.defaultProps = {
-	sx: {
-		flex: 1,
-		mt: ['12px'],
-		mx: '8px',
-		overflow: 'hidden',
+		display: 'grid',
+		gridTemplateColumns: [
+			'repeat(auto-fill, minmax(200px, 1fr))',
+			'repeat(auto-fill, minmax(332px, 1fr))',
+			'repeat(auto-fill, minmax(332px, 1fr))',
+		],
+		gridColumnGap: ['8px', '16px', '32px'],
+		gridRowGap: ['8px', '16px', '32px'],
+		mt: ['12px', '12px', '0px'],
+		mx: ['8px', '8px', '0px'],
+		width: ['initial', 'initial', '100%'],
 	},
 }
 
@@ -41,9 +39,9 @@ export const ModalBody = styled(Flex)``
 ModalBody.defaultProps = {
 	sx: {
 		flexDirection: 'column',
-		flex: 1,
 		position: 'relative',
-		overflow: 'scroll',
+		padding: ['8px', '8px', '0'],
+		overflow: 'auto',
 	},
 	mt: ['16px', '32px'],
 }

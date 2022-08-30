@@ -6,8 +6,16 @@ import React from 'react'
 import { noop } from 'lodash'
 import { useTheme } from '@emotion/react'
 import { OnlyMobileAndTablet } from '../layout/Layout'
+import {
+	ModalBody,
+	ModalContent,
+	ModalContentHeader,
+	ModalHeader,
+	ModalOverlay,
+} from './Modal.styled'
 
 const StyledReactModal = styled(ReactModal)`
+	z-index: ${props => props.theme.zIndices.modal};
 	flex-direction: column;
 	display: flex;
 	position: fixed;
@@ -42,6 +50,7 @@ export interface ModalProps {
 	onRequestClose?: () => void
 	children?: React.ReactNode
 	sx?: ThemeUIStyleObject
+	headerRightActionComponent?: React.ReactNode
 }
 
 const Modal = ({
@@ -50,7 +59,7 @@ const Modal = ({
 	onRequestClose,
 	title,
 	children,
-	sx,
+	headerRightActionComponent,
 }: ModalProps) => {
 	const theme = useTheme()
 	return (
@@ -62,51 +71,33 @@ const Modal = ({
 			}}
 			overlayClassName='overlay'
 		>
-			<Flex
-				sx={{
-					position: 'fixed',
-					inset: 0,
-					flex: 1,
-					flexDirection: 'column',
-					bg: 'rgba(0, 0, 0, 0.7)',
-				}}
-			>
-				<Flex
-					sx={{
-						display: ['none', 'none', 'flex'],
-						height: '72px',
-						p: '24px 16px',
-						justifyContent: 'flex-end',
-						alignItems: 'center',
-					}}
-				>
-					<IconButton size='40px' onClick={onRequestClose}>
-						<ModalCloseIcon />
-					</IconButton>
-				</Flex>
-				<Flex
-					sx={{
-						bg: 'dark100',
-						flexDirection: 'column',
-						flex: 1,
-						p: ['16px', '25px 33.5px', '32px 112px'],
-						borderRadius: [0, 0, '16px 16px 0px 0px'],
-						...sx,
-					}}
-				>
-					<Flex sx={{ flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
-						<Flex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-							<ModalTitle>{title}</ModalTitle>
+			<ModalOverlay>
+				<ModalHeader onClick={onRequestClose}>
+					<ModalContent>
+						<Box ml='auto' mr='-12px'>
+							<IconButton size='40px'>
+								<ModalCloseIcon />
+							</IconButton>
+						</Box>
+					</ModalContent>
+				</ModalHeader>
+				<ModalBody>
+					<ModalContent>
+						<ModalContentHeader>
+							<Flex sx={{ width: '100%' }}>
+								<ModalTitle>{title}</ModalTitle>
+								<Box sx={{ ml: 'auto' }}>{headerRightActionComponent}</Box>
+							</Flex>
 							<OnlyMobileAndTablet>
 								<IconButton size='40px' onClick={onRequestClose}>
 									<ModalCloseIcon fill={theme.colors.dark500} />
 								</IconButton>
 							</OnlyMobileAndTablet>
-						</Flex>
+						</ModalContentHeader>
 						{children}
-					</Flex>
-				</Flex>
-			</Flex>
+					</ModalContent>
+				</ModalBody>
+			</ModalOverlay>
 		</StyledReactModal>
 	)
 }
@@ -115,7 +106,7 @@ Modal.defaultProps = {
 	title: '',
 	onAfterOpen: noop,
 	onRequestClose: noop,
-	sx: {},
+	headerRightActionComponent: noop,
 }
 
 export default Modal

@@ -100,22 +100,9 @@ DescriptionSection.defaultProps = {
 
 export const CardContainer = styled(Box)<{
 	checked?: boolean
-	size?: string
 }>`
 	overflow: hidden;
-	flex: 1;
-	min-width: 200px;
-	${props =>
-		props.size === 'medium' &&
-		`
-			max-width: 332px;
-		`}
-
-	${props =>
-		props.size === 'small' &&
-		`
-			max-width: 200px;
-		`}
+	width: 100%;
 
 	${props =>
 		props.checked
