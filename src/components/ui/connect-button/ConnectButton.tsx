@@ -22,6 +22,7 @@ export default function ConnectButton() {
 			}
 			variant='secondary'
 			size='medium'
+			disabled={status === WalletStatus.INITIALIZING}
 		>
 			{status === WalletStatus.WALLET_NOT_CONNECTED && 'Connect'}
 			{status === WalletStatus.INITIALIZING && 'Initializing...'}
