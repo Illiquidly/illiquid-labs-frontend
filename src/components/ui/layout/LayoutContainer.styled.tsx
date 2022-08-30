@@ -11,6 +11,6 @@ export const Container = styled(Box)`
 
 Container.defaultProps = {
 	sx: {
-		px: ['16px', '32px', '16px'],
+		px: ['16px', '32px', '32px', '16px'],
 	},
 }

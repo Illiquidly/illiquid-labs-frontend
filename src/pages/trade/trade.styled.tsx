@@ -1,5 +1,7 @@
 import styled from '@emotion/styled'
+import { theme } from 'components/theme/theme'
 import { Card } from 'components/ui/card'
+import { HEADER_HEIGHT } from 'constants/components'
 
 import { Box, css, Flex, Text } from 'theme-ui'
 
@@ -19,7 +21,7 @@ Container.defaultProps = {
 
 const TradeBackground = styled(Box)`
 	position: absolute;
-	z-index: -1;
+	z-index: ${theme.zIndices.backgroundImages};
 	${() =>
 		css({
 			display: ['none', null, null, 'block'],
@@ -27,11 +29,11 @@ const TradeBackground = styled(Box)`
 `
 
 export const TradeBackgroundLogoContainer = styled(TradeBackground)`
-	top: 20px;
+	top: calc(20px + ${HEADER_HEIGHT});
 	left: -84px; /* Trying to match design */
 `
 export const TradeBackgroundBlobContainer = styled(TradeBackground)`
-	top: -80px; /* height of header. TODO: store that value to variable */
+	top: 0;
 	right: -72px; /* Trying to match design */
 `
 
