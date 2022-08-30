@@ -8,15 +8,10 @@ export default function ConnectButton() {
 
 	const isMobile = useIsMobile()
 
-	const walletConnected = React.useMemo(
-		() => status === WalletStatus.WALLET_CONNECTED,
-		[status]
-	)
-
 	return (
 		<Button
 			onClick={() =>
-				walletConnected
+				status === WalletStatus.WALLET_CONNECTED
 					? disconnect()
 					: connect(isMobile ? ConnectType.WALLETCONNECT : undefined)
 			}
