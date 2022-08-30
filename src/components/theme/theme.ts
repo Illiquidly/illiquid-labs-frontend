@@ -6,8 +6,11 @@ export const theme = makeTheme({
 	breakpoints: ['680px', '1024px', '1280px', '1600px'],
 	fontSizes: [12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72], // Reference: https://www.figma.com/file/aqJA7DTloCuC7LsVlwHzBb/Illiquidly-Labs-(Internal)?node-id=700%3A167217
 	zIndices: {
-		img: 8,
-		imgOverlay: 9,
+		backgroundImages: -100,
+		imgOverlay: 100,
+		header: 200,
+		modal: 300,
+		img: 80,
 	},
 	colors: {
 		dark100: '#011D2C',
@@ -71,9 +74,6 @@ export const theme = makeTheme({
 		bold: '700',
 	},
 	links: {
-		// nav: {
-		// 	background: 'pink',
-		// },
 		sizes: {
 			small: {
 				padding: '8px 16px',

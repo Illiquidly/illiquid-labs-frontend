@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { theme } from 'components/theme/theme'
 import { Card } from 'components/ui/card'
 import { HEADER_HEIGHT } from 'constants/components'
 
@@ -20,7 +21,7 @@ Container.defaultProps = {
 
 const TradeBackground = styled(Box)`
 	position: absolute;
-	z-index: -1;
+	z-index: ${theme.zIndices.backgroundImages};
 	${() =>
 		css({
 			display: ['none', null, null, 'block'],
