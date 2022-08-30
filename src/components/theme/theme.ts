@@ -67,9 +67,6 @@ export const theme = makeTheme({
 		bold: '700',
 	},
 	links: {
-		// nav: {
-		// 	background: 'pink',
-		// },
 		sizes: {
 			small: {
 				padding: '8px 16px',
