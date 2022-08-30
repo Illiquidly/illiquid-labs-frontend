@@ -1,7 +1,7 @@
 import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import { Flex } from 'theme-ui'
+import { ConnectButton } from '../connect-button'
 // import { Button } from '../button'
-import ConnectButton from '../connect-button/ConnectButton'
 import { LayoutContainer } from '../layout'
 import { HeaderWrapper } from './Header.styled'
 
