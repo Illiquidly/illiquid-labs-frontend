@@ -2,11 +2,11 @@ import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { ModalCloseIcon } from 'assets/icons/modal'
 import React from 'react'
-import { Box, IconButton } from 'theme-ui'
+import { Flex, Box, IconButton, ThemeUIStyleObject } from 'theme-ui'
 import { Img } from 'react-image'
 import { NFT } from 'services/api/walletNFTsService'
 
-const Container = styled.div`
+const Container = styled(Flex)`
 	display: flex;
 	flex: 1;
 
@@ -38,13 +38,14 @@ const StyledBox = styled(Box)`
 interface SelectCardProps {
 	items: NFT[]
 	onRemove: (NFT: NFT) => void
+	sx?: ThemeUIStyleObject
 }
 
-function SelectCard({ items, onRemove }: SelectCardProps) {
+function SelectCard({ items, onRemove, sx }: SelectCardProps) {
 	const theme = useTheme()
 
 	return (
-		<Container>
+		<Container sx={sx}>
 			<Grid>
 				{items.map(nft => {
 					const { collectionAddress, tokenId, imageUrl } = nft
@@ -83,6 +84,10 @@ function SelectCard({ items, onRemove }: SelectCardProps) {
 			</Grid>
 		</Container>
 	)
+}
+
+SelectCard.defaultProps = {
+	sx: {},
 }
 
 export default SelectCard

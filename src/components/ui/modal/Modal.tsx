@@ -51,6 +51,7 @@ export interface ModalProps {
 	children?: React.ReactNode
 	sx?: ThemeUIStyleObject
 	headerRightActionComponent?: React.ReactNode
+	headerExtraContentComponent?: React.ReactNode
 }
 
 const Modal = ({
@@ -60,6 +61,7 @@ const Modal = ({
 	title,
 	children,
 	headerRightActionComponent,
+	headerExtraContentComponent,
 }: ModalProps) => {
 	const theme = useTheme()
 	return (
@@ -83,17 +85,20 @@ const Modal = ({
 				</ModalHeader>
 				<ModalBody>
 					<ModalContent>
-						<ModalContentHeader>
-							<Flex sx={{ width: '100%' }}>
-								<ModalTitle>{title}</ModalTitle>
-								<Box sx={{ ml: 'auto' }}>{headerRightActionComponent}</Box>
-							</Flex>
-							<OnlyMobileAndTablet>
-								<IconButton size='40px' onClick={onRequestClose}>
-									<ModalCloseIcon fill={theme.colors.dark500} />
-								</IconButton>
-							</OnlyMobileAndTablet>
-						</ModalContentHeader>
+						<Flex sx={{ flexDirection: 'column' }}>
+							<ModalContentHeader>
+								<Flex sx={{ width: '100%' }}>
+									<ModalTitle>{title}</ModalTitle>
+									<Box sx={{ ml: 'auto' }}>{headerRightActionComponent}</Box>
+								</Flex>
+								<OnlyMobileAndTablet>
+									<IconButton size='40px' onClick={onRequestClose}>
+										<ModalCloseIcon fill={theme.colors.dark500} />
+									</IconButton>
+								</OnlyMobileAndTablet>
+							</ModalContentHeader>
+							{headerExtraContentComponent}
+						</Flex>
 						{children}
 					</ModalContent>
 				</ModalBody>
@@ -107,6 +112,7 @@ Modal.defaultProps = {
 	onAfterOpen: noop,
 	onRequestClose: noop,
 	headerRightActionComponent: noop,
+	headerExtraContentComponent: noop,
 }
 
 export default Modal

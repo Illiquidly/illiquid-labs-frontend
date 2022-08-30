@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Flex } from 'theme-ui'
+import { Box, Flex } from 'theme-ui'
 
 export const NFTSelectionOverlay = styled(Flex)``
 
@@ -12,7 +12,7 @@ NFTSelectionOverlay.defaultProps = {
 		right: ['47px', '128px'],
 		height: ['160px'],
 		display: 'flex',
-		zIndex: 9999,
+		zIndex: 'modalNFTCard',
 		p: '14px',
 	},
 }
@@ -25,23 +25,59 @@ NFTCardContainer.defaultProps = {
 		gridTemplateColumns: [
 			'repeat(auto-fill, minmax(200px, 1fr))',
 			'repeat(auto-fill, minmax(332px, 1fr))',
-			'repeat(auto-fill, minmax(332px, 1fr))',
+			'repeat(auto-fill, minmax(280px, 1fr))',
 		],
 		gridColumnGap: ['8px', '16px', '32px'],
 		gridRowGap: ['8px', '16px', '32px'],
 		mt: ['12px', '12px', '0px'],
-		mx: ['8px', '8px', '0px'],
 		width: ['initial', 'initial', '100%'],
 	},
 }
 
-export const ModalBody = styled(Flex)``
-ModalBody.defaultProps = {
+export const NFTCardsGridWrapper = styled(Flex)``
+NFTCardsGridWrapper.defaultProps = {
 	sx: {
-		flexDirection: 'column',
+		width: '100%',
+		flexDirection: ['column', 'column', 'row'],
 		position: 'relative',
 		padding: ['8px', '8px', '0'],
 		overflow: 'auto',
 	},
-	mt: ['16px', '32px'],
+}
+
+export const CollectionFiltersSection = styled(Box)``
+
+CollectionFiltersSection.defaultProps = {
+	sx: {
+		width: '280px',
+		display: ['none', 'none', 'flex'],
+		bg: 'green',
+	},
+}
+
+export const ModalBody = styled(Flex)``
+
+ModalBody.defaultProps = {
+	sx: {
+		mt: ['16px', '32px', '36px'],
+		gap: '34px',
+		overflow: 'auto',
+	},
+}
+
+export const SortSelectContainer = styled(Flex)``
+
+SortSelectContainer.defaultProps = {
+	sx: {
+		display: ['none', 'none', 'flex'],
+		flex: 1,
+		bg: 'green',
+		maxWidth: '206px',
+	},
+}
+
+export const SearchContainer = styled(Flex)``
+
+SearchContainer.defaultProps = {
+	sx: { flex: 1, bg: 'yellow' },
 }

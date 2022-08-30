@@ -61,6 +61,9 @@ export const ImageSection = styled(Flex)`
 	align-items: center;
 	justify-content: center;
 	position: relative;
+
+	overflow: hidden;
+	border-radius: 8px 8px 0px 0px;
 `
 
 ImageSection.defaultProps = {
@@ -74,6 +77,7 @@ ImageSection.defaultProps = {
 export const DescriptionSection = styled(Flex)<{ size?: string }>`
 	height: 80px;
 	padding: 12px;
+	border-radius: 0px 0px 8px 8px;
 
 	${props =>
 		props.size === 'small' &&
@@ -101,7 +105,6 @@ DescriptionSection.defaultProps = {
 export const CardContainer = styled(Box)<{
 	checked?: boolean
 }>`
-	overflow: hidden;
 	width: 100%;
 
 	${props =>
