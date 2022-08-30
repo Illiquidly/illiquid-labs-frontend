@@ -1,6 +1,7 @@
 import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import { Flex } from 'theme-ui'
-import { Button } from '../button'
+// import { Button } from '../button'
+import ConnectButton from '../connect-button/ConnectButton'
 import { LayoutContainer } from '../layout'
 import { HeaderWrapper } from './Header.styled'
 
@@ -10,9 +11,10 @@ function Header() {
 			<LayoutContainer>
 				<Flex sx={{ justifyContent: 'space-between' }}>
 					<IlliquidlyFooterLogo />
-					<Button variant='secondary' size='medium' href='/home'>
+					{/* <Button variant='secondary' size='medium' href='/home'>
 						Exit Create Listing
-					</Button>
+					</Button> */}
+					<ConnectButton />
 				</Flex>
 			</LayoutContainer>
 		</HeaderWrapper>

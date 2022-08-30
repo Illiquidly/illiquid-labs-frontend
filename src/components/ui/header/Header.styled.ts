@@ -16,7 +16,6 @@ export const HeaderWrapper = styled(Flex)`
 
 HeaderWrapper.defaultProps = {
 	sx: {
-		display: ['none', 'none', 'block'],
 		width: '100%',
 		py: ['18px'],
 		minHeight: HEADER_HEIGHT,
