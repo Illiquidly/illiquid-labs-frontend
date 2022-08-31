@@ -39,7 +39,6 @@
 		"react-dom": "^17.0.2",
 		"react-image": "^4.0.3",
 		"react-loading-overlay": "^1.0.1",
-		"react-modal": "^3.15.1",
 		"react-responsive": "^9.0.0-beta.10",
 		"react-toastify": "^9.0.7",
 		"recoil": "^0.7.4",
