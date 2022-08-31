@@ -70,7 +70,7 @@ function MyNFTsModal({
 				</Button>
 			}
 			headerExtraContentComponent={
-				<Box sx={{ marginTop: '32px' }}>
+				<Box sx={{ marginTop: ['16px', '32px'] }}>
 					<Flex sx={{ height: ['48px'], gap: '12px' }}>
 						<SearchContainer />
 						<SortSelectContainer />
@@ -125,7 +125,7 @@ function MyNFTsModal({
 			{selectedNFTs.length > 0 && (
 				<NFTSelectionOverlay>
 					<SelectCard
-						sx={{ maxWidth: '1272px' }}
+						sx={{ maxWidth: '424px' }}
 						items={selectedNFTs}
 						onRemove={removeSelectedNFT}
 					/>

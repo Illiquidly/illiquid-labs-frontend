@@ -29,7 +29,6 @@ NFTCardContainer.defaultProps = {
 		],
 		gridColumnGap: ['8px', '16px', '32px'],
 		gridRowGap: ['8px', '16px', '32px'],
-		mt: ['12px', '12px', '0px'],
 		width: ['initial', 'initial', '100%'],
 	},
 }
@@ -40,7 +39,6 @@ NFTCardsGridWrapper.defaultProps = {
 		width: '100%',
 		flexDirection: ['column', 'column', 'row'],
 		position: 'relative',
-		padding: ['8px', '8px', '0'],
 		overflow: 'auto',
 	},
 }
