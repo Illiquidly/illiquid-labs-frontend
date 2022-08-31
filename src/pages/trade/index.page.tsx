@@ -4,10 +4,10 @@ import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import Button from 'components/ui/button/Button'
 import { LayoutContainer } from 'components/ui/layout'
 import MobileSteps from 'components/ui/mobile-steps/MobileSteps'
-import { MyNFTsModal } from 'components/ui/my-nfts-modal'
+import TestModal from 'components/ui/modals/TestModal'
 import Steps from 'components/ui/steps/Steps'
-import { noop } from 'lodash'
-import React, { useState } from 'react'
+import { ModalContext } from 'context/modalContext'
+import { useContext, useState } from 'react'
 import { Box, Text } from 'theme-ui'
 import {
 	BodyContainer,
@@ -27,7 +27,7 @@ import {
 } from './trade.styled'
 
 export default function Trade() {
-	const [isModalOpen, setIsModalOpen] = React.useState(false)
+	const { handleModal } = useContext(ModalContext)
 
 	const [steps] = useState([
 		{
@@ -58,13 +58,6 @@ export default function Trade() {
 
 	return (
 		<LayoutContainer>
-			<MyNFTsModal
-				isOpen={isModalOpen}
-				onRequestClose={() => setIsModalOpen(false)}
-				onRemove={noop}
-				NFTs={[]}
-				selectedNFTs={[]}
-			/>
 			<TradeBackgroundLogoContainer>
 				<TradeBackgroundLogo />
 			</TradeBackgroundLogoContainer>
@@ -110,7 +103,7 @@ export default function Trade() {
 
 						<Button
 							sx={{ minWidth: ['140px'] }}
-							onClick={() => setIsModalOpen(true)}
+							onClick={() => handleModal && handleModal(<TestModal />)}
 							fullWidth
 							variant='gradient'
 						>
