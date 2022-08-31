@@ -1,8 +1,9 @@
+import { useTranslation } from 'next-i18next'
 import { DiscordIcon, TwitterIcon } from 'assets/icons/social'
 import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import * as ROUTES from 'constants/routes'
-import Link from 'next/link'
 import { IconButton } from 'theme-ui'
+import { Link } from '../../link'
 import { Button } from '../button'
 import { LayoutContainer } from '../layout'
 import {
@@ -19,17 +20,15 @@ import {
 } from './Footer.styled'
 
 function Footer() {
+	const { t } = useTranslation('common')
+
 	return (
 		<FooterWrapper>
 			<LayoutContainer>
 				<Content>
 					<LeftFooterSection>
 						<IlliquidlyFooterLogo />
-						<LightText sx={{ margin: '16px 0 40px' }}>
-							The first NFT P2P trading platform and tooling to enter the Cosmos!
-							Trade, Raffle & Collateralise your NFTs to unlock new potential for your
-							collections.
-						</LightText>
+						<LightText sx={{ margin: '16px 0 40px' }}>{t('description')}</LightText>
 
 						<SocialActionContainer>
 							<Button
@@ -37,7 +36,7 @@ function Footer() {
 								variant='primary'
 								size='small'
 							>
-								<LitepaperText>Litepaper</LitepaperText>
+								<LitepaperText>{t('litepaper')}</LitepaperText>
 							</Button>
 							<IconButton
 								onClick={() => window.open(ROUTES.TWITTER, '_blank')}
@@ -59,24 +58,24 @@ function Footer() {
 					<RightFooterSection>
 						<LinksContainer>
 							<Link href={ROUTES.DASHBOARD}>
-								<LinkText>Dashboard</LinkText>
+								<LinkText>{t('links.dashboard')}</LinkText>
 							</Link>
 							<Link href={ROUTES.TRADE}>
-								<LinkText>Trade</LinkText>
+								<LinkText>{t('links.trade')}</LinkText>
 							</Link>
 							<Link href={ROUTES.SEND}>
-								<LinkText>Send</LinkText>
+								<LinkText>{t('links.send')}</LinkText>
 							</Link>
 							<Link href={ROUTES.LOANS}>
-								<LinkText>Loans</LinkText>
+								<LinkText>{t('links.loans')}</LinkText>
 							</Link>
 							<Link href={ROUTES.RAFFLES}>
-								<LinkText>Raffles</LinkText>
+								<LinkText>{t('links.raffles')}</LinkText>
 							</Link>
 						</LinksContainer>
 
 						<TradeMarkContainer>
-							<LightText>© 2022 Illiquidly Labs</LightText>
+							<LightText>{t('trademark')}</LightText>
 						</TradeMarkContainer>
 					</RightFooterSection>
 				</Content>

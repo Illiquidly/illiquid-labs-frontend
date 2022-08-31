@@ -28,6 +28,8 @@
 		"formik": "^2.2.9",
 		"lodash": "^4.17.21",
 		"next": "^12.0.9",
+		"next-i18next": "^12.0.0",
+		"next-language-detector": "^1.0.2",
 		"numeral": "^2.0.6",
 		"p-map": "^5.5.0",
 		"p-memoize": "^7.1.0",
