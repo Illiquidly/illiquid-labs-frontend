@@ -107,17 +107,23 @@ export const CardContainer = styled(Box)<{
 }>`
 	width: 100%;
 
+	border-radius: 8px;
+
+	border: 2px solid transparent;
+
+	&:hover {
+		${props =>
+			!props.checked &&
+			`
+				border: 2px solid rgba(34, 197, 94, 0.2);
+			`}
+	}
+
 	${props =>
-		props.checked
-			? `
-				border-radius: 8px;
-				border-color: ${props.theme.colors.success600};
-				border-width: 2px;
-				border-style: solid;
-				`
-			: `
-				border-radius: 0px 0px 8px 8px;
-	`};
+		props.checked &&
+		`
+		border: 2px solid ${props.theme.colors.success600};
+	`}
 `
 
 export const RightImageArea = styled(Box)`
