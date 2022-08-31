@@ -1,5 +1,5 @@
 import useMyNFTs from 'hooks/useMyNFTs'
-import { uniqBy } from 'lodash'
+import { noop, uniqBy } from 'lodash'
 import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Flex, Box } from 'theme-ui'
@@ -22,23 +22,25 @@ import {
 interface MyNFTsModalProps extends ModalProps {
 	title?: string
 	addNFTsButtonLabel?: string
-	onRemove: (id: string | number) => void
-	selectedNFTs: NFT[]
+	selectedNFTs?: NFT[]
+	onAddNFTs?: (v: NFT[]) => void
 }
 
 function MyNFTsModal({
 	isOpen,
 	onRequestClose,
+	onAddNFTs,
 	title,
 	addNFTsButtonLabel,
+	selectedNFTs: defaultSelectedNFTs = [],
 }: MyNFTsModalProps) {
-	const { ownedNFTs, ownedCollections } = useMyNFTs()
-	const [selectedNFTs, setSelectedNFTs] = React.useState<NFT[]>([])
+	const { ownedNFTs } = useMyNFTs()
+	const [selectedNFTs, setSelectedNFTs] =
+		React.useState<NFT[]>(defaultSelectedNFTs)
 
-	console.warn({
-		ownedNFTs,
-		ownedCollections,
-	})
+	React.useEffect(() => {
+		setSelectedNFTs(defaultSelectedNFTs)
+	}, [defaultSelectedNFTs, isOpen])
 
 	const addSelectedNFT = (nft: NFT) => {
 		setSelectedNFTs(prevState =>
@@ -65,6 +67,8 @@ function MyNFTsModal({
 					variant='gradient'
 					sx={{ display: ['none', 'none', 'flex'], p: '10px 16px', fontWeight: 400 }}
 					fullWidth
+					disabled={!selectedNFTs.length}
+					onClick={() => onAddNFTs?.(selectedNFTs)}
 				>
 					{addNFTsButtonLabel}
 				</Button>
@@ -87,6 +91,8 @@ function MyNFTsModal({
 							variant='gradient'
 							sx={{ p: '12px 0', fontWeight: 400 }}
 							fullWidth
+							disabled={!selectedNFTs.length}
+							onClick={() => onAddNFTs?.(selectedNFTs)}
 						>
 							{addNFTsButtonLabel}
 						</Button>
@@ -138,6 +144,8 @@ function MyNFTsModal({
 MyNFTsModal.defaultProps = {
 	title: 'My NFTs',
 	addNFTsButtonLabel: 'Add NFTs to Trade',
+	selectedNFTs: [],
+	onAddNFTs: noop,
 }
 
 export default MyNFTsModal
