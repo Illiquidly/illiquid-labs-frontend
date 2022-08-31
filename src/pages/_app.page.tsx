@@ -18,6 +18,7 @@ import './styles.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Footer from 'components/ui/footer/Footer'
 import Header from 'components/ui/header/Header'
+import { ModalProvider } from 'context/modalContext'
 import Head from 'next/head'
 import { NextComponentType, NextPageContext } from 'next/types'
 
@@ -46,13 +47,15 @@ const Main = ({
 
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
-					<RecoilRoot>
-						<Flex variant='appContainer'>
-							<Header />
-							<Component {...pageProps} />
-							<Footer />
-						</Flex>
-					</RecoilRoot>
+					<ModalProvider>
+						<RecoilRoot>
+							<Flex variant='appContainer'>
+								<Header />
+								<Component {...pageProps} />
+								<Footer />
+							</Flex>
+						</RecoilRoot>
+					</ModalProvider>
 				</ThemeProvider>
 			</QueryClientProvider>
 		</>
