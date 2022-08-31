@@ -1,9 +1,5 @@
 import { Head, Html, Main, NextScript } from 'next/document'
 
-import Modal from 'react-modal'
-
-Modal.setAppElement('#__next')
-
 export default function Document() {
 	return (
 		<Html>
