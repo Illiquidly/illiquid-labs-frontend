@@ -1,9 +1,9 @@
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { noop } from 'lodash'
-import Link from 'next/link'
 import React from 'react'
 import { Button as ThemeUIButton, NavLink, ThemeUIStyleObject } from 'theme-ui'
+import { Link } from '../../link'
 
 interface ButtonProps {
 	fullWidth?: boolean

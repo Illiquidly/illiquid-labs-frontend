@@ -1,0 +1,16 @@
+{
+	"title": "Illiquid Labs | NFT Infrastructure",
+	"connect": "Connect",
+	"disconnect": "Disconnect",
+	"initializing": "Initializing...",
+	"description": "The first NFT P2P trading platform and tooling to enter the Cosmos! Trade, Raffle & Collateralise your NFTs to unlock new potential for your collections.",
+	"litepaper": "Litepaper",
+	"links": {
+		"dashboard": "Dashboard",
+		"trade": "Trade",
+		"send": "Send",
+		"loans": "Loans",
+		"raffles": "Raffles"
+	},
+	"trademark": "© 2022 Illiquidly Labs"
+}

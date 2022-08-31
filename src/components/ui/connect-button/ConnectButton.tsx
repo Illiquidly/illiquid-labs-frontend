@@ -1,4 +1,5 @@
 import { ConnectType, useWallet, WalletStatus } from '@illiquid-labs/use-wallet'
+import { useTranslation } from 'next-i18next'
 import useIsMobile from 'hooks/react/useIsMobile'
 import React from 'react'
 import { Button } from '../button'
@@ -7,6 +8,8 @@ export default function ConnectButton() {
 	const { status, connect, disconnect } = useWallet()
 
 	const isMobile = useIsMobile()
+
+	const { t } = useTranslation('common')
 
 	return (
 		<Button
@@ -19,9 +22,9 @@ export default function ConnectButton() {
 			size='medium'
 			disabled={status === WalletStatus.INITIALIZING}
 		>
-			{status === WalletStatus.WALLET_NOT_CONNECTED && 'Connect'}
-			{status === WalletStatus.INITIALIZING && 'Initializing...'}
-			{status === WalletStatus.WALLET_CONNECTED && 'Disconnect'}
+			{status === WalletStatus.WALLET_NOT_CONNECTED && t('connect')}
+			{status === WalletStatus.INITIALIZING && t('initializing')}
+			{status === WalletStatus.WALLET_CONNECTED && t('disconnect')}
 		</Button>
 	)
 }
