@@ -7,7 +7,7 @@ const TestModal = () => {
 
 	return (
 		<Container>
-			<button type='button' onClick={() => handleModal && handleModal(null)}>
+			<button type='button' onClick={() => handleModal?.(null)}>
 				Close modal
 			</button>
 		</Container>
