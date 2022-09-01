@@ -2,10 +2,11 @@ import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { ModalCloseIcon } from 'assets/icons/modal'
 import React from 'react'
-import { Box, IconButton } from 'theme-ui'
+import { Flex, Box, IconButton, ThemeUIStyleObject } from 'theme-ui'
 import { Img } from 'react-image'
+import { NFT } from 'services/api/walletNFTsService'
 
-const Container = styled.div`
+const Container = styled(Flex)`
 	display: flex;
 	flex: 1;
 
@@ -34,55 +35,59 @@ const StyledBox = styled(Box)`
 	border-radius: 6px;
 `
 
-type SelectCardItem = {
-	id: number | string
-	imageUrl: string | string[]
-}
-
 interface SelectCardProps {
-	items: SelectCardItem[]
-	onRemove: (id: string | number) => void
+	items: NFT[]
+	onRemove: (NFT: NFT) => void
+	sx?: ThemeUIStyleObject
 }
 
-function SelectCard({ items, onRemove }: SelectCardProps) {
+function SelectCard({ items, onRemove, sx }: SelectCardProps) {
 	const theme = useTheme()
 
 	return (
-		<Container>
+		<Container sx={sx}>
 			<Grid>
-				{items.map(({ id, imageUrl }) => (
-					<StyledBox
-						key={id}
-						sx={{
-							height: '60px',
-							width: '60px',
-							position: 'relative',
-							overflow: 'hidden',
-						}}
-					>
-						<Box
+				{items.map(nft => {
+					const { collectionAddress, tokenId, imageUrl } = nft
+
+					return (
+						<StyledBox
+							key={`${collectionAddress}_${tokenId}`}
 							sx={{
-								position: 'absolute',
-								zIndex: theme.zIndices.imgOverlay,
-								inset: 0,
-								display: 'flex',
-								justifyContent: 'flex-end',
+								height: '60px',
+								width: '60px',
+								position: 'relative',
+								overflow: 'hidden',
 							}}
 						>
-							<IconButton onClick={() => onRemove(id)}>
-								<ModalCloseIcon
-									fill={theme.colors.dark500}
-									width='24px'
-									height='24px'
-								/>
-							</IconButton>
-						</Box>
-						<Img width='100%' height='100%' src={imageUrl} />
-					</StyledBox>
-				))}
+							<Box
+								sx={{
+									position: 'absolute',
+									zIndex: theme.zIndices.imgOverlay,
+									inset: 0,
+									display: 'flex',
+									justifyContent: 'flex-end',
+								}}
+							>
+								<IconButton onClick={() => onRemove(nft)}>
+									<ModalCloseIcon
+										fill={theme.colors.dark500}
+										width='24px'
+										height='24px'
+									/>
+								</IconButton>
+							</Box>
+							<Img width='100%' height='100%' src={imageUrl} />
+						</StyledBox>
+					)
+				})}
 			</Grid>
 		</Container>
 	)
+}
+
+SelectCard.defaultProps = {
+	sx: {},
 }
 
 export default SelectCard

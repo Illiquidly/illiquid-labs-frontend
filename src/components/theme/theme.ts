@@ -7,10 +7,11 @@ export const theme = makeTheme({
 	fontSizes: [12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72], // Reference: https://www.figma.com/file/aqJA7DTloCuC7LsVlwHzBb/Illiquidly-Labs-(Internal)?node-id=700%3A167217
 	zIndices: {
 		backgroundImages: -100,
-		imgOverlay: 100,
+		imgOverlay: 1000,
 		header: 200,
 		modal: 300,
-		img: 80,
+		img: 800,
+		modalNFTCard: 1100,
 	},
 	colors: {
 		dark100: '#011D2C',

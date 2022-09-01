@@ -4,6 +4,7 @@ import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { noop } from 'lodash'
 import React, { ReactNode } from 'react'
 import { Box, Flex } from 'theme-ui'
+import { OverflowTip } from '../overflow-tip'
 import {
 	BottomImageArea,
 	CardContainer,
@@ -26,7 +27,6 @@ interface NFTCardProps {
 	collectionName?: string
 	size?: SizeVariants
 	imageUrl?: string[]
-	placeholderImageSize?: SizeVariants
 	leftActionComponent?: ReactNode
 	bottomActionComponent?: ReactNode
 }
@@ -47,17 +47,6 @@ const verifiedMarginTopBySizeVariant = {
 	medium: '6px',
 }
 
-const placeholderImageSizesBySizeVariant = {
-	small: {
-		width: '61.56px',
-		height: '57.87px',
-	},
-	medium: {
-		width: '85px',
-		height: '80px',
-	},
-}
-
 function NFTCard({
 	checked,
 	verified,
@@ -66,17 +55,16 @@ function NFTCard({
 	collectionName,
 	size = 'medium',
 	leftActionComponent,
-	placeholderImageSize = 'medium',
 	bottomActionComponent,
 	imageUrl,
 }: NFTCardProps) {
 	return (
-		<CardContainer size={size} checked={checked} onClick={onClick}>
+		<CardContainer checked={checked} onClick={onClick}>
 			<ImageSection>
 				<Image src={imageUrl ?? []} />
-				<ImagePlaceholder
-					{...placeholderImageSizesBySizeVariant[placeholderImageSize]}
-				/>
+				{!(imageUrl || []).length && (
+					<ImagePlaceholder width='85px' height='80px' />
+				)}
 				{checked && (
 					<RightImageArea>
 						<CheckedOutlineIcon {...checkedIconSizeBySizeVariant[size]} />
@@ -92,9 +80,13 @@ function NFTCard({
 				)}
 			</ImageSection>
 			<DescriptionSection size={size}>
-				<Title size={size}>{name}</Title>
+				<OverflowTip>
+					<Title size={size}>{name}</Title>
+				</OverflowTip>
 				<Flex>
-					<Subtitle size={size}>{collectionName}</Subtitle>
+					<OverflowTip>
+						<Subtitle size={size}>{collectionName}</Subtitle>
+					</OverflowTip>
 					{verified && (
 						<Box ml={['4px']} mt={verifiedMarginTopBySizeVariant[size]}>
 							<VerifiedIcon />
@@ -116,7 +108,6 @@ NFTCard.defaultProps = {
 	collectionName: '',
 	size: 'medium',
 	imageUrl: [],
-	placeholderImageSize: 'medium',
 }
 
 export default NFTCard

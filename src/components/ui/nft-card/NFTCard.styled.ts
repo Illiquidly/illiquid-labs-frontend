@@ -61,6 +61,9 @@ export const ImageSection = styled(Flex)`
 	align-items: center;
 	justify-content: center;
 	position: relative;
+
+	overflow: hidden;
+	border-radius: 8px 8px 0px 0px;
 `
 
 ImageSection.defaultProps = {
@@ -74,6 +77,7 @@ ImageSection.defaultProps = {
 export const DescriptionSection = styled(Flex)<{ size?: string }>`
 	height: 80px;
 	padding: 12px;
+	border-radius: 0px 0px 8px 8px;
 
 	${props =>
 		props.size === 'small' &&
@@ -100,34 +104,26 @@ DescriptionSection.defaultProps = {
 
 export const CardContainer = styled(Box)<{
 	checked?: boolean
-	size?: string
 }>`
-	overflow: hidden;
-	flex: 1;
-	min-width: 200px;
-	${props =>
-		props.size === 'medium' &&
-		`
-			max-width: 332px;
-		`}
+	width: 100%;
+
+	border-radius: 8px;
+
+	border: 2px solid transparent;
+
+	&:hover {
+		${props =>
+			!props.checked &&
+			`
+				border: 2px solid rgba(34, 197, 94, 0.2);
+			`}
+	}
 
 	${props =>
-		props.size === 'small' &&
+		props.checked &&
 		`
-			max-width: 200px;
-		`}
-
-	${props =>
-		props.checked
-			? `
-				border-radius: 8px;
-				border-color: ${props.theme.colors.success600};
-				border-width: 2px;
-				border-style: solid;
-				`
-			: `
-				border-radius: 0px 0px 8px 8px;
-	`};
+		border: 2px solid ${props.theme.colors.success600};
+	`}
 `
 
 export const RightImageArea = styled(Box)`

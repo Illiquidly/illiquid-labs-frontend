@@ -6,8 +6,8 @@ import { LayoutContainer } from 'components/ui/layout'
 import MobileSteps from 'components/ui/mobile-steps/MobileSteps'
 import TestModal from 'components/ui/modals/TestModal'
 import Steps from 'components/ui/steps/Steps'
+import React from 'react'
 import { ModalContext } from 'context/modalContext'
-import { useContext, useState } from 'react'
 import { Box, Text } from 'theme-ui'
 import {
 	BodyContainer,
@@ -27,9 +27,9 @@ import {
 } from './trade.styled'
 
 export default function Trade() {
-	const { handleModal } = useContext(ModalContext)
+	const { handleModal } = React.useContext(ModalContext)
 
-	const [steps] = useState([
+	const [steps] = React.useState([
 		{
 			id: 0,
 			label: 'Select NFTs',
@@ -58,6 +58,12 @@ export default function Trade() {
 
 	return (
 		<LayoutContainer>
+			{/* <MyNFTsModal
+				isOpen={isModalOpen}
+				onRequestClose={() => setIsModalOpen(false)}
+				selectedNFTs={selectedNFTs}
+				onAddNFTs={onAddNFTs}
+			/> */}
 			<TradeBackgroundLogoContainer>
 				<TradeBackgroundLogo />
 			</TradeBackgroundLogoContainer>
@@ -103,7 +109,7 @@ export default function Trade() {
 
 						<Button
 							sx={{ minWidth: ['140px'] }}
-							onClick={() => handleModal && handleModal(<TestModal />)}
+							onClick={() => handleModal?.(<TestModal />)}
 							fullWidth
 							variant='gradient'
 						>

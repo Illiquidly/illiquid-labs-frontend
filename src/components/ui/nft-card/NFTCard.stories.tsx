@@ -64,7 +64,6 @@ export const NFTCardExample = () => (
 				size='small'
 				checked
 				verified
-				placeholderImageSize='small'
 				leftActionComponent={
 					<Box
 						sx={{
