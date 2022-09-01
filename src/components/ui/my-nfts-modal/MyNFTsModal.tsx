@@ -2,11 +2,10 @@ import useMyNFTs from 'hooks/useMyNFTs'
 import { noop, uniqBy } from 'lodash'
 import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
-// import { Flex, Box } from 'theme-ui'
-// import { Button } from '../button'
-// import { OnlyMobileAndTablet } from '../layout'
-import { Modal } from '../modal'
-import { ModalProps } from '../modal/Modal'
+import { Flex, Box } from 'theme-ui'
+import { Button } from '../button'
+import { OnlyMobileAndTablet } from '../layout'
+import { FullscreenModal } from '../modals'
 import NFTCard from '../nft-card/NFTCard'
 import { SelectCard } from '../select-card'
 import {
@@ -15,11 +14,11 @@ import {
 	NFTCardContainer,
 	NFTCardsGridWrapper,
 	NFTSelectionOverlay,
-	// SearchContainer,
-	// SortSelectContainer,
+	SearchContainer,
+	SortSelectContainer,
 } from './MyNFTsModal.styled'
 
-interface MyNFTsModalProps extends ModalProps {
+interface MyNFTsModalProps {
 	title?: string
 	addNFTsButtonLabel?: string
 	selectedNFTs?: NFT[]
@@ -27,11 +26,9 @@ interface MyNFTsModalProps extends ModalProps {
 }
 
 function MyNFTsModal({
-	isOpen,
-	onCloseModal,
-	// onAddNFTs,
-	// title,
-	// addNFTsButtonLabel,
+	onAddNFTs,
+	title,
+	addNFTsButtonLabel,
 	selectedNFTs: defaultSelectedNFTs = [],
 }: MyNFTsModalProps) {
 	const { ownedNFTs } = useMyNFTs()
@@ -40,7 +37,7 @@ function MyNFTsModal({
 
 	React.useEffect(() => {
 		setSelectedNFTs(defaultSelectedNFTs)
-	}, [defaultSelectedNFTs, isOpen])
+	}, [defaultSelectedNFTs])
 
 	const addSelectedNFT = (nft: NFT) => {
 		setSelectedNFTs(prevState =>
@@ -61,47 +58,45 @@ function MyNFTsModal({
 	}
 
 	return (
-		<Modal
-			// headerRightActionComponent={
-			// 	<Button
-			// 		variant='gradient'
-			// 		sx={{ display: ['none', 'none', 'flex'], p: '10px 16px', fontWeight: 400 }}
-			// 		fullWidth
-			// 		disabled={!selectedNFTs.length}
-			// 		onClick={() => onAddNFTs?.(selectedNFTs)}
-			// 	>
-			// 		{addNFTsButtonLabel}
-			// 	</Button>
-			// }
-			// headerExtraContentComponent={
-			// 	<Box sx={{ marginTop: ['16px', '32px'] }}>
-			// 		<Flex sx={{ height: ['48px'], gap: '12px' }}>
-			// 			<SearchContainer />
-			// 			<SortSelectContainer />
-			// 		</Flex>
-			// 		<OnlyMobileAndTablet>
-			// 			<Box sx={{ height: ['8px'] }} />
-			// 			<Flex sx={{ height: ['50px'], gap: 10 }}>
-			// 				<Box sx={{ flex: 1, bg: 'pink' }} />
-			// 				<Box sx={{ flex: 1, bg: 'red' }} />
-			// 			</Flex>
-			// 		</OnlyMobileAndTablet>
-			// 		<Flex sx={{ mt: ['8px'], display: ['flex', 'flex', 'none'] }}>
-			// 			<Button
-			// 				variant='gradient'
-			// 				sx={{ p: '12px 0', fontWeight: 400 }}
-			// 				fullWidth
-			// 				disabled={!selectedNFTs.length}
-			// 				onClick={() => onAddNFTs?.(selectedNFTs)}
-			// 			>
-			// 				{addNFTsButtonLabel}
-			// 			</Button>
-			// 		</Flex>
-			// 	</Box>
-			// }
-			onCloseModal={onCloseModal}
-			// title={title}
-			isOpen={isOpen}
+		<FullscreenModal
+			headerRightActionComponent={
+				<Button
+					variant='gradient'
+					sx={{ display: ['none', 'none', 'flex'], p: '10px 16px', fontWeight: 400 }}
+					fullWidth
+					disabled={!selectedNFTs.length}
+					onClick={() => onAddNFTs?.(selectedNFTs)}
+				>
+					{addNFTsButtonLabel}
+				</Button>
+			}
+			headerExtraContentComponent={
+				<Box sx={{ marginTop: ['16px', '32px'] }}>
+					<Flex sx={{ height: ['48px'], gap: '12px' }}>
+						<SearchContainer />
+						<SortSelectContainer />
+					</Flex>
+					<OnlyMobileAndTablet>
+						<Box sx={{ height: ['8px'] }} />
+						<Flex sx={{ height: ['50px'], gap: 10 }}>
+							<Box sx={{ flex: 1, bg: 'pink' }} />
+							<Box sx={{ flex: 1, bg: 'red' }} />
+						</Flex>
+					</OnlyMobileAndTablet>
+					<Flex sx={{ mt: ['8px'], display: ['flex', 'flex', 'none'] }}>
+						<Button
+							variant='gradient'
+							sx={{ p: '12px 0', fontWeight: 400 }}
+							fullWidth
+							disabled={!selectedNFTs.length}
+							onClick={() => onAddNFTs?.(selectedNFTs)}
+						>
+							{addNFTsButtonLabel}
+						</Button>
+					</Flex>
+				</Box>
+			}
+			title={title}
 		>
 			<ModalBody>
 				<CollectionFiltersSection />
@@ -137,7 +132,7 @@ function MyNFTsModal({
 					/>
 				</NFTSelectionOverlay>
 			)}
-		</Modal>
+		</FullscreenModal>
 	)
 }
 
