@@ -4,11 +4,12 @@ import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import Button from 'components/ui/button/Button'
 import { LayoutContainer } from 'components/ui/layout'
 import MobileSteps from 'components/ui/mobile-steps/MobileSteps'
-import TestModal from 'components/ui/modals/TestModal'
 import Steps from 'components/ui/steps/Steps'
 import React from 'react'
 import { ModalContext } from 'context/modalContext'
 import { Box, Text } from 'theme-ui'
+import { MyNFTsModal } from 'components/ui/my-nfts-modal'
+import { NFT } from 'services/api/walletNFTsService'
 import {
 	BodyContainer,
 	Container,
@@ -27,7 +28,13 @@ import {
 } from './trade.styled'
 
 export default function Trade() {
+	const [selectedNFTs, setSelectedNFTs] = React.useState<NFT[]>([])
 	const { handleModal } = React.useContext(ModalContext)
+
+	const onAddNFTs = (NFTs: NFT[]) => {
+		setSelectedNFTs(NFTs)
+		handleModal?.(null)
+	}
 
 	const [steps] = React.useState([
 		{
@@ -58,12 +65,6 @@ export default function Trade() {
 
 	return (
 		<LayoutContainer>
-			{/* <MyNFTsModal
-				isOpen={isModalOpen}
-				onRequestClose={() => setIsModalOpen(false)}
-				selectedNFTs={selectedNFTs}
-				onAddNFTs={onAddNFTs}
-			/> */}
 			<TradeBackgroundLogoContainer>
 				<TradeBackgroundLogo />
 			</TradeBackgroundLogoContainer>
@@ -109,7 +110,11 @@ export default function Trade() {
 
 						<Button
 							sx={{ minWidth: ['140px'] }}
-							onClick={() => handleModal?.(<TestModal />)}
+							onClick={() =>
+								handleModal?.(
+									<MyNFTsModal selectedNFTs={selectedNFTs} onAddNFTs={onAddNFTs} />
+								)
+							}
 							fullWidth
 							variant='gradient'
 						>

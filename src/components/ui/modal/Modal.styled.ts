@@ -13,6 +13,8 @@ export const ModalWrapper = styled.div<{ isOpen: boolean }>`
 export const ModalContainer = styled(Box)`
 	position: absolute;
 	top: ${HEADER_HEIGHT};
+	width: 100%;
+	height: 100%;
 	left: 50%;
 	transform: translateX(-50%);
 	min-width: 310px;

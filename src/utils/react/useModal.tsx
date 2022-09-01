@@ -1,11 +1,14 @@
-import { ReactNode, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 
 export const useModal = (initialMode = false) => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(initialMode)
 	const [modalContent, setModalContent] = useState<ReactNode>(null)
+	const isModalOpenRef = React.useRef(isModalOpen)
+
+	isModalOpenRef.current = isModalOpen
 
 	const handleModal = (content = null) => {
-		setIsModalOpen(!isModalOpen)
+		setIsModalOpen(!isModalOpenRef.current)
 		if (content) {
 			setModalContent(content)
 		}
