@@ -1,55 +1,25 @@
 import styled from '@emotion/styled'
-import { Flex } from 'theme-ui'
+import { HEADER_HEIGHT } from 'constants/components'
+import { Box } from 'theme-ui'
 
-export const ModalContent = styled(Flex)``
+export const ModalWrapper = styled.div<{ isOpen: boolean }>`
+	display: ${props => (props.isOpen ? 'block' : 'none')};
+	z-index: ${props => props.theme.zIndices.modal};
+	width: 100%;
+	height: 100%;
+	position: fixed;
+`
 
-ModalContent.defaultProps = {
-	sx: {
-		flexDirection: 'column',
-		flex: 1,
-		maxWidth: '1272px',
-	},
-}
+export const ModalContainer = styled(Box)`
+	position: absolute;
+	top: ${HEADER_HEIGHT};
+	left: 50%;
+	transform: translateX(-50%);
+	min-width: 310px;
+	overflow: auto;
+	max-height: calc(100vh - ${HEADER_HEIGHT});
+`
 
-export const ModalContentHeader = styled(Flex)``
-
-ModalContentHeader.defaultProps = {
-	sx: { justifyContent: 'space-between', alignItems: 'center' },
-}
-
-export const ModalOverlay = styled(Flex)``
-
-ModalOverlay.defaultProps = {
-	sx: {
-		position: 'fixed',
-		inset: 0,
-		flex: 1,
-		flexDirection: 'column',
-		bg: 'rgba(0, 0, 0, 0.7)',
-	},
-}
-
-export const ModalHeader = styled(Flex)``
-
-ModalHeader.defaultProps = {
-	sx: {
-		display: ['none', 'none', 'flex'],
-		height: '72px',
-		p: '24px 16px',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-}
-
-export const ModalBody = styled(Flex)``
-
-ModalBody.defaultProps = {
-	sx: {
-		bg: 'dark100',
-		flex: 1,
-		p: ['16px', '25px 33.5px', '32px 112px'],
-		borderRadius: [0, 0, '16px 16px 0px 0px'],
-		overflow: 'hidden',
-		justifyContent: 'center',
-	},
+ModalContainer.defaultProps = {
+	sx: {},
 }

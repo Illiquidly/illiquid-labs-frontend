@@ -3,11 +3,15 @@
 body {
 	inset: 0;
 	margin: 0;
-	background: #011D2C;
-	color: #F9FAFB;
+	background: #011d2c;
+	color: #f9fafb;
 	position: relative;
 	/* overflow: hidden; */
 	font-family: 'Inter', sans-serif;
+}
+
+.overflow {
+	overflow-y: hidden;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -30,7 +34,9 @@ img {
 	user-select: none;
 }
 
-button, input[type="submit"], input[type="reset"] {
+button,
+input[type='submit'],
+input[type='reset'] {
 	background: none;
 	color: inherit;
 	border: none;
@@ -39,4 +45,3 @@ button, input[type="submit"], input[type="reset"] {
 	cursor: pointer;
 	outline: inherit;
 }
-
