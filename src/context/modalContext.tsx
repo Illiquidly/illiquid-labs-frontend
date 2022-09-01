@@ -22,7 +22,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
 	return (
 		<ModalContext.Provider value={{ isModalOpen, handleModal }}>
-			<Modal isActive={isModalOpen} closeModal={() => handleModal()}>
+			<Modal isOpen={isModalOpen} onCloseModal={() => handleModal()}>
 				{modalContent}
 			</Modal>
 			{children}

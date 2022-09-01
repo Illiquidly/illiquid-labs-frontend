@@ -27,8 +27,8 @@ interface MyNFTsModalProps extends ModalProps {
 }
 
 function MyNFTsModal({
-	isActive,
-	closeModal,
+	isOpen,
+	onCloseModal,
 	// onAddNFTs,
 	// title,
 	// addNFTsButtonLabel,
@@ -40,7 +40,7 @@ function MyNFTsModal({
 
 	React.useEffect(() => {
 		setSelectedNFTs(defaultSelectedNFTs)
-	}, [defaultSelectedNFTs, isActive])
+	}, [defaultSelectedNFTs, isOpen])
 
 	const addSelectedNFT = (nft: NFT) => {
 		setSelectedNFTs(prevState =>
@@ -99,9 +99,9 @@ function MyNFTsModal({
 			// 		</Flex>
 			// 	</Box>
 			// }
-			closeModal={closeModal}
+			onCloseModal={onCloseModal}
 			// title={title}
-			isActive={isActive}
+			isOpen={isOpen}
 		>
 			<ModalBody>
 				<CollectionFiltersSection />

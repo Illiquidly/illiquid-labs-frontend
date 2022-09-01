@@ -2,8 +2,8 @@ import styled from '@emotion/styled'
 import { HEADER_HEIGHT } from 'constants/components'
 import { Box } from 'theme-ui'
 
-export const ModalWrapper = styled.div<{ isActive: boolean }>`
-	display: ${props => (props.isActive ? 'block' : 'none')};
+export const ModalWrapper = styled.div<{ isOpen: boolean }>`
+	display: ${props => (props.isOpen ? 'block' : 'none')};
 	z-index: ${props => props.theme.zIndices.modal};
 	width: 100%;
 	height: 100%;

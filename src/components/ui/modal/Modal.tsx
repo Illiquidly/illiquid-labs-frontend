@@ -4,24 +4,24 @@ import { useOnClickOutside } from 'utils/react/useOnClickOutside'
 import { ModalContainer, ModalWrapper } from './Modal.styled'
 
 export interface ModalProps {
-	isActive: boolean
+	isOpen: boolean
 	children: React.ReactNode
-	closeModal: () => void
+	onCloseModal: () => void
 	sx?: ThemeUIStyleObject
 }
 
 const Modal: React.FunctionComponent<ModalProps> = ({
-	isActive = false,
-	closeModal,
+	isOpen = false,
+	onCloseModal,
 	children,
 }) => {
 	const containerRef = useRef(null)
-	useOnClickOutside(containerRef, closeModal)
+	useOnClickOutside(containerRef, onCloseModal)
 
-	if (!isActive) return null
+	if (!isOpen) return null
 
 	return (
-		<ModalWrapper isActive={isActive}>
+		<ModalWrapper isOpen={isOpen}>
 			<ModalContainer ref={containerRef}>{children}</ModalContainer>
 		</ModalWrapper>
 	)
