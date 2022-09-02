@@ -45,5 +45,5 @@ export const Knob = styled.div<{ checked?: boolean }>`
 	box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
 		0px 1px 2px rgba(16, 24, 40, 0.06);
 
-	transform: ${props => props.checked && 'translateX(16px)'};
+	transform: ${props => props.checked && 'translateX(15px)'};
 `
