@@ -19,6 +19,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
 import { appWithTranslation } from 'next-i18next'
 
+import { ModalProvider } from 'context/modalContext'
 import i18nConfig from '../../next-i18next.config'
 
 const queryClient = new QueryClient()
@@ -38,7 +39,9 @@ const Main = ({
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<RecoilRoot>
-					<Component {...pageProps} />
+					<ModalProvider>
+						<Component {...pageProps} />
+					</ModalProvider>
 				</RecoilRoot>
 			</ThemeProvider>
 		</QueryClientProvider>
