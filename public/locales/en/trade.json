@@ -1,0 +1,12 @@
+{
+	"title": "Trade NFTs",
+	"steps": [
+		"Select NFTs",
+		"Trade Details",
+		"Choose Visibility",
+		"Confirm Listing"
+	],
+	"question": "Which NFTs are you looking to trade",
+	"add-instruction": "Add them here by clicking below",
+	"select-nfts": "Select NFTs"
+}

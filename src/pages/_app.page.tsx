@@ -11,16 +11,16 @@ import { AppProps } from 'next/app'
 import 'rc-tooltip/assets/bootstrap_white.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { RecoilRoot } from 'recoil'
-import { Flex, ThemeProvider } from 'theme-ui'
+import { ThemeProvider } from 'theme-ui'
 import blockchain from 'utils/blockchain/terraUtils'
 import './styles.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Footer from 'components/ui/footer/Footer'
-import Header from 'components/ui/header/Header'
-import { ModalProvider } from 'context/modalContext'
-import Head from 'next/head'
 import { NextComponentType, NextPageContext } from 'next/types'
+import { appWithTranslation } from 'next-i18next'
+
+import { ModalProvider } from 'context/modalContext'
+import i18nConfig from '../../next-i18next.config'
 
 const queryClient = new QueryClient()
 
@@ -36,54 +36,39 @@ const Main = ({
 	blockchain.setWallet(wallet)
 
 	return (
-		<>
-			<Head>
-				<meta
-					name='viewport'
-					content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
-				/>
-				<title>Illiquid Labs | NFT Infrastructure</title>
-			</Head>
-
-			<QueryClientProvider client={queryClient}>
-				<ThemeProvider theme={theme}>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider theme={theme}>
+				<RecoilRoot>
 					<ModalProvider>
-						<RecoilRoot>
-							<Flex variant='appContainer'>
-								<Header />
-								<Component {...pageProps} />
-								<Footer />
-							</Flex>
-						</RecoilRoot>
+						<Component {...pageProps} />
 					</ModalProvider>
-				</ThemeProvider>
-			</QueryClientProvider>
-		</>
+				</RecoilRoot>
+			</ThemeProvider>
+		</QueryClientProvider>
 	)
 }
-export default function App({
-	Component,
-	defaultNetwork,
-	walletConnectChainIds,
-	pageProps,
-}: AppProps & WalletControllerChainOptions) {
+
+const App = (props: AppProps & WalletControllerChainOptions) => {
+	const { defaultNetwork, walletConnectChainIds } = props
 	return typeof window !== 'undefined' ? (
 		<WalletProvider
 			defaultNetwork={defaultNetwork}
 			walletConnectChainIds={walletConnectChainIds}
 		>
-			<Main {...{ Component, pageProps }} />
+			<Main {...props} />
 		</WalletProvider>
 	) : (
 		<StaticWalletProvider defaultNetwork={defaultNetwork}>
-			<Main {...{ Component, pageProps }} />
+			<Main {...props} />
 		</StaticWalletProvider>
 	)
 }
 
-App.getInitialProps = async () => {
+App.getStaticProps = async () => {
 	const chainOptions = await getChainOptions()
 	return {
 		...chainOptions,
 	}
 }
+
+export default appWithTranslation(App, i18nConfig)
