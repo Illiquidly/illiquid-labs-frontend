@@ -34,7 +34,7 @@ export interface MyNFTsModalProps {
 	onAddNFTs?: (v: NFT[]) => void
 }
 
-const FullscreenModal = ({
+const MyNFTsModal = ({
 	title,
 	addNFTsButtonLabel,
 	selectedNFTs: defaultSelectedNFTs = [],
@@ -173,7 +173,7 @@ const FullscreenModal = ({
 	)
 }
 
-FullscreenModal.defaultProps = {
+MyNFTsModal.defaultProps = {
 	onAfterOpen: noop,
 	onRequestClose: noop,
 	title: 'My NFTs',
@@ -182,4 +182,4 @@ FullscreenModal.defaultProps = {
 	onAddNFTs: noop,
 }
 
-export default FullscreenModal
+export default MyNFTsModal
