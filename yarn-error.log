@@ -31,8 +31,8 @@ npm manifest:
   		"@emotion/core": "^11.0.0",
   		"@emotion/react": "^11.10.0",
   		"@emotion/styled": "^11.10.0",
-  		"@illiquid-labs/use-wallet": "^1.0.0",
-  		"@illiquid-labs/wallet-provider": "^1.0.0",
+  		"@terra-money/use-wallet": "^1.0.0",
+  		"@terra-money/wallet-provider": "^1.0.0",
   		"@mdx-js/react": "^1.6.22",
   		"@rebass/preset": "^4.0.5",
   		"@svgr/webpack": "^6.3.1",
@@ -1348,20 +1348,20 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
     integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
   
-  "@illiquid-labs/use-wallet@^1.0.0":
+  "@terra-money/use-wallet@^1.0.0":
     version "1.0.0"
-    resolved "https://registry.yarnpkg.com/@illiquid-labs/use-wallet/-/use-wallet-1.0.0.tgz#cb3ee1b1c098aa77efda002a8d48ef4ef415162e"
+    resolved "https://registry.yarnpkg.com/@terra-money/use-wallet/-/use-wallet-1.0.0.tgz#cb3ee1b1c098aa77efda002a8d48ef4ef415162e"
     integrity sha512-3TbtGx/PGuFNrCfb2RVkhZf/we1U55uIqwTuPpR/W/0YQ1SZ6morNlpg94OgsU6oeiIgHwZWPUYiTrEsCP8QBg==
     dependencies:
-      "@illiquid-labs/wallet-types" "^1.0.0"
+      "@terra-money/wallet-types" "^1.0.0"
   
-  "@illiquid-labs/wallet-controller@^1.0.0":
+  "@terra-money/wallet-controller@^1.0.0":
     version "1.0.0"
-    resolved "https://registry.yarnpkg.com/@illiquid-labs/wallet-controller/-/wallet-controller-1.0.0.tgz#b8b556c7eb8efb5b0e47d8a9a2461c8d97826c23"
+    resolved "https://registry.yarnpkg.com/@terra-money/wallet-controller/-/wallet-controller-1.0.0.tgz#b8b556c7eb8efb5b0e47d8a9a2461c8d97826c23"
     integrity sha512-eglq0rIsaPrqtaiK3HCkUyOSXez6BeyrQd0Fo0lRIMAEOm6axrrJxgnxFxRF+Yj4d3QIN5dFokr8PvSsvn+Q6Q==
     dependencies:
-      "@illiquid-labs/wallet-types" "^1.0.0"
-      "@illiquid-labs/web-extension-interface" "^1.0.0"
+      "@terra-money/wallet-types" "^1.0.0"
+      "@terra-money/web-extension-interface" "^1.0.0"
       "@walletconnect/core" "^1.6.6"
       "@walletconnect/iso-crypto" "^1.6.6"
       "@walletconnect/types" "^1.6.6"
@@ -1375,23 +1375,23 @@ Lockfile:
       secp256k1 "^4.0.0"
       ws "^7.5.5"
   
-  "@illiquid-labs/wallet-provider@^1.0.0":
+  "@terra-money/wallet-provider@^1.0.0":
     version "1.0.0"
-    resolved "https://registry.yarnpkg.com/@illiquid-labs/wallet-provider/-/wallet-provider-1.0.0.tgz#2b690cce9d15474f334aa54d6599c6c4215eec87"
+    resolved "https://registry.yarnpkg.com/@terra-money/wallet-provider/-/wallet-provider-1.0.0.tgz#2b690cce9d15474f334aa54d6599c6c4215eec87"
     integrity sha512-rkszjOv0yFuISItLS53pR7I7tfdayTRakjeu+2dKSF/RdBOmPjeUKXxzr/9D76UZInsoyuPO7c+22IaqyRXvMw==
     dependencies:
-      "@illiquid-labs/use-wallet" "^1.0.0"
-      "@illiquid-labs/wallet-controller" "^1.0.0"
-      "@illiquid-labs/web-extension-interface" "^1.0.0"
+      "@terra-money/use-wallet" "^1.0.0"
+      "@terra-money/wallet-controller" "^1.0.0"
+      "@terra-money/web-extension-interface" "^1.0.0"
   
-  "@illiquid-labs/wallet-types@^1.0.0":
+  "@terra-money/wallet-types@^1.0.0":
     version "1.0.0"
-    resolved "https://registry.yarnpkg.com/@illiquid-labs/wallet-types/-/wallet-types-1.0.0.tgz#85f8052349899e908ea50850d35a00c5ee3951e6"
+    resolved "https://registry.yarnpkg.com/@terra-money/wallet-types/-/wallet-types-1.0.0.tgz#85f8052349899e908ea50850d35a00c5ee3951e6"
     integrity sha512-kVEw2kGI5ZcqqNiJWzZLwP8XZ2jzrjyIXx0zIw40m2MRSbEa/GY7v+G1ByjRCXe8xEkn5ze1i7jGp6lHYzODJA==
   
-  "@illiquid-labs/web-extension-interface@^1.0.0":
+  "@terra-money/web-extension-interface@^1.0.0":
     version "1.0.0"
-    resolved "https://registry.yarnpkg.com/@illiquid-labs/web-extension-interface/-/web-extension-interface-1.0.0.tgz#c208fba03fb32d0b5fdd5af3c7b1138a55398cb1"
+    resolved "https://registry.yarnpkg.com/@terra-money/web-extension-interface/-/web-extension-interface-1.0.0.tgz#c208fba03fb32d0b5fdd5af3c7b1138a55398cb1"
     integrity sha512-sUF4BHS5KaY7j7T2SUDeW8R0eFu9rmotNy6qwLG85/tYZM+0fUg+dArae93lSyX5VsB0TJzvKUhy0uPnswcHcQ==
     dependencies:
       rxjs "^7.0.0"

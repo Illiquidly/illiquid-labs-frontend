@@ -8,7 +8,7 @@ import {
 	CreateTxOptions,
 	TxInfo,
 } from '@terra-money/terra.js'
-import { Wallet } from '@illiquid-labs/wallet-provider'
+import { Wallet } from '@terra-money/wallet-provider'
 import axios from 'axios'
 import { pick } from 'lodash'
 

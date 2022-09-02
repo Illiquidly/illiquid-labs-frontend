@@ -1,11 +1,10 @@
-import '@djthoms/pretty-checkbox'
-import { useWallet } from '@illiquid-labs/use-wallet'
+import { useWallet } from '@terra-money/use-wallet'
 import {
 	getChainOptions,
 	StaticWalletProvider,
 	WalletControllerChainOptions,
 	WalletProvider,
-} from '@illiquid-labs/wallet-provider'
+} from '@terra-money/wallet-provider'
 import { theme } from 'components/theme/theme'
 import { AppProps } from 'next/app'
 import 'rc-tooltip/assets/bootstrap_white.css'

@@ -1,4 +1,4 @@
-import { ConnectType, useWallet, WalletStatus } from '@illiquid-labs/use-wallet'
+import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { useTranslation } from 'next-i18next'
 import useIsMobile from 'hooks/react/useIsMobile'
 import React from 'react'
