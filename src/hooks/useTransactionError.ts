@@ -4,7 +4,7 @@ import {
 	TxFailed,
 	TxUnspecifiedError,
 	UserDenied,
-} from '@illiquid-labs/use-wallet'
+} from '@terra-money/use-wallet'
 import { toast } from 'react-toastify'
 
 export default function useTransactionError() {

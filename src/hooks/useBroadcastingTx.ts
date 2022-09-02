@@ -1,9 +1,9 @@
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { useState, useEffect } from 'react'
-import { useMediaQuery } from 'react-responsive'
 import scrollToBottom from 'utils/react/scrollToBottom'
 import terraUtils from 'utils/blockchain/terraUtils'
 import { parseTxResult } from 'utils/blockchain/parseTxResult'
+import useIsMobile from './react/useIsMobile'
 
 const useBroadcastingTx = (
 	txId?: TxReceipt['txId'],
@@ -18,7 +18,7 @@ const useBroadcastingTx = (
 	const [loading, setLoading] = useState(initialLoading)
 	const [broadcasted, setBroadcasted] = useState(false)
 
-	const isMobile = useMediaQuery({ query: '(max-width: 991px)' })
+	const isMobile = useIsMobile()
 
 	const desktopLoadingText = loading.send
 		? 'Check your wallet...'

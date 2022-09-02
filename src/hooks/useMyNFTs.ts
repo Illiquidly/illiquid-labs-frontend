@@ -1,4 +1,4 @@
-import { useWallet, WalletStatus } from '@illiquid-labs/use-wallet'
+import { useWallet, WalletStatus } from '@terra-money/use-wallet'
 import React from 'react'
 import { asyncAction } from 'utils/js/asyncAction'
 import promiseRetry from 'promise-retry'
