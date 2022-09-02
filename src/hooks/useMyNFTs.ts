@@ -12,7 +12,7 @@ import {
 } from 'services/api/walletNFTsService'
 import { useRouter } from 'next/router'
 
-function useMyNFTs() {
+export function useMyNFTs() {
 	const [NFTs, setNFTs] = React.useState<NFT[]>([])
 	const [collections, setCollections] = React.useState<Collection[]>([])
 	const wallet = useWallet()
