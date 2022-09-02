@@ -7,7 +7,7 @@ import {
 } from '@terra-money/use-wallet'
 import { toast } from 'react-toastify'
 
-export default function useTransactionError() {
+export function useTransactionError() {
 	const parseError = (error: unknown) => {
 		if (error instanceof UserDenied) {
 			return 'User Denied'
@@ -44,3 +44,5 @@ export default function useTransactionError() {
 
 	return [showTransactionError]
 }
+
+export default useTransactionError

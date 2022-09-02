@@ -1,5 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { Redirect } from '../lib/redirect'
+import { Redirect } from 'lib'
 
 export async function getStaticProps({ locale = 'en' }) {
 	return {

@@ -2,8 +2,8 @@ import React from 'react'
 import { useTranslation } from 'next-i18next'
 import { Flex, Box } from 'theme-ui'
 
-import { Page } from 'components/ui/page'
-import { getStaticPaths, makeStaticProps } from '../../lib/getStatic'
+import { Page } from 'components/ui'
+import { getStaticPaths, makeStaticProps } from 'lib'
 
 const getStaticProps = makeStaticProps(['common'])
 export { getStaticPaths, getStaticProps }
