@@ -1,1 +1,1 @@
-export { default as FullscreenModal } from './FullscreenModal'
+export { default as MyNFTsModal } from './MyNFTsModal'
