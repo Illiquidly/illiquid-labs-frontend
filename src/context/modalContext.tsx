@@ -2,12 +2,12 @@ import { Modal } from 'components/ui/modal'
 import React, { useEffect } from 'react'
 import { useModal } from 'utils/react/useModal'
 
-type ContextProps = {
+type ModalContextProps = {
 	isModalOpen: boolean
 	handleModal: (content: any) => void
 }
 
-const ModalContext = React.createContext<Partial<ContextProps>>({})
+const ModalContext = React.createContext<Partial<ModalContextProps>>({})
 
 const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 	const { isModalOpen, handleModal, modalContent } = useModal()

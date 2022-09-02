@@ -16,6 +16,7 @@ export const Input = styled.input`
 `
 
 export const ToggleBackground = styled.div<{ checked?: boolean }>`
+	border: 1px solid transparent;
 	width: 36px;
 	height: 20px;
 	border-radius: 15.5px;
@@ -23,8 +24,15 @@ export const ToggleBackground = styled.div<{ checked?: boolean }>`
 		props.checked ? props.theme.colors.primary100 : props.theme.colors.dark300};
 	display: flex;
 	justify-content: start;
+	align-items: center;
 	padding: 2px;
 	box-sizing: border-box;
+
+	&:hover {
+		border: 1px solid ${props => props.theme.colors.primary600};
+
+		box-shadow: 0px 0px 0px 4px rgba(63, 138, 224, 0.3);
+	}
 `
 
 export const Knob = styled.div<{ checked?: boolean }>`
@@ -37,5 +45,5 @@ export const Knob = styled.div<{ checked?: boolean }>`
 	box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
 		0px 1px 2px rgba(16, 24, 40, 0.06);
 
-	transform: ${props => props.checked && 'translateX(16px)'};
+	transform: ${props => props.checked && 'translateX(15px)'};
 `
