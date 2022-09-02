@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import RadioInputGroupContext from 'context/radioInputGroupContext'
+import withRadioInputGroup from './hoc/withRadioInputGroup'
 
 export const Container = styled.div<{ disabled?: boolean }>`
 	${props => (props.disabled ? 'cursor: not-allowed;' : 'cursor: pointer;')}
@@ -56,48 +56,48 @@ export const Knob = styled.div`
 `
 
 type RadioProps = React.InputHTMLAttributes<HTMLInputElement> & {
-	inputGroup: any
+	inputGroup?: any
 }
 
-const Radio = React.forwardRef<HTMLInputElement, RadioProps>((props, ref) => {
-	const { disabled: disabledByProps, inputGroup, value, ...other } = props
+export const RadioInput = React.forwardRef<HTMLInputElement, RadioProps>(
+	(props, ref) => {
+		const { disabled: disabledByProps, inputGroup, value, ...other } = props
 
-	const { name, onChange, value: inputGroupValue = '' } = inputGroup
+		const { name, onChange, value: inputGroupValue = '' } = inputGroup
 
-	const checked = value?.toString() === inputGroupValue.toString()
+		const checked = value?.toString() === inputGroupValue.toString()
 
-	// We can disable the whole radio group with <RadioInputGroup disabled> or just one input with <RadioInput disabled>
-	const disabled = disabledByProps || inputGroup.disabled
+		// We can disable the whole radio group with <RadioInputGroup disabled> or just one input with <RadioInput disabled>
+		const disabled = disabledByProps || inputGroup.disabled
 
-	const inputRef = React.useRef<HTMLInputElement>(null)
+		const inputRef = React.useRef<HTMLInputElement>(null)
 
-	const handleClick = () => inputRef?.current?.click()
+		const handleClick = () => inputRef?.current?.click()
 
-	React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
+		React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
 
-	return (
-		<Container disabled={disabled} onClick={handleClick}>
-			<Input
-				{...other}
-				type='radio'
-				ref={inputRef}
-				checked={checked}
-				disabled={disabled}
-				name={name}
-				onChange={onChange}
-				value={value}
-			/>
-			<Background disabled={disabled} checked={checked}>
-				{checked && <Knob />}
-			</Background>
-		</Container>
-	)
-})
-
-const AtGroupRadioInput = props => (
-	<RadioInputGroupContext.Consumer>
-		{inputGroup => <Radio {...props} inputGroup={inputGroup} />}
-	</RadioInputGroupContext.Consumer>
+		return (
+			<Container disabled={disabled} onClick={handleClick}>
+				<Input
+					{...other}
+					type='radio'
+					ref={inputRef}
+					checked={checked}
+					disabled={disabled}
+					name={name}
+					onChange={onChange}
+					value={value}
+				/>
+				<Background disabled={disabled} checked={checked}>
+					{checked && <Knob />}
+				</Background>
+			</Container>
+		)
+	}
 )
 
-export default AtGroupRadioInput
+RadioInput.defaultProps = {
+	inputGroup: undefined,
+}
+
+export default withRadioInputGroup(RadioInput)

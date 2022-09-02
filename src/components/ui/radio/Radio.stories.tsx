@@ -4,6 +4,7 @@ import React from 'react'
 
 import { Flex } from 'theme-ui'
 import Radio from './Radio'
+import RadioCard, { RadioCardText } from './RadioCardInput'
 import RadioInputGroupProvider from './RadioInputGroupProvider'
 
 export default {
@@ -19,15 +20,37 @@ export const RadioExample = () => {
 	const [value, setValue] = React.useState('1')
 
 	return (
-		<Flex sx={{ gap: 8 }}>
+		<Flex sx={{ gap: 8, flexDirection: 'column' }}>
+			<Flex sx={{ gap: 16 }}>
+				<RadioInputGroupProvider
+					name='index'
+					value={value}
+					onChange={e => setValue(e.target.value)}
+				>
+					<Radio value='1' />
+					<Radio value='2' />
+					<Radio value='3' disabled />
+				</RadioInputGroupProvider>
+			</Flex>
+
 			<RadioInputGroupProvider
-				name='index'
+				name='test'
 				value={value}
 				onChange={e => setValue(e.target.value)}
 			>
-				<Radio value='1' />
-				<Radio value='2' />
-				<Radio value='3' disabled />
+				<Flex sx={{ minWidth: 200 }}>
+					<RadioCard value='1'>
+						<RadioCardText>Test 1</RadioCardText>
+					</RadioCard>
+				</Flex>
+				<Flex sx={{ minWidth: 200 }}>
+					<RadioCard value='2'>
+						<RadioCardText>Test 2</RadioCardText>
+					</RadioCard>
+				</Flex>
+				<Flex sx={{ minWidth: 200 }}>
+					<RadioCard value='3' disabled />
+				</Flex>
 			</RadioInputGroupProvider>
 		</Flex>
 	)
