@@ -1,19 +1,22 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'next-i18next'
+import { Box, Text } from 'theme-ui'
 
 import TradeAssetImage from 'assets/images/TradeAsset'
 import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 
-import Button from 'components/ui/button/Button'
-import { Page } from 'components/ui/page'
-import { LayoutContainer } from 'components/ui/layout'
-import MobileSteps from 'components/ui/mobile-steps/MobileSteps'
-import Steps from 'components/ui/steps/Steps'
-import { ModalContext } from 'context/modalContext'
-import { Box, Text } from 'theme-ui'
+import {
+	Page,
+	Button,
+	LayoutContainer,
+	MobileSteps,
+	MyNFTsModal,
+	Steps,
+} from 'components'
+import { ModalContext } from 'context'
 import { NFT } from 'services/api/walletNFTsService'
-import { MyNFTsModal } from 'components/ui/modals'
+import { getStaticPaths, makeStaticProps } from 'lib'
 import {
 	BodyContainer,
 	Container,
@@ -30,7 +33,6 @@ import {
 	TradeBackgroundBlobContainer,
 	TradeBackgroundLogoContainer,
 } from './trade.styled'
-import { getStaticPaths, makeStaticProps } from '../../../lib/getStatic'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 export { getStaticPaths, getStaticProps }

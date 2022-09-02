@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
-import { theme } from 'components/theme/theme'
-import { Card } from 'components/ui/card'
+import { Card, theme } from 'components'
 import { HEADER_HEIGHT } from 'constants/components'
 
 import { Box, css, Flex, Text } from 'theme-ui'
