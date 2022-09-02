@@ -12,8 +12,8 @@ import MobileSteps from 'components/ui/mobile-steps/MobileSteps'
 import Steps from 'components/ui/steps/Steps'
 import { ModalContext } from 'context/modalContext'
 import { Box, Text } from 'theme-ui'
-import { MyNFTsModal } from 'components/ui/my-nfts-modal'
 import { NFT } from 'services/api/walletNFTsService'
+import { MyNFTsModal } from 'components/ui/modals'
 import {
 	BodyContainer,
 	Container,
