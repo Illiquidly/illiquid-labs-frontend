@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 module.exports = {
 	trailingSlash: true,
 	images: {
@@ -10,6 +11,11 @@ module.exports = {
 			test: /\.svg$/,
 			use: ['@svgr/webpack'],
 		})
+
+		config.resolve.fallback = {
+			...config.resolve.fallback,
+			fs: false,
+		}
 
 		return config
 	},
