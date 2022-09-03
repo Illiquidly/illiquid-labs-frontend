@@ -5,20 +5,22 @@ import {
 	WalletControllerChainOptions,
 	WalletProvider,
 } from '@terra-money/wallet-provider'
-import { theme } from 'components/theme/theme'
 import { AppProps } from 'next/app'
-import 'rc-tooltip/assets/bootstrap_white.css'
-import 'react-toastify/dist/ReactToastify.css'
 import { RecoilRoot } from 'recoil'
-import { ThemeProvider } from 'theme-ui'
-import blockchain from 'utils/blockchain/terraUtils'
-import './styles.css'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
 import { appWithTranslation } from 'next-i18next'
 
-import { ModalProvider } from 'context/modalContext'
+import { ThemeProvider } from 'theme-ui'
+
+import { theme } from 'components'
+import blockchain from 'utils/blockchain/terraUtils'
+import './styles.css'
+
+import 'rc-tooltip/assets/bootstrap_white.css'
+import 'react-toastify/dist/ReactToastify.css'
+
+import { ModalProvider } from 'context'
 import i18nConfig from '../../next-i18next.config'
 
 const queryClient = new QueryClient()

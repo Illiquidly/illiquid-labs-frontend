@@ -5,7 +5,7 @@ import terraUtils from 'utils/blockchain/terraUtils'
 import { parseTxResult } from 'utils/blockchain/parseTxResult'
 import useIsMobile from './react/useIsMobile'
 
-const useBroadcastingTx = (
+export const useBroadcastingTx = (
 	txId?: TxReceipt['txId'],
 	onSuccessBroadcast?: (data: any) => void,
 	scrollAfterTx = false
