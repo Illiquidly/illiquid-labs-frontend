@@ -1,8 +1,6 @@
 // Footer.stories.ts|tsx
 
-import React from 'react'
-
-import { Flex, Box } from 'theme-ui'
+import { Box, Flex } from 'theme-ui'
 import NFTCard from './NFTCard'
 
 export default {
@@ -41,22 +39,10 @@ export const NFTCardExample = () => (
 				size='small'
 				checked
 				verified
+				isCover
 				imageUrl={[
 					'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
 				]}
-				leftActionComponent={
-					<Box
-						sx={{
-							fontSize: '16px',
-							lineHeight: '24px',
-							background: 'success400',
-							p: '2px 12px',
-							borderRadius: '42px',
-						}}
-					>
-						Cover
-					</Box>
-				}
 				name='Fox #7561'
 				collectionName='Mutant Ape Yacht Club'
 			/>
@@ -64,19 +50,6 @@ export const NFTCardExample = () => (
 				size='small'
 				checked
 				verified
-				leftActionComponent={
-					<Box
-						sx={{
-							fontSize: '16px',
-							lineHeight: '24px',
-							background: 'success400',
-							p: '2px 12px',
-							borderRadius: '42px',
-						}}
-					>
-						Cover
-					</Box>
-				}
 				name='Fox #7561'
 				collectionName='Mutant Ape Yacht Club'
 			/>
