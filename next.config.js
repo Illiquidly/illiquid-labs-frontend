@@ -1,9 +1,9 @@
-module.exports = {
+/**
+ * @type {import('next').NextConfig}
+ */
+
+const nextConfig = {
 	trailingSlash: true,
-	images: {
-		loader: 'akamai',
-		path: '',
-	},
 	pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
 	webpack(config) {
 		config.module.rules.push({
@@ -11,6 +11,11 @@ module.exports = {
 			use: ['@svgr/webpack'],
 		})
 
-		return config
+		const updatedConfig = config
+		updatedConfig.resolve.fallback = { fs: false }
+
+		return updatedConfig
 	},
 }
+
+module.exports = nextConfig
