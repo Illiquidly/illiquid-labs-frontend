@@ -22,6 +22,11 @@ export default class extends Document {
 					<meta name='theme-color' content='#000000' />
 					<meta name='description' content='Illiquid Labs | NFT Infrastructure' />
 					<link rel='preconnect' href='https://fonts.googleapis.com' />
+					<link rel='preconnect' href='https://fonts.gstatic.com' />
+					<link
+						href='https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&display=swap'
+						rel='stylesheet'
+					/>
 				</Head>
 				<body>
 					<Main />
