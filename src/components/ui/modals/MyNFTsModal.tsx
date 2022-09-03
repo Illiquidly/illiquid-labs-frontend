@@ -3,27 +3,27 @@ import { ModalCloseIcon } from 'assets/icons/modal'
 import { ModalContext } from 'context/modalContext'
 import useMyNFTs from 'hooks/useMyNFTs'
 import { noop, uniqBy } from 'lodash'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
-import { IconButton, Box, Flex } from 'theme-ui'
+import { Box, Flex, IconButton } from 'theme-ui'
 import { Button } from '../button'
 import { OnlyMobileAndTablet } from '../layout'
 import NFTCard from '../nft-card/NFTCard'
 import { SelectCard } from '../select-card'
 import {
+	CollectionFiltersSection,
+	ModalBody,
 	ModalContent,
+	ModalContentHeader,
 	ModalHeader,
 	ModalOverlay,
-	ModalBody,
-	ModalContentHeader,
 	ModalTitle,
+	MyNFTsBody,
+	NFTCardContainer,
+	NFTCardsGridWrapper,
+	NFTSelectionOverlay,
 	SearchContainer,
 	SortSelectContainer,
-	MyNFTsBody,
-	CollectionFiltersSection,
-	NFTCardsGridWrapper,
-	NFTCardContainer,
-	NFTSelectionOverlay,
 } from './MyNFTsModal.styled'
 
 export interface MyNFTsModalProps {
@@ -40,11 +40,13 @@ const MyNFTsModal = ({
 	selectedNFTs: defaultSelectedNFTs = [],
 	onAddNFTs,
 }: MyNFTsModalProps) => {
-	const { handleModal } = React.useContext(ModalContext)
+	const { handleModal } = useContext(ModalContext)
 	const theme = useTheme()
 	const { ownedNFTs } = useMyNFTs()
 	const [selectedNFTs, setSelectedNFTs] =
 		React.useState<NFT[]>(defaultSelectedNFTs)
+
+	const [selectedCover, setSelectedCover] = useState<NFT>()
 
 	React.useEffect(() => {
 		setSelectedNFTs(defaultSelectedNFTs)
@@ -68,6 +70,10 @@ const MyNFTsModal = ({
 		)
 	}
 
+	const handleCoverSelect = (nft: NFT) => {
+		setSelectedCover(nft)
+	}
+
 	return (
 		<ModalOverlay>
 			<ModalHeader onClick={() => handleModal?.(null)}>
@@ -79,6 +85,7 @@ const MyNFTsModal = ({
 					</Box>
 				</ModalContent>
 			</ModalHeader>
+
 			<ModalBody>
 				<ModalContent>
 					<Flex sx={{ flexDirection: 'column' }}>
@@ -146,10 +153,15 @@ const MyNFTsModal = ({
 									return (
 										<NFTCard
 											{...nft}
+											isCover={selectedCover === nft}
 											key={`${nft.collectionAddress}_${nft.tokenId}`}
-											onClick={() =>
+											onCardClick={() =>
 												checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
 											}
+											onCoverClick={e => {
+												e.stopPropagation()
+												handleCoverSelect(nft)
+											}}
 											checked={checked}
 										/>
 									)

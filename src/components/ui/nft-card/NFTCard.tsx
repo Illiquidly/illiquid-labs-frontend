@@ -8,10 +8,10 @@ import { OverflowTip } from '../overflow-tip'
 import {
 	BottomImageArea,
 	CardContainer,
+	CoverLabel,
 	DescriptionSection,
 	Image,
 	ImageSection,
-	LeftImageArea,
 	RightImageArea,
 	Subtitle,
 	Title,
@@ -22,12 +22,13 @@ type SizeVariants = 'small' | 'medium'
 interface NFTCardProps {
 	checked?: boolean
 	verified?: boolean
-	onClick?: React.MouseEventHandler<HTMLDivElement>
+	onCardClick?: React.MouseEventHandler<HTMLDivElement>
+	onCoverClick?: React.MouseEventHandler<HTMLDivElement>
 	name?: string
 	collectionName?: string
 	size?: SizeVariants
 	imageUrl?: string[]
-	leftActionComponent?: ReactNode
+	isCover?: boolean
 	bottomActionComponent?: ReactNode
 }
 
@@ -50,16 +51,17 @@ const verifiedMarginTopBySizeVariant = {
 function NFTCard({
 	checked,
 	verified,
-	onClick,
+	onCardClick,
+	onCoverClick,
 	name,
 	collectionName,
 	size = 'medium',
-	leftActionComponent,
+	isCover,
 	bottomActionComponent,
 	imageUrl,
 }: NFTCardProps) {
 	return (
-		<CardContainer checked={checked} onClick={onClick}>
+		<CardContainer checked={checked} onClick={onCardClick} isCover={isCover}>
 			<ImageSection>
 				{imageUrl?.every(img => img === '') ? (
 					<ImagePlaceholder width='85px' height='80px' />
@@ -72,9 +74,9 @@ function NFTCard({
 					</RightImageArea>
 				)}
 
-				{leftActionComponent && (
-					<LeftImageArea>{leftActionComponent}</LeftImageArea>
-				)}
+				<CoverLabel className='coverLabel' isCover={isCover} onClick={onCoverClick}>
+					{isCover ? 'cover' : 'set as cover'}
+				</CoverLabel>
 
 				{bottomActionComponent && (
 					<BottomImageArea>{bottomActionComponent}</BottomImageArea>
@@ -100,11 +102,12 @@ function NFTCard({
 }
 
 NFTCard.defaultProps = {
-	leftActionComponent: noop,
+	isCover: false,
 	bottomActionComponent: noop,
 	checked: false,
 	verified: false,
-	onClick: noop,
+	onCardClick: noop,
+	onCoverClick: noop,
 	name: '',
 	collectionName: '',
 	size: 'medium',
