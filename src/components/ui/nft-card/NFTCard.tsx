@@ -61,9 +61,10 @@ function NFTCard({
 	return (
 		<CardContainer checked={checked} onClick={onClick}>
 			<ImageSection>
-				<Image src={imageUrl ?? []} />
-				{!(imageUrl || []).length && (
+				{imageUrl?.every(img => img === '') ? (
 					<ImagePlaceholder width='85px' height='80px' />
+				) : (
+					<Image src={imageUrl ?? []} />
 				)}
 				{checked && (
 					<RightImageArea>
