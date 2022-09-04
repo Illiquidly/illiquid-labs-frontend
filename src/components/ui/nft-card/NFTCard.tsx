@@ -2,11 +2,10 @@ import { VerifiedIcon } from 'assets/icons/16pt'
 import CheckedOutlineIcon from 'assets/icons/32pt/CheckedOutlineIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { noop } from 'lodash'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../overflow-tip'
 import {
-	BottomImageArea,
 	CardContainer,
 	CoverLabel,
 	DescriptionSection,
@@ -29,7 +28,6 @@ interface NFTCardProps {
 	size?: SizeVariants
 	imageUrl?: string[]
 	isCover?: boolean
-	bottomActionComponent?: ReactNode
 }
 
 const checkedIconSizeBySizeVariant = {
@@ -57,7 +55,6 @@ function NFTCard({
 	collectionName,
 	size = 'medium',
 	isCover,
-	bottomActionComponent,
 	imageUrl,
 }: NFTCardProps) {
 	return (
@@ -77,10 +74,6 @@ function NFTCard({
 				<CoverLabel className='coverLabel' isCover={isCover} onClick={onCoverClick}>
 					{isCover ? 'cover' : 'set as cover'}
 				</CoverLabel>
-
-				{bottomActionComponent && (
-					<BottomImageArea>{bottomActionComponent}</BottomImageArea>
-				)}
 			</ImageSection>
 			<DescriptionSection size={size}>
 				<OverflowTip>
@@ -103,7 +96,6 @@ function NFTCard({
 
 NFTCard.defaultProps = {
 	isCover: false,
-	bottomActionComponent: noop,
 	checked: false,
 	verified: false,
 	onCardClick: noop,

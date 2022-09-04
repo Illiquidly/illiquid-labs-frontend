@@ -104,10 +104,12 @@ DescriptionSection.defaultProps = {
 	},
 }
 
-export const CardContainer = styled(Box)<{
+interface CardContainerProps {
 	checked?: boolean
 	isCover?: boolean
-}>`
+}
+
+export const CardContainer = styled.div<CardContainerProps>`
 	width: 100%;
 	border-radius: 8px;
 	border: 2px solid transparent;
@@ -151,7 +153,7 @@ export const RightImageArea = styled(Box)`
 	top: 8px;
 `
 
-export const CoverLabel = styled(Box)<{ isCover?: boolean }>`
+export const CoverLabel = styled.div<{ isCover?: boolean }>`
 	z-index: ${props => props.theme.zIndices.imgOverlay};
 	position: absolute;
 	left: 12px;
@@ -173,14 +175,6 @@ export const CoverLabel = styled(Box)<{ isCover?: boolean }>`
 		css`
 			background-color: ${theme.colors.success400};
 		`}
-`
-
-export const BottomImageArea = styled(Box)`
-	z-index: ${props => props.theme.zIndices.imgOverlay};
-	position: absolute;
-	bottom: 0px;
-	left: auto;
-	right: auto;
 `
 
 export const Image = styled(Img)`
