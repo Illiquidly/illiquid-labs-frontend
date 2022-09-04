@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { noop } from 'lodash'
 import React from 'react'
 import { Button as ThemeUIButton, NavLink, ThemeUIStyleObject } from 'theme-ui'
+
 import { Link } from '../../link'
 
 interface ButtonProps {
@@ -31,7 +32,9 @@ interface ButtonProps {
 	onClick?: (e: any) => void
 }
 
-const StyledButton = styled(ThemeUIButton)<ButtonProps>`
+const StyledButton = styled(ThemeUIButton, {
+	shouldForwardProp: prop => prop !== 'fullWidth',
+})<ButtonProps>`
 	${props => (props.fullWidth ? 'flex: 1' : '')}
 `
 
