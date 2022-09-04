@@ -76,7 +76,7 @@ const MyNFTsModal = ({
 
 	return (
 		<ModalOverlay>
-			<ModalHeader onClick={() => handleModal?.(null)}>
+			<ModalHeader>
 				<ModalContent>
 					<Box ml='auto' mr='-12px'>
 						<IconButton size='40px' onClick={() => handleModal?.(null)}>

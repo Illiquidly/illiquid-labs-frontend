@@ -4,13 +4,13 @@ import { useModal } from 'utils/react/useModal'
 
 type ModalContextProps = {
 	isModalOpen: boolean
-	handleModal: (content: any) => void
+	handleModal: (content: any, setItOnFullScreen?: boolean) => void
 }
 
 const ModalContext = React.createContext<Partial<ModalContextProps>>({})
 
 const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-	const { isModalOpen, handleModal, modalContent } = useModal()
+	const { isModalOpen, handleModal, modalContent, isOverHeader } = useModal()
 
 	useEffect(() => {
 		if (isModalOpen) {
@@ -22,10 +22,14 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
 	return (
 		<ModalContext.Provider value={{ isModalOpen, handleModal }}>
-			<Modal isOpen={isModalOpen} onCloseModal={() => handleModal()}>
+			{children}
+			<Modal
+				isOpen={isModalOpen}
+				onCloseModal={() => handleModal()}
+				isOverHeader={isOverHeader}
+			>
 				{modalContent}
 			</Modal>
-			{children}
 		</ModalContext.Provider>
 	)
 }

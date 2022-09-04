@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import { useTranslation } from 'next-i18next'
+import React, { useState } from 'react'
 import { Box, Text } from 'theme-ui'
 
 import TradeAssetImage from 'assets/images/TradeAsset'
@@ -7,16 +7,16 @@ import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 
 import {
-	Page,
 	Button,
 	LayoutContainer,
 	MobileSteps,
 	MyNFTsModal,
+	Page,
 	Steps,
 } from 'components'
 import { ModalContext } from 'context'
-import { NFT } from 'services/api/walletNFTsService'
 import { getStaticPaths, makeStaticProps } from 'lib'
+import { NFT } from 'services/api/walletNFTsService'
 import {
 	BodyContainer,
 	Container,
@@ -124,7 +124,8 @@ export default function Trade() {
 								sx={{ minWidth: ['140px'] }}
 								onClick={() =>
 									handleModal?.(
-										<MyNFTsModal selectedNFTs={selectedNFTs} onAddNFTs={onAddNFTs} />
+										<MyNFTsModal selectedNFTs={selectedNFTs} onAddNFTs={onAddNFTs} />,
+										true
 									)
 								}
 								fullWidth
