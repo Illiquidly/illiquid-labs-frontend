@@ -12,22 +12,9 @@ export default {
 
 export const TextInputExample = () => {
 	return (
-		<Flex sx={{ flexDirection: 'column' }}>
-			<Flex>
-				<TextInput
-					placeholder='Enter text'
-					onChange={() => {
-						// console.log(e.target.value)
-					}}
-				/>
-				<TextInput
-					placeholder='Error'
-					onChange={() => {
-						// console.log(e.target.value)
-					}}
-					error
-				/>
-			</Flex>
+		<Flex sx={{ flexDirection: 'column', gap: 8 }}>
+			<TextInput placeholder='Enter text' />
+			<TextInput placeholder='Error' error />
 		</Flex>
 	)
 }

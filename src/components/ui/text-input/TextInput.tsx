@@ -32,7 +32,15 @@ const TextInputStyled = styled.input<TextInputProps>`
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
 			}`};
 	}
-	&:focus,
+	&:focus {
+		border: ${props =>
+			`1.5px solid ${
+				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
+			}`};
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+			0px 0px 0px 4px rgba(63, 138, 224, 0.18);
+		outline: 0;
+	}
 	&:active {
 		outline: none;
 		margin: 0;
