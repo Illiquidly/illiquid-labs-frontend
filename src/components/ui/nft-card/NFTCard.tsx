@@ -5,6 +5,7 @@ import { noop } from 'lodash'
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../overflow-tip'
+
 import {
 	CardContainer,
 	CoverLabel,

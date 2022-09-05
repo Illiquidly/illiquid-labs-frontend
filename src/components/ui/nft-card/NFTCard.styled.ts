@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { theme } from 'components/theme/theme'
 import { Img } from 'react-image'
-import { Box, Flex, Text } from 'theme-ui'
+import { Flex, Text } from 'theme-ui'
 
 export const Title = styled(Text)<{ size?: string }>`
 	font-weight: 700;
@@ -113,6 +113,7 @@ export const CardContainer = styled.div<CardContainerProps>`
 	width: 100%;
 	border-radius: 8px;
 	border: 2px solid transparent;
+	position: relative;
 
 	${props =>
 		props.isCover
@@ -146,7 +147,8 @@ export const CardContainer = styled.div<CardContainerProps>`
 	`}
 `
 
-export const RightImageArea = styled(Box)`
+
+export const RightImageArea = styled.div`
 	z-index: ${props => props.theme.zIndices.imgOverlay};
 	position: absolute;
 	right: 8px;

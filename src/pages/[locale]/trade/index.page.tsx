@@ -1,52 +1,51 @@
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
-import { Box, Text } from 'theme-ui'
+import { useState } from 'react'
+import { Text } from 'theme-ui'
 
-import TradeAssetImage from 'assets/images/TradeAsset'
 import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 
-import {
-	Button,
-	LayoutContainer,
-	MobileSteps,
-	MyNFTsModal,
-	Page,
-	Steps,
-} from 'components'
-import { ModalContext } from 'context'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
+import { TradeFormStep1 } from 'components/ui/forms'
 import { getStaticPaths, makeStaticProps } from 'lib'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
+import * as yup from 'yup'
 import {
 	BodyContainer,
 	Container,
-	ContentCard,
-	ContentCardSubtitle,
-	ContentCardTitle,
 	HeaderContainer,
 	HeaderSubtitleContainer,
 	HeaderTitle,
 	HeaderTitleContainer,
 	MobileStepsWrapper,
 	StepsWrapper,
-	TradeAssetImageContainer,
 	TradeBackgroundBlobContainer,
 	TradeBackgroundLogoContainer,
 } from './trade.styled'
+
+export interface IFormValues {
+	selectedNFts: NFT[]
+}
+
+const schema = yup.object().shape({
+	selectedNFTs: yup.array().min(1, 'atleast 1').required('required'),
+})
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 export { getStaticPaths, getStaticProps }
 
 export default function Trade() {
-	const [selectedNFTs, setSelectedNFTs] = React.useState<NFT[]>([])
-	const { handleModal } = React.useContext(ModalContext)
-
-	const onAddNFTs = (NFTs: NFT[]) => {
-		setSelectedNFTs(NFTs)
-		handleModal?.(null)
-	}
-
 	const { t } = useTranslation(['common', 'trade'])
+
+	const formMethods = useForm<IFormValues>({
+		mode: 'onTouched',
+		resolver: yupResolver(schema),
+		defaultValues: {
+			selectedNFts: [],
+		},
+	})
 
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
 	const [steps] = useState([
@@ -76,6 +75,12 @@ export default function Trade() {
 		},
 	])
 
+	const onSubmit: SubmitHandler<IFormValues> = data => {
+		console.log('submit data', data)
+	}
+
+	console.log(formMethods.watch()) // watch input value by passing the name of it
+
 	return (
 		<Page title={t('common:title')}>
 			<LayoutContainer>
@@ -98,43 +103,26 @@ export default function Trade() {
 						</HeaderSubtitleContainer>
 					</HeaderContainer>
 
-					<BodyContainer>
-						<MobileStepsWrapper>
-							<MobileSteps steps={steps} />
-						</MobileStepsWrapper>
+					{/* FORM STARTS HERE */}
+					<FormProvider {...formMethods}>
+						<form onSubmit={formMethods.handleSubmit(onSubmit)}>
+							<BodyContainer>
+								<MobileStepsWrapper>
+									<MobileSteps steps={steps} />
+								</MobileStepsWrapper>
 
-						{/* Only on Laptop and Desktop */}
-						<StepsWrapper>
-							<Steps steps={steps} />
-						</StepsWrapper>
+								{/* Only on Laptop and Desktop */}
+								<StepsWrapper>
+									<Steps steps={steps} />
+								</StepsWrapper>
 
-						<ContentCard>
-							<TradeAssetImageContainer>
-								<TradeAssetImage />
-							</TradeAssetImageContainer>
+								{/* STEP 1 */}
 
-							<Box sx={{ mb: ['2px'] }}>
-								<ContentCardTitle>{t('trade:question')}</ContentCardTitle>
-							</Box>
-							<Box sx={{ mb: ['16px'] }}>
-								<ContentCardSubtitle>{t('trade:add-instruction')}</ContentCardSubtitle>
-							</Box>
-
-							<Button
-								sx={{ minWidth: ['140px'] }}
-								onClick={() =>
-									handleModal?.(
-										<MyNFTsModal selectedNFTs={selectedNFTs} onAddNFTs={onAddNFTs} />,
-										true
-									)
-								}
-								fullWidth
-								variant='gradient'
-							>
-								<Text variant='textSmMedium'>{t('trade:select-nfts')}</Text>
-							</Button>
-						</ContentCard>
-					</BodyContainer>
+								<TradeFormStep1 />
+							</BodyContainer>
+							<button type='submit'>test submit</button>
+						</form>
+					</FormProvider>
 				</Container>
 			</LayoutContainer>
 		</Page>

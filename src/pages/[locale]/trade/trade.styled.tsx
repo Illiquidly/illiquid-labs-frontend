@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Card, theme } from 'components'
+import { theme } from 'components'
 import { HEADER_HEIGHT } from 'constants/components'
 
 import { Box, css, Flex, Text } from 'theme-ui'
@@ -52,24 +52,6 @@ HeaderSubtitleContainer.defaultProps = {
 	sx: { display: ['block', 'block', 'none'], alignSelf: 'center' },
 }
 
-export const ContentCardTitle = styled(Text)``
-
-ContentCardTitle.defaultProps = {
-	as: 'div',
-	variant: 'textXlSemibold',
-	sx: { lineHeight: '32px', textAlign: 'center' },
-	color: 'neutral50',
-}
-
-export const ContentCardSubtitle = styled(Text)``
-
-ContentCardSubtitle.defaultProps = {
-	as: 'div',
-	variant: 'textSmRegular',
-	color: 'gray700',
-	sx: { lineHeight: '20px', textAlign: 'center' },
-}
-
 export const StepsWrapper = styled(Flex)``
 
 StepsWrapper.defaultProps = {
@@ -88,17 +70,6 @@ MobileStepsWrapper.defaultProps = {
 	sx: { display: ['block', 'block', 'none'], mb: ['12px', '32px'] },
 }
 
-export const ContentCard = styled(Card)`
-	border-radius: 12px;
-`
-
-ContentCard.defaultProps = {
-	sx: {
-		p: ['32px 28px', '52px 58px', '32px 28px', '52px 84px'],
-		alignItems: 'center',
-	},
-}
-
 export const HeaderContainer = styled(Flex)``
 
 HeaderContainer.defaultProps = {
@@ -113,12 +84,6 @@ export const HeaderTitleContainer = styled(Flex)``
 
 HeaderTitleContainer.defaultProps = {
 	sx: { alignItems: ['initial', 'initial', 'center'] },
-}
-
-export const TradeAssetImageContainer = styled(Box)``
-
-TradeAssetImageContainer.defaultProps = {
-	sx: { mb: '7px' },
 }
 
 export const BodyContainer = styled(Flex)``
