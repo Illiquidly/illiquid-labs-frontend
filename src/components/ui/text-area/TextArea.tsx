@@ -7,6 +7,8 @@ const TextAreaStyled = styled.textarea`
 	padding-block: 10px;
 	background: ${props => props.theme.colors.secondary700};
 	color: ${props => props.theme.colors.secondary100};
+	border-radius: 8px;
+	margin: 1px;
 
 	&:disabled {
 		background: ${props => props.theme.colors.primary100};
@@ -19,19 +21,28 @@ const TextAreaStyled = styled.textarea`
 	}
 	&:focus,
 	active {
+		margin: 0;
 		outline: none;
-		border: 2px solid;
-		border-image-source: linear-gradient(to left, #467ee3, #62cefd);
-		border-image-slice: 1;
-		background: ${props => props.theme.colors.secondary500};
+		background: linear-gradient(${props => props.theme.colors.secondary500} 0 0)
+				padding-box,
+			linear-gradient(to left, #467ee3, #62cefd) border-box;
+		border: 2px solid transparent;
+		color: ${props => props.theme.colors.natural50};
 		color: ${props => props.theme.colors.natural50};
 	}
 `
 
 type TextAreaInputProps = React.InputHTMLAttributes<HTMLTextAreaElement>
 
-export const TextArea = ({ children, ...props }: TextAreaInputProps) => {
-	return <TextAreaStyled {...props}>{children}</TextAreaStyled>
-}
+export const TextArea = React.forwardRef<
+	HTMLTextAreaElement,
+	TextAreaInputProps
+>((props, ref) => {
+	return (
+		<TextAreaStyled {...props} ref={ref}>
+			{props.children}
+		</TextAreaStyled>
+	)
+})
 
 export default TextArea
