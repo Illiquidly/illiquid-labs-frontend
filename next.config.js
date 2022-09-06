@@ -1,8 +1,5 @@
-/**
- * @type {import('next').NextConfig}
- */
-
-const nextConfig = {
+/* eslint-disable no-param-reassign */
+module.exports = {
 	trailingSlash: true,
 	pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
 	webpack(config) {
@@ -11,11 +8,11 @@ const nextConfig = {
 			use: ['@svgr/webpack'],
 		})
 
-		const updatedConfig = config
-		updatedConfig.resolve.fallback = { fs: false }
+		config.resolve.fallback = {
+			...config.resolve.fallback,
+			fs: false,
+		}
 
-		return updatedConfig
+		return config
 	},
 }
-
-module.exports = nextConfig
