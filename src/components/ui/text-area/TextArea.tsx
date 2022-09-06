@@ -58,6 +58,9 @@ const Container = styled.div<ContainerProps>`
 `
 
 const TextAreaStyled = styled.textarea`
+	resize: none;
+	flex: 1;
+
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
 		opacity: 1;
