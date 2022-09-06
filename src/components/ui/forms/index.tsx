@@ -1,1 +1,1 @@
-export { TradeFormStep1 } from './tradeFormSteps'
+export { SelectNFTs, TradeDetails } from './tradeFormSteps'

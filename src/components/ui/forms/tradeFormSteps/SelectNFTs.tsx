@@ -15,14 +15,14 @@ import {
 	ContentCardSubtitle,
 	ContentCardTitle,
 	TradeAssetImageContainer,
-} from './TradeFormStep1.styled'
+} from './SelectNFTs.styled'
 
 interface Props {
 	goNextStep: () => void
 	step: iStep
 }
 
-export const TradeFormStep1 = ({ goNextStep, step }: Props) => {
+export const SelectNFTs = ({ goNextStep, step }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { handleModal } = useContext(ModalContext)
 
