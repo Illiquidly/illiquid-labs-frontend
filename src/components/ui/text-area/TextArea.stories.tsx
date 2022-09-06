@@ -19,12 +19,7 @@ export const TextAreaExample = () => {
 					width: '280px',
 				}}
 			>
-				<TextArea
-					placeholder='Enter text'
-					onChange={() => {
-						// console.log(e.target.value)
-					}}
-				/>
+				<TextArea placeholder='Enter text' />
 			</Flex>
 			<Flex
 				sx={{
@@ -32,13 +27,15 @@ export const TextAreaExample = () => {
 					width: '280px',
 				}}
 			>
-				<TextArea
-					error
-					placeholder='Error text'
-					onChange={() => {
-						// console.log(e.target.value)
-					}}
-				/>
+				<TextArea error placeholder='Error text' />
+			</Flex>
+			<Flex
+				sx={{
+					height: '160px',
+					width: '280px',
+				}}
+			>
+				<TextArea disabled placeholder='Disabled text' />
 			</Flex>
 		</Flex>
 	)

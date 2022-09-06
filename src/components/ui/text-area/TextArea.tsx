@@ -23,10 +23,12 @@ const Container = styled.div<ContainerProps>`
 	background: ${props => props.theme.colors.dark400};
 	border-radius: 8px;
 
-	&:disabled {
+	${props =>
+		props.disabled &&
+		`
 		cursor: not-allowed;
-		background: ${props => props.theme.colors.primary100};
-	}
+		border: 1.5px solid ${props.theme.colors.dark500}
+	`}
 
 	&:hover {
 		margin: 0;
@@ -65,6 +67,11 @@ const TextAreaStyled = styled.textarea`
 		color: ${props => props.theme.colors.gray600};
 		opacity: 1;
 	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
 	background: ${props => props.theme.colors.dark400};
 	border: 0;
 

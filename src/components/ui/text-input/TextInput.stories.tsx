@@ -15,6 +15,7 @@ export const TextInputExample = () => {
 		<Flex sx={{ flexDirection: 'column', gap: 8 }}>
 			<TextInput placeholder='Enter text' />
 			<TextInput placeholder='Error' error />
+			<TextInput placeholder='Disabled' disabled />
 		</Flex>
 	)
 }
