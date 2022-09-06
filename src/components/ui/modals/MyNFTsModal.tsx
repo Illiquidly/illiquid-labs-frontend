@@ -48,10 +48,6 @@ export const MyNFTsModal = ({
 
 	const [selectedCover, setSelectedCover] = useState<NFT>()
 
-	React.useEffect(() => {
-		setSelectedNFTs(defaultSelectedNFTs)
-	}, [defaultSelectedNFTs])
-
 	const addSelectedNFT = (nft: NFT) => {
 		setSelectedNFTs(prevState =>
 			uniqBy(
@@ -79,7 +75,12 @@ export const MyNFTsModal = ({
 			<ModalHeader>
 				<ModalContent>
 					<Box ml='auto' mr='-12px'>
-						<IconButton size='40px' onClick={() => handleModal?.(null)}>
+						<IconButton
+							size='40px'
+							onClick={() => {
+								handleModal?.(null)
+							}}
+						>
 							<ModalCloseIcon />
 						</IconButton>
 					</Box>

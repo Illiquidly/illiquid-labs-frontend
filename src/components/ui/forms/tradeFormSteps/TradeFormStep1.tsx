@@ -1,30 +1,37 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 
 import TradeAssetImage from 'assets/images/TradeAsset'
 import { Button, MyNFTsModal } from 'components'
 import { ModalContext } from 'context'
 
+import { iStep } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Text } from 'theme-ui'
+import { TradeFormStepsProps } from './formProps'
 import {
 	ContentCard,
 	ContentCardSubtitle,
 	ContentCardTitle,
 	TradeAssetImageContainer,
 } from './TradeFormStep1.styled'
-import { TradeFormStepsProps } from './formProps'
 
-export const TradeFormStep1 = () => {
+interface Props {
+	goNextStep: () => void
+	step: iStep
+}
+
+export const TradeFormStep1 = ({ goNextStep, step }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { handleModal } = useContext(ModalContext)
-	const [selectedNFTs, setSelectedNFTs] = useState<NFT[]>([])
 
-	const { setValue } = useFormContext<TradeFormStepsProps>()
+	const { setValue, getValues } = useFormContext<TradeFormStepsProps>()
 
 	const onAddNFTs = (NFTs: NFT[]) => {
-		setSelectedNFTs(NFTs)
+		if (step.current === 0) {
+			goNextStep()
+		}
 		setValue('selectedNFts', NFTs)
 		handleModal?.(null)
 	}
@@ -46,7 +53,10 @@ export const TradeFormStep1 = () => {
 				onClick={e => {
 					e.preventDefault()
 					handleModal?.(
-						<MyNFTsModal selectedNFTs={selectedNFTs} onAddNFTs={onAddNFTs} />,
+						<MyNFTsModal
+							selectedNFTs={getValues('selectedNFts')}
+							onAddNFTs={onAddNFTs}
+						/>,
 						true
 					)
 				}}

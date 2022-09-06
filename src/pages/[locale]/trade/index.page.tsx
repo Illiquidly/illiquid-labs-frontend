@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { TradeFormStep1 } from 'components/ui/forms'
 import { TradeFormStepsProps } from 'components/ui/forms/tradeFormSteps'
+import { useStep } from 'hooks/react/useStep'
 import { getStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -44,30 +45,24 @@ export default function Trade() {
 	})
 
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
+	// const [currentStep, setCurrentStep] = useState<number>(0)
+	const { step, goNextStep } = useStep({ max: 3 })
 	const [steps] = useState([
 		{
 			id: 0,
 			label: stepLabels[0],
-			highlighted: true,
-			checked: true,
 		},
 		{
 			id: 1,
 			label: stepLabels[1],
-			highlighted: false,
-			checked: false,
 		},
 		{
 			id: 2,
 			label: stepLabels[2],
-			highlighted: false,
-			checked: false,
 		},
 		{
 			id: 3,
 			label: stepLabels[3],
-			highlighted: false,
-			checked: false,
 		},
 	])
 
@@ -104,16 +99,16 @@ export default function Trade() {
 						<form onSubmit={formMethods.handleSubmit(onSubmit)}>
 							<BodyContainer>
 								<MobileStepsWrapper>
-									<MobileSteps steps={steps} />
+									<MobileSteps steps={steps} currentStep={step.current} />
 								</MobileStepsWrapper>
 
 								{/* Only on Laptop and Desktop */}
 								<StepsWrapper>
-									<Steps steps={steps} />
+									<Steps steps={steps} currentStep={step.current} />
 								</StepsWrapper>
 
 								{/* STEP 1 */}
-								<TradeFormStep1 />
+								<TradeFormStep1 step={step} goNextStep={goNextStep} />
 							</BodyContainer>
 							<button type='submit'>test submit</button>
 						</form>
