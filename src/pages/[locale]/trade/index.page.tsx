@@ -8,9 +8,9 @@ import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { TradeFormStep1 } from 'components/ui/forms'
+import { TradeFormStepsProps } from 'components/ui/forms/tradeFormSteps'
 import { getStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { NFT } from 'services/api/walletNFTsService'
 import * as yup from 'yup'
 import {
 	BodyContainer,
@@ -25,10 +25,6 @@ import {
 	TradeBackgroundLogoContainer,
 } from './trade.styled'
 
-export interface IFormValues {
-	selectedNFts: NFT[]
-}
-
 const schema = yup.object().shape({
 	selectedNFTs: yup.array().min(1, 'atleast 1').required('required'),
 })
@@ -39,7 +35,7 @@ export { getStaticPaths, getStaticProps }
 export default function Trade() {
 	const { t } = useTranslation(['common', 'trade'])
 
-	const formMethods = useForm<IFormValues>({
+	const formMethods = useForm<TradeFormStepsProps>({
 		mode: 'onTouched',
 		resolver: yupResolver(schema),
 		defaultValues: {
@@ -75,7 +71,7 @@ export default function Trade() {
 		},
 	])
 
-	const onSubmit: SubmitHandler<IFormValues> = data => {
+	const onSubmit: SubmitHandler<TradeFormStepsProps> = data => {
 		console.log('submit data', data)
 	}
 
@@ -117,7 +113,6 @@ export default function Trade() {
 								</StepsWrapper>
 
 								{/* STEP 1 */}
-
 								<TradeFormStep1 />
 							</BodyContainer>
 							<button type='submit'>test submit</button>

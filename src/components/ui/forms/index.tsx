@@ -1,1 +1,1 @@
-export { TradeFormStep1 } from './TradeFormStep1'
+export { TradeFormStep1 } from './tradeFormSteps'

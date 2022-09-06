@@ -34,7 +34,7 @@ export interface MyNFTsModalProps {
 	onAddNFTs?: (v: NFT[]) => void
 }
 
-const MyNFTsModal = ({
+export const MyNFTsModal = ({
 	title,
 	addNFTsButtonLabel,
 	selectedNFTs: defaultSelectedNFTs = [],
@@ -193,5 +193,3 @@ MyNFTsModal.defaultProps = {
 	selectedNFTs: [],
 	onAddNFTs: noop,
 }
-
-export default MyNFTsModal
