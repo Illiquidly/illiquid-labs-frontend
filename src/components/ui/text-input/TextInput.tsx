@@ -1,29 +1,33 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { AlertCircleIcon } from 'assets/icons/16pt'
 
 export interface TextInputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: boolean
 }
 
-const TextInputStyled = styled.input<TextInputProps>`
+interface ContainerProps {
+	error?: boolean
+	disabled?: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+	display: inline-flex;
+	width: 100%;
 	border: 1.5px solid
 		${props =>
 			props.error ? props.theme.colors.error100 : props.theme.colors.dark500};
 	padding-inline: 14px;
 	padding-block: 10px;
 	background: ${props => props.theme.colors.dark400};
-	color: ${props => props.theme.colors.natural50};
 	border-radius: 8px;
-	&::placeholder {
-		color: ${props => props.theme.colors.gray600};
-		opacity: 1;
-	}
 
 	&:disabled {
 		cursor: not-allowed;
 		background: ${props => props.theme.colors.primary100};
 	}
+
 	&:hover {
 		margin: 0;
 		outline: none;
@@ -32,7 +36,8 @@ const TextInputStyled = styled.input<TextInputProps>`
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
 			}`};
 	}
-	&:focus {
+	&:focus,
+	&:focus-within {
 		border: ${props =>
 			`1.5px solid ${
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
@@ -52,13 +57,40 @@ const TextInputStyled = styled.input<TextInputProps>`
 	}
 `
 
+const TextInputStyled = styled.input<TextInputProps>`
+	&::placeholder {
+		color: ${props => props.theme.colors.gray600};
+		opacity: 1;
+	}
+	background: ${props => props.theme.colors.dark400};
+	border: 0;
+
+	&:focus {
+		outline: none;
+	}
+
+	color: ${props => props.theme.colors.natural50};
+`
+
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 	(props, ref) => {
 		const { children, ...rest } = props
+		const inputRef = React.useRef<HTMLInputElement>(null)
+
+		const handleClick = () => inputRef?.current?.click()
+
+		React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
 		return (
-			<TextInputStyled {...rest} ref={ref}>
-				{children}
-			</TextInputStyled>
+			<Container
+				disabled={props.disabled}
+				error={props.error}
+				onClick={handleClick}
+			>
+				<TextInputStyled {...rest} ref={inputRef}>
+					{children}
+				</TextInputStyled>
+				{props.error && <AlertCircleIcon />}
+			</Container>
 		)
 	}
 )
