@@ -12,19 +12,19 @@ export function useStep({ max }: { max: number }) {
 	})
 
 	const goNextStep = () => {
-		setStep(prevStep => {
-			return prevStep.current >= prevStep.max
+		setStep(prevStep =>
+			prevStep.current >= prevStep.max
 				? prevStep
 				: { ...prevStep, current: prevStep.current + 1 }
-		})
+		)
 	}
 
 	const goBackStep = () => {
-		setStep(prevStep => {
-			return prevStep.current <= 1
+		setStep(prevStep =>
+			prevStep.current <= 1
 				? prevStep
 				: { ...prevStep, current: prevStep.current - 1 }
-		})
+		)
 	}
 
 	const deactivateStepper = () => {
