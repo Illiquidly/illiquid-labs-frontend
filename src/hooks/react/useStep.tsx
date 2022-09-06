@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
-export interface iStep {
+export interface StepProps {
 	current: number
 	max: number
 }
 
 export function useStep({ max }: { max: number }) {
-	const [step, setStep] = useState<iStep>({
+	const [step, setStep] = useState<StepProps>({
 		current: 0,
 		max,
 	})

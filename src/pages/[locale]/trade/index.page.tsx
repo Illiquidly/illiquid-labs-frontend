@@ -41,7 +41,7 @@ export default function Trade() {
 		mode: 'onTouched',
 		resolver: yupResolver(schema),
 		defaultValues: {
-			selectedNFts: [],
+			selectedNFTs: [],
 		},
 	})
 

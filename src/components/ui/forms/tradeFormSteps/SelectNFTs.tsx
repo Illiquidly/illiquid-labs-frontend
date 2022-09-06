@@ -5,7 +5,7 @@ import { Button, MyNFTsModal } from 'components'
 import { ModalContext } from 'context'
 
 import { FORM_STEPS } from 'constants/steps'
-import { iStep } from 'hooks/react/useStep'
+import { StepProps } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
@@ -20,7 +20,7 @@ import {
 
 interface Props {
 	goNextStep: () => void
-	step: iStep
+	step: StepProps
 }
 
 export const SelectNFTs = ({ goNextStep, step }: Props) => {
@@ -33,7 +33,7 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 		if (step.current === FORM_STEPS.SELECT_NFTS) {
 			goNextStep()
 		}
-		setValue('selectedNFts', NFTs)
+		setValue('selectedNFTs', NFTs)
 		handleModal?.(null)
 	}
 	return (
@@ -57,7 +57,7 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 					e.preventDefault()
 					handleModal?.(
 						<MyNFTsModal
-							selectedNFTs={getValues('selectedNFts')}
+							selectedNFTs={getValues('selectedNFTs')}
 							onAddNFTs={onAddNFTs}
 						/>,
 						true
