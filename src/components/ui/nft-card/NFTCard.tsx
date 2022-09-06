@@ -2,6 +2,7 @@ import { VerifiedIcon } from 'assets/icons/16pt'
 import CheckedOutlineIcon from 'assets/icons/32pt/CheckedOutlineIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { noop } from 'lodash'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../overflow-tip'
@@ -58,6 +59,7 @@ function NFTCard({
 	isCover,
 	imageUrl,
 }: NFTCardProps) {
+	const { t } = useTranslation('common')
 	return (
 		<CardContainer checked={checked} onClick={onCardClick} isCover={isCover}>
 			<ImageSection>
@@ -73,7 +75,7 @@ function NFTCard({
 				)}
 
 				<CoverLabel className='coverLabel' isCover={isCover} onClick={onCoverClick}>
-					{isCover ? 'cover' : 'set as cover'}
+					{isCover ? t('common:cover') : t('common:set-as-cover')}
 				</CoverLabel>
 			</ImageSection>
 			<DescriptionSection size={size}>
