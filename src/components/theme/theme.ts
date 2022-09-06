@@ -44,9 +44,12 @@ export const theme = makeTheme({
 		primary500: '#F8FAFD',
 		primary600: 'rgba(45, 115, 255, 0.1)',
 
+		secondary100: '#B3C1C8',
 		secondary200: '#8098A4',
+		secondary400: '#395E71',
 		secondary500: '#013049',
 		secondary600: '#012539',
+		secondary700: '#011D2C',
 
 		success100: '#22C55E',
 		success200: '#16A34A',
