@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-function SvgComponent(props) {
+function AlertCircleIcon(props) {
 	return (
 		<svg
 			width={16}
@@ -21,4 +21,4 @@ function SvgComponent(props) {
 	)
 }
 
-export default SvgComponent
+export default AlertCircleIcon
