@@ -1,47 +1,99 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { AlertCircleIcon } from 'assets/icons/16pt'
 
-const TextAreaStyled = styled.textarea`
-	border: ${props => `1px solid ${props.theme.colors.secondary400}`};
+export interface TextAreaInputProps
+	extends React.InputHTMLAttributes<HTMLTextAreaElement> {
+	error?: boolean
+}
+
+interface ContainerProps {
+	error?: boolean
+	disabled?: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+	display: inline-flex;
+	width: 100%;
+	border: 1.5px solid
+		${props =>
+			props.error ? props.theme.colors.error100 : props.theme.colors.dark500};
 	padding-inline: 14px;
 	padding-block: 10px;
-	background: ${props => props.theme.colors.secondary700};
-	color: ${props => props.theme.colors.secondary100};
+	background: ${props => props.theme.colors.dark400};
 	border-radius: 8px;
-	margin: 1px;
 
 	&:disabled {
-		background: ${props => props.theme.colors.primary100};
 		cursor: not-allowed;
+		background: ${props => props.theme.colors.primary100};
 	}
 
 	&:hover {
-		outline: none;
-		background: ${props => props.theme.colors.secondary600};
-	}
-	&:focus,
-	active {
 		margin: 0;
 		outline: none;
-		background: linear-gradient(${props => props.theme.colors.secondary500} 0 0)
-				padding-box,
-			linear-gradient(to left, #467ee3, #62cefd) border-box;
-		border: 2px solid transparent;
-		color: ${props => props.theme.colors.natural50};
-		color: ${props => props.theme.colors.natural50};
+		border: ${props =>
+			`1.5px solid ${
+				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
+			}`};
+	}
+	&:focus,
+	&:focus-within {
+		border: ${props =>
+			`1.5px solid ${
+				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
+			}`};
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+			0px 0px 0px 4px rgba(63, 138, 224, 0.18);
+		outline: 0;
+	}
+	&:active {
+		outline: none;
+		margin: 0;
+		border: ${props =>
+			`1.5px solid ${
+				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
+			}`};
+		box-shadow: rgba(0, 0, 0, 0.8) 0 1px;
 	}
 `
 
-type TextAreaInputProps = React.InputHTMLAttributes<HTMLTextAreaElement>
+const TextAreaStyled = styled.textarea`
+	&::placeholder {
+		color: ${props => props.theme.colors.gray600};
+		opacity: 1;
+	}
+	background: ${props => props.theme.colors.dark400};
+	border: 0;
+
+	&:focus {
+		outline: none;
+	}
+
+	color: ${props => props.theme.colors.natural50};
+`
 
 export const TextArea = React.forwardRef<
 	HTMLTextAreaElement,
 	TextAreaInputProps
 >((props, ref) => {
+	const { children, ...rest } = props
+	const inputRef = React.useRef<HTMLTextAreaElement>(null)
+
+	const handleClick = () => inputRef?.current?.click()
+
+	React.useImperativeHandle(ref, () => inputRef.current as HTMLTextAreaElement)
+
 	return (
-		<TextAreaStyled {...props} ref={ref}>
-			{props.children}
-		</TextAreaStyled>
+		<Container
+			disabled={props.disabled}
+			error={props.error}
+			onClick={handleClick}
+		>
+			<TextAreaStyled {...rest} ref={ref}>
+				{children}
+			</TextAreaStyled>
+			{props.error && <AlertCircleIcon />}
+		</Container>
 	)
 })
 

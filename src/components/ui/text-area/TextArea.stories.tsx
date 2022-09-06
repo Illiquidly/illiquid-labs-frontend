@@ -26,6 +26,20 @@ export const TextAreaExample = () => {
 					}}
 				/>
 			</Flex>
+			<Flex
+				sx={{
+					height: '160px',
+					width: '280px',
+				}}
+			>
+				<TextArea
+					error
+					placeholder='Error text'
+					onChange={() => {
+						// console.log(e.target.value)
+					}}
+				/>
+			</Flex>
 		</Flex>
 	)
 }
