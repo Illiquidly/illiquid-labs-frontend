@@ -4,6 +4,7 @@ import TradeAssetImage from 'assets/images/TradeAsset'
 import { Button, MyNFTsModal } from 'components'
 import { ModalContext } from 'context'
 
+import { FORM_STEPS } from 'constants/steps'
 import { iStep } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
@@ -29,7 +30,7 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 	const { setValue, getValues } = useFormContext<TradeFormStepsProps>()
 
 	const onAddNFTs = (NFTs: NFT[]) => {
-		if (step.current === 0) {
+		if (step.current === FORM_STEPS.SELECT_NFTS) {
 			goNextStep()
 		}
 		setValue('selectedNFts', NFTs)
