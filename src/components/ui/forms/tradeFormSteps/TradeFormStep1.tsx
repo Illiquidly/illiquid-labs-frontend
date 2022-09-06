@@ -42,10 +42,12 @@ export const TradeFormStep1 = ({ goNextStep, step }: Props) => {
 			</TradeAssetImageContainer>
 
 			<Box sx={{ mb: ['2px'] }}>
-				<ContentCardTitle>{t('trade:question')}</ContentCardTitle>
+				<ContentCardTitle>{t('trade:step1:question')}</ContentCardTitle>
 			</Box>
 			<Box sx={{ mb: ['16px'] }}>
-				<ContentCardSubtitle>{t('trade:add-instruction')}</ContentCardSubtitle>
+				<ContentCardSubtitle>
+					{t('trade:step1:add-instruction')}
+				</ContentCardSubtitle>
 			</Box>
 
 			<Button
@@ -63,7 +65,7 @@ export const TradeFormStep1 = ({ goNextStep, step }: Props) => {
 				fullWidth
 				variant='gradient'
 			>
-				<Text variant='textSmMedium'>{t('trade:select-nfts')}</Text>
+				<Text variant='textSmMedium'>{t('trade:step1:select-nfts')}</Text>
 			</Button>
 		</ContentCard>
 	)

@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { TradeFormStep1 } from 'components/ui/forms'
 import { TradeFormStepsProps } from 'components/ui/forms/tradeFormSteps'
+import { TradeFormStep2 } from 'components/ui/forms/tradeFormSteps/TradeFormStep2'
 import { useStep } from 'hooks/react/useStep'
 import { getStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
@@ -108,7 +109,13 @@ export default function Trade() {
 								</StepsWrapper>
 
 								{/* STEP 1 */}
-								<TradeFormStep1 step={step} goNextStep={goNextStep} />
+								{step.current === 0 && (
+									<TradeFormStep1 step={step} goNextStep={goNextStep} />
+								)}
+								{/* STEP 2 */}
+								{step.current === 1 && (
+									<TradeFormStep2 step={step} goNextStep={goNextStep} />
+								)}
 							</BodyContainer>
 							<button type='submit'>test submit</button>
 						</form>
