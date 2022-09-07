@@ -21,7 +21,7 @@ export function useStep({ max }: { max: number }) {
 
 	const goBackStep = () => {
 		setStep(prevStep =>
-			prevStep.current <= 1
+			prevStep.current < 1
 				? prevStep
 				: { ...prevStep, current: prevStep.current - 1 }
 		)
