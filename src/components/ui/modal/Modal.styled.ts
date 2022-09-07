@@ -1,6 +1,6 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { HEADER_HEIGHT } from 'constants/components'
-import { Box } from 'theme-ui'
 
 export const ModalWrapper = styled.div<{ isOpen: boolean }>`
 	display: ${props => (props.isOpen ? 'block' : 'none')};
@@ -8,9 +8,10 @@ export const ModalWrapper = styled.div<{ isOpen: boolean }>`
 	width: 100%;
 	height: 100%;
 	position: fixed;
+	inset: 0;
 `
 
-export const ModalContainer = styled(Box)`
+export const ModalContainer = styled.div<{ isOverHeader?: boolean }>`
 	position: absolute;
 	top: ${HEADER_HEIGHT};
 	width: 100%;
@@ -20,8 +21,11 @@ export const ModalContainer = styled(Box)`
 	min-width: 310px;
 	overflow: auto;
 	max-height: calc(100vh - ${HEADER_HEIGHT});
-`
 
-ModalContainer.defaultProps = {
-	sx: {},
-}
+	${props =>
+		props.isOverHeader &&
+		css`
+			max-height: 100vh;
+			top: 0;
+		`}
+`

@@ -12,5 +12,7 @@
 		"loans": "Loans",
 		"raffles": "Raffles"
 	},
-	"trademark": "© 2022 Illiquidly Labs"
+	"trademark": "© 2022 Illiquidly Labs",
+	"cover": "cover",
+	"set-as-cover": "set as cover"
 }

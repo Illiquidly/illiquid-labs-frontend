@@ -19,31 +19,24 @@ export const StepsExample = () => (
 	<Flex sx={{ flexDirection: 'column', width: [244] }}>
 		<Box sx={{ flex: 1 }} mb={2}>
 			<Steps
+				currentStep={0}
 				steps={[
 					{
 						id: 0,
 						label: 'Select NFTs',
-						highlighted: true,
-						checked: false,
 					},
 
 					{
 						id: 1,
 						label: 'Trade details',
-						highlighted: false,
-						checked: false,
 					},
 					{
 						id: 2,
 						label: 'Choose visibility',
-						highlighted: false,
-						checked: false,
 					},
 					{
 						id: 3,
 						label: 'Confirm listing',
-						highlighted: false,
-						checked: false,
 					},
 				]}
 			/>

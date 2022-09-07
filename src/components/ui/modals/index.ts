@@ -1,1 +1,1 @@
-export { default as MyNFTsModal } from './MyNFTsModal'
+export { MyNFTsModal } from './MyNFTsModal'

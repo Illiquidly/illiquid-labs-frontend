@@ -13,7 +13,7 @@ export const ModalContentHeader = styled(Flex)`
 `
 
 export const ModalOverlay = styled(Flex)`
-	position: fixed;
+	position: absolute;
 	inset: 0;
 	flex: 1;
 	flex-direction: column;

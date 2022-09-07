@@ -1,52 +1,24 @@
-import React from 'react'
-import styled from '@emotion/styled'
-import { Box, Flex, Text } from 'theme-ui'
-import { CheckLineIcon } from 'assets/icons/24pt'
 import { useTheme } from '@emotion/react'
+
+import { CheckLineIcon } from 'assets/icons/24pt'
+import React from 'react'
+import { Flex, Text } from 'theme-ui'
 import Card from '../card/Card'
-
-const StepBox = styled(Box)<{ checked?: boolean }>`
-	flex: 1;
-	user-select: none;
-	background: ${props =>
-		props.checked ? props.theme.colors.primary100 : props.theme.colors.dark200};
-	border-radius: 8px;
-
-	margin-right: 10px;
-
-	height: 12px;
-
-	&:last-child {
-		margin-right: 0px;
-	}
-`
+import { Circle, StepBox } from './MobileSteps.styled'
 
 type Step = {
 	id: number
-	checked: boolean
 	label: string
-	highlighted: boolean
 }
 export interface MobileStepsProps {
 	steps: Step[]
+	currentStep: number
 }
 
-export const Circle = styled(Flex)`
-	align-items: center;
-	justify-content: center;
-
-	background-color: ${props => props.theme.colors.dark100};
-	border-radius: 100%;
-	padding: 4px;
-
-	width: 32px;
-	height: 32px;
-`
-
-function MobileSteps({ steps }: MobileStepsProps) {
+function MobileSteps({ steps, currentStep }: MobileStepsProps) {
 	const stepLabel = React.useMemo(
-		() => [...steps].reverse().find(x => x.checked)?.label || steps[0]?.label,
-		[steps]
+		() => [...steps].find(x => x.id === currentStep)?.label,
+		[steps, currentStep]
 	)
 
 	const theme = useTheme()
@@ -54,8 +26,8 @@ function MobileSteps({ steps }: MobileStepsProps) {
 	return (
 		<Flex sx={{ flexDirection: 'column' }}>
 			<Flex sx={{ mb: '13px' }}>
-				{steps.map(({ id, highlighted }) => (
-					<StepBox key={id} checked={highlighted} />
+				{steps.map(({ id }) => (
+					<StepBox key={id} checked={currentStep > id} />
 				))}
 			</Flex>
 			<Card sx={{ p: ['16px 12px'] }}>

@@ -3,27 +3,27 @@ import { ModalCloseIcon } from 'assets/icons/modal'
 import { ModalContext } from 'context/modalContext'
 import useMyNFTs from 'hooks/useMyNFTs'
 import { noop, uniqBy } from 'lodash'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
-import { IconButton, Box, Flex } from 'theme-ui'
+import { Box, Flex, IconButton } from 'theme-ui'
 import { Button } from '../button'
 import { OnlyMobileAndTablet } from '../layout'
 import NFTCard from '../nft-card/NFTCard'
 import { SelectCard } from '../select-card'
 import {
+	CollectionFiltersSection,
+	ModalBody,
 	ModalContent,
+	ModalContentHeader,
 	ModalHeader,
 	ModalOverlay,
-	ModalBody,
-	ModalContentHeader,
 	ModalTitle,
+	MyNFTsBody,
+	NFTCardContainer,
+	NFTCardsGridWrapper,
+	NFTSelectionOverlay,
 	SearchContainer,
 	SortSelectContainer,
-	MyNFTsBody,
-	CollectionFiltersSection,
-	NFTCardsGridWrapper,
-	NFTCardContainer,
-	NFTSelectionOverlay,
 } from './MyNFTsModal.styled'
 
 export interface MyNFTsModalProps {
@@ -34,21 +34,19 @@ export interface MyNFTsModalProps {
 	onAddNFTs?: (v: NFT[]) => void
 }
 
-const FullscreenModal = ({
+export const MyNFTsModal = ({
 	title,
 	addNFTsButtonLabel,
 	selectedNFTs: defaultSelectedNFTs = [],
 	onAddNFTs,
 }: MyNFTsModalProps) => {
-	const { handleModal } = React.useContext(ModalContext)
+	const { handleModal } = useContext(ModalContext)
 	const theme = useTheme()
 	const { ownedNFTs } = useMyNFTs()
 	const [selectedNFTs, setSelectedNFTs] =
 		React.useState<NFT[]>(defaultSelectedNFTs)
 
-	React.useEffect(() => {
-		setSelectedNFTs(defaultSelectedNFTs)
-	}, [defaultSelectedNFTs])
+	const [selectedCover, setSelectedCover] = useState<NFT>()
 
 	const addSelectedNFT = (nft: NFT) => {
 		setSelectedNFTs(prevState =>
@@ -68,17 +66,27 @@ const FullscreenModal = ({
 		)
 	}
 
+	const handleCoverSelect = (nft: NFT) => {
+		setSelectedCover(nft)
+	}
+
 	return (
 		<ModalOverlay>
-			<ModalHeader onClick={() => handleModal?.(null)}>
+			<ModalHeader>
 				<ModalContent>
 					<Box ml='auto' mr='-12px'>
-						<IconButton size='40px' onClick={() => handleModal?.(null)}>
+						<IconButton
+							size='40px'
+							onClick={() => {
+								handleModal?.(null)
+							}}
+						>
 							<ModalCloseIcon />
 						</IconButton>
 					</Box>
 				</ModalContent>
 			</ModalHeader>
+
 			<ModalBody>
 				<ModalContent>
 					<Flex sx={{ flexDirection: 'column' }}>
@@ -146,10 +154,15 @@ const FullscreenModal = ({
 									return (
 										<NFTCard
 											{...nft}
+											isCover={selectedCover === nft}
 											key={`${nft.collectionAddress}_${nft.tokenId}`}
-											onClick={() =>
+											onCardClick={() =>
 												checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
 											}
+											onCoverClick={e => {
+												e.stopPropagation()
+												handleCoverSelect(nft)
+											}}
 											checked={checked}
 										/>
 									)
@@ -173,7 +186,7 @@ const FullscreenModal = ({
 	)
 }
 
-FullscreenModal.defaultProps = {
+MyNFTsModal.defaultProps = {
 	onAfterOpen: noop,
 	onRequestClose: noop,
 	title: 'My NFTs',
@@ -181,5 +194,3 @@ FullscreenModal.defaultProps = {
 	selectedNFTs: [],
 	onAddNFTs: noop,
 }
-
-export default FullscreenModal

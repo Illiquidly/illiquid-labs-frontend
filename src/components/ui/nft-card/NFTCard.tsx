@@ -2,16 +2,17 @@ import { VerifiedIcon } from 'assets/icons/16pt'
 import CheckedOutlineIcon from 'assets/icons/32pt/CheckedOutlineIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { noop } from 'lodash'
-import React, { ReactNode } from 'react'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../overflow-tip'
+
 import {
-	BottomImageArea,
 	CardContainer,
+	CoverLabel,
 	DescriptionSection,
 	Image,
 	ImageSection,
-	LeftImageArea,
 	RightImageArea,
 	Subtitle,
 	Title,
@@ -22,13 +23,13 @@ type SizeVariants = 'small' | 'medium'
 interface NFTCardProps {
 	checked?: boolean
 	verified?: boolean
-	onClick?: React.MouseEventHandler<HTMLDivElement>
+	onCardClick?: React.MouseEventHandler<HTMLDivElement>
+	onCoverClick?: React.MouseEventHandler<HTMLDivElement>
 	name?: string
 	collectionName?: string
 	size?: SizeVariants
 	imageUrl?: string[]
-	leftActionComponent?: ReactNode
-	bottomActionComponent?: ReactNode
+	isCover?: boolean
 }
 
 const checkedIconSizeBySizeVariant = {
@@ -50,20 +51,22 @@ const verifiedMarginTopBySizeVariant = {
 function NFTCard({
 	checked,
 	verified,
-	onClick,
+	onCardClick,
+	onCoverClick,
 	name,
 	collectionName,
 	size = 'medium',
-	leftActionComponent,
-	bottomActionComponent,
+	isCover,
 	imageUrl,
 }: NFTCardProps) {
+	const { t } = useTranslation('common')
 	return (
-		<CardContainer checked={checked} onClick={onClick}>
+		<CardContainer checked={checked} onClick={onCardClick} isCover={isCover}>
 			<ImageSection>
-				<Image src={imageUrl ?? []} />
-				{!(imageUrl || []).length && (
+				{imageUrl?.every(img => img === '') ? (
 					<ImagePlaceholder width='85px' height='80px' />
+				) : (
+					<Image src={imageUrl ?? []} />
 				)}
 				{checked && (
 					<RightImageArea>
@@ -71,13 +74,9 @@ function NFTCard({
 					</RightImageArea>
 				)}
 
-				{leftActionComponent && (
-					<LeftImageArea>{leftActionComponent}</LeftImageArea>
-				)}
-
-				{bottomActionComponent && (
-					<BottomImageArea>{bottomActionComponent}</BottomImageArea>
-				)}
+				<CoverLabel className='coverLabel' isCover={isCover} onClick={onCoverClick}>
+					{isCover ? t('common:cover') : t('common:set-as-cover')}
+				</CoverLabel>
 			</ImageSection>
 			<DescriptionSection size={size}>
 				<OverflowTip>
@@ -99,11 +98,11 @@ function NFTCard({
 }
 
 NFTCard.defaultProps = {
-	leftActionComponent: noop,
-	bottomActionComponent: noop,
+	isCover: false,
 	checked: false,
 	verified: false,
-	onClick: noop,
+	onCardClick: noop,
+	onCoverClick: noop,
 	name: '',
 	collectionName: '',
 	size: 'medium',

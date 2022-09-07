@@ -1,6 +1,8 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { theme } from 'components/theme/theme'
 import { Img } from 'react-image'
-import { Text, Flex, Box } from 'theme-ui'
+import { Flex, Text } from 'theme-ui'
 
 export const Title = styled(Text)<{ size?: string }>`
 	font-weight: 700;
@@ -102,14 +104,29 @@ DescriptionSection.defaultProps = {
 	},
 }
 
-export const CardContainer = styled(Box)<{
+interface CardContainerProps {
 	checked?: boolean
-}>`
+	isCover?: boolean
+}
+
+export const CardContainer = styled.div<CardContainerProps>`
 	width: 100%;
-
 	border-radius: 8px;
-
 	border: 2px solid transparent;
+	position: relative;
+
+	${props =>
+		props.isCover
+			? css`
+					& .coverLabel {
+						display: block;
+					}
+			  `
+			: css`
+					& .coverLabel {
+						display: none;
+					}
+			  `}
 
 	&:hover {
 		${props =>
@@ -117,6 +134,10 @@ export const CardContainer = styled(Box)<{
 			`
 				border: 2px solid rgba(34, 197, 94, 0.2);
 			`}
+
+		& .coverLabel {
+			display: block;
+		}
 	}
 
 	${props =>
@@ -126,26 +147,36 @@ export const CardContainer = styled(Box)<{
 	`}
 `
 
-export const RightImageArea = styled(Box)`
+
+export const RightImageArea = styled.div`
 	z-index: ${props => props.theme.zIndices.imgOverlay};
 	position: absolute;
 	right: 8px;
 	top: 8px;
 `
 
-export const LeftImageArea = styled(Box)`
+export const CoverLabel = styled.div<{ isCover?: boolean }>`
 	z-index: ${props => props.theme.zIndices.imgOverlay};
 	position: absolute;
-	left: 8px;
+	left: 12px;
 	top: 8px;
-`
+	padding: 2px 12px;
+	min-width: 82px;
+	text-align: center;
+	cursor: pointer;
+	font-family: 'Heebo';
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+	border-radius: 42px;
+	background-color: ${theme.colors.dark300};
+	display: block;
 
-export const BottomImageArea = styled(Box)`
-	z-index: ${props => props.theme.zIndices.imgOverlay};
-	position: absolute;
-	bottom: 0px;
-	left: auto;
-	right: auto;
+	${props =>
+		props.isCover &&
+		css`
+			background-color: ${theme.colors.success400};
+		`}
 `
 
 export const Image = styled(Img)`
