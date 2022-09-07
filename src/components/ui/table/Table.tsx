@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Button, ButtonProps } from '../button'
 
 const StyledTable = styled.table`
 	caption-side: top;
@@ -25,27 +24,14 @@ const Container = styled.div`
 
 export interface TableProps {
 	caption?: string
-	buttonProps?: ButtonProps
 	children?: React.ReactNode
 }
-export const Table = ({ caption, buttonProps, children }: TableProps) => (
+export const Table = ({ caption, children }: TableProps) => (
 	<Container>
 		<StyledTable>
 			{caption && <caption>{caption}</caption>}
 			{children}
 		</StyledTable>
-		<Button
-			sx={{
-				height: '40px',
-				width: '100%',
-				borderRadius: 0,
-			}}
-			variant='dark'
-			size='small'
-			{...buttonProps}
-		>
-			{buttonProps?.children}
-		</Button>
 	</Container>
 )
 

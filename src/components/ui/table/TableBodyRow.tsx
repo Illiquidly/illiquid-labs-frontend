@@ -1,14 +1,13 @@
-import React from 'react'
 import styled from '@emotion/styled'
 
-const StyledTableBodyRow = styled.tr`
+const TableBodyRow = styled.tr`
 	border-bottom: 1px solid ${props => props.theme.colors.dark500};
 	height: 80px;
 	width: 100%;
-`
 
-export const TableBodyRow = ({ children }) => (
-	<StyledTableBodyRow>{children}</StyledTableBodyRow>
-)
+	&:last-child {
+		border-bottom: none;
+	}
+`
 
 export default TableBodyRow

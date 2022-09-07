@@ -5,11 +5,13 @@ import React from 'react'
 import { Flex } from 'theme-ui'
 import { Button } from '../button'
 import Table from './Table'
-import { TableBody } from './TableBody'
-import { TableBodyRow } from './TableBodyRow'
-import { TableBodyRowCell } from './TableBodyRowCell'
+import TableBody from './TableBody'
+import TableBodyRow from './TableBodyRow'
+import TableBodyRowCell from './TableBodyRowCell'
+import TableFooterRow from './TableFooterRow'
+import TableFooterRowCell from './TableFooterRowCell'
 import TableHead from './TableHead'
-import { TableHeadRow } from './TableHeadRow'
+import TableHeadRow from './TableHeadRow'
 import TableHeadRowCell from './TableHeadRowCell'
 
 export default {
@@ -28,14 +30,7 @@ export const TableExample = () => {
 				width: '100%',
 			}}
 		>
-			<Table
-				buttonProps={{
-					children: 'Load More',
-					onClick: () => {
-						console.log('clicked')
-					},
-				}}
-			>
+			<Table>
 				<TableHead>
 					<TableHeadRow>
 						{['User', 'NFTs', 'Tokens', 'Date'].map(col => (
@@ -92,6 +87,30 @@ export const TableExample = () => {
 							</TableBodyRowCell>
 						</TableBodyRow>
 					))}
+					<TableFooterRow>
+						<TableFooterRowCell colSpan={4}>
+							<Button
+								sx={{
+									height: '40px',
+									width: '100%',
+									borderTopRightRadius: '0px',
+									borderTopLeftRadius: '0px',
+									borderBottomRightRadius: '8px',
+									borderBottomLeftRadius: '8px',
+									border: 'none',
+									margin: 0,
+									':hover': {
+										border: 'unset',
+										boxShadow: 'unset',
+									},
+								}}
+								variant='dark'
+								size='small'
+							>
+								Show more
+							</Button>
+						</TableFooterRowCell>
+					</TableFooterRow>
 				</TableBody>
 			</Table>
 		</Flex>
