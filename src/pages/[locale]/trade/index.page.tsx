@@ -8,8 +8,8 @@ import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { SelectNFTs, TradeDetails } from 'components/ui/forms'
-import { TradeFormStepsProps } from 'components/ui/forms/tradeFormSteps'
-import { FORM_STEPS } from 'constants/steps'
+import { TradeFormStepsProps } from 'components/ui/forms/trade-form-steps'
+import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { getStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
@@ -109,11 +109,13 @@ export default function Trade() {
 								</StepsWrapper>
 
 								{/* STEP 1 */}
-								{step.current === FORM_STEPS.SELECT_NFTS && (
+								{step.current === CREATE_LISTING_FORM_STEPS.SELECT_NFTS && (
 									<SelectNFTs step={step} goNextStep={goNextStep} />
 								)}
 								{/* STEP 2 */}
-								{step.current === FORM_STEPS.TRADE_DETAILS && <TradeDetails />}
+								{step.current === CREATE_LISTING_FORM_STEPS.TRADE_DETAILS && (
+									<TradeDetails />
+								)}
 							</BodyContainer>
 							<button type='submit'>test submit</button>
 						</form>
