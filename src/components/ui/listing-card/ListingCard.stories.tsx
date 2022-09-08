@@ -14,15 +14,18 @@ export default {
 }
 
 export const ListingCardExample = () => {
-	const [activeCard, setActiveCard] = React.useState(1)
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: 8 }}>
 			<Box as='h3'>Default Card</Box>
 			<Flex sx={{ gap: 8, flex: 1, width: '345px' }}>
 				<ListingCard
-					liked={activeCard === 1}
-					onCardClick={() => setActiveCard(1)}
 					verified
+					description='2'
+					attributes={[]}
+					onLike={n => console.warn(n)}
+					tokenId='Something'
+					collectionAddress='Something'
+					href='/listing-details/'
 					nfts={[]}
 					imageUrl={[
 						'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',

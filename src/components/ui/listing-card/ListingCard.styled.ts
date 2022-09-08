@@ -34,14 +34,11 @@ export const ImageSection = styled(Flex)`
 	position: relative;
 	border-radius: 8px;
 	overflow: hidden;
-`
 
-ImageSection.defaultProps = {
-	sx: {
-		bg: 'neutral900',
-		aspectRatio: '1 / 1',
-	},
-}
+	aspect-ratio: 1 / 1;
+
+	background: ${props => props.theme.colors.neutral900};
+`
 
 export const DescriptionSection = styled(Flex)`
 	flex-direction: column;
@@ -68,43 +65,142 @@ export const LookingForTitle = styled(Box)`
 	color: ${props => props.theme.colors.natural300};
 `
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<{ unavailable?: boolean }>`
 	width: 100%;
 	position: relative;
 	padding: 12px;
 
-	background: ${props => props.theme.colors.secondary500};
+	background: ${props =>
+		props.unavailable ? 'unset' : props.theme.colors.secondary500};
 
-	border: 1.34px solid ${props => props.theme.colors.dark500};
+	border: 1.34px solid
+		${props => (props.unavailable ? 'transparent' : props.theme.colors.dark500)};
 
-	box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
-		0px 1px 2px rgba(16, 24, 40, 0.06);
-	border-radius: 10px;
+	box-shadow: ${props =>
+		props.unavailable
+			? 'none'
+			: '0px 1px 3px rgba(16, 24, 40, 0.1),0px 1px 2px rgba(16, 24, 40, 0.06)'};
+
+	border-radius: ${props => (props.unavailable ? '0px' : '10px')};
 
 	&:hover {
-		border: 1.34px solid rgba(34, 197, 94, 0.2);
+		cursor: pointer;
 	}
 `
 
-export const RightImageArea = styled.div`
-	z-index: ${props => props.theme.zIndices.imgOverlay};
+export const RightTopImageArea = styled.div`
+	z-index: ${props => props.theme.zIndices.listingCardImageOverlay};
 	position: absolute;
-	right: 8px;
-	top: 8px;
+	right: -6px;
+	top: -6px;
+	padding: 22px;
+`
+
+export const LikeIconContainer = styled(Flex)`
+	width: 30px;
+	height: 30px;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(24px);
+	border-radius: 4px;
 `
 
 export const BottomImageArea = styled.div`
-	z-index: ${props => props.theme.zIndices.imgOverlay};
+	z-index: ${props => props.theme.zIndices.listingCardImageOverlay};
 	position: absolute;
 	bottom: 8px;
 	margin-left: auto;
 	margin-right: auto;
+	display: flex;
+`
+
+export const PreviewNFTsSection = styled.div`
+	flex: 1;
+	display: flex;
+	height: 41px;
+	align-items: center;
+	padding-left: 4px;
+	padding-right: 4px;
+	overflow: hidden;
+	gap: 4px;
+
+	width: 166px;
+
+	background: rgba(72, 74, 77, 0.3);
+
+	backdrop-filter: blur(24px);
+
+	border-radius: 4px;
+
+	font-style: normal;
+	font-weight: 700;
+	font-size: 12px;
 `
 
 export const Image = styled(Img)`
 	max-width: 100%;
 	max-height: 100%;
 	overflow: hidden;
-	z-index: ${props => props.theme.zIndices.img};
+	z-index: ${props => props.theme.zIndices.listingCardImg};
 	position: absolute;
+`
+
+export const PreviewImage = styled(Image)`
+	position: unset;
+`
+
+export const PreviewImageContainer = styled.div`
+	aspect-ratio: 1/1;
+	height: 31px;
+	overflow: hidden;
+	border-radius: 4px;
+`
+
+export const ListingOverlay = styled(Flex)`
+	z-index: ${props => props.theme.zIndices.listingCardOverlay};
+	background: rgba(7, 21, 29, 0.8);
+	backdrop-filter: blur(5px);
+	position: absolute;
+	inset: 0;
+	padding-left: 64px;
+	padding-right: 64px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+	text-align: center;
+
+	color: ${props => props.theme.colors.gray600};
+`
+
+export const Chip = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 6.5px;
+	height: 26.6px; 
+	padding: 4px 12.8px;
+
+	font-style: normal;
+	font-weight: 600;
+	font-size: 12px;
+
+	text-align: center;
+	letter-spacing: -0.02em;
+	color ${props => props.theme.colors.gray700}
+`
+
+export const StatusIconContainer = styled(Flex)`
+	align-items: center;
+	justify-content: center;
+	width: 29px;
+	height: 32px;
+
+	background: ${props => props.theme.colors.dark400};
+	border-radius: 8px;
+	backdrop-filter: blur(24px);
 `
