@@ -5,7 +5,16 @@ export enum COLLECTION_TYPE {
 	ANY = 'ANY',
 }
 
+interface collections {
+	value: string
+}
+
 export interface TradeFormStepsProps {
 	selectedNFTs: NFT[]
 	collectionType: COLLECTION_TYPE
+	collection: string
+	collections: collections[]
+	tokenAmount: number
+	tokenName: string
+	comment: string
 }
