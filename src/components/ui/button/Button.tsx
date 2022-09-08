@@ -6,7 +6,7 @@ import { Button as ThemeUIButton, NavLink, ThemeUIStyleObject } from 'theme-ui'
 
 import { Link } from '../../link'
 
-interface ButtonProps {
+export interface ButtonProps {
 	fullWidth?: boolean
 	disabled?: boolean
 	sx?: ThemeUIStyleObject
