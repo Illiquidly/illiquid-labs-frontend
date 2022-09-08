@@ -8,6 +8,9 @@ export const theme = makeTheme({
 	zIndices: {
 		backgroundImages: -100,
 		imgOverlay: 1000,
+		listingCardOverlay: 150,
+		listingCardImageOverlay: 110,
+		listingCardImg: 100,
 		header: 200,
 		modal: 300,
 		img: 800,

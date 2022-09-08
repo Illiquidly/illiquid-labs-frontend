@@ -2,7 +2,12 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
-const LinkComponent = ({ children, skipLocaleHandling = false, ...rest }) => {
+const LinkComponent = ({
+	children,
+	skipLocaleHandling = false,
+	disabled = false,
+	...rest
+}) => {
 	const router = useRouter()
 	const locale = rest.locale || router.query.locale || ''
 	let href = rest.href || router.asPath
@@ -12,6 +17,10 @@ const LinkComponent = ({ children, skipLocaleHandling = false, ...rest }) => {
 		href = href
 			? `/${locale}${href}`
 			: router.pathname.replace('[locale]', locale)
+	}
+
+	if (disabled) {
+		return children
 	}
 
 	return (

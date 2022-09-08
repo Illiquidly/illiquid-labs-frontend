@@ -7,3 +7,5 @@ export { default as CheckboxDisabledIcon } from './components/CheckboxDisabledIc
 export { default as AccordionChevronDownIcon } from './components/AccordionChevronDownIcon'
 export { default as AccordionChevronUpIcon } from './components/AccordionChevronUpIcon'
 export { default as TargetIcon } from './components/TargetIcon'
+export { default as HeartIcon } from './components/HeartIcon'
+export { default as HeartFilledIcon } from './components/HeartFilledIcon'

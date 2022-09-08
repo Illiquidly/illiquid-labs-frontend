@@ -147,7 +147,6 @@ export const CardContainer = styled.div<CardContainerProps>`
 	`}
 `
 
-
 export const RightImageArea = styled.div`
 	z-index: ${props => props.theme.zIndices.imgOverlay};
 	position: absolute;

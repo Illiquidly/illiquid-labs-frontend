@@ -18,5 +18,6 @@
 	"buttons": {
 		"previous-step": "Previous Step",
 		"save-and-continue": "Save & Continue"
-	}
+	},
+	"looking-for": "looking for"
 }
