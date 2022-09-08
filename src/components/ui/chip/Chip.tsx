@@ -3,16 +3,22 @@ import { ChipText, CloseIconButton, StyledChip } from './Chip.styled'
 
 interface Props {
 	label: string
-	onClick: () => void
+	onClick?: () => void
 }
 
 export const Chip = ({ label, onClick }: Props) => {
 	return (
 		<StyledChip>
 			<ChipText>{label}</ChipText>
-			<CloseIconButton onClick={onClick}>
-				<CloseIcon />
-			</CloseIconButton>
+			{onClick && (
+				<CloseIconButton onClick={onClick}>
+					<CloseIcon />
+				</CloseIconButton>
+			)}
 		</StyledChip>
 	)
+}
+
+Chip.defaultProps = {
+	onClick: undefined,
 }
