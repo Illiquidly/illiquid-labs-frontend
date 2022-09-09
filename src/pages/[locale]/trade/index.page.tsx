@@ -46,8 +46,7 @@ export default function Trade() {
 	})
 
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
-	// const [currentStep, setCurrentStep] = useState<number>(0)
-	const { step, goNextStep } = useStep({ max: 3 })
+	const { step, goNextStep, goBackStep } = useStep({ max: 3 })
 	const [steps] = useState([
 		{
 			id: 0,
@@ -71,7 +70,7 @@ export default function Trade() {
 		console.log('submit data', data)
 	}
 
-	console.log(formMethods.watch()) // watch input value by passing the name of it
+	// console.log(formMethods.watch()) // watch input value by passing the name of it
 
 	return (
 		<Page title={t('common:title')}>
@@ -114,7 +113,7 @@ export default function Trade() {
 								)}
 								{/* STEP 2 */}
 								{step.current === CREATE_LISTING_FORM_STEPS.TRADE_DETAILS && (
-									<TradeDetails />
+									<TradeDetails goNextStep={goNextStep} goBackStep={goBackStep} />
 								)}
 							</BodyContainer>
 							<button type='submit'>test submit</button>

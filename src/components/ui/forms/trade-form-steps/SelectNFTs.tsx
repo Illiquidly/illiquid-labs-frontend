@@ -43,11 +43,11 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 			</TradeAssetImageContainer>
 
 			<Box sx={{ mb: ['2px'] }}>
-				<ContentCardTitle>{t('trade:selectNFTs:question')}</ContentCardTitle>
+				<ContentCardTitle>{t('trade:select-NFTs:question')}</ContentCardTitle>
 			</Box>
 			<Box sx={{ mb: ['16px'] }}>
 				<ContentCardSubtitle>
-					{t('trade:selectNFTs:add-instruction')}
+					{t('trade:select-NFTs:add-instruction')}
 				</ContentCardSubtitle>
 			</Box>
 
@@ -66,7 +66,7 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 				fullWidth
 				variant='gradient'
 			>
-				<Text variant='textSmMedium'>{t('trade:selectNFTs:select-nfts')}</Text>
+				<Text variant='textSmMedium'>{t('trade:select-NFTs:select-nfts')}</Text>
 			</Button>
 		</ContentCard>
 	)

@@ -15,5 +15,9 @@
 	"trademark": "© 2022 Illiquidly Labs",
 	"cover": "cover",
 	"set-as-cover": "set as cover",
+	"buttons": {
+		"previous-step": "Previous Step",
+		"save-and-continue": "Save & Continue"
+	},
 	"looking-for": "looking for"
 }
