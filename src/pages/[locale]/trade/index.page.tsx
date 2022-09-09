@@ -70,7 +70,7 @@ export default function Trade() {
 		console.log('submit data', data)
 	}
 
-	console.log(formMethods.watch()) // watch input value by passing the name of it
+	// console.log(formMethods.watch()) // watch input value by passing the name of it
 
 	return (
 		<Page title={t('common:title')}>

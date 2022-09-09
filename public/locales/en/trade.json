@@ -6,12 +6,12 @@
 		"Choose Visibility",
 		"Confirm Listing"
 	],
-	"selectNFTs": {
+	"select-NFTs": {
 		"question": "Which NFTs are you looking to trade",
 		"add-instruction": "Add them here by clicking below",
 		"select-nfts": "Select NFTs"
 	},
-	"tradeDetails": {
+	"trade-details": {
 		"question": "What are you looking for?",
 		"instructions": "Define if you'd like any specific items or if you are open to any offers",
 		"option-1": "Specify collections & tokens",

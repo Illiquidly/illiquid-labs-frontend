@@ -40,7 +40,7 @@ const TradeDetailsCollectionSelector = () => {
 					value={COLLECTION_TYPE.SPECIFIC}
 				/>
 				<TradeDetailsSpecifiedCollection />
-				<CardItemText>{t('trade:tradeDetails.option-1')}</CardItemText>
+				<CardItemText>{t('trade:trade-details.option-1')}</CardItemText>
 			</CardItem>
 
 			<CardItem>
@@ -50,7 +50,7 @@ const TradeDetailsCollectionSelector = () => {
 					value={COLLECTION_TYPE.ANY}
 				/>
 				<TradeDetailsOpenToOffers />
-				<CardItemText>{t('trade:tradeDetails.option-2')}</CardItemText>
+				<CardItemText>{t('trade:trade-details.option-2')}</CardItemText>
 			</CardItem>
 		</Flex>
 	)
@@ -86,73 +86,73 @@ const TradeDetailsForm = () => {
 			>
 				<RadioWrapper>
 					<RadioCard value={COLLECTION_TYPE.SPECIFIC}>
-						<RadioCardText>{t('trade:tradeDetails.option-1')}</RadioCardText>
+						<RadioCardText>{t('trade:trade-details.option-1')}</RadioCardText>
 					</RadioCard>
 
 					<RadioCard value={COLLECTION_TYPE.ANY}>
-						<RadioCardText>{t('trade:tradeDetails.option-2')}</RadioCardText>
+						<RadioCardText>{t('trade:trade-details.option-2')}</RadioCardText>
 					</RadioCard>
 				</RadioWrapper>
+			</RadioInputGroupProvider>
 
-				{getValues('collectionType') === COLLECTION_TYPE.ANY && (
-					<div style={{ paddingTop: '48px' }}>
-						<Label htmlFor='comment'>{t('trade:tradeDetails.text-area-label')}</Label>
-						<TextArea
-							id='comment'
-							style={{ height: '128px' }}
-							{...register('comment')}
-							placeholder={t('trade:tradeDetails.text-area-placeholder')}
+			{getValues('collectionType') === COLLECTION_TYPE.ANY && (
+				<div style={{ paddingTop: '48px' }}>
+					<Label htmlFor='comment'>{t('trade:trade-details.text-area-label')}</Label>
+					<TextArea
+						id='comment'
+						style={{ height: '128px' }}
+						{...register('comment')}
+						placeholder={t('trade:trade-details.text-area-placeholder')}
+					/>
+				</div>
+			)}
+
+			{getValues('collectionType') === COLLECTION_TYPE.SPECIFIC && (
+				<>
+					<div style={{ paddingTop: '24px' }}>
+						<Label htmlFor='collections'>
+							{t('trade:trade-details.collections-label')}
+						</Label>
+						<TextInput
+							onKeyDown={e => onEnter(e)}
+							id='collection'
+							{...register('collection')}
+							placeholder={t('trade:trade-details.collections-placeholder')}
 						/>
 					</div>
-				)}
 
-				{getValues('collectionType') === COLLECTION_TYPE.SPECIFIC && (
-					<>
-						<div style={{ paddingTop: '24px' }}>
-							<Label htmlFor='collections'>
-								{t('trade:tradeDetails.collections-label')}
-							</Label>
-							<TextInput
-								onKeyDown={e => onEnter(e)}
-								id='collection'
-								{...register('collection')}
-								placeholder={t('trade:tradeDetails.collections-placeholder')}
-							/>
-						</div>
+					<ChipsWrapper>
+						{fields.map((field, index) => (
+							<Chip key={field.id} onClick={() => remove(index)}>
+								{field.value}
+							</Chip>
+						))}
+					</ChipsWrapper>
 
-						<ChipsWrapper>
-							{fields.map((field, index) => (
-								<Chip key={field.id} onClick={() => remove(index)}>
-									{field.value}
-								</Chip>
-							))}
-						</ChipsWrapper>
-
-						<div style={{ paddingTop: '24px' }}>
-							<Label htmlFor='tokenAmount'>
-								{t('trade:tradeDetails.tokens-label')}
-							</Label>
-							<TextInput
-								id='tokenAmount'
-								{...register('tokenAmount')}
-								placeholder={t('trade:tradeDetails.tokens-placeholder', {
-									token: 'Luna',
-								})}
-							/>
-						</div>
-						<div style={{ paddingTop: '24px' }}>
-							<Label htmlFor='comment'>
-								{t('trade:tradeDetails.text-area-label')}
-							</Label>
-							<TextInput
-								id='comment'
-								{...register('comment')}
-								placeholder={t('trade:tradeDetails.text-area-placeholder')}
-							/>
-						</div>
-					</>
-				)}
-			</RadioInputGroupProvider>
+					<div style={{ paddingTop: '24px' }}>
+						<Label htmlFor='tokenAmount'>
+							{t('trade:trade-details.tokens-label')}
+						</Label>
+						<TextInput
+							id='tokenAmount'
+							{...register('tokenAmount')}
+							placeholder={t('trade:trade-details.tokens-placeholder', {
+								token: 'Luna',
+							})}
+						/>
+					</div>
+					<div style={{ paddingTop: '24px' }}>
+						<Label htmlFor='comment'>
+							{t('trade:trade-details.text-area-label')}
+						</Label>
+						<TextInput
+							id='comment'
+							{...register('comment')}
+							placeholder={t('trade:trade-details.text-area-placeholder')}
+						/>
+					</div>
+				</>
+			)}
 		</FormWrapper>
 	)
 }
@@ -169,11 +169,11 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
-				<ContentCardTitle>{t('trade:tradeDetails.question')}</ContentCardTitle>
+				<ContentCardTitle>{t('trade:trade-details.question')}</ContentCardTitle>
 				<ContentCardSubtitle>
 					{!getValues('collectionType')
-						? t('trade:tradeDetails.instructions')
-						: t('trade:tradeDetails.instruction-2')}
+						? t('trade:trade-details.instructions')
+						: t('trade:trade-details.instruction-2')}
 				</ContentCardSubtitle>
 				{!getValues('collectionType') ? (
 					<TradeDetailsCollectionSelector />
