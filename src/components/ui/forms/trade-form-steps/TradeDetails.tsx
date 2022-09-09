@@ -164,23 +164,25 @@ interface Props {
 
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues } = useFormContext<TradeFormStepsProps>()
+	const { getValues, watch } = useFormContext<TradeFormStepsProps>()
+	const watchCollectionType = watch('collectionType', undefined)
 
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
 				<ContentCardTitle>{t('trade:trade-details.question')}</ContentCardTitle>
 				<ContentCardSubtitle>
-					{!getValues('collectionType')
+					{!watchCollectionType
 						? t('trade:trade-details.instructions')
 						: t('trade:trade-details.instruction-2')}
 				</ContentCardSubtitle>
-				{!getValues('collectionType') ? (
+				{!watchCollectionType ? (
 					<TradeDetailsCollectionSelector />
 				) : (
 					<TradeDetailsForm />
 				)}
 			</ContentCard>
+
 			{/* Footer Navigation Section */}
 			<Flex sx={{ justifyContent: 'space-between', paddingTop: '12px' }}>
 				<Button onClick={() => goBackStep()} variant='secondary'>
