@@ -1,6 +1,6 @@
 import { axios } from 'services/axios'
 
-export enum WalletNFTState {
+export enum WALLET_NFT_STATE {
 	Full = 0, // All old txs were loaded
 	Partial = 1, // There is still some old info to query to have a complete nft_interacted array
 	isUpdating = 2, // THe API is currently updating info for the address
@@ -30,7 +30,7 @@ export interface Collection {
 
 export interface WalletNFTsResponse {
 	ownedCollections: Collection[]
-	state: WalletNFTState
+	state: WALLET_NFT_STATE
 	ownedTokens: NFT[]
 	txs: {
 		external: {

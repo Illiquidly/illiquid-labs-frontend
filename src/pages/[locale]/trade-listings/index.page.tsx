@@ -8,7 +8,7 @@ import { Flex } from 'theme-ui'
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 export { getStaticPaths, getStaticProps }
 
-enum ListingsType {
+enum LISTINGS_TYPE {
 	ALL_LISTINGS = '0',
 	MY_LISTINGS = '1',
 }
@@ -16,19 +16,19 @@ enum ListingsType {
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const [listingsType, setListingsType] = React.useState(
-		ListingsType.ALL_LISTINGS
+		LISTINGS_TYPE.ALL_LISTINGS
 	)
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
 				<Flex sx={{ mt: ['12px', '24px'], display: ['flex', 'flex', 'none'] }}>
 					<Tabs
-						onChange={e => setListingsType(e.target.value as ListingsType)}
+						onChange={e => setListingsType(e.target.value as LISTINGS_TYPE)}
 						value={listingsType}
 						name='listings'
 					>
-						<Tab value={ListingsType.ALL_LISTINGS}>All Listings</Tab>
-						<Tab value={ListingsType.MY_LISTINGS}>My Listings</Tab>
+						<Tab value={LISTINGS_TYPE.ALL_LISTINGS}>All Listings</Tab>
+						<Tab value={LISTINGS_TYPE.MY_LISTINGS}>My Listings</Tab>
 					</Tabs>
 				</Flex>
 				<Flex sx={{ mt: ['12px', '20px'], gap: '12px', minHeight: '48px' }}>
