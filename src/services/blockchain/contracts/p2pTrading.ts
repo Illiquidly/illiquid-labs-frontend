@@ -979,7 +979,7 @@ async function counterTradeInfo(
 	}
 }
 
-export enum TradeState {
+export enum TRADE_STATE {
 	Created = 'Created',
 	Published = 'Published',
 	Countered = 'Countered',
@@ -995,7 +995,7 @@ export interface Trade {
 }
 
 async function getAllTrades(
-	states?: TradeState[],
+	states?: TRADE_STATE[],
 	filterOwner?: string,
 	startAfter?: number,
 	limit?: number,
@@ -1043,7 +1043,7 @@ async function getCounterTrades(tradeId: number): Promise<Trade[]> {
 }
 
 async function getAllCounterTrades(
-	states?: TradeState[],
+	states?: TRADE_STATE[],
 	filterOwner?: string,
 	startAfter?: number,
 	limit?: number,
