@@ -8,7 +8,7 @@ import {
 	NFT,
 	WalletNFTsResponse,
 	WalletNFTsService,
-	WalletNFTState,
+	WALLET_NFT_STATE,
 } from 'services/api/walletNFTsService'
 import { useRouter } from 'next/router'
 
@@ -48,8 +48,13 @@ export function useMyNFTs() {
 							WalletNFTsService.requestNFTs(getNetworkName(), myAddress)
 						)
 
-						if (response?.state === WalletNFTState.isUpdating) {
+						if (response?.state === WALLET_NFT_STATE.isUpdating) {
 							return retry("Try again, It's not ready yet!")
+						}
+
+						// If we get a partial result, we need to call update on the API once again
+						if (response?.state === WALLET_NFT_STATE.Partial) {
+							await fetchMyNFTs()
 						}
 
 						if (error) {
