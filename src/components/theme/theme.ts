@@ -11,6 +11,7 @@ export const theme = makeTheme({
 		listingCardOverlay: 150,
 		listingCardImageOverlay: 110,
 		listingCardImg: 100,
+		dropdown: 2000,
 		header: 200,
 		modal: 300,
 		img: 800,

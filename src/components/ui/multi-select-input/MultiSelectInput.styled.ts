@@ -1,10 +1,10 @@
 import styled from '@emotion/styled'
-import {
-	MultiSelectInputContainerProps,
-	MultiSelectProps,
-} from './MultiSelectInput'
+import { Flex } from 'theme-ui'
 
-export const Container = styled.div<MultiSelectInputContainerProps>`
+export const Container = styled.div<{
+	error?: boolean
+	disabled?: boolean
+}>`
 	display: inline-flex;
 	width: 100%;
 	border: 1.5px solid
@@ -51,7 +51,7 @@ export const Container = styled.div<MultiSelectInputContainerProps>`
 	}
 `
 
-export const MultiSelectInputStyled = styled.input<MultiSelectProps>`
+export const MultiSelectInputStyled = styled.input`
 	flex: 1;
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
@@ -86,6 +86,7 @@ export const DismissIconContainer = styled.div`
 `
 
 export const DropdownContainer = styled.div`
+	z-index: ${props => props.theme.zIndices.dropdown};
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -103,14 +104,39 @@ export const DropdownContent = styled.div`
 `
 
 export const DropdownTitle = styled.div`
-	padding: 14px 12px;
+	padding-left: 12px;
+	padding-right: 12px;
 	padding-top: 18px;
+	padding-bottom: 8px;
 
 	color: rgba(255, 255, 255, 0.5);
 `
 
 export const DropdownItem = styled.div<{ checked?: boolean }>`
 	padding: 14px 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	&:hover {
+		cursor: pointer;
+	}
+
 	background: ${props =>
 		props.checked ? props.theme.colors.primary600 : props.theme.colors.dark100};
+`
+
+export const Circle = styled.div`
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100%;
+
+	background: #2688eb;
+`
+
+export const IconContainer = styled(Flex)`
+	width: 20px;
+	height: 20px;
 `
