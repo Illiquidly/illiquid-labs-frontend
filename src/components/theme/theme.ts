@@ -50,6 +50,7 @@ export const theme = makeTheme({
 
 		secondary100: '#B3C1C8',
 		secondary200: '#8098A4',
+		secondary300: '#5A7889',
 		secondary400: '#395E71',
 		secondary500: '#013049',
 		secondary600: '#012539',

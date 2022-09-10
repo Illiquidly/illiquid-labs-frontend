@@ -5,7 +5,7 @@ import { noop } from 'lodash'
 import { useOnClickOutside } from 'utils/react/useOnClickOutside'
 import { InputSearchIcon } from 'assets/icons/mixed'
 import { useTheme } from '@emotion/react'
-import { Box, Flex } from 'theme-ui'
+import { Flex } from 'theme-ui'
 import {
 	AccordionCard,
 	ContentWrapper,
@@ -18,6 +18,8 @@ import {
 	IconContainer,
 	MultiSelectAccordionInputStyled,
 	SearchIconContainer,
+	ExtraLabel,
+	Label,
 } from './MultiSelectAccordionInput.styled'
 import { Checkbox } from '../checkbox'
 
@@ -177,8 +179,8 @@ const MultiSelectAccordionInput = React.forwardRef<
 											checked={checked}
 										/>
 									</CheckboxContainer>
-									<Box sx={{ flex: 1, ml: '2px' }}>{label}</Box>
-									<Box>{extraLabel}</Box>
+									<Label>{label}</Label>
+									<ExtraLabel>{extraLabel}</ExtraLabel>
 								</AccordionItem>
 							)
 						})}

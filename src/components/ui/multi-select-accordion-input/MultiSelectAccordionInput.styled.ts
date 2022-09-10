@@ -154,5 +154,24 @@ export const CheckboxContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-right: 6px;
+	margin-right: 10px;
+`
+
+export const ExtraLabel = styled.div`
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 24px;
+
+	color: ${props => props.theme.colors.secondary300};
+`
+
+export const Label = styled.div`
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+
+	flex: 1;
+	pointer-events: none;
 `

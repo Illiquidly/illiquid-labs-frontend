@@ -31,7 +31,7 @@ export const AccordionExample = () => {
 				title={<AccordionTitle>Status</AccordionTitle>}
 			>
 				<MultiSelectAccordionInput
-					dismissOnOutsideClick
+					// dismissOnOutsideClick
 					// onDismiss={() => accordionRef?.current?.close()}
 					value={selectedOptions}
 					onChange={v => setSelectedOptions(v)}
