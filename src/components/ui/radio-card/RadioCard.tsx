@@ -1,11 +1,16 @@
-import { forwardRef } from 'react'
-import { CardItem, CardItemInput, CardItemText } from './RadioCard.styled'
+import { forwardRef, ReactElement } from 'react'
+import {
+	CardItem,
+	CardItemInput,
+	CardItemSubtitle,
+	CardItemTitle,
+} from './RadioCard.styled'
 
 interface Props {
 	value: string
 	title: string
 	subtitle?: string
-	Image: any
+	Image: ReactElement
 }
 
 export const RadioCard = forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -14,8 +19,8 @@ export const RadioCard = forwardRef<HTMLInputElement, Props>((props, ref) => {
 		<CardItem>
 			<CardItemInput ref={ref} type='radio' {...props} value={value} />
 			{Image}
-			<CardItemText>{title}</CardItemText>
-			{subtitle && <CardItemText>{subtitle}</CardItemText>}
+			<CardItemTitle>{title}</CardItemTitle>
+			{subtitle && <CardItemSubtitle>{subtitle}</CardItemSubtitle>}
 		</CardItem>
 	)
 })

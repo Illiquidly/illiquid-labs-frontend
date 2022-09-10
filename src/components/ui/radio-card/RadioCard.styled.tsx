@@ -32,9 +32,9 @@ export const CardItemInput = styled.input`
 	cursor: pointer;
 `
 
-export const CardItemText = styled(Text)``
+export const CardItemTitle = styled(Text)``
 
-CardItemText.defaultProps = {
+CardItemTitle.defaultProps = {
 	as: 'h4',
 	sx: {
 		fontFamily: 'Heebo',
@@ -45,4 +45,18 @@ CardItemText.defaultProps = {
 		padding: '4px 12px 0',
 	},
 	color: 'natural50',
+}
+export const CardItemSubtitle = styled(Text)``
+
+CardItemSubtitle.defaultProps = {
+	as: 'p',
+	sx: {
+		fontFamily: 'Heebo',
+		fontSize: '14px',
+		lineHeight: '20px',
+		fontWeight: 400,
+		textAlign: 'center',
+		padding: '4px 12px',
+	},
+	color: 'natural200',
 }
