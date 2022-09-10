@@ -57,7 +57,7 @@ export const AccordionTitle = styled(Box)`
 	line-height: 27px;
 `
 
-type AccordionRef = {
+export type AccordionRef = {
 	open: () => void
 	close: () => void
 }

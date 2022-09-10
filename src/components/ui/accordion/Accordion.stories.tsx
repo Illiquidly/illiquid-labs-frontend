@@ -7,7 +7,7 @@ import { Box } from 'theme-ui'
 import MultiSelectAccordionInput, {
 	MultiSelectAccordionInputOption,
 } from '../multi-select-accordion-input/MultiSelectAccordionInput'
-import Accordion, { AccordionTitle } from './Accordion'
+import Accordion, { AccordionRef, AccordionTitle } from './Accordion'
 
 export default {
 	/* 👇 The title prop is optional.
@@ -19,18 +19,20 @@ export default {
 }
 
 export const AccordionExample = () => {
+	const accordionRef = React.useRef<AccordionRef>(null)
 	const [selectedOptions, setSelectedOptions] = React.useState<
 		MultiSelectAccordionInputOption[]
 	>([])
 	return (
 		<Box sx={{ width: '308px' }}>
 			<Accordion
+				ref={accordionRef}
 				icon={<TargetIcon />}
 				title={<AccordionTitle>Status</AccordionTitle>}
 			>
 				<MultiSelectAccordionInput
 					dismissOnOutsideClick
-					onDismiss={() => console.warn('dismiss')}
+					// onDismiss={() => accordionRef?.current?.close()}
 					value={selectedOptions}
 					onChange={v => setSelectedOptions(v)}
 					accordionTitle='NFT Collection'
