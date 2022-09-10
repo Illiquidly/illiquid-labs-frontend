@@ -15,10 +15,10 @@ import {
 	DropdownItem,
 	DropdownTitle,
 	IconContainer,
-	MultiSelectInputStyled,
-} from './MultiSelectInput.styled'
+	MultiSelectDropdownInputStyled,
+} from './MultiSelectDropdownInput.styled'
 
-export type MultiSelectInputOption = {
+export type MultiSelectDropdownInputOption = {
 	label: string
 	value: string
 }
@@ -34,11 +34,11 @@ type SearchStrategy = ({
 	value: string
 	inputValue: string
 }) => boolean
-export interface MultiSelectInputProps {
+export interface MultiSelectDropdownInputProps {
 	error?: boolean
-	options?: MultiSelectInputOption[]
-	onChange?: (o: MultiSelectInputOption[]) => void
-	value?: MultiSelectInputOption[]
+	options?: MultiSelectDropdownInputOption[]
+	onChange?: (o: MultiSelectDropdownInputOption[]) => void
+	value?: MultiSelectDropdownInputOption[]
 	defaultSearch?: string
 	defaultOpen?: boolean
 	dropdownTitle?: string
@@ -46,7 +46,7 @@ export interface MultiSelectInputProps {
 	searchStrategy?: SearchStrategy
 }
 
-export interface MultiSelectInputContainerProps {
+export interface MultiSelectDropdownInputContainerProps {
 	error?: boolean
 	disabled?: boolean
 }
@@ -72,9 +72,12 @@ const popperModifiers = [
 	},
 ]
 
-const MultiSelectInput = React.forwardRef<
+const MultiSelectDropdownInput = React.forwardRef<
 	HTMLInputElement,
-	Spread<React.InputHTMLAttributes<HTMLInputElement>, MultiSelectInputProps>
+	Spread<
+		React.InputHTMLAttributes<HTMLInputElement>,
+		MultiSelectDropdownInputProps
+	>
 >((props, ref) => {
 	const {
 		children,
@@ -153,14 +156,14 @@ const MultiSelectInput = React.forwardRef<
 				onClick={handleClick}
 				ref={setReferenceElement}
 			>
-				<MultiSelectInputStyled
+				<MultiSelectDropdownInputStyled
 					{...inputProps}
 					value={search}
 					onChange={e => setSearch(e.target.value)}
 					ref={inputRef}
 				>
 					{children}
-				</MultiSelectInputStyled>
+				</MultiSelectDropdownInputStyled>
 				<IconContainer>
 					{isDropdownOpen && (
 						<DismissIconContainer onClick={onDismiss}>
@@ -208,4 +211,4 @@ const MultiSelectInput = React.forwardRef<
 	)
 })
 
-export default MultiSelectInput
+export default MultiSelectDropdownInput

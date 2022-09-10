@@ -1,24 +1,26 @@
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
-import MultiSelectInput, { MultiSelectInputOption } from './MultiSelectInput'
+import MultiSelectDropdownInput, {
+	MultiSelectDropdownInputOption,
+} from './MultiSelectDropdownInput'
 
 export default {
 	/* 👇 The title prop is optional.
 	 * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
 	 * to learn how to generate automatic titles
 	 */
-	title: 'Multi Select Input',
-	component: MultiSelectInput,
+	title: 'Multi Select Dropdown Input',
+	component: MultiSelectDropdownInput,
 }
 
-export const MultiSelectInputExample = () => {
+export const MultiSelectDropdownInputExample = () => {
 	const [selectedOptions, setSelectedOptions] = React.useState<
-		MultiSelectInputOption[]
+		MultiSelectDropdownInputOption[]
 	>([])
 
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: 8, width: 200 }}>
-			<MultiSelectInput
+			<MultiSelectDropdownInput
 				defaultOpen
 				value={selectedOptions}
 				onChange={v => setSelectedOptions(v)}
@@ -68,7 +70,7 @@ export const MultiSelectInputExample = () => {
 					</Box>
 				))}
 			</Flex>
-			<MultiSelectInput
+			<MultiSelectDropdownInput
 				disabled
 				dropdownTitle='NFT Collection'
 				dismissOnOutsideClick

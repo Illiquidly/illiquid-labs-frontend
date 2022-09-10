@@ -51,7 +51,7 @@ export const Container = styled.div<{
 	}
 `
 
-export const MultiSelectInputStyled = styled.input`
+export const MultiSelectDropdownInputStyled = styled.input`
 	flex: 1;
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
