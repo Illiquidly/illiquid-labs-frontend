@@ -142,9 +142,11 @@ const MultiSelectAccordionInput = React.forwardRef<
 						{children}
 					</MultiSelectAccordionInputStyled>
 					<IconContainer>
-						<DismissIconContainer onClick={_onDismiss}>
-							<InputDismissIcon />
-						</DismissIconContainer>
+						{search && (
+							<DismissIconContainer onClick={_onDismiss}>
+								<InputDismissIcon />
+							</DismissIconContainer>
+						)}
 					</IconContainer>
 				</Container>
 			</Flex>
