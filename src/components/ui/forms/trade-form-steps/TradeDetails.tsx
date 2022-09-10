@@ -1,7 +1,7 @@
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
-import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
 	Button,
+	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
 	TextInput,
@@ -14,9 +14,6 @@ import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Flex } from 'theme-ui'
 import { COLLECTION_TYPE, TradeFormStepsProps } from './formProps'
 import {
-	CardItem,
-	CardItemInput,
-	CardItemText,
 	ChipsWrapper,
 	ContentCard,
 	ContentCardSubtitle,
@@ -33,25 +30,18 @@ const TradeDetailsCollectionSelector = () => {
 	const { register } = useFormContext<TradeFormStepsProps>()
 	return (
 		<Flex sx={{ gap: '8px' }}>
-			<CardItem>
-				<CardItemInput
-					type='radio'
-					{...register('collectionType')}
-					value={COLLECTION_TYPE.SPECIFIC}
-				/>
-				<TradeDetailsSpecifiedCollection />
-				<CardItemText>{t('trade:trade-details.option-1')}</CardItemText>
-			</CardItem>
-
-			<CardItem>
-				<CardItemInput
-					type='radio'
-					{...register('collectionType')}
-					value={COLLECTION_TYPE.ANY}
-				/>
-				<TradeDetailsOpenToOffers />
-				<CardItemText>{t('trade:trade-details.option-2')}</CardItemText>
-			</CardItem>
+			<RadioCardSelector
+				value={COLLECTION_TYPE.SPECIFIC}
+				title={t('trade:trade-details.option-1')}
+				Image={<TradeDetailsOpenToOffers />}
+				{...register('collectionType')}
+			/>
+			<RadioCardSelector
+				value={COLLECTION_TYPE.ANY}
+				title={t('trade:trade-details.option-2')}
+				Image={<TradeDetailsOpenToOffers />}
+				{...register('collectionType')}
+			/>
 		</Flex>
 	)
 }

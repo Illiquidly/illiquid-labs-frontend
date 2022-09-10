@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { SelectNFTs, TradeDetails } from 'components/ui/forms'
 import { TradeFormStepsProps } from 'components/ui/forms/trade-form-steps'
+import { ChooseVisibility } from 'components/ui/forms/trade-form-steps/ChooseVisiblity'
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { getStaticPaths, makeStaticProps } from 'lib'
@@ -114,6 +115,10 @@ export default function Trade() {
 								{/* STEP 2 */}
 								{step.current === CREATE_LISTING_FORM_STEPS.TRADE_DETAILS && (
 									<TradeDetails goNextStep={goNextStep} goBackStep={goBackStep} />
+								)}
+								{/* STEP 3 */}
+								{step.current === CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY && (
+									<ChooseVisibility goNextStep={goNextStep} goBackStep={goBackStep} />
 								)}
 							</BodyContainer>
 							<button type='submit'>test submit</button>
