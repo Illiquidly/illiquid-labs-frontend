@@ -10,6 +10,7 @@ import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { SelectNFTs, TradeDetails } from 'components/ui/forms'
 import {
 	ChooseVisibility,
+	ConfirmListing,
 	TradeFormStepsProps,
 } from 'components/ui/forms/trade-form-steps'
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
@@ -123,7 +124,11 @@ export default function Trade() {
 									<ChooseVisibility goNextStep={goNextStep} goBackStep={goBackStep} />
 								)}
 								{/* STEP 4 */}
+								{step.current === CREATE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
+									<ConfirmListing goBackStep={goBackStep} />
+								)}
 							</BodyContainer>
+
 							<button type='submit'>test submit</button>
 						</form>
 					</FormProvider>
