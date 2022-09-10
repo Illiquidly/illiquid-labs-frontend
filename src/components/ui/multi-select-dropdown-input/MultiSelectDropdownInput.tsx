@@ -128,10 +128,7 @@ const MultiSelectDropdownInput = React.forwardRef<
 	}
 
 	const onDismiss = () => {
-		if (inputRef.current) {
-			inputRef.current.value = ''
-		}
-
+		setSearch('')
 		setIsDropDownOpen(false)
 	}
 

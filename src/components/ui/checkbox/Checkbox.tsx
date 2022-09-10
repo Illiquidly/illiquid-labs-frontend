@@ -2,11 +2,13 @@ import React from 'react'
 import { CheckboxCheckedIcon, CheckboxDisabledIcon } from 'assets/icons/mixed'
 import { Background, Container, Input } from './Checkbox.styled'
 
-type CheckboxProps = React.InputHTMLAttributes<HTMLInputElement>
+interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+	backgroundStyle?: React.CSSProperties
+}
 
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 	(props, ref) => {
-		const { checked, disabled } = props
+		const { checked, disabled, backgroundStyle = {} } = props
 		const inputRef = React.useRef<HTMLInputElement>(null)
 
 		const handleClick = () => inputRef?.current?.click()
@@ -27,10 +29,16 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 		return (
 			<Container disabled={disabled} onClick={handleClick}>
 				<Input {...props} type='checkbox' ref={inputRef} />
-				<Background checked={checked}>{renderIcon()}</Background>
+				<Background style={backgroundStyle} checked={checked}>
+					{renderIcon()}
+				</Background>
 			</Container>
 		)
 	}
 )
+
+Checkbox.defaultProps = {
+	backgroundStyle: undefined,
+}
 
 export default Checkbox

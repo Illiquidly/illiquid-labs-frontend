@@ -9,3 +9,4 @@ export { default as AccordionChevronUpIcon } from './components/AccordionChevron
 export { default as TargetIcon } from './components/TargetIcon'
 export { default as HeartIcon } from './components/HeartIcon'
 export { default as HeartFilledIcon } from './components/HeartFilledIcon'
+export { default as InputSearchIcon } from './components/InputSearchIcon'
