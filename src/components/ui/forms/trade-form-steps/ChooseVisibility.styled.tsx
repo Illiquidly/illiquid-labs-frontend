@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { Card } from 'components'
 
-import { Flex, Text } from 'theme-ui'
+import { Box, Flex, Text } from 'theme-ui'
 
 export const ContentCardWrapper = styled.div`
 	flex: 1;
@@ -14,7 +14,6 @@ export const ContentCard = styled(Card)`
 ContentCard.defaultProps = {
 	sx: {
 		p: ['16px', '16px', '24px', '24px'],
-		minHeight: [null, null, null, '393px'],
 	},
 }
 
@@ -106,21 +105,18 @@ export const Label = styled.label`
 	padding-bottom: 6px;
 `
 
-export const ChipsWrapper = styled(Flex)`
-	/* REMOVE SCROLLBAR */
-	-ms-overflow-style: none; /* Internet Explorer 10+ */
-	scrollbar-width: none; /* Firefox */
-	&::-webkit-scrollbar {
-		width: 0; /* Remove scrollbar space */
-		height: 0; /* Remove scrollbar height issue */
-	}
-`
+export const MessageBox = styled(Box)``
 
-ChipsWrapper.defaultProps = {
-	mt: ['8px', '8px', '4px'],
+MessageBox.defaultProps = {
 	sx: {
-		gap: ['4px', '4px', '2px'],
-		flexWrap: ['nowrap', 'nowrap', 'wrap'],
-		overflowX: ['auto', 'auto', 'visible'],
+		textAlign: 'center',
+		fontFamily: 'Heebo',
+		fontWeight: '500',
+		fontSize: '16px',
+		lineHeight: '24px',
+		borderRadius: '8px',
+		padding: ['12px', null, '24px 12px'],
+		color: 'gray800',
+		backgroundColor: 'dark400',
 	},
 }
