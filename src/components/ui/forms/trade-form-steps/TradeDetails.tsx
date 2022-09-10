@@ -1,6 +1,6 @@
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
+import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
-	Button,
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
@@ -13,6 +13,7 @@ import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Flex } from 'theme-ui'
 import { COLLECTION_TYPE, TradeFormStepsProps } from './formProps'
+import { NavigationFooter } from './NavigationFooter'
 import {
 	ChipsWrapper,
 	ContentCard,
@@ -33,7 +34,7 @@ const TradeDetailsCollectionSelector = () => {
 			<RadioCardSelector
 				value={COLLECTION_TYPE.SPECIFIC}
 				title={t('trade:trade-details.option-1')}
-				Image={<TradeDetailsOpenToOffers />}
+				Image={<TradeDetailsSpecifiedCollection />}
 				{...register('collectionType')}
 			/>
 			<RadioCardSelector
@@ -174,18 +175,11 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 			</ContentCard>
 
 			{/* Footer Navigation Section */}
-			<Flex sx={{ justifyContent: 'space-between', paddingTop: '12px' }}>
-				<Button onClick={() => goBackStep()} variant='secondary'>
-					{t('common:buttons.previous-step')}
-				</Button>
-				<Button
-					variant='gradient'
-					onClick={() => goNextStep()}
-					disabled={!getValues('collectionType')}
-				>
-					{t('common:buttons.save-and-continue')}
-				</Button>
-			</Flex>
+			<NavigationFooter
+				goBackStep={goBackStep}
+				goNextStep={goNextStep}
+				isNextButtonDisabled={!getValues('collectionType')}
+			/>
 		</ContentCardWrapper>
 	)
 }
