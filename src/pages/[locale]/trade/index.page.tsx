@@ -8,8 +8,10 @@ import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { SelectNFTs, TradeDetails } from 'components/ui/forms'
-import { TradeFormStepsProps } from 'components/ui/forms/trade-form-steps'
-import { ChooseVisibility } from 'components/ui/forms/trade-form-steps/ChooseVisiblity'
+import {
+	ChooseVisibility,
+	TradeFormStepsProps,
+} from 'components/ui/forms/trade-form-steps'
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { getStaticPaths, makeStaticProps } from 'lib'
@@ -120,6 +122,7 @@ export default function Trade() {
 								{step.current === CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY && (
 									<ChooseVisibility goNextStep={goNextStep} goBackStep={goBackStep} />
 								)}
+								{/* STEP 4 */}
 							</BodyContainer>
 							<button type='submit'>test submit</button>
 						</form>
