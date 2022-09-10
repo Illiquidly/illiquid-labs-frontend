@@ -39,11 +39,10 @@ const AccordionWrapper = styled(AccordionContent)<{ isOpen?: boolean }>`
 
 const AccordionContentWrapper = styled.div<{ isOpen: boolean }>`
 	width: 100%;
-	max-height: ${props => (props.isOpen ? '100px' : '0')};
-	transition: all 0.35s ease-in-out;
+	max-height: ${props => (props.isOpen ? 'unset' : '0')};
+	transition: all 1.35s ease-in-out;
 	overflow: hidden;
 	display: flex;
-	justify-content: flex-start;
 `
 
 const Container = styled(Flex)`
@@ -96,7 +95,7 @@ const Accordion = React.forwardRef<AccordionRef, AccordionProps>(
 					{isOpen ? <AccordionChevronUpIcon /> : <AccordionChevronDownIcon />}
 				</AccordionWrapper>
 				<AccordionContentWrapper isOpen={isOpen}>
-					<AccordionContent>{children}</AccordionContent>
+					{children}
 				</AccordionContentWrapper>
 			</Container>
 		)

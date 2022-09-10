@@ -7,7 +7,7 @@ export const Container = styled.div<{
 }>`
 	display: inline-flex;
 	width: 100%;
-	border: 1.5px solid
+	border: 2px solid
 		${props =>
 			props.error ? props.theme.colors.error100 : props.theme.colors.dark500};
 	padding-inline: 14px;
@@ -19,21 +19,21 @@ export const Container = styled.div<{
 		props.disabled &&
 		`
     cursor: not-allowed;
-    border: 1.5px solid ${props.theme.colors.dark500}
+    border: 2px solid ${props.theme.colors.dark500}
 `}
 
 	&:hover {
 		margin: 0;
 		outline: none;
 		border: ${props =>
-			`1.5px solid ${
+			`2px solid ${
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
 			}`};
 	}
 	&:focus,
 	&:focus-within {
 		border: ${props =>
-			`1.5px solid ${
+			`2px solid ${
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
 			}`};
 		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
@@ -44,14 +44,34 @@ export const Container = styled.div<{
 		outline: none;
 		margin: 0;
 		border: ${props =>
-			`1.5px solid ${
+			`2px solid ${
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
 			}`};
 		box-shadow: rgba(0, 0, 0, 0.8) 0 1px;
 	}
 `
+export const AccordionCard = styled.div`
+	flex: 1;
+	padding: 18px 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 
-export const MultiSelectDropdownInputStyled = styled.input`
+	background: ${props => props.theme.colors.dark300};
+
+	border: 2px solid ${props => props.theme.colors.dark500};
+	border-radius: 8px;
+`
+
+export const DividerLine = styled.div`
+	margin-left: 6px;
+	margin-right: 6px;
+	flex: 1;
+	height: 1px;
+	background: ${props => props.theme.colors.dark500};
+`
+
+export const MultiSelectAccordionInputStyled = styled.input`
 	width: 100%;
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
@@ -85,55 +105,15 @@ export const DismissIconContainer = styled.div`
 	background: ${props => props.theme.colors.dark300};
 `
 
-export const DropdownContainer = styled.div`
-	z-index: ${props => props.theme.zIndices.dropdown};
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-	background: ${props => props.theme.colors.dark100};
-
-	height: 208px;
-
-	border: 1px solid ${props => props.theme.colors.dark500};
-
-	border-radius: 8px;
-`
-
-export const DropdownContent = styled.div`
-	overflow: scroll;
-`
-
-export const DropdownTitle = styled.div`
-	padding-left: 12px;
-	padding-right: 12px;
-	padding-top: 18px;
-	padding-bottom: 8px;
-
-	color: rgba(255, 255, 255, 0.5);
-`
-
-export const DropdownItem = styled.div<{ checked?: boolean }>`
-	padding: 14px 12px;
+export const SearchIconContainer = styled.div`
+	flex: 1;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 
 	&:hover {
 		cursor: pointer;
 	}
-
-	background: ${props =>
-		props.checked ? props.theme.colors.primary600 : props.theme.colors.dark100};
-`
-
-export const Circle = styled.div`
-	display: flex;
-	flex: 1;
-	align-items: center;
-	justify-content: center;
-	border-radius: 100%;
-
-	background: #2688eb;
 `
 
 export const IconContainer = styled(Flex)`
@@ -143,4 +123,36 @@ export const IconContainer = styled(Flex)`
 	&:hover {
 		opacity: 0.8;
 	}
+`
+
+export const ContentWrapper = styled.div`
+	width: 100%;
+	max-height: 172px;
+	transition: all 0.35s ease-in-out;
+	display: flex;
+	margin: 0 6px;
+	justify-content: flex-start;
+`
+
+export const AccordionTitle = styled.div`
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+	color: rgba(255, 255, 255, 0.5);
+`
+
+export const AccordionItem = styled.div<{ checked?: boolean }>`
+	flex: 1;
+	padding: 14px 0px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+`
+
+export const CheckboxContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 6px;
 `
