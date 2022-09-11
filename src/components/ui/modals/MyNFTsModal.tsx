@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react'
 import { ModalCloseIcon } from 'assets/icons/modal'
 import { ModalContext } from 'context/modalContext'
-import useMyNFTs from 'hooks/useMyNFTs'
+import useMyNFTs, { UseMyNFTsFilters } from 'hooks/useMyNFTs'
 import { noop, uniqBy } from 'lodash'
 import React, { useContext, useState } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
@@ -9,6 +9,7 @@ import { Box, Flex, IconButton } from 'theme-ui'
 import { Button } from '../button'
 import { OnlyMobileAndTablet } from '../layout'
 import NFTCard from '../nft-card/NFTCard'
+import { SearchInput } from '../search-input'
 import { SelectCard } from '../select-card'
 import {
 	CollectionFiltersSection,
@@ -42,7 +43,11 @@ export const MyNFTsModal = ({
 }: MyNFTsModalProps) => {
 	const { handleModal } = useContext(ModalContext)
 	const theme = useTheme()
-	const { ownedNFTs } = useMyNFTs()
+	const [filters, setFilters] = React.useState<UseMyNFTsFilters>({
+		name: '',
+		collectionAddresses: [],
+	})
+	const { ownedNFTs } = useMyNFTs(filters)
 	const [selectedNFTs, setSelectedNFTs] =
 		React.useState<NFT[]>(defaultSelectedNFTs)
 
@@ -117,7 +122,14 @@ export const MyNFTsModal = ({
 						</ModalContentHeader>
 						<Box sx={{ marginTop: ['16px', '32px'] }}>
 							<Flex sx={{ height: ['48px'], gap: '12px' }}>
-								<SearchContainer />
+								<SearchContainer>
+									<SearchInput
+										onChange={e =>
+											setFilters(prevFilters => ({ ...prevFilters, name: e.target.value }))
+										}
+										value={filters?.name}
+									/>
+								</SearchContainer>
 								<SortSelectContainer />
 							</Flex>
 							<OnlyMobileAndTablet>
