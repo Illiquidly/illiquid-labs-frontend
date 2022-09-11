@@ -12,7 +12,12 @@ import {
 } from 'services/api/walletNFTsService'
 import { useRouter } from 'next/router'
 
-export function useMyNFTs() {
+export type UseMyNFTsFilters = {
+	collectionAddresses: string[]
+	name: string
+}
+
+export function useMyNFTs(filters: UseMyNFTsFilters) {
 	const [NFTs, setNFTs] = React.useState<NFT[]>([])
 	const [collections, setCollections] = React.useState<Collection[]>([])
 	const wallet = useWallet()
@@ -82,8 +87,26 @@ export function useMyNFTs() {
 		}
 	}, [wallet.connection, wallet.network])
 
+	const ownedNFTs = React.useMemo(
+		() =>
+			NFTs.filter(
+				nft =>
+					// Filter by collections
+					(filters.collectionAddresses.length
+						? filters.collectionAddresses.includes(nft.collectionAddress)
+						: true) &&
+					// Filter by name %LIKE
+					(filters.name
+						? (nft?.name || '')
+								.toLowerCase()
+								.match(`^${filters.name.toLowerCase()}.*$`)
+						: true)
+			),
+		[filters, NFTs]
+	)
+
 	return {
-		ownedNFTs: NFTs,
+		ownedNFTs,
 		ownedCollections: collections,
 		partiallyLoading,
 		fullyLoading,

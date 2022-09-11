@@ -72,7 +72,7 @@ SortSelectContainer.defaultProps = {
 export const SearchContainer = styled(Flex)``
 
 SearchContainer.defaultProps = {
-	sx: { flex: 1, bg: 'yellow' },
+	sx: { flex: 1 },
 }
 
 export const MyNFTsBody = styled(Flex)``
