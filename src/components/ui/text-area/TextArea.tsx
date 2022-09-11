@@ -66,7 +66,6 @@ const TextAreaStyled = styled.textarea`
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
-	line-height: 24px;
 
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};

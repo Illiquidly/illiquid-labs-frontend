@@ -16,6 +16,8 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>`
 	display: inline-flex;
+	align-items: center;
+
 	width: 100%;
 	border: 1.5px solid
 		${props =>
@@ -67,7 +69,6 @@ const TextInputStyled = styled.input<TextInputProps>`
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
-	line-height: 24px;
 
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
