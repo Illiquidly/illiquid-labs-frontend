@@ -1,16 +1,19 @@
 import { useTheme } from '@emotion/react'
 import { ModalCloseIcon } from 'assets/icons/modal'
+import { Button } from 'components/ui/button'
+import { CheckboxCard } from 'components/ui/checkbox-card'
+import { OnlyMobileAndTablet } from 'components/ui/layout'
+import { NFTCard } from 'components/ui/nft-card'
+import { SearchInput } from 'components/ui/search-input'
+import { SelectCard } from 'components/ui/select-card'
 import { ModalContext } from 'context/modalContext'
-import useMyNFTs, { UseMyNFTsFilters } from 'hooks/useMyNFTs'
-import { noop, uniqBy } from 'lodash'
-import React, { useContext, useState } from 'react'
+import useMyNFTs from 'hooks/useMyNFTs'
+import { noop } from 'lodash'
+import React, { useContext } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, IconButton } from 'theme-ui'
-import { Button } from '../button'
-import { OnlyMobileAndTablet } from '../layout'
-import NFTCard from '../nft-card/NFTCard'
-import { SearchInput } from '../search-input'
-import { SelectCard } from '../select-card'
+import useSelectedNFTs from './hooks/useSelectedNFTs'
+
 import {
 	CollectionFiltersSection,
 	ModalBody,
@@ -43,37 +46,18 @@ export const MyNFTsModal = ({
 }: MyNFTsModalProps) => {
 	const { handleModal } = useContext(ModalContext)
 	const theme = useTheme()
-	const [filters, setFilters] = React.useState<UseMyNFTsFilters>({
-		name: '',
-		collectionAddresses: [],
+	const [collectionAddresses, setCollectionAddresses] = React.useState<string[]>(
+		[]
+	)
+	const [searchName, setSearchName] = React.useState<string>('')
+
+	const { ownedNFTs, ownedCollections } = useMyNFTs({
+		collectionAddresses,
+		name: searchName,
 	})
-	const { ownedNFTs } = useMyNFTs(filters)
-	const [selectedNFTs, setSelectedNFTs] =
-		React.useState<NFT[]>(defaultSelectedNFTs)
 
-	const [selectedCover, setSelectedCover] = useState<NFT>()
-
-	const addSelectedNFT = (nft: NFT) => {
-		setSelectedNFTs(prevState =>
-			uniqBy(
-				[...prevState, nft],
-				({ collectionAddress, tokenId }) => `${collectionAddress}_${tokenId}`
-			)
-		)
-	}
-
-	const removeSelectedNFT = (nft: NFT) => {
-		setSelectedNFTs(prevState =>
-			prevState.filter(
-				({ collectionAddress, tokenId }) =>
-					!(collectionAddress === nft.collectionAddress && tokenId === nft.tokenId)
-			)
-		)
-	}
-
-	const handleCoverSelect = (nft: NFT) => {
-		setSelectedCover(nft)
-	}
+	const { selectedNFTs, addSelectedNFT, removeSelectedNFT } =
+		useSelectedNFTs(defaultSelectedNFTs)
 
 	return (
 		<ModalOverlay>
@@ -124,10 +108,8 @@ export const MyNFTsModal = ({
 							<Flex sx={{ height: ['48px'], gap: '12px' }}>
 								<SearchContainer>
 									<SearchInput
-										onChange={e =>
-											setFilters(prevFilters => ({ ...prevFilters, name: e.target.value }))
-										}
-										value={filters?.name}
+										onChange={e => setSearchName(e.target.value)}
+										value={searchName}
 									/>
 								</SearchContainer>
 								<SortSelectContainer />
@@ -153,7 +135,31 @@ export const MyNFTsModal = ({
 						</Box>
 					</Flex>
 					<MyNFTsBody>
-						<CollectionFiltersSection />
+						<CollectionFiltersSection>
+							{ownedCollections.map(({ collectionAddress, collectionName }) => {
+								const checked = collectionAddresses.includes(collectionAddress)
+
+								const setCollections = prevCollectionAddresses => {
+									if (checked) {
+										return collectionAddresses.filter(
+											address => address !== collectionAddress
+										)
+									}
+									return [...new Set([...prevCollectionAddresses, collectionAddress])]
+								}
+
+								return (
+									<Box sx={{ flex: 1, maxHeight: '66px' }}>
+										<CheckboxCard
+											checked={checked}
+											onChange={() => setCollectionAddresses(setCollections)}
+											key={collectionAddress}
+											title={collectionName}
+										/>
+									</Box>
+								)
+							})}
+						</CollectionFiltersSection>
 						<NFTCardsGridWrapper>
 							<NFTCardContainer>
 								{ownedNFTs.map(nft => {
@@ -166,15 +172,10 @@ export const MyNFTsModal = ({
 									return (
 										<NFTCard
 											{...nft}
-											isCover={selectedCover === nft}
 											key={`${nft.collectionAddress}_${nft.tokenId}`}
 											onCardClick={() =>
 												checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
 											}
-											onCoverClick={e => {
-												e.stopPropagation()
-												handleCoverSelect(nft)
-											}}
 											checked={checked}
 										/>
 									)

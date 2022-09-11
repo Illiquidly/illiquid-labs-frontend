@@ -1,1 +1,1 @@
-export { MyNFTsModal } from './MyNFTsModal'
+export * from './my-nfts-modal'

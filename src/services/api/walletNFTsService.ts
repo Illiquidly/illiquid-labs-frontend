@@ -52,7 +52,13 @@ export class WalletNFTsService {
 		const { data } = await axios.get(
 			`/nft-content-api/query/${network}/${address}?action=update`
 		)
-		return data
+		return {
+			...data,
+			ownedTokens: data.ownedTokens?.map(nft => ({
+				...nft,
+				collectionAddress: nft.contractAddress,
+			})),
+		}
 	}
 
 	static async requestNFTs(
@@ -63,6 +69,12 @@ export class WalletNFTsService {
 			`/nft-content-api/query/${network}/${address}?action=plain_db`
 		)
 
-		return data
+		return {
+			...data,
+			ownedTokens: data.ownedTokens?.map(nft => ({
+				...nft,
+				collectionAddress: nft.contractAddress,
+			})),
+		}
 	}
 }

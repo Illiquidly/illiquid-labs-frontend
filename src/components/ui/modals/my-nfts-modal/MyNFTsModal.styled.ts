@@ -127,12 +127,15 @@ NFTCardsGridWrapper.defaultProps = {
 	},
 }
 
-export const CollectionFiltersSection = styled(Box)``
+export const CollectionFiltersSection = styled(Box)`
+	flex-direction: column;
+	overflow: auto;
+`
 
 CollectionFiltersSection.defaultProps = {
 	sx: {
-		width: '280px',
+		minWidth: '280px',
 		display: ['none', 'none', 'flex'],
-		bg: 'green',
+		gap: '8px',
 	},
 }

@@ -14,12 +14,13 @@ interface CheckboxCardProps
 function CheckboxCard({
 	title,
 	extra,
+	style,
 	forwardedRef,
 	...inputProps
 }: CheckboxCardProps) {
 	const theme = useTheme()
 	return (
-		<ContainerCard>
+		<ContainerCard style={style}>
 			<Checkbox
 				backgroundStyle={{
 					...(!inputProps.checked
