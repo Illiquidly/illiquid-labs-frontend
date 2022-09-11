@@ -5,6 +5,8 @@ import { AlertCircleIcon } from 'assets/icons/16pt'
 export interface TextInputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: boolean
+	iconLeft?: React.ReactNode
+	iconRight?: React.ReactNode
 }
 
 interface ContainerProps {
@@ -81,7 +83,7 @@ const TextInputStyled = styled.input<TextInputProps>`
 
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 	(props, ref) => {
-		const { children, ...rest } = props
+		const { children, iconLeft, iconRight, ...rest } = props
 		const inputRef = React.useRef<HTMLInputElement>(null)
 
 		const handleClick = () => inputRef?.current?.click()
@@ -93,10 +95,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 				error={props.error}
 				onClick={handleClick}
 			>
+				{iconLeft}
 				<TextInputStyled {...rest} ref={inputRef}>
 					{children}
 				</TextInputStyled>
-				{props.error && <AlertCircleIcon />}
+				{props.error ? <AlertCircleIcon /> : iconRight}
 			</Container>
 		)
 	}
