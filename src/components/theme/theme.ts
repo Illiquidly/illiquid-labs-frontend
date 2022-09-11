@@ -36,6 +36,7 @@ export const theme = makeTheme({
 		gray1000: '#FFFFFF',
 
 		natural50: '#F9FAFB',
+		natural200: '#E5E7EB',
 		natural300: '#D1D5DB',
 		natural500: '#6B7280',
 		neutral900: '#111827',

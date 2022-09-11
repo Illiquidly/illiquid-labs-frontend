@@ -1,7 +1,7 @@
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
 import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
-	Button,
+	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
 	TextInput,
@@ -13,10 +13,8 @@ import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Flex } from 'theme-ui'
 import { COLLECTION_TYPE, TradeFormStepsProps } from './formProps'
+import { NavigationFooter } from './NavigationFooter'
 import {
-	CardItem,
-	CardItemInput,
-	CardItemText,
 	ChipsWrapper,
 	ContentCard,
 	ContentCardSubtitle,
@@ -33,25 +31,18 @@ const TradeDetailsCollectionSelector = () => {
 	const { register } = useFormContext<TradeFormStepsProps>()
 	return (
 		<Flex sx={{ gap: '8px' }}>
-			<CardItem>
-				<CardItemInput
-					type='radio'
-					{...register('collectionType')}
-					value={COLLECTION_TYPE.SPECIFIC}
-				/>
-				<TradeDetailsSpecifiedCollection />
-				<CardItemText>{t('trade:trade-details.option-1')}</CardItemText>
-			</CardItem>
-
-			<CardItem>
-				<CardItemInput
-					type='radio'
-					{...register('collectionType')}
-					value={COLLECTION_TYPE.ANY}
-				/>
-				<TradeDetailsOpenToOffers />
-				<CardItemText>{t('trade:trade-details.option-2')}</CardItemText>
-			</CardItem>
+			<RadioCardSelector
+				value={COLLECTION_TYPE.SPECIFIC}
+				title={t('trade:trade-details.option-1')}
+				Image={<TradeDetailsSpecifiedCollection />}
+				{...register('collectionType')}
+			/>
+			<RadioCardSelector
+				value={COLLECTION_TYPE.ANY}
+				title={t('trade:trade-details.option-2')}
+				Image={<TradeDetailsOpenToOffers />}
+				{...register('collectionType')}
+			/>
 		</Flex>
 	)
 }
@@ -164,36 +155,31 @@ interface Props {
 
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues } = useFormContext<TradeFormStepsProps>()
+	const { getValues, watch } = useFormContext<TradeFormStepsProps>()
+	const watchCollectionType = watch('collectionType', undefined)
 
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
 				<ContentCardTitle>{t('trade:trade-details.question')}</ContentCardTitle>
 				<ContentCardSubtitle>
-					{!getValues('collectionType')
+					{!watchCollectionType
 						? t('trade:trade-details.instructions')
 						: t('trade:trade-details.instruction-2')}
 				</ContentCardSubtitle>
-				{!getValues('collectionType') ? (
+				{!watchCollectionType ? (
 					<TradeDetailsCollectionSelector />
 				) : (
 					<TradeDetailsForm />
 				)}
 			</ContentCard>
+
 			{/* Footer Navigation Section */}
-			<Flex sx={{ justifyContent: 'space-between', paddingTop: '12px' }}>
-				<Button onClick={() => goBackStep()} variant='secondary'>
-					{t('common:buttons.previous-step')}
-				</Button>
-				<Button
-					variant='gradient'
-					onClick={() => goNextStep()}
-					disabled={!getValues('collectionType')}
-				>
-					{t('common:buttons.save-and-continue')}
-				</Button>
-			</Flex>
+			<NavigationFooter
+				goBackStep={goBackStep}
+				goNextStep={goNextStep}
+				isNextButtonDisabled={!getValues('collectionType')}
+			/>
 		</ContentCardWrapper>
 	)
 }
