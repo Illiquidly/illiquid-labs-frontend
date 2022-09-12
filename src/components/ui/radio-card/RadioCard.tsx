@@ -1,4 +1,4 @@
-import { forwardRef, ReactElement } from 'react'
+import { forwardRef, InputHTMLAttributes, ReactElement } from 'react'
 import {
 	CardItem,
 	CardItemInput,
@@ -6,7 +6,7 @@ import {
 	CardItemTitle,
 } from './RadioCard.styled'
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	value: string
 	title: string
 	subtitle?: string
