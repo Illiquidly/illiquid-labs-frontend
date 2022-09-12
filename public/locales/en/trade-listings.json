@@ -1,3 +1,11 @@
 {
-	"listing-unavailable": "We’re sorry, but this listing is no longer available"
+	"listing-unavailable": "We’re sorry, but this listing is no longer available",
+	"status-label": "Status",
+	"collections-label": "Collections",
+	"looking-for-label": "Looking for",
+	"nft-collections-search-label": "NFT Collection",
+	"my-favorites-label": "My favorites",
+	"countered-by-me-label": "Countered by me",
+	"looking-for-liquid-assets-label": "Looking for liquid assets",
+	"search-collections-placeholder": "Search collections..."
 }

@@ -46,6 +46,7 @@ const AccordionContentWrapper = styled.div<{ isOpen: boolean }>`
 `
 
 const Container = styled(Flex)`
+	flex: 1;
 	flex-direction: column;
 	gap: 8px;
 `

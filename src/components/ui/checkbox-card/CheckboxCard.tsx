@@ -5,10 +5,11 @@ import Checkbox from '../checkbox/Checkbox'
 import { ContainerCard, Extra, Title } from './CheckboxCard.styled'
 
 interface CheckboxCardProps
-	extends React.InputHTMLAttributes<HTMLInputElement> {
+	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'title'> {
 	forwardedRef?: React.Ref<HTMLInputElement>
-	title?: string
-	extra?: string
+	title?: string | React.ReactNode
+	extra?: string | React.ReactNode
+	variant?: 'small' | 'medium'
 }
 
 function CheckboxCard({
@@ -16,6 +17,7 @@ function CheckboxCard({
 	extra,
 	style,
 	forwardedRef,
+	variant,
 	...inputProps
 }: CheckboxCardProps) {
 	const theme = useTheme()
@@ -30,8 +32,16 @@ function CheckboxCard({
 				ref={forwardedRef}
 				{...inputProps}
 			/>
-			<Title>{title}</Title>
-			<Extra>{extra}</Extra>
+			{typeof title === 'string' ? (
+				<Title variant={variant}>{title}</Title>
+			) : (
+				title
+			)}
+			{typeof extra === 'string' ? (
+				<Extra variant={variant}>{extra}</Extra>
+			) : (
+				extra
+			)}
 		</ContainerCard>
 	)
 }
@@ -40,6 +50,7 @@ CheckboxCard.defaultProps = {
 	forwardedRef: undefined,
 	title: '',
 	extra: '',
+	variant: 'small',
 }
 
 export default withForwardRef<HTMLInputElement, CheckboxCardProps>(CheckboxCard)
