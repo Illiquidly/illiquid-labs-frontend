@@ -15,7 +15,7 @@ import {
 } from 'components/ui/forms/trade-form-steps'
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
-import { getStaticPaths, makeStaticProps } from 'lib'
+import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import {
@@ -36,6 +36,7 @@ const schema = yup.object().shape({
 })
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
+const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Trade() {

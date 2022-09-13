@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
 
 const TableHeadRowCell = styled.td`
-	text-align: center;
+	text-align: left;
+	padding: 16px 12px;
 	vertical-align: middle;
 	text-transform: uppercase;
 	font-size: 12px;

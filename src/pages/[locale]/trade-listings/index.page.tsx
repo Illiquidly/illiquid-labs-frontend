@@ -15,7 +15,7 @@ import {
 	CheckboxCard,
 	GridSwitch,
 } from 'components/ui'
-import { getStaticPaths, makeStaticProps } from 'lib'
+import { makeStaticPaths, makeStaticProps } from 'lib'
 import {
 	CollectionsBoxesIcon,
 	FilterIcon,
@@ -41,6 +41,7 @@ import {
 } from './trade-listings.styled'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
+const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 enum LISTINGS_TYPE {
@@ -257,7 +258,7 @@ export default function TradeListings() {
 							onLike={n => console.warn(n)}
 							tokenId='Something'
 							collectionAddress='Something'
-							href={`/listing-details/${1}`}
+							href={`/trade-listings/${1}`}
 							nfts={[]}
 							imageUrl={[
 								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
@@ -273,7 +274,7 @@ export default function TradeListings() {
 							onLike={n => console.warn(n)}
 							tokenId='Something'
 							collectionAddress='Something'
-							href={`/listing-details/${1}`}
+							href={`/trade-listings/${1}`}
 							nfts={[]}
 							imageUrl={[
 								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
@@ -289,7 +290,7 @@ export default function TradeListings() {
 							onLike={n => console.warn(n)}
 							tokenId='Something'
 							collectionAddress='Something'
-							href={`/listing-details/${1}`}
+							href={`/trade-listings/${1}`}
 							nfts={[]}
 							imageUrl={[
 								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
@@ -305,7 +306,7 @@ export default function TradeListings() {
 							onLike={n => console.warn(n)}
 							tokenId='Something'
 							collectionAddress='Something'
-							href={`/listing-details/${1}`}
+							href={`/trade-listings/${1}`}
 							nfts={[]}
 							imageUrl={[
 								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
@@ -321,7 +322,7 @@ export default function TradeListings() {
 							onLike={n => console.warn(n)}
 							tokenId='Something'
 							collectionAddress='Something'
-							href={`/listing-details/${1}`}
+							href={`/trade-listings/${1}`}
 							nfts={[]}
 							imageUrl={[
 								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
@@ -337,7 +338,7 @@ export default function TradeListings() {
 							onLike={n => console.warn(n)}
 							tokenId='Something'
 							collectionAddress='Something'
-							href={`/listing-details/${1}`}
+							href={`/trade-listings/${1}`}
 							nfts={[]}
 							imageUrl={[
 								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
@@ -353,7 +354,7 @@ export default function TradeListings() {
 							onLike={n => console.warn(n)}
 							tokenId='Something'
 							collectionAddress='Something'
-							href={`/listing-details/${1}`}
+							href={`/trade-listings/${1}`}
 							nfts={[
 								{
 									collectionAddress: '1',

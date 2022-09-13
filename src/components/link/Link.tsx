@@ -9,7 +9,7 @@ const LinkComponent = ({
 	...rest
 }) => {
 	const router = useRouter()
-	const locale = rest.locale || router.query.locale || ''
+	const locale = rest?.locale || router?.query.locale || ''
 	let href = rest.href || router.asPath
 	let skip = skipLocaleHandling
 	if (href.indexOf('http') === 0) skip = true

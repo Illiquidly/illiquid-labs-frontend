@@ -3,9 +3,10 @@ import { useTranslation } from 'next-i18next'
 import { Flex, Box } from 'theme-ui'
 
 import { Page } from 'components/ui'
-import { getStaticPaths, makeStaticProps } from 'lib'
+import { makeStaticPaths, makeStaticProps } from 'lib'
 
 const getStaticProps = makeStaticProps(['common'])
+const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Index() {
