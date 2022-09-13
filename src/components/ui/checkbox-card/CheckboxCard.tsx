@@ -22,7 +22,7 @@ function CheckboxCard({
 }: CheckboxCardProps) {
 	const theme = useTheme()
 	return (
-		<ContainerCard style={style}>
+		<ContainerCard variant={variant} style={style}>
 			<Checkbox
 				backgroundStyle={{
 					...(!inputProps.checked

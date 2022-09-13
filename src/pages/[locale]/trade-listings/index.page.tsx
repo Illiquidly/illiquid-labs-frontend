@@ -13,6 +13,7 @@ import {
 	AccordionTitle,
 	MultiSelectAccordionInput,
 	CheckboxCard,
+	GridSwitch,
 } from 'components/ui'
 import { getStaticPaths, makeStaticProps } from 'lib'
 import {
@@ -21,9 +22,11 @@ import {
 	LookingForCompassIcon,
 	TargetIcon,
 } from 'assets/icons/mixed'
-import GridSwitch from 'components/ui/grid-switch/GridSwitch'
 import { Box, Flex } from 'theme-ui'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import { useQuery } from '@tanstack/react-query'
+import { SupportedCollectionsService } from 'services/api'
+import { useWallet } from '@terra-money/use-wallet'
 import {
 	DesktopFiltersSection,
 	FiltersButtonContainer,
@@ -45,15 +48,41 @@ enum LISTINGS_TYPE {
 	MY_LISTINGS = '1',
 }
 
+enum GRID_TYPE {
+	SMALL = 0,
+	BIG = 1,
+}
+
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
+	const wallet = useWallet()
+	const { data: verifiedCollections } = useQuery(
+		['verifiedCollections'],
+		async () =>
+			SupportedCollectionsService.getSupportedCollections(wallet.network.name)
+	)
+	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.BIG))
+
 	const [listingsType, setListingsType] = React.useState(
 		LISTINGS_TYPE.ALL_LISTINGS
 	)
-	const [isSmallGrid, setIsSmallGrid] = React.useState(false)
+
+	const [statuses, setStatuses] = React.useState<
+		MultiSelectAccordionInputOption[]
+	>([])
 	const [lookingForCollections, setLookingForCollections] = React.useState<
 		MultiSelectAccordionInputOption[]
 	>([])
+	const [collections, setCollections] = React.useState<
+		MultiSelectAccordionInputOption[]
+	>([])
+
+	const [myFavoritesChecked, setMyFavoritesChecked] = React.useState(false)
+
+	const [counteredByMeChecked, setCounteredByMeChecked] = React.useState(false)
+
+	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
+		React.useState(false)
 
 	return (
 		<Page title={t('title')}>
@@ -64,8 +93,12 @@ export default function TradeListings() {
 						value={listingsType}
 						name='listings'
 					>
-						<Tab value={LISTINGS_TYPE.ALL_LISTINGS}>All Listings</Tab>
-						<Tab value={LISTINGS_TYPE.MY_LISTINGS}>My Listings</Tab>
+						<Tab value={LISTINGS_TYPE.ALL_LISTINGS}>
+							{t('trade-listings:all-listings')}
+						</Tab>
+						<Tab value={LISTINGS_TYPE.MY_LISTINGS}>
+							{t('trade-listings:my-listings')}
+						</Tab>
 					</Tabs>
 				</TabsSection>
 				<FiltersSection>
@@ -91,8 +124,8 @@ export default function TradeListings() {
 
 					<GridSwitchContainer>
 						<GridSwitch
-							onChange={e => setIsSmallGrid(e.target.checked)}
-							checked={isSmallGrid}
+							onChange={e => setGridType(e.target.checked)}
+							checked={gridType}
 						/>
 					</GridSwitchContainer>
 				</FiltersSection>
@@ -104,7 +137,37 @@ export default function TradeListings() {
 								title={
 									<AccordionTitle>{t('trade-listings:status-label')}</AccordionTitle>
 								}
-							/>
+							>
+								<Flex sx={{ flex: 1, mb: '8px' }}>
+									<MultiSelectAccordionInput
+										value={statuses}
+										onChange={v => setStatuses(v)}
+										accordionTitle={t('trade-listings:status-label')}
+										options={[
+											{
+												label: 'Active',
+												value: 'active',
+											},
+											{
+												label: 'Inactive',
+												value: 'inactive',
+											},
+											{
+												label: 'Cancelled',
+												value: 'cancelled',
+											},
+											{
+												label: 'Published',
+												value: 'published',
+											},
+											{
+												label: 'Countered',
+												value: 'countered',
+											},
+										]}
+									/>
+								</Flex>
+							</Accordion>
 						</Box>
 						<Box>
 							<Accordion
@@ -117,32 +180,16 @@ export default function TradeListings() {
 							>
 								<Flex sx={{ flex: 1, mb: '8px' }}>
 									<MultiSelectAccordionInput
-										value={lookingForCollections}
-										onChange={v => setLookingForCollections(v)}
+										value={collections}
+										onChange={v => setCollections(v)}
 										accordionTitle={t('trade-listings:nft-collections-search-label')}
-										options={[
-											{
-												label: 'Galactic Punks',
-												value: 'terrra1asjdkasdkajhsdkahskd',
-												extraLabel: '43',
-											},
-											{
-												label: 'Skeleton Punks',
-												value: 'terrra1asjdkasdkajhsdskahskd',
-												extraLabel: '43',
-											},
-											{
-												label: 'Super Punks',
-												value: 'terrra1assjdkasdkajhsdkahskd',
-												extraLabel: '43',
-											},
-											{
-												label: 'Galaxy Punks',
-												value: 'terrra1assjdkaadkajhsdkahskd',
-												extraLabel: '43',
-											},
-										]}
-										placeholder={t('trade-listings:search-collections-label')}
+										options={(verifiedCollections ?? [])?.map(
+											({ collectionAddress, collectionName }) => ({
+												label: collectionName,
+												value: collectionAddress,
+											})
+										)}
+										placeholder={t('trade-listings:search-collections-placeholder')}
 									/>
 								</Flex>
 							</Accordion>
@@ -162,28 +209,12 @@ export default function TradeListings() {
 										value={lookingForCollections}
 										onChange={v => setLookingForCollections(v)}
 										accordionTitle={t('trade-listings:nft-collections-search-label')}
-										options={[
-											{
-												label: 'Galactic Punks',
-												value: 'terrra1asjdkasdkajhsdkahskd',
-												extraLabel: '43',
-											},
-											{
-												label: 'Skeleton Punks',
-												value: 'terrra1asjdkasdkajhsdskahskd',
-												extraLabel: '43',
-											},
-											{
-												label: 'Super Punks',
-												value: 'terrra1assjdkasdkajhsdkahskd',
-												extraLabel: '43',
-											},
-											{
-												label: 'Galaxy Punks',
-												value: 'terrra1assjdkaadkajhsdkahskd',
-												extraLabel: '43',
-											},
-										]}
+										options={(verifiedCollections ?? [])?.map(
+											({ collectionAddress, collectionName }) => ({
+												label: collectionName,
+												value: collectionAddress,
+											})
+										)}
 										placeholder={t('trade-listings:search-collections-placeholder')}
 									/>
 								</Flex>
@@ -194,6 +225,8 @@ export default function TradeListings() {
 								variant='medium'
 								title={t('trade-listings:my-favorites-label')}
 								extra='43'
+								onChange={e => setMyFavoritesChecked(e.target.checked)}
+								checked={myFavoritesChecked}
 							/>
 						</Box>
 						<Box mb='8px'>
@@ -201,6 +234,8 @@ export default function TradeListings() {
 								variant='medium'
 								title={t('trade-listings:countered-by-me-label')}
 								extra='43'
+								onChange={e => setCounteredByMeChecked(e.target.checked)}
+								checked={counteredByMeChecked}
 							/>
 						</Box>
 						<Box mb='8px'>
@@ -208,6 +243,8 @@ export default function TradeListings() {
 								variant='medium'
 								title={t('trade-listings:looking-for-liquid-assets-label')}
 								extra='43'
+								onChange={e => setLookingForLiquidAssetsChecked(e.target.checked)}
+								checked={lookingForLiquidAssetsChecked}
 							/>
 						</Box>
 					</DesktopFiltersSection>

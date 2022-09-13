@@ -1,14 +1,26 @@
 import styled from '@emotion/styled'
 import { Card } from '../card'
 
-export const ContainerCard = styled(Card)`
+export const ContainerCard = styled(Card)<{ variant?: 'small' | 'medium' }>`
 	width: 100%;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	padding: 20px 17px;
-	gap: 8px;
+
+	${props =>
+		props.variant === 'small' &&
+		`
+		padding: 20px 17px;
+		gap: 8px;
+	`}
+
+	${props =>
+		props.variant === 'medium' &&
+		`
+		padding: 15.5px 18px;
+		gap: 16px;
+	`}
 `
 
 export const Title = styled.div<{ variant?: 'small' | 'medium' }>`
