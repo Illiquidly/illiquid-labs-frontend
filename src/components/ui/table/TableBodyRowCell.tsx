@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 
 const TableBodyRowCell = styled.td`
 	text-align: left;
+	padding: 24px 16px;
 	vertical-align: top;
 	font-size: 14px;
 	line-height: 20px;
