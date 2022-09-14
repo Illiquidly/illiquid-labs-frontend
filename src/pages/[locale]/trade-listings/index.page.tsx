@@ -109,6 +109,11 @@ export default function TradeListings() {
 	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
 		React.useState(false)
 
+	const mockupListings = React.useMemo(
+		() => Array.from({ length: 30 }).map((_, index) => ({ id: index })),
+		[]
+	)
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -254,201 +259,108 @@ export default function TradeListings() {
 						</Box>
 					</DesktopFiltersSection>
 					<ListingNFTsGrid>
-						<ListingCard
-							verified
-							unavailableText={t('trade-listings:listing-unavailable')}
-							description='2'
-							attributes={[]}
-							onLike={n => console.warn(n)}
-							tokenId='Something'
-							collectionAddress='Something'
-							href={`/trade-listings/${1}`}
-							nfts={[]}
-							imageUrl={[
-								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-							]}
-							name='Fox #7561'
-							collectionName='Mutant Ape Yacht Club'
-						/>
-						<ListingCard
-							verified
-							unavailableText={t('trade-listings:listing-unavailable')}
-							description='2'
-							attributes={[]}
-							onLike={n => console.warn(n)}
-							tokenId='Something'
-							collectionAddress='Something'
-							href={`/trade-listings/${1}`}
-							nfts={[]}
-							imageUrl={[
-								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-							]}
-							name='Fox #7561'
-							collectionName='Mutant Ape Yacht Club'
-						/>
-						<ListingCard
-							verified
-							unavailableText={t('trade-listings:listing-unavailable')}
-							description='2'
-							attributes={[]}
-							onLike={n => console.warn(n)}
-							tokenId='Something'
-							collectionAddress='Something'
-							href={`/trade-listings/${1}`}
-							nfts={[]}
-							imageUrl={[
-								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-							]}
-							name='Fox #7561'
-							collectionName='Mutant Ape Yacht Club'
-						/>
-						<ListingCard
-							verified
-							unavailableText={t('trade-listings:listing-unavailable')}
-							description='2'
-							attributes={[]}
-							onLike={n => console.warn(n)}
-							tokenId='Something'
-							collectionAddress='Something'
-							href={`/trade-listings/${1}`}
-							nfts={[]}
-							imageUrl={[
-								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-							]}
-							name='Fox #7561'
-							collectionName='Mutant Ape Yacht Club'
-						/>
-						<ListingCard
-							verified
-							unavailableText={t('trade-listings:listing-unavailable')}
-							description='2'
-							attributes={[]}
-							onLike={n => console.warn(n)}
-							tokenId='Something'
-							collectionAddress='Something'
-							href={`/trade-listings/${1}`}
-							nfts={[]}
-							imageUrl={[
-								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-							]}
-							name='Fox #7561'
-							collectionName='Mutant Ape Yacht Club'
-						/>
-						<ListingCard
-							verified
-							unavailableText={t('trade-listings:listing-unavailable')}
-							description='2'
-							attributes={[]}
-							onLike={n => console.warn(n)}
-							tokenId='Something'
-							collectionAddress='Something'
-							href={`/trade-listings/${1}`}
-							nfts={[]}
-							imageUrl={[
-								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-							]}
-							name='Fox #7561'
-							collectionName='Mutant Ape Yacht Club'
-						/>
-						<ListingCard
-							verified
-							unavailableText={t('trade-listings:listing-unavailable')}
-							description='2'
-							attributes={[]}
-							onLike={n => console.warn(n)}
-							tokenId='Something'
-							collectionAddress='Something'
-							href={`/trade-listings/${1}`}
-							nfts={[
-								{
-									collectionAddress: '1',
-									collectionName: '1',
-									attributes: [],
-									imageUrl: [
-										'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-									],
-									tokenId: '1',
-									description: 'test',
-								},
-								{
-									collectionAddress: '2',
-									collectionName: '2',
-									attributes: [],
-									imageUrl: [
-										'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-									],
-									tokenId: '2',
-									description: 'test',
-								},
-								{
-									collectionAddress: '3',
-									collectionName: '3',
-									attributes: [],
-									imageUrl: [
-										'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-									],
-									tokenId: '3',
-									description: 'test',
-								},
-								{
-									collectionAddress: '4',
-									collectionName: '4',
-									attributes: [],
-									imageUrl: [
-										'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-									],
-									tokenId: '4',
-									description: 'test',
-								},
-								{
-									collectionAddress: '5',
-									collectionName: '5',
-									attributes: [],
-									imageUrl: [
-										'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-									],
-									tokenId: '5',
-									description: 'test',
-								},
-							]}
-							lookingFor={[
-								{
-									amount: '10',
-									denom: 'Luna',
-								},
-								{
-									collectionName: 'DeGods',
-									collectionAddress: '1',
-								},
-								{
-									collectionName: 'Galactic Punks',
-									collectionAddress: '2',
-								},
-								{
-									collectionName: 'Skeleton Punks',
-									collectionAddress: '3',
-								},
-								{
-									collectionName: 'Lovely Punks',
-									collectionAddress: '4',
-								},
-								{
-									collectionName: 'Scary Punks',
-									collectionAddress: '5',
-								},
-								{
-									denom: 'yLuna',
-									amount: '20',
-								},
-							]}
-							imageUrl={[
-								'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-							]}
-							name='Fox #7561'
-							liked
-							isPrivate
-							collectionName='Mutant Ape Yacht Club'
-						/>
+						{mockupListings.map(({ id }) => (
+							<ListingCard
+								key={id}
+								verified
+								unavailableText={t('trade-listings:listing-unavailable')}
+								description='2'
+								attributes={[]}
+								onLike={n => console.warn(n)}
+								tokenId='Something'
+								collectionAddress='Something'
+								href={`/trade-listings/${id}`}
+								nfts={[
+									{
+										collectionAddress: '1',
+										collectionName: '1',
+										attributes: [],
+										imageUrl: [
+											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
+										],
+										tokenId: '1',
+										description: 'test',
+									},
+									{
+										collectionAddress: '2',
+										collectionName: '2',
+										attributes: [],
+										imageUrl: [
+											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
+										],
+										tokenId: '2',
+										description: 'test',
+									},
+									{
+										collectionAddress: '3',
+										collectionName: '3',
+										attributes: [],
+										imageUrl: [
+											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
+										],
+										tokenId: '3',
+										description: 'test',
+									},
+									{
+										collectionAddress: '4',
+										collectionName: '4',
+										attributes: [],
+										imageUrl: [
+											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
+										],
+										tokenId: '4',
+										description: 'test',
+									},
+									{
+										collectionAddress: '5',
+										collectionName: '5',
+										attributes: [],
+										imageUrl: [
+											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
+										],
+										tokenId: '5',
+										description: 'test',
+									},
+								]}
+								lookingFor={[
+									{
+										amount: '10',
+										denom: 'Luna',
+									},
+									{
+										collectionName: 'DeGods',
+										collectionAddress: '1',
+									},
+									{
+										collectionName: 'Galactic Punks',
+										collectionAddress: '2',
+									},
+									{
+										collectionName: 'Skeleton Punks',
+										collectionAddress: '3',
+									},
+									{
+										collectionName: 'Lovely Punks',
+										collectionAddress: '4',
+									},
+									{
+										collectionName: 'Scary Punks',
+										collectionAddress: '5',
+									},
+									{
+										denom: 'yLuna',
+										amount: '20',
+									},
+								]}
+								imageUrl={[
+									'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
+								]}
+								name='Fox #7561'
+								liked
+								isPrivate
+								collectionName='Mutant Ape Yacht Club'
+							/>
+						))}
 					</ListingNFTsGrid>
 				</ListingsNFTsContainer>
 			</LayoutContainer>
