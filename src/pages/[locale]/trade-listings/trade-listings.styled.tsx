@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Button } from 'components'
 import { Flex } from 'theme-ui'
 
 export const TabsSection = styled(Flex)``
@@ -92,3 +93,22 @@ DesktopFiltersSection.defaultProps = {
 		flex: 1,
 	},
 }
+
+export const FilterButton = ({ children, ...props }) => (
+	<Button {...props}>{children}</Button>
+)
+
+FilterButton.defaultProps = {
+	sx: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: '12px',
+	},
+	variant: 'secondary',
+	fullWidth: true,
+}
+
+export const AccordionContentWrapper = styled.div`
+	flex: 1;
+	margin-bottom: 8px;
+`

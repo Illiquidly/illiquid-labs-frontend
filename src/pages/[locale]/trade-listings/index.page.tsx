@@ -8,7 +8,6 @@ import {
 	SearchInput,
 	Tab,
 	Tabs,
-	Button,
 	Accordion,
 	AccordionTitle,
 	MultiSelectAccordionInput,
@@ -22,13 +21,15 @@ import {
 	LookingForCompassIcon,
 	TargetIcon,
 } from 'assets/icons/mixed'
-import { Box, Flex } from 'theme-ui'
+import { Box } from 'theme-ui'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { useQuery } from '@tanstack/react-query'
 import { SupportedCollectionsService } from 'services/api'
 import { useWallet } from '@terra-money/use-wallet'
 import {
+	AccordionContentWrapper,
 	DesktopFiltersSection,
+	FilterButton,
 	FiltersButtonContainer,
 	FiltersButtonLabel,
 	FiltersSection,
@@ -53,6 +54,29 @@ enum GRID_TYPE {
 	SMALL = 0,
 	BIG = 1,
 }
+
+const statusOptions = [
+	{
+		label: 'Active',
+		value: 'active',
+	},
+	{
+		label: 'Inactive',
+		value: 'inactive',
+	},
+	{
+		label: 'Cancelled',
+		value: 'cancelled',
+	},
+	{
+		label: 'Published',
+		value: 'published',
+	},
+	{
+		label: 'Countered',
+		value: 'countered',
+	},
+]
 
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
@@ -95,31 +119,25 @@ export default function TradeListings() {
 						name='listings'
 					>
 						<Tab value={LISTINGS_TYPE.ALL_LISTINGS}>
-							{t('trade-listings:all-listings')}
+							{t('trade-listings:tabs:all-listings')}
 						</Tab>
 						<Tab value={LISTINGS_TYPE.MY_LISTINGS}>
-							{t('trade-listings:my-listings')}
+							{t('trade-listings:tabs:my-listings')}
 						</Tab>
 					</Tabs>
 				</TabsSection>
 				<FiltersSection>
 					<SearchInputContainer>
-						<SearchInput placeholder='Search' />
+						<SearchInput
+							placeholder={t('trade-listings:filters:search-placeholder')}
+						/>
 					</SearchInputContainer>
 
 					<FiltersButtonContainer>
-						<Button
-							variant='secondary'
-							fullWidth
-							sx={{
-								alignItems: 'center',
-								justifyContent: 'center',
-								gap: '12px',
-							}}
-						>
+						<FilterButton>
 							<FilterIcon />
 							<FiltersButtonLabel>{t('common:filters-label')}</FiltersButtonLabel>
-						</Button>
+						</FilterButton>
 					</FiltersButtonContainer>
 					<SortSelectContainer />
 
@@ -136,38 +154,19 @@ export default function TradeListings() {
 							<Accordion
 								icon={<TargetIcon />}
 								title={
-									<AccordionTitle>{t('trade-listings:status-label')}</AccordionTitle>
+									<AccordionTitle>
+										{t('trade-listings:filters:status-label')}
+									</AccordionTitle>
 								}
 							>
-								<Flex sx={{ flex: 1, mb: '8px' }}>
+								<AccordionContentWrapper>
 									<MultiSelectAccordionInput
 										value={statuses}
 										onChange={v => setStatuses(v)}
-										accordionTitle={t('trade-listings:status-label')}
-										options={[
-											{
-												label: 'Active',
-												value: 'active',
-											},
-											{
-												label: 'Inactive',
-												value: 'inactive',
-											},
-											{
-												label: 'Cancelled',
-												value: 'cancelled',
-											},
-											{
-												label: 'Published',
-												value: 'published',
-											},
-											{
-												label: 'Countered',
-												value: 'countered',
-											},
-										]}
+										accordionTitle={t('trade-listings:filters:status-label')}
+										options={statusOptions}
 									/>
-								</Flex>
+								</AccordionContentWrapper>
 							</Accordion>
 						</Box>
 						<Box>
@@ -175,24 +174,28 @@ export default function TradeListings() {
 								icon={<CollectionsBoxesIcon />}
 								title={
 									<AccordionTitle>
-										{t('trade-listings:collections-label')}
+										{t('trade-listings:filters:collections-label')}
 									</AccordionTitle>
 								}
 							>
-								<Flex sx={{ flex: 1, mb: '8px' }}>
+								<AccordionContentWrapper>
 									<MultiSelectAccordionInput
 										value={collections}
 										onChange={v => setCollections(v)}
-										accordionTitle={t('trade-listings:nft-collections-search-label')}
+										accordionTitle={t(
+											'trade-listings:filters:nft-collections-search-label'
+										)}
 										options={(verifiedCollections ?? [])?.map(
 											({ collectionAddress, collectionName }) => ({
 												label: collectionName,
 												value: collectionAddress,
 											})
 										)}
-										placeholder={t('trade-listings:search-collections-placeholder')}
+										placeholder={t(
+											'trade-listings:filters:search-collections-placeholder'
+										)}
 									/>
-								</Flex>
+								</AccordionContentWrapper>
 							</Accordion>
 						</Box>
 
@@ -201,31 +204,34 @@ export default function TradeListings() {
 								icon={<LookingForCompassIcon />}
 								title={
 									<AccordionTitle>
-										{t('trade-listings:looking-for-label')}
+										{t('trade-listings:filters:looking-for-label')}
 									</AccordionTitle>
 								}
 							>
-								<Flex sx={{ flex: 1, mb: '8px' }}>
+								<AccordionContentWrapper>
 									<MultiSelectAccordionInput
 										value={lookingForCollections}
 										onChange={v => setLookingForCollections(v)}
-										accordionTitle={t('trade-listings:nft-collections-search-label')}
+										accordionTitle={t(
+											'trade-listings:filters:nft-collections-search-label'
+										)}
 										options={(verifiedCollections ?? [])?.map(
 											({ collectionAddress, collectionName }) => ({
 												label: collectionName,
 												value: collectionAddress,
 											})
 										)}
-										placeholder={t('trade-listings:search-collections-placeholder')}
+										placeholder={t(
+											'trade-listings:filters:search-collections-placeholder'
+										)}
 									/>
-								</Flex>
+								</AccordionContentWrapper>
 							</Accordion>
 						</Box>
 						<Box mb='8px'>
 							<CheckboxCard
 								variant='medium'
-								title={t('trade-listings:my-favorites-label')}
-								extra='43'
+								title={t('trade-listings:filters:my-favorites-label')}
 								onChange={e => setMyFavoritesChecked(e.target.checked)}
 								checked={myFavoritesChecked}
 							/>
@@ -233,8 +239,7 @@ export default function TradeListings() {
 						<Box mb='8px'>
 							<CheckboxCard
 								variant='medium'
-								title={t('trade-listings:countered-by-me-label')}
-								extra='43'
+								title={t('trade-listings:filters:countered-by-me-label')}
 								onChange={e => setCounteredByMeChecked(e.target.checked)}
 								checked={counteredByMeChecked}
 							/>
@@ -242,8 +247,7 @@ export default function TradeListings() {
 						<Box mb='8px'>
 							<CheckboxCard
 								variant='medium'
-								title={t('trade-listings:looking-for-liquid-assets-label')}
-								extra='43'
+								title={t('trade-listings:filters:looking-for-liquid-assets-label')}
 								onChange={e => setLookingForLiquidAssetsChecked(e.target.checked)}
 								checked={lookingForLiquidAssetsChecked}
 							/>
