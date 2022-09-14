@@ -93,7 +93,7 @@ export const MyNFTsModal = NiceModal.create(
 												fullWidth
 												disabled={!selectedNFTs.length}
 												onClick={() => {
-													modal.resolveHide(selectedNFTs)
+													modal.resolve(selectedNFTs)
 													modal.hide()
 												}}
 											>
