@@ -98,13 +98,13 @@ export default function CounterOffers() {
 				<TableHead>
 					<TableHeadRow>
 						{['User', 'NFTs', 'Tokens', 'Date'].map(col => (
-							<TableHeadRowCell>{col}</TableHeadRowCell>
+							<TableHeadRowCell key={col}>{col}</TableHeadRowCell>
 						))}
 					</TableHeadRow>
 				</TableHead>
 				<TableBody>
 					{[1, 2, 3, 4, 5].map(i => (
-						<TableBodyRow>
+						<TableBodyRow key={i}>
 							<TableBodyRowCell>
 								<Flex
 									sx={{

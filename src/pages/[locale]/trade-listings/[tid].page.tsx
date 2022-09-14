@@ -3,10 +3,14 @@ import { useTranslation } from 'next-i18next'
 
 import {
 	AttributeCard,
+	BlueWarning,
+	Button,
 	LayoutContainer,
 	OverflowTip,
 	Page,
 	Tooltip,
+	Wallet,
+	WalletItem,
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { Box, Flex } from 'theme-ui'
@@ -31,7 +35,14 @@ import {
 } from 'components/listing-details'
 
 import { VerifiedIcon } from 'assets/icons/16pt'
-import { HeartFilledIcon, HeartIcon } from 'assets/icons/mixed'
+import {
+	HeartFilledIcon,
+	HeartIcon,
+	DeleteOutlineIcon,
+	PenOutlineIcon,
+	ShareOutlineIcon,
+	ArrowLeftIcon,
+} from 'assets/icons/mixed'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 
@@ -173,6 +184,60 @@ export default function ListingDetails() {
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
+				<Flex
+					sx={{
+						padding: '16px 0px',
+						justifyContent: 'space-between',
+					}}
+				>
+					<Flex
+						sx={{
+							justifyContent: 'flex-start',
+						}}
+					>
+						<Button
+							sx={{ height: '40px', padding: '13px' }}
+							variant='secondary'
+							startIcon={<ArrowLeftIcon />}
+						>
+							{t('trade-listings:back-to-listings')}
+						</Button>
+					</Flex>
+					<Flex
+						sx={{
+							gap: '6px',
+							justifyContent: 'flex-end',
+						}}
+					>
+						<Button
+							sx={{
+								width: '44px',
+								height: '40px',
+								padding: '13px',
+							}}
+							variant='secondary'
+						>
+							<PenOutlineIcon />
+						</Button>
+						<Button
+							sx={{ width: '44px', height: '40px', padding: '13px' }}
+							variant='secondary'
+						>
+							<DeleteOutlineIcon />
+						</Button>
+						<Button
+							sx={{ width: '44px', height: '40px', padding: '13px' }}
+							variant='secondary'
+						>
+							<ShareOutlineIcon />
+						</Button>
+					</Flex>
+				</Flex>
+				<Flex>
+					<BlueWarning sx={{ width: '100%', height: '49px' }}>
+						{t('trade-listings:item-not-available')}
+					</BlueWarning>
+				</Flex>
 				<ImageSection>
 					{imageUrl?.every(img => img === '') ? (
 						<ImagePlaceholder width='61.56px' height='57.87px' />
@@ -250,6 +315,12 @@ export default function ListingDetails() {
 						))}
 					</Flex>
 				)}
+				<Flex sx={{ padding: '16px 0px' }}>
+					<Wallet>
+						<WalletItem>Listed 3 weeks ago</WalletItem>
+						<WalletItem>Listed 3 weeks ago</WalletItem>
+					</Wallet>
+				</Flex>
 				{lookingFor && (
 					<LookingForSection>
 						<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
