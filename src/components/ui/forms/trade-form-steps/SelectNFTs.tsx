@@ -1,15 +1,13 @@
-import { useContext } from 'react'
-
 import TradeAssetImage from 'assets/images/TradeAsset'
 import { Button, MyNFTsModal } from 'components'
-import { ModalContext } from 'context'
-
+import NiceModal from '@ebay/nice-modal-react'
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { StepProps } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Text } from 'theme-ui'
+import { asyncAction } from 'utils/js/asyncAction'
 import { TradeFormStepsProps } from './formProps'
 import {
 	ContentCard,
@@ -25,17 +23,9 @@ interface Props {
 
 export const SelectNFTs = ({ goNextStep, step }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { handleModal } = useContext(ModalContext)
 
 	const { setValue, getValues } = useFormContext<TradeFormStepsProps>()
 
-	const onAddNFTs = (NFTs: NFT[]) => {
-		if (step.current === CREATE_LISTING_FORM_STEPS.SELECT_NFTS) {
-			goNextStep()
-		}
-		setValue('selectedNFTs', NFTs)
-		handleModal?.(null)
-	}
 	return (
 		<ContentCard>
 			<TradeAssetImageContainer>
@@ -53,15 +43,20 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 
 			<Button
 				sx={{ minWidth: ['140px'] }}
-				onClick={e => {
+				onClick={async e => {
 					e.preventDefault()
-					handleModal?.(
-						<MyNFTsModal
-							selectedNFTs={getValues('selectedNFTs')}
-							onAddNFTs={onAddNFTs}
-						/>,
-						true
+					const [, NFTs] = await asyncAction<NFT[]>(
+						NiceModal.show(MyNFTsModal, {
+							selectedNFTs: getValues('selectedNFTs'),
+						})
 					)
+
+					if (NFTs) {
+						if (step.current === CREATE_LISTING_FORM_STEPS.SELECT_NFTS) {
+							goNextStep()
+						}
+						setValue('selectedNFTs', NFTs)
+					}
 				}}
 				fullWidth
 				variant='gradient'

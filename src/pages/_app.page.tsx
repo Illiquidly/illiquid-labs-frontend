@@ -10,7 +10,7 @@ import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextComponentType, NextPageContext } from 'next/types'
 import { appWithTranslation } from 'next-i18next'
-
+import NiceModal from '@ebay/nice-modal-react'
 import { ThemeProvider } from 'theme-ui'
 
 import { theme } from 'components'
@@ -20,7 +20,6 @@ import './styles.css'
 import 'rc-tooltip/assets/bootstrap_white.css'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { ModalProvider } from 'context'
 import i18nConfig from '../../next-i18next.config'
 
 const queryClient = new QueryClient()
@@ -40,9 +39,9 @@ const Main = ({
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<RecoilRoot>
-					<ModalProvider>
+					<NiceModal.Provider>
 						<Component {...pageProps} />
-					</ModalProvider>
+					</NiceModal.Provider>
 				</RecoilRoot>
 			</ThemeProvider>
 		</QueryClientProvider>
