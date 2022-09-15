@@ -7,7 +7,7 @@ export interface StepProps {
 
 export function useStep({ max }: { max: number }) {
 	const [step, setStep] = useState<StepProps>({
-		current: 3,
+		current: 0,
 		max,
 	})
 
