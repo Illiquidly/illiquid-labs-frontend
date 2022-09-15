@@ -32,6 +32,8 @@ import {
 	LookingForSection,
 	LookingForTitle,
 	CounterOffers,
+	Row,
+	IconButton,
 } from 'components/listing-details'
 
 import { VerifiedIcon } from 'assets/icons/16pt'
@@ -184,9 +186,8 @@ export default function ListingDetails() {
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
-				<Flex
+				<Row
 					sx={{
-						padding: '16px 0px',
 						justifyContent: 'space-between',
 					}}
 				>
@@ -209,35 +210,22 @@ export default function ListingDetails() {
 							justifyContent: 'flex-end',
 						}}
 					>
-						<Button
-							sx={{
-								width: '44px',
-								height: '40px',
-								padding: '13px',
-							}}
-							variant='secondary'
-						>
+						<IconButton>
 							<PenOutlineIcon />
-						</Button>
-						<Button
-							sx={{ width: '44px', height: '40px', padding: '13px' }}
-							variant='secondary'
-						>
+						</IconButton>
+						<IconButton>
 							<DeleteOutlineIcon />
-						</Button>
-						<Button
-							sx={{ width: '44px', height: '40px', padding: '13px' }}
-							variant='secondary'
-						>
+						</IconButton>
+						<IconButton>
 							<ShareOutlineIcon />
-						</Button>
+						</IconButton>
 					</Flex>
-				</Flex>
-				<Flex>
+				</Row>
+				<Row>
 					<BlueWarning sx={{ width: '100%', height: '49px' }}>
 						{t('trade-listings:item-not-available')}
 					</BlueWarning>
-				</Flex>
+				</Row>
 				<ImageSection>
 					{imageUrl?.every(img => img === '') ? (
 						<ImagePlaceholder width='61.56px' height='57.87px' />
@@ -278,81 +266,89 @@ export default function ListingDetails() {
 						</BottomImageArea>
 					)}
 				</ImageSection>
-				<DescriptionSection>
-					<Flex>
-						<Flex sx={{ flex: 1 }}>
-							<OverflowTip>
-								<Title>{name}</Title>
-							</OverflowTip>
+				<Row>
+					<DescriptionSection>
+						<Flex>
+							<Flex sx={{ flex: 1 }}>
+								<OverflowTip>
+									<Title>{name}</Title>
+								</OverflowTip>
+							</Flex>
+							<Flex sx={{ gap: '4px' }}>
+								{isPrivate && (
+									<StatusIconContainer>
+										<TradeIcon />
+									</StatusIconContainer>
+								)}
+							</Flex>
 						</Flex>
-						<Flex sx={{ gap: '4px' }}>
-							{isPrivate && (
-								<StatusIconContainer>
-									<TradeIcon />
-								</StatusIconContainer>
+						<Flex>
+							<OverflowTip>
+								<Subtitle>{collectionName}</Subtitle>
+							</OverflowTip>
+							{verified && (
+								<Box ml={['4px']} mt='6px'>
+									<VerifiedIcon width='17.27px' height='17.27px' />
+								</Box>
 							)}
 						</Flex>
-					</Flex>
-					<Flex>
-						<OverflowTip>
-							<Subtitle>{collectionName}</Subtitle>
-						</OverflowTip>
-						{verified && (
-							<Box ml={['4px']} mt='6px'>
-								<VerifiedIcon width='17.27px' height='17.27px' />
-							</Box>
-						)}
-					</Flex>
-				</DescriptionSection>
+					</DescriptionSection>
+				</Row>
 				{attributes && (
-					<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-						{attributes.map(attribute => (
-							<AttributeCard
-								key={JSON.stringify(attribute)}
-								name={attribute.traitType}
-								value={attribute.value}
-							/>
-						))}
-					</Flex>
+					<Row>
+						<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+							{attributes.map(attribute => (
+								<AttributeCard
+									key={JSON.stringify(attribute)}
+									name={attribute.traitType}
+									value={attribute.value}
+								/>
+							))}
+						</Flex>
+					</Row>
 				)}
-				<Flex sx={{ padding: '16px 0px' }}>
+				<Row>
 					<Wallet>
 						<WalletItem>Listed 3 weeks ago</WalletItem>
 						<WalletItem>Listed 3 weeks ago</WalletItem>
 					</Wallet>
-				</Flex>
+				</Row>
 				{lookingFor && (
-					<LookingForSection>
-						<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
-						<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-							{lookingFor.map((value, index) =>
-								index < lookingForItemsLimit ? (
-									<Chip key={JSON.stringify(value)}>
-										{value.denom
-											? `${value.amount} ${value.denom}`
-											: value.collectionName}{' '}
-									</Chip>
-								) : null
-							)}
-							{lookingFor?.slice(lookingForItemsLimit).length && (
-								<Tooltip
-									overlay={
-										<div>
-											{lookingFor?.slice(lookingForItemsLimit).map(item => (
-												<div key={JSON.stringify(item)}>
-													{item.collectionName || `${item.amount} ${item.denom}`}
-												</div>
-											))}
-										</div>
-									}
-								>
-									<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
-								</Tooltip>
-							)}
-						</Flex>
-					</LookingForSection>
+					<Row>
+						<LookingForSection>
+							<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
+							<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+								{lookingFor.map((value, index) =>
+									index < lookingForItemsLimit ? (
+										<Chip key={JSON.stringify(value)}>
+											{value.denom
+												? `${value.amount} ${value.denom}`
+												: value.collectionName}{' '}
+										</Chip>
+									) : null
+								)}
+								{lookingFor?.slice(lookingForItemsLimit).length && (
+									<Tooltip
+										overlay={
+											<div>
+												{lookingFor?.slice(lookingForItemsLimit).map(item => (
+													<div key={JSON.stringify(item)}>
+														{item.collectionName || `${item.amount} ${item.denom}`}
+													</div>
+												))}
+											</div>
+										}
+									>
+										<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
+									</Tooltip>
+								)}
+							</Flex>
+						</LookingForSection>
+					</Row>
 				)}
-				<CounterOffers />
+				<Row>
+					<CounterOffers />
+				</Row>
 			</LayoutContainer>
 		</Page>
 	)

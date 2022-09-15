@@ -1,6 +1,21 @@
 import styled from '@emotion/styled'
+import { Button } from 'components/ui'
 import { Img } from 'react-image'
 import { Box, Flex, Text } from 'theme-ui'
+
+export const Row = styled(Flex)`
+	padding: 8px 0px;
+`
+
+export const IconButton = props => {
+	const { children, ...buttonProps } = props
+	return <Button {...buttonProps}>{children}</Button>
+}
+
+IconButton.defaultProps = {
+	sx: { width: '44px', height: '40px', padding: '13px' },
+	variant: 'secondary',
+}
 
 export const Title = styled(Text)`
 	font-style: normal;

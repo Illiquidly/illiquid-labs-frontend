@@ -2,7 +2,12 @@
 	"listing-unavailable": "We’re sorry, but this listing is no longer available",
 	"item-not-available": "This item is no longer available",
 	"back-to-listings": "Back to Listings",
-	"counter-offers": "Counter Offers",
+	"counter-offers": {
+		"title": "Counter Offers",
+		"table": {
+			"columns": ["User", "NFTs", "Tokens", "Date"]
+		}
+	},
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",

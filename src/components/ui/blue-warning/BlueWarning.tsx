@@ -8,6 +8,7 @@ export const StyledDiv = styled(Flex)`
 	justify-content: center;
 	text-align: center;
 	border: 1.62px solid #4a87ff;
+	align-items: center;
 
 	color: #4a87ff;
 	font-size: 16px;

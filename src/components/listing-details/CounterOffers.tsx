@@ -87,17 +87,30 @@ const Title = styled.p`
 	color: ${props => props.theme.colors.gray1000};
 `
 
+const Container = styled(Flex)`
+	flex-direction: column;
+	gap: 12px;
+	padding-bottom: 45px;
+	width: 100%;
+`
+
 export default function CounterOffers() {
 	const previewItemsLimit = 5
 
 	const { t } = useTranslation(['common', 'trade-listings'])
+	const columns: Array<string> = t(
+		'trade-listings:counter-offers.table.columns',
+		{
+			returnObjects: true,
+		}
+	)
 	return (
-		<>
-			<Title>{t('trade-listings:counter-offers')}</Title>
+		<Container>
+			<Title>{t('trade-listings:counter-offers.title')}</Title>
 			<Table>
 				<TableHead>
 					<TableHeadRow>
-						{['User', 'NFTs', 'Tokens', 'Date'].map(col => (
+						{columns.map(col => (
 							<TableHeadRowCell key={col}>{col}</TableHeadRowCell>
 						))}
 					</TableHeadRow>
@@ -188,6 +201,6 @@ export default function CounterOffers() {
 					</TableFooterRow>
 				</TableBody>
 			</Table>
-		</>
+		</Container>
 	)
 }
