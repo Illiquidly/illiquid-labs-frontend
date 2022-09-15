@@ -9,7 +9,9 @@
 	"select-NFTs": {
 		"question": "Which NFTs are you looking to trade",
 		"add-instruction": "Add them here by clicking below",
-		"select-nfts": "Select NFTs"
+		"select-nfts": "Select NFTs",
+		"selected-nfts": "Selected NFT's",
+		"selected-nfts-description": "These items will be included in the trade listing"
 	},
 	"trade-details": {
 		"question": "What are you looking for?",
