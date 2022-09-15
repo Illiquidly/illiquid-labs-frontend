@@ -74,9 +74,15 @@ function NFTCard({
 					</RightImageArea>
 				)}
 
-				<CoverLabel className='coverLabel' isCover={isCover} onClick={onCoverClick}>
-					{isCover ? t('common:cover') : t('common:set-as-cover')}
-				</CoverLabel>
+				{onCoverClick !== noop && (
+					<CoverLabel
+						className='coverLabel'
+						isCover={isCover}
+						onClick={onCoverClick}
+					>
+						{isCover ? t('common:cover') : t('common:set-as-cover')}
+					</CoverLabel>
+				)}
 			</ImageSection>
 			<DescriptionSection size={size}>
 				<OverflowTip>
