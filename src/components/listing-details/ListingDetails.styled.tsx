@@ -158,19 +158,19 @@ export const Chip = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: ${props => props.theme.colors.dark400}
+	background: ${props => props.theme.colors.dark400};
 	border-radius: 6px;
-	height: 24px; 
+	height: 24px;
 	padding: 4px 12.8px;
 
 	font-style: normal;
 	font-weight: 600;
 	font-size: 16px;
-  line-height: 24px;
+	line-height: 24px;
 
 	text-align: center;
 	letter-spacing: -0.02em;
-	color: ${props => props.theme.colors.gray600}
+	color: ${props => props.theme.colors.gray600};
 `
 
 export const StatusIconContainer = styled(Flex)`
