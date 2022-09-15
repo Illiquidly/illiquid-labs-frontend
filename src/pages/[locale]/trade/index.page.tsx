@@ -113,7 +113,7 @@ export default function Trade() {
 
 								{/* STEP 1 */}
 								{step.current === CREATE_LISTING_FORM_STEPS.SELECT_NFTS && (
-									<SelectNFTs step={step} goNextStep={goNextStep} />
+									<SelectNFTs goBackStep={goBackStep} goNextStep={goNextStep} />
 								)}
 								{/* STEP 2 */}
 								{step.current === CREATE_LISTING_FORM_STEPS.TRADE_DETAILS && (

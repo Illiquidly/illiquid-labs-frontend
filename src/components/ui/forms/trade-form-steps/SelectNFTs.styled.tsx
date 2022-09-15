@@ -37,3 +37,18 @@ export const TradeAssetImageContainer = styled(Box)``
 TradeAssetImageContainer.defaultProps = {
 	sx: { mb: '7px' },
 }
+
+export const ListOfSelectedNFTsCard = styled(Card)``
+
+ListOfSelectedNFTsCard.defaultProps = {
+	sx: {
+		p: ['16px 12px', '24px 16px', '24px'],
+	},
+}
+
+export const NFTCardsContainer = styled.div`
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+	padding-top: 24px;
+`

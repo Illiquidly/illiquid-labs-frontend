@@ -3,7 +3,7 @@ import { Chip, VisibilityChip } from 'components/ui/chip'
 import { NFTCard } from 'components/ui/nft-card'
 import { StepProps } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
 import {
@@ -42,8 +42,8 @@ interface Props {
 
 export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, setValue } = useFormContext<TradeFormStepsProps>()
-	const [selectedCoverNFT, setSelectedCoverNFT] = useState(getValues('coverNFT'))
+	const { getValues, setValue, watch } = useFormContext<TradeFormStepsProps>()
+	const selectedCoverNFT = watch('coverNFT')
 	const selectedNFTs = getValues('selectedNFTs')
 	const selectedCollections = getValues('collections') || []
 	const selectedComment = getValues('comment') || ''
@@ -76,18 +76,17 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 					</StepHeader>
 
 					<NFTCardsContainer>
-						{selectedNFTs.map(selectedNFT => (
-							<NFTCard
-								key={selectedNFT.tokenId}
-								{...selectedNFT}
-								size='small'
-								isCover={selectedNFT === selectedCoverNFT}
-								onCoverClick={() => {
-									setValue('coverNFT', selectedNFT)
-									setSelectedCoverNFT(selectedNFT)
-								}}
-							/>
-						))}
+						{selectedNFTs.map(selectedNFT => {
+							return (
+								<NFTCard
+									key={selectedNFT.tokenId}
+									{...selectedNFT}
+									size='small'
+									isCover={selectedNFT.tokenId === selectedCoverNFT.tokenId}
+									onCoverClick={() => setValue('coverNFT', selectedNFT)}
+								/>
+							)
+						})}
 					</NFTCardsContainer>
 				</Box>
 
