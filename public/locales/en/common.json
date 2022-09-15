@@ -20,5 +20,11 @@
 		"save-and-continue": "Save & Continue"
 	},
 	"looking-for": "looking for",
-	"filters-label": "Filters"
+	"filters-label": "Filters",
+	"edit": "Edit",
+	"nft_zero": "{{count}} NFTs",
+	"nft_one": "{{count}} NFT",
+	"nft_other": "{{count}} NFTs",
+	"create-another": "Create Another",
+	"tweet": "Tweet"
 }
