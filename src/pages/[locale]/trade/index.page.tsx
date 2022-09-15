@@ -50,7 +50,7 @@ export default function Trade() {
 	})
 
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
-	const { step, goNextStep, goBackStep } = useStep({ max: 3 })
+	const { step, setStep, goNextStep, goBackStep } = useStep({ max: 3 })
 	const [steps] = useState([
 		{
 			id: 0,
@@ -125,7 +125,7 @@ export default function Trade() {
 								)}
 								{/* STEP 4 */}
 								{step.current === CREATE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
-									<ConfirmListing goBackStep={goBackStep} />
+									<ConfirmListing goBackStep={goBackStep} setStep={setStep} />
 								)}
 							</BodyContainer>
 
