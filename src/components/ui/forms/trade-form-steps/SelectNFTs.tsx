@@ -96,6 +96,9 @@ const ListOfSelectedNFTs = ({
 					<div>
 						<ContentCardTitle sx={{ textAlign: 'left' }}>
 							{t('trade:select-NFTs.selected-nfts')}
+							<span>
+								{t('common:nft', { count: getValues('selectedNFTs').length })}
+							</span>
 						</ContentCardTitle>
 						<ContentCardSubtitle sx={{ textAlign: 'left' }}>
 							{t('trade:select-NFTs.selected-nfts-description')}

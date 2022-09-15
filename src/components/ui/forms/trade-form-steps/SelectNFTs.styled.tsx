@@ -14,7 +14,21 @@ ContentCard.defaultProps = {
 	},
 }
 
-export const ContentCardTitle = styled(Text)``
+export const ContentCardTitle = styled(Text)`
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 32px;
+	margin: 0;
+	padding-bottom: 2px;
+
+	& span {
+		margin-left: 4px;
+		padding: 2px 12px;
+		background-color: rgba(45, 115, 255, 0.4);
+		color: ${props => props.theme.colors.natural50};
+		border-radius: 42px;
+	}
+`
 
 ContentCardTitle.defaultProps = {
 	as: 'div',
