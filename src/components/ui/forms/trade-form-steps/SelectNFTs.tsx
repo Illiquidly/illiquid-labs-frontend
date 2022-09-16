@@ -1,41 +1,103 @@
-import { useContext } from 'react'
-
 import TradeAssetImage from 'assets/images/TradeAsset'
-import { Button, MyNFTsModal } from 'components'
-import { ModalContext } from 'context'
-
-import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
-import { StepProps } from 'hooks/react/useStep'
+import { Button, MyNFTsModal, NFTCard } from 'components'
+import NiceModal from '@ebay/nice-modal-react'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
-import { Box, Text } from 'theme-ui'
+import { Box, Flex, Text } from 'theme-ui'
+import { asyncAction } from 'utils/js/asyncAction'
 import { TradeFormStepsProps } from './formProps'
+import { NavigationFooter } from './NavigationFooter'
 import {
 	ContentCard,
 	ContentCardSubtitle,
 	ContentCardTitle,
+	ListOfSelectedNFTsCard,
+	NFTCardsContainer,
 	TradeAssetImageContainer,
 } from './SelectNFTs.styled'
 
-interface Props {
+interface ListOfSelectedNFTsProps {
 	goNextStep: () => void
-	step: StepProps
+	goBackStep: () => void
 }
 
-export const SelectNFTs = ({ goNextStep, step }: Props) => {
+const ListOfSelectedNFTs = ({
+	goBackStep,
+	goNextStep,
+}: ListOfSelectedNFTsProps) => {
+	const { setValue, getValues, watch } = useFormContext<TradeFormStepsProps>()
 	const { t } = useTranslation(['common', 'trade'])
-	const { handleModal } = useContext(ModalContext)
+	const selectedCoverNFT = watch('coverNFT') || getValues('selectedNFTs')[0]
 
+	return (
+		<Flex sx={{ flexDirection: 'column', flex: 1 }}>
+			<ListOfSelectedNFTsCard>
+				<Flex>
+					<div>
+						<ContentCardTitle sx={{ textAlign: 'left' }}>
+							{t('trade:select-NFTs.selected-nfts')}
+							<span>
+								{t('common:nft', { count: getValues('selectedNFTs').length })}
+							</span>
+						</ContentCardTitle>
+						<ContentCardSubtitle sx={{ textAlign: 'left' }}>
+							{t('trade:select-NFTs.selected-nfts-description')}
+						</ContentCardSubtitle>
+					</div>
+					<Button
+						sx={{ marginLeft: 'auto' }}
+						variant='dark'
+						onClick={async e => {
+							e.preventDefault()
+
+							const [, NFTs] = await asyncAction<NFT[]>(
+								NiceModal.show(MyNFTsModal, {
+									selectedNFTs: getValues('selectedNFTs'),
+								})
+							)
+
+							if (NFTs) {
+								const [defaultCoverNFT] = NFTs
+								setValue('selectedNFTs', NFTs)
+								setValue('coverNFT', defaultCoverNFT)
+							}
+						}}
+					>
+						{t('common:buttons.select-more')}
+					</Button>
+				</Flex>
+				<NFTCardsContainer>
+					{getValues('selectedNFTs').map(selectedNFT => {
+						return (
+							<NFTCard
+								key={`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}`}
+								{...selectedNFT}
+								size='small'
+								isCover={
+									`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}` ===
+									`${selectedCoverNFT.collectionAddress}_${selectedCoverNFT.tokenId}`
+								}
+								onCoverClick={() => setValue('coverNFT', selectedNFT)}
+							/>
+						)
+					})}
+				</NFTCardsContainer>
+			</ListOfSelectedNFTsCard>
+			{/* Footer Navigation Section */}
+			<NavigationFooter
+				goBackStep={goBackStep}
+				goNextStep={goNextStep}
+				isBackButtonDisabled
+			/>
+		</Flex>
+	)
+}
+
+const SelectNFTsEmpty = () => {
+	const { t } = useTranslation(['common', 'trade'])
 	const { setValue, getValues } = useFormContext<TradeFormStepsProps>()
 
-	const onAddNFTs = (NFTs: NFT[]) => {
-		if (step.current === CREATE_LISTING_FORM_STEPS.SELECT_NFTS) {
-			goNextStep()
-		}
-		setValue('selectedNFTs', NFTs)
-		handleModal?.(null)
-	}
 	return (
 		<ContentCard>
 			<TradeAssetImageContainer>
@@ -53,15 +115,19 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 
 			<Button
 				sx={{ minWidth: ['140px'] }}
-				onClick={e => {
+				onClick={async e => {
 					e.preventDefault()
-					handleModal?.(
-						<MyNFTsModal
-							selectedNFTs={getValues('selectedNFTs')}
-							onAddNFTs={onAddNFTs}
-						/>,
-						true
+					const [, NFTs] = await asyncAction<NFT[]>(
+						NiceModal.show(MyNFTsModal, {
+							selectedNFTs: getValues('selectedNFTs'),
+						})
 					)
+
+					if (NFTs) {
+						const [defaultCoverNFT] = NFTs
+						setValue('selectedNFTs', NFTs)
+						setValue('coverNFT', defaultCoverNFT)
+					}
 				}}
 				fullWidth
 				variant='gradient'
@@ -69,5 +135,21 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 				<Text variant='textSmMedium'>{t('trade:select-NFTs:select-nfts')}</Text>
 			</Button>
 		</ContentCard>
+	)
+}
+
+interface Props {
+	goNextStep: () => void
+	goBackStep: () => void
+}
+
+export const SelectNFTs = ({ goNextStep, goBackStep }: Props) => {
+	const { watch } = useFormContext<TradeFormStepsProps>()
+	const watchSelectedNFTs = watch('selectedNFTs')
+
+	return watchSelectedNFTs.length === 0 ? (
+		<SelectNFTsEmpty />
+	) : (
+		<ListOfSelectedNFTs goBackStep={goBackStep} goNextStep={goNextStep} />
 	)
 }

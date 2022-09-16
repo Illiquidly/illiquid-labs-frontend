@@ -13,8 +13,9 @@ export const theme = makeTheme({
 		listingCardImg: 100,
 		dropdown: 2000,
 		header: 200,
-		modal: 300,
 		img: 800,
+		// modals need to be higher than img
+		modal: 900,
 		modalNFTCard: 1100,
 	},
 	colors: {

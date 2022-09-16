@@ -17,8 +17,15 @@
 	"set-as-cover": "set as cover",
 	"buttons": {
 		"previous-step": "Previous Step",
-		"save-and-continue": "Save & Continue"
+		"save-and-continue": "Save & Continue",
+		"select-more": "Select More"
 	},
 	"looking-for": "looking for",
-	"filters-label": "Filters"
+	"filters-label": "Filters",
+	"edit": "Edit",
+	"nft_zero": "{{count}} NFTs",
+	"nft_one": "{{count}} NFT",
+	"nft_other": "{{count}} NFTs",
+	"create-another": "Create Another",
+	"tweet": "Tweet"
 }

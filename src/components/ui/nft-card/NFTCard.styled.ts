@@ -84,9 +84,10 @@ export const DescriptionSection = styled(Flex)<{ size?: string }>`
 	${props =>
 		props.size === 'small' &&
 		`
-		padding: 8px 12px 12px 15px;
-		height: 60px;
-	`}
+			background-color: ${theme.colors.secondary600};
+			padding: 8px 12px 12px 15px;
+			height: 60px;
+		`}
 
 	${props =>
 		props.size === 'medium' &&

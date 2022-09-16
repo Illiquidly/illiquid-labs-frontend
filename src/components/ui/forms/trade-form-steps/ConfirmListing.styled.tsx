@@ -78,3 +78,44 @@ ChipsWrapper.defaultProps = {
 		overflowX: ['auto', 'auto', 'visible'],
 	},
 }
+
+export const EditButton = styled.button`
+	font-family: 'Heebo';
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 20px;
+	text-decoration: underline;
+	color: ${props => props.theme.colors.primary400};
+	padding-left: 12px;
+`
+
+export const StepTitle = styled.h3`
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+	margin: 0;
+	padding-bottom: 12px;
+	color: ${props => props.theme.colors.gray1000};
+
+	& span {
+		margin-left: 4px;
+		padding: 2px 12px;
+		background-color: rgba(45, 115, 255, 0.4);
+		color: ${props => props.theme.colors.natural50};
+		border-radius: 42px;
+	}
+`
+
+export const NoContent = styled.p`
+	color: ${props => props.theme.colors.gray500};
+	font-size: 16px;
+	line-height: 24px;
+	margin: 0;
+`
+
+export const NFTCardsContainer = styled.div`
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+	padding-bottom: 48px;
+`
