@@ -23,7 +23,6 @@ import {
 const SelectNFTsEmpty = () => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { handleModal } = useContext(ModalContext)
-
 	const { setValue, getValues } = useFormContext<TradeFormStepsProps>()
 
 	const onAddNFTs = (NFTs: NFT[]) => {
@@ -84,8 +83,9 @@ const ListOfSelectedNFTs = ({
 
 	// TODO: needs to go out
 	const onAddNFTs = (NFTs: NFT[]) => {
+		const [defaultCoverNFT] = NFTs
 		setValue('selectedNFTs', NFTs)
-		setValue('coverNFT', NFTs[0])
+		setValue('coverNFT', defaultCoverNFT)
 		handleModal?.(null)
 	}
 
@@ -123,10 +123,9 @@ const ListOfSelectedNFTs = ({
 				</Flex>
 				<NFTCardsContainer>
 					{getValues('selectedNFTs').map(selectedNFT => {
-						console.log('selecteCoverNFT', selectedCoverNFT)
 						return (
 							<NFTCard
-								key={selectedNFT.tokenId}
+								key={`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}`}
 								{...selectedNFT}
 								size='small'
 								isCover={selectedNFT.tokenId === selectedCoverNFT.tokenId}
