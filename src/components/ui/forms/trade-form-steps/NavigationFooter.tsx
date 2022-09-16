@@ -5,19 +5,25 @@ import { Flex } from 'theme-ui'
 interface Props {
 	goBackStep: () => void
 	goNextStep: () => void
-	isNextButtonDisabled: boolean
+	isNextButtonDisabled?: boolean
+	isBackButtonDisabled?: boolean
 }
 
 export const NavigationFooter = ({
 	goBackStep,
 	goNextStep,
 	isNextButtonDisabled,
+	isBackButtonDisabled,
 }: Props) => {
 	const { t } = useTranslation('common')
 
 	return (
 		<Flex sx={{ justifyContent: 'space-between', paddingTop: '12px' }}>
-			<Button onClick={() => goBackStep()} variant='secondary'>
+			<Button
+				onClick={() => goBackStep()}
+				variant='secondary'
+				disabled={isBackButtonDisabled}
+			>
 				{t('common:buttons.previous-step')}
 			</Button>
 			<Button
@@ -29,4 +35,9 @@ export const NavigationFooter = ({
 			</Button>
 		</Flex>
 	)
+}
+
+NavigationFooter.defaultProps = {
+	isBackButtonDisabled: false,
+	isNextButtonDisabled: false,
 }

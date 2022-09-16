@@ -33,5 +33,5 @@ export function useStep({ max }: { max: number }) {
 		})
 	}
 
-	return { step, goNextStep, goBackStep, deactivateStepper }
+	return { step, setStep, goNextStep, goBackStep, deactivateStepper }
 }

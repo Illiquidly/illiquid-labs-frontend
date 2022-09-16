@@ -14,6 +14,7 @@ interface collections {
 }
 
 export interface TradeFormStepsProps {
+	coverNFT: NFT
 	selectedNFTs: NFT[]
 	collectionType: COLLECTION_TYPE
 	collection: string

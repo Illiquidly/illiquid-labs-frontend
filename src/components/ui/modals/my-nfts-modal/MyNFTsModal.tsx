@@ -153,7 +153,7 @@ export const MyNFTsModal = ({
 										<CheckboxCard
 											checked={checked}
 											onChange={() => setCollectionAddresses(setCollections)}
-											key={collectionAddress}
+											key={`${collectionAddress}_${collectionName}`}
 											title={collectionName}
 										/>
 									</Box>

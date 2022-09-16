@@ -1,16 +1,26 @@
 import { CloseIcon } from 'assets/icons/action'
 import React from 'react'
-import { ChipText, CloseIconButton, StyledChip } from './Chip.styled'
+import {
+	BigChipText,
+	ChipText,
+	CloseIconButton,
+	StyledChip,
+} from './Chip.styled'
 
 interface Props {
 	children: React.ReactNode
 	onClick?: () => void
+	isViewMode?: boolean
 }
 
-export const Chip = ({ children, onClick }: Props) => {
+export const Chip = ({ children, onClick, isViewMode }: Props) => {
 	return (
 		<StyledChip>
-			<ChipText>{children}</ChipText>
+			{isViewMode ? (
+				<BigChipText>{children}</BigChipText>
+			) : (
+				<ChipText>{children}</ChipText>
+			)}
 			{onClick && (
 				<CloseIconButton onClick={onClick}>
 					<CloseIcon />
@@ -22,4 +32,5 @@ export const Chip = ({ children, onClick }: Props) => {
 
 Chip.defaultProps = {
 	onClick: undefined,
+	isViewMode: false,
 }

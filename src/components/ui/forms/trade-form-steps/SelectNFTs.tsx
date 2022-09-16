@@ -4,38 +4,33 @@ import TradeAssetImage from 'assets/images/TradeAsset'
 import { Button, MyNFTsModal } from 'components'
 import { ModalContext } from 'context'
 
-import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
-import { StepProps } from 'hooks/react/useStep'
+import { NFTCard } from 'components/ui/nft-card'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
-import { Box, Text } from 'theme-ui'
+import { Box, Flex, Text } from 'theme-ui'
 import { TradeFormStepsProps } from './formProps'
+import { NavigationFooter } from './NavigationFooter'
 import {
 	ContentCard,
 	ContentCardSubtitle,
 	ContentCardTitle,
+	ListOfSelectedNFTsCard,
+	NFTCardsContainer,
 	TradeAssetImageContainer,
 } from './SelectNFTs.styled'
 
-interface Props {
-	goNextStep: () => void
-	step: StepProps
-}
-
-export const SelectNFTs = ({ goNextStep, step }: Props) => {
+const SelectNFTsEmpty = () => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { handleModal } = useContext(ModalContext)
-
 	const { setValue, getValues } = useFormContext<TradeFormStepsProps>()
 
 	const onAddNFTs = (NFTs: NFT[]) => {
-		if (step.current === CREATE_LISTING_FORM_STEPS.SELECT_NFTS) {
-			goNextStep()
-		}
 		setValue('selectedNFTs', NFTs)
+		setValue('coverNFT', NFTs[0])
 		handleModal?.(null)
 	}
+
 	return (
 		<ContentCard>
 			<TradeAssetImageContainer>
@@ -69,5 +64,102 @@ export const SelectNFTs = ({ goNextStep, step }: Props) => {
 				<Text variant='textSmMedium'>{t('trade:select-NFTs:select-nfts')}</Text>
 			</Button>
 		</ContentCard>
+	)
+}
+
+interface ListOfSelectedNFTsProps {
+	goNextStep: () => void
+	goBackStep: () => void
+}
+
+const ListOfSelectedNFTs = ({
+	goBackStep,
+	goNextStep,
+}: ListOfSelectedNFTsProps) => {
+	const { setValue, getValues, watch } = useFormContext<TradeFormStepsProps>()
+	const { t } = useTranslation(['common', 'trade'])
+	const { handleModal } = useContext(ModalContext)
+	const selectedCoverNFT = watch('coverNFT') || getValues('selectedNFTs')[0]
+
+	// TODO: needs to go out
+	const onAddNFTs = (NFTs: NFT[]) => {
+		const [defaultCoverNFT] = NFTs
+		setValue('selectedNFTs', NFTs)
+		setValue('coverNFT', defaultCoverNFT)
+		handleModal?.(null)
+	}
+
+	return (
+		<Flex sx={{ flexDirection: 'column', flex: 1 }}>
+			<ListOfSelectedNFTsCard>
+				<Flex>
+					<div>
+						<ContentCardTitle sx={{ textAlign: 'left' }}>
+							{t('trade:select-NFTs.selected-nfts')}
+							<span>
+								{t('common:nft', { count: getValues('selectedNFTs').length })}
+							</span>
+						</ContentCardTitle>
+						<ContentCardSubtitle sx={{ textAlign: 'left' }}>
+							{t('trade:select-NFTs.selected-nfts-description')}
+						</ContentCardSubtitle>
+					</div>
+					<Button
+						sx={{ marginLeft: 'auto' }}
+						variant='dark'
+						onClick={e => {
+							e.preventDefault()
+							handleModal?.(
+								<MyNFTsModal
+									selectedNFTs={getValues('selectedNFTs')}
+									onAddNFTs={onAddNFTs}
+								/>,
+								true
+							)
+						}}
+					>
+						{t('common:buttons.select-more')}
+					</Button>
+				</Flex>
+				<NFTCardsContainer>
+					{getValues('selectedNFTs').map(selectedNFT => {
+						return (
+							<NFTCard
+								key={`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}`}
+								{...selectedNFT}
+								size='small'
+								isCover={
+									`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}` ===
+									`${selectedCoverNFT.collectionAddress}_${selectedCoverNFT.tokenId}`
+								}
+								onCoverClick={() => setValue('coverNFT', selectedNFT)}
+							/>
+						)
+					})}
+				</NFTCardsContainer>
+			</ListOfSelectedNFTsCard>
+			{/* Footer Navigation Section */}
+			<NavigationFooter
+				goBackStep={goBackStep}
+				goNextStep={goNextStep}
+				isBackButtonDisabled
+			/>
+		</Flex>
+	)
+}
+
+interface Props {
+	goNextStep: () => void
+	goBackStep: () => void
+}
+
+export const SelectNFTs = ({ goNextStep, goBackStep }: Props) => {
+	const { watch } = useFormContext<TradeFormStepsProps>()
+	const watchSelectedNFTs = watch('selectedNFTs')
+
+	return watchSelectedNFTs.length === 0 ? (
+		<SelectNFTsEmpty />
+	) : (
+		<ListOfSelectedNFTs goBackStep={goBackStep} goNextStep={goNextStep} />
 	)
 }
