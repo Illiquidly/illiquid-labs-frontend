@@ -128,7 +128,10 @@ const ListOfSelectedNFTs = ({
 								key={`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}`}
 								{...selectedNFT}
 								size='small'
-								isCover={selectedNFT.tokenId === selectedCoverNFT.tokenId}
+								isCover={
+									`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}` ===
+									`${selectedCoverNFT.collectionAddress}_${selectedCoverNFT.tokenId}`
+								}
 								onCoverClick={() => setValue('coverNFT', selectedNFT)}
 							/>
 						)
