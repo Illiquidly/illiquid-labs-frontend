@@ -137,11 +137,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 				{/* TRADE VISIBILITY */}
 				<Box>
 					<StepHeader
-						onEditClick={() => {
-							setStep(prevStep => {
-								return { ...prevStep, current: 2 }
-							})
-						}}
+						onEditClick={() => setStep(prevStep => ({ ...prevStep, current: 2 }))}
 					>
 						<StepTitle>{t('trade:confirm-listing.trade-visibility')}</StepTitle>
 					</StepHeader>
