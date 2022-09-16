@@ -9,7 +9,9 @@
 	"select-NFTs": {
 		"question": "Which NFTs are you looking to trade",
 		"add-instruction": "Add them here by clicking below",
-		"select-nfts": "Select NFTs"
+		"select-nfts": "Select NFTs",
+		"selected-nfts": "Selected NFT's",
+		"selected-nfts-description": "These items will be included in the trade listing"
 	},
 	"trade-details": {
 		"question": "What are you looking for?",
@@ -34,5 +36,22 @@
 		"public-message": "Whoohoo! This listing will be available for everyone :)",
 		"wallet-address-label": "Enter a peer wallet address",
 		"wallet-address-placeholder": "Enter a wallet address"
+	},
+	"confirm-listing": {
+		"title-message": "Let’s double check everything looks good",
+		"instruction": "Review the details below and make any adjustments",
+		"what-are-you-offering": "What you’re offering",
+		"what-are-you-looking-for": "What you’re looking for",
+		"comments": "Comments",
+		"trade-visibility": "Trade visibility",
+		"private": "Private",
+		"public": "Public",
+		"public-message": "Everyone will see this listing",
+		"congratulations": "Congratulations!",
+		"congratulations-message": "Your listing has been successfully created! Check the activity feed on \"My Dashboard\" for incoming offers",
+		"your-listing-url": "Your Listing URL",
+		"transaction-id": "Transaction ID",
+		"no-content-what-are-you-looking-for": "Any offer",
+		"no-content-comments": "No comments specified"
 	}
 }

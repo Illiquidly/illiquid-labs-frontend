@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
 import { Box } from 'theme-ui'
 
-export const StyledChip = styled(Box)`
-	padding: 4px 12px;
+export const StyledChip = styled(Box)<{ isViewMode?: boolean }>`
+	padding: ${props => (props.isViewMode ? '6px 12px' : '4px 12px')};
 	display: flex;
 	align-items: center;
 	gap: 4px;
@@ -31,6 +31,17 @@ export const ChipText = styled.p`
 	align-items: center;
 `
 
+export const BigChipText = styled.p`
+	margin: 0;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+	color: ${props => props.theme.colors.gray1000};
+	display: flex;
+	align-items: center;
+	gap: 8px;
+`
+
 export const CloseIconButton = styled(Box)`
 	height: 20px;
 	cursor: pointer;
@@ -54,3 +65,17 @@ CloseIconButton.defaultProps = {
 		},
 	},
 }
+
+export const VisibilityChipWrapper = styled.div`
+	display: flex;
+
+	& div:first-of-type {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	& div:last-of-type {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		margin-left: -1px; /* because of double border */
+	}
+`
