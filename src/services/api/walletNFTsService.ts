@@ -49,32 +49,19 @@ export class WalletNFTsService {
 		network: string,
 		address: string
 	): Promise<WalletNFTsResponse> {
-		const { data } = await axios.get(
-			`/nft-content-api/query/${network}/${address}?action=update`
+		const { data } = await axios.patch(
+			`/nft-content/${network}/${address}/update`
 		)
-		return {
-			...data,
-			ownedTokens: data.ownedTokens?.map(nft => ({
-				...nft,
-				collectionAddress: nft.contractAddress,
-			})),
-		}
+
+		return data
 	}
 
 	static async requestNFTs(
 		network: string,
 		address: string
 	): Promise<WalletNFTsResponse> {
-		const { data } = await axios.get(
-			`/nft-content-api/query/${network}/${address}?action=plain_db`
-		)
+		const { data } = await axios.get(`/nft-content/${network}/${address}`)
 
-		return {
-			...data,
-			ownedTokens: data.ownedTokens?.map(nft => ({
-				...nft,
-				collectionAddress: nft.contractAddress,
-			})),
-		}
+		return data
 	}
 }

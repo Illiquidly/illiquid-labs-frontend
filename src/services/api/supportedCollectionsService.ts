@@ -12,7 +12,9 @@ export class SupportedCollectionsService {
 	static async getSupportedCollections(
 		networkName: string
 	): Promise<SupportedCollectionGetResponse[]> {
-		const response = await memoizedAxiosGet(`/nfts/query/${networkName}/`)
+		const response = await memoizedAxiosGet(
+			`/utils/registered-nfts/${networkName}/`
+		)
 
 		return Object.values(response.data).map(({ contract, name }: any) => ({
 			collectionName: name,

@@ -1,5 +1,5 @@
 export { ChooseVisibility } from './ChooseVisibility'
 export { ConfirmListing } from './ConfirmListing'
-export type { COLLECTION_TYPE, TradeFormStepsProps } from './formProps'
+export type { LOOKING_FOR_TYPE, TradeFormStepsProps } from './formProps'
 export { SelectNFTs } from './SelectNFTs'
 export { TradeDetails } from './TradeDetails'

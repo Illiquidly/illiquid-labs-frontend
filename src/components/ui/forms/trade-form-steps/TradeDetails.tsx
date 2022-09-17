@@ -12,7 +12,7 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Flex } from 'theme-ui'
-import { COLLECTION_TYPE, TradeFormStepsProps } from './formProps'
+import { LOOKING_FOR_TYPE, TradeFormStepsProps } from './formProps'
 import { NavigationFooter } from './NavigationFooter'
 import {
 	ChipsWrapper,
@@ -32,16 +32,16 @@ const TradeDetailsCollectionSelector = () => {
 	return (
 		<Flex sx={{ gap: '8px' }}>
 			<RadioCardSelector
-				value={COLLECTION_TYPE.SPECIFIC}
+				value={LOOKING_FOR_TYPE.SPECIFIC}
 				title={t('trade:trade-details.option-1')}
 				Image={<TradeDetailsSpecifiedCollection />}
-				{...register('collectionType')}
+				{...register('lookingForType')}
 			/>
 			<RadioCardSelector
-				value={COLLECTION_TYPE.ANY}
+				value={LOOKING_FOR_TYPE.ANY}
 				title={t('trade:trade-details.option-2')}
 				Image={<TradeDetailsOpenToOffers />}
-				{...register('collectionType')}
+				{...register('lookingForType')}
 			/>
 		</Flex>
 	)
@@ -69,24 +69,24 @@ const TradeDetailsForm = () => {
 	return (
 		<FormWrapper>
 			<RadioInputGroupProvider
-				value={getValues('collectionType')}
-				name={register('collectionType').name}
+				value={getValues('lookingForType')}
+				name={register('lookingForType').name}
 				onChange={e =>
-					setValue('collectionType', e.target.value as COLLECTION_TYPE)
+					setValue('lookingForType', e.target.value as LOOKING_FOR_TYPE)
 				}
 			>
 				<RadioWrapper>
-					<RadioCard value={COLLECTION_TYPE.SPECIFIC}>
+					<RadioCard value={LOOKING_FOR_TYPE.SPECIFIC}>
 						<RadioCardText>{t('trade:trade-details.option-1')}</RadioCardText>
 					</RadioCard>
 
-					<RadioCard value={COLLECTION_TYPE.ANY}>
+					<RadioCard value={LOOKING_FOR_TYPE.ANY}>
 						<RadioCardText>{t('trade:trade-details.option-2')}</RadioCardText>
 					</RadioCard>
 				</RadioWrapper>
 			</RadioInputGroupProvider>
 
-			{getValues('collectionType') === COLLECTION_TYPE.ANY && (
+			{getValues('lookingForType') === LOOKING_FOR_TYPE.ANY && (
 				<div style={{ paddingTop: '48px' }}>
 					<Label htmlFor='comment'>{t('trade:trade-details.text-area-label')}</Label>
 					<TextArea
@@ -98,7 +98,7 @@ const TradeDetailsForm = () => {
 				</div>
 			)}
 
-			{getValues('collectionType') === COLLECTION_TYPE.SPECIFIC && (
+			{getValues('lookingForType') === LOOKING_FOR_TYPE.SPECIFIC && (
 				<>
 					<div style={{ paddingTop: '24px' }}>
 						<Label htmlFor='collections'>
@@ -156,18 +156,18 @@ interface Props {
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { getValues, watch } = useFormContext<TradeFormStepsProps>()
-	const watchCollectionType = watch('collectionType', undefined)
+	const watchlookingForType = watch('lookingForType', undefined)
 
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
 				<ContentCardTitle>{t('trade:trade-details.question')}</ContentCardTitle>
 				<ContentCardSubtitle>
-					{!watchCollectionType
+					{!watchlookingForType
 						? t('trade:trade-details.instructions')
 						: t('trade:trade-details.instruction-2')}
 				</ContentCardSubtitle>
-				{!watchCollectionType ? (
+				{!watchlookingForType ? (
 					<TradeDetailsCollectionSelector />
 				) : (
 					<TradeDetailsForm />
@@ -178,7 +178,7 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 			<NavigationFooter
 				goBackStep={goBackStep}
 				goNextStep={goNextStep}
-				isNextButtonDisabled={!getValues('collectionType')}
+				isNextButtonDisabled={!getValues('lookingForType')}
 			/>
 		</ContentCardWrapper>
 	)

@@ -6,6 +6,7 @@ import terraUtils, {
 } from 'utils/blockchain/terraUtils'
 import { keysToCamel } from 'utils/js/keysToCamel'
 import addresses, { ContractName } from 'services/blockchain/addresses'
+import { NFT } from 'services/api/walletNFTsService'
 
 const amountConverter = converter.ust
 
@@ -20,7 +21,7 @@ export type Asset = {
 	}
 }
 
-function getDenomForCurrency(currency: TerraCurrency) {
+export function getDenomForCurrency(currency: TerraCurrency) {
 	if (currency === 'LUNA') {
 		return 'uluna'
 	}
@@ -42,29 +43,33 @@ function getDenomForCurrency(currency: TerraCurrency) {
 
 const P2P_TRADE = 'p2p-trade'
 
-interface Offer {
-	whitelistedAddress: string
-	amountUST: string
-	amountLuna: string
+export interface P2PTradeOffer {
+	amountUST?: string
+	amountLuna?: string
 	comment: string
-	cw721Tokens: any[]
-	nftsWanted: string[]
+	nfts: NFT[]
+	whitelistedUsers: string[]
+	tokensWanted?: { amount: string; denom: string }[]
+	nftsWanted?: string[]
+	previewNFT: NFT
 }
 
-async function listTradeOffers(offers: Offer[]) {
+async function listTradeOffers(offers: P2PTradeOffer[]) {
 	const txs = offers.map(
 		({
-			whitelistedAddress,
+			whitelistedUsers,
 			amountUST,
 			amountLuna,
 			comment,
-			cw721Tokens,
+			nfts,
 			nftsWanted,
+			tokensWanted,
+			previewNFT,
 		}) => {
-			const whitelistedUsers = whitelistedAddress ? [whitelistedAddress] : []
 			const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
 
 			return [
+				// Create empty trade with comment
 				{
 					contractAddress: p2pContractAddress,
 					message: {
@@ -74,6 +79,7 @@ async function listTradeOffers(offers: Offer[]) {
 						},
 					},
 				},
+				// Funds to new trade
 				...(amountUST
 					? [
 							{
@@ -116,21 +122,62 @@ async function listTradeOffers(offers: Offer[]) {
 							},
 					  ]
 					: []),
+				// Add NFTs wanted, array of contract addresses
+				...((nftsWanted ?? []).length
+					? [
+							{
+								contractAddress: p2pContractAddress,
+								message: {
+									add_n_f_ts_wanted: {
+										nfts_wanted: nftsWanted,
+									},
+								},
+							},
+					  ]
+					: []),
+				// Add tokens wanted array of amount and denom
+				...((tokensWanted ?? []).length
+					? [
+							{
+								contractAddress: p2pContractAddress,
+								message: {
+									add_tokens_wanted: {
+										tokens_wanted: (tokensWanted ?? []).map(({ amount, denom }) => ({
+											coin: {
+												amount,
+												denom,
+											},
+										})),
+									},
+								},
+							},
+					  ]
+					: []),
+				// Add trade preview
 				{
 					contractAddress: p2pContractAddress,
 					message: {
-						add_n_f_ts_wanted: {
-							nfts_wanted: nftsWanted,
+						set_trade_preview: {
+							action: {
+								to_last_trade: {},
+							},
+							asset: {
+								cw721_coin: {
+									address: previewNFT.collectionAddress,
+									token_id: previewNFT.tokenId,
+								},
+							},
 						},
 					},
 				},
-				...cw721Tokens.flatMap(cw721 => [
+				// Add cw721 tokens to trade
+				...nfts.flatMap(({ collectionAddress, tokenId }) => [
 					{
-						contractAddress: cw721.contractAddress,
+						contractAddress: collectionAddress,
 						message: {
 							approve: {
 								spender: p2pContractAddress,
-								token_id: cw721.tokenId,
+								token_id: tokenId,
 							},
 						},
 					},
@@ -139,16 +186,19 @@ async function listTradeOffers(offers: Offer[]) {
 						message: {
 							add_asset: {
 								asset: {
+									action: {
+										to_last_trade: {},
+									},
 									cw721_coin: {
-										address: cw721.contractAddress,
-										token_id: cw721.tokenId,
+										address: collectionAddress,
+										token_id: tokenId,
 									},
 								},
-								to_last_trade: true,
 							},
 						},
 					},
 				]),
+				// Confirm trade -> trade is published after
 				{
 					contractAddress: p2pContractAddress,
 					message: {
@@ -158,6 +208,7 @@ async function listTradeOffers(offers: Offer[]) {
 			]
 		}
 	)
+	console.warn(txs)
 	return terraUtils.postManyTransactions(txs.flat())
 }
 
@@ -244,6 +295,8 @@ async function addCw20(
 			},
 		},
 	]
+
+	console.warn(txs)
 
 	return terraUtils.postManyTransactions(txs)
 }
