@@ -84,7 +84,11 @@ export default function TradeListings() {
 	const { data: verifiedCollections } = useQuery(
 		['verifiedCollections'],
 		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name)
+			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
 	)
 	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.BIG))
 

@@ -12,8 +12,10 @@ import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, IconButton } from 'theme-ui'
 import { Modal } from 'components'
-import useSelectedNFTs from './hooks/useSelectedNFTs'
 
+import { useQuery } from '@tanstack/react-query'
+import { SupportedCollectionsService } from 'services/api'
+import { useWallet } from '@terra-money/use-wallet'
 import {
 	CollectionFiltersSection,
 	ModalBody,
@@ -29,6 +31,7 @@ import {
 	SearchContainer,
 	SortSelectContainer,
 } from './MyNFTsModal.styled'
+import useSelectedNFTs from './hooks/useSelectedNFTs'
 
 export interface MyNFTsModalProps {
 	title?: string
@@ -43,6 +46,7 @@ export const MyNFTsModal = NiceModal.create(
 		addNFTsButtonLabel,
 		selectedNFTs: defaultSelectedNFTs = [],
 	}: MyNFTsModalProps) => {
+		const wallet = useWallet()
 		const modal = useModal()
 		const theme = useTheme()
 		const [collectionAddresses, setCollectionAddresses] = React.useState<
@@ -54,6 +58,16 @@ export const MyNFTsModal = NiceModal.create(
 			collectionAddresses,
 			name: searchName,
 		})
+
+		const { data: verifiedCollections } = useQuery(
+			['verifiedCollections'],
+			async () =>
+				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			{
+				enabled: !!wallet.network,
+				retry: true,
+			}
+		)
 
 		const { selectedNFTs, addSelectedNFT, removeSelectedNFT } =
 			useSelectedNFTs(defaultSelectedNFTs)
@@ -178,6 +192,10 @@ export const MyNFTsModal = NiceModal.create(
 											return (
 												<NFTCard
 													{...nft}
+													verified={(verifiedCollections ?? []).some(
+														({ collectionAddress }) =>
+															nft.collectionAddress === collectionAddress
+													)}
 													key={`${nft.collectionAddress}_${nft.tokenId}`}
 													onCardClick={() =>
 														checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
