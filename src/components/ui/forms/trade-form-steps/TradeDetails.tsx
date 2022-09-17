@@ -156,18 +156,18 @@ interface Props {
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { getValues, watch } = useFormContext<TradeFormStepsProps>()
-	const watchlookingForType = watch('lookingForType', undefined)
+	const watchLookingForType = watch('lookingForType', undefined)
 
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
 				<ContentCardTitle>{t('trade:trade-details.question')}</ContentCardTitle>
 				<ContentCardSubtitle>
-					{!watchlookingForType
+					{!watchLookingForType
 						? t('trade:trade-details.instructions')
 						: t('trade:trade-details.instruction-2')}
 				</ContentCardSubtitle>
-				{!watchlookingForType ? (
+				{!watchLookingForType ? (
 					<TradeDetailsCollectionSelector />
 				) : (
 					<TradeDetailsForm />
