@@ -1,6 +1,6 @@
 import { NFT } from 'services/api/walletNFTsService'
 
-export enum COLLECTION_TYPE {
+export enum LOOKING_FOR_TYPE {
 	SPECIFIC = 'SPECIFIC',
 	ANY = 'ANY',
 }
@@ -16,7 +16,7 @@ interface collections {
 export interface TradeFormStepsProps {
 	coverNFT: NFT
 	selectedNFTs: NFT[]
-	collectionType: COLLECTION_TYPE
+	lookingForType: LOOKING_FOR_TYPE
 	collection: string
 	collections: collections[]
 	tokenAmount: number
