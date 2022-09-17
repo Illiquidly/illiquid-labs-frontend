@@ -1,5 +1,13 @@
 {
 	"listing-unavailable": "We’re sorry, but this listing is no longer available",
+	"item-not-available": "This item is no longer available",
+	"back-to-listings": "Back to Listings",
+	"counter-offers": {
+		"title": "Counter Offers",
+		"table": {
+			"columns": ["User", "NFTs", "Tokens", "Date"]
+		}
+	},
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
@@ -9,8 +17,7 @@
 		"my-favorites-label": "My favorites",
 		"countered-by-me-label": "Countered by me",
 		"looking-for-liquid-assets-label": "Looking for liquid assets",
-		"search-collections-placeholder": "Search collections...",
-		"counter-offers": "Counter Offers"
+		"search-collections-placeholder": "Search collections..."
 	},
 	"tabs": {
 		"all-listings": "All Listings",

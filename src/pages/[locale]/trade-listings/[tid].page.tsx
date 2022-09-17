@@ -3,10 +3,14 @@ import { useTranslation } from 'next-i18next'
 
 import {
 	AttributeCard,
+	BlueWarning,
+	Button,
 	LayoutContainer,
 	OverflowTip,
 	Page,
 	Tooltip,
+	Wallet,
+	WalletItem,
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { Box, Flex } from 'theme-ui'
@@ -28,10 +32,19 @@ import {
 	LookingForSection,
 	LookingForTitle,
 	CounterOffers,
+	Row,
+	IconButton,
 } from 'components/listing-details'
 
 import { VerifiedIcon } from 'assets/icons/16pt'
-import { HeartFilledIcon, HeartIcon } from 'assets/icons/mixed'
+import {
+	HeartFilledIcon,
+	HeartIcon,
+	DeleteOutlineIcon,
+	PenOutlineIcon,
+	ShareOutlineIcon,
+	ArrowLeftIcon,
+} from 'assets/icons/mixed'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 
@@ -173,6 +186,46 @@ export default function ListingDetails() {
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
+				<Row
+					sx={{
+						justifyContent: 'space-between',
+					}}
+				>
+					<Flex
+						sx={{
+							justifyContent: 'flex-start',
+						}}
+					>
+						<Button
+							sx={{ height: '40px', padding: '13px' }}
+							variant='secondary'
+							startIcon={<ArrowLeftIcon />}
+						>
+							{t('trade-listings:back-to-listings')}
+						</Button>
+					</Flex>
+					<Flex
+						sx={{
+							gap: '6px',
+							justifyContent: 'flex-end',
+						}}
+					>
+						<IconButton>
+							<PenOutlineIcon />
+						</IconButton>
+						<IconButton>
+							<DeleteOutlineIcon />
+						</IconButton>
+						<IconButton>
+							<ShareOutlineIcon />
+						</IconButton>
+					</Flex>
+				</Row>
+				<Row>
+					<BlueWarning sx={{ width: '100%', height: '49px' }}>
+						{t('trade-listings:item-not-available')}
+					</BlueWarning>
+				</Row>
 				<ImageSection>
 					{imageUrl?.every(img => img === '') ? (
 						<ImagePlaceholder width='61.56px' height='57.87px' />
@@ -213,75 +266,89 @@ export default function ListingDetails() {
 						</BottomImageArea>
 					)}
 				</ImageSection>
-				<DescriptionSection>
-					<Flex>
-						<Flex sx={{ flex: 1 }}>
+				<Row>
+					<DescriptionSection>
+						<Flex>
+							<Flex sx={{ flex: 1 }}>
+								<OverflowTip>
+									<Title>{name}</Title>
+								</OverflowTip>
+							</Flex>
+							<Flex sx={{ gap: '4px' }}>
+								{isPrivate && (
+									<StatusIconContainer>
+										<TradeIcon />
+									</StatusIconContainer>
+								)}
+							</Flex>
+						</Flex>
+						<Flex>
 							<OverflowTip>
-								<Title>{name}</Title>
+								<Subtitle>{collectionName}</Subtitle>
 							</OverflowTip>
-						</Flex>
-						<Flex sx={{ gap: '4px' }}>
-							{isPrivate && (
-								<StatusIconContainer>
-									<TradeIcon />
-								</StatusIconContainer>
+							{verified && (
+								<Box ml={['4px']} mt='6px'>
+									<VerifiedIcon width='17.27px' height='17.27px' />
+								</Box>
 							)}
 						</Flex>
-					</Flex>
-					<Flex>
-						<OverflowTip>
-							<Subtitle>{collectionName}</Subtitle>
-						</OverflowTip>
-						{verified && (
-							<Box ml={['4px']} mt='6px'>
-								<VerifiedIcon width='17.27px' height='17.27px' />
-							</Box>
-						)}
-					</Flex>
-				</DescriptionSection>
+					</DescriptionSection>
+				</Row>
 				{attributes && (
-					<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-						{attributes.map(attribute => (
-							<AttributeCard
-								key={JSON.stringify(attribute)}
-								name={attribute.traitType}
-								value={attribute.value}
-							/>
-						))}
-					</Flex>
-				)}
-				{lookingFor && (
-					<LookingForSection>
-						<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
+					<Row>
 						<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-							{lookingFor.map((value, index) =>
-								index < lookingForItemsLimit ? (
-									<Chip key={JSON.stringify(value)}>
-										{value.denom
-											? `${value.amount} ${value.denom}`
-											: value.collectionName}{' '}
-									</Chip>
-								) : null
-							)}
-							{lookingFor?.slice(lookingForItemsLimit).length && (
-								<Tooltip
-									overlay={
-										<div>
-											{lookingFor?.slice(lookingForItemsLimit).map(item => (
-												<div key={JSON.stringify(item)}>
-													{item.collectionName || `${item.amount} ${item.denom}`}
-												</div>
-											))}
-										</div>
-									}
-								>
-									<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
-								</Tooltip>
-							)}
+							{attributes.map(attribute => (
+								<AttributeCard
+									key={JSON.stringify(attribute)}
+									name={attribute.traitType}
+									value={attribute.value}
+								/>
+							))}
 						</Flex>
-					</LookingForSection>
+					</Row>
 				)}
-				<CounterOffers />
+				<Row>
+					<Wallet>
+						<WalletItem>Listed 3 weeks ago</WalletItem>
+						<WalletItem>Listed 3 weeks ago</WalletItem>
+					</Wallet>
+				</Row>
+				{lookingFor && (
+					<Row>
+						<LookingForSection>
+							<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
+							<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+								{lookingFor.map((value, index) =>
+									index < lookingForItemsLimit ? (
+										<Chip key={JSON.stringify(value)}>
+											{value.denom
+												? `${value.amount} ${value.denom}`
+												: value.collectionName}{' '}
+										</Chip>
+									) : null
+								)}
+								{lookingFor?.slice(lookingForItemsLimit).length && (
+									<Tooltip
+										overlay={
+											<div>
+												{lookingFor?.slice(lookingForItemsLimit).map(item => (
+													<div key={JSON.stringify(item)}>
+														{item.collectionName || `${item.amount} ${item.denom}`}
+													</div>
+												))}
+											</div>
+										}
+									>
+										<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
+									</Tooltip>
+								)}
+							</Flex>
+						</LookingForSection>
+					</Row>
+				)}
+				<Row>
+					<CounterOffers />
+				</Row>
 			</LayoutContainer>
 		</Page>
 	)

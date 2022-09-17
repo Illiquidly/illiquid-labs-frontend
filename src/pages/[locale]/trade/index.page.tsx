@@ -1,5 +1,5 @@
 import { useTranslation } from 'next-i18next'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Text } from 'theme-ui'
 
 import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
@@ -18,6 +18,12 @@ import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { listTradeOffers } from 'services/blockchain'
+
+import { asyncAction } from 'utils/js/asyncAction'
+import { TxReceipt } from 'services/blockchain/blockchain.interface'
+import { useBroadcastingTx } from 'hooks'
+import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 import {
 	BodyContainer,
 	Container,
@@ -42,11 +48,14 @@ export { getStaticPaths, getStaticProps }
 export default function Trade() {
 	const { t } = useTranslation(['common', 'trade'])
 
+	const [txReceipt, setTxReceipt] = React.useState<TxReceipt | null>(null)
+
 	const formMethods = useForm<TradeFormStepsProps>({
 		mode: 'onTouched',
 		resolver: yupResolver(schema),
 		defaultValues: {
 			selectedNFTs: [],
+			tokenName: 'LUNA',
 		},
 	})
 
@@ -71,11 +80,32 @@ export default function Trade() {
 		},
 	])
 
-	const onSubmit: SubmitHandler<TradeFormStepsProps> = data => {
-		console.log('submit data', data)
+	const onSuccessBroadcast = async ({ tradeId }: { tradeId: string }) => {
+		// TODO: use this tradeId for URL
+		console.log(tradeId)
 	}
 
-	// console.log(formMethods.watch()) // watch input value by passing the name of it
+	const { setLoading, loading } = useBroadcastingTx(
+		txReceipt?.txId,
+		onSuccessBroadcast
+	)
+
+	const onSubmit: SubmitHandler<TradeFormStepsProps> = async values => {
+		setLoading({ ...loading, send: true })
+
+		const [error, txResponse] = await asyncAction(
+			listTradeOffers(fromCreateTradeFormToBlockchain(values))
+		)
+
+		if (txResponse) {
+			setTxReceipt(txResponse)
+		}
+		if (error) {
+			// TODO: show errors, in toast or something
+			console.error(error)
+		}
+		setLoading({ ...loading, send: false })
+	}
 
 	return (
 		<Page title={t('common:title')}>

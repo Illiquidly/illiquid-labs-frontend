@@ -26,8 +26,10 @@ const addresses: { [k: string]: { [key: string]: string } } = {
 		...cw20Addresses['phoenix-1'],
 	},
 	'pisco-1': {
-		'p2p-trade': '',
-		'fee-collector': '',
+		'p2p-trade':
+			'terra1sft6nydyn487w6seslg5vruz95gyeqlwvqeux20rs9l7fk4qq8lq2f94x0',
+		'fee-collector':
+			'terra1xavp8ha2hj07704wz9c3t5v9cx2d7urmvz3gvrtftyyygdjl4arq3zavuy',
 		...cw20Addresses['pisco-1'],
 	},
 }
