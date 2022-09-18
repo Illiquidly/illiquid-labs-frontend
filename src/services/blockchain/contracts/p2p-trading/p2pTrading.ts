@@ -122,6 +122,52 @@ async function listTradeOffers(offers: P2PTradeOffer[]) {
 							},
 					  ]
 					: []),
+
+				// Add cw721 tokens to trade
+				...nfts.flatMap(({ collectionAddress, tokenId }) => [
+					{
+						contractAddress: collectionAddress,
+						message: {
+							approve: {
+								spender: p2pContractAddress,
+								token_id: tokenId,
+							},
+						},
+					},
+					{
+						contractAddress: p2pContractAddress,
+						message: {
+							add_asset: {
+								action: {
+									to_last_trade: {},
+								},
+								asset: {
+									cw721_coin: {
+										address: collectionAddress,
+										token_id: tokenId,
+									},
+								},
+							},
+						},
+					},
+				]),
+				// Add trade preview
+				{
+					contractAddress: p2pContractAddress,
+					message: {
+						set_trade_preview: {
+							action: {
+								to_last_trade: {},
+							},
+							asset: {
+								cw721_coin: {
+									address: previewNFT.collectionAddress,
+									token_id: previewNFT.tokenId,
+								},
+							},
+						},
+					},
+				},
 				// Add NFTs wanted, array of contract addresses
 				...((nftsWanted ?? []).length
 					? [
@@ -153,51 +199,6 @@ async function listTradeOffers(offers: P2PTradeOffer[]) {
 							},
 					  ]
 					: []),
-				// Add trade preview
-				{
-					contractAddress: p2pContractAddress,
-					message: {
-						set_trade_preview: {
-							action: {
-								to_last_trade: {},
-							},
-							asset: {
-								cw721_coin: {
-									address: previewNFT.collectionAddress,
-									token_id: previewNFT.tokenId,
-								},
-							},
-						},
-					},
-				},
-				// Add cw721 tokens to trade
-				...nfts.flatMap(({ collectionAddress, tokenId }) => [
-					{
-						contractAddress: collectionAddress,
-						message: {
-							approve: {
-								spender: p2pContractAddress,
-								token_id: tokenId,
-							},
-						},
-					},
-					{
-						contractAddress: p2pContractAddress,
-						message: {
-							add_asset: {
-								asset: {
-									action: {
-										to_last_trade: {},
-									},
-									cw721_coin: {
-										address: collectionAddress,
-										token_id: tokenId,
-									},
-								},
-							},
-						},
-					},
-				]),
 				// Confirm trade -> trade is published after
 				{
 					contractAddress: p2pContractAddress,
@@ -208,7 +209,6 @@ async function listTradeOffers(offers: P2PTradeOffer[]) {
 			]
 		}
 	)
-	console.warn(txs)
 	return terraUtils.postManyTransactions(txs.flat())
 }
 
