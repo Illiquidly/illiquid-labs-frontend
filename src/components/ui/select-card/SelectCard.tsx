@@ -62,7 +62,6 @@ function SelectCard({ items, onRemove, sx }: SelectCardProps) {
 							<Box
 								sx={{
 									position: 'absolute',
-									zIndex: theme.zIndices.imgOverlay,
 									inset: 0,
 									display: 'flex',
 									justifyContent: 'flex-end',

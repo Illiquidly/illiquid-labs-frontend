@@ -11,10 +11,8 @@ export const theme = makeTheme({
 		listingCardImageOverlay: 110,
 		listingCardOverlay: 150,
 		// modals need to be higher than img
-		modal: 1000,
-		// TODO: Mario - are we rly need this imgOverlay?
-		imgOverlay: 1000,
-		header: 2000,
+		header: 1000,
+		modal: 2000,
 		dropdown: 3000,
 	},
 	colors: {
