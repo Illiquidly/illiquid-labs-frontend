@@ -1,5 +1,7 @@
+import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { useTheme } from '@emotion/react'
 import { ModalCloseIcon } from 'assets/icons/modal'
+import { Modal } from 'components'
 import { Button } from 'components/ui/button'
 import { CheckboxCard } from 'components/ui/checkbox-card'
 import { OnlyMobileAndTablet } from 'components/ui/layout'
@@ -7,15 +9,14 @@ import { NFTCard } from 'components/ui/nft-card'
 import { SearchInput } from 'components/ui/search-input'
 import { SelectCard } from 'components/ui/select-card'
 import useMyNFTs from 'hooks/useMyNFTs'
-import NiceModal, { useModal } from '@ebay/nice-modal-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, IconButton } from 'theme-ui'
-import { Modal } from 'components'
 
 import { useQuery } from '@tanstack/react-query'
-import { SupportedCollectionsService } from 'services/api'
 import { useWallet } from '@terra-money/use-wallet'
+import { SupportedCollectionsService } from 'services/api'
+import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	CollectionFiltersSection,
 	ModalBody,
@@ -31,7 +32,6 @@ import {
 	SearchContainer,
 	SortSelectContainer,
 } from './MyNFTsModal.styled'
-import useSelectedNFTs from './hooks/useSelectedNFTs'
 
 export interface MyNFTsModalProps {
 	title?: string
@@ -68,6 +68,14 @@ export const MyNFTsModal = NiceModal.create(
 				retry: true,
 			}
 		)
+
+		useEffect(() => {
+			if (modal.visible) {
+				document.querySelector('body')?.classList.add('overflow')
+			} else {
+				document.querySelector('body')?.classList.remove('overflow')
+			}
+		}, [modal.visible])
 
 		const { selectedNFTs, addSelectedNFT, removeSelectedNFT } =
 			useSelectedNFTs(defaultSelectedNFTs)
