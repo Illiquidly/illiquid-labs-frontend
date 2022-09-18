@@ -18,7 +18,8 @@ export const Input = styled.input`
 export const Background = styled.div<{ checked?: boolean }>`
 	overflow: hidden;
 	border: 2px solid
-		${props => (props.checked ? props.theme.colors.primary200 : 'transparent')};
+		${props =>
+			props.checked ? props.theme.colors.primary200 : props.theme.colors.dark500};
 	width: 20px;
 	height: 20px;
 	border-radius: 6px;

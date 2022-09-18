@@ -27,5 +27,6 @@
 	"nft_one": "{{count}} NFT",
 	"nft_other": "{{count}} NFTs",
 	"create-another": "Create Another",
-	"tweet": "Tweet"
+	"tweet": "Tweet",
+	"apply": "Apply"
 }

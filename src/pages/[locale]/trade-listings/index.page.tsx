@@ -13,6 +13,8 @@ import {
 	MultiSelectAccordionInput,
 	CheckboxCard,
 	GridSwitch,
+	TradeListingsFilterModal,
+	TradeListingsFilterModalProps,
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import {
@@ -26,6 +28,9 @@ import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-acco
 import { useQuery } from '@tanstack/react-query'
 import { SupportedCollectionsService } from 'services/api'
 import { useWallet } from '@terra-money/use-wallet'
+import useIsMobile from 'hooks/react/useIsMobile'
+import NiceModal from '@ebay/nice-modal-react'
+import { asyncAction } from 'utils/js/asyncAction'
 import {
 	AccordionContentWrapper,
 	DesktopFiltersSection,
@@ -55,41 +60,48 @@ enum GRID_TYPE {
 	BIG = 1,
 }
 
-const statusOptions = [
-	{
-		label: 'Active',
-		value: 'active',
-	},
-	{
-		label: 'Inactive',
-		value: 'inactive',
-	},
-	{
-		label: 'Cancelled',
-		value: 'cancelled',
-	},
-	{
-		label: 'Published',
-		value: 'published',
-	},
-	{
-		label: 'Countered',
-		value: 'countered',
-	},
-]
-
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const wallet = useWallet()
-	const { data: verifiedCollections } = useQuery(
-		['verifiedCollections'],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+
+	const isMobile = useIsMobile()
+	const [filtersExpanded, setFiltersExpanded] = React.useState(true)
+	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
+		useQuery(
+			['verifiedCollections'],
+			async () =>
+				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			{
+				enabled: !!wallet.network,
+				retry: true,
+			}
+		)
+
+	const statusesLabels: Array<string> = t('trade:statuses', {
+		returnObjects: true,
+	})
+	const statusOptions = [
 		{
-			enabled: !!wallet.network,
-			retry: true,
-		}
-	)
+			label: statusesLabels[0],
+			value: 'active',
+		},
+		{
+			label: statusesLabels[1],
+			value: 'inactive',
+		},
+		{
+			label: statusesLabels[2],
+			value: 'cancelled',
+		},
+		{
+			label: statusesLabels[3],
+			value: 'published',
+		},
+		{
+			label: statusesLabels[4],
+			value: 'countered',
+		},
+	]
 	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.BIG))
 
 	const [listingsType, setListingsType] = React.useState(
@@ -118,6 +130,36 @@ export default function TradeListings() {
 		[]
 	)
 
+	const onFiltersClick = async () => {
+		if (!isMobile) {
+			setFiltersExpanded(prevFiltersExpanded => !prevFiltersExpanded)
+			return
+		}
+		if (!verifiedCollectionsFetched) {
+			return
+		}
+		const [, filters] = await asyncAction<TradeListingsFilterModalProps>(
+			NiceModal.show(TradeListingsFilterModal, {
+				verifiedCollections,
+				statuses,
+				lookingForCollections,
+				collections,
+				counteredByMeChecked,
+				myFavoritesChecked,
+				lookingForLiquidAssetsChecked,
+			})
+		)
+
+		if (filters) {
+			setStatuses(filters.statuses)
+			setCollections(filters.collections)
+			setLookingForCollections(filters.lookingForCollections)
+			setCounteredByMeChecked(filters.counteredByMeChecked)
+			setMyFavoritesChecked(filters.myFavoritesChecked)
+			setLookingForLiquidAssetsChecked(filters.lookingForLiquidAssetsChecked)
+		}
+	}
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -143,7 +185,7 @@ export default function TradeListings() {
 					</SearchInputContainer>
 
 					<FiltersButtonContainer>
-						<FilterButton>
+						<FilterButton onClick={onFiltersClick}>
 							<FilterIcon />
 							<FiltersButtonLabel>{t('common:filters-label')}</FiltersButtonLabel>
 						</FilterButton>
@@ -158,110 +200,112 @@ export default function TradeListings() {
 					</GridSwitchContainer>
 				</FiltersSection>
 				<ListingsNFTsContainer>
-					<DesktopFiltersSection>
-						<Box>
-							<Accordion
-								icon={<TargetIcon />}
-								title={
-									<AccordionTitle>
-										{t('trade-listings:filters:status-label')}
-									</AccordionTitle>
-								}
-							>
-								<AccordionContentWrapper>
-									<MultiSelectAccordionInput
-										value={statuses}
-										onChange={v => setStatuses(v)}
-										accordionTitle={t('trade-listings:filters:status-label')}
-										options={statusOptions}
-									/>
-								</AccordionContentWrapper>
-							</Accordion>
-						</Box>
-						<Box>
-							<Accordion
-								icon={<CollectionsBoxesIcon />}
-								title={
-									<AccordionTitle>
-										{t('trade-listings:filters:collections-label')}
-									</AccordionTitle>
-								}
-							>
-								<AccordionContentWrapper>
-									<MultiSelectAccordionInput
-										value={collections}
-										onChange={v => setCollections(v)}
-										accordionTitle={t(
-											'trade-listings:filters:nft-collections-search-label'
-										)}
-										options={(verifiedCollections ?? [])?.map(
-											({ collectionAddress, collectionName }) => ({
-												label: collectionName,
-												value: collectionAddress,
-											})
-										)}
-										placeholder={t(
-											'trade-listings:filters:search-collections-placeholder'
-										)}
-									/>
-								</AccordionContentWrapper>
-							</Accordion>
-						</Box>
+					{filtersExpanded && (
+						<DesktopFiltersSection>
+							<Box>
+								<Accordion
+									icon={<TargetIcon />}
+									title={
+										<AccordionTitle>
+											{t('trade-listings:filters:status-label')}
+										</AccordionTitle>
+									}
+								>
+									<AccordionContentWrapper>
+										<MultiSelectAccordionInput
+											value={statuses}
+											onChange={v => setStatuses(v)}
+											accordionTitle={t('trade-listings:filters:status-label')}
+											options={statusOptions}
+										/>
+									</AccordionContentWrapper>
+								</Accordion>
+							</Box>
+							<Box>
+								<Accordion
+									icon={<CollectionsBoxesIcon />}
+									title={
+										<AccordionTitle>
+											{t('trade-listings:filters:collections-label')}
+										</AccordionTitle>
+									}
+								>
+									<AccordionContentWrapper>
+										<MultiSelectAccordionInput
+											value={collections}
+											onChange={v => setCollections(v)}
+											accordionTitle={t(
+												'trade-listings:filters:nft-collections-search-label'
+											)}
+											options={(verifiedCollections ?? [])?.map(
+												({ collectionAddress, collectionName }) => ({
+													label: collectionName,
+													value: collectionAddress,
+												})
+											)}
+											placeholder={t(
+												'trade-listings:filters:search-collections-placeholder'
+											)}
+										/>
+									</AccordionContentWrapper>
+								</Accordion>
+							</Box>
 
-						<Box>
-							<Accordion
-								icon={<LookingForCompassIcon />}
-								title={
-									<AccordionTitle>
-										{t('trade-listings:filters:looking-for-label')}
-									</AccordionTitle>
-								}
-							>
-								<AccordionContentWrapper>
-									<MultiSelectAccordionInput
-										value={lookingForCollections}
-										onChange={v => setLookingForCollections(v)}
-										accordionTitle={t(
-											'trade-listings:filters:nft-collections-search-label'
-										)}
-										options={(verifiedCollections ?? [])?.map(
-											({ collectionAddress, collectionName }) => ({
-												label: collectionName,
-												value: collectionAddress,
-											})
-										)}
-										placeholder={t(
-											'trade-listings:filters:search-collections-placeholder'
-										)}
-									/>
-								</AccordionContentWrapper>
-							</Accordion>
-						</Box>
-						<Box mb='8px'>
-							<CheckboxCard
-								variant='medium'
-								title={t('trade-listings:filters:my-favorites-label')}
-								onChange={e => setMyFavoritesChecked(e.target.checked)}
-								checked={myFavoritesChecked}
-							/>
-						</Box>
-						<Box mb='8px'>
-							<CheckboxCard
-								variant='medium'
-								title={t('trade-listings:filters:countered-by-me-label')}
-								onChange={e => setCounteredByMeChecked(e.target.checked)}
-								checked={counteredByMeChecked}
-							/>
-						</Box>
-						<Box mb='8px'>
-							<CheckboxCard
-								variant='medium'
-								title={t('trade-listings:filters:looking-for-liquid-assets-label')}
-								onChange={e => setLookingForLiquidAssetsChecked(e.target.checked)}
-								checked={lookingForLiquidAssetsChecked}
-							/>
-						</Box>
-					</DesktopFiltersSection>
+							<Box>
+								<Accordion
+									icon={<LookingForCompassIcon />}
+									title={
+										<AccordionTitle>
+											{t('trade-listings:filters:looking-for-label')}
+										</AccordionTitle>
+									}
+								>
+									<AccordionContentWrapper>
+										<MultiSelectAccordionInput
+											value={lookingForCollections}
+											onChange={v => setLookingForCollections(v)}
+											accordionTitle={t(
+												'trade-listings:filters:nft-collections-search-label'
+											)}
+											options={(verifiedCollections ?? [])?.map(
+												({ collectionAddress, collectionName }) => ({
+													label: collectionName,
+													value: collectionAddress,
+												})
+											)}
+											placeholder={t(
+												'trade-listings:filters:search-collections-placeholder'
+											)}
+										/>
+									</AccordionContentWrapper>
+								</Accordion>
+							</Box>
+							<Box mb='8px'>
+								<CheckboxCard
+									variant='medium'
+									title={t('trade-listings:filters:my-favorites-label')}
+									onChange={e => setMyFavoritesChecked(e.target.checked)}
+									checked={myFavoritesChecked}
+								/>
+							</Box>
+							<Box mb='8px'>
+								<CheckboxCard
+									variant='medium'
+									title={t('trade-listings:filters:countered-by-me-label')}
+									onChange={e => setCounteredByMeChecked(e.target.checked)}
+									checked={counteredByMeChecked}
+								/>
+							</Box>
+							<Box mb='8px'>
+								<CheckboxCard
+									variant='medium'
+									title={t('trade-listings:filters:looking-for-liquid-assets-label')}
+									onChange={e => setLookingForLiquidAssetsChecked(e.target.checked)}
+									checked={lookingForLiquidAssetsChecked}
+								/>
+							</Box>
+						</DesktopFiltersSection>
+					)}
 					<ListingNFTsGrid>
 						{mockupListings.map(({ id }) => (
 							<ListingCard

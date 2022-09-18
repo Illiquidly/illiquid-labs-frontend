@@ -1,10 +1,8 @@
-/* eslint-disable no-param-reassign */
 import InputDismissIcon from 'assets/icons/mixed/components/InputDismissIcon'
 import React from 'react'
 import { noop } from 'lodash'
 import { useOnClickOutside } from 'utils/react/useOnClickOutside'
 import { InputSearchIcon } from 'assets/icons/mixed'
-import { useTheme } from '@emotion/react'
 import { Flex } from 'theme-ui'
 import {
 	AccordionCard,
@@ -77,8 +75,6 @@ const MultiSelectAccordionInput = React.forwardRef<
 			!inputValue || label.toLowerCase().match(`^${inputValue.toLowerCase()}.*$`),
 		...inputProps
 	} = props
-
-	const theme = useTheme()
 
 	const [search, setSearch] = React.useState(defaultSearch)
 
@@ -165,11 +161,6 @@ const MultiSelectAccordionInput = React.forwardRef<
 								<AccordionItem checked={checked} key={inputValue}>
 									<CheckboxContainer>
 										<Checkbox
-											backgroundStyle={{
-												...(!checked
-													? { border: `2px solid ${theme.colors.dark500}` }
-													: {}),
-											}}
 											onChange={e =>
 												onCheck(!e.target.checked, {
 													value: inputValue,

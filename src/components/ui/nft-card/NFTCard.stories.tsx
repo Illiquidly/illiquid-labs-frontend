@@ -16,6 +16,7 @@ export default {
 export const NFTCardExample = () => {
 	const [isCover, setCover] = React.useState(1)
 	const [activeCard, setActiveCard] = React.useState(1)
+
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: 8 }}>
 			<Box as='h3'>Medium/Default Card</Box>
