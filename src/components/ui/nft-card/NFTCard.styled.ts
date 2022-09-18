@@ -149,14 +149,12 @@ export const CardContainer = styled.div<CardContainerProps>`
 `
 
 export const RightImageArea = styled.div`
-	z-index: ${props => props.theme.zIndices.imgOverlay};
 	position: absolute;
 	right: 8px;
 	top: 8px;
 `
 
 export const CoverLabel = styled.div<{ isCover?: boolean }>`
-	z-index: ${props => props.theme.zIndices.imgOverlay};
 	position: absolute;
 	left: 12px;
 	top: 8px;
@@ -183,6 +181,5 @@ export const Image = styled(Img)`
 	max-width: 100%;
 	max-height: 100%;
 	overflow: hidden;
-	z-index: ${props => props.theme.zIndices.img};
 	position: absolute;
 `
