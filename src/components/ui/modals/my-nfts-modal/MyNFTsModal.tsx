@@ -9,7 +9,7 @@ import { NFTCard } from 'components/ui/nft-card'
 import { SearchInput } from 'components/ui/search-input'
 import { SelectCard } from 'components/ui/select-card'
 import useMyNFTs from 'hooks/useMyNFTs'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, IconButton } from 'theme-ui'
 
@@ -68,14 +68,6 @@ export const MyNFTsModal = NiceModal.create(
 				retry: true,
 			}
 		)
-
-		useEffect(() => {
-			if (modal.visible) {
-				document.querySelector('body')?.classList.add('overflow')
-			} else {
-				document.querySelector('body')?.classList.remove('overflow')
-			}
-		}, [modal.visible])
 
 		const { selectedNFTs, addSelectedNFT, removeSelectedNFT } =
 			useSelectedNFTs(defaultSelectedNFTs)
