@@ -48,6 +48,8 @@ export interface MultiSelectAccordionInputProps {
 	dismissOnOutsideClick?: boolean
 	searchStrategy?: SearchStrategy
 	onDismiss?: () => void
+	style?: React.CSSProperties
+	dropdownStyle?: React.CSSProperties
 }
 
 export interface MultiSelectAccordionInputContainerProps {
@@ -63,6 +65,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 	>
 >((props, ref) => {
 	const {
+		style,
 		children,
 		value = [],
 		onChange = noop,
@@ -71,6 +74,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 		defaultSearch = '',
 		accordionTitle = '',
 		dismissOnOutsideClick = false,
+		dropdownStyle,
 		searchStrategy = ({ label, inputValue }) =>
 			!inputValue || label.toLowerCase().match(`^${inputValue.toLowerCase()}.*$`),
 		...inputProps
@@ -116,7 +120,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 	useOnClickOutside(containerRef, () => dismissOnOutsideClick && _onDismiss())
 
 	return (
-		<AccordionCard ref={containerRef}>
+		<AccordionCard style={style} ref={containerRef}>
 			<Flex sx={{ mx: '6px' }}>
 				<Container
 					disabled={props.disabled}
@@ -152,7 +156,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 				<DividerLine />
 			</Flex>
 			<Flex sx={{ overflow: 'scroll' }}>
-				<ContentWrapper>
+				<ContentWrapper style={dropdownStyle}>
 					<Flex sx={{ width: '100%', flexDirection: 'column' }}>
 						<AccordionTitle>{accordionTitle}</AccordionTitle>
 						{filteredOptions.map(({ value: inputValue, label, extraLabel }) => {
