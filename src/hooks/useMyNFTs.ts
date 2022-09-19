@@ -59,7 +59,11 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 
 						// If we get a partial result, we need to call update on the API once again
 						if (response?.state === WALLET_NFT_STATE.Partial) {
-							await fetchMyNFTs()
+							await asyncAction(
+								WalletNFTsService.requestNFTs(getNetworkName(), myAddress)
+							)
+
+							return retry("Try again, It's partial update!")
 						}
 
 						if (error) {

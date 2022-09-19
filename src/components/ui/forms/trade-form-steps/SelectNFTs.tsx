@@ -1,6 +1,6 @@
+import NiceModal from '@ebay/nice-modal-react'
 import TradeAssetImage from 'assets/images/TradeAsset'
 import { Button, MyNFTsModal, NFTCard } from 'components'
-import NiceModal from '@ebay/nice-modal-react'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
