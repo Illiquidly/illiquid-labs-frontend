@@ -1,12 +1,12 @@
-import { useTheme } from '@emotion/react'
 import { withForwardRef } from 'hoc'
 import React from 'react'
+import { Flex } from 'theme-ui'
 import Checkbox from '../checkbox/Checkbox'
 import { ContainerCard, Extra, Title } from './CheckboxCard.styled'
 
 interface CheckboxCardProps
 	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'title'> {
-	forwardedRef?: React.Ref<HTMLInputElement>
+	forwardedRef?: React.RefObject<HTMLInputElement>
 	title?: string | React.ReactNode
 	extra?: string | React.ReactNode
 	variant?: 'small' | 'medium'
@@ -20,28 +20,32 @@ function CheckboxCard({
 	variant,
 	...inputProps
 }: CheckboxCardProps) {
-	const theme = useTheme()
+	const inputRef = React.useRef<HTMLInputElement>(null)
+
+	React.useImperativeHandle(
+		forwardedRef,
+		() => inputRef.current as HTMLInputElement
+	)
 	return (
 		<ContainerCard variant={variant} style={style}>
-			<Checkbox
-				backgroundStyle={{
-					...(!inputProps.checked
-						? { border: `2px solid ${theme.colors.dark500}` }
-						: {}),
-				}}
-				ref={forwardedRef}
-				{...inputProps}
-			/>
-			{typeof title === 'string' ? (
-				<Title variant={variant}>{title}</Title>
-			) : (
-				title
-			)}
-			{typeof extra === 'string' ? (
-				<Extra variant={variant}>{extra}</Extra>
-			) : (
-				extra
-			)}
+			<Checkbox ref={inputRef} {...inputProps} />
+			<Flex
+				style={{ cursor: 'pointer' }}
+				onClick={() => inputRef?.current?.click()}
+			>
+				{typeof title === 'string' ? (
+					<Title variant={variant}>{title}</Title>
+				) : (
+					title
+				)}
+			</Flex>
+			<Flex sx={{ flex: 1 }}>
+				{typeof extra === 'string' ? (
+					<Extra variant={variant}>{extra}</Extra>
+				) : (
+					extra
+				)}
+			</Flex>
 		</ContainerCard>
 	)
 }

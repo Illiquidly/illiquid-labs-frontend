@@ -96,28 +96,36 @@ function MainView({
 					<Checkbox
 						checked={myFavoritesChecked}
 						onChange={e => setMyFavoritesChecked(e.target.checked)}
+						label={
+							<FilterText>{t('trade-listings:filters:my-favorites-label')}</FilterText>
+						}
 					/>
-					<FilterText>{t('trade-listings:filters:my-favorites-label')}</FilterText>
+
 					<Box sx={{ flex: 1 }} />
 				</FilterSection>
 				<FilterSection>
 					<Checkbox
 						checked={counteredByMeChecked}
 						onChange={e => setCounteredByMeChecked(e.target.checked)}
+						label={
+							<FilterText>
+								{t('trade-listings:filters:countered-by-me-label')}
+							</FilterText>
+						}
 					/>
-					<FilterText>
-						{t('trade-listings:filters:countered-by-me-label')}
-					</FilterText>
+
 					<Box sx={{ flex: 1 }} />
 				</FilterSection>
 				<FilterSection>
 					<Checkbox
 						checked={lookingForLiquidAssetsChecked}
 						onChange={e => setLookingForLiquidAssetsChecked(e.target.checked)}
+						label={
+							<FilterText>
+								{t('trade-listings:filters:looking-for-liquid-assets-label')}
+							</FilterText>
+						}
 					/>
-					<FilterText>
-						{t('trade-listings:filters:looking-for-liquid-assets-label')}
-					</FilterText>
 					<Box sx={{ flex: 1 }} />
 				</FilterSection>
 			</CheckboxesContainer>

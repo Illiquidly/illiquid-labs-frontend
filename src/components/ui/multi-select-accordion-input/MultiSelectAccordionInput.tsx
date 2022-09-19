@@ -161,20 +161,20 @@ const MultiSelectAccordionInput = React.forwardRef<
 						{filteredOptions.map(({ value: inputValue, label, extraLabel }) => {
 							const checked = value.some(o => o.value === inputValue)
 							return (
-								<AccordionItem
-									onClick={() =>
-										handleCheck({
-											value: inputValue,
-											label,
-										})
-									}
-									checked={checked}
-									key={inputValue}
-								>
-									<CheckboxContainer>
-										<Checkbox checked={checked} />
-									</CheckboxContainer>
-									<Label>{label}</Label>
+								<AccordionItem checked={checked} key={inputValue}>
+									<Flex
+										onClick={() =>
+											handleCheck({
+												value: inputValue,
+												label,
+											})
+										}
+									>
+										<CheckboxContainer>
+											<Checkbox checked={checked} />
+										</CheckboxContainer>
+										<Label>{label}</Label>
+									</Flex>
 									<ExtraLabel>{extraLabel}</ExtraLabel>
 								</AccordionItem>
 							)

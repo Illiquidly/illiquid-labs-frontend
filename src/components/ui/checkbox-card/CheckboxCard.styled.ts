@@ -29,8 +29,6 @@ export const Title = styled.div<{ variant?: 'small' | 'medium' }>`
 	font-style: normal;
 	font-weight: 600;
 
-	pointer-events: none;
-
 	${props =>
 		props.variant === 'small' &&
 		`
