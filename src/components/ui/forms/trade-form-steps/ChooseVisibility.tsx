@@ -6,6 +6,7 @@ import {
 	TextInput,
 } from 'components'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
@@ -48,7 +49,12 @@ const ChooseVisibilityCollectionSelector = () => {
 
 const ChooseVisibilityForm = () => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { register, setValue, getValues } = useFormContext<TradeFormStepsProps>()
+	const {
+		register,
+		setValue,
+		getValues,
+		formState: { errors },
+	} = useFormContext<TradeFormStepsProps>()
 
 	return (
 		<FormWrapper>
@@ -81,6 +87,8 @@ const ChooseVisibilityForm = () => {
 						<TextInput
 							id='walletAddress'
 							{...register('walletAddress')}
+							fieldError={errors.walletAddress}
+							error={!!errors.walletAddress}
 							placeholder={t('trade:choose-visibility.wallet-address-placeholder')}
 						/>
 					</>
@@ -97,7 +105,12 @@ interface Props {
 
 export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, watch } = useFormContext<TradeFormStepsProps>()
+	const {
+		getValues,
+		watch,
+		trigger,
+		formState: { errors },
+	} = useFormContext<TradeFormStepsProps>()
 	const watchVisibilityType = watch('visibilityType', undefined)
 	return (
 		<ContentCardWrapper>
@@ -116,7 +129,11 @@ export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 			{/* Footer Navigation Section */}
 			<NavigationFooter
 				goBackStep={goBackStep}
-				goNextStep={goNextStep}
+				goNextStep={async () => {
+					await trigger(['walletAddress']).then(
+						() => isEmpty(errors) && goNextStep()
+					)
+				}}
 				isNextButtonDisabled={!getValues('visibilityType')}
 			/>
 		</ContentCardWrapper>

@@ -1,3 +1,4 @@
+import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
 import React, { useState } from 'react'
 import { Text } from 'theme-ui'
@@ -10,19 +11,21 @@ import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { SelectNFTs, TradeDetails } from 'components/ui/forms'
 import {
 	ChooseVisibility,
+	ChooseVisibilityStepSchema,
 	ConfirmListing,
+	SelectNFTStepSchema,
+	TradeDetailsStepSchema,
 	TradeFormStepsProps,
 } from 'components/ui/forms/trade-form-steps'
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import * as yup from 'yup'
 import { listTradeOffers } from 'services/blockchain'
 
-import { asyncAction } from 'utils/js/asyncAction'
-import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { useBroadcastingTx } from 'hooks'
+import { TxReceipt } from 'services/blockchain/blockchain.interface'
+import { asyncAction } from 'utils/js/asyncAction'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 import {
 	BodyContainer,
@@ -37,28 +40,13 @@ import {
 	TradeBackgroundLogoContainer,
 } from './trade.styled'
 
-const schema = yup.object().shape({
-	selectedNFTs: yup.array().min(1, 'atleast 1').required('required'),
-})
-
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Trade() {
 	const { t } = useTranslation(['common', 'trade'])
-
 	const [txReceipt, setTxReceipt] = React.useState<TxReceipt | null>(null)
-
-	const formMethods = useForm<TradeFormStepsProps>({
-		mode: 'onTouched',
-		resolver: yupResolver(schema),
-		defaultValues: {
-			selectedNFTs: [],
-			tokenName: 'LUNA',
-		},
-	})
-
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
 	const { step, setStep, goNextStep, goBackStep } = useStep({ max: 3 })
 	const [steps] = useState([
@@ -79,6 +67,29 @@ export default function Trade() {
 			label: stepLabels[3],
 		},
 	])
+
+	const getStepSchema = (currentStep: number) => {
+		switch (currentStep) {
+			case 0:
+				return SelectNFTStepSchema
+			case 1:
+				return TradeDetailsStepSchema
+			case 2:
+				return ChooseVisibilityStepSchema
+			default:
+				return SelectNFTStepSchema
+		}
+	}
+
+	const formMethods = useForm<TradeFormStepsProps>({
+		mode: 'onTouched',
+		resolver: yupResolver(getStepSchema(step.current)),
+		defaultValues: {
+			selectedNFTs: [],
+			collections: [],
+			tokenName: 'LUNA',
+		},
+	})
 
 	const onSuccessBroadcast = async ({ tradeId }: { tradeId: string }) => {
 		// TODO: use this tradeId for URL
@@ -164,6 +175,7 @@ export default function Trade() {
 						</form>
 					</FormProvider>
 				</Container>
+				<DevTool control={formMethods.control} />
 			</LayoutContainer>
 		</Page>
 	)

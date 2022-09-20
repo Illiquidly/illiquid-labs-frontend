@@ -8,6 +8,7 @@ import {
 } from 'components'
 import { Chip } from 'components/ui/chip'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
@@ -49,8 +50,13 @@ const TradeDetailsCollectionSelector = () => {
 
 const TradeDetailsForm = () => {
 	const { t } = useTranslation(['trade'])
-	const { register, setValue, getValues, control } =
-		useFormContext<TradeFormStepsProps>()
+	const {
+		register,
+		setValue,
+		getValues,
+		control,
+		formState: { errors },
+	} = useFormContext<TradeFormStepsProps>()
 	const { fields, append, remove } = useFieldArray({
 		control,
 		name: 'collections',
@@ -127,6 +133,8 @@ const TradeDetailsForm = () => {
 						<TextInput
 							id='tokenAmount'
 							{...register('tokenAmount')}
+							fieldError={errors.tokenAmount}
+							error={!!errors.tokenAmount}
 							placeholder={t('trade:trade-details.tokens-placeholder', {
 								token: 'Luna',
 							})}
@@ -155,7 +163,12 @@ interface Props {
 
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, watch } = useFormContext<TradeFormStepsProps>()
+	const {
+		getValues,
+		watch,
+		trigger,
+		formState: { errors },
+	} = useFormContext<TradeFormStepsProps>()
 	const watchLookingForType = watch('lookingForType', undefined)
 
 	return (
@@ -177,7 +190,9 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 			{/* Footer Navigation Section */}
 			<NavigationFooter
 				goBackStep={goBackStep}
-				goNextStep={goNextStep}
+				goNextStep={async () => {
+					await trigger(['tokenAmount']).then(() => isEmpty(errors) && goNextStep())
+				}}
 				isNextButtonDisabled={!getValues('lookingForType')}
 			/>
 		</ContentCardWrapper>
