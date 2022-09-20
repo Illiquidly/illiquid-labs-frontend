@@ -28,5 +28,11 @@
 	"nft_other": "{{count}} NFTs",
 	"create-another": "Create Another",
 	"tweet": "Tweet",
-	"apply": "Apply"
+	"apply": "Apply",
+	"errors": {
+		"trade-form-steps-token-is-required": "Token is required",
+		"trade-forms-steps-token-must-be-positive": "Token must be a positive number",
+		"trade-form-steps-token-must-be-number": "Token must be a number",
+		"trade-form-steps-wallet-address-not-valid": "Wallet address is not valid"
+	}
 }
