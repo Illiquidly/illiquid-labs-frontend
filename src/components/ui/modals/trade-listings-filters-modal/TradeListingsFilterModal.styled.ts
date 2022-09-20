@@ -24,6 +24,7 @@ export const ModalBody = styled.div`
 	flex-direction: column;
 	padding: 0 24px;
 	padding-bottom: 47px;
+	overflow: auto;
 `
 
 export const FiltersContainer = styled.div`
