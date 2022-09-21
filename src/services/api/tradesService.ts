@@ -82,6 +82,7 @@ type TradeFilters = {
 	lookingFor?: string[]
 	counteredBy?: string[]
 	whitelistedUsers?: string[]
+	owner?: string
 }
 
 type TradePagination = {
@@ -134,6 +135,12 @@ export class TradesService {
 			...((filters?.whitelistedUsers || [])?.length
 				? {
 						'filters.whitelistedUsers': filters?.whitelistedUsers,
+				  }
+				: {}),
+
+			...(filters?.owner
+				? {
+						'filters.owner': filters?.owner,
 				  }
 				: {}),
 

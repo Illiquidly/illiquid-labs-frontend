@@ -117,7 +117,7 @@ const TradeListingsFilterModal = NiceModal.create(
 							<FiltersContainer style={{ flex: 1 }}>
 								<MultiSelectAccordionInput
 									style={{ padding: 0, border: 0 }}
-									dropdownStyle={{ flex: 1, maxHeight: 'unset' }}
+									dropdownStyle={{ flex: 1, maxHeight: '400px' }}
 									value={statuses}
 									onChange={v => setStatuses(v)}
 									accordionTitle={t('trade-listings:filters:status-label')}
@@ -160,7 +160,7 @@ const TradeListingsFilterModal = NiceModal.create(
 										})
 									)}
 									placeholder={t(
-										'trade-listings:filters:search-collections-placeholder'
+										'trade-listings:filters:search-looking-for-placeholder'
 									)}
 								/>
 							</FiltersContainer>
