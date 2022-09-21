@@ -10,7 +10,6 @@ import {
 import { Chip } from 'components/ui/chip'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import { useTranslation } from 'next-i18next'
-import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Flex } from 'theme-ui'
 import { LOOKING_FOR_TYPE, TradeFormStepsProps } from './formProps'
@@ -57,20 +56,10 @@ const TradeDetailsForm = () => {
 		control,
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
-	const { fields, append, remove } = useFieldArray({
+	const { fields, remove } = useFieldArray({
 		control,
 		name: 'collections',
 	})
-
-	const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.code === 'Enter') {
-			e.preventDefault()
-			append({
-				value: e.target.value,
-			})
-			e.target.value = ''
-		}
-	}
 
 	return (
 		<FormWrapper>
