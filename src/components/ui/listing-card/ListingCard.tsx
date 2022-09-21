@@ -35,7 +35,7 @@ interface ListingCardProps extends NFT {
 	verified?: boolean
 	name?: string
 	lookingFor?: (Partial<Collection> & {
-		denom?: string
+		currency?: string
 		amount?: string
 	})[]
 	nfts: NFT[]
@@ -139,10 +139,13 @@ function ListingCard({
 				<LookingForSection>
 					<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
 					<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+						{!lookingFor?.length ? <Chip>Any offer</Chip> : null}
 						{(lookingFor || []).map((value, index) =>
 							index < lookingForItemsLimit ? (
 								<Chip key={JSON.stringify(value)}>
-									{value.denom ? `${value.amount} ${value.denom}` : value.collectionName}{' '}
+									{value.amount
+										? `${value.amount} ${value.currency}`
+										: value.collectionName}
 								</Chip>
 							) : null
 						)}
@@ -150,9 +153,11 @@ function ListingCard({
 							<Tooltip
 								overlay={
 									<div>
-										{lookingFor?.slice(lookingForItemsLimit).map(item => (
-											<div key={JSON.stringify(item)}>
-												{item.collectionName || `${item.amount} ${item.denom}`}
+										{lookingFor?.slice(lookingForItemsLimit).map(value => (
+											<div key={JSON.stringify(value)}>
+												{value.amount
+													? `${value.amount} ${value.currency}`
+													: value.collectionName}
 											</div>
 										))}
 									</div>
@@ -160,9 +165,7 @@ function ListingCard({
 							>
 								<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
 							</Tooltip>
-						) : (
-							<Chip>Any offer</Chip>
-						)}
+						) : null}
 					</Flex>
 				</LookingForSection>
 			</CardContainer>

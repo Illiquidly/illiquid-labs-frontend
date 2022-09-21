@@ -1,6 +1,6 @@
 import { axios } from 'services/axios'
 import { getParamsFromObject } from 'utils/js/getParamsFromObject'
-import { NFT } from './walletNFTsService'
+import { Collection, NFT } from './walletNFTsService'
 
 export type Coin = {
 	amount: string
@@ -53,6 +53,10 @@ export interface Trade {
 				comment?: string
 				time?: string
 			}
+			lookingFor: (Partial<Collection> & {
+				currency?: string
+				amount?: string
+			})[]
 		}
 		owner: string
 		state: string
@@ -71,9 +75,72 @@ export interface TradesResponse {
 	totalNumber: number
 }
 
+type TradeFilters = {
+	tradeId?: string[]
+	state?: string[]
+	collections?: string[]
+	lookingFor?: string[]
+	counteredBy?: string[]
+	whitelistedUsers?: string[]
+}
+
+type TradePagination = {
+	limit?: number
+	offset?: number
+}
+
+type TradeSort = {
+	direction?: string
+}
+
 export class TradesService {
-	public static async getAllTrades(network: string): Promise<TradesResponse> {
-		const query = getParamsFromObject({ 'filters.network': network })
+	public static async getAllTrades(
+		network: string,
+		filters?: TradeFilters,
+		pagination?: TradePagination,
+		sort: TradeSort = {
+			direction: 'ASC',
+		}
+	): Promise<TradesResponse> {
+		const query = getParamsFromObject({
+			'filters.network': network,
+			...((filters?.tradeId || [])?.length
+				? {
+						'filters.tradeId': filters?.tradeId,
+				  }
+				: {}),
+			...((filters?.state || [])?.length
+				? {
+						'filters.state': filters?.state,
+				  }
+				: {}),
+			...((filters?.collections || [])?.length
+				? {
+						'filters.collections': filters?.collections,
+				  }
+				: {}),
+			...((filters?.lookingFor || [])?.length
+				? {
+						'filters.lookingFor': filters?.lookingFor,
+				  }
+				: {}),
+
+			...((filters?.counteredBy || [])?.length
+				? {
+						'filters.counteredBy': filters?.counteredBy,
+				  }
+				: {}),
+
+			...((filters?.whitelistedUsers || [])?.length
+				? {
+						'filters.whitelistedUsers': filters?.whitelistedUsers,
+				  }
+				: {}),
+
+			...(pagination?.limit ? { 'pagination.limit': pagination.limit } : {}),
+			...(pagination?.offset ? { 'pagination.offset': pagination.offset } : {}),
+			...(sort?.direction ? { 'sort.direction': sort.direction } : {}),
+		})
 
 		const response = await axios.get(`trades/all?${query.toString()}`)
 
