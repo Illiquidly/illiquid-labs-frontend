@@ -77,7 +77,7 @@ export default function TradeListings() {
 			}
 		)
 
-	const statusesLabels: Array<string> = t('trade:statuses', {
+	const statusesLabels: Array<string> = t('trade-listings:statuses', {
 		returnObjects: true,
 	})
 	const statusOptions = [
@@ -140,6 +140,7 @@ export default function TradeListings() {
 		}
 		const [, filters] = await asyncAction<TradeListingsFilterModalProps>(
 			NiceModal.show(TradeListingsFilterModal, {
+				statusOptions,
 				verifiedCollections,
 				statuses,
 				lookingForCollections,

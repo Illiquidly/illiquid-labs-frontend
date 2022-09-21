@@ -1,25 +1,18 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
-import {
-	CloseIconSmall,
-	CollectionsBoxesIcon,
-	FilterArrowRightIcon,
-	LookingForCompassIcon,
-	TargetIcon,
-} from 'assets/icons/mixed'
+import { ChevronLeftIcon, CloseIconSmall } from 'assets/icons/mixed'
 import { Button } from 'components/ui/button'
-import { Checkbox } from 'components/ui/checkbox'
+
 import Modal from 'components/ui/modal/Modal'
-import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import MultiSelectAccordionInput, {
+	MultiSelectAccordionInputOption,
+} from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionGetResponse } from 'services/api/supportedCollectionsService'
-import { Box, IconButton } from 'theme-ui'
+import { Flex, IconButton } from 'theme-ui'
+import MainView from './components/main-view/MainView'
 import {
-	CheckboxesContainer,
-	FilterAction,
 	FiltersContainer,
-	FilterSection,
-	FilterText,
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
@@ -33,6 +26,14 @@ export type TradeListingsFilterModalProps = {
 	counteredByMeChecked: boolean
 	myFavoritesChecked: boolean
 	lookingForLiquidAssetsChecked: boolean
+	statusOptions: MultiSelectAccordionInputOption[]
+}
+
+enum VIEW_TYPES {
+	MAIN = 0,
+	STATUSES_FILTER = 1,
+	COLLECTIONS_FILTER = 2,
+	LOOKING_FOR_FILTER = 3,
 }
 
 const TradeListingsFilterModal = NiceModal.create(
@@ -43,16 +44,21 @@ const TradeListingsFilterModal = NiceModal.create(
 		counteredByMeChecked: defaultCounteredByMeChecked,
 		myFavoritesChecked: defaultMyFavoritesChecked,
 		lookingForLiquidAssetsChecked: defaultLookingForLiquidAssetsChecked,
+		statusOptions,
+		verifiedCollections,
 	}: TradeListingsFilterModalProps) => {
-		const { t } = useTranslation(['common', 'trade-listings'])
 		const modal = useModal()
 
-		const [statuses] =
+		const { t } = useTranslation(['common', 'trade-listings'])
+
+		const [viewType, setViewType] = React.useState<VIEW_TYPES>(VIEW_TYPES.MAIN)
+
+		const [statuses, setStatuses] =
 			React.useState<MultiSelectAccordionInputOption[]>(defaultStatuses)
-		const [lookingForCollections] = React.useState<
+		const [lookingForCollections, setLookingForCollections] = React.useState<
 			MultiSelectAccordionInputOption[]
 		>(defaultLookingForCollections)
-		const [collections] =
+		const [collections, setCollections] =
 			React.useState<MultiSelectAccordionInputOption[]>(defaultCollections)
 
 		const [myFavoritesChecked, setMyFavoritesChecked] = React.useState(
@@ -70,6 +76,19 @@ const TradeListingsFilterModal = NiceModal.create(
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 				<ModalContainer>
 					<ModalHeader>
+						{viewType !== VIEW_TYPES.MAIN && (
+							<Flex sx={{ flex: 1 }}>
+								<IconButton
+									sx={{
+										padding: '4px',
+									}}
+									size='24px'
+									onClick={() => setViewType(VIEW_TYPES.MAIN)}
+								>
+									<ChevronLeftIcon width='100%' height='100%' />
+								</IconButton>
+							</Flex>
+						)}
 						<IconButton
 							sx={{
 								padding: '4px',
@@ -81,82 +100,71 @@ const TradeListingsFilterModal = NiceModal.create(
 						</IconButton>
 					</ModalHeader>
 					<ModalBody>
-						<FiltersContainer>
-							<FilterSection>
-								<TargetIcon />
-								<FilterText>{t('trade-listings:filters:status-label')}</FilterText>
-								<FilterAction>
-									<IconButton
-										sx={{
-											padding: '5.59px 8.30px',
-										}}
-										size='24px'
-									>
-										<FilterArrowRightIcon width='100%' height='100%' />
-									</IconButton>
-								</FilterAction>
-							</FilterSection>
-							<FilterSection>
-								<CollectionsBoxesIcon />
-								<FilterText>{t('trade-listings:filters:collections-label')}</FilterText>
-								<FilterAction>
-									<IconButton
-										sx={{
-											padding: '5.59px 8.30px',
-										}}
-										size='24px'
-									>
-										<FilterArrowRightIcon width='100%' height='100%' />
-									</IconButton>
-								</FilterAction>
-							</FilterSection>
-							<FilterSection>
-								<LookingForCompassIcon />
-								<FilterText>{t('trade-listings:filters:looking-for-label')}</FilterText>
-								<FilterAction>
-									<IconButton
-										sx={{
-											padding: '5.59px 8.30px',
-										}}
-										size='24px'
-									>
-										<FilterArrowRightIcon width='100%' height='100%' />
-									</IconButton>
-								</FilterAction>
-							</FilterSection>
-						</FiltersContainer>
-						<CheckboxesContainer>
-							<FilterSection>
-								<Checkbox
-									checked={myFavoritesChecked}
-									onChange={e => setMyFavoritesChecked(e.target.checked)}
+						{viewType === VIEW_TYPES.MAIN && (
+							<MainView
+								onNavigateStatuses={() => setViewType(VIEW_TYPES.STATUSES_FILTER)}
+								onNavigateCollections={() => setViewType(VIEW_TYPES.COLLECTIONS_FILTER)}
+								onNavigateLookingFor={() => setViewType(VIEW_TYPES.LOOKING_FOR_FILTER)}
+								myFavoritesChecked={myFavoritesChecked}
+								setMyFavoritesChecked={setMyFavoritesChecked}
+								counteredByMeChecked={counteredByMeChecked}
+								setCounteredByMeChecked={setCounteredByMeChecked}
+								lookingForLiquidAssetsChecked={lookingForLiquidAssetsChecked}
+								setLookingForLiquidAssetsChecked={setLookingForLiquidAssetsChecked}
+							/>
+						)}
+						{viewType === VIEW_TYPES.STATUSES_FILTER && (
+							<FiltersContainer style={{ flex: 1 }}>
+								<MultiSelectAccordionInput
+									style={{ padding: 0, border: 0 }}
+									dropdownStyle={{ flex: 1, maxHeight: 'unset' }}
+									value={statuses}
+									onChange={v => setStatuses(v)}
+									accordionTitle={t('trade-listings:filters:status-label')}
+									options={statusOptions}
 								/>
-								<FilterText>
-									{t('trade-listings:filters:my-favorites-label')}
-								</FilterText>
-								<Box sx={{ flex: 1 }} />
-							</FilterSection>
-							<FilterSection>
-								<Checkbox
-									checked={counteredByMeChecked}
-									onChange={e => setCounteredByMeChecked(e.target.checked)}
+							</FiltersContainer>
+						)}
+						{viewType === VIEW_TYPES.COLLECTIONS_FILTER && (
+							<FiltersContainer style={{ flex: 1 }}>
+								<MultiSelectAccordionInput
+									style={{ padding: 0, border: 0 }}
+									dropdownStyle={{ flex: 1, maxHeight: '400px' }}
+									value={collections}
+									onChange={v => setCollections(v)}
+									accordionTitle={t('trade-listings:filters:collections-label')}
+									options={(verifiedCollections ?? [])?.map(
+										({ collectionAddress, collectionName }) => ({
+											label: collectionName,
+											value: collectionAddress,
+										})
+									)}
+									placeholder={t(
+										'trade-listings:filters:search-collections-placeholder'
+									)}
 								/>
-								<FilterText>
-									{t('trade-listings:filters:countered-by-me-label')}
-								</FilterText>
-								<Box sx={{ flex: 1 }} />
-							</FilterSection>
-							<FilterSection>
-								<Checkbox
-									checked={lookingForLiquidAssetsChecked}
-									onChange={e => setLookingForLiquidAssetsChecked(e.target.checked)}
+							</FiltersContainer>
+						)}
+						{viewType === VIEW_TYPES.LOOKING_FOR_FILTER && (
+							<FiltersContainer style={{ flex: 1 }}>
+								<MultiSelectAccordionInput
+									style={{ padding: 0, border: 0 }}
+									dropdownStyle={{ flex: 1, maxHeight: '400px' }}
+									value={lookingForCollections}
+									onChange={v => setLookingForCollections(v)}
+									accordionTitle={t('trade-listings:filters:looking-for-label')}
+									options={(verifiedCollections ?? [])?.map(
+										({ collectionAddress, collectionName }) => ({
+											label: collectionName,
+											value: collectionAddress,
+										})
+									)}
+									placeholder={t(
+										'trade-listings:filters:search-collections-placeholder'
+									)}
 								/>
-								<FilterText>
-									{t('trade-listings:filters:looking-for-liquid-assets-label')}
-								</FilterText>
-								<Box sx={{ flex: 1 }} />
-							</FilterSection>
-						</CheckboxesContainer>
+							</FiltersContainer>
+						)}
 						<Button
 							sx={{
 								padding: '12px 0',

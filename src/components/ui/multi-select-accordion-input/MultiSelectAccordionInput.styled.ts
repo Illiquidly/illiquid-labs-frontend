@@ -158,6 +158,7 @@ export const CheckboxContainer = styled.div`
 `
 
 export const ExtraLabel = styled.div`
+	flex: 1;
 	font-style: normal;
 	font-weight: 400;
 	font-size: 14px;
@@ -167,11 +168,9 @@ export const ExtraLabel = styled.div`
 `
 
 export const Label = styled.div`
+	cursor: pointer;
 	font-style: normal;
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 24px;
-
-	flex: 1;
-	pointer-events: none;
 `

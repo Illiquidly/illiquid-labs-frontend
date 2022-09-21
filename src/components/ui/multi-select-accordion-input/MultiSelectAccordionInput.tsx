@@ -48,6 +48,8 @@ export interface MultiSelectAccordionInputProps {
 	dismissOnOutsideClick?: boolean
 	searchStrategy?: SearchStrategy
 	onDismiss?: () => void
+	style?: React.CSSProperties
+	dropdownStyle?: React.CSSProperties
 }
 
 export interface MultiSelectAccordionInputContainerProps {
@@ -63,6 +65,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 	>
 >((props, ref) => {
 	const {
+		style,
 		children,
 		value = [],
 		onChange = noop,
@@ -71,6 +74,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 		defaultSearch = '',
 		accordionTitle = '',
 		dismissOnOutsideClick = false,
+		dropdownStyle,
 		searchStrategy = ({ label, inputValue }) =>
 			!inputValue || label.toLowerCase().match(`^${inputValue.toLowerCase()}.*$`),
 		...inputProps
@@ -102,10 +106,9 @@ const MultiSelectAccordionInput = React.forwardRef<
 		onDismiss()
 	}
 
-	const onCheck = (
-		checked,
-		option: { value: string | number; label: string }
-	) => {
+	const handleCheck = (option: { value: string | number; label: string }) => {
+		const checked = value.some(o => o.value === option.value)
+
 		if (checked) {
 			onChange?.(value.filter(o => o.value !== option.value))
 			return
@@ -116,7 +119,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 	useOnClickOutside(containerRef, () => dismissOnOutsideClick && _onDismiss())
 
 	return (
-		<AccordionCard ref={containerRef}>
+		<AccordionCard style={style} ref={containerRef}>
 			<Flex sx={{ mx: '6px' }}>
 				<Container
 					disabled={props.disabled}
@@ -152,25 +155,26 @@ const MultiSelectAccordionInput = React.forwardRef<
 				<DividerLine />
 			</Flex>
 			<Flex sx={{ overflow: 'scroll' }}>
-				<ContentWrapper>
+				<ContentWrapper style={dropdownStyle}>
 					<Flex sx={{ width: '100%', flexDirection: 'column' }}>
 						<AccordionTitle>{accordionTitle}</AccordionTitle>
 						{filteredOptions.map(({ value: inputValue, label, extraLabel }) => {
 							const checked = value.some(o => o.value === inputValue)
 							return (
 								<AccordionItem checked={checked} key={inputValue}>
-									<CheckboxContainer>
-										<Checkbox
-											onChange={e =>
-												onCheck(!e.target.checked, {
-													value: inputValue,
-													label,
-												})
-											}
-											checked={checked}
-										/>
-									</CheckboxContainer>
-									<Label>{label}</Label>
+									<Flex
+										onClick={() =>
+											handleCheck({
+												value: inputValue,
+												label,
+											})
+										}
+									>
+										<CheckboxContainer>
+											<Checkbox checked={checked} />
+										</CheckboxContainer>
+										<Label>{label}</Label>
+									</Flex>
 									<ExtraLabel>{extraLabel}</ExtraLabel>
 								</AccordionItem>
 							)
