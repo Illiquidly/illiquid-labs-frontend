@@ -1,15 +1,14 @@
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
 import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
+	MultiSelectInput,
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
 	TextInput,
-	MultiSelectInput
 } from 'components'
 import { Chip } from 'components/ui/chip'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
@@ -177,12 +176,7 @@ interface Props {
 
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const {
-		getValues,
-		watch,
-		trigger,
-		formState: { errors },
-	} = useFormContext<TradeFormStepsProps>()
+	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
 	const watchLookingForType = watch('lookingForType', undefined)
 
 	return (
@@ -205,7 +199,10 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 			<NavigationFooter
 				goBackStep={goBackStep}
 				goNextStep={async () => {
-					await trigger(['tokenAmount']).then(() => isEmpty(errors) && goNextStep())
+					const isValidTokenAmount = await trigger(['tokenAmount'])
+					if (isValidTokenAmount) {
+						goNextStep()
+					}
 				}}
 				isNextButtonDisabled={!getValues('lookingForType')}
 			/>

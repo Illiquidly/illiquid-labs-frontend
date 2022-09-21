@@ -6,7 +6,6 @@ import {
 	TextInput,
 } from 'components'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
@@ -105,13 +104,9 @@ interface Props {
 
 export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const {
-		getValues,
-		watch,
-		trigger,
-		formState: { errors },
-	} = useFormContext<TradeFormStepsProps>()
+	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
 	const watchVisibilityType = watch('visibilityType', undefined)
+
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
@@ -130,9 +125,10 @@ export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 			<NavigationFooter
 				goBackStep={goBackStep}
 				goNextStep={async () => {
-					await trigger(['walletAddress']).then(
-						() => isEmpty(errors) && goNextStep()
-					)
+					const isValidWalletAddress = await trigger(['walletAddress'])
+					if (isValidWalletAddress) {
+						goNextStep()
+					}
 				}}
 				isNextButtonDisabled={!getValues('visibilityType')}
 			/>
