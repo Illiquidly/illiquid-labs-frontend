@@ -41,9 +41,7 @@ export const ChooseVisibilityStepSchema = yup.object().shape({
 			.test(
 				'valid-wallet-address',
 				'trade-form-steps-wallet-address-not-valid',
-				value => {
-					return value ? isValidTerraAddress(value) : false
-				}
+				value => (value ? isValidTerraAddress(value) : false)
 			),
 	}),
 })
