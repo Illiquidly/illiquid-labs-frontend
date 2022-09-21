@@ -91,7 +91,7 @@ function ListingCard({
 							)}
 						</LikeIconContainer>
 					</RightTopImageArea>
-					{(nfts || []).length && (
+					{(nfts || []).length ? (
 						<BottomImageArea>
 							<PreviewNFTsSection>
 								{(nfts || []).slice(0, previewItemsLimit).map(nft => (
@@ -108,7 +108,7 @@ function ListingCard({
 									: ''}
 							</PreviewNFTsSection>
 						</BottomImageArea>
-					)}
+					) : null}
 				</ImageSection>
 				<DescriptionSection>
 					<Flex>
@@ -146,7 +146,7 @@ function ListingCard({
 								</Chip>
 							) : null
 						)}
-						{lookingFor?.slice(lookingForItemsLimit).length && (
+						{lookingFor?.slice(lookingForItemsLimit).length ? (
 							<Tooltip
 								overlay={
 									<div>
@@ -160,6 +160,8 @@ function ListingCard({
 							>
 								<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
 							</Tooltip>
+						) : (
+							<Chip>Any offer</Chip>
 						)}
 					</Flex>
 				</LookingForSection>

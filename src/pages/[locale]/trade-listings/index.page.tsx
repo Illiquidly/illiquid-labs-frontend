@@ -31,6 +31,9 @@ import { useWallet } from '@terra-money/use-wallet'
 import useIsMobile from 'hooks/react/useIsMobile'
 import NiceModal from '@ebay/nice-modal-react'
 import { asyncAction } from 'utils/js/asyncAction'
+import { TradesService } from 'services/api/tradesService'
+import { noop } from 'lodash'
+import { NFT } from 'services/api/walletNFTsService'
 import {
 	AccordionContentWrapper,
 	DesktopFiltersSection,
@@ -68,7 +71,7 @@ export default function TradeListings() {
 	const [filtersExpanded, setFiltersExpanded] = React.useState(true)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
-			['verifiedCollections'],
+			['verifiedCollections', wallet.network],
 			async () =>
 				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 			{
@@ -76,6 +79,15 @@ export default function TradeListings() {
 				retry: true,
 			}
 		)
+
+	const { data: trades } = useQuery(
+		['trades', wallet.network],
+		async () => TradesService.getAllTrades(wallet.network.name),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
 
 	const statusesLabels: Array<string> = t('trade-listings:statuses', {
 		returnObjects: true,
@@ -124,11 +136,6 @@ export default function TradeListings() {
 
 	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
 		React.useState(false)
-
-	const mockupListings = React.useMemo(
-		() => Array.from({ length: 30 }).map((_, index) => ({ id: index })),
-		[]
-	)
 
 	const onFiltersClick = async () => {
 		if (!isMobile) {
@@ -308,108 +315,44 @@ export default function TradeListings() {
 						</DesktopFiltersSection>
 					)}
 					<ListingNFTsGrid>
-						{mockupListings.map(({ id }) => (
-							<ListingCard
-								key={id}
-								verified
-								unavailableText={t('trade-listings:listing-unavailable')}
-								description='2'
-								attributes={[]}
-								onLike={n => console.warn(n)}
-								tokenId='Something'
-								collectionAddress='Something'
-								href={`/trade-listings/${id}`}
-								nfts={[
-									{
-										collectionAddress: '1',
-										collectionName: '1',
-										attributes: [],
-										imageUrl: [
-											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-										],
-										tokenId: '1',
-										description: 'test',
-									},
-									{
-										collectionAddress: '2',
-										collectionName: '2',
-										attributes: [],
-										imageUrl: [
-											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-										],
-										tokenId: '2',
-										description: 'test',
-									},
-									{
-										collectionAddress: '3',
-										collectionName: '3',
-										attributes: [],
-										imageUrl: [
-											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-										],
-										tokenId: '3',
-										description: 'test',
-									},
-									{
-										collectionAddress: '4',
-										collectionName: '4',
-										attributes: [],
-										imageUrl: [
-											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-										],
-										tokenId: '4',
-										description: 'test',
-									},
-									{
-										collectionAddress: '5',
-										collectionName: '5',
-										attributes: [],
-										imageUrl: [
-											'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-										],
-										tokenId: '5',
-										description: 'test',
-									},
-								]}
-								lookingFor={[
-									{
-										amount: '10',
-										denom: 'Luna',
-									},
-									{
-										collectionName: 'DeGods',
-										collectionAddress: '1',
-									},
-									{
-										collectionName: 'Galactic Punks',
-										collectionAddress: '2',
-									},
-									{
-										collectionName: 'Skeleton Punks',
-										collectionAddress: '3',
-									},
-									{
-										collectionName: 'Lovely Punks',
-										collectionAddress: '4',
-									},
-									{
-										collectionName: 'Scary Punks',
-										collectionAddress: '5',
-									},
-									{
-										denom: 'yLuna',
-										amount: '20',
-									},
-								]}
-								imageUrl={[
-									'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-								]}
-								name='Fox #7561'
-								liked
-								isPrivate
-								collectionName='Mutant Ape Yacht Club'
-							/>
-						))}
+						{(trades?.data || []).map(
+							({
+								tradeId,
+								tradeInfo: {
+									additionalInfo,
+									associatedAssetsWithInfo,
+									whitelistedUsers,
+								},
+							}) => (
+								<ListingCard
+									key={tradeId}
+									onLike={noop}
+									unavailableText={t('trade-listings:listing-unavailable')}
+									description={
+										additionalInfo?.tradePreview?.cw721Coin?.description ?? ''
+									}
+									attributes={additionalInfo?.tradePreview?.cw721Coin?.attributes ?? []}
+									tokenId={additionalInfo?.tradePreview?.cw721Coin?.tokenId ?? ''}
+									collectionAddress={
+										additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
+									}
+									href={`/trade-listings/${tradeId}`}
+									nfts={(associatedAssetsWithInfo || [])
+										.filter(nft => nft.cw721Coin)
+										.map(({ cw721Coin }) => cw721Coin as NFT)}
+									lookingFor={
+										[] // TODO: Implement looking for items
+									}
+									imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
+									name={additionalInfo?.tradePreview?.cw721Coin?.name ?? ''}
+									liked={false}
+									isPrivate={(whitelistedUsers || []).length > 0}
+									collectionName={
+										additionalInfo?.tradePreview?.cw721Coin?.collectionName || ''
+									}
+								/>
+							)
+						)}
 					</ListingNFTsGrid>
 				</ListingsNFTsContainer>
 			</LayoutContainer>
