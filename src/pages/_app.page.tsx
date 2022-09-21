@@ -22,7 +22,13 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import i18nConfig from '../../next-i18next.config'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+})
 
 const Main = ({
 	Component,
