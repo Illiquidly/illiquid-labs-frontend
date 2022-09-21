@@ -5,6 +5,7 @@ import {
 	RadioInputGroupProvider,
 	TextArea,
 	TextInput,
+	MultiSelectInput
 } from 'components'
 import { Chip } from 'components/ui/chip'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
@@ -110,12 +111,25 @@ const TradeDetailsForm = () => {
 						<Label htmlFor='collections'>
 							{t('trade:trade-details.collections-label')}
 						</Label>
-						<TextInput
+						<MultiSelectInput
+							dropdownTitle='hehe'
+							options={[
+								{
+									label: 'Abc',
+									value: 'okada',
+								},
+								{
+									label: 'Abc saokd',
+									value: 'a',
+								},
+							]}
+						/>
+						{/* <TextInput
 							onKeyDown={e => onEnter(e)}
 							id='collection'
 							{...register('collection')}
 							placeholder={t('trade:trade-details.collections-placeholder')}
-						/>
+						/> */}
 					</div>
 
 					<ChipsWrapper>
