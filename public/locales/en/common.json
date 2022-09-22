@@ -28,5 +28,6 @@
 	"nft_other": "{{count}} NFTs",
 	"create-another": "Create Another",
 	"tweet": "Tweet",
-	"apply": "Apply"
+	"apply": "Apply",
+	"search-collections": "Search Collections"
 }

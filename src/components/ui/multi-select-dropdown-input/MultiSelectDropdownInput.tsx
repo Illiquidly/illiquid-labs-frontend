@@ -18,7 +18,7 @@ import {
 	MultiSelectDropdownInputStyled,
 } from './MultiSelectDropdownInput.styled'
 
-export type MultiSelectDropdownInputOption = {
+export type MultiSelectInputOption = {
 	label: string
 	value: string
 }
@@ -36,9 +36,9 @@ type SearchStrategy = ({
 }) => boolean
 export interface MultiSelectDropdownInputProps {
 	error?: boolean
-	options?: MultiSelectDropdownInputOption[]
-	onChange?: (o: MultiSelectDropdownInputOption[]) => void
-	value?: MultiSelectDropdownInputOption[]
+	options?: MultiSelectInputOption[]
+	onChange?: (o: MultiSelectInputOption[]) => void
+	value?: MultiSelectInputOption[]
 	defaultSearch?: string
 	defaultOpen?: boolean
 	dropdownTitle?: string
@@ -172,7 +172,7 @@ const MultiSelectDropdownInput = React.forwardRef<
 					<div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
 						<DropdownContainer>
 							<DropdownContent>
-								<DropdownTitle>{dropdownTitle}</DropdownTitle>
+								{dropdownTitle && <DropdownTitle>{dropdownTitle}</DropdownTitle>}
 
 								{filteredOptions.map(({ value: inputValue, label }) => {
 									const checked = value.some(o => o.value === inputValue)
