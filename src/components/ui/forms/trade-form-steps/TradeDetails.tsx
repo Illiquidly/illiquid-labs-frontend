@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
 import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
@@ -10,7 +12,8 @@ import {
 import { Chip } from 'components/ui/chip'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import { useTranslation } from 'next-i18next'
-import { useFieldArray, useFormContext } from 'react-hook-form'
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
+import { SupportedCollectionsService } from 'services/api'
 import { Flex } from 'theme-ui'
 import { LOOKING_FOR_TYPE, TradeFormStepsProps } from './formProps'
 import { NavigationFooter } from './NavigationFooter'
@@ -56,10 +59,22 @@ const TradeDetailsForm = () => {
 		control,
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
-	const { fields, remove } = useFieldArray({
+	const wallet = useWallet()
+
+	const { remove } = useFieldArray({
 		control,
 		name: 'collections',
 	})
+
+	const { data: verifiedCollections } = useQuery(
+		['verifiedCollections'],
+		async () =>
+			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
 
 	return (
 		<FormWrapper>
@@ -99,31 +114,32 @@ const TradeDetailsForm = () => {
 						<Label htmlFor='collections'>
 							{t('trade:trade-details.collections-label')}
 						</Label>
-						<MultiSelectInput
-							dropdownTitle='hehe'
-							options={[
-								{
-									label: 'Abc',
-									value: 'okada',
-								},
-								{
-									label: 'Abc saokd',
-									value: 'a',
-								},
-							]}
+						<Controller
+							name='collections'
+							control={control}
+							render={({ field: { value, onChange, onBlur } }) => (
+								<MultiSelectInput
+									placeholder={t('trade:trade-details.collections-placeholder')}
+									dropdownTitle={t('trade:trade-details.nft-name')}
+									value={value}
+									onBlur={onBlur}
+									onChange={onChange}
+									dismissOnOutsideClick
+									options={(verifiedCollections ?? []).map(collection => {
+										return {
+											label: collection.collectionName,
+											value: collection.collectionAddress,
+										}
+									})}
+								/>
+							)}
 						/>
-						{/* <TextInput
-							onKeyDown={e => onEnter(e)}
-							id='collection'
-							{...register('collection')}
-							placeholder={t('trade:trade-details.collections-placeholder')}
-						/> */}
 					</div>
 
 					<ChipsWrapper>
-						{fields.map((field, index) => (
-							<Chip key={field.id} onClick={() => remove(index)}>
-								{field.value}
+						{getValues('collections').map((collection, index) => (
+							<Chip key={collection.value} onClick={() => remove(index)}>
+								{collection.label}
 							</Chip>
 						))}
 					</ChipsWrapper>
