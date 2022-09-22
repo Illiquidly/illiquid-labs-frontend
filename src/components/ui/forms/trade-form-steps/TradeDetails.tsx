@@ -57,6 +57,7 @@ const TradeDetailsForm = () => {
 		setValue,
 		getValues,
 		control,
+
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
 	const wallet = useWallet()
@@ -119,6 +120,7 @@ const TradeDetailsForm = () => {
 							control={control}
 							render={({ field: { value, onChange, onBlur } }) => (
 								<MultiSelectInput
+									error={!!errors.collections}
 									placeholder={t('trade:trade-details.collections-placeholder')}
 									dropdownTitle={t('trade:trade-details.nft-name')}
 									value={value}

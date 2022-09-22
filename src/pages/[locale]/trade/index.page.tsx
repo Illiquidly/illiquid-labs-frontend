@@ -82,7 +82,7 @@ export default function Trade() {
 	}
 
 	const formMethods = useForm<TradeFormStepsProps>({
-		mode: 'onTouched',
+		mode: 'all',
 		resolver: yupResolver(getStepSchema(step.current)),
 		defaultValues: {
 			selectedNFTs: [],
