@@ -1,52 +1,27 @@
 import React from 'react'
 import { useTranslation } from 'next-i18next'
+import NiceModal from '@ebay/nice-modal-react'
 
 import {
 	AttributeCard,
 	BlueWarning,
-	Button,
 	LayoutContainer,
-	OverflowTip,
 	Page,
-	Tooltip,
 	Wallet,
 	WalletItem,
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { Box, Flex } from 'theme-ui'
+import { Flex } from 'theme-ui'
 
 import {
-	RightTopImageArea,
-	LikeIconContainer,
-	PreviewNFTsSection,
-	PreviewImageContainer,
-	PreviewImage,
-	StatusIconContainer,
-	ImageSection,
-	BottomImageArea,
-	DescriptionSection,
-	Title,
-	Subtitle,
-	Image,
-	Chip,
-	LookingForSection,
-	LookingForTitle,
 	CounterOffers,
 	Row,
-	IconButton,
+	ButtonsRow,
+	ImageRow,
+	DescriptionRow,
+	LookingForRow,
 } from 'components/listing-details'
-
-import { VerifiedIcon } from 'assets/icons/16pt'
-import {
-	HeartFilledIcon,
-	HeartIcon,
-	DeleteOutlineIcon,
-	PenOutlineIcon,
-	ShareOutlineIcon,
-	ArrowLeftIcon,
-} from 'assets/icons/mixed'
-import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
-import ImagePlaceholder from 'assets/images/ImagePlaceholder'
+import { EditModal, RemoveModal } from 'components/listing-details/modals'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 /** todo: generate the static paths to tids */
@@ -81,30 +56,30 @@ const attributes = [
 	},
 ]
 
-const lookingFor = [
+const lookingForStart = [
 	{
 		amount: '10',
 		denom: 'Luna',
 	},
 	{
-		collectionName: 'DeGods',
-		collectionAddress: '1',
+		denom: 'DeGods',
+		amount: '1',
 	},
 	{
-		collectionName: 'Galactic Punks',
-		collectionAddress: '2',
+		denom: 'Galactic Punks',
+		amount: '2',
 	},
 	{
-		collectionName: 'Skeleton Punks',
-		collectionAddress: '3',
+		denom: 'Skeleton Punks',
+		amount: '3',
 	},
 	{
-		collectionName: 'Lovely Punks',
-		collectionAddress: '4',
+		denom: 'Lovely Punks',
+		amount: '4',
 	},
 	{
-		collectionName: 'Scary Punks',
-		collectionAddress: '5',
+		denom: 'Scary Punks',
+		amount: '5',
 	},
 	{
 		denom: 'yLuna',
@@ -183,6 +158,32 @@ const collectionName = 'Mutant Ape Yacht Club'
 
 export default function ListingDetails() {
 	const { t } = useTranslation(['common', 'trade-listings'])
+
+	const [lookingFor, setLookingFor] = React.useState(lookingForStart)
+
+	const removeLookingFor = item => {
+		// remove looking for
+		setLookingFor(lookingFor.filter(l => l.denom !== item.denom))
+	}
+
+	const handleEditClick = () => {
+		NiceModal.show(EditModal, {
+			lookingFor,
+			lookingForItemsLimit,
+			removeLookingFor,
+		})
+	}
+
+	const remove = () => {
+		/** todo */
+	}
+
+	const handleRemoveClick = () => {
+		NiceModal.show(RemoveModal, {
+			remove,
+		})
+	}
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -191,108 +192,31 @@ export default function ListingDetails() {
 						justifyContent: 'space-between',
 					}}
 				>
-					<Flex
-						sx={{
-							justifyContent: 'flex-start',
-						}}
-					>
-						<Button
-							sx={{ height: '40px', padding: '13px' }}
-							variant='secondary'
-							startIcon={<ArrowLeftIcon />}
-						>
-							{t('trade-listings:back-to-listings')}
-						</Button>
-					</Flex>
-					<Flex
-						sx={{
-							gap: '6px',
-							justifyContent: 'flex-end',
-						}}
-					>
-						<IconButton>
-							<PenOutlineIcon />
-						</IconButton>
-						<IconButton>
-							<DeleteOutlineIcon />
-						</IconButton>
-						<IconButton>
-							<ShareOutlineIcon />
-						</IconButton>
-					</Flex>
+					<ButtonsRow
+						handleEditClick={handleEditClick}
+						handleRemoveClick={handleRemoveClick}
+					/>
 				</Row>
 				<Row>
 					<BlueWarning sx={{ width: '100%', height: '49px' }}>
 						{t('trade-listings:item-not-available')}
 					</BlueWarning>
 				</Row>
-				<ImageSection>
-					{imageUrl?.every(img => img === '') ? (
-						<ImagePlaceholder width='61.56px' height='57.87px' />
-					) : (
-						<Image src={imageUrl ?? []} />
-					)}
-					<RightTopImageArea
-						onClick={e => {
-							// disable link when clicking on like icon
-							e.preventDefault()
-							onLike(NFTProps)
-						}}
-					>
-						<LikeIconContainer>
-							{liked ? (
-								<HeartFilledIcon width='18px' height='15.24px' />
-							) : (
-								<HeartIcon width='18px' height='15.24px' />
-							)}
-						</LikeIconContainer>
-					</RightTopImageArea>
-					{(nfts || []).length && (
-						<BottomImageArea>
-							<PreviewNFTsSection>
-								{(nfts || []).slice(0, previewItemsLimit).map(nft => (
-									<PreviewImageContainer key={`${nft.collectionAddress}${nft.tokenId}`}>
-										{imageUrl?.every(img => img === '') ? (
-											<ImagePlaceholder width='18px' height='18px' />
-										) : (
-											<PreviewImage src={imageUrl ?? []} />
-										)}
-									</PreviewImageContainer>
-								))}
-								{(nfts || []).slice(previewItemsLimit).length
-									? `+${(nfts || []).slice(previewItemsLimit).length}`
-									: ''}
-							</PreviewNFTsSection>
-						</BottomImageArea>
-					)}
-				</ImageSection>
+				<ImageRow
+					nfts={nfts}
+					imageUrl={imageUrl}
+					NFTProps={NFTProps}
+					onLike={onLike}
+					liked={liked}
+					previewItemsLimit={previewItemsLimit}
+				/>
 				<Row>
-					<DescriptionSection>
-						<Flex>
-							<Flex sx={{ flex: 1 }}>
-								<OverflowTip>
-									<Title>{name}</Title>
-								</OverflowTip>
-							</Flex>
-							<Flex sx={{ gap: '4px' }}>
-								{isPrivate && (
-									<StatusIconContainer>
-										<TradeIcon />
-									</StatusIconContainer>
-								)}
-							</Flex>
-						</Flex>
-						<Flex>
-							<OverflowTip>
-								<Subtitle>{collectionName}</Subtitle>
-							</OverflowTip>
-							{verified && (
-								<Box ml={['4px']} mt='6px'>
-									<VerifiedIcon width='17.27px' height='17.27px' />
-								</Box>
-							)}
-						</Flex>
-					</DescriptionSection>
+					<DescriptionRow
+						name={name}
+						isPrivate={isPrivate}
+						collectionName={collectionName}
+						verified={verified}
+					/>
 				</Row>
 				{attributes && (
 					<Row>
@@ -315,35 +239,10 @@ export default function ListingDetails() {
 				</Row>
 				{lookingFor && (
 					<Row>
-						<LookingForSection>
-							<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
-							<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-								{lookingFor.map((value, index) =>
-									index < lookingForItemsLimit ? (
-										<Chip key={JSON.stringify(value)}>
-											{value.denom
-												? `${value.amount} ${value.denom}`
-												: value.collectionName}{' '}
-										</Chip>
-									) : null
-								)}
-								{lookingFor?.slice(lookingForItemsLimit).length && (
-									<Tooltip
-										overlay={
-											<div>
-												{lookingFor?.slice(lookingForItemsLimit).map(item => (
-													<div key={JSON.stringify(item)}>
-														{item.collectionName || `${item.amount} ${item.denom}`}
-													</div>
-												))}
-											</div>
-										}
-									>
-										<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
-									</Tooltip>
-								)}
-							</Flex>
-						</LookingForSection>
+						<LookingForRow
+							lookingFor={lookingFor}
+							lookingForItemsLimit={lookingForItemsLimit}
+						/>
 					</Row>
 				)}
 				<Row>
