@@ -82,7 +82,8 @@ type TradeFilters = {
 	lookingFor?: string[]
 	counteredBy?: string[]
 	whitelistedUsers?: string[]
-	owner?: string
+	owners?: string[]
+	hasLiquidAsset?: boolean
 }
 
 type TradePagination = {
@@ -138,9 +139,15 @@ export class TradesService {
 				  }
 				: {}),
 
-			...(filters?.owner
+			...((filters?.owners || [])?.length
 				? {
-						'filters.owner': filters?.owner,
+						'filters.owners': filters?.owners,
+				  }
+				: {}),
+
+			...(filters?.hasLiquidAsset
+				? {
+						'filters.hasLiquidAsset': filters?.hasLiquidAsset,
 				  }
 				: {}),
 
