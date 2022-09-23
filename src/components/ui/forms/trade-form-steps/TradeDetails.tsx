@@ -1,6 +1,9 @@
+import { useQuery } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
 import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
+	MultiSelectInput,
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
@@ -8,10 +11,9 @@ import {
 } from 'components'
 import { Chip } from 'components/ui/chip'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'next-i18next'
-import React from 'react'
-import { useFieldArray, useFormContext } from 'react-hook-form'
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
+import { SupportedCollectionsService } from 'services/api'
 import { Flex } from 'theme-ui'
 import { LOOKING_FOR_TYPE, TradeFormStepsProps } from './formProps'
 import { NavigationFooter } from './NavigationFooter'
@@ -55,22 +57,25 @@ const TradeDetailsForm = () => {
 		setValue,
 		getValues,
 		control,
+
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
-	const { fields, append, remove } = useFieldArray({
+	const wallet = useWallet()
+
+	const { remove } = useFieldArray({
 		control,
 		name: 'collections',
 	})
 
-	const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.code === 'Enter') {
-			e.preventDefault()
-			append({
-				value: e.target.value,
-			})
-			e.target.value = ''
+	const { data: verifiedCollections } = useQuery(
+		['verifiedCollections'],
+		async () =>
+			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		{
+			enabled: !!wallet.network,
+			retry: true,
 		}
-	}
+	)
 
 	return (
 		<FormWrapper>
@@ -110,18 +115,33 @@ const TradeDetailsForm = () => {
 						<Label htmlFor='collections'>
 							{t('trade:trade-details.collections-label')}
 						</Label>
-						<TextInput
-							onKeyDown={e => onEnter(e)}
-							id='collection'
-							{...register('collection')}
-							placeholder={t('trade:trade-details.collections-placeholder')}
+						<Controller
+							name='collections'
+							control={control}
+							render={({ field: { value, onChange, onBlur } }) => (
+								<MultiSelectInput
+									error={!!errors.collections}
+									placeholder={t('trade:trade-details.collections-placeholder')}
+									dropdownTitle={t('trade:trade-details.nft-name')}
+									value={value}
+									onBlur={onBlur}
+									onChange={onChange}
+									dismissOnOutsideClick
+									options={(verifiedCollections ?? []).map(collection => {
+										return {
+											label: collection.collectionName,
+											value: collection.collectionAddress,
+										}
+									})}
+								/>
+							)}
 						/>
 					</div>
 
 					<ChipsWrapper>
-						{fields.map((field, index) => (
-							<Chip key={field.id} onClick={() => remove(index)}>
-								{field.value}
+						{getValues('collections').map((collection, index) => (
+							<Chip key={collection.value} onClick={() => remove(index)}>
+								{collection.label}
 							</Chip>
 						))}
 					</ChipsWrapper>
@@ -163,12 +183,7 @@ interface Props {
 
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const {
-		getValues,
-		watch,
-		trigger,
-		formState: { errors },
-	} = useFormContext<TradeFormStepsProps>()
+	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
 	const watchLookingForType = watch('lookingForType', undefined)
 
 	return (
@@ -191,7 +206,10 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 			<NavigationFooter
 				goBackStep={goBackStep}
 				goNextStep={async () => {
-					await trigger(['tokenAmount']).then(() => isEmpty(errors) && goNextStep())
+					const isValidTokenAmount = await trigger(['tokenAmount'])
+					if (isValidTokenAmount) {
+						goNextStep()
+					}
 				}}
 				isNextButtonDisabled={!getValues('lookingForType')}
 			/>

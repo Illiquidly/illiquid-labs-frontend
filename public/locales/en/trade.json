@@ -23,6 +23,7 @@
 		"text-area-placeholder": "Enter text",
 		"collections-label": "Collections I'm interested in",
 		"collections-placeholder": "Search collections...",
+		"nft-name": "NFT name",
 		"tokens-label": "Tokens I'm interested in",
 		"tokens-placeholder": "Enter amount for {{token}}"
 	},

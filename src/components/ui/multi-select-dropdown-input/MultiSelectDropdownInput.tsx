@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
+import { ModifierPhases } from '@popperjs/core'
+import { CheckboxCheckedIcon } from 'assets/icons/mixed'
 import InputDismissIcon from 'assets/icons/mixed/components/InputDismissIcon'
+import { noop } from 'lodash'
 import React from 'react'
 import { usePopper } from 'react-popper'
-import { ModifierPhases } from '@popperjs/core'
-import { noop } from 'lodash'
-import { CheckboxCheckedIcon } from 'assets/icons/mixed'
 import { useOnClickOutside } from 'utils/react/useOnClickOutside'
 import {
 	Circle,
@@ -169,7 +169,11 @@ const MultiSelectDropdownInput = React.forwardRef<
 					)}
 				</IconContainer>
 				{isDropdownOpen && (
-					<div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+					<div
+						ref={setPopperElement}
+						style={{ ...styles.popper, zIndex: 3000 }}
+						{...attributes.popper}
+					>
 						<DropdownContainer>
 							<DropdownContent>
 								<DropdownTitle>{dropdownTitle}</DropdownTitle>

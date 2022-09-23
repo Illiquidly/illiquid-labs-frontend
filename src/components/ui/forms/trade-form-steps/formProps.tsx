@@ -10,6 +10,7 @@ export enum VISIBILITY_TYPE {
 }
 
 export interface collections {
+	label: string
 	value: string
 }
 
