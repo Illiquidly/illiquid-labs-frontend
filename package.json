@@ -15,6 +15,7 @@
 		"@emotion/react": "^11.10.0",
 		"@emotion/server": "^11.10.0",
 		"@emotion/styled": "^11.10.0",
+		"@hookform/devtools": "^4.2.2",
 		"@hookform/resolvers": "^2.9.7",
 		"@mdx-js/react": "^1.6.22",
 		"@popperjs/core": "^2.11.6",

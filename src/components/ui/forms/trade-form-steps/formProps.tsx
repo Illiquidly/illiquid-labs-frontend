@@ -9,19 +9,23 @@ export enum VISIBILITY_TYPE {
 	PRIVATE = 'PRIVATE',
 }
 
-interface collections {
+export interface collections {
+	label: string
 	value: string
 }
 
 export interface TradeFormStepsProps {
+	// SELECT_NFTS STEP
 	coverNFT: NFT
 	selectedNFTs: NFT[]
+	// TRADE_DETAILS STEP
 	lookingForType: LOOKING_FOR_TYPE
 	collection: string
 	collections: collections[]
 	tokenAmount: number
 	tokenName: string
 	comment: string
+	// CHOOSE VISIBILITY STEP
 	visibilityType: VISIBILITY_TYPE
 	walletAddress: string
 }
