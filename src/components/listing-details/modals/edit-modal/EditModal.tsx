@@ -18,6 +18,7 @@ import {
 	TextInput,
 	Select,
 	TextArea,
+	LayoutContainer,
 } from 'components/ui'
 
 import {
@@ -75,103 +76,109 @@ const EditModal = NiceModal.create(
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 				<ModalContainer>
-					<ModalContent>
-						<ModalHeader>
-							{t('trade-listings:edit-modal.title')}
-							<IconButton
-								sx={{
-									borderRadius: '32px',
-									backgroundColor: theme.colors.dark500,
-								}}
-								onClick={modal.remove}
-							>
-								<ModalCloseIcon />
-							</IconButton>
-						</ModalHeader>
-						<ModalBody>
-							<RadioInputGroupProvider
-								name='radio'
-								value={value}
-								onChange={e => setValue(Number(e.target.value))}
-							>
-								<Flex sx={{ height: '56px' }}>
-									<RadioCardInput value={0}>
-										<RadioText>
-											{t('trade-listings:edit-modal.specific-collections-tokens')}
-										</RadioText>
-									</RadioCardInput>
-								</Flex>
-								<Flex sx={{ height: '56px' }}>
-									<RadioCardInput value={0}>
-										<RadioText>
-											{t('trade-listings:edit-modal.open-to-any-offers')}
-										</RadioText>
-									</RadioCardInput>
-								</Flex>
-							</RadioInputGroupProvider>
-							<Title>{t('trade-listings:edit-modal:interested-in')}</Title>
-							<MultiSelectInput
-								value={selectedOptions}
-								onChange={v => setSelectedOptions(v)}
-								dismissOnOutsideClick
-								options={[
-									{
-										label: 'DeGods',
-										value: 'terrra1asjdkasdkajhsdkahskd',
-									},
-									{
-										label: 'JustApe',
-										value: 'terrra1asjdkasdkajhsdskahskd',
-									},
-									{
-										label: 'Transcendental Fox Collection',
-										value: 'terrra1assjdkasdkajhsdkahskd',
-									},
-									{
-										label: 'Hasbulla the God',
-										value: 'terrra1assjdkaadkajhsdkahskd',
-									},
-								]}
-								placeholder={t('common:search-collections')}
-							/>
-							{lookingFor?.length && (
-								<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-									{lookingFor.map(item => (
-										<SelectChip
-											key={JSON.stringify(value)}
-											item={item.denom || item.collectionName || ''}
-											onRemove={() => removeLookingFor(item)}
-										/>
-									))}
-								</Flex>
-							)}
-							<Title>{t('trade-listings:edit-modal:tokens-interested-in')}</Title>
-							<TextInput
-								style={{ fontSize: '16px', lineHeight: '20px' }}
-								placeholder='Enter amount for Luna'
-								iconRight={<TokenDropdown />}
-							/>
-							<Title>{t('trade-listings:edit-modal:write-comment')}</Title>
-							<TextArea onChange={e => setComment(e.target.value)} value={comment} />
-							<Flex
-								sx={{ justifyContent: 'space-between', gap: '12px', marginTop: '24px' }}
-							>
-								<Button
-									variant='secondary'
-									sx={{ height: '40px', flex: 1 }}
+					<LayoutContainer>
+						<ModalContent>
+							<ModalHeader>
+								{t('trade-listings:edit-modal.title')}
+								<IconButton
+									sx={{
+										borderRadius: '32px',
+										backgroundColor: theme.colors.dark500,
+									}}
 									onClick={modal.remove}
 								>
-									{t('trade-listings:edit-modal.discard-changes')}
-								</Button>
-								<Button
-									sx={{ height: '40px', flex: 1, background: theme.colors.primary90 }}
-									variant='primary'
+									<ModalCloseIcon />
+								</IconButton>
+							</ModalHeader>
+							<ModalBody>
+								<RadioInputGroupProvider
+									name='radio'
+									value={value}
+									onChange={e => setValue(Number(e.target.value))}
 								>
-									{t('trade-listings:edit-modal.update-listing')}
-								</Button>
-							</Flex>
-						</ModalBody>
-					</ModalContent>
+									<Flex sx={{ height: '56px' }}>
+										<RadioCardInput value={0}>
+											<RadioText>
+												{t('trade-listings:edit-modal.specific-collections-tokens')}
+											</RadioText>
+										</RadioCardInput>
+									</Flex>
+									<Flex sx={{ height: '56px' }}>
+										<RadioCardInput value={0}>
+											<RadioText>
+												{t('trade-listings:edit-modal.open-to-any-offers')}
+											</RadioText>
+										</RadioCardInput>
+									</Flex>
+								</RadioInputGroupProvider>
+								<Title>{t('trade-listings:edit-modal:interested-in')}</Title>
+								<MultiSelectInput
+									value={selectedOptions}
+									onChange={v => setSelectedOptions(v)}
+									dismissOnOutsideClick
+									options={[
+										{
+											label: 'DeGods',
+											value: 'terrra1asjdkasdkajhsdkahskd',
+										},
+										{
+											label: 'JustApe',
+											value: 'terrra1asjdkasdkajhsdskahskd',
+										},
+										{
+											label: 'Transcendental Fox Collection',
+											value: 'terrra1assjdkasdkajhsdkahskd',
+										},
+										{
+											label: 'Hasbulla the God',
+											value: 'terrra1assjdkaadkajhsdkahskd',
+										},
+									]}
+									placeholder={t('common:search-collections')}
+								/>
+								{lookingFor?.length && (
+									<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+										{lookingFor.map(item => (
+											<SelectChip
+												key={JSON.stringify(value)}
+												item={item.denom || item.collectionName || ''}
+												onRemove={() => removeLookingFor(item)}
+											/>
+										))}
+									</Flex>
+								)}
+								<Title>{t('trade-listings:edit-modal:tokens-interested-in')}</Title>
+								<TextInput
+									style={{ fontSize: '16px', lineHeight: '20px' }}
+									placeholder='Enter amount for Luna'
+									iconRight={<TokenDropdown />}
+								/>
+								<Title>{t('trade-listings:edit-modal:write-comment')}</Title>
+								<TextArea onChange={e => setComment(e.target.value)} value={comment} />
+								<Flex
+									sx={{
+										justifyContent: 'space-between',
+										gap: '12px',
+										marginTop: '24px',
+									}}
+								>
+									<Button
+										variant='secondary'
+										sx={{ height: '40px', flex: 1 }}
+										onClick={modal.remove}
+									>
+										{t('trade-listings:edit-modal.discard-changes')}
+									</Button>
+									<Button
+										sx={{ height: '40px', flex: 1, background: theme.colors.primary90 }}
+										variant='primary'
+									>
+										{t('trade-listings:edit-modal.update-listing')}
+									</Button>
+								</Flex>
+							</ModalBody>
+						</ModalContent>
+					</LayoutContainer>
 				</ModalContainer>
 			</Modal>
 		)

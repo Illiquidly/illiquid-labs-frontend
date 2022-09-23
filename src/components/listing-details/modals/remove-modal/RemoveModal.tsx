@@ -10,6 +10,7 @@ import { ModalCloseIcon } from 'assets/icons/modal'
 
 import {
 	Button,
+	LayoutContainer,
 	Modal,
 	RadioCardInput,
 	RadioInputGroupProvider,
@@ -138,22 +139,24 @@ const RemoveModal = NiceModal.create(({ remove }: RemoveModalProps) => {
 	return (
 		<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 			<ModalContainer>
-				<ModalContent>
-					<ModalHeader>
-						{t('trade-listings:remove-modal.title')}
-						<IconButton
-							sx={{
-								borderRadius: '32px',
-								backgroundColor: theme.colors.dark500,
-							}}
-							onClick={modal.remove}
-						>
-							<ModalCloseIcon />
-						</IconButton>
-					</ModalHeader>
-					{!removed && removeSuggestion()}
-					{removed && removeApproval()}
-				</ModalContent>
+				<LayoutContainer>
+					<ModalContent>
+						<ModalHeader>
+							{t('trade-listings:remove-modal.title')}
+							<IconButton
+								sx={{
+									borderRadius: '32px',
+									backgroundColor: theme.colors.dark500,
+								}}
+								onClick={modal.remove}
+							>
+								<ModalCloseIcon />
+							</IconButton>
+						</ModalHeader>
+						{!removed && removeSuggestion()}
+						{removed && removeApproval()}
+					</ModalContent>
+				</LayoutContainer>
 			</ModalContainer>
 		</Modal>
 	)
