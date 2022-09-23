@@ -77,5 +77,7 @@ export const VisibilityChipWrapper = styled.div`
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
 		margin-left: -1px; /* because of double border */
+		word-break: break-all;
+		flex: 1;
 	}
 `

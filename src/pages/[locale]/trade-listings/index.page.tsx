@@ -15,6 +15,7 @@ import {
 	GridSwitch,
 	TradeListingsFilterModal,
 	TradeListingsFilterModalProps,
+	Button,
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import {
@@ -23,7 +24,7 @@ import {
 	LookingForCompassIcon,
 	TargetIcon,
 } from 'assets/icons/mixed'
-import { Box } from 'theme-ui'
+import { Box, Flex } from 'theme-ui'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { useQuery } from '@tanstack/react-query'
 import { SupportedCollectionsService } from 'services/api'
@@ -144,8 +145,15 @@ export default function TradeListings() {
 		],
 		async () =>
 			TradesService.getAllTrades(wallet.network.name, {
-				owner: listingsType === LISTINGS_TYPE.MY_LISTINGS ? myAddress : '',
+				owners:
+					listingsType === LISTINGS_TYPE.MY_LISTINGS ? [myAddress] : undefined,
 				state: statuses.map(({ value }) => value),
+				collections: collections.map(({ value }) => value),
+				lookingFor: lookingForCollections.map(({ value }) => value),
+				counteredBy: counteredByMeChecked ? [myAddress] : undefined,
+				hasLiquidAsset: lookingForLiquidAssetsChecked,
+				// myFavoritesChecked
+				// lookingForLiquidAssetsChecked
 			}),
 		{
 			enabled: !!wallet.network,
@@ -187,7 +195,7 @@ export default function TradeListings() {
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
-				<Box sx={{ minHeight: '748px' }}>
+				<Box sx={{ minHeight: '1248px' }}>
 					<TabsSection>
 						<Tabs
 							onChange={e => setListingsType(e.target.value as LISTINGS_TYPE)}
@@ -374,6 +382,17 @@ export default function TradeListings() {
 									)
 								)}
 							</ListingNFTsGrid>
+							<Flex sx={{ width: '100%', marginTop: '14px' }}>
+								{trades?.data && !!trades.data?.length && (
+									<Button
+										disabled={trades?.data.length <= trades.totalNumber}
+										fullWidth
+										variant='dark'
+									>
+										Show more
+									</Button>
+								)}
+							</Flex>
 						</Box>
 					</ListingsNFTsContainer>
 				</Box>

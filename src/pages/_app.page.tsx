@@ -1,3 +1,5 @@
+import NiceModal from '@ebay/nice-modal-react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import {
 	getChainOptions,
@@ -5,12 +7,10 @@ import {
 	WalletControllerChainOptions,
 	WalletProvider,
 } from '@terra-money/wallet-provider'
-import { AppProps } from 'next/app'
-import { RecoilRoot } from 'recoil'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { NextComponentType, NextPageContext } from 'next/types'
 import { appWithTranslation } from 'next-i18next'
-import NiceModal from '@ebay/nice-modal-react'
+import { AppProps } from 'next/app'
+import { NextComponentType, NextPageContext } from 'next/types'
+import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'theme-ui'
 
 import { theme } from 'components'
