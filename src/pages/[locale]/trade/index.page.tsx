@@ -135,7 +135,7 @@ export default function Trade() {
 							<BodyContainer>
 								{/* Only on Mobile and Tablet */}
 								<MobileStepsWrapper>
-									<MobileSteps steps={steps} currentStep={step.current + 1} />
+									<MobileSteps steps={steps} currentStep={step.current} />
 								</MobileStepsWrapper>
 
 								{/* Only on Laptop and Desktop */}

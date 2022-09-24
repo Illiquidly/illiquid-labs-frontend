@@ -27,7 +27,7 @@ function MobileSteps({ steps, currentStep }: MobileStepsProps) {
 		<Flex sx={{ flexDirection: 'column' }}>
 			<Flex sx={{ mb: '13px' }}>
 				{steps.map(({ id }) => (
-					<StepBox key={id} checked={currentStep > id} />
+					<StepBox key={id} checked={currentStep >= id} />
 				))}
 			</Flex>
 			<Card sx={{ p: ['16px 12px'] }}>
