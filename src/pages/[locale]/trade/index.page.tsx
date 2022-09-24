@@ -17,12 +17,12 @@ import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import * as yup from 'yup'
 import { listTradeOffers } from 'services/blockchain'
+import * as yup from 'yup'
 
-import { asyncAction } from 'utils/js/asyncAction'
-import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { useBroadcastingTx } from 'hooks'
+import { TxReceipt } from 'services/blockchain/blockchain.interface'
+import { asyncAction } from 'utils/js/asyncAction'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 import {
 	BodyContainer,
@@ -124,7 +124,7 @@ export default function Trade() {
 						{/* Only Mobile And Tablet */}
 						<HeaderSubtitleContainer>
 							<Text color='gray1000' variant='textMdBold'>
-								1/4
+								{`${step.current}/${steps.length}`}
 							</Text>
 						</HeaderSubtitleContainer>
 					</HeaderContainer>
@@ -133,6 +133,7 @@ export default function Trade() {
 					<FormProvider {...formMethods}>
 						<form onSubmit={formMethods.handleSubmit(onSubmit)}>
 							<BodyContainer>
+								{/* Only on Mobile and Tablet */}
 								<MobileStepsWrapper>
 									<MobileSteps steps={steps} currentStep={step.current} />
 								</MobileStepsWrapper>
