@@ -38,7 +38,7 @@ ModalBody.defaultProps = {
 	sx: {
 		bg: 'dark100',
 		flex: 1,
-		p: ['16px', '25px 33.5px', '32px 112px'],
+		p: ['20px', '24px 32px', '32px 112px'],
 		borderRadius: [0, 0, '16px 16px 0px 0px'],
 		overflow: 'hidden',
 		justifyContent: 'center',
