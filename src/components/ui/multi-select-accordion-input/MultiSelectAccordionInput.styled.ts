@@ -158,6 +158,7 @@ export const CheckboxContainer = styled.div`
 `
 
 export const ExtraLabel = styled.div`
+	text-align: end;
 	flex: 1;
 	font-style: normal;
 	font-weight: 400;
