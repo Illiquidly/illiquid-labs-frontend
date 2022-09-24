@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { ModifierPhases } from '@popperjs/core'
 import { AccordionChevronDownIcon } from 'assets/icons/mixed'
@@ -44,6 +45,8 @@ function DropdownMultiselect(props: DropdownMultiselectProps) {
 		React.useState<HTMLButtonElement | null>(null)
 	const [popperElement, setPopperElement] =
 		React.useState<HTMLDivElement | null>(null)
+
+	const theme = useTheme()
 
 	const containerRef = React.useRef<HTMLDivElement>(null)
 
@@ -110,7 +113,11 @@ function DropdownMultiselect(props: DropdownMultiselectProps) {
 				</Flex>
 			</Button>
 			{expanded && (
-				<div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+				<div
+					ref={setPopperElement}
+					style={{ ...styles.popper, zIndex: theme.zIndices.dropdown }}
+					{...attributes.popper}
+				>
 					<MultiSelectAccordionInput {...rest} />
 				</div>
 			)}
