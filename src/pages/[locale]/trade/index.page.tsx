@@ -124,7 +124,7 @@ export default function Trade() {
 						{/* Only Mobile And Tablet */}
 						<HeaderSubtitleContainer>
 							<Text color='gray1000' variant='textMdBold'>
-								{`${step.current}/${steps.length}`}
+								{`${step.current + 1}/${steps.length}`}
 							</Text>
 						</HeaderSubtitleContainer>
 					</HeaderContainer>
@@ -135,7 +135,7 @@ export default function Trade() {
 							<BodyContainer>
 								{/* Only on Mobile and Tablet */}
 								<MobileStepsWrapper>
-									<MobileSteps steps={steps} currentStep={step.current} />
+									<MobileSteps steps={steps} currentStep={step.current + 1} />
 								</MobileStepsWrapper>
 
 								{/* Only on Laptop and Desktop */}
