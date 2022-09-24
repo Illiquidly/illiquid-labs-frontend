@@ -77,7 +77,7 @@ export interface TradesResponse {
 
 type TradeFilters = {
 	tradeId?: string[]
-	state?: string[]
+	states?: string[]
 	collections?: string[]
 	lookingFor?: string[]
 	counteredBy?: string[]
@@ -111,9 +111,9 @@ export class TradesService {
 						'filters.tradeId': filters?.tradeId,
 				  }
 				: {}),
-			...((filters?.state || [])?.length
+			...((filters?.states || [])?.length
 				? {
-						'filters.state': filters?.state,
+						'filters.state': filters?.states,
 				  }
 				: {}),
 			...((filters?.collections || [])?.length

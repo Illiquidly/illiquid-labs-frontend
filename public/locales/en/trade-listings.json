@@ -19,7 +19,14 @@
 		"looking-for-liquid-assets-label": "Looking for liquid assets",
 		"search-collections-placeholder": "Search collections..."
 	},
-	"statuses": ["Active", "Inactive", "Cancelled", "Published", "Countered"],
+	"statuses": [
+		"Active",
+		"Inactive",
+		"Cancelled",
+		"Published",
+		"Countered",
+		"Accepted"
+	],
 	"tabs": {
 		"all-listings": "All Listings",
 		"my-listings": "My Listings"

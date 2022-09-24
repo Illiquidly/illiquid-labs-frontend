@@ -35,6 +35,7 @@ import { asyncAction } from 'utils/js/asyncAction'
 import { TradesService } from 'services/api/tradesService'
 import { noop } from 'lodash'
 import { NFT } from 'services/api/walletNFTsService'
+import { TRADE_STATE } from 'services/blockchain'
 import {
 	AccordionContentWrapper,
 	DesktopFiltersSection,
@@ -87,23 +88,27 @@ export default function TradeListings() {
 	const statusOptions = [
 		{
 			label: statusesLabels[0],
-			value: 'active',
+			value: JSON.stringify([TRADE_STATE.Published, TRADE_STATE.Countered]),
 		},
 		{
 			label: statusesLabels[1],
-			value: 'inactive',
+			value: JSON.stringify([TRADE_STATE.Cancelled, TRADE_STATE.Accepted]),
 		},
 		{
 			label: statusesLabels[2],
-			value: 'cancelled',
+			value: JSON.stringify([TRADE_STATE.Cancelled]),
 		},
 		{
 			label: statusesLabels[3],
-			value: 'published',
+			value: JSON.stringify([TRADE_STATE.Published]),
 		},
 		{
 			label: statusesLabels[4],
-			value: 'countered',
+			value: JSON.stringify([TRADE_STATE.Countered]),
+		},
+		{
+			label: statusesLabels[5],
+			value: JSON.stringify([TRADE_STATE.Accepted]),
 		},
 	]
 	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.BIG))
@@ -114,9 +119,13 @@ export default function TradeListings() {
 		LISTINGS_TYPE.ALL_LISTINGS
 	)
 
+	// TODO: Uncomment this when backend operates normally
+	// const [activeTradesOption] = statusOptions
 	const [statuses, setStatuses] = React.useState<
 		MultiSelectAccordionInputOption[]
-	>([])
+	>([
+		// activeTradesOption
+	])
 	const [lookingForCollections, setLookingForCollections] = React.useState<
 		MultiSelectAccordionInputOption[]
 	>([])
@@ -147,7 +156,7 @@ export default function TradeListings() {
 			TradesService.getAllTrades(wallet.network.name, {
 				owners:
 					listingsType === LISTINGS_TYPE.MY_LISTINGS ? [myAddress] : undefined,
-				state: statuses.map(({ value }) => value),
+				states: statuses.flatMap(({ value }) => JSON.parse(value)),
 				collections: collections.map(({ value }) => value),
 				lookingFor: lookingForCollections.map(({ value }) => value),
 				counteredBy: counteredByMeChecked ? [myAddress] : undefined,
