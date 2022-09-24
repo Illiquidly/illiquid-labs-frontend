@@ -30,5 +30,27 @@
 	"tabs": {
 		"all-listings": "All Listings",
 		"my-listings": "My Listings"
+	},
+	"remove-modal": {
+		"title": "Remove listing",
+		"answer": "This action cannot be undone and you will lose any current counter offers! To proceed with the removal, make a selection below.",
+		"question": "Are you sure you’d like to remove this listing?",
+		"radio-text": "Yes, I’m absolutely sure. Please remove my listing!",
+		"edit-listing": "Edit Listing",
+		"remove-listing": "Remove Listing",
+		"create-new-listing": "Create New Listing",
+		"go-to-dashboard": "Go to Dashboard",
+		"removal-succesful": "Your listing has been successfully removed!",
+		"create-listing-suggestion": "Feel free to create another listing at any time"
+	},
+	"edit-modal": {
+		"title": "Edit listing",
+		"specific-collections-tokens": "Specific collections & tokens",
+		"open-to-any-offers": "Open to any offers",
+		"discard-changes": "Discard Changes",
+		"update-listing": "Update Listing",
+		"interested-in": "I'm interested in",
+		"tokens-interested-in": "Tokens I'm interested in",
+		"write-comment": "Write a comment"
 	}
 }
