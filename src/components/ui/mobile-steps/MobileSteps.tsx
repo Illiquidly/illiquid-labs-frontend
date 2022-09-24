@@ -34,7 +34,7 @@ function MobileSteps({ steps, currentStep }: MobileStepsProps) {
 				<Flex sx={{ alignItems: 'center' }}>
 					<Flex sx={{ alignItems: 'center', mr: ['12px'] }}>
 						<Circle>
-							<CheckLineIcon fill={theme.colors.gray1000} />
+							<CheckLineIcon fill={theme.colors.natural50} />
 						</Circle>
 					</Flex>
 					<Text color='gray1000' variant='textMdSemibold'>
