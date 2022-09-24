@@ -108,8 +108,8 @@ NFTCardContainer.defaultProps = {
 		display: 'grid',
 		gridTemplateColumns: [
 			'repeat(auto-fill, minmax(200px, 1fr))',
-			'repeat(auto-fill, minmax(332px, 1fr))',
-			'repeat(auto-fill, minmax(280px, 1fr))',
+			'repeat(auto-fill, minmax(240px, 1fr))',
+			'repeat(auto-fill, minmax(240px, 1fr))',
 		],
 		gridColumnGap: ['8px', '16px', '32px'],
 		gridRowGap: ['8px', '16px', '32px'],
