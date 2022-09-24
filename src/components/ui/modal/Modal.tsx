@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { ThemeUIStyleObject } from 'theme-ui'
+import { Global, css } from '@emotion/react'
 import { useOnClickOutside } from 'utils/react/useOnClickOutside'
 import { ModalContainer, ModalWrapper } from './Modal.styled'
 
@@ -20,22 +21,23 @@ const Modal: React.FunctionComponent<ModalProps> = ({
 	const containerRef = useRef(null)
 	useOnClickOutside(containerRef, onCloseModal)
 
-	useEffect(() => {
-		if (isOpen) {
-			document.querySelector('body')?.classList.add('overflow')
-		} else {
-			document.querySelector('body')?.classList.remove('overflow')
-		}
-	}, [isOpen])
-
 	if (!isOpen) return null
 
 	return (
-		<ModalWrapper isOpen={isOpen}>
-			<ModalContainer ref={containerRef} isOverHeader={isOverHeader}>
-				{children}
-			</ModalContainer>
-		</ModalWrapper>
+		<>
+			<Global
+				styles={css`
+					body {
+						overflow: hidden;
+					}
+				`}
+			/>
+			<ModalWrapper isOpen={isOpen}>
+				<ModalContainer ref={containerRef} isOverHeader={isOverHeader}>
+					{children}
+				</ModalContainer>
+			</ModalWrapper>
+		</>
 	)
 }
 

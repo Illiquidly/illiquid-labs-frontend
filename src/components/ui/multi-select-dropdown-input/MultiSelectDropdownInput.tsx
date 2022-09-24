@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
+import { ModifierPhases } from '@popperjs/core'
+import { CheckboxCheckedIcon } from 'assets/icons/mixed'
 import InputDismissIcon from 'assets/icons/mixed/components/InputDismissIcon'
+import { noop } from 'lodash'
 import React from 'react'
 import { usePopper } from 'react-popper'
-import { ModifierPhases } from '@popperjs/core'
-import { noop } from 'lodash'
-import { CheckboxCheckedIcon } from 'assets/icons/mixed'
 import { useOnClickOutside } from 'utils/react/useOnClickOutside'
 import {
 	Circle,
@@ -18,7 +18,7 @@ import {
 	MultiSelectDropdownInputStyled,
 } from './MultiSelectDropdownInput.styled'
 
-export type MultiSelectDropdownInputOption = {
+export type MultiSelectInputOption = {
 	label: string
 	value: string
 }
@@ -36,9 +36,9 @@ type SearchStrategy = ({
 }) => boolean
 export interface MultiSelectDropdownInputProps {
 	error?: boolean
-	options?: MultiSelectDropdownInputOption[]
-	onChange?: (o: MultiSelectDropdownInputOption[]) => void
-	value?: MultiSelectDropdownInputOption[]
+	options?: MultiSelectInputOption[]
+	onChange?: (o: MultiSelectInputOption[]) => void
+	value?: MultiSelectInputOption[]
 	defaultSearch?: string
 	defaultOpen?: boolean
 	dropdownTitle?: string
@@ -169,10 +169,14 @@ const MultiSelectDropdownInput = React.forwardRef<
 					)}
 				</IconContainer>
 				{isDropdownOpen && (
-					<div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+					<div
+						ref={setPopperElement}
+						style={{ ...styles.popper, zIndex: 3000 }}
+						{...attributes.popper}
+					>
 						<DropdownContainer>
 							<DropdownContent>
-								<DropdownTitle>{dropdownTitle}</DropdownTitle>
+								{dropdownTitle && <DropdownTitle>{dropdownTitle}</DropdownTitle>}
 
 								{filteredOptions.map(({ value: inputValue, label }) => {
 									const checked = value.some(o => o.value === inputValue)

@@ -171,7 +171,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 										}
 									>
 										<CheckboxContainer>
-											<Checkbox checked={checked} />
+											<Checkbox onChange={noop} checked={checked} />
 										</CheckboxContainer>
 										<Label>{label}</Label>
 									</Flex>
