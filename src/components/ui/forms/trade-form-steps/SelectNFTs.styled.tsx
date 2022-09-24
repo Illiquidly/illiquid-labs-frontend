@@ -78,9 +78,15 @@ ListOfSelectedNFTsCard.defaultProps = {
 	},
 }
 
-export const NFTCardsContainer = styled.div`
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 8px;
-	padding-top: 24px;
-`
+export const NFTCardsContainer = styled(Box)``
+
+NFTCardsContainer.defaultProps = {
+	sx: {
+		display: ['flex', 'grid'],
+		gap: '8px',
+		paddingTop: '24px',
+		overflowX: ['auto'],
+		flexWrap: ['nowrap'],
+		gridTemplateColumns: [null, 'repeat(3, 1fr)'],
+	},
+}
