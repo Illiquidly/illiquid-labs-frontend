@@ -59,7 +59,7 @@ function ListingCard({
 	disabled,
 	unavailable,
 	unavailableText,
-	lookingForItemsLimit = 4,
+	lookingForItemsLimit = 3,
 	previewItemsLimit = 4,
 	isPrivate,
 	...NFTProps

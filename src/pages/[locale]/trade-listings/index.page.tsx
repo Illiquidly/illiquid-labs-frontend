@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next'
 
 import {
 	LayoutContainer,
-	ListingCard,
 	Page,
 	SearchInput,
 	Tab,
@@ -33,8 +32,7 @@ import useIsMobile from 'hooks/react/useIsMobile'
 import NiceModal from '@ebay/nice-modal-react'
 import { asyncAction } from 'utils/js/asyncAction'
 import { TradesService } from 'services/api/tradesService'
-import { noop } from 'lodash'
-import { NFT } from 'services/api/walletNFTsService'
+
 import { TRADE_STATE } from 'services/blockchain'
 import {
 	AccordionContentWrapper,
@@ -44,12 +42,13 @@ import {
 	FiltersButtonLabel,
 	FiltersSection,
 	GridSwitchContainer,
-	ListingNFTsGrid,
 	ListingsNFTsContainer,
 	SearchInputContainer,
 	SortSelectContainer,
 	TabsSection,
-} from './trade-listings.styled'
+	GridController,
+	GRID_TYPE,
+} from 'components/trade-listings'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -60,17 +59,12 @@ enum LISTINGS_TYPE {
 	MY_LISTINGS = '1',
 }
 
-enum GRID_TYPE {
-	SMALL = 0,
-	BIG = 1,
-}
-
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const wallet = useWallet()
 
 	const isMobile = useIsMobile()
-	const [filtersExpanded, setFiltersExpanded] = React.useState(true)
+	const [filtersExpanded, setFiltersExpanded] = React.useState(false)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
 			['verifiedCollections', wallet.network],
@@ -111,7 +105,7 @@ export default function TradeListings() {
 			value: JSON.stringify([TRADE_STATE.Accepted]),
 		},
 	]
-	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.BIG))
+	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.SMALL))
 
 	const myAddress = wallet.wallets[0]?.terraAddress
 
@@ -349,48 +343,7 @@ export default function TradeListings() {
 							</DesktopFiltersSection>
 						)}
 						<Box sx={{ width: '100%' }}>
-							<ListingNFTsGrid>
-								{(trades?.data || []).map(
-									({
-										tradeId,
-										tradeInfo: {
-											additionalInfo,
-											associatedAssetsWithInfo,
-											whitelistedUsers,
-										},
-									}) => (
-										<Box>
-											<ListingCard
-												key={tradeId}
-												onLike={noop}
-												unavailableText={t('trade-listings:listing-unavailable')}
-												description={
-													additionalInfo?.tradePreview?.cw721Coin?.description ?? ''
-												}
-												attributes={
-													additionalInfo?.tradePreview?.cw721Coin?.attributes ?? []
-												}
-												tokenId={additionalInfo?.tradePreview?.cw721Coin?.tokenId ?? ''}
-												collectionAddress={
-													additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
-												}
-												href={`/trade-listings/${tradeId}`}
-												nfts={(associatedAssetsWithInfo || [])
-													.filter(nft => nft.cw721Coin)
-													.map(({ cw721Coin }) => cw721Coin as NFT)}
-												lookingFor={additionalInfo?.lookingFor ?? []}
-												imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
-												name={additionalInfo?.tradePreview?.cw721Coin?.name ?? ''}
-												liked={false}
-												isPrivate={(whitelistedUsers || []).length > 0}
-												collectionName={
-													additionalInfo?.tradePreview?.cw721Coin?.collectionName || ''
-												}
-											/>
-										</Box>
-									)
-								)}
-							</ListingNFTsGrid>
+							<GridController trades={trades} gridType={Number(gridType)} />
 							<Flex sx={{ width: '100%', marginTop: '14px' }}>
 								{trades?.data && !!trades.data?.length && (
 									<Button

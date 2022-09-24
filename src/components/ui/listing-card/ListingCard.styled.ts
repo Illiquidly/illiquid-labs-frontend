@@ -50,6 +50,7 @@ export const LookingForSection = styled(Flex)`
 	flex-direction: column;
 	margin-top: 12px;
 	height: 88.6px;
+	overflow: hidden;
 `
 
 export const LookingForTitle = styled(Box)`
