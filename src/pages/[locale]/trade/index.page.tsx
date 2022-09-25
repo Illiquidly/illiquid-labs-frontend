@@ -23,12 +23,12 @@ import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { listTradeOffers } from 'services/blockchain'
 
+import * as ROUTES from 'constants/routes'
 import { useBroadcastingTx } from 'hooks'
+import useHeaderActions from 'hooks/useHeaderActions'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { asyncAction } from 'utils/js/asyncAction'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
-import useHeaderActions from 'hooks/useHeaderActions'
-import * as ROUTES from 'constants/routes'
 import {
 	BodyContainer,
 	Container,
@@ -178,8 +178,6 @@ export default function Trade() {
 									<ConfirmListing goBackStep={goBackStep} setStep={setStep} />
 								)}
 							</BodyContainer>
-
-							<button type='submit'>test submit</button>
 						</form>
 					</FormProvider>
 				</Container>
