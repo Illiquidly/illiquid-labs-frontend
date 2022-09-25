@@ -103,7 +103,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 						<If condition={selectedCollections.length > 0}>
 							<If.Then>
 								{selectedCollections.map(selectedCollection => (
-									<Chip isViewMode key={selectedCollection.value}>
+									<Chip isViewMode flexGrowItems key={selectedCollection.value}>
 										{selectedCollection.label}
 									</Chip>
 								))}
