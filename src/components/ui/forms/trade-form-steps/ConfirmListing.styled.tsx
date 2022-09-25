@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { Card } from 'components'
 
-import { Flex, Text } from 'theme-ui'
+import { Box, Flex, Text } from 'theme-ui'
 
 export const ContentCardWrapper = styled.div`
 	flex: 1;
@@ -113,9 +113,15 @@ export const NoContent = styled.p`
 	margin: 0;
 `
 
-export const NFTCardsContainer = styled.div`
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 8px;
-	padding-bottom: 48px;
-`
+export const NFTCardsContainer = styled(Box)``
+
+NFTCardsContainer.defaultProps = {
+	sx: {
+		display: ['flex', 'grid'],
+		gridTemplateColumns: [null, 'repeat(3, 1fr)'],
+		overflowX: 'auto',
+		flexWrap: 'nowrap',
+		gap: '8px',
+		paddingBottom: ['24px', '48px'],
+	},
+}
