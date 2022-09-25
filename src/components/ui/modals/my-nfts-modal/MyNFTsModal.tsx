@@ -1,7 +1,7 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { useTheme } from '@emotion/react'
 import { ModalCloseIcon } from 'assets/icons/modal'
-import { Modal } from 'components'
+import { DropdownMultiselect, Modal, MultiSelectInputOption } from 'components'
 import { Button } from 'components/ui/button'
 import { CheckboxCard } from 'components/ui/checkbox-card'
 import { OnlyMobileAndTablet } from 'components/ui/layout'
@@ -49,13 +49,16 @@ export const MyNFTsModal = NiceModal.create(
 		const wallet = useWallet()
 		const modal = useModal()
 		const theme = useTheme()
-		const [collectionAddresses, setCollectionAddresses] = React.useState<
-			string[]
+		const [selectedCollections, setSelectedCollections] = React.useState<
+			MultiSelectInputOption[]
 		>([])
+
+		const [dropdownRefElement, setDropdownRefElement] =
+			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
 
 		const { ownedNFTs, ownedCollections } = useMyNFTs({
-			collectionAddresses,
+			collectionAddresses: selectedCollections.map(({ value }) => value),
 			name: searchName,
 		})
 
@@ -134,9 +137,27 @@ export const MyNFTsModal = NiceModal.create(
 									<OnlyMobileAndTablet>
 										<Box sx={{ height: ['8px'] }} />
 										<Flex sx={{ height: ['50px'], gap: 10 }}>
-											<Box sx={{ flex: 1, bg: 'pink' }} />
+											<DropdownMultiselect
+												dropdownReferenceElement={dropdownRefElement}
+												label='Collections'
+												value={selectedCollections}
+												onChange={collections => setSelectedCollections(collections)}
+												options={ownedCollections.map(
+													({ collectionName, collectionAddress }) => ({
+														label: collectionName,
+														value: collectionAddress,
+													})
+												)}
+											/>
 											<Box sx={{ flex: 1, bg: 'red' }} />
 										</Flex>
+										<div
+											ref={setDropdownRefElement}
+											style={{
+												width: '100%',
+												height: '0px',
+											}}
+										/>
 									</OnlyMobileAndTablet>
 									<Flex sx={{ mt: ['8px'], display: ['flex', 'flex', 'none'] }}>
 										<Button
@@ -157,22 +178,30 @@ export const MyNFTsModal = NiceModal.create(
 							<MyNFTsBody>
 								<CollectionFiltersSection>
 									{ownedCollections.map(({ collectionAddress, collectionName }) => {
-										const checked = collectionAddresses.includes(collectionAddress)
+										const checked = selectedCollections
+											.map(({ value }) => value)
+											.includes(collectionAddress)
 
 										const setCollections = prevCollectionAddresses => {
 											if (checked) {
-												return collectionAddresses.filter(
-													address => address !== collectionAddress
+												return selectedCollections.filter(
+													collection => collection.value !== collectionAddress
 												)
 											}
-											return [...new Set([...prevCollectionAddresses, collectionAddress])]
+											return [
+												...prevCollectionAddresses,
+												{
+													label: collectionName,
+													value: collectionAddress,
+												},
+											]
 										}
 
 										return (
 											<Box sx={{ flex: 1, maxHeight: '66px' }}>
 												<CheckboxCard
 													checked={checked}
-													onChange={() => setCollectionAddresses(setCollections)}
+													onChange={() => setSelectedCollections(setCollections)}
 													key={collectionAddress}
 													title={collectionName}
 												/>

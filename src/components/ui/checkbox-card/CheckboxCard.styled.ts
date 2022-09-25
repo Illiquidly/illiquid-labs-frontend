@@ -45,6 +45,7 @@ export const Title = styled.div<{ variant?: 'small' | 'medium' }>`
 `
 
 export const Extra = styled.div<{ variant?: 'small' | 'medium' }>`
+	text-align: end;
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400;

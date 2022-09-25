@@ -50,6 +50,7 @@ export const LookingForSection = styled(Flex)`
 	flex-direction: column;
 	margin-top: 12px;
 	height: 88.6px;
+	overflow: hidden;
 `
 
 export const LookingForTitle = styled(Box)`
@@ -125,7 +126,7 @@ export const PreviewNFTsSection = styled.div`
 	overflow: hidden;
 	gap: 4px;
 
-	width: 166px;
+	max-width: 166px;
 
 	background: rgba(72, 74, 77, 0.3);
 
@@ -155,6 +156,9 @@ export const PreviewImageContainer = styled.div`
 	height: 31px;
 	overflow: hidden;
 	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `
 
 export const ListingOverlay = styled(Flex)`

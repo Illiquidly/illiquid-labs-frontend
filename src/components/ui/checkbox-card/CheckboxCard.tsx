@@ -39,7 +39,7 @@ function CheckboxCard({
 					title
 				)}
 			</Flex>
-			<Flex sx={{ flex: 1 }}>
+			<Flex sx={{ flex: 1, justifyContent: 'flex-end' }}>
 				{typeof extra === 'string' ? (
 					<Extra variant={variant}>{extra}</Extra>
 				) : (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import MultiSelectDropdownInput, {
-	MultiSelectDropdownInputOption,
+	MultiSelectInputOption,
 } from './MultiSelectDropdownInput'
 
 export default {
@@ -15,7 +15,7 @@ export default {
 
 export const MultiSelectDropdownInputExample = () => {
 	const [selectedOptions, setSelectedOptions] = React.useState<
-		MultiSelectDropdownInputOption[]
+		MultiSelectInputOption[]
 	>([])
 
 	return (

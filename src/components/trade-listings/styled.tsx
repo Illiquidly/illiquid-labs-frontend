@@ -66,23 +66,6 @@ ListingsNFTsContainer.defaultProps = {
 	sx: { mt: ['12px', '32px'], mb: ['128px'] },
 }
 
-export const ListingNFTsGrid = styled(Flex)``
-
-ListingNFTsGrid.defaultProps = {
-	sx: {
-		display: 'grid',
-		gridTemplateColumns: [
-			'repeat(auto-fill, minmax(345px, 1fr))',
-			'repeat(auto-fill, minmax(332px, 1fr))',
-			'repeat(auto-fill, minmax(245px, 1fr))',
-		],
-		gridColumnGap: ['16px', '25px', '14px'],
-		gridRowGap: ['8px', '16px', '18px'],
-		width: [null, null, '100%'],
-		overflow: 'auto',
-	},
-}
-
 export const DesktopFiltersSection = styled(Flex)``
 
 DesktopFiltersSection.defaultProps = {

@@ -1,5 +1,6 @@
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
+import { withForwardRef } from 'hoc'
 import { noop } from 'lodash'
 import React from 'react'
 import { Button as ThemeUIButton, NavLink, ThemeUIStyleObject } from 'theme-ui'
@@ -11,6 +12,7 @@ export interface ButtonProps {
 	disabled?: boolean
 	sx?: ThemeUIStyleObject
 	href?: string
+	forwardedRef?: React.LegacyRef<HTMLButtonElement | HTMLAnchorElement>
 
 	// Style variants
 	variant?:
@@ -20,6 +22,7 @@ export interface ButtonProps {
 		| 'destructive'
 		| 'dark'
 		| 'gradient'
+		| 'select'
 
 	// Size variants
 	size?: 'small' | 'medium' | 'large' | 'extraLarge'
@@ -49,7 +52,6 @@ export const StartIconContainer = styled.span`
 export const EndIconContainer = styled.span`
 	margin-left: 11px;
 `
-
 const Button = ({ children, ...props }: ButtonProps) => {
 	const theme = useTheme()
 
@@ -59,6 +61,7 @@ const Button = ({ children, ...props }: ButtonProps) => {
 		// loading,
 		size = 'medium',
 		href,
+		forwardedRef,
 		...attrs
 	} = props
 
@@ -67,6 +70,7 @@ const Button = ({ children, ...props }: ButtonProps) => {
 			<Link href={href} passHref>
 				<StyledNavLink
 					href={href}
+					ref={forwardedRef as React.Ref<HTMLAnchorElement>}
 					{...attrs}
 					sx={{
 						...theme.links.sizes[size],
@@ -86,15 +90,18 @@ const Button = ({ children, ...props }: ButtonProps) => {
 	return (
 		<StyledButton
 			{...attrs}
+			ref={forwardedRef as React.Ref<HTMLButtonElement>}
 			sx={{
 				...theme.buttons.sizes[size],
 				...props.sx,
 			}}
 		>
 			{/* {loading ? <LoadingCircular size={16} /> : icon} */}
-			{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
-			{children}
-			{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
+			<>
+				{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
+				{children}
+				{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
+			</>
 		</StyledButton>
 	)
 }
@@ -110,11 +117,8 @@ Button.defaultProps = {
 	// Size variants
 	size: 'medium',
 
-	// Icons
-	startIcon: undefined,
-	endIcon: undefined,
 	onClick: noop,
 	sx: {},
 }
 
-export default Button
+export default withForwardRef<HTMLButtonElement, ButtonProps>(Button)

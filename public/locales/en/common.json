@@ -23,10 +23,19 @@
 	"looking-for": "looking for",
 	"filters-label": "Filters",
 	"edit": "Edit",
+	"any-offer": "Any offer",
 	"nft_zero": "{{count}} NFTs",
 	"nft_one": "{{count}} NFT",
 	"nft_other": "{{count}} NFTs",
 	"create-another": "Create Another",
 	"tweet": "Tweet",
-	"apply": "Apply"
+	"apply": "Apply",
+	"search-collections": "Search Collections",
+	"errors": {
+		"trade-form-steps-token-is-required": "Token or one collection is required",
+		"trade-forms-steps-token-must-be-positive": "Token amount must be a positive number",
+		"trade-form-steps-token-must-be-number": "Token amount must be a number",
+		"trade-form-steps-wallet-address-not-valid": "Wallet address is not valid",
+		"trade-form-steps-min-one-collections-selected": "Token or one collection is required"
+	}
 }
