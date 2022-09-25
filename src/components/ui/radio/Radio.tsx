@@ -1,5 +1,5 @@
-import React from 'react'
 import styled from '@emotion/styled'
+import React from 'react'
 import withRadioInputGroup from './hoc/withRadioInputGroup'
 
 export const Container = styled.div<{ disabled?: boolean }>`
@@ -65,7 +65,7 @@ export const RadioInput = React.forwardRef<HTMLInputElement, RadioProps>(
 
 		const { name, onChange, value: inputGroupValue = '' } = inputGroup
 
-		const checked = value?.toString() === inputGroupValue.toString()
+		const checked = value?.toString() === inputGroupValue?.toString()
 
 		// We can disable the whole radio group with <RadioInputGroup disabled> or just one input with <RadioInput disabled>
 		const disabled = disabledByProps || inputGroup.disabled

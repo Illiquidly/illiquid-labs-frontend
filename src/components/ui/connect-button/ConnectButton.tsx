@@ -1,13 +1,12 @@
 import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
+import useIsTablet from 'hooks/react/useIsTablet'
 import { useTranslation } from 'next-i18next'
-import useIsMobile from 'hooks/react/useIsMobile'
-import React from 'react'
 import { Button } from '../button'
 
 export default function ConnectButton() {
 	const { status, connect, disconnect } = useWallet()
 
-	const isMobile = useIsMobile()
+	const isTablet = useIsTablet()
 
 	const { t } = useTranslation('common')
 
@@ -16,7 +15,7 @@ export default function ConnectButton() {
 			onClick={() =>
 				status === WalletStatus.WALLET_CONNECTED
 					? disconnect()
-					: connect(isMobile ? ConnectType.WALLETCONNECT : undefined)
+					: connect(isTablet ? ConnectType.WALLETCONNECT : undefined)
 			}
 			variant='secondary'
 			size='medium'

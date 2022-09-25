@@ -1,5 +1,5 @@
-import React from 'react'
 import styled from '@emotion/styled'
+import React from 'react'
 import withRadioInputGroup from './hoc/withRadioInputGroup'
 import { RadioInput } from './Radio'
 
@@ -71,7 +71,7 @@ const RadioCardInput = React.forwardRef<HTMLInputElement, RadioCardProps>(
 
 		const { value: inputGroupValue = '' } = inputGroup
 
-		const checked = props.value?.toString() === inputGroupValue.toString()
+		const checked = props.value?.toString() === inputGroupValue?.toString()
 
 		const handleClick = () => inputRef?.current?.click()
 

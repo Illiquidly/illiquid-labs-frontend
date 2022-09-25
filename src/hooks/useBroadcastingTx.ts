@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { useState, useEffect } from 'react'
-import scrollToBottom from 'utils/react/scrollToBottom'
-import terraUtils from 'utils/blockchain/terraUtils'
 import { parseTxResult } from 'utils/blockchain/parseTxResult'
-import useIsMobile from './react/useIsMobile'
+import terraUtils from 'utils/blockchain/terraUtils'
+import scrollToBottom from 'utils/react/scrollToBottom'
+import useIsTablet from './react/useIsTablet'
 
 export const useBroadcastingTx = (
 	txId?: TxReceipt['txId'],
@@ -18,7 +18,7 @@ export const useBroadcastingTx = (
 	const [loading, setLoading] = useState(initialLoading)
 	const [broadcasted, setBroadcasted] = useState(false)
 
-	const isMobile = useIsMobile()
+	const isTablet = useIsTablet()
 
 	const desktopLoadingText = loading.send
 		? 'Check your wallet...'
@@ -28,7 +28,7 @@ export const useBroadcastingTx = (
 	const loadingText =
 		// eslint-disable-next-line no-nested-ternary
 		loading.send || loading.broadcasting
-			? isMobile
+			? isTablet
 				? mobileLoadingText
 				: desktopLoadingText
 			: false

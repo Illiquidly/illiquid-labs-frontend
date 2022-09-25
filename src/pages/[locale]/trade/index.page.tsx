@@ -56,6 +56,7 @@ export default function Trade() {
 		defaultValues: {
 			selectedNFTs: [],
 			tokenName: 'LUNA',
+			lookingForType: undefined,
 		},
 	})
 

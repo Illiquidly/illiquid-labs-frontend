@@ -1,35 +1,35 @@
-import React from 'react'
 import { useTranslation } from 'next-i18next'
+import React from 'react'
 
-import {
-	LayoutContainer,
-	ListingCard,
-	Page,
-	SearchInput,
-	Tab,
-	Tabs,
-	Accordion,
-	AccordionTitle,
-	MultiSelectAccordionInput,
-	CheckboxCard,
-	GridSwitch,
-	TradeListingsFilterModal,
-	TradeListingsFilterModalProps,
-} from 'components/ui'
-import { makeStaticPaths, makeStaticProps } from 'lib'
+import NiceModal from '@ebay/nice-modal-react'
+import { useQuery } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import {
 	CollectionsBoxesIcon,
 	FilterIcon,
 	LookingForCompassIcon,
 	TargetIcon,
 } from 'assets/icons/mixed'
-import { Box } from 'theme-ui'
+import {
+	Accordion,
+	AccordionTitle,
+	CheckboxCard,
+	GridSwitch,
+	LayoutContainer,
+	ListingCard,
+	MultiSelectAccordionInput,
+	Page,
+	SearchInput,
+	Tab,
+	Tabs,
+	TradeListingsFilterModal,
+	TradeListingsFilterModalProps,
+} from 'components/ui'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
-import { useQuery } from '@tanstack/react-query'
+import useIsTablet from 'hooks/react/useIsTablet'
+import { makeStaticPaths, makeStaticProps } from 'lib'
 import { SupportedCollectionsService } from 'services/api'
-import { useWallet } from '@terra-money/use-wallet'
-import useIsMobile from 'hooks/react/useIsMobile'
-import NiceModal from '@ebay/nice-modal-react'
+import { Box } from 'theme-ui'
 import { asyncAction } from 'utils/js/asyncAction'
 import {
 	AccordionContentWrapper,
@@ -64,7 +64,7 @@ export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const wallet = useWallet()
 
-	const isMobile = useIsMobile()
+	const isTablet = useIsTablet()
 	const [filtersExpanded, setFiltersExpanded] = React.useState(true)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
@@ -131,7 +131,7 @@ export default function TradeListings() {
 	)
 
 	const onFiltersClick = async () => {
-		if (!isMobile) {
+		if (!isTablet) {
 			setFiltersExpanded(prevFiltersExpanded => !prevFiltersExpanded)
 			return
 		}
