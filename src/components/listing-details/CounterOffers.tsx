@@ -195,7 +195,7 @@ export default function CounterOffers() {
 								variant='dark'
 								size='small'
 							>
-								Show more
+								{t('common:show-more')}
 							</Button>
 						</TableFooterRowCell>
 					</TableFooterRow>

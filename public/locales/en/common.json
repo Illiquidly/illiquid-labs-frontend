@@ -37,5 +37,6 @@
 		"trade-form-steps-token-must-be-number": "Token amount must be a number",
 		"trade-form-steps-wallet-address-not-valid": "Wallet address is not valid",
 		"trade-form-steps-min-one-collections-selected": "Token or one collection is required"
-	}
+	},
+	"show-more": "Show more"
 }

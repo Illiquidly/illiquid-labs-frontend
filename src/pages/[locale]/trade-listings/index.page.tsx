@@ -351,7 +351,7 @@ export default function TradeListings() {
 										fullWidth
 										variant='dark'
 									>
-										Show more
+										{t('common:show-more')}
 									</Button>
 								)}
 							</Flex>
