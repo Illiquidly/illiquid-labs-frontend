@@ -29,6 +29,10 @@ export const Background = styled.div<{ checked?: boolean; disabled?: boolean }>`
 	justify-content: flex-start;
 	gap: 8px;
 
+	@media screen and (max-width: ${props => props.theme.breakpoints[0]}) {
+		gap: 12px;
+	}
+
 	background: ${props =>
 		props.checked ? props.theme.colors.primary600 : props.theme.colors.dark100};
 
