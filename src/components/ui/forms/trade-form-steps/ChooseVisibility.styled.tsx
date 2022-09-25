@@ -129,7 +129,7 @@ MessageBox.defaultProps = {
 		fontSize: '16px',
 		lineHeight: '24px',
 		borderRadius: '8px',
-		padding: ['12px', null, '24px 12px'],
+		padding: ['12px 40px', null, '24px 12px'],
 		color: 'gray800',
 		backgroundColor: ['dark100', 'dark400'],
 	},
