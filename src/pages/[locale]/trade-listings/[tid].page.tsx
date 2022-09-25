@@ -5,13 +5,15 @@ import NiceModal from '@ebay/nice-modal-react'
 import {
 	AttributeCard,
 	BlueWarning,
+	Button,
+	ConnectButton,
 	LayoutContainer,
 	Page,
 	Wallet,
 	WalletItem,
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { Flex } from 'theme-ui'
+import { Box, Flex } from 'theme-ui'
 
 import {
 	CounterOffers,
@@ -22,6 +24,9 @@ import {
 	LookingForRow,
 } from 'components/listing-details'
 import { EditModal, RemoveModal } from 'components/listing-details/modals'
+import { CreateListingAddIcon } from 'assets/icons/mixed'
+import useHeaderActions from 'hooks/useHeaderActions'
+import * as ROUTES from 'constants/routes'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 /** todo: generate the static paths to tids */
@@ -158,6 +163,18 @@ const collectionName = 'Mutant Ape Yacht Club'
 
 export default function ListingDetails() {
 	const { t } = useTranslation(['common', 'trade-listings'])
+
+	useHeaderActions(
+		<Flex sx={{ gap: '8px', height: '40px' }}>
+			<Button variant='gradient' size='medium' href={ROUTES.CREATE_TRADE_LISTING}>
+				<CreateListingAddIcon />
+				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
+					{t('common:create-listing')}
+				</Box>
+			</Button>
+			<ConnectButton />
+		</Flex>
+	)
 
 	const [lookingFor, setLookingFor] = React.useState(lookingForStart)
 
