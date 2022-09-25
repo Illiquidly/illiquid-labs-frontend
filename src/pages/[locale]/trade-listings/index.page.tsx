@@ -15,10 +15,12 @@ import {
 	TradeListingsFilterModal,
 	TradeListingsFilterModalProps,
 	Button,
+	ConnectButton,
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import {
 	CollectionsBoxesIcon,
+	CreateListingAddIcon,
 	FilterIcon,
 	LookingForCompassIcon,
 	TargetIcon,
@@ -32,6 +34,7 @@ import useIsMobile from 'hooks/react/useIsMobile'
 import NiceModal from '@ebay/nice-modal-react'
 import { asyncAction } from 'utils/js/asyncAction'
 import { TradesService } from 'services/api/tradesService'
+import * as ROUTES from 'constants/routes'
 
 import { TRADE_STATE } from 'services/blockchain'
 import {
@@ -49,6 +52,7 @@ import {
 	GridController,
 	GRID_TYPE,
 } from 'components/trade-listings'
+import useHeaderActions from 'hooks/useHeaderActions'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -62,6 +66,18 @@ enum LISTINGS_TYPE {
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const wallet = useWallet()
+
+	useHeaderActions(
+		<Flex sx={{ gap: '8px', height: '40px' }}>
+			<Button variant='gradient' size='medium' href={ROUTES.CREATE_TRADE_LISTING}>
+				<CreateListingAddIcon />
+				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
+					{t('common:create-listing')}
+				</Box>
+			</Button>
+			<ConnectButton />
+		</Flex>
+	)
 
 	const isMobile = useIsMobile()
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)

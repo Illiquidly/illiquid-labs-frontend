@@ -7,7 +7,7 @@ import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { LayoutContainer, MobileSteps, Page, Steps } from 'components'
+import { Button, LayoutContainer, MobileSteps, Page, Steps } from 'components'
 import { SelectNFTs, TradeDetails } from 'components/ui/forms'
 import {
 	ChooseVisibility,
@@ -27,6 +27,8 @@ import { useBroadcastingTx } from 'hooks'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { asyncAction } from 'utils/js/asyncAction'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
+import useHeaderActions from 'hooks/useHeaderActions'
+import * as ROUTES from 'constants/routes'
 import {
 	BodyContainer,
 	Container,
@@ -46,6 +48,11 @@ export { getStaticPaths, getStaticProps }
 
 export default function Trade() {
 	const { t } = useTranslation(['common', 'trade'])
+	useHeaderActions(
+		<Button variant='secondary' size='medium' href={ROUTES.TRADE}>
+			{t('common:exit-create-listing')}
+		</Button>
+	)
 	const [txReceipt, setTxReceipt] = React.useState<TxReceipt | null>(null)
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
 	const { step, setStep, goNextStep, goBackStep } = useStep({ max: 3 })
