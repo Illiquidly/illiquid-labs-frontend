@@ -125,7 +125,7 @@ export const MyNFTsModal = NiceModal.create(
 									</OnlyMobileAndTablet>
 								</ModalContentHeader>
 								<Box sx={{ marginTop: ['16px', '32px'] }}>
-									<Flex sx={{ height: ['48px'], gap: '12px' }}>
+									<Flex sx={{ gap: '12px' }}>
 										<SearchContainer>
 											<SearchInput
 												onChange={e => setSearchName(e.target.value)}
