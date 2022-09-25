@@ -103,7 +103,10 @@ const ChooseVisibilityForm = () => {
 						<TextInput
 							id='walletAddress'
 							{...register('walletAddress')}
-							fieldError={errors.walletAddress}
+							fieldError={
+								errors.walletAddress &&
+								t(`common:errors.${errors.walletAddress.message}`)
+							}
 							error={!!errors.walletAddress}
 							placeholder={t('trade:choose-visibility.wallet-address-placeholder')}
 						/>

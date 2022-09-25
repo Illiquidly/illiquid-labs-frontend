@@ -1,13 +1,11 @@
 import styled from '@emotion/styled'
 import { AlertCircleIcon } from 'assets/icons/16pt'
-import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { FieldError } from 'react-hook-form'
 
 export interface TextInputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: boolean
-	fieldError?: FieldError
+	fieldError?: string
 	iconLeft?: React.ReactNode
 	iconRight?: React.ReactNode
 }
@@ -99,7 +97,6 @@ const StyledError = styled.p`
 	left: 0;
 	bottom: 0;
 	font-size: 14px;
-	background-color: blue;
 	color: ${props => props.theme.colors.error100};
 `
 
@@ -109,9 +106,9 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 		const inputRef = React.useRef<HTMLInputElement>(null)
 
 		const handleClick = () => inputRef?.current?.click()
-		const { t } = useTranslation('common')
 
 		React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
+
 		return (
 			<>
 				<Container
@@ -125,9 +122,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 					</TextInputStyled>
 					{props.error ? <AlertCircleIcon /> : iconRight}
 
-					<StyledError>
-						{fieldError?.message ? t(`errors.${fieldError.message}`) : null}
-					</StyledError>
+					<StyledError>{fieldError || null}</StyledError>
 				</Container>
 			</>
 		)

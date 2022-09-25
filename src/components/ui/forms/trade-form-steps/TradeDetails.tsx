@@ -78,7 +78,7 @@ const TradeDetailsCollectionSelector = () => {
 }
 
 const TradeDetailsForm = () => {
-	const { t } = useTranslation(['trade'])
+	const { t } = useTranslation(['common', 'trade'])
 	const {
 		register,
 		setValue,
@@ -180,7 +180,9 @@ const TradeDetailsForm = () => {
 						<TextInput
 							id='tokenAmount'
 							{...register('tokenAmount')}
-							fieldError={errors.tokenAmount}
+							fieldError={
+								errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
+							}
 							error={!!errors.tokenAmount}
 							placeholder={t('trade:trade-details.tokens-placeholder', {
 								token: 'Luna',
