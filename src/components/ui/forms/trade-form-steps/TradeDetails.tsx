@@ -173,7 +173,7 @@ const TradeDetailsForm = () => {
 						))}
 					</ChipsWrapper>
 
-					<div style={{ paddingTop: '24px' }}>
+					<div style={{ paddingTop: '8px' }}>
 						<Label htmlFor='tokenAmount'>
 							{t('trade:trade-details.tokens-label')}
 						</Label>
@@ -187,7 +187,7 @@ const TradeDetailsForm = () => {
 							})}
 						/>
 					</div>
-					<div style={{ paddingTop: '24px' }}>
+					<div style={{ paddingTop: '8px' }}>
 						<Label htmlFor='comment'>
 							{t('trade:trade-details.text-area-label')}
 						</Label>

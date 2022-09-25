@@ -21,6 +21,7 @@ const Container = styled.div<ContainerProps>`
 	display: inline-flex;
 	align-items: center;
 	position: relative;
+	margin-bottom: 24px;
 
 	width: 100%;
 	border: 1.5px solid
@@ -39,7 +40,7 @@ const Container = styled.div<ContainerProps>`
 	`}
 
 	&:hover {
-		margin: 0;
+		/* margin: 0; Marino: not sure why we need this */
 		outline: none;
 		border: ${props =>
 			`1.5px solid ${
@@ -58,7 +59,7 @@ const Container = styled.div<ContainerProps>`
 	}
 	&:active {
 		outline: none;
-		margin: 0;
+		/* margin: 0; Marino: not sure why we need this */
 		border: ${props =>
 			`1.5px solid ${
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
@@ -94,9 +95,11 @@ const TextInputStyled = styled.input<TextInputProps>`
 
 const StyledError = styled.p`
 	position: absolute;
-	top: 28px;
+	top: 32px;
+	left: 0;
 	bottom: 0;
 	font-size: 14px;
+	background-color: blue;
 	color: ${props => props.theme.colors.error100};
 `
 
@@ -121,6 +124,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 						{children}
 					</TextInputStyled>
 					{props.error ? <AlertCircleIcon /> : iconRight}
+
 					<StyledError>
 						{fieldError?.message ? t(`errors.${fieldError.message}`) : null}
 					</StyledError>
