@@ -27,142 +27,61 @@ import { EditModal, RemoveModal } from 'components/listing-details/modals'
 import { CreateListingAddIcon } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
+import { useRouter } from 'next/router'
+import { useQuery } from '@tanstack/react-query'
+import { Coin, TradesService } from 'services/api/tradesService'
+import { useWallet } from '@terra-money/use-wallet'
+import { NFT } from 'services/api/walletNFTsService'
+import { noop } from 'lodash'
+import { SupportedCollectionsService } from 'services/api'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
-/** todo: generate the static paths to tids */
-const getStaticPaths = makeStaticPaths({ tid: Number(1).toString() })
+const getStaticPaths = makeStaticPaths({ tid: Number(0).toString() })
 export { getStaticPaths, getStaticProps }
-
-/** todo remove */
-const attributes = [
-	{
-		traitType: 'gang',
-		value: 'The Firest',
-	},
-	{
-		traitType: 'background',
-		value: 'SnowDrift',
-	},
-	{
-		traitType: 'splatter',
-		value: 'Flesh Wound',
-	},
-	{
-		traitType: 'body',
-		value: 'Standard',
-	},
-	{
-		traitType: 'weapon',
-		value: 'Standard',
-	},
-	{
-		traitType: 'weapon 2',
-		value: 'Standard',
-	},
-]
-
-const lookingForStart = [
-	{
-		amount: '10',
-		denom: 'Luna',
-	},
-	{
-		denom: 'DeGods',
-		amount: '1',
-	},
-	{
-		denom: 'Galactic Punks',
-		amount: '2',
-	},
-	{
-		denom: 'Skeleton Punks',
-		amount: '3',
-	},
-	{
-		denom: 'Lovely Punks',
-		amount: '4',
-	},
-	{
-		denom: 'Scary Punks',
-		amount: '5',
-	},
-	{
-		denom: 'yLuna',
-		amount: '20',
-	},
-]
-
-/** todo remove */
-
-const nfts = [
-	{
-		collectionAddress: '1',
-		collectionName: '1',
-		attributes: [],
-		imageUrl: [
-			'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-		],
-		tokenId: '1',
-		description: 'test',
-	},
-	{
-		collectionAddress: '2',
-		collectionName: '2',
-		attributes: [],
-		imageUrl: [
-			'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-		],
-		tokenId: '2',
-		description: 'test',
-	},
-	{
-		collectionAddress: '3',
-		collectionName: '3',
-		attributes: [],
-		imageUrl: [
-			'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-		],
-		tokenId: '3',
-		description: 'test',
-	},
-	{
-		collectionAddress: '4',
-		collectionName: '4',
-		attributes: [],
-		imageUrl: [
-			'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-		],
-		tokenId: '4',
-		description: 'test',
-	},
-	{
-		collectionAddress: '5',
-		collectionName: '5',
-		attributes: [],
-		imageUrl: [
-			'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-		],
-		tokenId: '5',
-		description: 'test',
-	},
-]
-
-const liked = false
-const previewItemsLimit = 4
-const isPrivate = false
-const verified = true
-const onLike = n => console.warn(n)
-const lookingForItemsLimit = 4
-const NFTProps = {}
-
-const imageUrl = [
-	'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
-]
-const name = 'Fox #7561'
-const collectionName = 'Mutant Ape Yacht Club'
 
 export default function ListingDetails() {
 	const { t } = useTranslation(['common', 'trade-listings'])
+
+	const route = useRouter()
+
+	const wallet = useWallet()
+
+	const { data: verifiedCollections } = useQuery(
+		['verifiedCollections', wallet.network],
+		async () =>
+			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
+
+	const { data } = useQuery(
+		['trade', route?.query?.tid, wallet.network],
+		async () =>
+			TradesService.getTrade(
+				wallet.network.name,
+				(route?.query?.tid ?? '').toString()
+			),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
+
+	const { tradeInfo } = data ?? {}
+	const { additionalInfo, associatedAssetsWithInfo, whitelistedUsers } =
+		tradeInfo ?? {}
+
+	const [tradePreview, setTradePreview] = React.useState<{
+		coin?: Coin
+		cw721Coin?: NFT
+		cw1155Coin?: any
+	} | null>(null)
+
+	React.useEffect(() => {
+		setTradePreview(additionalInfo?.tradePreview ?? null)
+	}, [data])
 
 	useHeaderActions(
 		<Flex sx={{ gap: '8px', height: '40px' }}>
@@ -176,28 +95,13 @@ export default function ListingDetails() {
 		</Flex>
 	)
 
-	const [lookingFor, setLookingFor] = React.useState(lookingForStart)
-
-	const removeLookingFor = item => {
-		// remove looking for
-		setLookingFor(lookingFor.filter(l => l.denom !== item.denom))
-	}
-
 	const handleEditClick = () => {
-		NiceModal.show(EditModal, {
-			lookingFor,
-			lookingForItemsLimit,
-			removeLookingFor,
-		})
-	}
-
-	const remove = () => {
-		/** todo */
+		NiceModal.show(EditModal, {})
 	}
 
 	const handleRemoveClick = () => {
 		NiceModal.show(RemoveModal, {
-			remove,
+			remove: {},
 		})
 	}
 
@@ -220,31 +124,37 @@ export default function ListingDetails() {
 					</BlueWarning>
 				</Row>
 				<ImageRow
-					nfts={nfts}
-					imageUrl={imageUrl}
-					NFTProps={NFTProps}
-					onLike={onLike}
-					liked={liked}
-					previewItemsLimit={previewItemsLimit}
+					nfts={(associatedAssetsWithInfo || [])
+						.filter(nft => nft.cw721Coin)
+						.map(({ cw721Coin }) => cw721Coin as NFT)}
+					imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
+					NFTProps={tradePreview}
+					onLike={noop}
+					liked={false}
 				/>
 				<Row>
 					<DescriptionRow
-						name={name}
-						isPrivate={isPrivate}
-						collectionName={collectionName}
-						verified={verified}
+						name={tradePreview?.cw721Coin?.collectionName}
+						isPrivate={(whitelistedUsers ?? []).length > 0}
+						collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
+						verified={(verifiedCollections ?? []).some(
+							({ collectionAddress }) =>
+								tradePreview?.cw721Coin?.collectionAddress === collectionAddress
+						)}
 					/>
 				</Row>
-				{attributes && (
+				{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
 					<Row>
 						<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-							{attributes.map(attribute => (
-								<AttributeCard
-									key={JSON.stringify(attribute)}
-									name={attribute.traitType}
-									value={attribute.value}
-								/>
-							))}
+							{(additionalInfo?.tradePreview?.cw721Coin?.attributes ?? []).map(
+								attribute => (
+									<AttributeCard
+										key={JSON.stringify(attribute)}
+										name={attribute.traitType}
+										value={attribute.value}
+									/>
+								)
+							)}
 						</Flex>
 					</Row>
 				)}
@@ -254,12 +164,9 @@ export default function ListingDetails() {
 						<WalletItem>Listed 3 weeks ago</WalletItem>
 					</Wallet>
 				</Row>
-				{lookingFor && (
+				{tradeInfo && (
 					<Row>
-						<LookingForRow
-							lookingFor={lookingFor}
-							lookingForItemsLimit={lookingForItemsLimit}
-						/>
+						<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
 					</Row>
 				)}
 				<Row>

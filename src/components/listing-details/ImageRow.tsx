@@ -20,7 +20,7 @@ export const ImageRow = ({
 	NFTProps,
 	onLike,
 	liked,
-	previewItemsLimit,
+	previewItemsLimit = 3,
 }) => {
 	return (
 		<ImageSection>

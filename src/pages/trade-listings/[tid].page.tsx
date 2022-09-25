@@ -10,12 +10,10 @@ export async function getStaticProps({ locale = 'en' }) {
 	}
 }
 
-/** todo: fix this */
-
 export async function getStaticPaths() {
 	return {
-		paths: [{ params: { tid: '1' } }],
-		fallback: false, // can also be true or 'blocking'
+		paths: [{ params: { tid: Number(0).toString() } }],
+		fallback: true,
 	}
 }
 

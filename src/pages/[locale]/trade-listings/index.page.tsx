@@ -359,7 +359,11 @@ export default function TradeListings() {
 							</DesktopFiltersSection>
 						)}
 						<Box sx={{ width: '100%' }}>
-							<GridController trades={trades} gridType={Number(gridType)} />
+							<GridController
+								trades={trades}
+								verifiedCollections={verifiedCollections}
+								gridType={Number(gridType)}
+							/>
 							<Flex sx={{ width: '100%', marginTop: '14px' }}>
 								{trades?.data && !!trades.data?.length && (
 									<Button

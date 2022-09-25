@@ -1,5 +1,6 @@
 import { axios } from 'services/axios'
 import { getParamsFromObject } from 'utils/js/getParamsFromObject'
+import { keysToCamel } from 'utils/js/keysToCamel'
 import { Collection, NFT } from './walletNFTsService'
 
 export type Coin = {
@@ -161,11 +162,14 @@ export class TradesService {
 		return response.data
 	}
 
-	public static async getTrade(network, tradeId): Promise<Trade> {
-		const query = getParamsFromObject({ 'filters.network': network, tradeId })
+	public static async getTrade(
+		network: string,
+		tradeId: string
+	): Promise<Trade> {
+		const query = getParamsFromObject({ network, tradeId })
 
 		const response = await axios.get(`trades?${query.toString()}`)
 
-		return response.data
+		return keysToCamel(response.data)
 	}
 }
