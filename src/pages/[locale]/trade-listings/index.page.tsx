@@ -6,15 +6,18 @@ import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import {
 	CollectionsBoxesIcon,
+	CreateListingAddIcon,
 	FilterIcon,
 	LookingForCompassIcon,
 	TargetIcon,
 } from 'assets/icons/mixed'
+
 import {
 	Accordion,
 	AccordionTitle,
 	Button,
 	CheckboxCard,
+	ConnectButton,
 	GridSwitch,
 	LayoutContainer,
 	MultiSelectAccordionInput,
@@ -25,12 +28,15 @@ import {
 	TradeListingsFilterModal,
 	TradeListingsFilterModalProps,
 } from 'components/ui'
+
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import useIsTablet from 'hooks/react/useIsTablet'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { SupportedCollectionsService } from 'services/api'
 import { TradesService } from 'services/api/tradesService'
 import { Box, Flex } from 'theme-ui'
+
+import * as ROUTES from 'constants/routes'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -48,6 +54,7 @@ import {
 	SortSelectContainer,
 	TabsSection,
 } from 'components/trade-listings'
+import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
@@ -62,6 +69,18 @@ enum LISTINGS_TYPE {
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const wallet = useWallet()
+
+	useHeaderActions(
+		<Flex sx={{ gap: '8px', height: '40px' }}>
+			<Button variant='gradient' size='medium' href={ROUTES.CREATE_TRADE_LISTING}>
+				<CreateListingAddIcon />
+				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
+					{t('common:create-listing')}
+				</Box>
+			</Button>
+			<ConnectButton />
+		</Flex>
+	)
 
 	const isTablet = useIsTablet()
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)
@@ -343,7 +362,11 @@ export default function TradeListings() {
 							</DesktopFiltersSection>
 						)}
 						<Box sx={{ width: '100%' }}>
-							<GridController trades={trades} gridType={Number(gridType)} />
+							<GridController
+								trades={trades}
+								verifiedCollections={verifiedCollections}
+								gridType={Number(gridType)}
+							/>
 							<Flex sx={{ width: '100%', marginTop: '14px' }}>
 								{trades?.data && !!trades.data?.length && (
 									<Button
@@ -351,7 +374,7 @@ export default function TradeListings() {
 										fullWidth
 										variant='dark'
 									>
-										Show more
+										{t('common:show-more')}
 									</Button>
 								)}
 							</Flex>

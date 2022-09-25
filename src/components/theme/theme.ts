@@ -245,6 +245,7 @@ export const theme = makeTheme({
 			},
 		},
 		gradient: {
+			border: 0,
 			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',
@@ -464,6 +465,7 @@ export const theme = makeTheme({
 			},
 		},
 		gradient: {
+			border: 0,
 			userSelect: 'none',
 			display: 'flex',
 			alignItems: 'center',

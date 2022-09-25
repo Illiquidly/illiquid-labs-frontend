@@ -4,6 +4,7 @@ export { default as CheckboxCheckedIcon } from './components/CheckboxCheckedIcon
 export { default as CheckboxDisabledIcon } from './components/CheckboxDisabledIcon'
 export { default as CloseIcon } from './components/CloseIcon'
 export { default as CloseIconSmall } from './components/CloseIconSmall'
+export { default as CreateListingAddIcon } from './components/CreateListingAddIcon'
 export { default as CollectionsBoxesIcon } from './components/CollectionsBoxesIcon'
 export { default as FilterIcon } from './components/FilterIcon'
 export { default as HeartFilledIcon } from './components/HeartFilledIcon'

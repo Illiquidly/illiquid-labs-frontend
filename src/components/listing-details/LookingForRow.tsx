@@ -10,7 +10,7 @@ import {
 } from 'components/listing-details'
 import { useTranslation } from 'next-i18next'
 
-export const LookingForRow = ({ lookingFor, lookingForItemsLimit }) => {
+export const LookingForRow = ({ lookingFor, lookingForItemsLimit = 3 }) => {
 	const { t } = useTranslation(['common'])
 	return (
 		<LookingForSection>

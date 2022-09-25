@@ -12,7 +12,7 @@ export const getI18nPaths = params =>
 export function makeStaticPaths(params = {}) {
 	return async function getStaticPaths() {
 		return {
-			fallback: false,
+			fallback: 'blocking',
 			paths: getI18nPaths(params),
 		}
 	}

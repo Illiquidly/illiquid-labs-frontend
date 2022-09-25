@@ -223,7 +223,7 @@ export const Gradient = () => (
 
 		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={2}>
-				<Button variant='gradient' size='small'>
+				<Button href='/s' variant='gradient' size='small'>
 					Small Button
 				</Button>
 			</Box>
