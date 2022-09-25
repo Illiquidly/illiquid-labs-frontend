@@ -2,7 +2,9 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Box } from 'theme-ui'
 
-export const StyledChip = styled(Box)<{
+export const StyledChip = styled(Box, {
+	shouldForwardProp: prop => prop !== 'flexGrowItems' && prop !== 'isViewMode',
+})<{
 	isViewMode?: boolean
 	flexGrowItems?: boolean
 }>`
