@@ -2,6 +2,7 @@ import { PrivateIcon, PublicIcon } from 'assets/icons/mixed'
 import { TwitterIcon } from 'assets/icons/social'
 import ConfirmListingSuccessImage from 'assets/images/ConfirmListingSuccessImage'
 import If from 'components/core/if-statement'
+import { theme } from 'components/theme/theme'
 import { Button } from 'components/ui/button'
 import { Chip, VisibilityChip } from 'components/ui/chip'
 import { NFTCard } from 'components/ui/nft-card'
@@ -19,6 +20,7 @@ import {
 	NFTCardsContainer,
 	NoContent,
 	StepTitle,
+	SuccessLabel,
 	SuccessMessage,
 	SuccessTitle,
 } from './ConfirmListing.styled'
@@ -68,14 +70,25 @@ const SuccessScreen = () => {
 						<Button variant='primary'>{t('common:create-another')}</Button>
 						<Button variant='dark'>
 							<Flex pr={2}>
-								<TwitterIcon />
+								<TwitterIcon fill={theme.colors.natural50} />
 							</Flex>
 							{t('common:tweet')}
 						</Button>
 					</Flex>
 				</Flex>
 			</ContentCard>
-			<ContentCard>Yout listing URL</ContentCard>
+			<ContentCard
+				sx={{
+					padding: ['16px 16px 28px', '24px 24px 36px'],
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '36px',
+				}}
+			>
+				<SuccessLabel>{t('trade:confirm-listing.your-listing-url')}</SuccessLabel>
+
+				<SuccessLabel>{t('trade:confirm-listing.transaction-id')}</SuccessLabel>
+			</ContentCard>
 		</Flex>
 	)
 }
