@@ -204,11 +204,10 @@ export const MyNFTsModal = NiceModal.create(
 										}
 
 										return (
-											<Box sx={{ flex: 1, maxHeight: '66px' }}>
+											<Box key={collectionAddress} sx={{ flex: 1, maxHeight: '66px' }}>
 												<CheckboxCard
 													checked={checked}
 													onChange={() => setSelectedCollections(setCollections)}
-													key={collectionAddress}
 													title={collectionName}
 												/>
 											</Box>
@@ -225,18 +224,19 @@ export const MyNFTsModal = NiceModal.create(
 											)
 
 											return (
-												<NFTCard
-													{...nft}
-													verified={(verifiedCollections ?? []).some(
-														({ collectionAddress }) =>
-															nft.collectionAddress === collectionAddress
-													)}
-													key={`${nft.collectionAddress}_${nft.tokenId}`}
-													onCardClick={() =>
-														checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
-													}
-													checked={checked}
-												/>
+												<Box key={`${nft.collectionAddress}_${nft.tokenId}`}>
+													<NFTCard
+														{...nft}
+														verified={(verifiedCollections ?? []).some(
+															({ collectionAddress }) =>
+																nft.collectionAddress === collectionAddress
+														)}
+														onCardClick={() =>
+															checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
+														}
+														checked={checked}
+													/>
+												</Box>
 											)
 										})}
 									</NFTCardContainer>

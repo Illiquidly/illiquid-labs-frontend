@@ -111,6 +111,8 @@ export default function Trade() {
 	const onSubmit: SubmitHandler<TradeFormStepsProps> = async values => {
 		setLoading({ ...loading, send: true })
 
+		console.warn(values)
+
 		const [error, txResponse] = await asyncAction(
 			listTradeOffers(fromCreateTradeFormToBlockchain(values))
 		)
