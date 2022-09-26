@@ -32,8 +32,10 @@
 		"instruction": "Define if you'd this to be available to the public or just for a specific user",
 		"option-1": "Public",
 		"option-1-subtitle": "Listing visible to all users",
+		"option-1-subtitle-mobile": "All users will be able to view the listing",
 		"option-2": "Private",
 		"option-2-subtitle": "Trade privately, whitelist a wallet",
+		"option-2-subtitle-mobile": "Share with a specific peer's wallet address",
 		"public-message": "Whoohoo! This listing will be available for everyone :)",
 		"wallet-address-label": "Enter a peer wallet address",
 		"wallet-address-placeholder": "Enter a wallet address"

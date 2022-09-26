@@ -1,13 +1,19 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { useTheme } from '@emotion/react'
 import { ModalCloseIcon } from 'assets/icons/modal'
-import { DropdownMultiselect, Modal, MultiSelectInputOption } from 'components'
-import { Button } from 'components/ui/button'
-import { CheckboxCard } from 'components/ui/checkbox-card'
+import {
+	Button,
+	CheckboxCard,
+	DropdownMultiselect,
+	Modal,
+	MultiSelectInputOption,
+	NFTCard,
+	SearchInput,
+	SelectCard,
+} from 'components'
+
 import { OnlyMobileAndTablet } from 'components/ui/layout'
-import { NFTCard } from 'components/ui/nft-card'
-import { SearchInput } from 'components/ui/search-input'
-import { SelectCard } from 'components/ui/select-card'
+
 import useMyNFTs from 'hooks/useMyNFTs'
 import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
@@ -125,7 +131,7 @@ export const MyNFTsModal = NiceModal.create(
 									</OnlyMobileAndTablet>
 								</ModalContentHeader>
 								<Box sx={{ marginTop: ['16px', '32px'] }}>
-									<Flex sx={{ height: ['48px'], gap: '12px' }}>
+									<Flex sx={{ gap: '12px', height: ['50px'] }}>
 										<SearchContainer>
 											<SearchInput
 												onChange={e => setSearchName(e.target.value)}

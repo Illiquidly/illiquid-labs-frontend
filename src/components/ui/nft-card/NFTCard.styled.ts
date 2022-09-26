@@ -146,6 +146,10 @@ export const CardContainer = styled.div<CardContainerProps>`
 		`
 		border: 2px solid ${props.theme.colors.success600};
 	`}
+
+	@media screen and (max-width: ${props => props.theme.breakpoints[0]}) {
+		min-width: 200px;
+	}
 `
 
 export const RightImageArea = styled.div`

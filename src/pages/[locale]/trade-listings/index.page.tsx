@@ -1,23 +1,9 @@
-import React from 'react'
 import { useTranslation } from 'next-i18next'
+import React from 'react'
 
-import {
-	LayoutContainer,
-	Page,
-	SearchInput,
-	Tab,
-	Tabs,
-	Accordion,
-	AccordionTitle,
-	MultiSelectAccordionInput,
-	CheckboxCard,
-	GridSwitch,
-	TradeListingsFilterModal,
-	TradeListingsFilterModalProps,
-	Button,
-	ConnectButton,
-} from 'components/ui'
-import { makeStaticPaths, makeStaticProps } from 'lib'
+import NiceModal from '@ebay/nice-modal-react'
+import { useQuery } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import {
 	CollectionsBoxesIcon,
 	CreateListingAddIcon,
@@ -25,18 +11,34 @@ import {
 	LookingForCompassIcon,
 	TargetIcon,
 } from 'assets/icons/mixed'
-import { Box, Flex } from 'theme-ui'
-import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
-import { useQuery } from '@tanstack/react-query'
-import { SupportedCollectionsService } from 'services/api'
-import { useWallet } from '@terra-money/use-wallet'
-import useIsMobile from 'hooks/react/useIsMobile'
-import NiceModal from '@ebay/nice-modal-react'
-import { asyncAction } from 'utils/js/asyncAction'
-import { TradesService } from 'services/api/tradesService'
-import * as ROUTES from 'constants/routes'
 
-import { TRADE_STATE } from 'services/blockchain'
+import {
+	Accordion,
+	AccordionTitle,
+	Button,
+	CheckboxCard,
+	ConnectButton,
+	GridSwitch,
+	LayoutContainer,
+	MultiSelectAccordionInput,
+	Page,
+	SearchInput,
+	Tab,
+	Tabs,
+	TradeListingsFilterModal,
+	TradeListingsFilterModalProps,
+} from 'components/ui'
+
+import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import useIsTablet from 'hooks/react/useIsTablet'
+import { makeStaticPaths, makeStaticProps } from 'lib'
+import { SupportedCollectionsService } from 'services/api'
+import { TradesService } from 'services/api/tradesService'
+import { Box, Flex } from 'theme-ui'
+
+import * as ROUTES from 'constants/routes'
+import { asyncAction } from 'utils/js/asyncAction'
+
 import {
 	AccordionContentWrapper,
 	DesktopFiltersSection,
@@ -44,15 +46,16 @@ import {
 	FiltersButtonContainer,
 	FiltersButtonLabel,
 	FiltersSection,
+	GridController,
 	GridSwitchContainer,
+	GRID_TYPE,
 	ListingsNFTsContainer,
 	SearchInputContainer,
 	SortSelectContainer,
 	TabsSection,
-	GridController,
-	GRID_TYPE,
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
+import { TRADE_STATE } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -79,7 +82,7 @@ export default function TradeListings() {
 		</Flex>
 	)
 
-	const isMobile = useIsMobile()
+	const isTablet = useIsTablet()
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
@@ -181,7 +184,7 @@ export default function TradeListings() {
 	)
 
 	const onFiltersClick = async () => {
-		if (!isMobile) {
+		if (!isTablet) {
 			setFiltersExpanded(prevFiltersExpanded => !prevFiltersExpanded)
 			return
 		}

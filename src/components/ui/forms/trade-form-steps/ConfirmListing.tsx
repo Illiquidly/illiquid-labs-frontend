@@ -29,7 +29,7 @@ const StepHeader = ({ children, onEditClick }: StepHeaderProps) => {
 	const { t } = useTranslation(['common'])
 
 	return (
-		<Flex style={{ justifyContent: 'space-between' }}>
+		<Flex style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
 			{children}
 			<EditButton onClick={onEditClick}>{t('common:edit')}</EditButton>
 		</Flex>
@@ -103,8 +103,8 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 						<If condition={selectedCollections.length > 0}>
 							<If.Then>
 								{selectedCollections.map(selectedCollection => (
-									<Chip isViewMode key={selectedCollection.value}>
-										{selectedCollection.value}
+									<Chip isViewMode flexGrowItems key={selectedCollection.value}>
+										{selectedCollection.label}
 									</Chip>
 								))}
 							</If.Then>

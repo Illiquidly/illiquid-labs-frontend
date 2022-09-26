@@ -48,7 +48,10 @@ export const RadioWrapper = styled(Flex)`
 	gap: 8px;
 `
 RadioWrapper.defaultProps = {
-	sx: {},
+	sx: {
+		flexDirection: ['column', 'row'],
+		width: ['100%', 'auto'],
+	},
 }
 
 export const Label = styled.label`

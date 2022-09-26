@@ -38,7 +38,7 @@ ModalBody.defaultProps = {
 	sx: {
 		bg: 'dark100',
 		flex: 1,
-		p: ['16px', '25px 33.5px', '32px 112px'],
+		p: ['20px', '24px 32px', '32px 112px'],
 		borderRadius: [0, 0, '16px 16px 0px 0px'],
 		overflow: 'hidden',
 		justifyContent: 'center',
@@ -108,8 +108,8 @@ NFTCardContainer.defaultProps = {
 		display: 'grid',
 		gridTemplateColumns: [
 			'repeat(auto-fill, minmax(200px, 1fr))',
-			'repeat(auto-fill, minmax(332px, 1fr))',
-			'repeat(auto-fill, minmax(280px, 1fr))',
+			'repeat(auto-fill, minmax(240px, 1fr))',
+			'repeat(auto-fill, minmax(240px, 1fr))',
 		],
 		gridColumnGap: ['8px', '16px', '32px'],
 		gridRowGap: ['8px', '16px', '32px'],

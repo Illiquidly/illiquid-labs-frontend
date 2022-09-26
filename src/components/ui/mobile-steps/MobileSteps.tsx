@@ -27,14 +27,14 @@ function MobileSteps({ steps, currentStep }: MobileStepsProps) {
 		<Flex sx={{ flexDirection: 'column' }}>
 			<Flex sx={{ mb: '13px' }}>
 				{steps.map(({ id }) => (
-					<StepBox key={id} checked={currentStep > id} />
+					<StepBox key={id} checked={currentStep >= id} />
 				))}
 			</Flex>
 			<Card sx={{ p: ['16px 12px'] }}>
 				<Flex sx={{ alignItems: 'center' }}>
 					<Flex sx={{ alignItems: 'center', mr: ['12px'] }}>
 						<Circle>
-							<CheckLineIcon fill={theme.colors.gray1000} />
+							<CheckLineIcon fill={theme.colors.natural50} />
 						</Circle>
 					</Flex>
 					<Text color='gray1000' variant='textMdSemibold'>

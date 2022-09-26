@@ -1,13 +1,11 @@
 import styled from '@emotion/styled'
 import { AlertCircleIcon } from 'assets/icons/16pt'
-import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { FieldError } from 'react-hook-form'
 
 export interface TextInputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: boolean
-	fieldError?: FieldError
+	fieldError?: string
 	iconLeft?: React.ReactNode
 	iconRight?: React.ReactNode
 }
@@ -21,6 +19,7 @@ const Container = styled.div<ContainerProps>`
 	display: inline-flex;
 	align-items: center;
 	position: relative;
+	/* margin-bottom: 24px; */
 
 	width: 100%;
 	border: 1.5px solid
@@ -92,23 +91,15 @@ const TextInputStyled = styled.input<TextInputProps>`
 	color: ${props => props.theme.colors.natural50};
 `
 
-const StyledError = styled.p`
-	position: absolute;
-	top: 28px;
-	bottom: 0;
-	font-size: 14px;
-	color: ${props => props.theme.colors.error100};
-`
-
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 	(props, ref) => {
-		const { children, iconLeft, iconRight, fieldError, ...rest } = props
+		const { children, iconLeft, iconRight, ...rest } = props
 		const inputRef = React.useRef<HTMLInputElement>(null)
 
 		const handleClick = () => inputRef?.current?.click()
-		const { t } = useTranslation('common')
 
 		React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
+
 		return (
 			<>
 				<Container
@@ -121,9 +112,6 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 						{children}
 					</TextInputStyled>
 					{props.error ? <AlertCircleIcon /> : iconRight}
-					<StyledError>
-						{fieldError?.message ? t(`errors.${fieldError.message}`) : null}
-					</StyledError>
 				</Container>
 			</>
 		)

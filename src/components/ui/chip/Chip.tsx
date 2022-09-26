@@ -11,11 +11,17 @@ interface Props {
 	children: React.ReactNode
 	onClick?: () => void
 	isViewMode?: boolean
+	flexGrowItems?: boolean
 }
 
-export const Chip = ({ children, onClick, isViewMode }: Props) => {
+export const Chip = ({
+	children,
+	onClick,
+	isViewMode,
+	flexGrowItems,
+}: Props) => {
 	return (
-		<StyledChip>
+		<StyledChip isViewMode={isViewMode} flexGrowItems={flexGrowItems}>
 			{isViewMode ? (
 				<BigChipText>{children}</BigChipText>
 			) : (
@@ -33,4 +39,5 @@ export const Chip = ({ children, onClick, isViewMode }: Props) => {
 Chip.defaultProps = {
 	onClick: undefined,
 	isViewMode: false,
+	flexGrowItems: false,
 }

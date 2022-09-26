@@ -1,5 +1,5 @@
-import React from 'react'
 import styled from '@emotion/styled'
+import React from 'react'
 import withRadioInputGroup from './hoc/withRadioInputGroup'
 import { RadioInput } from './Radio'
 
@@ -28,6 +28,10 @@ export const Background = styled.div<{ checked?: boolean; disabled?: boolean }>`
 	align-items: center;
 	justify-content: flex-start;
 	gap: 8px;
+
+	@media screen and (max-width: ${props => props.theme.breakpoints[0]}) {
+		gap: 12px;
+	}
 
 	background: ${props =>
 		props.checked ? props.theme.colors.primary600 : props.theme.colors.dark100};
@@ -71,7 +75,7 @@ const RadioCardInput = React.forwardRef<HTMLInputElement, RadioCardProps>(
 
 		const { value: inputGroupValue = '' } = inputGroup
 
-		const checked = props.value?.toString() === inputGroupValue.toString()
+		const checked = props.value?.toString() === inputGroupValue?.toString()
 
 		const handleClick = () => inputRef?.current?.click()
 

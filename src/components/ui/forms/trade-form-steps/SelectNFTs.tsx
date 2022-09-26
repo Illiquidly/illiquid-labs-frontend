@@ -12,7 +12,9 @@ import {
 	ContentCard,
 	ContentCardSubtitle,
 	ContentCardTitle,
+	ContentCardTitleChip,
 	ListOfSelectedNFTsCard,
+	ListOfSelectedNFTsHeader,
 	NFTCardsContainer,
 	TradeAssetImageContainer,
 } from './SelectNFTs.styled'
@@ -33,20 +35,23 @@ const ListOfSelectedNFTs = ({
 	return (
 		<Flex sx={{ flexDirection: 'column', flex: 1 }}>
 			<ListOfSelectedNFTsCard>
-				<Flex>
+				<ListOfSelectedNFTsHeader>
 					<div>
 						<ContentCardTitle sx={{ textAlign: 'left' }}>
 							{t('trade:select-NFTs.selected-nfts')}
-							<span>
+							<ContentCardTitleChip>
 								{t('common:nft', { count: getValues('selectedNFTs').length })}
-							</span>
+							</ContentCardTitleChip>
 						</ContentCardTitle>
 						<ContentCardSubtitle sx={{ textAlign: 'left' }}>
 							{t('trade:select-NFTs.selected-nfts-description')}
 						</ContentCardSubtitle>
 					</div>
 					<Button
-						sx={{ marginLeft: 'auto' }}
+						sx={{
+							marginLeft: [null, 'auto'],
+							marginTop: ['8px', '0px'],
+						}}
 						variant='dark'
 						onClick={async e => {
 							e.preventDefault()
@@ -66,7 +71,7 @@ const ListOfSelectedNFTs = ({
 					>
 						{t('common:buttons.select-more')}
 					</Button>
-				</Flex>
+				</ListOfSelectedNFTsHeader>
 				<NFTCardsContainer>
 					{getValues('selectedNFTs').map(selectedNFT => {
 						return (

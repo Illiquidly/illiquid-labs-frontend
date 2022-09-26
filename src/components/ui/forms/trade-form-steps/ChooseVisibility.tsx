@@ -3,9 +3,10 @@ import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecified
 import {
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
-	TextInput,
 } from 'components'
+import { TextInputField } from 'components/form/fields/text-input-field'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
+import useIsMobile from 'hooks/react/useIsMobile'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
@@ -18,14 +19,15 @@ import {
 	Label,
 	MessageBox,
 	RadioWrapper,
+	RadioWrapperSubtitle,
 } from './ChooseVisibility.styled'
 import { TradeFormStepsProps, VISIBILITY_TYPE } from './formProps'
 import { NavigationFooter } from './NavigationFooter'
 
 const ChooseVisibilityCollectionSelector = () => {
 	const { t } = useTranslation(['common', 'trade'])
-
 	const { register } = useFormContext<TradeFormStepsProps>()
+
 	return (
 		<Flex sx={{ gap: '8px' }}>
 			<RadioCardSelector
@@ -48,6 +50,7 @@ const ChooseVisibilityCollectionSelector = () => {
 
 const ChooseVisibilityForm = () => {
 	const { t } = useTranslation(['common', 'trade'])
+	const isMobile = useIsMobile()
 	const {
 		register,
 		setValue,
@@ -66,11 +69,25 @@ const ChooseVisibilityForm = () => {
 			>
 				<RadioWrapper>
 					<RadioCard value={VISIBILITY_TYPE.PUBLIC}>
-						<RadioCardText>{t('trade:choose-visibility.option-1')}</RadioCardText>
+						<RadioCardText>
+							{t('trade:choose-visibility.option-1')}
+							{isMobile && (
+								<RadioWrapperSubtitle>
+									{t('trade:choose-visibility.option-1-subtitle-mobile')}
+								</RadioWrapperSubtitle>
+							)}
+						</RadioCardText>
 					</RadioCard>
 
 					<RadioCard value={VISIBILITY_TYPE.PRIVATE}>
-						<RadioCardText>{t('trade:choose-visibility.option-2')}</RadioCardText>
+						<RadioCardText>
+							{t('trade:choose-visibility.option-2')}
+							{isMobile && (
+								<RadioWrapperSubtitle>
+									{t('trade:choose-visibility.option-2-subtitle-mobile')}
+								</RadioWrapperSubtitle>
+							)}
+						</RadioCardText>
 					</RadioCard>
 				</RadioWrapper>
 			</RadioInputGroupProvider>
@@ -83,10 +100,13 @@ const ChooseVisibilityForm = () => {
 						<Label htmlFor='walletAddress'>
 							{t('trade:choose-visibility.wallet-address-label')}
 						</Label>
-						<TextInput
+						<TextInputField
 							id='walletAddress'
 							{...register('walletAddress')}
-							fieldError={errors.walletAddress}
+							fieldError={
+								errors.walletAddress &&
+								t(`common:errors.${errors.walletAddress.message}`)
+							}
 							error={!!errors.walletAddress}
 							placeholder={t('trade:choose-visibility.wallet-address-placeholder')}
 						/>
@@ -106,7 +126,7 @@ export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
 	const watchVisibilityType = watch('visibilityType', undefined)
-
+	const isMobile = useIsMobile()
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
@@ -114,7 +134,7 @@ export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 				<ContentCardSubtitle>
 					{t('trade:choose-visibility.instruction')}
 				</ContentCardSubtitle>
-				{!watchVisibilityType ? (
+				{!watchVisibilityType && !isMobile ? (
 					<ChooseVisibilityCollectionSelector />
 				) : (
 					<ChooseVisibilityForm />

@@ -7,10 +7,12 @@ import {
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
-	TextInput,
 } from 'components'
+import If from 'components/core/if-statement'
 import { Chip } from 'components/ui/chip'
+import { TextInputField } from 'components/form/fields/text-input-field'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
+import useIsMobile from 'hooks/react/useIsMobile'
 import { useTranslation } from 'next-i18next'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { SupportedCollectionsService } from 'services/api'
@@ -30,28 +32,53 @@ import {
 
 const TradeDetailsCollectionSelector = () => {
 	const { t } = useTranslation(['common', 'trade'])
+	const { register, setValue, getValues } = useFormContext<TradeFormStepsProps>()
+	const isMobile = useIsMobile()
 
-	const { register } = useFormContext<TradeFormStepsProps>()
 	return (
 		<Flex sx={{ gap: '8px' }}>
-			<RadioCardSelector
-				value={LOOKING_FOR_TYPE.SPECIFIC}
-				title={t('trade:trade-details.option-1')}
-				Image={<TradeDetailsSpecifiedCollection />}
-				{...register('lookingForType')}
-			/>
-			<RadioCardSelector
-				value={LOOKING_FOR_TYPE.ANY}
-				title={t('trade:trade-details.option-2')}
-				Image={<TradeDetailsOpenToOffers />}
-				{...register('lookingForType')}
-			/>
+			<If condition={isMobile}>
+				<If.Then>
+					<RadioInputGroupProvider
+						value={getValues('lookingForType')}
+						name={register('lookingForType').name}
+						onChange={e =>
+							setValue('lookingForType', e.target.value as LOOKING_FOR_TYPE)
+						}
+					>
+						<RadioWrapper>
+							<RadioCard value={LOOKING_FOR_TYPE.SPECIFIC}>
+								<RadioCardText>{t('trade:trade-details.option-1')}</RadioCardText>
+							</RadioCard>
+
+							<RadioCard value={LOOKING_FOR_TYPE.ANY}>
+								<RadioCardText>{t('trade:trade-details.option-2')}</RadioCardText>
+							</RadioCard>
+						</RadioWrapper>
+					</RadioInputGroupProvider>
+				</If.Then>
+
+				<If.Else>
+					<RadioCardSelector
+						value={LOOKING_FOR_TYPE.SPECIFIC}
+						title={t('trade:trade-details.option-1')}
+						Image={<TradeDetailsSpecifiedCollection />}
+						{...register('lookingForType')}
+					/>
+					<RadioCardSelector
+						value={LOOKING_FOR_TYPE.ANY}
+						title={t('trade:trade-details.option-2')}
+						Image={<TradeDetailsOpenToOffers />}
+						{...register('lookingForType')}
+					/>
+				</If.Else>
+			</If>
 		</Flex>
 	)
 }
 
 const TradeDetailsForm = () => {
-	const { t } = useTranslation(['trade'])
+	const { t } = useTranslation(['common', 'trade'])
 	const {
 		register,
 		setValue,
@@ -146,25 +173,27 @@ const TradeDetailsForm = () => {
 						))}
 					</ChipsWrapper>
 
-					<div style={{ paddingTop: '24px' }}>
+					<div style={{ paddingTop: '8px' }}>
 						<Label htmlFor='tokenAmount'>
 							{t('trade:trade-details.tokens-label')}
 						</Label>
-						<TextInput
+						<TextInputField
 							id='tokenAmount'
 							{...register('tokenAmount')}
-							fieldError={errors.tokenAmount}
+							fieldError={
+								errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
+							}
 							error={!!errors.tokenAmount}
 							placeholder={t('trade:trade-details.tokens-placeholder', {
 								token: 'Luna',
 							})}
 						/>
 					</div>
-					<div style={{ paddingTop: '24px' }}>
+					<div style={{ paddingTop: '8px' }}>
 						<Label htmlFor='comment'>
 							{t('trade:trade-details.text-area-label')}
 						</Label>
-						<TextInput
+						<TextInputField
 							id='comment'
 							{...register('comment')}
 							placeholder={t('trade:trade-details.text-area-placeholder')}

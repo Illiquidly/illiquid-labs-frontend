@@ -93,7 +93,21 @@ export const RadioWrapper = styled(Flex)`
 	gap: 8px;
 `
 RadioWrapper.defaultProps = {
-	sx: {},
+	sx: {
+		flexDirection: ['column', 'row'],
+		width: ['100%', 'auto'],
+	},
+}
+
+export const RadioWrapperSubtitle = styled(Text)``
+RadioWrapperSubtitle.defaultProps = {
+	sx: {
+		display: ['block', 'none'],
+		color: 'gray700',
+		fontSize: '13px',
+		lineHeight: '20px',
+		fontFamily: 'Heebo',
+	},
 }
 
 export const Label = styled.label`
@@ -115,8 +129,8 @@ MessageBox.defaultProps = {
 		fontSize: '16px',
 		lineHeight: '24px',
 		borderRadius: '8px',
-		padding: ['12px', null, '24px 12px'],
+		padding: ['12px 40px', null, '24px 12px'],
 		color: 'gray800',
-		backgroundColor: 'dark400',
+		backgroundColor: ['dark100', 'dark400'],
 	},
 }

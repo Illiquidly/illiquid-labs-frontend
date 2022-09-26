@@ -1,7 +1,13 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Box } from 'theme-ui'
 
-export const StyledChip = styled(Box)<{ isViewMode?: boolean }>`
+export const StyledChip = styled(Box, {
+	shouldForwardProp: prop => prop !== 'flexGrowItems' && prop !== 'isViewMode',
+})<{
+	isViewMode?: boolean
+	flexGrowItems?: boolean
+}>`
 	padding: ${props => (props.isViewMode ? '6px 12px' : '4px 12px')};
 	display: flex;
 	align-items: center;
@@ -9,14 +15,22 @@ export const StyledChip = styled(Box)<{ isViewMode?: boolean }>`
 	background-color: ${props => props.theme.colors.dark100};
 	filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.06))
 		drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
+
+	${props =>
+		props.flexGrowItems &&
+		css`
+			flex-grow: 1;
+			flex-shrink: 1;
+			justify-content: center;
+		`}
 `
 
 StyledChip.defaultProps = {
 	sx: {
 		borderRadius: ['10px', '10px', '100px'],
-		borderWidth: ['0', '0', '1px'],
-		borderStyle: [null, null, 'solid'],
-		borderColor: [null, null, 'dark500'],
+		borderWidth: ['0', '1px'],
+		borderStyle: [null, 'solid'],
+		borderColor: [null, 'dark500'],
 		flex: ['0 0 auto', '0 0 auto', '0 1 auto'],
 	},
 }
@@ -40,6 +54,8 @@ export const BigChipText = styled.p`
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	text-align: center;
+	word-break: break-word;
 `
 
 export const CloseIconButton = styled(Box)`
@@ -78,6 +94,11 @@ export const VisibilityChipWrapper = styled.div`
 		border-bottom-left-radius: 0;
 		margin-left: -1px; /* because of double border */
 		word-break: break-all;
-		flex: 1;
+		/* flex: 1; */
+		flex-shrink: 1;
+
+		@media screen and (max-width: ${props => props.theme.breakpoints[0]}) {
+			margin-left: 2px;
+		}
 	}
 `
