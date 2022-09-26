@@ -125,3 +125,28 @@ NFTCardsContainer.defaultProps = {
 		paddingBottom: ['24px', '48px'],
 	},
 }
+
+export const SuccessTitle = styled(Text)`
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 32px;
+	text-align: center;
+	color: ${props => props.theme.colors.gray1000};
+	padding-bottom: 8px;
+`
+
+SuccessTitle.defaultProps = {
+	as: 'h3',
+}
+
+export const SuccessMessage = styled(Text)`
+	font-size: 14px;
+	line-height: 20px;
+	text-align: center;
+	color: ${props => props.theme.colors.gray700};
+	padding-bottom: 16px;
+`
+
+SuccessMessage.defaultProps = {
+	as: 'p',
+}
