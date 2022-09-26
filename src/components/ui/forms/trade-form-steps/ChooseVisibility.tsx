@@ -1,3 +1,4 @@
+import { WalletIcon } from 'assets/icons/mixed'
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
 import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
@@ -102,6 +103,7 @@ const ChooseVisibilityForm = () => {
 						</Label>
 						<TextInput
 							id='walletAddress'
+							iconLeft={<WalletIcon />}
 							{...register('walletAddress')}
 							fieldError={
 								errors.walletAddress &&
