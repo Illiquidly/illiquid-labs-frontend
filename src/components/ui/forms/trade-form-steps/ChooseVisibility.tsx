@@ -4,7 +4,7 @@ import {
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 } from 'components'
-import { TextInputField } from 'components/ui/fields/text-input-field'
+import { TextInputField } from 'components/form/fields/text-input-field'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import useIsMobile from 'hooks/react/useIsMobile'
 import { useTranslation } from 'next-i18next'

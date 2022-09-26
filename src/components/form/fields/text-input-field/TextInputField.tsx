@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { TextInput } from 'components'
 import React from 'react'
 
-export interface TextInputProps
+export interface TextInputFieldProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: boolean
 	fieldError?: string
@@ -24,20 +24,19 @@ const StyledError = styled.p`
 	color: ${props => props.theme.colors.error100};
 `
 
-export const TextInputField = React.forwardRef<
-	HTMLInputElement,
-	TextInputProps
->((props, ref) => {
-	const inputRef = React.useRef<HTMLInputElement>(null)
+const TextInputField = React.forwardRef<HTMLInputElement, TextInputFieldProps>(
+	(props, ref) => {
+		const inputRef = React.useRef<HTMLInputElement>(null)
 
-	React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
+		React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
 
-	return (
-		<TextInputFieldContainer>
-			<TextInput {...props} />
-			<StyledError>{props.fieldError || null}</StyledError>
-		</TextInputFieldContainer>
-	)
-})
+		return (
+			<TextInputFieldContainer>
+				<TextInput ref={ref} {...props} />
+				<StyledError>{props.fieldError || null}</StyledError>
+			</TextInputFieldContainer>
+		)
+	}
+)
 
 export default TextInputField
