@@ -19,7 +19,7 @@ const Container = styled.div<ContainerProps>`
 	display: inline-flex;
 	align-items: center;
 	position: relative;
-	margin-bottom: 24px;
+	/* margin-bottom: 24px; */
 
 	width: 100%;
 	border: 1.5px solid
@@ -38,7 +38,7 @@ const Container = styled.div<ContainerProps>`
 	`}
 
 	&:hover {
-		/* margin: 0; Marino: not sure why we need this */
+		margin: 0;
 		outline: none;
 		border: ${props =>
 			`1.5px solid ${
@@ -57,7 +57,7 @@ const Container = styled.div<ContainerProps>`
 	}
 	&:active {
 		outline: none;
-		/* margin: 0; Marino: not sure why we need this */
+		margin: 0;
 		border: ${props =>
 			`1.5px solid ${
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
@@ -91,18 +91,9 @@ const TextInputStyled = styled.input<TextInputProps>`
 	color: ${props => props.theme.colors.natural50};
 `
 
-const StyledError = styled.p`
-	position: absolute;
-	top: 32px;
-	left: 0;
-	bottom: 0;
-	font-size: 14px;
-	color: ${props => props.theme.colors.error100};
-`
-
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 	(props, ref) => {
-		const { children, iconLeft, iconRight, fieldError, ...rest } = props
+		const { children, iconLeft, iconRight, ...rest } = props
 		const inputRef = React.useRef<HTMLInputElement>(null)
 
 		const handleClick = () => inputRef?.current?.click()
@@ -121,8 +112,6 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 						{children}
 					</TextInputStyled>
 					{props.error ? <AlertCircleIcon /> : iconRight}
-
-					<StyledError>{fieldError || null}</StyledError>
 				</Container>
 			</>
 		)

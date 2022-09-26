@@ -3,8 +3,8 @@ import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecified
 import {
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
-	TextInput,
 } from 'components'
+import { TextInputField } from 'components/ui/fields/text-input-field'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import useIsMobile from 'hooks/react/useIsMobile'
 import { useTranslation } from 'next-i18next'
@@ -100,7 +100,7 @@ const ChooseVisibilityForm = () => {
 						<Label htmlFor='walletAddress'>
 							{t('trade:choose-visibility.wallet-address-label')}
 						</Label>
-						<TextInput
+						<TextInputField
 							id='walletAddress'
 							{...register('walletAddress')}
 							fieldError={
