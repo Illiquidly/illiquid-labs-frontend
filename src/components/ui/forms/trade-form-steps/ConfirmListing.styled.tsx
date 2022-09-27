@@ -154,6 +154,7 @@ SuccessMessage.defaultProps = {
 export const SuccessLabel = styled.p`
 	color: ${props => props.theme.colors.gray800};
 	padding-bottom: 12px;
+	margin: 0;
 	font-size: 16px;
 	line-height: 24px;
 	font-weight: 600;

@@ -5,6 +5,7 @@ import If from 'components/core/if-statement'
 import { theme } from 'components/theme/theme'
 import { Button } from 'components/ui/button'
 import { Chip, VisibilityChip } from 'components/ui/chip'
+import { CopyField } from 'components/ui/copy-field'
 import { NFTCard } from 'components/ui/nft-card'
 import { StepProps } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
@@ -85,9 +86,16 @@ const SuccessScreen = () => {
 					gap: '36px',
 				}}
 			>
-				<SuccessLabel>{t('trade:confirm-listing.your-listing-url')}</SuccessLabel>
-
-				<SuccessLabel>{t('trade:confirm-listing.transaction-id')}</SuccessLabel>
+				<Box>
+					<SuccessLabel>{t('trade:confirm-listing.your-listing-url')}</SuccessLabel>
+					{/* TODO: Marino - hardcoded, should come from API */}
+					<CopyField data='https://illiquidly.io/#/explore/details/57' />
+				</Box>
+				<Box>
+					<SuccessLabel>{t('trade:confirm-listing.transaction-id')}</SuccessLabel>
+					{/* TODO: Marino - hardcoded, should come from API */}
+					<CopyField data='terra1dcegyrekltswvyy0xy69ydgxn9x8x32zdtapd8' />
+				</Box>
 			</ContentCard>
 		</Flex>
 	)

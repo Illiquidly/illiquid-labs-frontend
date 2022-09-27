@@ -55,6 +55,8 @@
 		"your-listing-url": "Your Listing URL",
 		"transaction-id": "Transaction ID",
 		"no-content-what-are-you-looking-for": "Any offer",
-		"no-content-comments": "No comments specified"
+		"no-content-comments": "No comments specified",
+		"copy": "copy",
+		"copied": "copied"
 	}
 }
