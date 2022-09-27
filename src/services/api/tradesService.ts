@@ -110,6 +110,7 @@ export class TradesService {
 		pagination?: TradePagination
 	): Promise<TradesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
+
 		queryBuilder.setFilter({
 			field: 'network',
 			operator: '$eq',
@@ -134,7 +135,7 @@ export class TradesService {
 
 		if (filters?.collections?.length) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.associatedAssets.cw721Coin.collectionAddress',
+				field: 'tradeInfo.cw721Assets.collection.collectionAddress',
 				operator: 'in',
 				value: filters?.collections,
 			})
@@ -142,7 +143,7 @@ export class TradesService {
 
 		if (filters?.lookingFor?.length) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.additionalInfo.lookingFor.collectionAddress',
+				field: 'tradeInfo.cw721Assets.lookingFor.collectionAddress',
 				operator: 'in',
 				value: filters?.lookingFor,
 			})
