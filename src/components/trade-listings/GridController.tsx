@@ -1,4 +1,4 @@
-import { ListingCard } from 'components/ui'
+import { ListingCard } from 'components/shared'
 import { noop } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'

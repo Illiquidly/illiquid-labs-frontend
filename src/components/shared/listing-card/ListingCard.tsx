@@ -7,8 +7,8 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Collection, NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
-import { OverflowTip } from '../overflow-tip'
-import { Tooltip } from '../tooltip'
+import { OverflowTip } from '../../ui/overflow-tip'
+import { Tooltip } from '../../ui/tooltip'
 
 import {
 	BottomImageArea,

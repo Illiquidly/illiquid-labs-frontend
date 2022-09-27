@@ -25,8 +25,6 @@ import {
 	SearchInput,
 	Tab,
 	Tabs,
-	TradeListingsFilterModal,
-	TradeListingsFilterModalProps,
 } from 'components/ui'
 
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
@@ -53,6 +51,8 @@ import {
 	SearchInputContainer,
 	SortSelectContainer,
 	TabsSection,
+	TradeListingsFilterModal,
+	TradeListingsFilterModalProps,
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
