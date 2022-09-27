@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionGetResponse } from 'services/api/supportedCollectionsService'
 import { TradesResponse } from 'services/api/tradesService'
-import { NFT } from 'services/api/walletNFTsService'
+// import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 
 export enum GRID_TYPE {
@@ -58,7 +58,11 @@ function GridController({
 			{(trades?.data || []).map(
 				({
 					tradeId,
-					tradeInfo: { additionalInfo, associatedAssetsWithInfo, whitelistedUsers },
+					tradeInfo: {
+						additionalInfo,
+						// associatedAssetsWithInfo,
+						whitelistedUsers,
+					},
 				}) => (
 					<Box key={tradeId}>
 						<ListingCard
@@ -71,9 +75,10 @@ function GridController({
 								additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
 							}
 							href={`/trade-listings/${tradeId}`}
-							nfts={(associatedAssetsWithInfo || [])
-								.filter(nft => nft.cw721Coin)
-								.map(({ cw721Coin }) => cw721Coin as NFT)}
+							nfts={[]}
+							// nfts={(associatedAssetsWithInfo || [])
+							// 	.filter(nft => nft.cw721Coin)
+							// 	.map(({ cw721Coin }) => cw721Coin as NFT)}
 							lookingFor={additionalInfo?.lookingFor ?? []}
 							imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
 							name={additionalInfo?.tradePreview?.cw721Coin?.name ?? ''}

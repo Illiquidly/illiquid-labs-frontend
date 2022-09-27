@@ -70,8 +70,11 @@ export default function ListingDetails() {
 	)
 
 	const { tradeInfo } = data ?? {}
-	const { additionalInfo, associatedAssetsWithInfo, whitelistedUsers } =
-		tradeInfo ?? {}
+	const {
+		additionalInfo,
+		// associatedAssetsWithInfo,
+		whitelistedUsers,
+	} = tradeInfo ?? {}
 
 	const [tradePreview, setTradePreview] = React.useState<{
 		coin?: Coin
@@ -124,9 +127,10 @@ export default function ListingDetails() {
 					</BlueWarning>
 				</Row>
 				<ImageRow
-					nfts={(associatedAssetsWithInfo || [])
-						.filter(nft => nft.cw721Coin)
-						.map(({ cw721Coin }) => cw721Coin as NFT)}
+					nfts={[]}
+					// nfts={(associatedAssetsWithInfo || [])
+					// 	.filter(nft => nft.cw721Coin)
+					// 	.map(({ cw721Coin }) => cw721Coin as NFT)}
 					imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
 					NFTProps={tradePreview}
 					onLike={noop}

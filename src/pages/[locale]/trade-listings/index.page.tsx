@@ -132,6 +132,8 @@ export default function TradeListings() {
 		LISTINGS_TYPE.ALL_LISTINGS
 	)
 
+	const [page, setPage] = React.useState(1)
+
 	// TODO: Uncomment this when backend operates normally
 	// const [activeTradesOption] = statusOptions
 	const [statuses, setStatuses] = React.useState<
@@ -153,6 +155,20 @@ export default function TradeListings() {
 	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
 		React.useState(false)
 
+	React.useEffect(
+		() => setPage(1),
+		[
+			wallet.network,
+			listingsType,
+			statuses,
+			lookingForCollections,
+			collections,
+			myFavoritesChecked,
+			counteredByMeChecked,
+			lookingForLiquidAssetsChecked,
+		]
+	)
+
 	const { data: trades } = useQuery(
 		[
 			'trades',
@@ -164,19 +180,27 @@ export default function TradeListings() {
 			myFavoritesChecked,
 			counteredByMeChecked,
 			lookingForLiquidAssetsChecked,
+			page,
 		],
 		async () =>
-			TradesService.getAllTrades(wallet.network.name, {
-				owners:
-					listingsType === LISTINGS_TYPE.MY_LISTINGS ? [myAddress] : undefined,
-				states: statuses.flatMap(({ value }) => JSON.parse(value)),
-				collections: collections.map(({ value }) => value),
-				lookingFor: lookingForCollections.map(({ value }) => value),
-				counteredBy: counteredByMeChecked ? [myAddress] : undefined,
-				hasLiquidAsset: lookingForLiquidAssetsChecked,
-				// myFavoritesChecked
-				// lookingForLiquidAssetsChecked
-			}),
+			TradesService.getAllTrades(
+				wallet.network.name,
+				{
+					owners:
+						listingsType === LISTINGS_TYPE.MY_LISTINGS ? [myAddress] : undefined,
+					states: statuses.flatMap(({ value }) => JSON.parse(value)),
+					collections: collections.map(({ value }) => value),
+					lookingFor: lookingForCollections.map(({ value }) => value),
+					counteredBy: counteredByMeChecked ? [myAddress] : undefined,
+					hasLiquidAsset: lookingForLiquidAssetsChecked,
+					// myFavoritesChecked
+					// lookingForLiquidAssetsChecked
+				},
+				{
+					page,
+					limit: 5,
+				}
+			),
 		{
 			enabled: !!wallet.network,
 			retry: true,
@@ -370,9 +394,10 @@ export default function TradeListings() {
 							<Flex sx={{ width: '100%', marginTop: '14px' }}>
 								{trades?.data && !!trades.data?.length && (
 									<Button
-										disabled={trades?.data.length <= trades.totalNumber}
+										disabled={trades?.page === trades.pageCount}
 										fullWidth
 										variant='dark'
+										onClick={() => setPage(prev => prev + 1)}
 									>
 										{t('common:show-more')}
 									</Button>

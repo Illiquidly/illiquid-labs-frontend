@@ -1,7 +1,8 @@
+import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { getParamsFromObject } from 'utils/js/getParamsFromObject'
+import { TRADE_STATE } from 'services/blockchain'
 import { keysToCamel } from 'utils/js/keysToCamel'
-import { Collection, NFT } from './walletNFTsService'
+import { NFT } from './walletNFTsService'
 
 export type Coin = {
 	amount: string
@@ -18,28 +19,42 @@ export type Cw1155Coin = {
 	tokenId: string
 }
 
+export type NetworkType = 'testnet' | 'classic' | 'mainnet'
+
+export type NFTWanted = {
+	id: number
+	network: NetworkType
+	collectionAddress: string
+	collectionName: string
+	symbol: string
+}
+
+export type LookingFor = {
+	id?: number
+	network: NetworkType
+	collectionAddress?: string
+	collectionName?: string
+	symbol?: string
+	currency?: string
+	amount?: string
+}
 export interface Trade {
+	id: number
+	network: NetworkType
 	tradeId: number
 	tradeInfo: {
 		acceptedInfo: {
 			counterId?: number
 		}
-		assetsWithdrawn: number
+		assetsWithdrawn: boolean
 		lastCounterId?: number
-		associatedAssets: [
-			{
-				coin?: Coin
-				cw721Coin?: Cw721Coin
-				cw1155Coin?: Cw1155Coin
-			}
-		]
+		associatedAssets: []
 		additionalInfo: {
 			ownerComment: {
 				comment: string
 				time: string
 			}
 			time: string
-			nftsWanted: string[]
 			tokensWanted: {
 				coin?: Coin
 				cw721Coin?: Cw721Coin
@@ -47,37 +62,32 @@ export interface Trade {
 			}[]
 			tradePreview: {
 				coin?: Coin
+				cw1155?: any
 				cw721Coin?: NFT
-				cw1155Coin?: any // TODO define in future
 			}
 			traderComment: {
 				comment?: string
 				time?: string
 			}
-			lookingFor: (Partial<Collection> & {
-				currency?: string
-				amount?: string
-			})[]
+			nftsWanted: NFTWanted[]
+			lookingFor: LookingFor[]
 		}
 		owner: string
-		state: string
-		whitelistedUsers: string[]
-		associatedAssetsWithInfo: {
-			coin?: Coin
-			cw721Coin?: NFT
-			Cw1155Coin?: any // TODO define this in future
-		}[]
+		state: TRADE_STATE
+		whitelistedUsers: []
 	}
 }
 
 export interface TradesResponse {
 	data: Trade[]
-	nextOffset?: number
-	totalNumber: number
+	count: number
+	total: number
+	page: number
+	pageCount: number
 }
 
 type TradeFilters = {
-	tradeId?: string[]
+	tradeIds?: string[]
 	states?: string[]
 	collections?: string[]
 	lookingFor?: string[]
@@ -88,11 +98,8 @@ type TradeFilters = {
 }
 
 type TradePagination = {
+	page?: number
 	limit?: number
-	offset?: number
-}
-
-type TradeSort = {
 	direction?: string
 }
 
@@ -100,64 +107,87 @@ export class TradesService {
 	public static async getAllTrades(
 		network: string,
 		filters?: TradeFilters,
-		pagination?: TradePagination,
-		sort: TradeSort = {
-			direction: 'ASC',
-		}
+		pagination?: TradePagination
 	): Promise<TradesResponse> {
-		const query = getParamsFromObject({
-			'filters.network': network,
-			...((filters?.tradeId || [])?.length
-				? {
-						'filters.tradeId': filters?.tradeId,
-				  }
-				: {}),
-			...((filters?.states || [])?.length
-				? {
-						'filters.state': filters?.states,
-				  }
-				: {}),
-			...((filters?.collections || [])?.length
-				? {
-						'filters.collections': filters?.collections,
-				  }
-				: {}),
-			...((filters?.lookingFor || [])?.length
-				? {
-						'filters.lookingFor': filters?.lookingFor,
-				  }
-				: {}),
-
-			...((filters?.counteredBy || [])?.length
-				? {
-						'filters.counteredBy': filters?.counteredBy,
-				  }
-				: {}),
-
-			...((filters?.whitelistedUsers || [])?.length
-				? {
-						'filters.whitelistedUsers': filters?.whitelistedUsers,
-				  }
-				: {}),
-
-			...((filters?.owners || [])?.length
-				? {
-						'filters.owners': filters?.owners,
-				  }
-				: {}),
-
-			...(filters?.hasLiquidAsset
-				? {
-						'filters.hasLiquidAsset': filters?.hasLiquidAsset,
-				  }
-				: {}),
-
-			...(pagination?.limit ? { 'pagination.limit': pagination.limit } : {}),
-			...(pagination?.offset ? { 'pagination.offset': pagination.offset } : {}),
-			...(sort?.direction ? { 'sort.direction': sort.direction } : {}),
+		const queryBuilder = RequestQueryBuilder.create()
+		queryBuilder.setFilter({
+			field: 'network',
+			operator: '$eq',
+			value: network,
 		})
 
-		const response = await axios.get(`trades/all?${query.toString()}`)
+		if (filters?.tradeIds?.length) {
+			queryBuilder.setFilter({
+				field: 'tradeId',
+				operator: 'in',
+				value: filters?.tradeIds,
+			})
+		}
+
+		if (filters?.states?.length) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo.state',
+				operator: 'in',
+				value: filters?.states.map(x => x.toLowerCase()),
+			})
+		}
+
+		if (filters?.collections?.length) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo.associatedAssets.cw721Coin.collectionAddress',
+				operator: 'in',
+				value: filters?.collections,
+			})
+		}
+
+		if (filters?.lookingFor?.length) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo.additionalInfo.lookingFor.collectionAddress',
+				operator: 'in',
+				value: filters?.lookingFor,
+			})
+		}
+
+		if (filters?.counteredBy?.length) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo.counterTrades.owner',
+				operator: 'in',
+				value: filters?.counteredBy,
+			})
+		}
+
+		if (filters?.whitelistedUsers?.length) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo.whitelistedUsers',
+				operator: 'in',
+				value: filters?.whitelistedUsers,
+			})
+		}
+
+		if (filters?.owners?.length) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo.owner',
+				operator: 'in',
+				value: filters?.owners,
+			})
+		}
+
+		if (filters?.hasLiquidAsset) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo.additionalInfo.lookingFor.currency',
+				operator: 'notnull',
+			})
+		}
+
+		if (pagination?.limit) {
+			queryBuilder.setLimit(pagination?.limit)
+		}
+
+		if (pagination?.page) {
+			queryBuilder.setPage(pagination?.page)
+		}
+
+		const response = await axios.get(`trades?${queryBuilder.query()}`)
 
 		return response.data
 	}
@@ -166,10 +196,24 @@ export class TradesService {
 		network: string,
 		tradeId: string
 	): Promise<Trade> {
-		const query = getParamsFromObject({ network, tradeId })
+		const queryBuilder = RequestQueryBuilder.create()
 
-		const response = await axios.get(`trades?${query.toString()}`)
+		queryBuilder.setFilter({
+			field: 'network',
+			operator: '$eq',
+			value: network,
+		})
 
-		return keysToCamel(response.data)
+		queryBuilder.setFilter({
+			field: 'tradeId',
+			operator: '$eq',
+			value: tradeId,
+		})
+
+		const response = await axios.get(`trades?${queryBuilder.query()}`)
+
+		const [trade] = response.data
+
+		return keysToCamel(trade)
 	}
 }
