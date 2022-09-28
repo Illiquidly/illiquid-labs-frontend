@@ -48,7 +48,7 @@ export interface Trade {
 		}
 		assetsWithdrawn: boolean
 		lastCounterId?: number
-		associatedAssets: []
+		associatedAssets: { cw721Coin?: NFT; cw1155Coin?: any; coin?: Coin }[]
 		additionalInfo: {
 			ownerComment: {
 				comment: string
