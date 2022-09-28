@@ -2,6 +2,7 @@ import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { TRADE_STATE } from 'services/blockchain'
 import { keysToCamel } from 'utils/js/keysToCamel'
+import { LookingFor, NetworkType } from 'types'
 import { NFT } from './walletNFTsService'
 
 export type Coin = {
@@ -19,8 +20,6 @@ export type Cw1155Coin = {
 	tokenId: string
 }
 
-export type NetworkType = 'testnet' | 'classic' | 'mainnet'
-
 export type NFTWanted = {
 	id: number
 	network: NetworkType
@@ -29,15 +28,6 @@ export type NFTWanted = {
 	symbol: string
 }
 
-export type LookingFor = {
-	id?: number
-	network: NetworkType
-	collectionAddress?: string
-	collectionName?: string
-	symbol?: string
-	currency?: string
-	amount?: string
-}
 export interface Trade {
 	id: number
 	network: NetworkType

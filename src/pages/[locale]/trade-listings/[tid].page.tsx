@@ -23,7 +23,11 @@ import {
 	DescriptionRow,
 	LookingForRow,
 } from 'components/listing-details'
-import { EditModal, RemoveModal } from 'components/listing-details/modals'
+import {
+	EditModal,
+	RemoveModal,
+	AcceptCounterOfferModal,
+} from 'components/listing-details/modals'
 import { CreateListingAddIcon } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
@@ -108,6 +112,18 @@ export default function ListingDetails() {
 		})
 	}
 
+	const onAcceptOffer = (/* offer: CounterOffer */) => {
+		// console.log('accept offer')
+	}
+
+	const handleApprove = () => {
+		// console.log('handle approve')
+		NiceModal.show(AcceptCounterOfferModal, { acceptCounterOffer: onAcceptOffer })
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	const handleDeny = (/* offer */) => {}
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -174,7 +190,7 @@ export default function ListingDetails() {
 					</Row>
 				)}
 				<Row>
-					<CounterOffers />
+					<CounterOffers handleApprove={handleApprove} handleDeny={handleDeny} />
 				</Row>
 			</LayoutContainer>
 		</Page>
