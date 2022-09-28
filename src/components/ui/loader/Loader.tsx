@@ -75,19 +75,19 @@ const LoadingBox = styled.div<{
 	left: 0;
 	position: absolute;
 	transform-style: preserve-3d;
-	&:nth-child(1) {
+	&:nth-of-type(1) {
 		transform: translate(100%, 0);
 		animation: box1 ${props => props.duration}ms linear infinite;
 	}
-	&:nth-child(2) {
+	&:nth-of-type(2) {
 		transform: translate(0, 100%);
 		animation: box2 ${props => props.duration}ms linear infinite;
 	}
-	&:nth-child(3) {
+	&:nth-of-type(3) {
 		transform: translate(100%, 100%);
 		animation: box3 ${props => props.duration}ms linear infinite;
 	}
-	&:nth-child(4) {
+	&:nth-of-type(4) {
 		transform: translate(200%, 0);
 		animation: box4 ${props => props.duration}ms linear infinite;
 	}
@@ -111,20 +111,20 @@ const LoadingBox = styled.div<{
 		left: var(--left);
 		transform: rotateY(var(--rotateY)) rotateX(var(--rotateX))
 			translateZ(var(--translateZ));
-		&:nth-child(1) {
+		&:nth-of-type(1) {
 			--top: 0;
 			--left: 0;
 		}
-		&:nth-child(2) {
+		&:nth-of-type(2) {
 			--background: #6b9cff;
 			--right: 0;
 			--rotateY: 90deg;
 		}
-		&:nth-child(3) {
+		&:nth-of-type(3) {
 			--background: rgb(72, 112, 234);
 			--rotateX: -90deg;
 		}
-		&:nth-child(4) {
+		&:nth-of-type(4) {
 			--background: #05151d;
 			--top: 0;
 			--left: 0;

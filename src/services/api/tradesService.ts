@@ -95,6 +95,7 @@ type TradeFilters = {
 	whitelistedUsers?: string[]
 	owners?: string[]
 	hasLiquidAsset?: boolean
+	search?: string
 }
 
 type TradePagination = {
@@ -135,7 +136,7 @@ export class TradesService {
 
 		if (filters?.collections?.length) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.cw721Assets.collection.collectionAddress',
+				field: 'tradeInfo_cw721Assets_collection_join.collectionAddress',
 				operator: 'in',
 				value: filters?.collections,
 			})
@@ -143,7 +144,7 @@ export class TradesService {
 
 		if (filters?.lookingFor?.length) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.cw721Assets.lookingFor.collectionAddress',
+				field: 'tradeInfo.nftsWanted.collectionAddress',
 				operator: 'in',
 				value: filters?.lookingFor,
 			})
@@ -175,8 +176,22 @@ export class TradesService {
 
 		if (filters?.hasLiquidAsset) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.additionalInfo.lookingFor.currency',
-				operator: 'notnull',
+				field: 'tradeInfo.tokensWanted',
+				operator: '$cont',
+				value: 'coin',
+			})
+			queryBuilder.setOr({
+				field: 'tradeInfo.tokensWanted',
+				operator: '$cont',
+				value: 'cw20Coin',
+			})
+		}
+
+		if (filters?.search) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo_cw721Assets_join.allNftInfo',
+				operator: '$cont',
+				value: filters?.search,
 			})
 		}
 
