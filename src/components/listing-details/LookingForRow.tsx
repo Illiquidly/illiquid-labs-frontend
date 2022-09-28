@@ -19,7 +19,9 @@ export const LookingForRow = ({ lookingFor, lookingForItemsLimit = 3 }) => {
 				{lookingFor.map((value, index) =>
 					index < lookingForItemsLimit ? (
 						<Chip key={JSON.stringify(value)}>
-							{value.denom ? `${value.amount} ${value.denom}` : value.collectionName}{' '}
+							{value.denom
+								? `${Number(value.amount).toFixed(2)} ${value.denom}`
+								: value.collectionName}
 						</Chip>
 					) : null
 				)}
@@ -27,9 +29,11 @@ export const LookingForRow = ({ lookingFor, lookingForItemsLimit = 3 }) => {
 					<Tooltip
 						overlay={
 							<div>
-								{lookingFor?.slice(lookingForItemsLimit).map(item => (
-									<div key={JSON.stringify(item)}>
-										{item.collectionName || `${item.amount} ${item.denom}`}
+								{lookingFor?.slice(lookingForItemsLimit).map(value => (
+									<div key={JSON.stringify(value)}>
+										{value.denom
+											? `${Number(value.amount).toFixed(2)} ${value.denom}`
+											: value.collectionName}
 									</div>
 								))}
 							</div>

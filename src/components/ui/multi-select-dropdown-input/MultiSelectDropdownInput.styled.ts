@@ -53,6 +53,12 @@ export const Container = styled.div<{
 
 export const MultiSelectDropdownInputStyled = styled.input`
 	width: 100%;
+
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
 		opacity: 1;

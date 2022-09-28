@@ -101,14 +101,14 @@ type TradeFilters = {
 type TradePagination = {
 	page?: number
 	limit?: number
-	direction?: string
 }
 
 export class TradesService {
 	public static async getAllTrades(
 		network: string,
 		filters?: TradeFilters,
-		pagination?: TradePagination
+		pagination?: TradePagination,
+		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<TradesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
 
@@ -201,6 +201,13 @@ export class TradesService {
 
 		if (pagination?.page) {
 			queryBuilder.setPage(pagination?.page)
+		}
+
+		if (sort) {
+			queryBuilder.sortBy({
+				field: 'id',
+				order: sort,
+			})
 		}
 
 		const response = await axios.get(`trades?${queryBuilder.query()}`)
