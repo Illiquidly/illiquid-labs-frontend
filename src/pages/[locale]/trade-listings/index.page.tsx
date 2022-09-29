@@ -4,6 +4,8 @@ import React from 'react'
 import NiceModal from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
+import { useDebounce } from 'react-use'
+
 import {
 	CollectionsBoxesIcon,
 	CreateListingAddIcon,
@@ -31,7 +33,7 @@ import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-acco
 import useIsTablet from 'hooks/react/useIsTablet'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { SupportedCollectionsService } from 'services/api'
-import { TradesService } from 'services/api/tradesService'
+import { Trade, TradesService } from 'services/api/tradesService'
 import { Box, Flex } from 'theme-ui'
 
 import * as ROUTES from 'constants/routes'
@@ -126,6 +128,12 @@ export default function TradeListings() {
 	]
 	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.SMALL))
 
+	const [search, setSearch] = React.useState('')
+
+	const [debouncedSearch, setDebouncedSearch] = React.useState('')
+
+	useDebounce(() => setDebouncedSearch(search), 800, [search])
+
 	const myAddress = wallet.wallets[0]?.terraAddress
 
 	const [listingsType, setListingsType] = React.useState(
@@ -155,21 +163,24 @@ export default function TradeListings() {
 	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
 		React.useState(false)
 
-	React.useEffect(
-		() => setPage(1),
-		[
-			wallet.network,
-			listingsType,
-			statuses,
-			lookingForCollections,
-			collections,
-			myFavoritesChecked,
-			counteredByMeChecked,
-			lookingForLiquidAssetsChecked,
-		]
-	)
+	// TODO extract this into hook, along with useQuery part.
+	const [infiniteData, setInfiniteData] = React.useState<Trade[]>([])
+	React.useEffect(() => {
+		setPage(1)
+		setInfiniteData([])
+	}, [
+		wallet.network,
+		listingsType,
+		statuses,
+		lookingForCollections,
+		collections,
+		myFavoritesChecked,
+		counteredByMeChecked,
+		lookingForLiquidAssetsChecked,
+		debouncedSearch,
+	])
 
-	const { data: trades } = useQuery(
+	const { data: trades, isLoading } = useQuery(
 		[
 			'trades',
 			wallet.network,
@@ -180,6 +191,7 @@ export default function TradeListings() {
 			myFavoritesChecked,
 			counteredByMeChecked,
 			lookingForLiquidAssetsChecked,
+			debouncedSearch,
 			page,
 		],
 		async () =>
@@ -193,18 +205,23 @@ export default function TradeListings() {
 					lookingFor: lookingForCollections.map(({ value }) => value),
 					counteredBy: counteredByMeChecked ? [myAddress] : undefined,
 					hasLiquidAsset: lookingForLiquidAssetsChecked,
+					search: debouncedSearch,
 					// myFavoritesChecked
-					// lookingForLiquidAssetsChecked
 				},
 				{
 					page,
-					limit: 5,
+					limit: 30,
 				}
 			),
 		{
 			enabled: !!wallet.network,
 			retry: true,
 		}
+	)
+
+	React.useEffect(
+		() => trades && setInfiniteData(prev => [...prev, ...trades.data]),
+		[trades]
 	)
 
 	const onFiltersClick = async () => {
@@ -259,6 +276,8 @@ export default function TradeListings() {
 					<FiltersSection>
 						<SearchInputContainer>
 							<SearchInput
+								onChange={e => setSearch(e.target.value)}
+								value={search}
 								placeholder={t('trade-listings:filters:search-placeholder')}
 							/>
 						</SearchInputContainer>
@@ -387,12 +406,13 @@ export default function TradeListings() {
 						)}
 						<Box sx={{ width: '100%' }}>
 							<GridController
-								trades={trades}
+								trades={infiniteData}
+								isLoading={!infiniteData.length && isLoading}
 								verifiedCollections={verifiedCollections}
 								gridType={Number(gridType)}
 							/>
 							<Flex sx={{ width: '100%', marginTop: '14px' }}>
-								{trades?.data && !!trades.data?.length && (
+								{trades?.data && !!trades.data?.length && !isLoading && (
 									<Button
 										disabled={trades?.page === trades.pageCount}
 										fullWidth

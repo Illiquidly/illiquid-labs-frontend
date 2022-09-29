@@ -144,7 +144,7 @@ function ListingCard({
 							index < lookingForItemsLimit ? (
 								<Chip key={JSON.stringify(value)}>
 									{value.amount
-										? `${value.amount} ${value.currency}`
+										? `${Number(value.amount).toFixed(2)} ${value.currency}`
 										: value.collectionName}
 								</Chip>
 							) : null
@@ -156,7 +156,7 @@ function ListingCard({
 										{lookingFor?.slice(lookingForItemsLimit).map(value => (
 											<div key={JSON.stringify(value)}>
 												{value.amount
-													? `${value.amount} ${value.currency}`
+													? `${Number(value.amount).toFixed(2)} ${value.currency}`
 													: value.collectionName}
 											</div>
 										))}

@@ -5,7 +5,7 @@ import { Button } from 'components/ui'
 import { Flex } from 'theme-ui'
 
 import { IconButton } from 'components/listing-details'
-
+import * as ROUTES from 'constants/routes'
 import {
 	DeleteOutlineIcon,
 	PenOutlineIcon,
@@ -24,6 +24,7 @@ export const ButtonsRow = ({ handleEditClick, handleRemoveClick }) => {
 				}}
 			>
 				<Button
+					href={ROUTES.TRADE}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}

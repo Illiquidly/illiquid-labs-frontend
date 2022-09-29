@@ -44,6 +44,7 @@
 		"react-image": "^4.0.3",
 		"react-popper": "^2.3.0",
 		"react-toastify": "^9.0.7",
+		"react-use": "^17.4.0",
 		"recoil": "^0.7.4",
 		"styled-system": "^5.1.5",
 		"theme-ui": "^0.14.7",

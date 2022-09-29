@@ -38,7 +38,7 @@ export interface Trade {
 		}
 		assetsWithdrawn: boolean
 		lastCounterId?: number
-		associatedAssets: []
+		associatedAssets: { cw721Coin?: NFT; cw1155Coin?: any; coin?: Coin }[]
 		additionalInfo: {
 			ownerComment: {
 				comment: string
@@ -85,21 +85,23 @@ type TradeFilters = {
 	whitelistedUsers?: string[]
 	owners?: string[]
 	hasLiquidAsset?: boolean
+	search?: string
 }
 
 type TradePagination = {
 	page?: number
 	limit?: number
-	direction?: string
 }
 
 export class TradesService {
 	public static async getAllTrades(
 		network: string,
 		filters?: TradeFilters,
-		pagination?: TradePagination
+		pagination?: TradePagination,
+		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<TradesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
+
 		queryBuilder.setFilter({
 			field: 'network',
 			operator: '$eq',
@@ -124,7 +126,7 @@ export class TradesService {
 
 		if (filters?.collections?.length) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.associatedAssets.cw721Coin.collectionAddress',
+				field: 'tradeInfo_cw721Assets_collection_join.collectionAddress',
 				operator: 'in',
 				value: filters?.collections,
 			})
@@ -132,7 +134,7 @@ export class TradesService {
 
 		if (filters?.lookingFor?.length) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.additionalInfo.lookingFor.collectionAddress',
+				field: 'tradeInfo.nftsWanted.collectionAddress',
 				operator: 'in',
 				value: filters?.lookingFor,
 			})
@@ -164,8 +166,22 @@ export class TradesService {
 
 		if (filters?.hasLiquidAsset) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.additionalInfo.lookingFor.currency',
-				operator: 'notnull',
+				field: 'tradeInfo.tokensWanted',
+				operator: '$cont',
+				value: 'coin',
+			})
+			queryBuilder.setOr({
+				field: 'tradeInfo.tokensWanted',
+				operator: '$cont',
+				value: 'cw20Coin',
+			})
+		}
+
+		if (filters?.search) {
+			queryBuilder.setFilter({
+				field: 'tradeInfo_cw721Assets_join.allNftInfo',
+				operator: '$cont',
+				value: filters?.search,
 			})
 		}
 
@@ -175,6 +191,13 @@ export class TradesService {
 
 		if (pagination?.page) {
 			queryBuilder.setPage(pagination?.page)
+		}
+
+		if (sort) {
+			queryBuilder.sortBy({
+				field: 'id',
+				order: sort,
+			})
 		}
 
 		const response = await axios.get(`trades?${queryBuilder.query()}`)

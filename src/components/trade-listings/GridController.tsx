@@ -1,10 +1,11 @@
 import { ListingCard } from 'components/shared'
+import { Loader } from 'components/ui'
 import { noop } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionGetResponse } from 'services/api/supportedCollectionsService'
-import { TradesResponse } from 'services/api/tradesService'
-// import { NFT } from 'services/api/walletNFTsService'
+import { Trade } from 'services/api/tradesService'
+import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 
 export enum GRID_TYPE {
@@ -13,9 +14,10 @@ export enum GRID_TYPE {
 }
 
 interface GridControllerProps {
-	trades?: TradesResponse
+	trades: Trade[]
 	gridType?: GRID_TYPE
 	verifiedCollections?: SupportedCollectionGetResponse[]
+	isLoading?: boolean
 }
 
 const stylesByGrid = {
@@ -43,8 +45,23 @@ function GridController({
 	trades,
 	gridType = GRID_TYPE.SMALL,
 	verifiedCollections = [],
+	isLoading,
 }: GridControllerProps) {
 	const { t } = useTranslation()
+
+	if (isLoading) {
+		return (
+			<Flex
+				sx={{
+					marginTop: '240px',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<Loader loadingText={t('common:loading')} />
+			</Flex>
+		)
+	}
 
 	return (
 		<Flex
@@ -55,14 +72,10 @@ function GridController({
 				...stylesByGrid[gridType],
 			}}
 		>
-			{(trades?.data || []).map(
+			{trades.map(
 				({
 					tradeId,
-					tradeInfo: {
-						additionalInfo,
-						// associatedAssetsWithInfo,
-						whitelistedUsers,
-					},
+					tradeInfo: { additionalInfo, associatedAssets, whitelistedUsers },
 				}) => (
 					<Box key={tradeId}>
 						<ListingCard
@@ -75,10 +88,9 @@ function GridController({
 								additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
 							}
 							href={`/trade-listings/${tradeId}`}
-							nfts={[]}
-							// nfts={(associatedAssetsWithInfo || [])
-							// 	.filter(nft => nft.cw721Coin)
-							// 	.map(({ cw721Coin }) => cw721Coin as NFT)}
+							nfts={(associatedAssets || [])
+								.filter(nft => nft.cw721Coin)
+								.map(({ cw721Coin }) => cw721Coin as NFT)}
 							lookingFor={additionalInfo?.lookingFor ?? []}
 							imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
 							name={additionalInfo?.tradePreview?.cw721Coin?.name ?? ''}
@@ -101,9 +113,9 @@ function GridController({
 }
 
 GridController.defaultProps = {
-	trades: [],
 	gridType: GRID_TYPE.SMALL,
 	verifiedCollections: [],
+	isLoading: false,
 }
 
 export default GridController
