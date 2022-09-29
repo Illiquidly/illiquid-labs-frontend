@@ -186,7 +186,7 @@ export const MyNFTsModal = NiceModal.create(
 										sx={{
 											mt: ['16px', '32px', '36px'],
 											flex: 1,
-											gap: '16px',
+											gap: '34px',
 											overflow: ['initial', 'initial', 'auto'],
 										}}
 									>
