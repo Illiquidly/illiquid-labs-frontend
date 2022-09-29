@@ -13,7 +13,7 @@ export async function getStaticProps({ locale = 'en' }) {
 export async function getStaticPaths() {
 	return {
 		// NOTE: This is hacky solution. TODO: We need to switch to server rendering.
-		paths: Array.from({ length: 10000000 }).map((_, index) => ({
+		paths: Array.from({ length: 100000 }).map((_, index) => ({
 			params: { tid: `${index}` },
 		})),
 		fallback: true,
