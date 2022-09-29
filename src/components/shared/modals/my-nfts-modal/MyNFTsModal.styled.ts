@@ -3,7 +3,8 @@ import { Box, Flex } from 'theme-ui'
 
 export const ModalContent = styled(Flex)`
 	flex-direction: column;
-	flex: 1;
+	width: 100%;
+	height: 100%;
 	max-width: 1272px;
 `
 
@@ -13,11 +14,11 @@ export const ModalContentHeader = styled(Flex)`
 `
 
 export const ModalOverlay = styled(Flex)`
-	position: absolute;
-	inset: 0;
-	flex: 1;
-	flex-direction: column;
+	display: flex;
+	width: 100%;
+	height: 100%;
 	background: rgba(0, 0, 0, 0.7);
+	flex-direction: column;
 `
 
 export const ModalHeader = styled(Flex)``
@@ -75,16 +76,6 @@ SearchContainer.defaultProps = {
 	sx: { flex: 1 },
 }
 
-export const MyNFTsBody = styled(Flex)``
-
-MyNFTsBody.defaultProps = {
-	sx: {
-		mt: ['16px', '32px', '36px'],
-		gap: '34px',
-		overflow: 'auto',
-	},
-}
-
 export const NFTSelectionOverlay = styled(Flex)``
 
 NFTSelectionOverlay.defaultProps = {
@@ -101,9 +92,9 @@ NFTSelectionOverlay.defaultProps = {
 	},
 }
 
-export const NFTCardContainer = styled(Flex)``
+export const NFTCardsGrid = styled(Flex)``
 
-NFTCardContainer.defaultProps = {
+NFTCardsGrid.defaultProps = {
 	sx: {
 		display: 'grid',
 		gridTemplateColumns: [
@@ -113,26 +104,16 @@ NFTCardContainer.defaultProps = {
 		],
 		gridColumnGap: ['8px', '16px', '32px'],
 		gridRowGap: ['8px', '16px', '32px'],
-		width: ['initial', 'initial', '100%'],
-	},
-}
-
-export const NFTCardsGridWrapper = styled(Flex)``
-NFTCardsGridWrapper.defaultProps = {
-	sx: {
 		width: '100%',
-		flexDirection: ['column', 'column', 'row'],
-		position: 'relative',
-		overflow: 'auto',
 	},
 }
 
-export const CollectionFiltersSection = styled(Box)`
+export const FiltersSection = styled(Flex)`
 	flex-direction: column;
 	overflow: auto;
 `
 
-CollectionFiltersSection.defaultProps = {
+FiltersSection.defaultProps = {
 	sx: {
 		minWidth: '280px',
 		display: ['none', 'none', 'flex'],
