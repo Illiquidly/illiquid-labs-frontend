@@ -70,7 +70,7 @@ const App = (props: AppProps & WalletControllerChainOptions) => {
 	)
 }
 
-App.getStaticProps = async () => {
+App.getInitialProps = async () => {
 	const chainOptions = await getChainOptions()
 	return {
 		...chainOptions,
