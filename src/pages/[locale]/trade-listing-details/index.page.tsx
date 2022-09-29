@@ -22,12 +22,12 @@ import {
 	ImageRow,
 	DescriptionRow,
 	LookingForRow,
-} from 'components/listing-details'
+} from 'components/trade-listing-details'
 import {
 	EditModal,
 	RemoveModal,
 	AcceptCounterOfferModal,
-} from 'components/listing-details/modals'
+} from 'components/trade-listing-details/modals'
 import { CreateListingAddIcon } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
@@ -40,7 +40,8 @@ import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
-const getStaticPaths = makeStaticPaths({ tid: Number(0).toString() })
+const getStaticPaths = makeStaticPaths()
+
 export { getStaticPaths, getStaticProps }
 
 export default function ListingDetails() {
@@ -49,6 +50,8 @@ export default function ListingDetails() {
 	const route = useRouter()
 
 	const wallet = useWallet()
+
+	const { tradeId } = route.query ?? {}
 
 	const { data: verifiedCollections } = useQuery(
 		['verifiedCollections', wallet.network],
@@ -62,11 +65,7 @@ export default function ListingDetails() {
 
 	const { data } = useQuery(
 		['trade', route?.query?.tid, wallet.network],
-		async () =>
-			TradesService.getTrade(
-				wallet.network.name,
-				(route?.query?.tid ?? '').toString()
-			),
+		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
 		{
 			enabled: !!wallet.network,
 			retry: true,
@@ -88,7 +87,7 @@ export default function ListingDetails() {
 
 	useHeaderActions(
 		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Button variant='gradient' size='medium' href={ROUTES.CREATE_TRADE_LISTING}>
+			<Button variant='gradient' size='medium' href={ROUTES.TRADE_CREATE_LISTING}>
 				<CreateListingAddIcon />
 				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
 					{t('common:create-listing')}

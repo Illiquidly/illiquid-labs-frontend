@@ -9,7 +9,7 @@ import {
 	ImageSection,
 	BottomImageArea,
 	Image,
-} from 'components/listing-details'
+} from 'components/trade-listing-details'
 
 import { HeartFilledIcon, HeartIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'

@@ -14,7 +14,7 @@ function Header() {
 		<HeaderWrapper as='header'>
 			<LayoutContainer>
 				<Flex sx={{ justifyContent: 'space-between' }}>
-					<Link href={ROUTES.DASHBOARD}>
+					<Link href={ROUTES.TRADE_LISTINGS}>
 						<IlliquidlyFooterLogo />
 					</Link>
 					{headerActions || <ConnectButton />}

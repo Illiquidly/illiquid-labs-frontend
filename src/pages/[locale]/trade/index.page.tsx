@@ -49,7 +49,7 @@ export { getStaticPaths, getStaticProps }
 export default function Trade() {
 	const { t } = useTranslation(['common', 'trade'])
 	useHeaderActions(
-		<Button variant='secondary' size='medium' href={ROUTES.TRADE}>
+		<Button variant='secondary' size='medium' href={ROUTES.TRADE_LISTINGS}>
 			{t('common:exit-create-listing')}
 		</Button>
 	)

@@ -7,7 +7,7 @@ import {
 	Chip,
 	LookingForSection,
 	LookingForTitle,
-} from 'components/listing-details'
+} from 'components/trade-listing-details'
 import { useTranslation } from 'next-i18next'
 import { LookingFor } from 'types'
 

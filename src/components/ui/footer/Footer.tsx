@@ -60,7 +60,7 @@ function Footer() {
 							<Link href={ROUTES.DASHBOARD}>
 								<LinkText>{t('links.dashboard')}</LinkText>
 							</Link>
-							<Link href={ROUTES.TRADE}>
+							<Link href={ROUTES.TRADE_LISTINGS}>
 								<LinkText>{t('links.trade')}</LinkText>
 							</Link>
 							<Link href={ROUTES.SEND}>
