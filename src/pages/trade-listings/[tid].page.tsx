@@ -12,7 +12,10 @@ export async function getStaticProps({ locale = 'en' }) {
 
 export async function getStaticPaths() {
 	return {
-		paths: [{ params: { tid: Number(0).toString() } }],
+		// NOTE: This is hacky solution. TODO: We need to switch to server rendering.
+		paths: Array.from({ length: 10000000 }).map((_, index) => ({
+			params: { tid: `${index}` },
+		})),
 		fallback: true,
 	}
 }
