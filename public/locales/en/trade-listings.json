@@ -5,7 +5,9 @@
 	"counter-offers": {
 		"title": "Counter Offers",
 		"table": {
-			"columns": ["User", "NFTs", "Tokens", "Date"]
+			"columns": ["User", "NFTs", "Tokens", "Date"],
+			"approve": "Approve",
+			"deny": "Deny"
 		}
 	},
 	"filters": {
@@ -52,5 +54,14 @@
 		"interested-in": "I'm interested in",
 		"tokens-interested-in": "Tokens I'm interested in",
 		"write-comment": "Write a comment"
+	},
+	"accept-counter-offer-modal": {
+		"title": "Accept counter offer",
+		"question": "Are you sure you’d like to accept the offer from %{username} ?",
+		"radio-text": "Yes, I’m sure I’d like to accept the offer",
+		"send-message": "Send Message",
+		"enter-text": "Enter text",
+		"back-to-listing": "Back to Listing",
+		"accept-offer": "Accept Offer"
 	}
 }

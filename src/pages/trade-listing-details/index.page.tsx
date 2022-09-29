@@ -10,11 +10,4 @@ export async function getStaticProps({ locale = 'en' }) {
 	}
 }
 
-export async function getStaticPaths() {
-	return {
-		paths: [{ params: { tid: Number(0).toString() } }],
-		fallback: true,
-	}
-}
-
 export default Redirect

@@ -8,7 +8,7 @@ import {
 	DescriptionSection,
 	Title,
 	Subtitle,
-} from 'components/listing-details'
+} from 'components/trade-listing-details'
 
 import { VerifiedIcon } from 'assets/icons/16pt'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'

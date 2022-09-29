@@ -7,10 +7,19 @@ import {
 	Chip,
 	LookingForSection,
 	LookingForTitle,
-} from 'components/listing-details'
+} from 'components/trade-listing-details'
 import { useTranslation } from 'next-i18next'
+import { LookingFor } from 'types'
 
-export const LookingForRow = ({ lookingFor, lookingForItemsLimit = 3 }) => {
+export interface LookingForProps {
+	lookingFor: LookingFor[]
+	lookingForItemsLimit?: number
+}
+
+export const LookingForRow = ({
+	lookingFor,
+	lookingForItemsLimit = 3,
+}: LookingForProps) => {
 	const { t } = useTranslation(['common'])
 	return (
 		<LookingForSection>

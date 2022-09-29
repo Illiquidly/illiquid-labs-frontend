@@ -74,7 +74,7 @@ export default function TradeListings() {
 
 	useHeaderActions(
 		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Button variant='gradient' size='medium' href={ROUTES.CREATE_TRADE_LISTING}>
+			<Button variant='gradient' size='medium' href={ROUTES.TRADE_CREATE_LISTING}>
 				<CreateListingAddIcon />
 				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
 					{t('common:create-listing')}

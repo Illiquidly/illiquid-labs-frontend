@@ -7,6 +7,7 @@ import { SupportedCollectionGetResponse } from 'services/api/supportedCollection
 import { Trade } from 'services/api/tradesService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
+import * as ROUTES from 'constants/routes'
 
 export enum GRID_TYPE {
 	SMALL = 0,
@@ -87,7 +88,7 @@ function GridController({
 							collectionAddress={
 								additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
 							}
-							href={`/trade-listings/${tradeId}`}
+							href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
 							nfts={(associatedAssets || [])
 								.filter(nft => nft.cw721Coin)
 								.map(({ cw721Coin }) => cw721Coin as NFT)}

@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next'
 import { Button } from 'components/ui'
 import { Flex } from 'theme-ui'
 
-import { IconButton } from 'components/listing-details'
+import { IconButton } from 'components/trade-listing-details'
 import * as ROUTES from 'constants/routes'
 import {
 	DeleteOutlineIcon,
@@ -24,7 +24,7 @@ export const ButtonsRow = ({ handleEditClick, handleRemoveClick }) => {
 				}}
 			>
 				<Button
-					href={ROUTES.TRADE}
+					href={ROUTES.TRADE_LISTINGS}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}

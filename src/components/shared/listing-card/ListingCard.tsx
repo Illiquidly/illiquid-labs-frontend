@@ -139,7 +139,7 @@ function ListingCard({
 				<LookingForSection>
 					<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
 					<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-						{!lookingFor?.length ? <Chip>Any offer</Chip> : null}
+						{!lookingFor?.length ? <Chip>{t('common:any-offer')}</Chip> : null}
 						{(lookingFor || []).map((value, index) =>
 							index < lookingForItemsLimit ? (
 								<Chip key={JSON.stringify(value)}>

@@ -14,6 +14,7 @@ import {
 } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import { Flex } from 'theme-ui'
+import { CounterOffer } from 'types'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -94,7 +95,14 @@ const Container = styled(Flex)`
 	width: 100%;
 `
 
-export default function CounterOffers() {
+interface CounterOffersProps {
+	handleApprove: (offer: CounterOffer) => void
+	handleDeny: (offer: CounterOffer) => void
+}
+export default function CounterOffers({
+	handleApprove,
+	handleDeny,
+}: CounterOffersProps) {
 	const previewItemsLimit = 5
 
 	const { t } = useTranslation(['common', 'trade-listings'])
@@ -104,6 +112,7 @@ export default function CounterOffers() {
 			returnObjects: true,
 		}
 	)
+
 	return (
 		<Container>
 			<Title>{t('trade-listings:counter-offers.title')}</Title>
@@ -171,6 +180,28 @@ export default function CounterOffers() {
 									}}
 								>
 									{`${i * 2} days ago`}
+								</Flex>
+							</TableBodyRowCell>
+							<TableBodyRowCell>
+								<Flex
+									sx={{
+										gap: '12px',
+									}}
+								>
+									<Button
+										sx={{ height: '40px', flex: 1 }}
+										variant='primary'
+										onClick={handleApprove}
+									>
+										{t('trade-listings:counter-offers.table.approve')}
+									</Button>
+									<Button
+										onClick={handleDeny}
+										variant='secondary'
+										sx={{ height: '40px', flex: 1 }}
+									>
+										{t('trade-listings:counter-offers.table.deny')}
+									</Button>
 								</Flex>
 							</TableBodyRowCell>
 						</TableBodyRow>
