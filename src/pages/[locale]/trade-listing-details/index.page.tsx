@@ -64,7 +64,7 @@ export default function ListingDetails() {
 	)
 
 	const { data } = useQuery(
-		['trade', route?.query?.tid, wallet.network],
+		['trade', tradeId, wallet.network],
 		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
 		{
 			enabled: !!wallet.network,
