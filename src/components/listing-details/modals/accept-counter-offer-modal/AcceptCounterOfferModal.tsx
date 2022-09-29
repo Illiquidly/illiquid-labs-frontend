@@ -46,7 +46,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 			modal.remove()
 		}
 
-		const onBacktoListing = () => {
+		const onBackToListing = () => {
 			modal.remove()
 		}
 
@@ -104,7 +104,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 									}}
 								>
 									<Button
-										onClick={onBacktoListing}
+										onClick={onBackToListing}
 										variant='secondary'
 										sx={{ height: '40px', flex: 1 }}
 									>
