@@ -10,6 +10,7 @@ import {
 	NFTCard,
 	SearchInput,
 	SelectCard,
+	Loader,
 } from 'components'
 
 import { OnlyMobileAndTablet } from 'components/ui/layout'
@@ -22,6 +23,7 @@ import { Box, Flex, IconButton } from 'theme-ui'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { SupportedCollectionsService } from 'services/api'
+import { useTranslation } from 'next-i18next'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	FiltersSection,
@@ -50,6 +52,7 @@ export const MyNFTsModal = NiceModal.create(
 		addNFTsButtonLabel,
 		selectedNFTs: defaultSelectedNFTs = [],
 	}: MyNFTsModalProps) => {
+		const { t } = useTranslation()
 		const wallet = useWallet()
 		const modal = useModal()
 		const theme = useTheme()
@@ -61,7 +64,7 @@ export const MyNFTsModal = NiceModal.create(
 			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
 
-		const { ownedNFTs, ownedCollections } = useMyNFTs({
+		const { partiallyLoading, ownedNFTs, ownedCollections } = useMyNFTs({
 			collectionAddresses: selectedCollections.map(({ value }) => value),
 			name: searchName,
 		})
@@ -182,80 +185,88 @@ export const MyNFTsModal = NiceModal.create(
 											{addNFTsButtonLabel}
 										</Button>
 									</Flex>
-									<Flex
-										sx={{
-											mt: ['16px', '32px', '36px'],
-											flex: 1,
-											gap: '34px',
-											overflow: ['initial', 'initial', 'auto'],
-										}}
-									>
-										<FiltersSection>
-											{ownedCollections.map(({ collectionAddress, collectionName }) => {
-												const checked = selectedCollections
-													.map(({ value }) => value)
-													.includes(collectionAddress)
-
-												const setCollections = prevCollectionAddresses => {
-													if (checked) {
-														return selectedCollections.filter(
-															collection => collection.value !== collectionAddress
-														)
-													}
-													return [
-														...prevCollectionAddresses,
-														{
-															label: collectionName,
-															value: collectionAddress,
-														},
-													]
-												}
-
-												return (
-													<Box key={collectionAddress} sx={{ flex: 1, maxHeight: '66px' }}>
-														<CheckboxCard
-															checked={checked}
-															onChange={() => setSelectedCollections(setCollections)}
-															title={collectionName}
-														/>
-													</Box>
-												)
-											})}
-										</FiltersSection>
-
+									{partiallyLoading ? (
+										<Flex
+											sx={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+										>
+											<Loader loadingText={t('common:loading')} />
+										</Flex>
+									) : (
 										<Flex
 											sx={{
-												overflow: ['initial', 'initial', 'auto'],
+												mt: ['16px', '32px', '36px'],
 												flex: 1,
+												gap: '34px',
+												overflow: ['initial', 'initial', 'auto'],
 											}}
 										>
-											<NFTCardsGrid>
-												{ownedNFTs.map(nft => {
-													const checked = selectedNFTs.some(
-														({ collectionAddress, tokenId }) =>
-															collectionAddress === nft.collectionAddress &&
-															tokenId === nft.tokenId
-													)
+											<FiltersSection>
+												{ownedCollections.map(({ collectionAddress, collectionName }) => {
+													const checked = selectedCollections
+														.map(({ value }) => value)
+														.includes(collectionAddress)
+
+													const setCollections = prevCollectionAddresses => {
+														if (checked) {
+															return selectedCollections.filter(
+																collection => collection.value !== collectionAddress
+															)
+														}
+														return [
+															...prevCollectionAddresses,
+															{
+																label: collectionName,
+																value: collectionAddress,
+															},
+														]
+													}
 
 													return (
-														<Box key={`${nft.collectionAddress}_${nft.tokenId}`}>
-															<NFTCard
-																{...nft}
-																verified={(verifiedCollections ?? []).some(
-																	({ collectionAddress }) =>
-																		nft.collectionAddress === collectionAddress
-																)}
-																onCardClick={() =>
-																	checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
-																}
+														<Box key={collectionAddress} sx={{ flex: 1, maxHeight: '66px' }}>
+															<CheckboxCard
 																checked={checked}
+																onChange={() => setSelectedCollections(setCollections)}
+																title={collectionName}
 															/>
 														</Box>
 													)
 												})}
-											</NFTCardsGrid>
+											</FiltersSection>
+
+											<Flex
+												sx={{
+													overflow: ['initial', 'initial', 'auto'],
+													flex: 1,
+												}}
+											>
+												<NFTCardsGrid>
+													{ownedNFTs.map(nft => {
+														const checked = selectedNFTs.some(
+															({ collectionAddress, tokenId }) =>
+																collectionAddress === nft.collectionAddress &&
+																tokenId === nft.tokenId
+														)
+
+														return (
+															<Box key={`${nft.collectionAddress}_${nft.tokenId}`}>
+																<NFTCard
+																	{...nft}
+																	verified={(verifiedCollections ?? []).some(
+																		({ collectionAddress }) =>
+																			nft.collectionAddress === collectionAddress
+																	)}
+																	onCardClick={() =>
+																		checked ? removeSelectedNFT(nft) : addSelectedNFT(nft)
+																	}
+																	checked={checked}
+																/>
+															</Box>
+														)
+													})}
+												</NFTCardsGrid>
+											</Flex>
 										</Flex>
-									</Flex>
+									)}
 								</Flex>
 							</Flex>
 
