@@ -64,10 +64,11 @@ export const MyNFTsModal = NiceModal.create(
 			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
 
-		const { partiallyLoading, ownedNFTs, ownedCollections } = useMyNFTs({
-			collectionAddresses: selectedCollections.map(({ value }) => value),
-			name: searchName,
-		})
+		const { partiallyLoading, ownedNFTs, ownedCollections, fetchMyNFTs } =
+			useMyNFTs({
+				collectionAddresses: selectedCollections.map(({ value }) => value),
+				name: searchName,
+			})
 
 		const { data: verifiedCollections } = useQuery(
 			['verifiedCollections'],
@@ -81,6 +82,10 @@ export const MyNFTsModal = NiceModal.create(
 
 		const { selectedNFTs, addSelectedNFT, removeSelectedNFT } =
 			useSelectedNFTs(defaultSelectedNFTs)
+
+		React.useEffect(() => {
+			fetchMyNFTs()
+		}, [modal.visible])
 
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
