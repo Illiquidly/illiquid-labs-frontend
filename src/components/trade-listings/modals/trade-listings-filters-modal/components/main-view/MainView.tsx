@@ -45,7 +45,7 @@ function MainView({
 	return (
 		<>
 			<FiltersContainer>
-				<FilterSection>
+				<FilterSection onClick={onNavigateStatuses}>
 					<TargetIcon />
 					<FilterText>{t('trade-listings:filters:status-label')}</FilterText>
 					<FilterAction>
@@ -53,14 +53,13 @@ function MainView({
 							sx={{
 								padding: '5.59px 8.30px',
 							}}
-							onClick={onNavigateStatuses}
 							size='24px'
 						>
 							<FilterArrowRightIcon width='100%' height='100%' />
 						</IconButton>
 					</FilterAction>
 				</FilterSection>
-				<FilterSection>
+				<FilterSection onClick={onNavigateCollections}>
 					<CollectionsBoxesIcon />
 					<FilterText>{t('trade-listings:filters:collections-label')}</FilterText>
 					<FilterAction>
@@ -68,14 +67,13 @@ function MainView({
 							sx={{
 								padding: '5.59px 8.30px',
 							}}
-							onClick={onNavigateCollections}
 							size='24px'
 						>
 							<FilterArrowRightIcon width='100%' height='100%' />
 						</IconButton>
 					</FilterAction>
 				</FilterSection>
-				<FilterSection>
+				<FilterSection onClick={onNavigateLookingFor}>
 					<LookingForCompassIcon />
 					<FilterText>{t('trade-listings:filters:looking-for-label')}</FilterText>
 					<FilterAction>
@@ -84,7 +82,6 @@ function MainView({
 								padding: '5.59px 8.30px',
 							}}
 							size='24px'
-							onClick={onNavigateLookingFor}
 						>
 							<FilterArrowRightIcon width='100%' height='100%' />
 						</IconButton>

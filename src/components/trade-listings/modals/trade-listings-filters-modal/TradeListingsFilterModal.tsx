@@ -122,6 +122,7 @@ const TradeListingsFilterModal = NiceModal.create(
 									onChange={v => setStatuses(v)}
 									accordionTitle={t('trade-listings:filters:status-label')}
 									options={statusOptions}
+									placeholder={t('trade-listings:filters:search-status-placeholder')}
 								/>
 							</FiltersContainer>
 						)}
