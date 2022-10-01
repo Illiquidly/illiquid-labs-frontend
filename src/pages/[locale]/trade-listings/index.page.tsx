@@ -166,8 +166,8 @@ export default function TradeListings() {
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<Trade[]>([])
 	React.useEffect(() => {
-		setPage(1)
 		setInfiniteData([])
+		setPage(1)
 	}, [
 		wallet.network,
 		listingsType,

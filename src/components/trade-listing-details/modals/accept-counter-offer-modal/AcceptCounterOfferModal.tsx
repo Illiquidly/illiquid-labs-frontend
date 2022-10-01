@@ -16,7 +16,7 @@ import {
 	TextArea,
 } from 'components/ui'
 
-import { CounterOffer } from 'types'
+import { CounterTrade } from 'services/api/counterTradesService'
 import {
 	ModalBody,
 	ModalContainer,
@@ -27,8 +27,8 @@ import {
 } from './AcceptCounterOfferModal.styled'
 
 export interface AcceptCounterOfferModalProps {
-	acceptCounterOffer: (offer: CounterOffer) => void
-	offer: CounterOffer
+	acceptCounterOffer: (offer: CounterTrade) => void
+	offer: CounterTrade
 }
 
 const AcceptCounterOfferModal = NiceModal.create(
@@ -71,7 +71,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 								<Flex>
 									<Title>
 										{t('trade-listings:accept-counter-offer-modal.question', {
-											username: offer?.user?.username,
+											username: offer?.tradeInfo.owner,
 										})}
 									</Title>
 								</Flex>

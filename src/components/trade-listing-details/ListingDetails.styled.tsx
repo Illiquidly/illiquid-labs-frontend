@@ -120,12 +120,6 @@ export const PreviewNFTsSection = styled.div`
 
 	width: 166px;
 
-	background: rgba(72, 74, 77, 0.3);
-
-	backdrop-filter: blur(24px);
-
-	border-radius: 4px;
-
 	font-style: normal;
 	font-weight: 700;
 	font-size: 12px;
@@ -148,6 +142,9 @@ export const PreviewImageContainer = styled.div`
 	height: 31px;
 	overflow: hidden;
 	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `
 
 export const ListingOverlay = styled(Flex)`

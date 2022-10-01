@@ -17,12 +17,12 @@ import { Box, Flex } from 'theme-ui'
 import moment from 'moment'
 
 import {
-	CounterOffers,
 	Row,
 	TradeHeaderActionsRow,
 	ImageRow,
 	DescriptionRow,
 	LookingForRow,
+	CounterOffersTable,
 } from 'components/trade-listing-details'
 import {
 	EditModal,
@@ -79,7 +79,7 @@ export default function ListingDetails() {
 		}
 	)
 
-	const { data } = useQuery(
+	const { data: trade } = useQuery(
 		['trade', tradeId, wallet.network],
 		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
 		{
@@ -88,7 +88,7 @@ export default function ListingDetails() {
 		}
 	)
 
-	const { tradeInfo } = data ?? {}
+	const { tradeInfo } = trade ?? {}
 	const { additionalInfo, whitelistedUsers } = tradeInfo ?? {}
 
 	const [tradePreview, setTradePreview] = React.useState<{
@@ -99,7 +99,7 @@ export default function ListingDetails() {
 
 	React.useEffect(() => {
 		setTradePreview(additionalInfo?.tradePreview ?? null)
-	}, [data])
+	}, [trade])
 
 	useHeaderActions(
 		<Flex sx={{ gap: '8px', height: '40px' }}>
@@ -114,7 +114,7 @@ export default function ListingDetails() {
 	)
 
 	const handleEditClick = async () => {
-		if (!data) {
+		if (!trade) {
 			return
 		}
 		const initialLookingFor = tradeInfo?.additionalInfo?.lookingFor ?? []
@@ -132,7 +132,7 @@ export default function ListingDetails() {
 				fromUpdateTradeToBlockchain(result)
 
 			const [, response] = await asyncAction(
-				updateTrade(data.tradeId, comment, newTokensWanted, newNFTsWanted)
+				updateTrade(trade.tradeId, comment, newTokensWanted, newNFTsWanted)
 			)
 
 			// TODO add broadcasting modal, refetch trade
@@ -141,12 +141,12 @@ export default function ListingDetails() {
 	}
 
 	const handleRemoveClick = async () => {
-		if (!data) {
+		if (!trade) {
 			return
 		}
 		const [, result] = await asyncAction<RemoveModalProps>(
 			NiceModal.show(RemoveModal, {
-				tradeId: data.tradeId,
+				tradeId: trade.tradeId,
 			})
 		)
 
@@ -157,7 +157,7 @@ export default function ListingDetails() {
 
 			if (cancelTradeResponse) {
 				NiceModal.show(RemoveSuccessModal, {
-					tradeId: data.tradeId,
+					tradeId: trade.tradeId,
 				})
 			}
 		}
@@ -293,7 +293,11 @@ export default function ListingDetails() {
 					</Row>
 				)}
 				<Row>
-					<CounterOffers handleApprove={handleApprove} handleDeny={handleDeny} />
+					<CounterOffersTable
+						tradeId={String(trade?.tradeId) ?? '-1'}
+						handleApprove={handleApprove}
+						handleDeny={handleDeny}
+					/>
 				</Row>
 			</LayoutContainer>
 		</Page>
