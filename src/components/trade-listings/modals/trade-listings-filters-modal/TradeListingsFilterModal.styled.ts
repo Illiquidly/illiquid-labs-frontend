@@ -23,7 +23,7 @@ export const ModalBody = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 0 24px;
-	padding-bottom: 47px;
+	padding-bottom: 24px;
 	overflow: auto;
 `
 
