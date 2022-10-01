@@ -8,6 +8,7 @@ export const CopyFieldContainer = styled(Flex)`
 		font-weight: 700;
 		font-size: 16px;
 		line-height: 24px;
+		word-break: break-all;
 	}
 `
 
