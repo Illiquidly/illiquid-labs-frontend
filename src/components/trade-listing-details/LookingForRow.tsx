@@ -25,23 +25,24 @@ export const LookingForRow = ({
 		<LookingForSection>
 			<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
 			<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-				{lookingFor.map((value, index) =>
+				{!lookingFor.length && <Chip>{t('common:any-offer')}</Chip>}
+				{(lookingFor ?? []).map((value, index) =>
 					index < lookingForItemsLimit ? (
 						<Chip key={JSON.stringify(value)}>
-							{value.denom
-								? `${Number(value.amount).toFixed(2)} ${value.denom}`
+							{value.currency
+								? `${value.amount} ${value.currency}`
 								: value.collectionName}
 						</Chip>
 					) : null
 				)}
-				{lookingFor?.slice(lookingForItemsLimit).length && (
+				{Boolean(lookingFor?.slice(lookingForItemsLimit).length) && (
 					<Tooltip
 						overlay={
 							<div>
 								{lookingFor?.slice(lookingForItemsLimit).map(value => (
 									<div key={JSON.stringify(value)}>
-										{value.denom
-											? `${Number(value.amount).toFixed(2)} ${value.denom}`
+										{value.currency
+											? `${value.amount} ${value.currency}`
 											: value.collectionName}
 									</div>
 								))}

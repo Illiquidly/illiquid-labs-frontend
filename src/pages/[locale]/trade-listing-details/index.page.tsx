@@ -43,7 +43,15 @@ import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
-import { TRADE_STATE } from 'services/blockchain'
+import {
+	getDenomForCurrency,
+	TRADE_STATE,
+	updateTrade,
+} from 'services/blockchain'
+import { asyncAction } from 'utils/js/asyncAction'
+import { EditModalResult } from 'components/trade-listing-details/modals/edit-modal/EditModal'
+import { LOOKING_FOR_TYPE } from 'components/ui/forms/trade-form-steps'
+import { amountConverter } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -103,8 +111,41 @@ export default function ListingDetails() {
 		</Flex>
 	)
 
-	const handleEditClick = () => {
-		NiceModal.show(EditModal, {})
+	const handleEditClick = async () => {
+		if (!data) {
+			return
+		}
+		const initialLookingFor = tradeInfo?.additionalInfo?.lookingFor ?? []
+		const initialComment = tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
+
+		const [, result] = await asyncAction<EditModalResult>(
+			NiceModal.show(EditModal, {
+				initialLookingFor,
+				initialComment,
+			})
+		)
+
+		if (result) {
+			const { tokenAmount, tokenName, comment, nftsWanted, lookingForType } =
+				result
+
+			const newTokensWanted =
+				lookingForType === LOOKING_FOR_TYPE.ANY || !tokenAmount
+					? []
+					: [
+							{
+								amount: amountConverter.luna.userFacingToBlockchainValue(
+									Number(tokenAmount)
+								),
+								denom: getDenomForCurrency(tokenName),
+							},
+					  ]
+
+			const newNFTsWanted =
+				lookingForType === LOOKING_FOR_TYPE.ANY ? [] : nftsWanted
+
+			await updateTrade(data.tradeId, comment, newTokensWanted, newNFTsWanted)
+		}
 	}
 
 	const handleRemoveClick = () => {

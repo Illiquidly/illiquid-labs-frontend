@@ -7,6 +7,7 @@ import terraUtils, {
 import { keysToCamel } from 'utils/js/keysToCamel'
 import addresses, { ContractName } from 'services/blockchain/addresses'
 import { NFT } from 'services/api/walletNFTsService'
+import { Coin } from 'services/api/tradesService'
 
 const amountConverter = converter.ust
 
@@ -210,6 +211,98 @@ async function listTradeOffers(offers: P2PTradeOffer[]) {
 		}
 	)
 	return terraUtils.postManyTransactions(txs.flat())
+}
+
+async function setTradeComment(
+	tradeId: number,
+	comment: string
+): Promise<TxReceipt> {
+	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+
+	// Post transactions for setting comment
+	return terraUtils.postTransaction({
+		contractAddress: p2pContractAddress,
+		message: {
+			set_comment: {
+				trade_id: tradeId,
+				comment,
+			},
+		},
+	})
+}
+
+async function updateTrade(
+	tradeId: number,
+	comment: string,
+	tokensWanted: Coin[],
+	nftsWanted: string[]
+): Promise<TxReceipt> {
+	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+
+	console.warn([
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_comment: {
+					trade_id: tradeId,
+					comment,
+				},
+			},
+		},
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_n_f_ts_wanted: {
+					nfts_wanted: nftsWanted,
+				},
+			},
+		},
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_tokens_wanted: {
+					tokens_wanted: (tokensWanted ?? []).map(({ amount, denom }) => ({
+						coin: {
+							amount,
+							denom,
+						},
+					})),
+				},
+			},
+		},
+	])
+	return terraUtils.postManyTransactions([
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_comment: {
+					trade_id: tradeId,
+					comment,
+				},
+			},
+		},
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_n_f_ts_wanted: {
+					nfts_wanted: nftsWanted,
+				},
+			},
+		},
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_tokens_wanted: {
+					tokens_wanted: (tokensWanted ?? []).map(({ amount, denom }) => ({
+						coin: {
+							amount,
+							denom,
+						},
+					})),
+				},
+			},
+		},
+	])
 }
 
 async function createTrade(whitelistedUsers: string[]): Promise<TxReceipt> {
@@ -1143,6 +1236,7 @@ export {
 	addWhitelistedUsers,
 	removeWhitelistedUsers,
 	confirmTrade,
+	updateTrade,
 	suggestCounterTrade,
 	addFundsToCounterTrade,
 	removeFromCounterTrade,
@@ -1165,4 +1259,5 @@ export {
 	cancelCounterTradeAndWithdraw,
 	removeAllFromCreatedCounterTrade,
 	withdrawAllFromCounter,
+	setTradeComment,
 }

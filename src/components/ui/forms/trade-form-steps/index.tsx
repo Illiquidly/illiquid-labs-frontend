@@ -1,10 +1,7 @@
 export { ChooseVisibility } from './ChooseVisibility'
 export { ConfirmListing } from './ConfirmListing'
-export type {
-	LOOKING_FOR_TYPE,
-	TradeFormStepsProps,
-	VISIBILITY_TYPE,
-} from './formProps'
+export type { TradeFormStepsProps } from './formProps'
+export { VISIBILITY_TYPE, LOOKING_FOR_TYPE } from './formProps'
 export {
 	ChooseVisibilityStepSchema,
 	SelectNFTStepSchema,
