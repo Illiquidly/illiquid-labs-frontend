@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import { Flex } from 'theme-ui'
 
 export const ModalContainer = styled.div`
 	display: flex;
@@ -38,28 +37,23 @@ export const ModalBody = styled.div`
 	flex-direction: column;
 	padding: 24px 12px;
 	overflow: auto;
+	gap: 24px;
 `
 
-export const Label = styled.label`
+export const Title = styled.p`
+	font-weight: 600;
 	font-size: 16px;
 	line-height: 20px;
 	margin: 0;
-	margin-bottom: 6px;
+	margin-bottom: 4px;
 `
-export const Text = styled.p`
+
+export const Subtitle = styled.p`
+	font-family: 'Heebo';
+	font-style: normal;
+	font-weight: 400;
 	font-size: 14px;
 	line-height: 20px;
 	margin: 0;
 	color: ${props => props.theme.colors.gray700};
 `
-
-export const ModalActions = styled(Flex)``
-
-ModalActions.defaultProps = {
-	sx: {
-		justifyContent: 'space-between',
-		gap: '12px',
-		marginTop: '24px',
-		height: '40px',
-	},
-}

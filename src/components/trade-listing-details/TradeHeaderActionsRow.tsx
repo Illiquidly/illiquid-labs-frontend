@@ -17,11 +17,15 @@ interface TradeHeaderActionsRowProps {
 	handleEditClick: () => void
 	handleRemoveClick: () => void
 	isMyTradeListing: boolean
+	editDisabled?: boolean
+	removeDisabled?: boolean
 }
 
 export const TradeHeaderActionsRow = ({
 	handleEditClick,
 	handleRemoveClick,
+	editDisabled,
+	removeDisabled,
 	isMyTradeListing,
 }: TradeHeaderActionsRowProps) => {
 	const { t } = useTranslation(['common', 'trade-listings'])
@@ -55,13 +59,13 @@ export const TradeHeaderActionsRow = ({
 						justifyContent: 'flex-end',
 					}}
 				>
-					<IconButton onClick={handleEditClick}>
+					<IconButton disabled={editDisabled} onClick={handleEditClick}>
 						<PenOutlineIcon />
 						<Box sx={{ ml: 9, display: ['none', 'none', 'block'] }}>
 							{t('common:edit')}
 						</Box>
 					</IconButton>
-					<IconButton onClick={handleRemoveClick}>
+					<IconButton disabled={removeDisabled} onClick={handleRemoveClick}>
 						<DeleteOutlineIcon />
 						<Box sx={{ ml: 9, display: ['none', 'none', 'block'] }}>
 							{t('common:remove')}
@@ -77,6 +81,11 @@ export const TradeHeaderActionsRow = ({
 			)}
 		</Flex>
 	)
+}
+
+TradeHeaderActionsRow.defaultProps = {
+	editDisabled: false,
+	removeDisabled: false,
 }
 
 export default TradeHeaderActionsRow

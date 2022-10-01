@@ -44,8 +44,9 @@
 		"remove-listing": "Remove Listing",
 		"create-new-listing": "Create New Listing",
 		"go-to-dashboard": "Go to Dashboard",
-		"removal-succesful": "Your listing has been successfully removed!",
-		"create-listing-suggestion": "Feel free to create another listing at any time"
+		"removal-successful": "Your listing has been successfully removed!",
+		"create-listing-suggestion": "Feel free to create another listing at any time",
+		"back-to-listing": "Back to Listing"
 	},
 	"edit-modal": {
 		"title": "Edit listing",

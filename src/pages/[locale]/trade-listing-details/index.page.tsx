@@ -43,11 +43,17 @@ import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
-import { TRADE_STATE, updateTrade } from 'services/blockchain'
+import {
+	cancelAndWithdrawTrade,
+	TRADE_STATE,
+	updateTrade,
+} from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
 import { EditModalResult } from 'components/trade-listing-details/modals/edit-modal/EditModal'
 
 import { fromUpdateTradeToBlockchain } from 'utils/mappers/fromUpdateTradeToBlockchain'
+import { RemoveModalProps } from 'components/trade-listing-details/modals/remove-modal/RemoveModal'
+import RemoveSuccessModal from 'components/trade-listing-details/modals/remove-success-modal/RemoveSuccessModal'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -134,10 +140,27 @@ export default function ListingDetails() {
 		}
 	}
 
-	const handleRemoveClick = () => {
-		NiceModal.show(RemoveModal, {
-			remove: {},
-		})
+	const handleRemoveClick = async () => {
+		if (!data) {
+			return
+		}
+		const [, result] = await asyncAction<RemoveModalProps>(
+			NiceModal.show(RemoveModal, {
+				tradeId: data.tradeId,
+			})
+		)
+
+		if (result) {
+			const [, cancelTradeResponse] = await asyncAction(
+				cancelAndWithdrawTrade(Number(result.tradeId))
+			)
+
+			if (cancelTradeResponse) {
+				NiceModal.show(RemoveSuccessModal, {
+					tradeId: data.tradeId,
+				})
+			}
+		}
 	}
 
 	const onAcceptOffer = (/* offer: CounterOffer */) => {
@@ -163,6 +186,20 @@ export default function ListingDetails() {
 					handleEditClick={handleEditClick}
 					handleRemoveClick={handleRemoveClick}
 					isMyTradeListing={isMyTradeListing}
+					editDisabled={
+						![
+							TRADE_STATE.Published,
+							TRADE_STATE.Countered,
+							TRADE_STATE.Created,
+						].includes(tradeInfo?.state ?? TRADE_STATE.Cancelled)
+					}
+					removeDisabled={
+						![
+							TRADE_STATE.Published,
+							TRADE_STATE.Countered,
+							TRADE_STATE.Created,
+						].includes(tradeInfo?.state ?? TRADE_STATE.Cancelled)
+					}
 				/>
 				<Row>
 					{[TRADE_STATE.Cancelled, TRADE_STATE.Accepted].includes(

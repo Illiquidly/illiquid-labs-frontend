@@ -1,0 +1,92 @@
+import React from 'react'
+import { Box, Flex, IconButton } from 'theme-ui'
+import { useTranslation } from 'next-i18next'
+
+import NiceModal, { useModal } from '@ebay/nice-modal-react'
+import { useTheme } from '@emotion/react'
+
+import { ModalCloseIcon, ModalSuccessCircleIcon } from 'assets/icons/modal'
+
+import { Button, LayoutContainer, Modal } from 'components/ui'
+
+import * as ROUTES from 'constants/routes'
+import { useRouter } from 'next/router'
+import {
+	ModalBody,
+	ModalContainer,
+	ModalHeader,
+	ModalContent,
+	Title,
+	Subtitle,
+} from './RemoveSuccessModal.styled'
+
+const RemoveSuccessModal = NiceModal.create(() => {
+	const modal = useModal()
+
+	const { t } = useTranslation(['common', 'trade-listings'])
+
+	const theme = useTheme()
+
+	const router = useRouter()
+
+	return (
+		<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
+			<ModalContainer>
+				<LayoutContainer>
+					<ModalContent>
+						<ModalHeader>
+							{t('trade-listings:remove-modal.title')}
+							<IconButton
+								sx={{
+									borderRadius: '32px',
+									backgroundColor: theme.colors.dark500,
+								}}
+								onClick={modal.remove}
+							>
+								<ModalCloseIcon />
+							</IconButton>
+						</ModalHeader>
+						<ModalBody>
+							<Flex sx={{ gap: '8px' }}>
+								<Box sx={{ width: '32px', height: '32px' }}>
+									<ModalSuccessCircleIcon />
+								</Box>
+								<Box>
+									<Title>{t('trade-listings:remove-modal.removal-successful')}</Title>
+									<Subtitle>
+										{t('trade-listings:remove-modal.create-listing-suggestion')}
+									</Subtitle>
+								</Box>
+							</Flex>
+							<Flex
+								sx={{ justifyContent: 'space-between', gap: '12px', marginTop: '24px' }}
+							>
+								<Button
+									variant='secondary'
+									fullWidth
+									onClick={() => {
+										router.push(ROUTES.TRADE_CREATE_LISTING)
+										modal.remove()
+									}}
+								>
+									{t('trade-listings:remove-modal.create-new-listing')}
+								</Button>
+								<Button
+									variant='gradient'
+									fullWidth
+									onClick={() => {
+										router.push(ROUTES.DASHBOARD)
+										modal.remove()
+									}}
+								>
+									{t('trade-listings:remove-modal.go-to-dashboard')}
+								</Button>
+							</Flex>
+						</ModalBody>
+					</ModalContent>
+				</LayoutContainer>
+			</ModalContainer>
+		</Modal>
+	)
+})
+export default RemoveSuccessModal
