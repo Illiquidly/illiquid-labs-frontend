@@ -41,17 +41,12 @@ export const ModalBody = styled.div`
 	overflow: auto;
 `
 
-export const Title = styled.p`
+export const Label = styled.label`
 	font-size: 16px;
 	line-height: 20px;
 	margin: 0;
+	margin-bottom: 6px;
 `
-
-export const RadioText = styled.p`
-	font-size: 14px;
-	line-height: 20px;
-`
-
 export const Text = styled.p`
 	font-size: 14px;
 	line-height: 20px;

@@ -1,3 +1,4 @@
+import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { NFT } from 'services/api/walletNFTsService'
 
 export enum LOOKING_FOR_TYPE {
@@ -21,7 +22,7 @@ export interface TradeFormStepsProps {
 	// TRADE_DETAILS STEP
 	lookingForType: LOOKING_FOR_TYPE
 	collection: string
-	collections: collections[]
+	collections: MultiSelectAccordionInputOption[]
 	tokenAmount: number
 	tokenName: string
 	comment: string

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, IconButton } from 'theme-ui'
+import { Flex, IconButton } from 'theme-ui'
 import { useTranslation } from 'next-i18next'
 
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
@@ -10,27 +10,37 @@ import { ModalCloseIcon } from 'assets/icons/modal'
 import {
 	Button,
 	Modal,
-	RadioCardInput,
 	RadioInputGroupProvider,
 	MultiSelectInput,
-	MultiSelectInputOption,
 	SelectChip,
-	TextInput,
 	TextArea,
 	LayoutContainer,
 } from 'components/ui'
 
+import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
+
 import { SupportedCollectionsService } from 'services/api'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
-import { LOOKING_FOR_TYPE } from 'components/ui/forms/trade-form-steps'
+import {
+	LOOKING_FOR_TYPE,
+	TradeDetailsStepSchema,
+} from 'components/ui/forms/trade-form-steps'
+import {
+	Controller,
+	FormProvider,
+	useFieldArray,
+	useForm,
+} from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import { TextInputField } from 'components/form'
 import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	RadioText,
-	Title,
+	Label,
 } from './EditModal.styled'
 
 type LookingFor = {
@@ -56,33 +66,17 @@ export interface EditModalResult {
 	lookingForType: LOOKING_FOR_TYPE
 }
 
+export interface EditModalPropsState {
+	lookingForType: LOOKING_FOR_TYPE
+	collection: string
+	collections: MultiSelectAccordionInputOption[]
+	tokenAmount: string
+	tokenName: string
+	comment: string
+}
+
 const EditModal = NiceModal.create(
 	({ initialLookingFor, initialComment }: EditModalProps) => {
-		const [selectedLookingFor, setSelectedLookingFor] =
-			React.useState<LOOKING_FOR_TYPE>(
-				(initialLookingFor ?? []).length
-					? LOOKING_FOR_TYPE.SPECIFIC
-					: LOOKING_FOR_TYPE.ANY
-			)
-		const [comment, setComment] = React.useState(initialComment ?? '')
-
-		const initialAmount = (initialLookingFor ?? []).find(x => x.amount)?.amount
-
-		const [amount, setAmount] = React.useState(
-			(initialAmount ?? '').replace(',', '.')
-		)
-
-		const [selectedCollections, setSelectedCollections] = React.useState<
-			MultiSelectInputOption[]
-		>(
-			(initialLookingFor ?? [])
-				.filter(x => x.collectionAddress)
-				.map(({ collectionAddress, collectionName }) => ({
-					label: collectionName as string,
-					value: collectionAddress as string,
-				}))
-		)
-
 		const wallet = useWallet()
 
 		const { data: verifiedCollections } = useQuery(
@@ -99,6 +93,56 @@ const EditModal = NiceModal.create(
 		const { t } = useTranslation(['common', 'trade-listings'])
 
 		const theme = useTheme()
+
+		const formMethods = useForm<EditModalPropsState>({
+			mode: 'all',
+			resolver: yupResolver(TradeDetailsStepSchema),
+			defaultValues: {
+				lookingForType: (initialLookingFor ?? []).length
+					? LOOKING_FOR_TYPE.SPECIFIC
+					: LOOKING_FOR_TYPE.ANY,
+				comment: initialComment ?? '',
+				collections: (initialLookingFor ?? [])
+					.filter(x => x.collectionAddress)
+					.map(({ collectionAddress, collectionName }) => ({
+						label: collectionName as string,
+						value: collectionAddress as string,
+					})),
+				tokenName: 'LUNA',
+				tokenAmount: (initialLookingFor ?? []).find(x => x.amount)?.amount ?? '',
+			},
+		})
+
+		const {
+			register,
+			setValue,
+			getValues,
+			watch,
+			control,
+			formState: { errors },
+		} = formMethods
+
+		const { remove } = useFieldArray({
+			control,
+			name: 'collections',
+		})
+
+		const onSubmit = ({
+			lookingForType,
+			collections,
+			comment,
+			tokenAmount,
+			tokenName,
+		}) => {
+			modal.resolve({
+				nftsWanted: collections.map(({ value }) => value),
+				comment,
+				tokenAmount,
+				tokenName,
+				lookingForType,
+			} as EditModalResult)
+			modal.remove()
+		}
 
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
@@ -117,119 +161,125 @@ const EditModal = NiceModal.create(
 									<ModalCloseIcon />
 								</IconButton>
 							</ModalHeader>
-							<ModalBody>
-								<RadioInputGroupProvider
-									name='lookingForType'
-									value={selectedLookingFor}
-									onChange={e =>
-										setSelectedLookingFor(e.target.value as LOOKING_FOR_TYPE)
-									}
-								>
-									<Flex sx={{ flexDirection: 'column', gap: '16px', mb: '24px' }}>
-										<Flex sx={{ height: '52px' }}>
-											<RadioCardInput value={LOOKING_FOR_TYPE.SPECIFIC}>
-												<RadioText>
-													{t('trade-listings:edit-modal.specific-collections-tokens')}
-												</RadioText>
-											</RadioCardInput>
-										</Flex>
-										<Flex sx={{ height: '52px' }}>
-											<RadioCardInput value={LOOKING_FOR_TYPE.ANY}>
-												<RadioText>
-													{t('trade-listings:edit-modal.open-to-any-offers')}
-												</RadioText>
-											</RadioCardInput>
-										</Flex>
-									</Flex>
-								</RadioInputGroupProvider>
+							<FormProvider {...formMethods}>
+								<form onSubmit={formMethods.handleSubmit(onSubmit)}>
+									<ModalBody>
+										<RadioInputGroupProvider
+											value={watch('lookingForType')}
+											name={register('lookingForType').name}
+											onChange={e =>
+												setValue('lookingForType', e.target.value as LOOKING_FOR_TYPE)
+											}
+										>
+											<Flex sx={{ flexDirection: 'column', gap: '16px', mb: '24px' }}>
+												<RadioCard value={LOOKING_FOR_TYPE.SPECIFIC}>
+													<RadioCardText>
+														{t('trade-listings:edit-modal.specific-collections-tokens')}
+													</RadioCardText>
+												</RadioCard>
+												<RadioCard value={LOOKING_FOR_TYPE.ANY}>
+													<RadioCardText>
+														{t('trade-listings:edit-modal.open-to-any-offers')}
+													</RadioCardText>
+												</RadioCard>
+											</Flex>
+										</RadioInputGroupProvider>
 
-								{selectedLookingFor === LOOKING_FOR_TYPE.SPECIFIC && (
-									<Flex sx={{ flexDirection: 'column', gap: '24px', mb: '24px' }}>
-										<Box>
-											<Box sx={{ mb: '6px' }}>
-												<Title>{t('trade-listings:edit-modal:interested-in')}</Title>
-											</Box>
-											<MultiSelectInput
-												value={selectedCollections}
-												onChange={v => setSelectedCollections(v)}
-												dismissOnOutsideClick
-												options={(verifiedCollections ?? [])?.map(
-													({ collectionName, collectionAddress }) => ({
-														label: collectionName,
-														value: collectionAddress,
-													})
-												)}
-												placeholder={t('common:search-collections')}
-											/>
-											{Boolean(selectedCollections?.length) && (
-												<Flex sx={{ mt: '16px', flexWrap: 'wrap', gap: '4.3px' }}>
-													{selectedCollections.map(({ label, value }) => (
-														<SelectChip
-															key={value}
-															text={label}
-															onRemove={() =>
-																setSelectedCollections(prevSelectOptions =>
-																	prevSelectOptions.filter(p => p.value !== value)
-																)
-															}
-														/>
-													))}
+										{watch('lookingForType') === LOOKING_FOR_TYPE.SPECIFIC && (
+											<Flex sx={{ flexDirection: 'column', gap: '24px' }}>
+												<Flex sx={{ flexDirection: 'column' }}>
+													<Label htmlFor='collections'>
+														{t('trade-listings:edit-modal:interested-in')}
+													</Label>
+													<Controller
+														name='collections'
+														control={control}
+														render={({ field: { value, onChange, onBlur } }) => (
+															<MultiSelectInput
+																error={!!errors.collections}
+																placeholder={t('trade-listings:edit-modal:interested-in')}
+																dropdownTitle={t('trade-listings:edit-modal:nft-name')}
+																value={value}
+																onBlur={onBlur}
+																onChange={onChange}
+																dismissOnOutsideClick
+																options={(verifiedCollections ?? []).map(collection => ({
+																	label: collection.collectionName,
+																	value: collection.collectionAddress,
+																}))}
+															/>
+														)}
+													/>
+													{Boolean(watch('collections')?.length) && (
+														<Flex sx={{ mt: '16px', flexWrap: 'wrap', gap: '4.3px' }}>
+															{watch('collections').map(({ label, value }, index) => (
+																<SelectChip
+																	key={value}
+																	text={label}
+																	onRemove={() => remove(index)}
+																/>
+															))}
+														</Flex>
+													)}
 												</Flex>
-											)}
-										</Box>
 
-										<Box>
-											<Box sx={{ mb: '6px' }}>
-												<Title>{t('trade-listings:edit-modal:tokens-interested-in')}</Title>
-											</Box>
-											<TextInput
-												value={amount}
-												onChange={e => setAmount(e.target.value)}
-												placeholder='Enter amount for Luna'
-												type='number'
-											/>
-										</Box>
-									</Flex>
-								)}
-								<Box sx={{ mb: '6px' }}>
-									<Title>{t('trade-listings:edit-modal:write-comment')}</Title>
-								</Box>
-								<TextArea onChange={e => setComment(e.target.value)} value={comment} />
-								<Flex
-									sx={{
-										justifyContent: 'space-between',
-										gap: '12px',
-										marginTop: '24px',
-									}}
-								>
-									<Button
-										variant='secondary'
-										sx={{ height: '40px', flex: 1 }}
-										onClick={modal.remove}
-									>
-										{t('trade-listings:edit-modal.discard-changes')}
-									</Button>
-									<Button
-										sx={{ height: '40px', flex: 1, background: theme.colors.primary90 }}
-										variant='primary'
-										onClick={() => {
-											modal.resolve({
-												nftsWanted: selectedCollections.map(({ value }) => value),
-												comment,
-												tokenAmount: amount, // TODO: add multiple tokens in future
-												tokenName: 'LUNA',
-												lookingForType:
-													selectedCollections.length || amount
-														? LOOKING_FOR_TYPE.SPECIFIC
-														: LOOKING_FOR_TYPE.ANY,
-											} as EditModalResult)
-											modal.remove()
-										}}
-									>
-										{t('trade-listings:edit-modal.update-listing')}
-									</Button>
-								</Flex>
-							</ModalBody>
+												<Flex sx={{ flexDirection: 'column' }}>
+													<Label htmlFor='tokenAmount'>
+														{t('trade-listings:edit-modal:tokens-interested-in')}
+													</Label>
+													<TextInputField
+														id='tokenAmount'
+														{...register('tokenAmount')}
+														type='number'
+														fieldError={
+															errors.tokenAmount &&
+															t(`common:errors.${errors.tokenAmount.message}`)
+														}
+														error={!!errors.tokenAmount}
+														placeholder={t(
+															'trade-listings:edit-modal:enter-amount-placeholder',
+															{
+																tokenName: getValues('tokenName'),
+															}
+														)}
+													/>
+												</Flex>
+											</Flex>
+										)}
+										<Label htmlFor='comment'>
+											{t('trade-listings:edit-modal:write-comment')}
+										</Label>
+										<TextArea
+											id='comment'
+											style={{ height: '128px' }}
+											{...register('comment')}
+											placeholder={t('trade-listings:edit-modal:write-comment')}
+										/>
+										<Flex
+											sx={{
+												justifyContent: 'space-between',
+												gap: '12px',
+												marginTop: '24px',
+											}}
+										>
+											<Button
+												variant='secondary'
+												sx={{ height: '40px', flex: 1 }}
+												onClick={modal.remove}
+											>
+												{t('trade-listings:edit-modal.discard-changes')}
+											</Button>
+											<Button
+												sx={{ height: '40px', flex: 1, background: theme.colors.primary90 }}
+												variant='primary'
+												onClick={formMethods.handleSubmit}
+											>
+												{t('trade-listings:edit-modal.update-listing')}
+											</Button>
+										</Flex>
+									</ModalBody>
+								</form>
+							</FormProvider>
 						</ModalContent>
 					</LayoutContainer>
 				</ModalContainer>

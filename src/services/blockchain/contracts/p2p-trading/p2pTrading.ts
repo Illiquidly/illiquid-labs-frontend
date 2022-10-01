@@ -239,38 +239,6 @@ async function updateTrade(
 ): Promise<TxReceipt> {
 	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
 
-	console.warn([
-		{
-			contractAddress: p2pContractAddress,
-			message: {
-				set_comment: {
-					trade_id: tradeId,
-					comment,
-				},
-			},
-		},
-		{
-			contractAddress: p2pContractAddress,
-			message: {
-				set_n_f_ts_wanted: {
-					nfts_wanted: nftsWanted,
-				},
-			},
-		},
-		{
-			contractAddress: p2pContractAddress,
-			message: {
-				set_tokens_wanted: {
-					tokens_wanted: (tokensWanted ?? []).map(({ amount, denom }) => ({
-						coin: {
-							amount,
-							denom,
-						},
-					})),
-				},
-			},
-		},
-	])
 	return terraUtils.postManyTransactions([
 		{
 			contractAddress: p2pContractAddress,

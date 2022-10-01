@@ -55,7 +55,9 @@
 		"update-listing": "Update Listing",
 		"interested-in": "I'm interested in",
 		"tokens-interested-in": "Tokens I'm interested in",
-		"write-comment": "Write a comment"
+		"write-comment": "Write a comment",
+		"nft-name": "Collection name",
+		"enter-amount-placeholder": "Enter amount of {{tokenName}}"
 	},
 	"accept-counter-offer-modal": {
 		"title": "Accept counter offer",
