@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Flex } from 'theme-ui'
 
 export const ModalContainer = styled.div`
 	display: flex;
@@ -53,3 +54,14 @@ export const Text = styled.p`
 	margin: 0;
 	color: ${props => props.theme.colors.gray700};
 `
+
+export const ModalActions = styled(Flex)``
+
+ModalActions.defaultProps = {
+	sx: {
+		justifyContent: 'space-between',
+		gap: '12px',
+		marginTop: '24px',
+		height: '40px',
+	},
+}

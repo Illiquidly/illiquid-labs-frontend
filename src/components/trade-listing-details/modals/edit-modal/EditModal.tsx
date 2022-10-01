@@ -41,6 +41,7 @@ import {
 	ModalHeader,
 	ModalContent,
 	Label,
+	ModalActions,
 } from './EditModal.styled'
 
 type LookingFor = {
@@ -255,28 +256,18 @@ const EditModal = NiceModal.create(
 											{...register('comment')}
 											placeholder={t('trade-listings:edit-modal:write-comment')}
 										/>
-										<Flex
-											sx={{
-												justifyContent: 'space-between',
-												gap: '12px',
-												marginTop: '24px',
-											}}
-										>
-											<Button
-												variant='secondary'
-												sx={{ height: '40px', flex: 1 }}
-												onClick={modal.remove}
-											>
+										<ModalActions>
+											<Button variant='secondary' fullWidth onClick={modal.remove}>
 												{t('trade-listings:edit-modal.discard-changes')}
 											</Button>
 											<Button
-												sx={{ height: '40px', flex: 1, background: theme.colors.primary90 }}
-												variant='primary'
+												variant='gradient'
+												fullWidth
 												onClick={formMethods.handleSubmit}
 											>
 												{t('trade-listings:edit-modal.update-listing')}
 											</Button>
-										</Flex>
+										</ModalActions>
 									</ModalBody>
 								</form>
 							</FormProvider>
