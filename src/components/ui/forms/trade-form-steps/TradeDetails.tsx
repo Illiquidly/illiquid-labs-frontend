@@ -212,7 +212,12 @@ interface Props {
 
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
+	const {
+		getValues,
+		watch,
+		trigger,
+		formState: { isValid },
+	} = useFormContext<TradeFormStepsProps>()
 	const watchLookingForType = watch('lookingForType', undefined)
 
 	return (
@@ -240,7 +245,7 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 						goNextStep()
 					}
 				}}
-				isNextButtonDisabled={!getValues('lookingForType')}
+				isNextButtonDisabled={!getValues('lookingForType') || !isValid}
 			/>
 		</ContentCardWrapper>
 	)

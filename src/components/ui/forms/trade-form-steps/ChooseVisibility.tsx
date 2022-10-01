@@ -9,6 +9,7 @@ import {
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import useIsMobile from 'hooks/react/useIsMobile'
 import { useTranslation } from 'next-i18next'
+import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
 import {
@@ -56,13 +57,22 @@ const ChooseVisibilityForm = () => {
 		register,
 		setValue,
 		getValues,
+		unregister,
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
+
+	const visibilityType = getValues('visibilityType')
+
+	useEffect(() => {
+		if (visibilityType === VISIBILITY_TYPE.PUBLIC) {
+			unregister('walletAddress', { keepValue: true })
+		}
+	}, [visibilityType, unregister])
 
 	return (
 		<FormWrapper>
 			<RadioInputGroupProvider
-				value={getValues('visibilityType')}
+				value={visibilityType}
 				name={register('visibilityType').name}
 				onChange={e =>
 					setValue('visibilityType', e.target.value as VISIBILITY_TYPE)
@@ -126,9 +136,15 @@ interface Props {
 
 export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
+	const {
+		getValues,
+		watch,
+		trigger,
+		formState: { isValid },
+	} = useFormContext<TradeFormStepsProps>()
 	const watchVisibilityType = watch('visibilityType', undefined)
 	const isMobile = useIsMobile()
+
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
@@ -152,7 +168,7 @@ export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 						goNextStep()
 					}
 				}}
-				isNextButtonDisabled={!getValues('visibilityType')}
+				isNextButtonDisabled={!getValues('visibilityType') || !isValid}
 			/>
 		</ContentCardWrapper>
 	)
