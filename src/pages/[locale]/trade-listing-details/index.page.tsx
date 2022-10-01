@@ -43,15 +43,11 @@ import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
-import {
-	getDenomForCurrency,
-	TRADE_STATE,
-	updateTrade,
-} from 'services/blockchain'
+import { TRADE_STATE, updateTrade } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
 import { EditModalResult } from 'components/trade-listing-details/modals/edit-modal/EditModal'
-import { LOOKING_FOR_TYPE } from 'components/ui/forms/trade-form-steps'
-import { amountConverter } from 'utils/blockchain/terraUtils'
+
+import { fromUpdateTradeToBlockchain } from 'utils/mappers/fromUpdateTradeToBlockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -126,25 +122,15 @@ export default function ListingDetails() {
 		)
 
 		if (result) {
-			const { tokenAmount, tokenName, comment, nftsWanted, lookingForType } =
-				result
+			const { newTokensWanted, newNFTsWanted, comment } =
+				fromUpdateTradeToBlockchain(result)
 
-			const newTokensWanted =
-				lookingForType === LOOKING_FOR_TYPE.ANY || !tokenAmount
-					? []
-					: [
-							{
-								amount: amountConverter.luna.userFacingToBlockchainValue(
-									Number(tokenAmount)
-								),
-								denom: getDenomForCurrency(tokenName),
-							},
-					  ]
+			const [, response] = await asyncAction(
+				updateTrade(data.tradeId, comment, newTokensWanted, newNFTsWanted)
+			)
 
-			const newNFTsWanted =
-				lookingForType === LOOKING_FOR_TYPE.ANY ? [] : nftsWanted
-
-			await updateTrade(data.tradeId, comment, newTokensWanted, newNFTsWanted)
+			// TODO add broadcasting modal, refetch trade
+			console.warn(response)
 		}
 	}
 
