@@ -17,36 +17,57 @@ import {
 } from 'components/ui'
 
 import { CounterTrade } from 'services/api/counterTradesService'
+import { FormProvider, useForm } from 'react-hook-form'
 import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	Title,
+	Label,
 	RadioText,
+	Title,
+	Subtitle,
 } from './AcceptCounterOfferModal.styled'
 
 export interface AcceptCounterOfferModalProps {
-	acceptCounterOffer: (offer: CounterTrade) => void
-	offer: CounterTrade
+	counterTrade: CounterTrade
+}
+
+enum CONFIRM_STATUS_TYPE {
+	DEFAULT = '0',
+	CONFIRMED = '1',
+}
+
+export interface AcceptCounterOfferModalResult {
+	comment: string
+}
+export interface AcceptCounterOfferModalState {
+	confirmStatusType: CONFIRM_STATUS_TYPE
+	comment: string
 }
 
 const AcceptCounterOfferModal = NiceModal.create(
-	({ acceptCounterOffer, offer }: AcceptCounterOfferModalProps) => {
-		const [value, setValue] = React.useState(1)
-		const [message, setMessage] = React.useState('')
+	({ counterTrade }: AcceptCounterOfferModalProps) => {
 		const modal = useModal()
 
 		const { t } = useTranslation(['common', 'trade-listings'])
 
 		const theme = useTheme()
 
-		const onAcceptOffer = () => {
-			acceptCounterOffer(offer)
-			modal.remove()
-		}
+		const formMethods = useForm<AcceptCounterOfferModalState>({
+			mode: 'all',
+			defaultValues: {
+				confirmStatusType: CONFIRM_STATUS_TYPE.DEFAULT,
+				comment: '',
+			},
+		})
 
-		const onBackToListing = () => {
+		const { register, setValue, watch, handleSubmit } = formMethods
+
+		const onSubmit = ({ comment }) => {
+			modal.resolve({
+				comment,
+			} as AcceptCounterOfferModalResult)
 			modal.remove()
 		}
 
@@ -68,57 +89,74 @@ const AcceptCounterOfferModal = NiceModal.create(
 								</IconButton>
 							</ModalHeader>
 							<ModalBody>
-								<Flex>
-									<Title>
-										{t('trade-listings:accept-counter-offer-modal.question', {
-											username: offer?.tradeInfo.owner,
-										})}
-									</Title>
-								</Flex>
-								<RadioInputGroupProvider
-									name='radio'
-									value={value}
-									onChange={e => setValue(Number(e.target.value))}
-								>
-									<Flex sx={{ height: '56px' }}>
-										<RadioCardInput value={0}>
-											<RadioText>
-												{t('trade-listings:accept-counter-offer-modal.radio-text')}
-											</RadioText>
-										</RadioCardInput>
-									</Flex>
-								</RadioInputGroupProvider>
-								<Title>
-									{t('trade-listings:accept-counter-offer-modal:send-message')}
-								</Title>
-								<TextArea
-									onChange={e => setMessage(e.target.value)}
-									placeholder={t('trade-listings:accept-counter-offer-modal:enter-text')}
-									value={message}
-								/>
-								<Flex
-									sx={{
-										justifyContent: 'space-between',
-										gap: '12px',
-										marginTop: '24px',
-									}}
-								>
-									<Button
-										onClick={onBackToListing}
-										variant='secondary'
-										sx={{ height: '40px', flex: 1 }}
-									>
-										{t('trade-listings:accept-counter-offer-modal.back-to-listing')}
-									</Button>
-									<Button
-										sx={{ height: '40px', flex: 1, background: theme.colors.primary90 }}
-										variant='primary'
-										disabled={value === 1}
-										onClick={onAcceptOffer}
-									>
-										{t('trade-listings:accept-counter-offer-modal.accept-offer')}
-									</Button>
-								</Flex>
+								<FormProvider {...formMethods}>
+									<form onSubmit={formMethods.handleSubmit(onSubmit)}>
+										<Flex sx={{ flexDirection: 'column', gap: '24px' }}>
+											<Flex sx={{ flexDirection: 'column' }}>
+												<Title>
+													{t('trade-listings:accept-counter-offer-modal.question', {
+														username: counterTrade?.tradeInfo.owner ?? '',
+													})}
+												</Title>
+												<Subtitle>
+													{t('trade-listings:accept-counter-offer-modal.note')}
+												</Subtitle>
+											</Flex>
+											<Flex>
+												<RadioInputGroupProvider
+													name='confirmStatusType'
+													value={watch('confirmStatusType')}
+													onChange={e =>
+														setValue(
+															'confirmStatusType',
+															e.target.value as CONFIRM_STATUS_TYPE
+														)
+													}
+												>
+													<RadioCardInput value={CONFIRM_STATUS_TYPE.CONFIRMED}>
+														<RadioText>
+															{t('trade-listings:accept-counter-offer-modal.radio-text')}
+														</RadioText>
+													</RadioCardInput>
+												</RadioInputGroupProvider>
+											</Flex>
+
+											<Flex sx={{ flexDirection: 'column' }}>
+												<Label htmlFor='comment'>
+													{t('trade-listings:accept-counter-offer-modal:send-message')}
+												</Label>
+												<TextArea
+													id='comment'
+													style={{ height: '128px' }}
+													{...register('comment')}
+													placeholder={t(
+														'trade-listings:accept-counter-offer-modal:enter-text'
+													)}
+												/>
+											</Flex>
+											<Flex
+												sx={{
+													gap: '12px',
+													marginTop: '24px',
+												}}
+											>
+												<Button onClick={modal.remove} variant='secondary' fullWidth>
+													{t('trade-listings:accept-counter-offer-modal.back-to-listing')}
+												</Button>
+												<Button
+													variant='gradient'
+													fullWidth
+													disabled={
+														watch('confirmStatusType') === CONFIRM_STATUS_TYPE.DEFAULT
+													}
+													onClick={handleSubmit}
+												>
+													{t('trade-listings:accept-counter-offer-modal.accept-offer')}
+												</Button>
+											</Flex>
+										</Flex>
+									</form>
+								</FormProvider>
 							</ModalBody>
 						</ModalContent>
 					</LayoutContainer>

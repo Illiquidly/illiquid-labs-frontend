@@ -63,6 +63,7 @@
 	"accept-counter-offer-modal": {
 		"title": "Accept counter offer",
 		"question": "Are you sure you’d like to accept the offer from %{username} ?",
+		"note": "Feel free to send include a message. How exciting!",
 		"radio-text": "Yes, I’m sure I’d like to accept the offer",
 		"send-message": "Send Message",
 		"enter-text": "Enter text",

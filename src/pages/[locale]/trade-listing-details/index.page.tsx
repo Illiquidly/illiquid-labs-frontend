@@ -44,6 +44,7 @@ import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import {
+	acceptTrade,
 	cancelAndWithdrawTrade,
 	TRADE_STATE,
 	updateTrade,
@@ -54,6 +55,11 @@ import { EditModalResult } from 'components/trade-listing-details/modals/edit-mo
 import { fromUpdateTradeToBlockchain } from 'utils/mappers/fromUpdateTradeToBlockchain'
 import { RemoveModalProps } from 'components/trade-listing-details/modals/remove-modal/RemoveModal'
 import RemoveSuccessModal from 'components/trade-listing-details/modals/remove-success-modal/RemoveSuccessModal'
+import {
+	AcceptCounterOfferModalProps,
+	AcceptCounterOfferModalResult,
+} from 'components/trade-listing-details/modals/accept-counter-offer-modal/AcceptCounterOfferModal'
+import { CounterTrade } from 'services/api/counterTradesService'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -163,13 +169,25 @@ export default function ListingDetails() {
 		}
 	}
 
-	const onAcceptOffer = (/* offer: CounterOffer */) => {
-		// console.log('accept offer')
-	}
+	const handleApprove = async (counterTrade: CounterTrade) => {
+		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
+			NiceModal.show(AcceptCounterOfferModal, {
+				counterTrade,
+			} as AcceptCounterOfferModalProps)
+		)
 
-	const handleApprove = () => {
-		// console.log('handle approve')
-		NiceModal.show(AcceptCounterOfferModal, { acceptCounterOffer: onAcceptOffer })
+		if (result) {
+			const [, acceptTradeResult] = await asyncAction(
+				acceptTrade(
+					counterTrade.counterId,
+					counterTrade.trade.tradeId,
+					result.comment,
+					true
+				)
+			)
+
+			console.warn(acceptTradeResult)
+		}
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
