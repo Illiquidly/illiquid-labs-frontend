@@ -13,7 +13,7 @@ export const IconButton = props => {
 }
 
 IconButton.defaultProps = {
-	sx: { width: '44px', height: '40px', padding: '13px' },
+	sx: { minWidth: '44px', height: '40px', padding: '13px' },
 	variant: 'secondary',
 }
 

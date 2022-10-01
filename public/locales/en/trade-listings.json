@@ -65,5 +65,7 @@
 		"enter-text": "Enter text",
 		"back-to-listing": "Back to Listing",
 		"accept-offer": "Accept Offer"
-	}
+	},
+	"listed": "Listed {{listed}}",
+	"view-all-nfts": "View all NFTs"
 }

@@ -1033,12 +1033,12 @@ async function counterTradeInfo(
 }
 
 export enum TRADE_STATE {
-	Created = 'Created',
-	Published = 'Published',
-	Countered = 'Countered',
-	Refused = 'Refused',
-	Accepted = 'Accepted',
-	Cancelled = 'Cancelled',
+	Created = 'created',
+	Published = 'published',
+	Countered = 'countered',
+	Refused = 'refused',
+	Accepted = 'accepted',
+	Cancelled = 'cancelled',
 }
 
 export interface Trade {

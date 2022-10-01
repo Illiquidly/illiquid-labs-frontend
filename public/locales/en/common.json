@@ -26,6 +26,8 @@
 	"looking-for": "looking for",
 	"filters-label": "Filters",
 	"edit": "Edit",
+	"remove": "Remove",
+	"share": "Share",
 	"any-offer": "Any offer",
 	"nft_zero": "{{count}} NFTs",
 	"nft_one": "{{count}} NFT",

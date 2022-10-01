@@ -66,6 +66,8 @@ function ListingCard({
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
 	const { t } = useTranslation('common')
+
+	console.log(nfts)
 	return (
 		<Link href={href} disabled={disabled}>
 			<CardContainer unavailable={unavailable}>
@@ -95,11 +97,11 @@ function ListingCard({
 						<BottomImageArea>
 							<PreviewNFTsSection>
 								{(nfts || []).slice(0, previewItemsLimit).map(nft => (
-									<PreviewImageContainer key={`${nft.collectionAddress}${nft.tokenId}`}>
-										{imageUrl?.every(img => img === '') ? (
+									<PreviewImageContainer key={`${nft.collectionAddress}_${nft.tokenId}`}>
+										{nft?.imageUrl?.every(img => img === '') ? (
 											<ImagePlaceholder width='18px' height='18px' />
 										) : (
-											<PreviewImage src={imageUrl ?? []} />
+											<PreviewImage src={nft?.imageUrl ?? []} />
 										)}
 									</PreviewImageContainer>
 								))}

@@ -3,25 +3,21 @@ import React from 'react'
 import {
 	RightTopImageArea,
 	LikeIconContainer,
-	PreviewNFTsSection,
-	PreviewImageContainer,
-	PreviewImage,
 	ImageSection,
-	BottomImageArea,
 	Image,
 } from 'components/trade-listing-details'
 
 import { HeartFilledIcon, HeartIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
+import { NFT } from 'services/api/walletNFTsService'
 
-export const ImageRow = ({
-	nfts,
-	imageUrl,
-	NFTProps,
-	onLike,
-	liked,
-	previewItemsLimit = 3,
-}) => {
+interface ImageRowProps extends Partial<NFT> {
+	liked?: boolean
+	nft?: NFT
+	onLike: (nft?: NFT) => void
+}
+
+export const ImageRow = ({ imageUrl, nft, onLike, liked }: ImageRowProps) => {
 	return (
 		<ImageSection>
 			{imageUrl?.every(img => img === '') ? (
@@ -33,7 +29,7 @@ export const ImageRow = ({
 				onClick={e => {
 					// disable link when clicking on like icon
 					e.preventDefault()
-					onLike(NFTProps)
+					onLike(nft)
 				}}
 			>
 				<LikeIconContainer>
@@ -44,26 +40,13 @@ export const ImageRow = ({
 					)}
 				</LikeIconContainer>
 			</RightTopImageArea>
-			{(nfts || []).length && (
-				<BottomImageArea>
-					<PreviewNFTsSection>
-						{(nfts || []).slice(0, previewItemsLimit).map(nft => (
-							<PreviewImageContainer key={`${nft.collectionAddress}${nft.tokenId}`}>
-								{imageUrl?.every(img => img === '') ? (
-									<ImagePlaceholder width='18px' height='18px' />
-								) : (
-									<PreviewImage src={imageUrl ?? []} />
-								)}
-							</PreviewImageContainer>
-						))}
-						{(nfts || []).slice(previewItemsLimit).length
-							? `+${(nfts || []).slice(previewItemsLimit).length}`
-							: ''}
-					</PreviewNFTsSection>
-				</BottomImageArea>
-			)}
 		</ImageSection>
 	)
+}
+
+ImageRow.defaultProps = {
+	liked: false,
+	nft: undefined,
 }
 
 export default ImageRow

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import { Flex } from 'theme-ui'
+import { OverflowTip } from '../overflow-tip'
 
 export const StyledWallet = styled(Flex)`
 	border-radius: 8px;
@@ -27,5 +28,9 @@ export function Wallet({ children, ...props }) {
 }
 
 export function WalletItem({ children, ...props }) {
-	return <StyledWalletItem {...props}>{children}</StyledWalletItem>
+	return (
+		<OverflowTip>
+			<StyledWalletItem {...props}>{children}</StyledWalletItem>
+		</OverflowTip>
+	)
 }

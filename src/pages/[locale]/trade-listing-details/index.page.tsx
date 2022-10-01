@@ -14,11 +14,12 @@ import {
 } from 'components/ui'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { Box, Flex } from 'theme-ui'
+import moment from 'moment'
 
 import {
 	CounterOffers,
 	Row,
-	ButtonsRow,
+	TradeHeaderActionsRow,
 	ImageRow,
 	DescriptionRow,
 	LookingForRow,
@@ -28,7 +29,11 @@ import {
 	RemoveModal,
 	AcceptCounterOfferModal,
 } from 'components/trade-listing-details/modals'
-import { CreateListingAddIcon } from 'assets/icons/mixed'
+import {
+	CalendarIcon,
+	CreateListingAddIcon,
+	WalletIcon,
+} from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
@@ -38,6 +43,7 @@ import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
+import { TRADE_STATE } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -73,7 +79,7 @@ export default function ListingDetails() {
 	)
 
 	const { tradeInfo } = data ?? {}
-	const { additionalInfo, associatedAssets, whitelistedUsers } = tradeInfo ?? {}
+	const { additionalInfo, whitelistedUsers } = tradeInfo ?? {}
 
 	const [tradePreview, setTradePreview] = React.useState<{
 		coin?: Coin
@@ -119,36 +125,52 @@ export default function ListingDetails() {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	const handleDeny = (/* offer */) => {}
 
+	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
+
+	const isMyTradeListing = tradeInfo?.owner === myAddress
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
-				<Row
-					sx={{
-						justifyContent: 'space-between',
-					}}
-				>
-					<ButtonsRow
-						handleEditClick={handleEditClick}
-						handleRemoveClick={handleRemoveClick}
-					/>
-				</Row>
+				<TradeHeaderActionsRow
+					handleEditClick={handleEditClick}
+					handleRemoveClick={handleRemoveClick}
+					isMyTradeListing={isMyTradeListing}
+				/>
 				<Row>
-					<BlueWarning sx={{ width: '100%', height: '49px' }}>
-						{t('trade-listings:item-not-available')}
-					</BlueWarning>
+					{[TRADE_STATE.Cancelled, TRADE_STATE.Accepted].includes(
+						tradeInfo?.state as TRADE_STATE
+					) && (
+						<BlueWarning sx={{ width: '100%', height: '49px' }}>
+							{t('trade-listings:item-not-available')}
+						</BlueWarning>
+					)}
 				</Row>
 				<ImageRow
-					nfts={(associatedAssets || [])
-						.filter(nft => nft.cw721Coin)
-						.map(({ cw721Coin }) => cw721Coin as NFT)}
-					imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
-					NFTProps={tradePreview}
+					nft={tradePreview?.cw721Coin}
+					imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
 					onLike={noop}
 					liked={false}
 				/>
 				<Row>
+					<Button
+						fullWidth
+						variant='dark'
+						onClick={
+							noop
+							// TODO: implement view all NFTs modal
+							/* nfts={(associatedAssets || [])
+							.filter(nft => nft.cw721Coin)
+							.map(({ cw721Coin }) => cw721Coin as NFT)} */
+						}
+					>
+						{t('trade-listings:view-all-nfts')}
+					</Button>
+				</Row>
+
+				<Row>
 					<DescriptionRow
-						name={tradePreview?.cw721Coin?.collectionName}
+						name={tradePreview?.cw721Coin?.name}
 						isPrivate={(whitelistedUsers ?? []).length > 0}
 						collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
 						verified={(verifiedCollections ?? []).some(
@@ -174,8 +196,31 @@ export default function ListingDetails() {
 				)}
 				<Row>
 					<Wallet>
-						<WalletItem>Listed 3 weeks ago</WalletItem>
-						<WalletItem>Listed 3 weeks ago</WalletItem>
+						<WalletItem>
+							{tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}
+						</WalletItem>
+						<WalletItem>
+							<WalletIcon width='20px' height='20px' color='#fff' />
+							<Box
+								sx={{
+									ml: 9,
+								}}
+							>
+								{tradeInfo?.owner ?? ''}
+							</Box>
+						</WalletItem>
+						<WalletItem>
+							<CalendarIcon width='20px' height='20px' color='#fff' />
+							<Box
+								sx={{
+									ml: 9,
+								}}
+							>
+								{t(`trade-listings:listed`, {
+									listed: moment(tradeInfo?.additionalInfo?.time ?? '').fromNow(),
+								})}
+							</Box>
+						</WalletItem>
 					</Wallet>
 				</Row>
 				{tradeInfo && (
