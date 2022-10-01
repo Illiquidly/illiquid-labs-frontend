@@ -83,7 +83,8 @@ const ListOfSelectedNFTs = ({
 									`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}` ===
 									`${selectedCoverNFT.collectionAddress}_${selectedCoverNFT.tokenId}`
 								}
-								onCoverClick={() => setValue('coverNFT', selectedNFT)}
+								hasCoverSelector
+								onCardClick={() => setValue('coverNFT', selectedNFT)}
 							/>
 						)
 					})}

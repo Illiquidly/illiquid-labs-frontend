@@ -24,7 +24,7 @@ interface NFTCardProps {
 	checked?: boolean
 	verified?: boolean
 	onCardClick?: React.MouseEventHandler<HTMLDivElement>
-	onCoverClick?: React.MouseEventHandler<HTMLDivElement>
+	hasCoverSelector?: boolean
 	name?: string
 	collectionName?: string
 	size?: SizeVariants
@@ -52,7 +52,7 @@ function NFTCard({
 	checked,
 	verified,
 	onCardClick,
-	onCoverClick,
+	hasCoverSelector,
 	name,
 	collectionName,
 	size = 'medium',
@@ -74,12 +74,8 @@ function NFTCard({
 					</RightImageArea>
 				)}
 
-				{onCoverClick !== noop && (
-					<CoverLabel
-						className='coverLabel'
-						isCover={isCover}
-						onClick={onCoverClick}
-					>
+				{hasCoverSelector && (
+					<CoverLabel className='coverLabel' isCover={isCover}>
 						{isCover ? t('common:cover') : t('common:set-as-cover')}
 					</CoverLabel>
 				)}
@@ -106,9 +102,9 @@ function NFTCard({
 NFTCard.defaultProps = {
 	isCover: false,
 	checked: false,
+	hasCoverSelector: false,
 	verified: false,
 	onCardClick: noop,
-	onCoverClick: noop,
 	name: '',
 	collectionName: '',
 	size: 'medium',

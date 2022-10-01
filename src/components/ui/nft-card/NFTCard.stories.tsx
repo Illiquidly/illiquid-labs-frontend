@@ -19,12 +19,35 @@ export const NFTCardExample = () => {
 
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: 8 }}>
+			<Box as='h3'>Medium/Default Card - Cover Click</Box>
+			<Flex sx={{ gap: 8 }}>
+				<NFTCard
+					checked={activeCard === 1}
+					isCover={isCover === 1}
+					hasCoverSelector
+					onCardClick={() => setCover(1)}
+					verified
+					imageUrl={[
+						'https://d1mx8bduarpf8s.cloudfront.net/QmNuYa4ruNsRgfzRPizxCfaWFZTFJLaeuSjR6XuMu1s4zL',
+					]}
+					name='Fox #7561'
+					collectionName='Mutant Ape Yacht Club'
+				/>
+				<NFTCard
+					checked={activeCard === 2}
+					isCover={isCover === 2}
+					hasCoverSelector
+					onCardClick={() => setCover(2)}
+					verified
+					name='Fox #7561'
+					collectionName='Mutant Ape Yacht Club'
+				/>
+			</Flex>
 			<Box as='h3'>Medium/Default Card</Box>
 			<Flex sx={{ gap: 8 }}>
 				<NFTCard
 					checked={activeCard === 1}
 					isCover={isCover === 1}
-					onCoverClick={() => setCover(1)}
 					onCardClick={() => setActiveCard(1)}
 					verified
 					imageUrl={[
@@ -36,7 +59,6 @@ export const NFTCardExample = () => {
 				<NFTCard
 					checked={activeCard === 2}
 					isCover={isCover === 2}
-					onCoverClick={() => setCover(2)}
 					onCardClick={() => setActiveCard(2)}
 					verified
 					name='Fox #7561'
@@ -52,14 +74,12 @@ export const NFTCardExample = () => {
 					collectionName='Mutant Ape Yacht Club'
 					checked={activeCard === 1}
 					isCover={isCover === 1}
-					onCoverClick={() => setCover(1)}
 					onCardClick={() => setActiveCard(1)}
 				/>
 				<NFTCard
 					size='small'
 					checked={activeCard === 2}
 					isCover={isCover === 2}
-					onCoverClick={() => setCover(2)}
 					onCardClick={() => setActiveCard(2)}
 					verified
 					imageUrl={[
@@ -71,7 +91,6 @@ export const NFTCardExample = () => {
 				<NFTCard
 					checked={activeCard === 3}
 					isCover={isCover === 3}
-					onCoverClick={() => setCover(3)}
 					onCardClick={() => setActiveCard(3)}
 					size='small'
 					verified
