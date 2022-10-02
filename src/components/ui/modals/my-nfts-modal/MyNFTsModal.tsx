@@ -15,6 +15,7 @@ import { Box, Flex, IconButton } from 'theme-ui'
 
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
+import { useTranslation } from 'next-i18next'
 import { SupportedCollectionsService } from 'services/api'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
@@ -53,6 +54,7 @@ export const MyNFTsModal = NiceModal.create(
 			MultiSelectInputOption[]
 		>([])
 
+		const { t } = useTranslation('trade')
 		const [dropdownRefElement, setDropdownRefElement] =
 			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
@@ -128,6 +130,7 @@ export const MyNFTsModal = NiceModal.create(
 									<Flex sx={{ gap: '12px' }}>
 										<SearchContainer>
 											<SearchInput
+												placeholder={t('select-NFTs.search')}
 												onChange={e => setSearchName(e.target.value)}
 												value={searchName}
 											/>
@@ -140,6 +143,7 @@ export const MyNFTsModal = NiceModal.create(
 											<DropdownMultiselect
 												dropdownReferenceElement={dropdownRefElement}
 												label='Collections'
+												placeholder={t('select-NFTs.type-here-to-search')}
 												value={selectedCollections}
 												onChange={collections => setSelectedCollections(collections)}
 												options={ownedCollections.map(

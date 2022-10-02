@@ -11,7 +11,9 @@
 		"add-instruction": "Add them here by clicking below",
 		"select-nfts": "Select NFTs",
 		"selected-nfts": "Selected NFT's",
-		"selected-nfts-description": "These items will be included in the trade listing"
+		"selected-nfts-description": "These items will be included in the trade listing",
+		"search": "Search",
+		"type-here-to-search": "Type here to search..."
 	},
 	"trade-details": {
 		"question": "What are you looking for?",
