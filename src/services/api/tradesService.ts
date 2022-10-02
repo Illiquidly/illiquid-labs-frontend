@@ -193,7 +193,7 @@ export class TradesService {
 					? [
 							{
 								'tradeInfo.owner': {
-									$in: filters?.owners?.length,
+									$in: filters?.owners,
 								},
 							},
 					  ]
