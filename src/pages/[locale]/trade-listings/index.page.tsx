@@ -51,7 +51,7 @@ import {
 	GRID_TYPE,
 	ListingsNFTsContainer,
 	SearchInputContainer,
-	SortSelectContainer,
+	// SortSelectContainer,
 	TabsSection,
 	TradeListingsFilterModal,
 	TradeListingsFilterModalProps,
@@ -287,7 +287,7 @@ export default function TradeListings() {
 								<FiltersButtonLabel>{t('common:filters-label')}</FiltersButtonLabel>
 							</FilterButton>
 						</FiltersButtonContainer>
-						<SortSelectContainer />
+						{/* <SortSelectContainer /> */}
 
 						<GridSwitchContainer>
 							<GridSwitch
