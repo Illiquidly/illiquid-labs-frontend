@@ -24,6 +24,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { SupportedCollectionsService } from 'services/api'
 import { useTranslation } from 'next-i18next'
+import { isEmpty } from 'lodash'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	FiltersSection,
@@ -36,7 +37,7 @@ import {
 	NFTCardsGrid,
 	NFTSelectionOverlay,
 	SearchContainer,
-	SortSelectContainer,
+	// SortSelectContainer,
 } from './MyNFTsModal.styled'
 
 export interface MyNFTsModalProps {
@@ -64,11 +65,16 @@ export const MyNFTsModal = NiceModal.create(
 			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
 
-		const { partiallyLoading, ownedNFTs, ownedCollections, fetchMyNFTs } =
-			useMyNFTs({
-				collectionAddresses: selectedCollections.map(({ value }) => value),
-				name: searchName,
-			})
+		const {
+			partiallyLoading,
+			fullyLoading,
+			ownedNFTs,
+			ownedCollections,
+			fetchMyNFTs,
+		} = useMyNFTs({
+			collectionAddresses: selectedCollections.map(({ value }) => value),
+			name: searchName,
+		})
 
 		const { data: verifiedCollections } = useQuery(
 			['verifiedCollections'],
@@ -147,9 +153,10 @@ export const MyNFTsModal = NiceModal.create(
 											<SearchInput
 												onChange={e => setSearchName(e.target.value)}
 												value={searchName}
+												placeholder={t('common:search')}
 											/>
 										</SearchContainer>
-										<SortSelectContainer />
+										{/* <SortSelectContainer /> */}
 									</Flex>
 									<OnlyMobileAndTablet>
 										<Box sx={{ height: ['8px'] }} />
@@ -166,7 +173,7 @@ export const MyNFTsModal = NiceModal.create(
 													})
 												)}
 											/>
-											<Box sx={{ flex: 1, bg: 'red' }} />
+											{/* <Box sx={{ flex: 1, bg: 'red' }} /> */}
 										</Flex>
 										<div
 											ref={setDropdownRefElement}
@@ -190,7 +197,7 @@ export const MyNFTsModal = NiceModal.create(
 											{addNFTsButtonLabel}
 										</Button>
 									</Flex>
-									{partiallyLoading ? (
+									{partiallyLoading || (fullyLoading && isEmpty(ownedNFTs)) ? (
 										<Flex
 											sx={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
 										>
