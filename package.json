@@ -44,6 +44,7 @@
 		"react-hook-form": "^7.34.2",
 		"react-image": "^4.0.3",
 		"react-popper": "^2.3.0",
+		"react-share": "^4.4.0",
 		"react-toastify": "^9.0.7",
 		"react-use": "^17.4.0",
 		"recoil": "^0.7.4",

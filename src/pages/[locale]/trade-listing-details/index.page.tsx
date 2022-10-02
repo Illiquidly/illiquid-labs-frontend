@@ -25,8 +25,6 @@ import {
 	CounterOffersTable,
 } from 'components/trade-listing-details'
 import {
-	EditModal,
-	RemoveModal,
 	AcceptCounterOfferModal,
 	DenyCounterOfferSuccessModal,
 	DenyCounterOfferModal,
@@ -35,8 +33,6 @@ import {
 	DenyCounterOfferModalProps,
 	DenyCounterOfferModalResult,
 	DenySuccessModalProps,
-	EditModalResult,
-	RemoveModalProps,
 } from 'components/trade-listing-details/modals'
 import {
 	CalendarIcon,
@@ -54,15 +50,10 @@ import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import {
 	acceptTrade,
-	cancelAndWithdrawTrade,
 	refuseCounterTrade,
 	TRADE_STATE,
-	updateTrade,
 } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
-
-import { fromUpdateTradeToBlockchain } from 'utils/mappers/fromUpdateTradeToBlockchain'
-import RemoveSuccessModal from 'components/trade-listing-details/modals/remove-success-modal/RemoveSuccessModal'
 
 import { CounterTrade } from 'services/api/counterTradesService'
 
@@ -124,56 +115,6 @@ export default function ListingDetails() {
 		</Flex>
 	)
 
-	const handleEditClick = async () => {
-		if (!trade) {
-			return
-		}
-		const initialLookingFor = tradeInfo?.additionalInfo?.lookingFor ?? []
-		const initialComment = tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
-
-		const [, result] = await asyncAction<EditModalResult>(
-			NiceModal.show(EditModal, {
-				initialLookingFor,
-				initialComment,
-			})
-		)
-
-		if (result) {
-			const { newTokensWanted, newNFTsWanted, comment } =
-				fromUpdateTradeToBlockchain(result)
-
-			const [, response] = await asyncAction(
-				updateTrade(trade.tradeId, comment, newTokensWanted, newNFTsWanted)
-			)
-
-			// TODO add broadcasting modal, refetch trade
-			console.warn(response)
-		}
-	}
-
-	const handleRemoveClick = async () => {
-		if (!trade) {
-			return
-		}
-		const [, result] = await asyncAction<RemoveModalProps>(
-			NiceModal.show(RemoveModal, {
-				tradeId: trade.tradeId,
-			})
-		)
-
-		if (result) {
-			const [, cancelTradeResponse] = await asyncAction(
-				cancelAndWithdrawTrade(Number(result.tradeId))
-			)
-
-			if (cancelTradeResponse) {
-				NiceModal.show(RemoveSuccessModal, {
-					tradeId: trade.tradeId,
-				})
-			}
-		}
-	}
-
 	const handleApprove = async (counterTrade: CounterTrade) => {
 		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
 			NiceModal.show(AcceptCounterOfferModal, {
@@ -221,32 +162,10 @@ export default function ListingDetails() {
 		}
 	}
 
-	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
-
-	const isMyTradeListing = tradeInfo?.owner === myAddress
-
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
-				<TradeHeaderActionsRow
-					handleEditClick={handleEditClick}
-					handleRemoveClick={handleRemoveClick}
-					isMyTradeListing={isMyTradeListing}
-					editDisabled={
-						![
-							TRADE_STATE.Published,
-							TRADE_STATE.Countered,
-							TRADE_STATE.Created,
-						].includes(tradeInfo?.state ?? TRADE_STATE.Cancelled)
-					}
-					removeDisabled={
-						![
-							TRADE_STATE.Published,
-							TRADE_STATE.Countered,
-							TRADE_STATE.Created,
-						].includes(tradeInfo?.state ?? TRADE_STATE.Cancelled)
-					}
-				/>
+				<TradeHeaderActionsRow trade={trade} />
 				<Row>
 					{[TRADE_STATE.Cancelled, TRADE_STATE.Accepted].includes(
 						tradeInfo?.state as TRADE_STATE

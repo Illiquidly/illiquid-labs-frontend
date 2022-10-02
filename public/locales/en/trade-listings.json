@@ -88,5 +88,6 @@
 		"go-to-listing": "Go To Listing"
 	},
 	"listed": "Listed {{listed}}",
-	"view-all-nfts": "View all NFTs"
+	"view-all-nfts": "View all NFTs",
+	"checkout-my-trade": "Checkout my trade on Illiquid Labs"
 }
