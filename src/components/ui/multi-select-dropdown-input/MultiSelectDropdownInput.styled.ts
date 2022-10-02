@@ -98,7 +98,7 @@ export const DropdownContainer = styled.div`
 	overflow: hidden;
 	background: ${props => props.theme.colors.dark100};
 
-	height: 208px;
+	max-height: 208px;
 
 	border: 1px solid ${props => props.theme.colors.dark500};
 
