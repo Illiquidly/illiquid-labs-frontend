@@ -142,7 +142,7 @@ export default function TradeListings() {
 
 	const [statuses, setStatuses] = React.useState<
 		MultiSelectAccordionInputOption[]
-	>([])
+	>([statusOptions[0]])
 	const [lookingForCollections, setLookingForCollections] = React.useState<
 		MultiSelectAccordionInputOption[]
 	>([])
