@@ -766,7 +766,12 @@ async function withdrawAcceptedTrade(tradeId: number) {
 			},
 		},
 		coins: {
-			ust: feeResponse.fee,
+			...(Number.parseInt(feeResponse.amount, 10)
+				? {
+						[{ uluna: 'luna', uusd: 'ust' }[feeResponse.denom ?? 'uluna'] as string]:
+							feeResponse.amount,
+				  }
+				: {}),
 		},
 	})
 }
@@ -781,9 +786,10 @@ async function acceptTrade(
 
 	const feeContractAddress = addresses.getContractAddress('fee-collector')
 
-	const feeResponse = await terraUtils.sendQuery(feeContractAddress, {
-		fee: { trade_id: tradeId, counter_id: counterId },
-	})
+	const feeResponse: { amount: string; denom: string } =
+		await terraUtils.sendQuery(feeContractAddress, {
+			fee: { trade_id: tradeId, counter_id: counterId },
+		})
 
 	const txs = [
 		{
@@ -806,12 +812,20 @@ async function acceptTrade(
 							},
 						},
 						coins: {
-							ust: feeResponse.fee,
+							...(Number.parseInt(feeResponse.amount, 10)
+								? {
+										[{ uluna: 'luna', uusd: 'ust' }[
+											feeResponse.denom ?? 'uluna'
+										] as string]: feeResponse.amount,
+								  }
+								: {}),
 						},
 					},
 			  ]
 			: []),
 	]
+
+	console.warn(txs)
 
 	return terraUtils.postManyTransactions(txs)
 }
@@ -964,7 +978,12 @@ async function withdrawPendingAssets(tradeId: number): Promise<TxReceipt> {
 			},
 		},
 		coins: {
-			ust: feeResponse.fee,
+			...(Number.parseInt(feeResponse.amount, 10)
+				? {
+						[{ uluna: 'luna', uusd: 'ust' }[feeResponse.denom ?? 'uluna'] as string]:
+							feeResponse.amount,
+				  }
+				: {}),
 		},
 	})
 }

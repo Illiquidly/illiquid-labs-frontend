@@ -187,6 +187,8 @@ export default function ListingDetails() {
 			)
 
 			console.warn(acceptTradeResult)
+
+			// TODO: show offer accepted modal
 		}
 	}
 
