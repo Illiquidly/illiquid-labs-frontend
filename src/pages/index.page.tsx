@@ -1,5 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { Redirect } from 'lib'
+import * as ROUTES from 'constants/routes'
 
 export async function getStaticProps({ locale = 'en' }) {
 	return {
@@ -10,4 +11,4 @@ export async function getStaticProps({ locale = 'en' }) {
 	}
 }
 
-export default Redirect
+export default () => <Redirect to={ROUTES.TRADE_LISTINGS} />

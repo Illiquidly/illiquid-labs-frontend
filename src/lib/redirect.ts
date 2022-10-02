@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import languageDetector from './languageDetector'
 
-export const useRedirect = (param = null) => {
+export const useRedirect = (param?: string) => {
 	const router = useRouter()
 
 	const to = param || router.asPath
@@ -15,19 +15,18 @@ export const useRedirect = (param = null) => {
 			router.replace(`/${detectedLng}${router.route}`)
 			return
 		}
-		languageDetector?.cache(detectedLng)
+		languageDetector?.cache?.(detectedLng as string)
 		router.replace(`/${detectedLng}${to}`)
 	}, [])
 
 	return null
 }
 
-export const Redirect = () => {
-	useRedirect()
+export const Redirect = ({ to }: { to: string }) => {
+	useRedirect(to)
 	return null
 }
 
-// eslint-disable-next-line react/display-name
 export const getRedirect = to => () => {
 	useRedirect(to)
 	return null
