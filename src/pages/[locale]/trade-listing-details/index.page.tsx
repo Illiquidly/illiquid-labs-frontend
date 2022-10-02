@@ -56,7 +56,12 @@ import {
 import { asyncAction } from 'utils/js/asyncAction'
 
 import { CounterTrade } from 'services/api/counterTradesService'
-import { TxBroadcastingModal } from 'components'
+import {
+	TxBroadcastingModal,
+	ViewNFTsModal,
+	ViewNFTsModalProps,
+	ViewNFTsModalResult,
+} from 'components'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -163,6 +168,23 @@ export default function ListingDetails() {
 		}
 	}
 
+	const handleViewAllNFTs = async () => {
+		if (!trade) {
+			return
+		}
+		const [, result] = await asyncAction<ViewNFTsModalResult>(
+			NiceModal.show(ViewNFTsModal, {
+				nfts: (trade?.tradeInfo.associatedAssets ?? [])
+					.filter(({ cw721Coin }) => cw721Coin)
+					.map(({ cw721Coin }) => cw721Coin),
+			} as ViewNFTsModalProps)
+		)
+
+		if (result) {
+			setTradePreview(oldPrev => ({ ...oldPrev, cw721Coin: result.nft }))
+		}
+	}
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -187,7 +209,7 @@ export default function ListingDetails() {
 						fullWidth
 						variant='dark'
 						onClick={
-							noop
+							handleViewAllNFTs
 							// TODO: implement view all NFTs modal
 							/* nfts={(associatedAssets || [])
 							.filter(nft => nft.cw721Coin)
