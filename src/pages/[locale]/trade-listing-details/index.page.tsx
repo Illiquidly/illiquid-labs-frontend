@@ -28,6 +28,15 @@ import {
 	EditModal,
 	RemoveModal,
 	AcceptCounterOfferModal,
+	DenyCounterOfferSuccessModal,
+	DenyCounterOfferModal,
+	AcceptCounterOfferModalProps,
+	AcceptCounterOfferModalResult,
+	DenyCounterOfferModalProps,
+	DenyCounterOfferModalResult,
+	DenySuccessModalProps,
+	EditModalResult,
+	RemoveModalProps,
 } from 'components/trade-listing-details/modals'
 import {
 	CalendarIcon,
@@ -46,19 +55,15 @@ import { SupportedCollectionsService } from 'services/api'
 import {
 	acceptTrade,
 	cancelAndWithdrawTrade,
+	refuseCounterTrade,
 	TRADE_STATE,
 	updateTrade,
 } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
-import { EditModalResult } from 'components/trade-listing-details/modals/edit-modal/EditModal'
 
 import { fromUpdateTradeToBlockchain } from 'utils/mappers/fromUpdateTradeToBlockchain'
-import { RemoveModalProps } from 'components/trade-listing-details/modals/remove-modal/RemoveModal'
 import RemoveSuccessModal from 'components/trade-listing-details/modals/remove-success-modal/RemoveSuccessModal'
-import {
-	AcceptCounterOfferModalProps,
-	AcceptCounterOfferModalResult,
-} from 'components/trade-listing-details/modals/accept-counter-offer-modal/AcceptCounterOfferModal'
+
 import { CounterTrade } from 'services/api/counterTradesService'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
@@ -192,8 +197,29 @@ export default function ListingDetails() {
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	const handleDeny = (/* offer */) => {}
+	const handleDeny = async (counterTrade: CounterTrade) => {
+		const [, result] = await asyncAction<DenyCounterOfferModalResult>(
+			NiceModal.show(DenyCounterOfferModal, {
+				counterTrade,
+			} as DenyCounterOfferModalProps)
+		)
+
+		if (result) {
+			const [, response] = await asyncAction(
+				refuseCounterTrade(
+					counterTrade.trade.id,
+					counterTrade.counterId,
+					result.comment
+				)
+			)
+
+			console.warn(response)
+
+			await NiceModal.show(DenyCounterOfferSuccessModal, {
+				counterTrade,
+			} as DenySuccessModalProps)
+		}
+	}
 
 	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
 

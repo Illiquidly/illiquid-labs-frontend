@@ -62,13 +62,30 @@
 	},
 	"accept-counter-offer-modal": {
 		"title": "Accept counter offer",
-		"question": "Are you sure you’d like to accept the offer from %{username} ?",
+		"question": "Are you sure you’d like to accept the offer from {{username}} ?",
 		"note": "Feel free to send include a message. How exciting!",
 		"radio-text": "Yes, I’m sure I’d like to accept the offer",
 		"send-message": "Send Message",
 		"enter-text": "Enter text",
 		"back-to-listing": "Back to Listing",
 		"accept-offer": "Accept Offer"
+	},
+	"deny-counter-offer-modal": {
+		"title": "Deny counter offer",
+		"question": "Are you sure you’d like to deny the offer from {{username}} ?",
+		"note": "If you’d like the user to revise their offer, include a message below. They’ll be notified and be able to submit a new offer.",
+		"send-message": "Send Message",
+		"radio-text": "Yes, I’m sure I’d like to deny the offer",
+		"enter-text": "Enter text",
+		"back-to-listing": "Back to Listing",
+		"deny-offer": "Deny Offer"
+	},
+	"deny-success-modal": {
+		"title": "Offer denial sent",
+		"answer": "{{username}} has been notified that you’ve denied their offer. ",
+		"note": "They may follow-up with another counter, so keep your eyes peeled!",
+		"view-all-listings": "View All Listings",
+		"go-to-listing": "Go To Listing"
 	},
 	"listed": "Listed {{listed}}",
 	"view-all-nfts": "View all NFTs"

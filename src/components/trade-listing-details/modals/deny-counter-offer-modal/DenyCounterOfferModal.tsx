@@ -28,9 +28,9 @@ import {
 	RadioText,
 	Title,
 	Subtitle,
-} from './AcceptCounterOfferModal.styled'
+} from './DenyCounterOfferModal.styled'
 
-export interface AcceptCounterOfferModalProps {
+export interface DenyCounterOfferModalProps {
 	counterTrade: CounterTrade
 }
 
@@ -39,23 +39,23 @@ enum CONFIRM_STATUS_TYPE {
 	CONFIRMED = '1',
 }
 
-export interface AcceptCounterOfferModalResult {
+export interface DenyCounterOfferModalResult {
 	comment: string
 }
-export interface AcceptCounterOfferModalState {
+export interface DenyCounterOfferModalState {
 	confirmStatusType: CONFIRM_STATUS_TYPE
 	comment: string
 }
 
-const AcceptCounterOfferModal = NiceModal.create(
-	({ counterTrade }: AcceptCounterOfferModalProps) => {
+const DenyCounterOfferModal = NiceModal.create(
+	({ counterTrade }: DenyCounterOfferModalProps) => {
 		const modal = useModal()
 
 		const { t } = useTranslation(['common', 'trade-listings'])
 
 		const theme = useTheme()
 
-		const formMethods = useForm<AcceptCounterOfferModalState>({
+		const formMethods = useForm<DenyCounterOfferModalState>({
 			mode: 'all',
 			defaultValues: {
 				confirmStatusType: CONFIRM_STATUS_TYPE.DEFAULT,
@@ -68,7 +68,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 		const onSubmit = ({ comment }) => {
 			modal.resolve({
 				comment,
-			} as AcceptCounterOfferModalResult)
+			} as DenyCounterOfferModalResult)
 			modal.remove()
 		}
 
@@ -78,7 +78,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 					<LayoutContainer>
 						<ModalContent>
 							<ModalHeader>
-								{t('trade-listings:accept-counter-offer-modal.title')}
+								{t('trade-listings:deny-counter-offer-modal.title')}
 								<IconButton
 									sx={{
 										borderRadius: '32px',
@@ -95,12 +95,12 @@ const AcceptCounterOfferModal = NiceModal.create(
 										<Flex sx={{ flexDirection: 'column', gap: '24px' }}>
 											<Flex sx={{ flexDirection: 'column' }}>
 												<Title>
-													{t('trade-listings:accept-counter-offer-modal.question', {
+													{t('trade-listings:deny-counter-offer-modal.question', {
 														username: getShortText(counterTrade?.tradeInfo.owner ?? '', 8),
 													})}
 												</Title>
 												<Subtitle>
-													{t('trade-listings:accept-counter-offer-modal.note')}
+													{t('trade-listings:deny-counter-offer-modal.note')}
 												</Subtitle>
 											</Flex>
 											<Flex>
@@ -116,7 +116,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 												>
 													<RadioCardInput value={CONFIRM_STATUS_TYPE.CONFIRMED}>
 														<RadioText>
-															{t('trade-listings:accept-counter-offer-modal.radio-text')}
+															{t('trade-listings:deny-counter-offer-modal.radio-text')}
 														</RadioText>
 													</RadioCardInput>
 												</RadioInputGroupProvider>
@@ -124,14 +124,14 @@ const AcceptCounterOfferModal = NiceModal.create(
 
 											<Flex sx={{ flexDirection: 'column' }}>
 												<Label htmlFor='comment'>
-													{t('trade-listings:accept-counter-offer-modal:send-message')}
+													{t('trade-listings:deny-counter-offer-modal:send-message')}
 												</Label>
 												<TextArea
 													id='comment'
 													style={{ height: '128px' }}
 													{...register('comment')}
 													placeholder={t(
-														'trade-listings:accept-counter-offer-modal:enter-text'
+														'trade-listings:deny-counter-offer-modal:enter-text'
 													)}
 												/>
 											</Flex>
@@ -142,7 +142,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 												}}
 											>
 												<Button onClick={modal.remove} variant='secondary' fullWidth>
-													{t('trade-listings:accept-counter-offer-modal.back-to-listing')}
+													{t('trade-listings:deny-counter-offer-modal.back-to-listing')}
 												</Button>
 												<Button
 													variant='gradient'
@@ -152,7 +152,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 													}
 													onClick={handleSubmit}
 												>
-													{t('trade-listings:accept-counter-offer-modal.accept-offer')}
+													{t('trade-listings:deny-counter-offer-modal.deny-offer')}
 												</Button>
 											</Flex>
 										</Flex>
@@ -166,4 +166,4 @@ const AcceptCounterOfferModal = NiceModal.create(
 		)
 	}
 )
-export default AcceptCounterOfferModal
+export default DenyCounterOfferModal
