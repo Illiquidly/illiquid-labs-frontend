@@ -33,6 +33,9 @@ interface StepHeaderProps {
 	onEditClick: () => void
 }
 
+interface SuccessScreenProps {
+	setStep: Dispatch<SetStateAction<StepProps>>
+}
 interface Props {
 	goBackStep: () => void
 	setStep: Dispatch<SetStateAction<StepProps>>
@@ -49,8 +52,10 @@ const StepHeader = ({ children, onEditClick }: StepHeaderProps) => {
 	)
 }
 
-const SuccessScreen = () => {
+const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 	const { t } = useTranslation(['common', 'trade'])
+	const { reset } = useFormContext<TradeFormStepsProps>()
+
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: '16px' }}>
 			<ContentCard sx={{ padding: ['16px 12px 32px', '24px 12px 40px'] }}>
@@ -68,7 +73,15 @@ const SuccessScreen = () => {
 						{t('trade:confirm-listing.congratulations-message')}
 					</SuccessMessage>
 					<Flex sx={{ justifyContent: 'center', gap: '12px' }}>
-						<Button variant='primary'>{t('common:create-another')}</Button>
+						<Button
+							variant='primary'
+							onClick={() => {
+								reset()
+								setStep(prevStep => ({ ...prevStep, current: 0 }))
+							}}
+						>
+							{t('common:create-another')}
+						</Button>
 						<Button variant='dark'>
 							<Flex pr={2}>
 								<TwitterIcon fill={theme.colors.natural50} />
@@ -116,7 +129,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 		<ContentCardWrapper>
 			<If condition={isSuccessScreen}>
 				<If.Then>
-					<SuccessScreen />
+					<SuccessScreen setStep={setStep} />
 				</If.Then>
 				<If.Else>
 					<ContentCard>
