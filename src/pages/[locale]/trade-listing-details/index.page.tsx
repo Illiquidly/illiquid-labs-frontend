@@ -56,6 +56,7 @@ import {
 import { asyncAction } from 'utils/js/asyncAction'
 
 import { CounterTrade } from 'services/api/counterTradesService'
+import { TxBroadcastingModal } from 'components'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -123,14 +124,14 @@ export default function ListingDetails() {
 		)
 
 		if (result) {
-			const [, acceptTradeResult] = await asyncAction(
-				acceptTrade(
+			const acceptTradeResult = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: acceptTrade(
 					counterTrade.counterId,
 					counterTrade.trade.tradeId,
 					result.comment,
 					true
-				)
-			)
+				),
+			})
 
 			console.warn(acceptTradeResult)
 
@@ -146,13 +147,13 @@ export default function ListingDetails() {
 		)
 
 		if (result) {
-			const [, response] = await asyncAction(
-				refuseCounterTrade(
+			const response = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: refuseCounterTrade(
 					counterTrade.trade.id,
 					counterTrade.counterId,
 					result.comment
-				)
-			)
+				),
+			})
 
 			console.warn(response)
 

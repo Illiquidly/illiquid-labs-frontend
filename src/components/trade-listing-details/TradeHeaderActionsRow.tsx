@@ -33,6 +33,7 @@ import { Trade } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { useRouter } from 'next/router'
 import { noop } from 'lodash'
+import { TxBroadcastingModal } from 'components/shared'
 
 interface TradeHeaderActionsRowProps {
 	trade?: Trade
@@ -81,11 +82,16 @@ export const TradeHeaderActionsRow = ({
 			const { newTokensWanted, newNFTsWanted, comment } =
 				fromUpdateTradeToBlockchain(result)
 
-			const [, response] = await asyncAction(
-				updateTrade(trade.tradeId, comment, newTokensWanted, newNFTsWanted)
-			)
+			const response = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: updateTrade(
+					trade.tradeId,
+					comment,
+					newTokensWanted,
+					newNFTsWanted
+				),
+			})
 
-			// TODO add broadcasting modal, refetch trade
+			// TODO refetch trade
 			console.warn(response)
 		}
 	}
@@ -101,9 +107,9 @@ export const TradeHeaderActionsRow = ({
 		)
 
 		if (result) {
-			const [, cancelTradeResponse] = await asyncAction(
-				cancelAndWithdrawTrade(Number(result.tradeId))
-			)
+			const cancelTradeResponse = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: cancelAndWithdrawTrade(Number(result.tradeId)),
+			})
 
 			if (cancelTradeResponse) {
 				NiceModal.show(RemoveSuccessModal, {

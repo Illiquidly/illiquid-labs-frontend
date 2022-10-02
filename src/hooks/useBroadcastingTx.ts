@@ -24,7 +24,6 @@ export const useBroadcastingTx = (
 				broadcasting: true,
 			})
 		}
-		console.warn(txId)
 	}, [txId])
 
 	useEffect(() => {

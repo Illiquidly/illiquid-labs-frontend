@@ -67,7 +67,6 @@ function ListingCard({
 	const { name, collectionName, imageUrl } = NFTProps
 	const { t } = useTranslation('common')
 
-	console.log(nfts)
 	return (
 		<Link href={href} disabled={disabled}>
 			<CardContainer unavailable={unavailable}>

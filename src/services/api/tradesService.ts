@@ -86,6 +86,7 @@ type TradeFilters = {
 	owners?: string[]
 	hasLiquidAsset?: boolean
 	search?: string
+	myAddress: string
 }
 
 type TradePagination = {
@@ -102,88 +103,132 @@ export class TradesService {
 	): Promise<TradesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
 		queryBuilder.setJoin({ field: 'counterTrades.tradeInfo' })
-		queryBuilder.setFilter({
-			field: 'network',
-			operator: '$eq',
-			value: network,
+
+		queryBuilder.search({
+			$and: [
+				...(filters?.myAddress
+					? [
+							{
+								$or: [
+									{
+										'tradeInfo.whitelistedUsers': '[]',
+									},
+									{
+										'tradeInfo.whitelistedUsers': {
+											$cont: filters.myAddress,
+										},
+									},
+									{
+										'tradeInfo.whitelistedUsers': {
+											$ne: '[]',
+										},
+										'tradeInfo.owner': filters.myAddress,
+									},
+								],
+							},
+					  ]
+					: []),
+				{
+					network,
+				},
+				...(filters?.tradeIds?.length
+					? [
+							{
+								tradeId: {
+									$in: filters?.tradeIds,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.states?.length
+					? [
+							{
+								'tradeInfo.state': {
+									$in: filters?.states,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.collections?.length
+					? [
+							{
+								'tradeInfo_cw721Assets_collection_join.collectionAddress': {
+									$in: filters?.collections,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.lookingFor?.length
+					? [
+							{
+								'tradeInfo.nftsWanted.collectionAddress': {
+									$in: filters?.lookingFor,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.counteredBy?.length
+					? [
+							{
+								'counterTrade_tradeInfo_join.owner': {
+									$in: filters?.counteredBy,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.whitelistedUsers?.length
+					? [
+							{
+								'tradeInfo.whitelistedUsers': {
+									$in: filters?.whitelistedUsers,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.owners?.length
+					? [
+							{
+								'tradeInfo.owner': {
+									$in: filters?.owners?.length,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.hasLiquidAsset
+					? [
+							{
+								$or: [
+									{
+										'tradeInfo.tokensWanted': {
+											$cont: 'coin',
+										},
+									},
+									{
+										'tradeInfo.tokensWanted': {
+											$cont: 'cw20Coin',
+										},
+									},
+								],
+							},
+					  ]
+					: []),
+
+				...(filters?.search?.length
+					? [
+							{
+								'tradeInfo_cw721Assets_join.allNftInfo': {
+									$cont: filters?.search,
+								},
+							},
+					  ]
+					: []),
+			],
 		})
-
-		if (filters?.tradeIds?.length) {
-			queryBuilder.setFilter({
-				field: 'tradeId',
-				operator: 'in',
-				value: filters?.tradeIds,
-			})
-		}
-
-		if (filters?.states?.length) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo.state',
-				operator: 'in',
-				value: filters?.states.map(x => x.toLowerCase()),
-			})
-		}
-
-		if (filters?.collections?.length) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo_cw721Assets_collection_join.collectionAddress',
-				operator: 'in',
-				value: filters?.collections,
-			})
-		}
-
-		if (filters?.lookingFor?.length) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo.nftsWanted.collectionAddress',
-				operator: 'in',
-				value: filters?.lookingFor,
-			})
-		}
-
-		if (filters?.counteredBy?.length) {
-			queryBuilder.setFilter({
-				field: 'counterTrade_tradeInfo_join.owner',
-				operator: 'in',
-				value: filters?.counteredBy,
-			})
-		}
-
-		if (filters?.whitelistedUsers?.length) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo.whitelistedUsers',
-				operator: 'in',
-				value: filters?.whitelistedUsers,
-			})
-		}
-
-		if (filters?.owners?.length) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo.owner',
-				operator: 'in',
-				value: filters?.owners,
-			})
-		}
-
-		if (filters?.hasLiquidAsset) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo.tokensWanted',
-				operator: '$cont',
-				value: 'coin',
-			})
-			queryBuilder.setOr({
-				field: 'tradeInfo.tokensWanted',
-				operator: '$cont',
-				value: 'cw20Coin',
-			})
-		}
-
-		if (filters?.search) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo_cw721Assets_join.allNftInfo',
-				operator: '$cont',
-				value: filters?.search,
-			})
-		}
 
 		if (pagination?.limit) {
 			queryBuilder.setLimit(pagination?.limit)

@@ -134,21 +134,15 @@ export default function TradeListings() {
 
 	useDebounce(() => setDebouncedSearch(search), 800, [search])
 
-	const myAddress = wallet.wallets[0]?.terraAddress
-
 	const [listingsType, setListingsType] = React.useState(
 		LISTINGS_TYPE.ALL_LISTINGS
 	)
 
 	const [page, setPage] = React.useState(1)
 
-	// TODO: Uncomment this when backend operates normally
-	// const [activeTradesOption] = statusOptions
 	const [statuses, setStatuses] = React.useState<
 		MultiSelectAccordionInputOption[]
-	>([
-		// activeTradesOption
-	])
+	>([])
 	const [lookingForCollections, setLookingForCollections] = React.useState<
 		MultiSelectAccordionInputOption[]
 	>([])
@@ -162,6 +156,8 @@ export default function TradeListings() {
 
 	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
 		React.useState(false)
+
+	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
 
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<Trade[]>([])
@@ -178,6 +174,7 @@ export default function TradeListings() {
 		counteredByMeChecked,
 		lookingForLiquidAssetsChecked,
 		debouncedSearch,
+		myAddress,
 	])
 
 	const { data: trades, isLoading } = useQuery(
@@ -192,6 +189,7 @@ export default function TradeListings() {
 			counteredByMeChecked,
 			lookingForLiquidAssetsChecked,
 			debouncedSearch,
+			myAddress,
 			page,
 		],
 		async () =>
@@ -206,6 +204,7 @@ export default function TradeListings() {
 					counteredBy: counteredByMeChecked ? [myAddress] : undefined,
 					hasLiquidAsset: lookingForLiquidAssetsChecked,
 					search: debouncedSearch,
+					myAddress,
 					// myFavoritesChecked
 				},
 				{

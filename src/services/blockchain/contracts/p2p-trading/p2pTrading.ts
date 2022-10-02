@@ -357,8 +357,6 @@ async function addCw20(
 		},
 	]
 
-	console.warn(txs)
-
 	return terraUtils.postManyTransactions(txs)
 }
 
@@ -824,8 +822,6 @@ async function acceptTrade(
 			  ]
 			: []),
 	]
-
-	console.warn(txs)
 
 	return terraUtils.postManyTransactions(txs)
 }
