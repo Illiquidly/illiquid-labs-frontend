@@ -101,7 +101,7 @@ export class TradesService {
 		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<TradesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
-
+		queryBuilder.setJoin({ field: 'counterTrades.tradeInfo' })
 		queryBuilder.setFilter({
 			field: 'network',
 			operator: '$eq',
@@ -142,7 +142,7 @@ export class TradesService {
 
 		if (filters?.counteredBy?.length) {
 			queryBuilder.setFilter({
-				field: 'tradeInfo.counterTrades.owner',
+				field: 'counterTrade_tradeInfo_join.owner',
 				operator: 'in',
 				value: filters?.counteredBy,
 			})

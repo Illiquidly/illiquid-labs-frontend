@@ -61,7 +61,6 @@ type CounterTradeFilters = {
 	states?: string[]
 	collections?: string[]
 	lookingFor?: string[]
-	counteredBy?: string[]
 	whitelistedUsers?: string[]
 	owners?: string[]
 	hasLiquidAsset?: boolean
@@ -117,14 +116,6 @@ export class CounterTradesService {
 				field: 'tradeInfo.nftsWanted.collectionAddress',
 				operator: 'in',
 				value: filters?.lookingFor,
-			})
-		}
-
-		if (filters?.counteredBy?.length) {
-			queryBuilder.setFilter({
-				field: 'tradeInfo.counterTrades.owner',
-				operator: 'in',
-				value: filters?.counteredBy,
 			})
 		}
 

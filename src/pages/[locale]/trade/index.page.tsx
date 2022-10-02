@@ -5,9 +5,16 @@ import { Text } from 'theme-ui'
 
 import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
-
+import NiceModal from '@ebay/nice-modal-react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, LayoutContainer, MobileSteps, Page, Steps } from 'components'
+import {
+	Button,
+	LayoutContainer,
+	MobileSteps,
+	Page,
+	Steps,
+	TxBroadcastingModal,
+} from 'components'
 import { SelectNFTs, TradeDetails } from 'components/ui/forms'
 import {
 	ChooseVisibility,
@@ -24,10 +31,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { listTradeOffers } from 'services/blockchain'
 
 import * as ROUTES from 'constants/routes'
-import { useBroadcastingTx } from 'hooks'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { asyncAction } from 'utils/js/asyncAction'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 import {
 	BodyContainer,
@@ -53,7 +57,6 @@ export default function Trade() {
 			{t('common:exit-create-listing')}
 		</Button>
 	)
-	const [txReceipt, setTxReceipt] = React.useState<TxReceipt | null>(null)
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
 	const { step, setStep, goNextStep, goBackStep } = useStep({ max: 3 })
 	const [steps] = useState([
@@ -98,31 +101,16 @@ export default function Trade() {
 		},
 	})
 
-	const onSuccessBroadcast = async ({ tradeId }: { tradeId: string }) => {
-		// TODO: use this tradeId for URL
-		console.log(tradeId)
-	}
-
-	const { setLoading, loading } = useBroadcastingTx(
-		txReceipt?.txId,
-		onSuccessBroadcast
-	)
-
 	const onSubmit: SubmitHandler<TradeFormStepsProps> = async values => {
-		setLoading({ ...loading, send: true })
+		const data: {
+			action: string
+			tradeId: string
+			trader: string
+		} = await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: listTradeOffers(fromCreateTradeFormToBlockchain(values)),
+		})
 
-		const [error, txResponse] = await asyncAction(
-			listTradeOffers(fromCreateTradeFormToBlockchain(values))
-		)
-
-		if (txResponse) {
-			setTxReceipt(txResponse)
-		}
-		if (error) {
-			// TODO: show errors, in toast or something
-			console.error(error)
-		}
-		setLoading({ ...loading, send: false })
+		console.warn(data)
 	}
 
 	return (
