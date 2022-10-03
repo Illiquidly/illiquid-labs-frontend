@@ -5,13 +5,18 @@ import { Box, Flex } from 'theme-ui'
 
 import {
 	StatusIconContainer,
-	DescriptionSection,
 	Title,
 	Subtitle,
 } from 'components/trade-listing-details'
 
 import { VerifiedIcon } from 'assets/icons/16pt'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
+import styled from '@emotion/styled'
+
+export const DescriptionSection = styled(Flex)`
+	flex-direction: column;
+	margin-top: 12px;
+`
 
 export const DescriptionRow = ({
 	name,
