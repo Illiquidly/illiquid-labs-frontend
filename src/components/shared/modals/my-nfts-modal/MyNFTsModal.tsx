@@ -117,7 +117,7 @@ export const MyNFTsModal = NiceModal.create(
 					<ModalHeader>
 						<ModalContent>
 							<Box ml='auto' mr='-12px'>
-								<IconButton size='40px' onClick={modal.hide}>
+								<IconButton size='40px' onClick={modal.remove}>
 									<ModalCloseIcon />
 								</IconButton>
 							</Box>
@@ -142,7 +142,7 @@ export const MyNFTsModal = NiceModal.create(
 												disabled={!selectedNFTs.length}
 												onClick={() => {
 													modal.resolve(selectedNFTs)
-													modal.hide()
+													modal.remove()
 												}}
 											>
 												{addNFTsButtonLabel}
@@ -234,7 +234,7 @@ export const MyNFTsModal = NiceModal.create(
 											disabled={!selectedNFTs.length}
 											onClick={() => {
 												modal.resolve(selectedNFTs)
-												modal.hide()
+												modal.remove()
 											}}
 										>
 											{addNFTsButtonLabel}
