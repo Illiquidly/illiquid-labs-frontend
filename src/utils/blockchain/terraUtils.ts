@@ -221,7 +221,7 @@ async function estimateTxFee(messages: Msg[]) {
 	const txOptions: CreateTxOptions = {
 		msgs: messages,
 		gasPrices,
-		gasAdjustment: 1.75,
+		gasAdjustment: 1.4,
 		feeDenoms: [isClassic() ? 'uusd' : 'uluna'],
 		memo,
 		// Github issue: https://github.com/terra-money/terra.js/pull/295
