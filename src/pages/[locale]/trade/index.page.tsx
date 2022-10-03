@@ -24,6 +24,16 @@ import {
 	TradeDetails,
 	TradeDetailsStepSchema,
 	TradeFormStepsProps,
+	BodyContainer,
+	Container,
+	HeaderContainer,
+	HeaderSubtitleContainer,
+	HeaderTitle,
+	HeaderTitleContainer,
+	MobileStepsWrapper,
+	StepsWrapper,
+	TradeBackgroundBlobContainer,
+	TradeBackgroundLogoContainer,
 } from 'components/trade'
 
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
@@ -35,18 +45,6 @@ import { listTradeOffers } from 'services/blockchain'
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
-import {
-	BodyContainer,
-	Container,
-	HeaderContainer,
-	HeaderSubtitleContainer,
-	HeaderTitle,
-	HeaderTitleContainer,
-	MobileStepsWrapper,
-	StepsWrapper,
-	TradeBackgroundBlobContainer,
-	TradeBackgroundLogoContainer,
-} from './trade.styled'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -82,11 +80,11 @@ export default function Trade() {
 
 	const getStepSchema = (currentStep: number) => {
 		switch (currentStep) {
-			case 0:
+			case CREATE_LISTING_FORM_STEPS.SELECT_NFTS:
 				return SelectNFTStepSchema
-			case 1:
+			case CREATE_LISTING_FORM_STEPS.TRADE_DETAILS:
 				return TradeDetailsStepSchema
-			case 2:
+			case CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY:
 				return ChooseVisibilityStepSchema
 			default:
 				return SelectNFTStepSchema
