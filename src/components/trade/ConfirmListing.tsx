@@ -87,7 +87,7 @@ const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 							{t('common:create-another')}
 						</Button>
 						<TwitterShareButton
-							title={t('trade-listings:checkout-my-trade')}
+							title={t('common:checkout-my-trade')}
 							url={tradeDetailsUrl}
 						>
 							<Button onClick={e => e.preventDefault()} variant='dark'>

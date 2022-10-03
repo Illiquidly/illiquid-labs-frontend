@@ -110,8 +110,6 @@ export default function Trade() {
 			transactionAction: listTradeOffers(fromCreateTradeFormToBlockchain(values)),
 		})
 
-		console.warn(data)
-
 		if (data) {
 			const { tradeId, txTerraFinderUrl } = data
 			const origin =

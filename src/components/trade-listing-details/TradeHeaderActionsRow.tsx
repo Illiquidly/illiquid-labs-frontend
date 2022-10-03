@@ -168,7 +168,7 @@ export const TradeHeaderActionsRow = ({
 						</Box>
 					</IconButton>
 					<TwitterShareButton
-						title={t('trade-listings:checkout-my-trade')}
+						title={t('common:checkout-my-trade')}
 						url={`${origin}${router.asPath}`}
 					>
 						<IconButton onClick={noop}>
