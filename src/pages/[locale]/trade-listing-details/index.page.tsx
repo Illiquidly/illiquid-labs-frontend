@@ -22,16 +22,7 @@ import {
 	LookingForRow,
 	CounterOffersTable,
 } from 'components/trade-listing-details'
-import {
-	AcceptCounterOfferModal,
-	DenyCounterOfferSuccessModal,
-	DenyCounterOfferModal,
-	AcceptCounterOfferModalProps,
-	AcceptCounterOfferModalResult,
-	DenyCounterOfferModalProps,
-	DenyCounterOfferModalResult,
-	DenySuccessModalProps,
-} from 'components/trade-listing-details/modals'
+
 import {
 	CalendarIcon,
 	CreateListingAddIcon,
@@ -46,19 +37,13 @@ import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
-import {
-	acceptTrade,
-	refuseCounterTrade,
-	TRADE_STATE,
-} from 'services/blockchain'
+import { TRADE_STATE } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
 
-import { CounterTrade } from 'services/api/counterTradesService'
 import {
 	ConnectButton,
 	LayoutContainer,
 	Page,
-	TxBroadcastingModal,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
@@ -121,53 +106,6 @@ export default function ListingDetails() {
 			<ConnectButton />
 		</Flex>
 	)
-
-	const handleApprove = async (counterTrade: CounterTrade) => {
-		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
-			NiceModal.show(AcceptCounterOfferModal, {
-				counterTrade,
-			} as AcceptCounterOfferModalProps)
-		)
-
-		if (result) {
-			const acceptTradeResult = await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: acceptTrade(
-					counterTrade.counterId,
-					counterTrade.trade.tradeId,
-					result.comment,
-					true
-				),
-			})
-
-			console.warn(acceptTradeResult)
-
-			// TODO: show offer accepted modal
-		}
-	}
-
-	const handleDeny = async (counterTrade: CounterTrade) => {
-		const [, result] = await asyncAction<DenyCounterOfferModalResult>(
-			NiceModal.show(DenyCounterOfferModal, {
-				counterTrade,
-			} as DenyCounterOfferModalProps)
-		)
-
-		if (result) {
-			const response = await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: refuseCounterTrade(
-					counterTrade.trade.id,
-					counterTrade.counterId,
-					result.comment
-				),
-			})
-
-			console.warn(response)
-
-			await NiceModal.show(DenyCounterOfferSuccessModal, {
-				counterTrade,
-			} as DenySuccessModalProps)
-		}
-	}
 
 	const handleViewAllNFTs = async () => {
 		if (!trade) {
@@ -282,11 +220,7 @@ export default function ListingDetails() {
 					</Row>
 				)}
 				<Row>
-					<CounterOffersTable
-						tradeId={String(trade?.tradeId) ?? '-1'}
-						handleApprove={handleApprove}
-						handleDeny={handleDeny}
-					/>
+					<CounterOffersTable trade={trade} />
 				</Row>
 			</LayoutContainer>
 		</Page>

@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
+import NiceModal from '@ebay/nice-modal-react'
 import {
 	Table,
 	TableHead,
@@ -19,10 +20,27 @@ import {
 	CounterTrade,
 	CounterTradesService,
 } from 'services/api/counterTradesService'
-import { Coin } from 'services/api/tradesService'
+import { Coin, Trade } from 'services/api/tradesService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Flex } from 'theme-ui'
 import { amountConverter } from 'utils/blockchain/terraUtils'
+import {
+	acceptTrade,
+	refuseCounterTrade,
+	TRADE_STATE,
+} from 'services/blockchain'
+import {
+	AcceptCounterOfferModal,
+	DenyCounterOfferSuccessModal,
+	DenyCounterOfferModal,
+	AcceptCounterOfferModalProps,
+	AcceptCounterOfferModalResult,
+	DenyCounterOfferModalProps,
+	DenyCounterOfferModalResult,
+	DenySuccessModalProps,
+} from 'components/trade-listing-details/modals'
+import { asyncAction } from 'utils/js/asyncAction'
+import { TxBroadcastingModal } from 'components/shared'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -47,34 +65,35 @@ const Container = styled(Flex)`
 `
 
 interface CounterOffersTableProps {
-	handleApprove: (offer: CounterTrade) => void
-	handleDeny: (offer: CounterTrade) => void
-	tradeId: string
+	trade?: Trade
 }
-export default function CounterOffersTable({
-	handleApprove,
-	handleDeny,
-	tradeId,
-}: CounterOffersTableProps) {
+function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	const wallet = useWallet()
 	const previewItemsLimit = 5
 
 	const [page, setPage] = React.useState(1)
 
+	const { tradeId } = trade ?? {}
+
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<CounterTrade[]>([])
+
 	React.useEffect(() => {
 		setInfiniteData([])
 		setPage(1)
 	}, [wallet.network, tradeId])
 
-	const { data: counterTrades, isLoading } = useQuery(
+	const {
+		data: counterTrades,
+		isLoading,
+		refetch,
+	} = useQuery(
 		['trades', wallet.network, page, tradeId],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
 				wallet.network.name,
 				{
-					tradeIds: [tradeId],
+					tradeIds: [`${tradeId}`],
 				},
 				{
 					limit: 20,
@@ -93,6 +112,59 @@ export default function CounterOffersTable({
 		[counterTrades]
 	)
 
+	const handleApprove = async (counterTrade: CounterTrade) => {
+		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
+			NiceModal.show(AcceptCounterOfferModal, {
+				counterTrade,
+			} as AcceptCounterOfferModalProps)
+		)
+
+		if (result) {
+			const acceptTradeResult = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: acceptTrade(
+					counterTrade.counterId,
+					counterTrade.trade.tradeId,
+					result.comment,
+					true
+				),
+				closeOnFinish: true,
+			})
+
+			setInfiniteData([])
+			refetch()
+
+			console.warn(acceptTradeResult)
+
+			// TODO: show offer accepted modal
+		}
+	}
+
+	const handleDeny = async (counterTrade: CounterTrade) => {
+		const [, result] = await asyncAction<DenyCounterOfferModalResult>(
+			NiceModal.show(DenyCounterOfferModal, {
+				counterTrade,
+			} as DenyCounterOfferModalProps)
+		)
+
+		if (result) {
+			await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: refuseCounterTrade(
+					counterTrade.trade.id,
+					counterTrade.counterId,
+					result.comment
+				),
+				closeOnFinish: true,
+			})
+
+			setInfiniteData([])
+			refetch()
+
+			await NiceModal.show(DenyCounterOfferSuccessModal, {
+				counterTrade,
+			} as DenySuccessModalProps)
+		}
+	}
+
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const columns: Array<string> = t(
 		'trade-listings:counter-offers.table.columns',
@@ -100,6 +172,8 @@ export default function CounterOffersTable({
 			returnObjects: true,
 		}
 	)
+
+	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
 
 	return (
 		<Container>
@@ -187,26 +261,31 @@ export default function CounterOffersTable({
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
-									<Flex
-										sx={{
-											gap: '12px',
-										}}
-									>
-										<Button
-											fullWidth
-											variant='primary'
-											onClick={() => handleApprove(counterTrade)}
-										>
-											{t('trade-listings:counter-offers.table.approve')}
-										</Button>
-										<Button
-											onClick={() => handleDeny(counterTrade)}
-											variant='secondary'
-											fullWidth
-										>
-											{t('trade-listings:counter-offers.table.deny')}
-										</Button>
-									</Flex>
+									{/* Counter trade is published and trade listing is mine I can approve or deny counter offer */}
+									{[TRADE_STATE.Published].includes(counterTrade?.tradeInfo?.state) &&
+										trade?.tradeInfo?.owner === myAddress && (
+											<Flex
+												sx={{
+													gap: '12px',
+												}}
+											>
+												<Button
+													fullWidth
+													variant='primary'
+													onClick={() => handleApprove(counterTrade)}
+												>
+													{t('trade-listings:counter-offers.table.approve')}
+												</Button>
+
+												<Button
+													onClick={() => handleDeny(counterTrade)}
+													variant='secondary'
+													fullWidth
+												>
+													{t('trade-listings:counter-offers.table.deny')}
+												</Button>
+											</Flex>
+										)}
 								</TableBodyRowCell>
 							</TableBodyRow>
 						)
@@ -226,3 +305,9 @@ export default function CounterOffersTable({
 		</Container>
 	)
 }
+
+CounterOffersTable.defaultProps = {
+	trade: undefined,
+}
+
+export default CounterOffersTable
