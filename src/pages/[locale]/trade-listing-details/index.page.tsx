@@ -22,6 +22,7 @@ import {
 	LookingForRow,
 	CounterOffersTable,
 	NoLongerExist,
+	TradeListingsYouMightLike,
 } from 'components/trade-listing-details'
 
 import {
@@ -36,7 +37,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Coin, TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { noop } from 'lodash'
+import { noop, sample } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { TRADE_STATE } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
@@ -61,7 +62,7 @@ export default function ListingDetails() {
 	const route = useRouter()
 
 	const wallet = useWallet()
-	const [noLongerExist, setNoLongerExist] = React.useState(false)
+	const [noLongerExist] = React.useState(false)
 
 	const { tradeId } = route.query ?? {}
 
@@ -93,13 +94,9 @@ export default function ListingDetails() {
 		cw1155Coin?: any
 	} | null>(null)
 
-	console.log(trade)
 	React.useEffect(() => {
 		if (trade) {
 			setTradePreview(additionalInfo?.tradePreview ?? null)
-			setNoLongerExist(false)
-		} else {
-			setNoLongerExist(true)
 		}
 	}, [trade])
 
@@ -236,6 +233,13 @@ export default function ListingDetails() {
 				) : (
 					<NoLongerExist />
 				)}
+				<TradeListingsYouMightLike
+					search={
+						tradeInfo?.additionalInfo?.tradePreview?.cw721Coin?.collectionName ??
+						sample(verifiedCollections ?? [])?.collectionName ??
+						''
+					}
+				/>
 			</LayoutContainer>
 		</Page>
 	)
