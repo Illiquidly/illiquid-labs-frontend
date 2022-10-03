@@ -4,6 +4,8 @@ import React from 'react'
 import NiceModal from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
+import { useDebounce } from 'react-use'
+
 import {
 	CollectionsBoxesIcon,
 	CreateListingAddIcon,
@@ -25,15 +27,13 @@ import {
 	SearchInput,
 	Tab,
 	Tabs,
-	TradeListingsFilterModal,
-	TradeListingsFilterModalProps,
 } from 'components/ui'
 
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import useIsTablet from 'hooks/react/useIsTablet'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { SupportedCollectionsService } from 'services/api'
-import { TradesService } from 'services/api/tradesService'
+import { Trade, TradesService } from 'services/api/tradesService'
 import { Box, Flex } from 'theme-ui'
 
 import * as ROUTES from 'constants/routes'
@@ -51,8 +51,10 @@ import {
 	GRID_TYPE,
 	ListingsNFTsContainer,
 	SearchInputContainer,
-	SortSelectContainer,
+	// SortSelectContainer,
 	TabsSection,
+	TradeListingsFilterModal,
+	TradeListingsFilterModalProps,
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
@@ -72,7 +74,7 @@ export default function TradeListings() {
 
 	useHeaderActions(
 		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Button variant='gradient' size='medium' href={ROUTES.CREATE_TRADE_LISTING}>
+			<Button variant='gradient' size='medium' href={ROUTES.TRADE_CREATE_LISTING}>
 				<CreateListingAddIcon />
 				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
 					{t('common:create-listing')}
@@ -126,19 +128,21 @@ export default function TradeListings() {
 	]
 	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.SMALL))
 
-	const myAddress = wallet.wallets[0]?.terraAddress
+	const [search, setSearch] = React.useState('')
+
+	const [debouncedSearch, setDebouncedSearch] = React.useState('')
+
+	useDebounce(() => setDebouncedSearch(search), 800, [search])
 
 	const [listingsType, setListingsType] = React.useState(
 		LISTINGS_TYPE.ALL_LISTINGS
 	)
 
-	// TODO: Uncomment this when backend operates normally
-	// const [activeTradesOption] = statusOptions
+	const [page, setPage] = React.useState(1)
+
 	const [statuses, setStatuses] = React.useState<
 		MultiSelectAccordionInputOption[]
-	>([
-		// activeTradesOption
-	])
+	>([statusOptions[0]])
 	const [lookingForCollections, setLookingForCollections] = React.useState<
 		MultiSelectAccordionInputOption[]
 	>([])
@@ -153,7 +157,27 @@ export default function TradeListings() {
 	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
 		React.useState(false)
 
-	const { data: trades } = useQuery(
+	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
+
+	// TODO extract this into hook, along with useQuery part.
+	const [infiniteData, setInfiniteData] = React.useState<Trade[]>([])
+	React.useEffect(() => {
+		setInfiniteData([])
+		setPage(1)
+	}, [
+		wallet.network,
+		listingsType,
+		statuses,
+		lookingForCollections,
+		collections,
+		myFavoritesChecked,
+		counteredByMeChecked,
+		lookingForLiquidAssetsChecked,
+		debouncedSearch,
+		myAddress,
+	])
+
+	const { data: trades, isLoading } = useQuery(
 		[
 			'trades',
 			wallet.network,
@@ -164,23 +188,39 @@ export default function TradeListings() {
 			myFavoritesChecked,
 			counteredByMeChecked,
 			lookingForLiquidAssetsChecked,
+			debouncedSearch,
+			myAddress,
+			page,
 		],
 		async () =>
-			TradesService.getAllTrades(wallet.network.name, {
-				owners:
-					listingsType === LISTINGS_TYPE.MY_LISTINGS ? [myAddress] : undefined,
-				states: statuses.flatMap(({ value }) => JSON.parse(value)),
-				collections: collections.map(({ value }) => value),
-				lookingFor: lookingForCollections.map(({ value }) => value),
-				counteredBy: counteredByMeChecked ? [myAddress] : undefined,
-				hasLiquidAsset: lookingForLiquidAssetsChecked,
-				// myFavoritesChecked
-				// lookingForLiquidAssetsChecked
-			}),
+			TradesService.getAllTrades(
+				wallet.network.name,
+				{
+					owners:
+						listingsType === LISTINGS_TYPE.MY_LISTINGS ? [myAddress] : undefined,
+					states: statuses.flatMap(({ value }) => JSON.parse(value)),
+					collections: collections.map(({ value }) => value),
+					lookingFor: lookingForCollections.map(({ value }) => value),
+					counteredBy: counteredByMeChecked ? [myAddress] : undefined,
+					hasLiquidAsset: lookingForLiquidAssetsChecked,
+					search: debouncedSearch,
+					myAddress,
+					// myFavoritesChecked
+				},
+				{
+					page,
+					limit: 30,
+				}
+			),
 		{
 			enabled: !!wallet.network,
 			retry: true,
 		}
+	)
+
+	React.useEffect(
+		() => trades && setInfiniteData(prev => [...prev, ...trades.data]),
+		[trades]
 	)
 
 	const onFiltersClick = async () => {
@@ -235,6 +275,8 @@ export default function TradeListings() {
 					<FiltersSection>
 						<SearchInputContainer>
 							<SearchInput
+								onChange={e => setSearch(e.target.value)}
+								value={search}
 								placeholder={t('trade-listings:filters:search-placeholder')}
 							/>
 						</SearchInputContainer>
@@ -245,7 +287,7 @@ export default function TradeListings() {
 								<FiltersButtonLabel>{t('common:filters-label')}</FiltersButtonLabel>
 							</FilterButton>
 						</FiltersButtonContainer>
-						<SortSelectContainer />
+						{/* <SortSelectContainer /> */}
 
 						<GridSwitchContainer>
 							<GridSwitch
@@ -363,16 +405,18 @@ export default function TradeListings() {
 						)}
 						<Box sx={{ width: '100%' }}>
 							<GridController
-								trades={trades}
+								trades={infiniteData}
+								isLoading={!infiniteData.length && isLoading}
 								verifiedCollections={verifiedCollections}
 								gridType={Number(gridType)}
 							/>
 							<Flex sx={{ width: '100%', marginTop: '14px' }}>
-								{trades?.data && !!trades.data?.length && (
+								{trades?.data && !!trades.data?.length && !isLoading && (
 									<Button
-										disabled={trades?.data.length <= trades.totalNumber}
+										disabled={trades?.page === trades.pageCount}
 										fullWidth
 										variant='dark'
+										onClick={() => setPage(prev => prev + 1)}
 									>
 										{t('common:show-more')}
 									</Button>

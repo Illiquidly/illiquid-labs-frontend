@@ -1,5 +1,5 @@
 import { useWallet, WalletStatus } from '@terra-money/use-wallet'
-import { NFTS_SORT_VALUE } from 'components'
+import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import { useRouter } from 'next/router'
 import promiseRetry from 'promise-retry'
 import React from 'react'
@@ -94,10 +94,6 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 	}, [wallet.connection, wallet.network])
 
 	const ownedNFTs = React.useMemo(() => {
-		console.log(
-			'	filters.sort === NFTS_SORT_VALUE.ASCENDING',
-			filters.sort === NFTS_SORT_VALUE.ASCENDING
-		)
 		return NFTs.filter(
 			nft =>
 				// Filter by collections

@@ -115,6 +115,7 @@ export const CardContainer = styled.div<CardContainerProps>`
 	border-radius: 8px;
 	border: 2px solid transparent;
 	position: relative;
+	display: block;
 
 	${props =>
 		props.isCover

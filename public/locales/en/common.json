@@ -22,9 +22,13 @@
 		"save-and-continue": "Save & Continue",
 		"select-more": "Select More"
 	},
+	"search": "Search...",
+	"loading": "loading...",
 	"looking-for": "looking for",
 	"filters-label": "Filters",
 	"edit": "Edit",
+	"remove": "Remove",
+	"share": "Share",
 	"any-offer": "Any offer",
 	"nft_zero": "{{count}} NFTs",
 	"nft_one": "{{count}} NFT",

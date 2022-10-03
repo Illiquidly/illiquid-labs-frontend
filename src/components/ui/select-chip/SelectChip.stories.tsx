@@ -23,7 +23,7 @@ export const SelectExample = () => {
 
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: 8 }}>
-			{!removed && <SelectChip item='DeGod' onRemove={remove} />}
+			{!removed && <SelectChip text='DeGod' onRemove={remove} />}
 		</Flex>
 	)
 }

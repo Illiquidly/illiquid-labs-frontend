@@ -52,9 +52,6 @@ async function getTokenIdsOwnedByUserWithOffset(
 	userAddress: string,
 	startAfterTokenId?: string
 ): Promise<string[]> {
-	// console.log(nftContractAddress);
-	// console.log(userAddress);
-
 	const response = await terraUtils.sendQuery(nftContractAddress, {
 		tokens: {
 			limit: LIMIT,

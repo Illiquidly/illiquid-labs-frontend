@@ -7,6 +7,7 @@ import terraUtils, {
 import { keysToCamel } from 'utils/js/keysToCamel'
 import addresses, { ContractName } from 'services/blockchain/addresses'
 import { NFT } from 'services/api/walletNFTsService'
+import { Coin } from 'services/api/tradesService'
 
 const amountConverter = converter.ust
 
@@ -212,6 +213,66 @@ async function listTradeOffers(offers: P2PTradeOffer[]) {
 	return terraUtils.postManyTransactions(txs.flat())
 }
 
+async function setTradeComment(
+	tradeId: number,
+	comment: string
+): Promise<TxReceipt> {
+	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+
+	// Post transactions for setting comment
+	return terraUtils.postTransaction({
+		contractAddress: p2pContractAddress,
+		message: {
+			set_comment: {
+				trade_id: tradeId,
+				comment,
+			},
+		},
+	})
+}
+
+async function updateTrade(
+	tradeId: number,
+	comment: string,
+	tokensWanted: Coin[],
+	nftsWanted: string[]
+): Promise<TxReceipt> {
+	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+
+	return terraUtils.postManyTransactions([
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_comment: {
+					trade_id: tradeId,
+					comment,
+				},
+			},
+		},
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_n_f_ts_wanted: {
+					nfts_wanted: nftsWanted,
+				},
+			},
+		},
+		{
+			contractAddress: p2pContractAddress,
+			message: {
+				set_tokens_wanted: {
+					tokens_wanted: (tokensWanted ?? []).map(({ amount, denom }) => ({
+						coin: {
+							amount,
+							denom,
+						},
+					})),
+				},
+			},
+		},
+	])
+}
+
 async function createTrade(whitelistedUsers: string[]): Promise<TxReceipt> {
 	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
 
@@ -295,8 +356,6 @@ async function addCw20(
 			},
 		},
 	]
-
-	console.warn(txs)
 
 	return terraUtils.postManyTransactions(txs)
 }
@@ -705,7 +764,12 @@ async function withdrawAcceptedTrade(tradeId: number) {
 			},
 		},
 		coins: {
-			ust: feeResponse.fee,
+			...(Number.parseInt(feeResponse.amount, 10)
+				? {
+						[{ uluna: 'luna', uusd: 'ust' }[feeResponse.denom ?? 'uluna'] as string]:
+							feeResponse.amount,
+				  }
+				: {}),
 		},
 	})
 }
@@ -720,9 +784,10 @@ async function acceptTrade(
 
 	const feeContractAddress = addresses.getContractAddress('fee-collector')
 
-	const feeResponse = await terraUtils.sendQuery(feeContractAddress, {
-		fee: { trade_id: tradeId, counter_id: counterId },
-	})
+	const feeResponse: { amount: string; denom: string } =
+		await terraUtils.sendQuery(feeContractAddress, {
+			fee: { trade_id: tradeId, counter_id: counterId },
+		})
 
 	const txs = [
 		{
@@ -745,7 +810,13 @@ async function acceptTrade(
 							},
 						},
 						coins: {
-							ust: feeResponse.fee,
+							...(Number.parseInt(feeResponse.amount, 10)
+								? {
+										[{ uluna: 'luna', uusd: 'ust' }[
+											feeResponse.denom ?? 'uluna'
+										] as string]: feeResponse.amount,
+								  }
+								: {}),
 						},
 					},
 			  ]
@@ -903,7 +974,12 @@ async function withdrawPendingAssets(tradeId: number): Promise<TxReceipt> {
 			},
 		},
 		coins: {
-			ust: feeResponse.fee,
+			...(Number.parseInt(feeResponse.amount, 10)
+				? {
+						[{ uluna: 'luna', uusd: 'ust' }[feeResponse.denom ?? 'uluna'] as string]:
+							feeResponse.amount,
+				  }
+				: {}),
 		},
 	})
 }
@@ -1033,12 +1109,12 @@ async function counterTradeInfo(
 }
 
 export enum TRADE_STATE {
-	Created = 'Created',
-	Published = 'Published',
-	Countered = 'Countered',
-	Refused = 'Refused',
-	Accepted = 'Accepted',
-	Cancelled = 'Cancelled',
+	Created = 'created',
+	Published = 'published',
+	Countered = 'countered',
+	Refused = 'refused',
+	Accepted = 'accepted',
+	Cancelled = 'cancelled',
 }
 
 export interface Trade {
@@ -1143,6 +1219,7 @@ export {
 	addWhitelistedUsers,
 	removeWhitelistedUsers,
 	confirmTrade,
+	updateTrade,
 	suggestCounterTrade,
 	addFundsToCounterTrade,
 	removeFromCounterTrade,
@@ -1165,4 +1242,5 @@ export {
 	cancelCounterTradeAndWithdraw,
 	removeAllFromCreatedCounterTrade,
 	withdrawAllFromCounter,
+	setTradeComment,
 }

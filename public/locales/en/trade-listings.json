@@ -5,7 +5,9 @@
 	"counter-offers": {
 		"title": "Counter Offers",
 		"table": {
-			"columns": ["User", "NFTs", "Tokens", "Date"]
+			"columns": ["User", "NFTs", "Tokens", "Date"],
+			"approve": "Approve",
+			"deny": "Deny"
 		}
 	},
 	"filters": {
@@ -17,7 +19,9 @@
 		"my-favorites-label": "My favorites",
 		"countered-by-me-label": "Countered by me",
 		"looking-for-liquid-assets-label": "Looking for liquid assets",
-		"search-collections-placeholder": "Search collections..."
+		"search-collections-placeholder": "Search collections...",
+		"search-looking-for-placeholder": "Search collections...",
+		"search-status-placeholder": "Search status..."
 	},
 	"statuses": [
 		"Active",
@@ -40,8 +44,9 @@
 		"remove-listing": "Remove Listing",
 		"create-new-listing": "Create New Listing",
 		"go-to-dashboard": "Go to Dashboard",
-		"removal-succesful": "Your listing has been successfully removed!",
-		"create-listing-suggestion": "Feel free to create another listing at any time"
+		"removal-successful": "Your listing has been successfully removed!",
+		"create-listing-suggestion": "Feel free to create another listing at any time",
+		"back-to-listing": "Back to Listing"
 	},
 	"edit-modal": {
 		"title": "Edit listing",
@@ -51,6 +56,38 @@
 		"update-listing": "Update Listing",
 		"interested-in": "I'm interested in",
 		"tokens-interested-in": "Tokens I'm interested in",
-		"write-comment": "Write a comment"
-	}
+		"write-comment": "Write a comment",
+		"nft-name": "Collection name",
+		"enter-amount-placeholder": "Enter amount of {{tokenName}}"
+	},
+	"accept-counter-offer-modal": {
+		"title": "Accept counter offer",
+		"question": "Are you sure you’d like to accept the offer from {{username}} ?",
+		"note": "Feel free to send include a message. How exciting!",
+		"radio-text": "Yes, I’m sure I’d like to accept the offer",
+		"send-message": "Send Message",
+		"enter-text": "Enter text",
+		"back-to-listing": "Back to Listing",
+		"accept-offer": "Accept Offer"
+	},
+	"deny-counter-offer-modal": {
+		"title": "Deny counter offer",
+		"question": "Are you sure you’d like to deny the offer from {{username}} ?",
+		"note": "If you’d like the user to revise their offer, include a message below. They’ll be notified and be able to submit a new offer.",
+		"send-message": "Send Message",
+		"radio-text": "Yes, I’m sure I’d like to deny the offer",
+		"enter-text": "Enter text",
+		"back-to-listing": "Back to Listing",
+		"deny-offer": "Deny Offer"
+	},
+	"deny-success-modal": {
+		"title": "Offer denial sent",
+		"answer": "{{username}} has been notified that you’ve denied their offer. ",
+		"note": "They may follow-up with another counter, so keep your eyes peeled!",
+		"view-all-listings": "View All Listings",
+		"go-to-listing": "Go To Listing"
+	},
+	"listed": "Listed {{listed}}",
+	"view-all-nfts": "View all NFTs",
+	"checkout-my-trade": "Checkout my trade on Illiquid Labs"
 }

@@ -7,10 +7,10 @@ import {
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
-	TextInput,
 } from 'components'
 import If from 'components/core/if-statement'
 import { Chip } from 'components/ui/chip'
+import { TextInputField } from 'components/form/fields/text-input-field'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import useIsMobile from 'hooks/react/useIsMobile'
 import { useTranslation } from 'next-i18next'
@@ -177,7 +177,7 @@ const TradeDetailsForm = () => {
 						<Label htmlFor='tokenAmount'>
 							{t('trade:trade-details.tokens-label')}
 						</Label>
-						<TextInput
+						<TextInputField
 							id='tokenAmount'
 							{...register('tokenAmount')}
 							fieldError={
@@ -193,7 +193,7 @@ const TradeDetailsForm = () => {
 						<Label htmlFor='comment'>
 							{t('trade:trade-details.text-area-label')}
 						</Label>
-						<TextInput
+						<TextInputField
 							id='comment'
 							{...register('comment')}
 							placeholder={t('trade:trade-details.text-area-placeholder')}

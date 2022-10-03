@@ -53,6 +53,12 @@ export const Container = styled.div<{
 
 export const MultiSelectDropdownInputStyled = styled.input`
 	width: 100%;
+
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
 		opacity: 1;
@@ -92,7 +98,7 @@ export const DropdownContainer = styled.div`
 	overflow: hidden;
 	background: ${props => props.theme.colors.dark100};
 
-	height: 208px;
+	max-height: 208px;
 
 	border: 1px solid ${props => props.theme.colors.dark500};
 

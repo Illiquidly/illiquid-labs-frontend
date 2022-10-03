@@ -1,7 +1,9 @@
+import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { getParamsFromObject } from 'utils/js/getParamsFromObject'
+import { TRADE_STATE } from 'services/blockchain'
 import { keysToCamel } from 'utils/js/keysToCamel'
-import { Collection, NFT } from './walletNFTsService'
+import { LookingFor, NetworkType } from 'types'
+import { NFT } from './walletNFTsService'
 
 export type Coin = {
 	amount: string
@@ -18,28 +20,31 @@ export type Cw1155Coin = {
 	tokenId: string
 }
 
+export type NFTWanted = {
+	id: number
+	network: NetworkType
+	collectionAddress: string
+	collectionName: string
+	symbol: string
+}
+
 export interface Trade {
+	id: number
+	network: NetworkType
 	tradeId: number
 	tradeInfo: {
 		acceptedInfo: {
 			counterId?: number
 		}
-		assetsWithdrawn: number
+		assetsWithdrawn: boolean
 		lastCounterId?: number
-		associatedAssets: [
-			{
-				coin?: Coin
-				cw721Coin?: Cw721Coin
-				cw1155Coin?: Cw1155Coin
-			}
-		]
+		associatedAssets: { cw721Coin?: NFT; cw1155Coin?: any; coin?: Coin }[]
 		additionalInfo: {
 			ownerComment: {
 				comment: string
 				time: string
 			}
 			time: string
-			nftsWanted: string[]
 			tokensWanted: {
 				coin?: Coin
 				cw721Coin?: Cw721Coin
@@ -47,37 +52,32 @@ export interface Trade {
 			}[]
 			tradePreview: {
 				coin?: Coin
+				cw1155?: any
 				cw721Coin?: NFT
-				cw1155Coin?: any // TODO define in future
 			}
 			traderComment: {
 				comment?: string
 				time?: string
 			}
-			lookingFor: (Partial<Collection> & {
-				currency?: string
-				amount?: string
-			})[]
+			nftsWanted: NFTWanted[]
+			lookingFor: LookingFor[]
 		}
 		owner: string
-		state: string
-		whitelistedUsers: string[]
-		associatedAssetsWithInfo: {
-			coin?: Coin
-			cw721Coin?: NFT
-			Cw1155Coin?: any // TODO define this in future
-		}[]
+		state: TRADE_STATE
+		whitelistedUsers: []
 	}
 }
 
 export interface TradesResponse {
 	data: Trade[]
-	nextOffset?: number
-	totalNumber: number
+	count: number
+	total: number
+	page: number
+	pageCount: number
 }
 
 type TradeFilters = {
-	tradeId?: string[]
+	tradeIds?: string[]
 	states?: string[]
 	collections?: string[]
 	lookingFor?: string[]
@@ -85,15 +85,13 @@ type TradeFilters = {
 	whitelistedUsers?: string[]
 	owners?: string[]
 	hasLiquidAsset?: boolean
+	search?: string
+	myAddress: string
 }
 
 type TradePagination = {
+	page?: number
 	limit?: number
-	offset?: number
-}
-
-type TradeSort = {
-	direction?: string
 }
 
 export class TradesService {
@@ -101,63 +99,153 @@ export class TradesService {
 		network: string,
 		filters?: TradeFilters,
 		pagination?: TradePagination,
-		sort: TradeSort = {
-			direction: 'ASC',
-		}
+		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<TradesResponse> {
-		const query = getParamsFromObject({
-			'filters.network': network,
-			...((filters?.tradeId || [])?.length
-				? {
-						'filters.tradeId': filters?.tradeId,
-				  }
-				: {}),
-			...((filters?.states || [])?.length
-				? {
-						'filters.state': filters?.states,
-				  }
-				: {}),
-			...((filters?.collections || [])?.length
-				? {
-						'filters.collections': filters?.collections,
-				  }
-				: {}),
-			...((filters?.lookingFor || [])?.length
-				? {
-						'filters.lookingFor': filters?.lookingFor,
-				  }
-				: {}),
+		const queryBuilder = RequestQueryBuilder.create()
+		queryBuilder.setJoin({ field: 'counterTrades.tradeInfo' })
 
-			...((filters?.counteredBy || [])?.length
-				? {
-						'filters.counteredBy': filters?.counteredBy,
-				  }
-				: {}),
+		queryBuilder.search({
+			$and: [
+				...(filters?.myAddress
+					? [
+							{
+								$or: [
+									{
+										'tradeInfo.whitelistedUsers': '[]',
+									},
+									{
+										'tradeInfo.whitelistedUsers': {
+											$cont: filters.myAddress,
+										},
+									},
+									{
+										'tradeInfo.whitelistedUsers': {
+											$ne: '[]',
+										},
+										'tradeInfo.owner': filters.myAddress,
+									},
+								],
+							},
+					  ]
+					: []),
+				{
+					network,
+				},
+				...(filters?.tradeIds?.length
+					? [
+							{
+								tradeId: {
+									$in: filters?.tradeIds,
+								},
+							},
+					  ]
+					: []),
 
-			...((filters?.whitelistedUsers || [])?.length
-				? {
-						'filters.whitelistedUsers': filters?.whitelistedUsers,
-				  }
-				: {}),
+				...(filters?.states?.length
+					? [
+							{
+								'tradeInfo.state': {
+									$in: filters?.states,
+								},
+							},
+					  ]
+					: []),
 
-			...((filters?.owners || [])?.length
-				? {
-						'filters.owners': filters?.owners,
-				  }
-				: {}),
+				...(filters?.collections?.length
+					? [
+							{
+								'tradeInfo_cw721Assets_collection_join.collectionAddress': {
+									$in: filters?.collections,
+								},
+							},
+					  ]
+					: []),
 
-			...(filters?.hasLiquidAsset
-				? {
-						'filters.hasLiquidAsset': filters?.hasLiquidAsset,
-				  }
-				: {}),
+				...(filters?.lookingFor?.length
+					? [
+							{
+								'tradeInfo.nftsWanted.collectionAddress': {
+									$in: filters?.lookingFor,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.counteredBy?.length
+					? [
+							{
+								'counterTrade_tradeInfo_join.owner': {
+									$in: filters?.counteredBy,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.whitelistedUsers?.length
+					? [
+							{
+								'tradeInfo.whitelistedUsers': {
+									$in: filters?.whitelistedUsers,
+								},
+							},
+					  ]
+					: []),
 
-			...(pagination?.limit ? { 'pagination.limit': pagination.limit } : {}),
-			...(pagination?.offset ? { 'pagination.offset': pagination.offset } : {}),
-			...(sort?.direction ? { 'sort.direction': sort.direction } : {}),
+				...(filters?.owners?.length
+					? [
+							{
+								'tradeInfo.owner': {
+									$in: filters?.owners,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.hasLiquidAsset
+					? [
+							{
+								$or: [
+									{
+										'tradeInfo.tokensWanted': {
+											$cont: 'coin',
+										},
+									},
+									{
+										'tradeInfo.tokensWanted': {
+											$cont: 'cw20Coin',
+										},
+									},
+								],
+							},
+					  ]
+					: []),
+
+				...(filters?.search?.length
+					? [
+							{
+								'tradeInfo_cw721Assets_join.allNftInfo': {
+									$cont: filters?.search,
+								},
+							},
+					  ]
+					: []),
+			],
 		})
 
-		const response = await axios.get(`trades/all?${query.toString()}`)
+		if (pagination?.limit) {
+			queryBuilder.setLimit(pagination?.limit)
+		}
+
+		if (pagination?.page) {
+			queryBuilder.setPage(pagination?.page)
+		}
+
+		if (sort) {
+			queryBuilder.sortBy({
+				field: 'id',
+				order: sort,
+			})
+		}
+
+		const response = await axios.get(`trades?${queryBuilder.query()}`)
 
 		return response.data
 	}
@@ -166,10 +254,24 @@ export class TradesService {
 		network: string,
 		tradeId: string
 	): Promise<Trade> {
-		const query = getParamsFromObject({ network, tradeId })
+		const queryBuilder = RequestQueryBuilder.create()
 
-		const response = await axios.get(`trades?${query.toString()}`)
+		queryBuilder.setFilter({
+			field: 'network',
+			operator: '$eq',
+			value: network,
+		})
 
-		return keysToCamel(response.data)
+		queryBuilder.setFilter({
+			field: 'tradeId',
+			operator: '$eq',
+			value: tradeId,
+		})
+
+		const response = await axios.get(`trades?${queryBuilder.query()}`)
+
+		const [trade] = response.data
+
+		return keysToCamel(trade)
 	}
 }

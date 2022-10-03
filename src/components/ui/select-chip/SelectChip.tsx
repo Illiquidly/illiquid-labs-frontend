@@ -20,18 +20,18 @@ const Text = styled(Flex)`
 `
 
 interface SelectChipProps {
-	item: string
+	text: string
 	onRemove: () => void
 	sx?: ThemeUIStyleObject
 }
 
-function SelectChip({ item, onRemove, sx }: SelectChipProps) {
+function SelectChip({ text, onRemove, sx }: SelectChipProps) {
 	const theme = useTheme()
 
 	return (
 		<Container sx={sx}>
 			<Flex sx={{ padding: '12px 4px', alignItems: 'center' }}>
-				<Text>{item}</Text>
+				<Text>{text}</Text>
 				<IconButton sx={{ alignItems: 'center' }} onClick={() => onRemove()}>
 					<ModalCloseIcon fill={theme.colors.dark500} width='20px' height='20px' />
 				</IconButton>

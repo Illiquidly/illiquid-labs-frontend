@@ -26,9 +26,6 @@ interface DropdownMultiselectProps extends MultiSelectAccordionInputProps {
 	label?: string
 	disabled?: boolean
 	children?: React.ReactNode
-	setDropdownReferenceElement?: React.Dispatch<
-		React.SetStateAction<HTMLDivElement | null>
-	>
 	dropdownReferenceElement?: HTMLDivElement | null
 }
 
@@ -38,6 +35,7 @@ function DropdownMultiselect(props: DropdownMultiselectProps) {
 		dismissOnOutsideClick,
 		defaultExpanded,
 		dropdownReferenceElement,
+
 		...rest
 	} = props
 
@@ -132,7 +130,6 @@ DropdownMultiselect.defaultProps = {
 	disabled: false,
 	label: '',
 	children: undefined,
-	setDropdownReferenceElement: undefined,
 	dropdownReferenceElement: undefined,
 	// eslint-disable-next-line react/default-props-match-prop-types
 	dismissOnOutsideClick: true,

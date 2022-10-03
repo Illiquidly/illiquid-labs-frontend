@@ -20,6 +20,7 @@ import './styles.css'
 import 'rc-tooltip/assets/bootstrap_white.css'
 import 'react-toastify/dist/ReactToastify.css'
 
+import React from 'react'
 import i18nConfig from '../../next-i18next.config'
 
 const queryClient = new QueryClient({
@@ -54,8 +55,23 @@ const Main = ({
 	)
 }
 
-const App = (props: AppProps & WalletControllerChainOptions) => {
-	const { defaultNetwork, walletConnectChainIds } = props
+const App = (props: AppProps) => {
+	const [chainOptions, setChainOptions] =
+		React.useState<WalletControllerChainOptions | null>(null)
+
+	async function fetchChainOptions() {
+		const options = await getChainOptions()
+
+		setChainOptions(options)
+	}
+	React.useEffect(() => {
+		fetchChainOptions()
+	}, [])
+
+	if (!chainOptions) {
+		return null
+	}
+	const { defaultNetwork, walletConnectChainIds } = chainOptions
 	return typeof window !== 'undefined' ? (
 		<WalletProvider
 			defaultNetwork={defaultNetwork}
@@ -68,13 +84,6 @@ const App = (props: AppProps & WalletControllerChainOptions) => {
 			<Main {...props} />
 		</StaticWalletProvider>
 	)
-}
-
-App.getStaticProps = async () => {
-	const chainOptions = await getChainOptions()
-	return {
-		...chainOptions,
-	}
 }
 
 export default appWithTranslation(App, i18nConfig)

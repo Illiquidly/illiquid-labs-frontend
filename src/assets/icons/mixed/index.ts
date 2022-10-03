@@ -3,6 +3,7 @@ export { default as AccordionChevronUpIcon } from './components/AccordionChevron
 export { default as CheckboxCheckedIcon } from './components/CheckboxCheckedIcon'
 export { default as CheckboxDisabledIcon } from './components/CheckboxDisabledIcon'
 export { default as CloseIcon } from './components/CloseIcon'
+export { default as CalendarIcon } from './components/CalendarIcon'
 export { default as CloseIconSmall } from './components/CloseIconSmall'
 export { default as CreateListingAddIcon } from './components/CreateListingAddIcon'
 export { default as CollectionsBoxesIcon } from './components/CollectionsBoxesIcon'
