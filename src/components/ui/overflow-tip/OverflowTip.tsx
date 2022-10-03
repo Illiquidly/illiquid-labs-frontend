@@ -1,4 +1,3 @@
-import { useIsOverflow } from 'hooks/react/useIsOverflow'
 import React, { useRef, ReactElement, JSXElementConstructor } from 'react'
 import { Tooltip } from '../tooltip/Tooltip'
 
@@ -7,8 +6,24 @@ function OverflowTip({
 }: {
 	children: ReactElement<any, string | JSXElementConstructor<any>>
 }) {
+	const [isOverflowed, setIsOverflow] = React.useState(false)
 	const elementRef = useRef<any>()
-	const [isOverflowed] = useIsOverflow(elementRef)
+
+	const compareSize = () => {
+		setIsOverflow(elementRef.current.scrollWidth > elementRef.current.clientWidth)
+	}
+
+	React.useEffect(() => {
+		compareSize()
+		window.addEventListener('resize', compareSize)
+	}, [])
+
+	React.useEffect(
+		() => () => {
+			window.removeEventListener('resize', compareSize)
+		},
+		[]
+	)
 
 	return (
 		<Tooltip
