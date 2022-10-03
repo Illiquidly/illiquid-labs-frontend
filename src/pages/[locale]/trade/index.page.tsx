@@ -15,6 +15,7 @@ import {
 	Steps,
 	TxBroadcastingModal,
 } from 'components'
+
 import {
 	ChooseVisibility,
 	ChooseVisibilityStepSchema,

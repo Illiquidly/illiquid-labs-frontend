@@ -20,9 +20,7 @@ import {
 	Button,
 	CheckboxCard,
 	GridSwitch,
-	LayoutContainer,
 	MultiSelectAccordionInput,
-	Page,
 	SearchInput,
 	Tab,
 	Tabs,
@@ -57,7 +55,7 @@ import {
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
-import { ConnectButton } from 'components'
+import { ConnectButton, LayoutContainer, Page } from 'components'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()

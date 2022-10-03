@@ -7,12 +7,13 @@ import { useTheme } from '@emotion/react'
 
 import { ModalCloseIcon } from 'assets/icons/modal'
 
-import { Button, LayoutContainer, Modal } from 'components/ui'
+import { Button, Modal } from 'components/ui'
 
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
 import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
+import { LayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,

@@ -14,7 +14,6 @@ import {
 	MultiSelectInput,
 	SelectChip,
 	TextArea,
-	LayoutContainer,
 } from 'components/ui'
 
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
@@ -33,6 +32,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { TextInputField } from 'components/form'
 import { LOOKING_FOR_TYPE, TradeDetailsStepSchema } from 'components/trade'
+import { LayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,

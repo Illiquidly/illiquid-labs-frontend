@@ -7,13 +7,14 @@ import { useTheme } from '@emotion/react'
 
 import { ModalCloseIcon } from 'assets/icons/modal'
 
-import { LayoutContainer, Modal } from 'components/ui'
+import { Modal } from 'components/ui'
 
 import parseTxError from 'utils/blockchain/parseTxError'
 import { useBroadcastingTx } from 'hooks'
 import { noop } from 'lodash'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { asyncAction } from 'utils/js/asyncAction'
+import { LayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,

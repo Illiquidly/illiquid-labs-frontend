@@ -4,7 +4,7 @@ import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import * as ROUTES from 'constants/routes'
 import { IconButton } from 'theme-ui'
 import { Link } from '../../link'
-import { Button } from '../button'
+import { Button } from '../../ui/button'
 import { LayoutContainer } from '../layout'
 import {
 	Content,

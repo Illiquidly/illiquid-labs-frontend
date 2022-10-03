@@ -10,7 +10,7 @@ import {
 	SearchInput,
 } from 'components'
 
-import { OnlyMobileAndTablet } from 'components/ui/layout'
+import { OnlyMobileAndTablet } from 'components/layout/layout'
 
 import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'

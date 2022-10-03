@@ -6,11 +6,10 @@ import {
 	AttributeCard,
 	BlueWarning,
 	Button,
-	LayoutContainer,
-	Page,
 	Wallet,
 	WalletItem,
 } from 'components/ui'
+
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { Box, Flex } from 'theme-ui'
 import moment from 'moment'
@@ -57,6 +56,8 @@ import { asyncAction } from 'utils/js/asyncAction'
 import { CounterTrade } from 'services/api/counterTradesService'
 import {
 	ConnectButton,
+	LayoutContainer,
+	Page,
 	TxBroadcastingModal,
 	ViewNFTsModal,
 	ViewNFTsModalProps,

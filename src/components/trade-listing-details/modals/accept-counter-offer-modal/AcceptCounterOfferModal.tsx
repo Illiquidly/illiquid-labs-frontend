@@ -9,7 +9,6 @@ import { ModalCloseIcon } from 'assets/icons/modal'
 
 import {
 	Button,
-	LayoutContainer,
 	Modal,
 	RadioCardInput,
 	RadioInputGroupProvider,
@@ -19,6 +18,7 @@ import {
 import { CounterTrade } from 'services/api/counterTradesService'
 import { FormProvider, useForm } from 'react-hook-form'
 import getShortText from 'utils/js/getShortText'
+import { LayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,

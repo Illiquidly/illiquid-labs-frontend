@@ -7,10 +7,11 @@ import { useTheme } from '@emotion/react'
 
 import { ModalCloseIcon, ModalSuccessCircleIcon } from 'assets/icons/modal'
 
-import { Button, LayoutContainer, Modal } from 'components/ui'
+import { Button, Modal } from 'components/ui'
 
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
+import { LayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,

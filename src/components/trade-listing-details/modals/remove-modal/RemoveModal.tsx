@@ -9,12 +9,12 @@ import { ModalCloseIcon, ModalErrorCircleIcon } from 'assets/icons/modal'
 
 import {
 	Button,
-	LayoutContainer,
 	Modal,
 	RadioCardInput as RadioCard,
 	RadioInputGroupProvider,
 } from 'components/ui'
 
+import { LayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,
