@@ -148,7 +148,7 @@ export default function ListingDetails() {
 						<Flex
 							sx={{ flexDirection: ['column', 'column', 'row'], gap: [0, 0, '32px'] }}
 						>
-							<Box sx={{ flex: 1 }}>
+							<Box sx={{ flex: [1, 1, 'unset'], width: ['unset', 'unset', '491px'] }}>
 								<ImageRow
 									nft={tradePreview?.cw721Coin}
 									imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
