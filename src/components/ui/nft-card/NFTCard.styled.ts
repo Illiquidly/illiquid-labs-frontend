@@ -126,6 +126,9 @@ export const CardContainer = styled.div<CardContainerProps>`
 			  `
 			: css`
 					& .coverLabel {
+						@media screen and (max-width: ${props.theme.breakpoints[1]}) {
+							display: block;
+						}
 						display: none;
 					}
 			  `}

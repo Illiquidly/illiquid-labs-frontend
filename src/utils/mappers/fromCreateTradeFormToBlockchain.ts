@@ -1,8 +1,8 @@
-import { TradeFormStepsProps } from 'components/ui/forms/trade-form-steps'
 import {
 	LOOKING_FOR_TYPE,
+	TradeFormStepsProps,
 	VISIBILITY_TYPE,
-} from 'components/ui/forms/trade-form-steps/formProps'
+} from 'components/trade'
 import { getDenomForCurrency, P2PTradeOffer } from 'services/blockchain'
 import { amountConverter } from 'utils/blockchain/terraUtils'
 

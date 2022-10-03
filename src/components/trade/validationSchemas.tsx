@@ -1,6 +1,6 @@
 import { isValidTerraAddress } from 'utils/blockchain/isValidAddress'
 import * as yup from 'yup'
-import { LOOKING_FOR_TYPE, VISIBILITY_TYPE } from './formProps'
+import { LOOKING_FOR_TYPE, VISIBILITY_TYPE } from './types'
 
 export const SelectNFTStepSchema = yup.object().shape({
 	selectedNFTs: yup.array().of(yup.object()),

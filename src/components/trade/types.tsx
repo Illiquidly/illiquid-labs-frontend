@@ -9,12 +9,6 @@ export enum VISIBILITY_TYPE {
 	PUBLIC = 'PUBLIC',
 	PRIVATE = 'PRIVATE',
 }
-
-export interface collections {
-	label: string
-	value: string
-}
-
 export interface TradeFormStepsProps {
 	// SELECT_NFTS STEP
 	coverNFT: NFT

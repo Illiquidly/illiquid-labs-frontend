@@ -17,7 +17,7 @@ import { useTranslation } from 'next-i18next'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { SupportedCollectionsService } from 'services/api'
 import { Flex } from 'theme-ui'
-import { LOOKING_FOR_TYPE, TradeFormStepsProps } from './formProps'
+import { LOOKING_FOR_TYPE, TradeFormStepsProps } from './types'
 import { NavigationFooter } from './NavigationFooter'
 import {
 	ChipsWrapper,
@@ -212,7 +212,12 @@ interface Props {
 
 export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
+	const {
+		getValues,
+		watch,
+		trigger,
+		formState: { isValid },
+	} = useFormContext<TradeFormStepsProps>()
 	const watchLookingForType = watch('lookingForType', undefined)
 
 	return (
@@ -240,7 +245,7 @@ export const TradeDetails = ({ goNextStep, goBackStep }: Props) => {
 						goNextStep()
 					}
 				}}
-				isNextButtonDisabled={!getValues('lookingForType')}
+				isNextButtonDisabled={!getValues('lookingForType') || !isValid}
 			/>
 		</ContentCardWrapper>
 	)

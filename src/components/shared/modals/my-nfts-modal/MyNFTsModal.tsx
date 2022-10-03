@@ -1,5 +1,7 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { useTheme } from '@emotion/react'
+import { useQuery } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import { ModalCloseIcon } from 'assets/icons/modal'
 import {
 	Button,
@@ -11,20 +13,22 @@ import {
 	SearchInput,
 	SelectCard,
 	Loader,
+	OnlyMobileAndTablet,
+	Select,
 } from 'components'
 
-import { OnlyMobileAndTablet } from 'components/ui/layout'
-
 import useMyNFTs from 'hooks/useMyNFTs'
-import React from 'react'
+import { useTranslation } from 'next-i18next'
+import React, { useState } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, IconButton } from 'theme-ui'
 
-import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
-import { SupportedCollectionsService } from 'services/api'
-import { useTranslation } from 'next-i18next'
 import { isEmpty } from 'lodash'
+import { SupportedCollectionsService } from 'services/api'
+import {
+	NFTsSortsProps,
+	NFTS_SORT_VALUE,
+} from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	FiltersSection,
@@ -37,7 +41,7 @@ import {
 	NFTCardsGrid,
 	NFTSelectionOverlay,
 	SearchContainer,
-	// SortSelectContainer,
+	SortSelectContainer,
 } from './MyNFTsModal.styled'
 
 export interface MyNFTsModalProps {
@@ -53,7 +57,6 @@ export const MyNFTsModal = NiceModal.create(
 		addNFTsButtonLabel,
 		selectedNFTs: defaultSelectedNFTs = [],
 	}: MyNFTsModalProps) => {
-		const { t } = useTranslation()
 		const wallet = useWallet()
 		const modal = useModal()
 		const theme = useTheme()
@@ -61,6 +64,20 @@ export const MyNFTsModal = NiceModal.create(
 			MultiSelectInputOption[]
 		>([])
 
+		const { t } = useTranslation('trade')
+
+		const NFTsSorts: NFTsSortsProps = [
+			{
+				value: NFTS_SORT_VALUE.ASCENDING,
+				element: t('select-NFTs.a-to-z'),
+			},
+			{
+				value: NFTS_SORT_VALUE.DESCENDING,
+				element: t('select-NFTs.z-to-a'),
+			},
+		]
+
+		const [selectedSort, setSelectedSort] = useState(NFTsSorts[0])
 		const [dropdownRefElement, setDropdownRefElement] =
 			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
@@ -74,6 +91,7 @@ export const MyNFTsModal = NiceModal.create(
 		} = useMyNFTs({
 			collectionAddresses: selectedCollections.map(({ value }) => value),
 			name: searchName,
+			sort: selectedSort.value as NFTS_SORT_VALUE,
 		})
 
 		const { data: verifiedCollections } = useQuery(
@@ -99,7 +117,7 @@ export const MyNFTsModal = NiceModal.create(
 					<ModalHeader>
 						<ModalContent>
 							<Box ml='auto' mr='-12px'>
-								<IconButton size='40px' onClick={modal.hide}>
+								<IconButton size='40px' onClick={modal.remove}>
 									<ModalCloseIcon />
 								</IconButton>
 							</Box>
@@ -124,7 +142,7 @@ export const MyNFTsModal = NiceModal.create(
 												disabled={!selectedNFTs.length}
 												onClick={() => {
 													modal.resolve(selectedNFTs)
-													modal.hide()
+													modal.remove()
 												}}
 											>
 												{addNFTsButtonLabel}
@@ -151,12 +169,25 @@ export const MyNFTsModal = NiceModal.create(
 									<Flex sx={{ gap: '12px', minHeight: ['50px'] }}>
 										<SearchContainer>
 											<SearchInput
+												placeholder={t('select-NFTs.search')}
 												onChange={e => setSearchName(e.target.value)}
 												value={searchName}
-												placeholder={t('common:search')}
 											/>
 										</SearchContainer>
-										{/* <SortSelectContainer /> */}
+										<SortSelectContainer>
+											<Select
+												sx={{ background: theme.colors.dark300 }}
+												selected={selectedSort.value}
+												options={NFTsSorts}
+												handleSelect={(e: string) =>
+													setSelectedSort(
+														NFTsSorts.find(
+															NFTsSort => NFTsSort.value === (e as NFTS_SORT_VALUE)
+														) || NFTsSorts[0]
+													)
+												}
+											/>
+										</SortSelectContainer>
 									</Flex>
 									<OnlyMobileAndTablet>
 										<Box sx={{ height: ['8px'] }} />
@@ -164,6 +195,7 @@ export const MyNFTsModal = NiceModal.create(
 											<DropdownMultiselect
 												dropdownReferenceElement={dropdownRefElement}
 												label='Collections'
+												placeholder={t('select-NFTs.type-here-to-search')}
 												value={selectedCollections}
 												onChange={collections => setSelectedCollections(collections)}
 												options={ownedCollections.map(
@@ -173,7 +205,18 @@ export const MyNFTsModal = NiceModal.create(
 													})
 												)}
 											/>
-											{/* <Box sx={{ flex: 1, bg: 'red' }} /> */}
+
+											<Select
+												sx={{ background: theme.colors.dark300 }}
+												selected={selectedSort.value}
+												options={NFTsSorts}
+												handleSelect={(e: string) =>
+													setSelectedSort(
+														NFTsSorts.find(x => x.value === (e as NFTS_SORT_VALUE)) ||
+															NFTsSorts[0]
+													)
+												}
+											/>
 										</Flex>
 										<div
 											ref={setDropdownRefElement}
@@ -191,7 +234,7 @@ export const MyNFTsModal = NiceModal.create(
 											disabled={!selectedNFTs.length}
 											onClick={() => {
 												modal.resolve(selectedNFTs)
-												modal.hide()
+												modal.remove()
 											}}
 										>
 											{addNFTsButtonLabel}

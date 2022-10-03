@@ -11,7 +11,11 @@
 		"add-instruction": "Add them here by clicking below",
 		"select-nfts": "Select NFTs",
 		"selected-nfts": "Selected NFT's",
-		"selected-nfts-description": "These items will be included in the trade listing"
+		"selected-nfts-description": "These items will be included in the trade listing",
+		"search": "Search",
+		"type-here-to-search": "Type here to search...",
+		"a-to-z": "A to Z",
+		"z-to-a": "Z to A"
 	},
 	"trade-details": {
 		"question": "What are you looking for?",
@@ -55,6 +59,8 @@
 		"your-listing-url": "Your Listing URL",
 		"transaction-id": "Transaction ID",
 		"no-content-what-are-you-looking-for": "Any offer",
-		"no-content-comments": "No comments specified"
+		"no-content-comments": "No comments specified",
+		"copy": "copy",
+		"copied": "copied"
 	}
 }

@@ -1,3 +1,4 @@
+import { WalletIcon } from 'assets/icons/mixed'
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
 import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
@@ -8,6 +9,7 @@ import { TextInputField } from 'components/form/fields/text-input-field'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import useIsMobile from 'hooks/react/useIsMobile'
 import { useTranslation } from 'next-i18next'
+import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
 import {
@@ -21,7 +23,7 @@ import {
 	RadioWrapper,
 	RadioWrapperSubtitle,
 } from './ChooseVisibility.styled'
-import { TradeFormStepsProps, VISIBILITY_TYPE } from './formProps'
+import { TradeFormStepsProps, VISIBILITY_TYPE } from './types'
 import { NavigationFooter } from './NavigationFooter'
 
 const ChooseVisibilityCollectionSelector = () => {
@@ -55,13 +57,22 @@ const ChooseVisibilityForm = () => {
 		register,
 		setValue,
 		getValues,
+		unregister,
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
+
+	const visibilityType = getValues('visibilityType')
+
+	useEffect(() => {
+		if (visibilityType === VISIBILITY_TYPE.PUBLIC) {
+			unregister('walletAddress', { keepValue: true })
+		}
+	}, [visibilityType, unregister])
 
 	return (
 		<FormWrapper>
 			<RadioInputGroupProvider
-				value={getValues('visibilityType')}
+				value={visibilityType}
 				name={register('visibilityType').name}
 				onChange={e =>
 					setValue('visibilityType', e.target.value as VISIBILITY_TYPE)
@@ -102,6 +113,7 @@ const ChooseVisibilityForm = () => {
 						</Label>
 						<TextInputField
 							id='walletAddress'
+							iconLeft={<WalletIcon />}
 							{...register('walletAddress')}
 							fieldError={
 								errors.walletAddress &&
@@ -124,9 +136,15 @@ interface Props {
 
 export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, watch, trigger } = useFormContext<TradeFormStepsProps>()
+	const {
+		getValues,
+		watch,
+		trigger,
+		formState: { isValid },
+	} = useFormContext<TradeFormStepsProps>()
 	const watchVisibilityType = watch('visibilityType', undefined)
 	const isMobile = useIsMobile()
+
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
@@ -150,7 +168,7 @@ export const ChooseVisibility = ({ goNextStep, goBackStep }: Props) => {
 						goNextStep()
 					}
 				}}
-				isNextButtonDisabled={!getValues('visibilityType')}
+				isNextButtonDisabled={!getValues('visibilityType') || !isValid}
 			/>
 		</ContentCardWrapper>
 	)

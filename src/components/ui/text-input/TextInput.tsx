@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { AlertCircleIcon } from 'assets/icons/16pt'
 import React from 'react'
+import { Flex } from 'theme-ui'
 
 export interface TextInputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -107,7 +108,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 					error={props.error}
 					onClick={handleClick}
 				>
-					{iconLeft}
+					{iconLeft ? <Flex sx={{ paddingRight: '8px' }}>{iconLeft}</Flex> : null}
 					<TextInputStyled {...rest} ref={inputRef}>
 						{children}
 					</TextInputStyled>

@@ -15,25 +15,15 @@ import {
 	Steps,
 	TxBroadcastingModal,
 } from 'components'
-import { SelectNFTs, TradeDetails } from 'components/ui/forms'
 import {
 	ChooseVisibility,
 	ChooseVisibilityStepSchema,
 	ConfirmListing,
+	SelectNFTs,
 	SelectNFTStepSchema,
+	TradeDetails,
 	TradeDetailsStepSchema,
 	TradeFormStepsProps,
-} from 'components/ui/forms/trade-form-steps'
-import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
-import { useStep } from 'hooks/react/useStep'
-import { makeStaticPaths, makeStaticProps } from 'lib'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { listTradeOffers } from 'services/blockchain'
-
-import * as ROUTES from 'constants/routes'
-import useHeaderActions from 'hooks/useHeaderActions'
-import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
-import {
 	BodyContainer,
 	Container,
 	HeaderContainer,
@@ -44,7 +34,17 @@ import {
 	StepsWrapper,
 	TradeBackgroundBlobContainer,
 	TradeBackgroundLogoContainer,
-} from './trade.styled'
+} from 'components/trade'
+
+import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
+import { useStep } from 'hooks/react/useStep'
+import { makeStaticPaths, makeStaticProps } from 'lib'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { listTradeOffers } from 'services/blockchain'
+
+import * as ROUTES from 'constants/routes'
+import useHeaderActions from 'hooks/useHeaderActions'
+import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -80,11 +80,11 @@ export default function Trade() {
 
 	const getStepSchema = (currentStep: number) => {
 		switch (currentStep) {
-			case 0:
+			case CREATE_LISTING_FORM_STEPS.SELECT_NFTS:
 				return SelectNFTStepSchema
-			case 1:
+			case CREATE_LISTING_FORM_STEPS.TRADE_DETAILS:
 				return TradeDetailsStepSchema
-			case 2:
+			case CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY:
 				return ChooseVisibilityStepSchema
 			default:
 				return SelectNFTStepSchema
@@ -92,7 +92,7 @@ export default function Trade() {
 	}
 
 	const formMethods = useForm<TradeFormStepsProps>({
-		mode: 'all',
+		mode: 'onChange',
 		resolver: yupResolver(getStepSchema(step.current)),
 		defaultValues: {
 			selectedNFTs: [],

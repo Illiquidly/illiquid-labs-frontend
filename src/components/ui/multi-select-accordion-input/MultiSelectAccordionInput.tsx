@@ -1,25 +1,25 @@
-import InputDismissIcon from 'assets/icons/mixed/components/InputDismissIcon'
-import React from 'react'
-import { noop } from 'lodash'
-import { useOnClickOutside } from 'utils/react/useOnClickOutside'
 import { InputSearchIcon } from 'assets/icons/mixed'
+import InputDismissIcon from 'assets/icons/mixed/components/InputDismissIcon'
+import { noop } from 'lodash'
+import React from 'react'
 import { Flex } from 'theme-ui'
+import { useOnClickOutside } from 'utils/react/useOnClickOutside'
+import { Checkbox } from '../checkbox'
 import {
 	AccordionCard,
-	ContentWrapper,
 	AccordionItem,
 	AccordionTitle,
 	CheckboxContainer,
 	Container,
+	ContentWrapper,
 	DismissIconContainer,
 	DividerLine,
+	ExtraLabel,
 	IconContainer,
+	Label,
 	MultiSelectAccordionInputStyled,
 	SearchIconContainer,
-	ExtraLabel,
-	Label,
 } from './MultiSelectAccordionInput.styled'
-import { Checkbox } from '../checkbox'
 
 export type MultiSelectAccordionInputOption = {
 	label: string
@@ -43,6 +43,7 @@ export interface MultiSelectAccordionInputProps {
 	options?: MultiSelectAccordionInputOption[]
 	onChange?: (o: MultiSelectAccordionInputOption[]) => void
 	value?: MultiSelectAccordionInputOption[]
+	placeholder?: string
 	defaultSearch?: string
 	accordionTitle?: string
 	dismissOnOutsideClick?: boolean
@@ -75,6 +76,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 		accordionTitle = '',
 		dismissOnOutsideClick = false,
 		dropdownStyle,
+		placeholder,
 		searchStrategy = ({ label, inputValue }) =>
 			!inputValue || label.toLowerCase().match(`^${inputValue.toLowerCase()}.*$`),
 		...inputProps
@@ -136,6 +138,7 @@ const MultiSelectAccordionInput = React.forwardRef<
 					</IconContainer>
 					<MultiSelectAccordionInputStyled
 						{...inputProps}
+						placeholder={placeholder}
 						value={search}
 						onChange={e => setSearch(e.target.value)}
 						ref={inputRef}
