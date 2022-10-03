@@ -181,15 +181,13 @@ export default function ListingDetails() {
 								{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
 									<Row>
 										<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-											{(additionalInfo?.tradePreview?.cw721Coin?.attributes ?? []).map(
-												attribute => (
-													<AttributeCard
-														key={JSON.stringify(attribute)}
-														name={attribute.traitType}
-														value={attribute.value}
-													/>
-												)
-											)}
+											{(tradePreview?.cw721Coin?.attributes ?? []).map(attribute => (
+												<AttributeCard
+													key={JSON.stringify(attribute)}
+													name={attribute.traitType}
+													value={attribute.value}
+												/>
+											))}
 										</Flex>
 									</Row>
 								)}
@@ -239,7 +237,7 @@ export default function ListingDetails() {
 				)}
 				<TradeListingsYouMightLike
 					search={
-						tradeInfo?.additionalInfo?.tradePreview?.cw721Coin?.collectionName ??
+						tradePreview?.cw721Coin?.collectionName ??
 						sample(verifiedCollections ?? [])?.collectionName ??
 						''
 					}
