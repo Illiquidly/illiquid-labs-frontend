@@ -26,10 +26,11 @@ import {
 
 export interface TxBroadcastingModalProps {
 	transactionAction: Promise<TxReceipt>
+	closeOnFinish?: boolean
 }
 
 const TxBroadcastingModal = NiceModal.create(
-	({ transactionAction }: TxBroadcastingModalProps) => {
+	({ transactionAction, closeOnFinish = false }: TxBroadcastingModalProps) => {
 		const modal = useModal()
 
 		const { t } = useTranslation(['common'])
@@ -41,8 +42,17 @@ const TxBroadcastingModal = NiceModal.create(
 		const theme = useTheme()
 		const parsedError = error ? parseTxError(error) : ''
 
+		const closeModal = () => {
+			modal.resolve(data)
+			modal.remove()
+		}
+
 		const onSuccessBroadcast = async (responseData: any) => {
 			setData({ ...responseData, ...txReceipt })
+
+			if (closeOnFinish) {
+				closeModal()
+			}
 		}
 
 		const { setLoading, loading } = useBroadcastingTx(
@@ -66,11 +76,6 @@ const TxBroadcastingModal = NiceModal.create(
 		React.useEffect(() => {
 			executeBlockchain()
 		}, [])
-
-		const closeModal = () => {
-			modal.resolve(data)
-			modal.remove()
-		}
 
 		return (
 			<Modal
