@@ -26,8 +26,12 @@ import { Box, Flex } from 'theme-ui'
 import { amountConverter } from 'utils/blockchain/terraUtils'
 import {
 	acceptTrade,
+	cancelCounterTradeAndWithdraw,
+	confirmCounterTrade,
 	refuseCounterTrade,
 	TRADE_STATE,
+	withdrawAcceptedTrade,
+	withdrawAllFromCounter,
 } from 'services/blockchain'
 import {
 	AcceptCounterOfferModal,
@@ -138,6 +142,31 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		}
 	}
 
+	const withdrawCounterTrade = async (counterTrade: CounterTrade) => {
+		if (!tradeId) {
+			return
+		}
+
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: withdrawAllFromCounter(tradeId, counterTrade?.counterId),
+			closeOnFinish: true,
+		})
+	}
+
+	const cancelCounterTrade = async (counterTrade: CounterTrade) => {
+		if (!tradeId) {
+			return
+		}
+
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: cancelCounterTradeAndWithdraw(
+				counterTrade?.counterId,
+				tradeId
+			),
+			closeOnFinish: true,
+		})
+	}
+
 	const handleDeny = async (counterTrade: CounterTrade) => {
 		const [, result] = await asyncAction<DenyCounterOfferModalResult>(
 			NiceModal.show(DenyCounterOfferModal, {
@@ -164,6 +193,27 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		}
 	}
 
+	const withdrawAccepted = async () => {
+		if (!tradeId) {
+			return
+		}
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: withdrawAcceptedTrade(tradeId),
+			closeOnFinish: true,
+		})
+	}
+
+	const confirmCounter = async (counterTrade: CounterTrade) => {
+		if (!tradeId) {
+			return
+		}
+
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: confirmCounterTrade(counterTrade?.counterId, tradeId),
+			closeOnFinish: true,
+		})
+	}
+
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const columns: Array<string> = t(
 		'trade-listings:counter-offers.table.columns',
@@ -173,6 +223,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	)
 
 	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
+	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
 	return (
 		<Container>
@@ -189,6 +240,8 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 				</TableHead>
 				<TableBody>
 					{infiniteData.map(counterTrade => {
+						const isMyCounterTrade = counterTrade?.tradeInfo?.owner === myAddress
+
 						const { id, tradeInfo } = counterTrade
 						const nfts = (tradeInfo.associatedAssets ?? [])
 							.filter(x => x.cw721Coin)
@@ -262,31 +315,84 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
-									{/* Counter trade is published and trade listing is mine I can approve or deny counter offer */}
-									{[TRADE_STATE.Published].includes(counterTrade?.tradeInfo?.state) &&
-										trade?.tradeInfo?.owner === myAddress && (
-											<Flex
-												sx={{
-													gap: '12px',
-												}}
-											>
-												<Button
-													fullWidth
-													variant='primary'
-													onClick={() => handleApprove(counterTrade)}
-												>
-													{t('trade-listings:counter-offers.table.approve')}
-												</Button>
+									<Flex
+										sx={{
+											gap: '12px',
+										}}
+									>
+										{/* When trade is countered and I am the offerer and counter trade is
+										published. 
+											* I can refuse/deny counter trade.
+											* I can accept/approve trade offer.
+										*/}
+										{isMyTrade &&
+											[TRADE_STATE.Countered].includes(tradeInfo?.state) &&
+											!isMyCounterTrade &&
+											[TRADE_STATE.Published].includes(counterTrade?.tradeInfo.state) && (
+												<>
+													<Button
+														fullWidth
+														variant='primary'
+														onClick={() => handleApprove(counterTrade)}
+													>
+														{t('trade-listings:counter-offers.table.approve')}
+													</Button>
 
-												<Button
-													onClick={() => handleDeny(counterTrade)}
-													variant='secondary'
-													fullWidth
-												>
-													{t('trade-listings:counter-offers.table.deny')}
+													<Button
+														onClick={() => handleDeny(counterTrade)}
+														variant='secondary'
+														fullWidth
+													>
+														{t('trade-listings:counter-offers.table.deny')}
+													</Button>
+												</>
+											)}
+										{/* 
+											When trade is not mine, trade is any state, my counter trade is refused (not accepted) or cancelled I can
+											* Withdraw my assets from counter trade.
+										*/}
+										{!isMyTrade &&
+											isMyCounterTrade &&
+											!counterTrade?.tradeInfo?.assetsWithdrawn &&
+											[TRADE_STATE.Refused, TRADE_STATE.Cancelled].includes(
+												counterTrade?.tradeInfo?.state
+											) && (
+												<Button onClick={async () => withdrawCounterTrade(counterTrade)}>
+													{t('common:withdraw')}
 												</Button>
-											</Flex>
-										)}
+											)}
+
+										{/* When trade is not mine, in any state, my counter trade is published I can
+										 * Cancel and withdraw from counter trade.
+										 */}
+										{!isMyTrade &&
+											isMyCounterTrade &&
+											[TRADE_STATE.Published].includes(counterTrade?.tradeInfo?.state) && (
+												<Button onClick={() => cancelCounterTrade(counterTrade)}>
+													{t('common:remove')}
+												</Button>
+											)}
+
+										{isMyTrade &&
+											[TRADE_STATE.Accepted].includes(tradeInfo?.state) &&
+											!isMyCounterTrade &&
+											[TRADE_STATE.Accepted].includes(counterTrade?.tradeInfo?.state) &&
+											!counterTrade?.tradeInfo?.assetsWithdrawn && (
+												<Button onClick={withdrawAccepted}>{t('common:withdraw')}</Button>
+											)}
+
+										{!isMyTrade &&
+											isMyCounterTrade &&
+											!counterTrade?.tradeInfo?.assetsWithdrawn &&
+											![TRADE_STATE.Accepted].includes(tradeInfo?.state) &&
+											[TRADE_STATE.Created].includes(counterTrade?.tradeInfo?.state) && (
+												<>
+													<Button onClick={async () => confirmCounter(counterTrade)}>
+														{t('common:publish')}
+													</Button>
+												</>
+											)}
+									</Flex>
 								</TableBodyRowCell>
 							</TableBodyRow>
 						)

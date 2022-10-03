@@ -36,6 +36,8 @@
 	"create-another": "Create Another",
 	"tweet": "Tweet",
 	"apply": "Apply",
+	"withdraw": "Withdraw",
+	"publish": "Publish",
 	"search-collections": "Search Collections",
 	"errors": {
 		"trade-form-steps-token-is-required": "Token or one collection is required",
