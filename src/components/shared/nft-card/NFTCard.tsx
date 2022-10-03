@@ -1,11 +1,11 @@
 import { VerifiedIcon } from 'assets/icons/16pt'
 import CheckedOutlineIcon from 'assets/icons/32pt/CheckedOutlineIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
+import { OverflowTip } from 'components/ui'
 import { noop } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
-import { OverflowTip } from '../overflow-tip'
 
 import {
 	CardContainer,
