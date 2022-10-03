@@ -10,9 +10,12 @@ export enum VISIBILITY_TYPE {
 	PRIVATE = 'PRIVATE',
 }
 export interface TradeFormStepsProps {
+	tradeDetailsUrl: string
+	terraFinderUrl: string
 	// SELECT_NFTS STEP
 	coverNFT: NFT
 	selectedNFTs: NFT[]
+	isSuccessScreen: boolean
 	// TRADE_DETAILS STEP
 	lookingForType: LOOKING_FOR_TYPE
 	collection: string

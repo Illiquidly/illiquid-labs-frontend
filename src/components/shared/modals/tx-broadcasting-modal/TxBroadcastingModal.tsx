@@ -41,8 +41,8 @@ const TxBroadcastingModal = NiceModal.create(
 		const theme = useTheme()
 		const parsedError = error ? parseTxError(error) : ''
 
-		const onSuccessBroadcast = async (responseData: unknown) => {
-			setData(responseData)
+		const onSuccessBroadcast = async (responseData: any) => {
+			setData({ ...responseData, ...txReceipt })
 		}
 
 		const { setLoading, loading } = useBroadcastingTx(

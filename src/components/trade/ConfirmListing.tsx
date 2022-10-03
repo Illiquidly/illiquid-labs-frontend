@@ -9,9 +9,12 @@ import { CopyField } from 'components/shared'
 import { NFTCard } from 'components/shared/nft-card'
 import { StepProps } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
+import { noop } from 'lodash'
+
+import { TwitterShareButton } from 'react-share'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -54,7 +57,8 @@ const StepHeader = ({ children, onEditClick }: StepHeaderProps) => {
 
 const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { reset } = useFormContext<TradeFormStepsProps>()
+	const { reset, watch, getValues } = useFormContext<TradeFormStepsProps>()
+	const tradeDetailsUrl = getValues('tradeDetailsUrl')
 
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: '16px' }}>
@@ -82,12 +86,17 @@ const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 						>
 							{t('common:create-another')}
 						</Button>
-						<Button variant='dark'>
-							<Flex pr={2}>
-								<TwitterIcon fill={theme.colors.natural50} />
-							</Flex>
-							{t('common:tweet')}
-						</Button>
+						<TwitterShareButton
+							title={t('trade-listings:checkout-my-trade')}
+							url={tradeDetailsUrl}
+						>
+							<Button onClick={e => e.preventDefault()} variant='dark'>
+								<Flex pr={2}>
+									<TwitterIcon fill={theme.colors.natural50} />
+								</Flex>
+								{t('common:tweet')}
+							</Button>
+						</TwitterShareButton>
 					</Flex>
 				</Flex>
 			</ContentCard>
@@ -101,13 +110,11 @@ const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 			>
 				<Box>
 					<SuccessLabel>{t('trade:confirm-listing.your-listing-url')}</SuccessLabel>
-					{/* TODO: Marino - hardcoded, should come from API */}
-					<CopyField data='https://illiquidly.io/#/explore/details/57' />
+					<CopyField data={`${watch('tradeDetailsUrl')}`} />
 				</Box>
 				<Box>
 					<SuccessLabel>{t('trade:confirm-listing.transaction-id')}</SuccessLabel>
-					{/* TODO: Marino - hardcoded, should come from API */}
-					<CopyField data='terra1dcegyrekltswvyy0xy69ydgxn9x8x32zdtapd8' />
+					<CopyField data={`${watch('terraFinderUrl')}`} />
 				</Box>
 			</ContentCard>
 		</Flex>
@@ -116,14 +123,16 @@ const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 
 export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
-	const { getValues, setValue, watch } = useFormContext<TradeFormStepsProps>()
-	const [isSuccessScreen, setIsSuccessScreen] = useState(false)
+	const { getValues, setValue, watch, handleSubmit } =
+		useFormContext<TradeFormStepsProps>()
+
 	const selectedCoverNFT = watch('coverNFT')
 	const selectedNFTs = getValues('selectedNFTs')
 	const selectedCollections = getValues('collections') || []
 	const selectedComment = getValues('comment') || ''
 	const selectedVisibilityType = getValues('visibilityType')
 	const selectedWalletAddress = getValues('walletAddress')
+	const isSuccessScreen = watch('isSuccessScreen')
 
 	return (
 		<ContentCardWrapper>
@@ -242,7 +251,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 					{/* Footer Navigation Section */}
 					<NavigationFooter
 						goBackStep={goBackStep}
-						goNextStep={() => setIsSuccessScreen(true)}
+						goNextStep={() => handleSubmit(noop)}
 						isNextButtonDisabled={false}
 					/>
 				</If.Else>

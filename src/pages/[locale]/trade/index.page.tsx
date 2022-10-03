@@ -46,6 +46,7 @@ import { listTradeOffers } from 'services/blockchain'
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
+import { TxReceipt } from 'services/blockchain/blockchain.interface'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -96,6 +97,7 @@ export default function Trade() {
 			selectedNFTs: [],
 			collections: [],
 			tokenName: 'LUNA',
+			isSuccessScreen: false,
 		},
 	})
 
@@ -104,11 +106,25 @@ export default function Trade() {
 			action: string
 			tradeId: string
 			trader: string
-		} = await NiceModal.show(TxBroadcastingModal, {
+		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: listTradeOffers(fromCreateTradeFormToBlockchain(values)),
 		})
 
 		console.warn(data)
+
+		if (data) {
+			const { tradeId, txTerraFinderUrl } = data
+			const origin =
+				typeof window !== 'undefined' && window.location.origin
+					? window.location.origin
+					: ''
+			formMethods.setValue(
+				'tradeDetailsUrl',
+				`${origin}${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`
+			)
+			formMethods.setValue('terraFinderUrl', txTerraFinderUrl)
+			formMethods.setValue('isSuccessScreen', true)
+		}
 	}
 
 	return (
