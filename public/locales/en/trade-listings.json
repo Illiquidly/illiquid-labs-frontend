@@ -88,5 +88,8 @@
 		"go-to-listing": "Go To Listing"
 	},
 	"listed": "Listed {{listed}}",
-	"view-all-nfts": "View all NFTs"
+	"view-all-nfts": "View all NFTs",
+	"not-found-text": "Oops! Looks like this listing",
+	"no-longer-exists": "no longer exists",
+	"you-might-like": "Trade Listings You Might Like"
 }
