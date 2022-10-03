@@ -20,19 +20,22 @@ IconButton.defaultProps = {
 export const Title = styled(Text)`
 	font-style: normal;
 	font-weight: 700;
-	font-size: 21px;
-	line-height: 30px;
 
 	letter-spacing: -0.02em;
 
 	color: ${props => props.theme.colors.natural50};
 `
 
+Title.defaultProps = {
+	sx: {
+		fontSize: ['50px'],
+		lineHeight: ['66.7px'],
+	},
+}
+
 export const Subtitle = styled(Text)`
 	font-style: normal;
 	font-weight: 500;
-	font-size: 14px;
-	line-height: 30px;
 
 	letter-spacing: -0.02em;
 
@@ -40,7 +43,10 @@ export const Subtitle = styled(Text)`
 `
 
 Subtitle.defaultProps = {
-	sx: {},
+	sx: {
+		fontSize: ['14px', '14px', '14px'],
+		lineHeight: ['30px', '14px', '28px'],
+	},
 }
 
 export const ImageSection = styled(Flex)`

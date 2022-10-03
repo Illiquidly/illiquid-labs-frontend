@@ -22,7 +22,7 @@ import {
 } from 'services/api/counterTradesService'
 import { Coin, Trade } from 'services/api/tradesService'
 import { NFT } from 'services/api/walletNFTsService'
-import { Flex } from 'theme-ui'
+import { Box, Flex } from 'theme-ui'
 import { amountConverter } from 'utils/blockchain/terraUtils'
 import {
 	acceptTrade,
@@ -47,7 +47,7 @@ import {
 	PreviewNFTsSection,
 } from './ListingDetails.styled'
 
-const Title = styled.p`
+const Title = styled.div`
 	font-style: normal;
 	font-weight: 600;
 	font-size: 16px;
@@ -59,7 +59,6 @@ const Title = styled.p`
 
 const Container = styled(Flex)`
 	flex-direction: column;
-	gap: 12px;
 	padding-bottom: 45px;
 	width: 100%;
 `
@@ -177,7 +176,9 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 
 	return (
 		<Container>
-			<Title>{t('trade-listings:counter-offers.title')}</Title>
+			<Box sx={{ padding: '8px 0' }}>
+				<Title>{t('trade-listings:counter-offers.title')}</Title>
+			</Box>
 			<Table>
 				<TableHead>
 					<TableHeadRow>
