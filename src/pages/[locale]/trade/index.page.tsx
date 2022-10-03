@@ -79,16 +79,13 @@ export default function Trade() {
 	])
 
 	const getStepSchema = (currentStep: number) => {
-		switch (currentStep) {
-			case CREATE_LISTING_FORM_STEPS.SELECT_NFTS:
-				return SelectNFTStepSchema
-			case CREATE_LISTING_FORM_STEPS.TRADE_DETAILS:
-				return TradeDetailsStepSchema
-			case CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY:
-				return ChooseVisibilityStepSchema
-			default:
-				return SelectNFTStepSchema
+		const formSchemas = {
+			[CREATE_LISTING_FORM_STEPS.SELECT_NFTS]: SelectNFTStepSchema,
+			[CREATE_LISTING_FORM_STEPS.TRADE_DETAILS]: TradeDetailsStepSchema,
+			[CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY]: ChooseVisibilityStepSchema,
 		}
+
+		return formSchemas[currentStep] ?? SelectNFTStepSchema
 	}
 
 	const formMethods = useForm<TradeFormStepsProps>({
