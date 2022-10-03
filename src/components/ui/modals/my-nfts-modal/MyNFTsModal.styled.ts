@@ -64,7 +64,6 @@ SortSelectContainer.defaultProps = {
 	sx: {
 		display: ['none', 'none', 'flex'],
 		flex: 1,
-		bg: 'green',
 		maxWidth: '206px',
 	},
 }

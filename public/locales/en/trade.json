@@ -13,7 +13,9 @@
 		"selected-nfts": "Selected NFT's",
 		"selected-nfts-description": "These items will be included in the trade listing",
 		"search": "Search",
-		"type-here-to-search": "Type here to search..."
+		"type-here-to-search": "Type here to search...",
+		"a-to-z": "A to Z",
+		"z-to-a": "Z to A"
 	},
 	"trade-details": {
 		"question": "What are you looking for?",

@@ -1,8 +1,8 @@
 import { useWallet, WalletStatus } from '@terra-money/use-wallet'
-import React from 'react'
-import { asyncAction } from 'utils/js/asyncAction'
+import { NFTS_SORT_VALUE } from 'components'
+import { useRouter } from 'next/router'
 import promiseRetry from 'promise-retry'
-import { getNetworkName } from 'utils/blockchain/terraUtils'
+import React from 'react'
 import {
 	Collection,
 	NFT,
@@ -10,11 +10,13 @@ import {
 	WalletNFTsService,
 	WALLET_NFT_STATE,
 } from 'services/api/walletNFTsService'
-import { useRouter } from 'next/router'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
+import { asyncAction } from 'utils/js/asyncAction'
 
 export type UseMyNFTsFilters = {
 	collectionAddresses: string[]
 	name: string
+	sort: NFTS_SORT_VALUE
 }
 
 export function useMyNFTs(filters: UseMyNFTsFilters) {
@@ -91,23 +93,30 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 		}
 	}, [wallet.connection, wallet.network])
 
-	const ownedNFTs = React.useMemo(
-		() =>
-			NFTs.filter(
-				nft =>
-					// Filter by collections
-					(filters.collectionAddresses.length
-						? filters.collectionAddresses.includes(nft.collectionAddress)
-						: true) &&
-					// Filter by name %LIKE
-					(filters.name
-						? (nft?.name || '')
-								.toLowerCase()
-								.match(`^${filters.name.toLowerCase()}.*$`)
-						: true)
-			),
-		[filters, NFTs]
-	)
+	const ownedNFTs = React.useMemo(() => {
+		console.log(
+			'	filters.sort === NFTS_SORT_VALUE.ASCENDING',
+			filters.sort === NFTS_SORT_VALUE.ASCENDING
+		)
+		return NFTs.filter(
+			nft =>
+				// Filter by collections
+				(filters.collectionAddresses.length
+					? filters.collectionAddresses.includes(nft.collectionAddress)
+					: true) &&
+				// Filter by name %LIKE
+				(filters.name
+					? (nft?.name || '')
+							.toLowerCase()
+							.match(`^${filters.name.toLowerCase()}.*$`)
+					: true)
+		).sort((a, b) =>
+			filters.sort === NFTS_SORT_VALUE.ASCENDING
+				? (a?.name || '').toLowerCase().localeCompare((b?.name || '').toLowerCase())
+				: -1 *
+				  (a?.name || '').toLowerCase().localeCompare((b?.name || '').toLowerCase())
+		)
+	}, [NFTs, filters.sort, filters.name, filters.collectionAddresses])
 
 	return {
 		ownedNFTs,
