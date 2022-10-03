@@ -7,7 +7,7 @@ import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, Text } from 'theme-ui'
 import { asyncAction } from 'utils/js/asyncAction'
-import { TradeFormStepsProps } from './formProps'
+import { TradeFormStepsProps } from './types'
 import { NavigationFooter } from './NavigationFooter'
 import {
 	ContentCard,

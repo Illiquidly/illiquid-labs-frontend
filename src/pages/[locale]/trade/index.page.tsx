@@ -15,15 +15,17 @@ import {
 	Steps,
 	TxBroadcastingModal,
 } from 'components'
-import { SelectNFTs, TradeDetails } from 'components/ui/forms'
 import {
 	ChooseVisibility,
 	ChooseVisibilityStepSchema,
 	ConfirmListing,
+	SelectNFTs,
 	SelectNFTStepSchema,
+	TradeDetails,
 	TradeDetailsStepSchema,
 	TradeFormStepsProps,
-} from 'components/ui/forms/trade-form-steps'
+} from 'components/trade'
+
 import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'

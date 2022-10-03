@@ -22,10 +22,7 @@ import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import { SupportedCollectionsService } from 'services/api'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
-import {
-	LOOKING_FOR_TYPE,
-	TradeDetailsStepSchema,
-} from 'components/ui/forms/trade-form-steps'
+
 import {
 	Controller,
 	FormProvider,
@@ -35,6 +32,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { TextInputField } from 'components/form'
+import { LOOKING_FOR_TYPE, TradeDetailsStepSchema } from 'components/trade'
 import {
 	ModalBody,
 	ModalContainer,

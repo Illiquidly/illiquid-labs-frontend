@@ -25,7 +25,7 @@ import {
 	SuccessMessage,
 	SuccessTitle,
 } from './ConfirmListing.styled'
-import { TradeFormStepsProps, VISIBILITY_TYPE } from './formProps'
+import { TradeFormStepsProps, VISIBILITY_TYPE } from './types'
 import { NavigationFooter } from './NavigationFooter'
 
 interface StepHeaderProps {

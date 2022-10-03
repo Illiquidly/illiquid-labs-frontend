@@ -23,7 +23,7 @@ import {
 	RadioWrapper,
 	RadioWrapperSubtitle,
 } from './ChooseVisibility.styled'
-import { TradeFormStepsProps, VISIBILITY_TYPE } from './formProps'
+import { TradeFormStepsProps, VISIBILITY_TYPE } from './types'
 import { NavigationFooter } from './NavigationFooter'
 
 const ChooseVisibilityCollectionSelector = () => {
