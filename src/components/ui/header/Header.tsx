@@ -3,7 +3,7 @@ import { Flex } from 'theme-ui'
 import { Link } from 'components/link'
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { ConnectButton } from '../connect-button'
+import { ConnectButton } from 'components/shared'
 import { LayoutContainer } from '../layout'
 import { HeaderWrapper } from './Header.styled'
 

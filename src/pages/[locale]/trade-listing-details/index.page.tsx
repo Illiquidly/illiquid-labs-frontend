@@ -6,7 +6,6 @@ import {
 	AttributeCard,
 	BlueWarning,
 	Button,
-	ConnectButton,
 	LayoutContainer,
 	Page,
 	Wallet,
@@ -57,6 +56,7 @@ import { asyncAction } from 'utils/js/asyncAction'
 
 import { CounterTrade } from 'services/api/counterTradesService'
 import {
+	ConnectButton,
 	TxBroadcastingModal,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
