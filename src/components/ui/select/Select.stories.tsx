@@ -15,23 +15,27 @@ export default {
 }
 
 export const SelectExample = () => {
-	const [selected, setSelected] = React.useState('Luna')
+	const [value, setValue] = React.useState('Luna')
 
 	return (
 		<Flex sx={{ width: '200px' }}>
 			<Select
-				selected={selected}
+				value={value}
+				onChange={v => setValue(v)}
 				options={[
 					{
+						value: '',
+						label: 'Select value',
+					},
+					{
 						value: 'Luna',
-						element: 'Luna',
+						label: 'Luna',
 					},
 					{
 						value: 'Mars',
-						element: 'Mars',
+						label: 'Mars',
 					},
 				]}
-				handleSelect={setSelected}
 			/>
 		</Flex>
 	)
