@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes, ReactElement } from 'react'
+import React, { forwardRef, InputHTMLAttributes, ReactElement } from 'react'
 import {
 	CardItem,
 	CardItemInput,
@@ -15,9 +15,14 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 export const RadioCard = forwardRef<HTMLInputElement, Props>((props, ref) => {
 	const { value, subtitle, title, Image } = props
+
+	const inputRef = React.useRef<HTMLInputElement>(null)
+
+	React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
+
 	return (
-		<CardItem>
-			<CardItemInput ref={ref} type='radio' {...props} value={value} />
+		<CardItem onClick={() => inputRef?.current?.click()}>
+			<CardItemInput ref={inputRef} type='radio' {...props} value={value} />
 			{Image}
 			<CardItemTitle>{title}</CardItemTitle>
 			{subtitle && <CardItemSubtitle>{subtitle}</CardItemSubtitle>}
