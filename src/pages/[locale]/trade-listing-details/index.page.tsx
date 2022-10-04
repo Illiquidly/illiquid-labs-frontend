@@ -229,21 +229,23 @@ export default function ListingDetails() {
 										<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
 									</Row>
 								)}
-								{!isMyTrade &&
-									[TRADE_STATE.Published, TRADE_STATE.Countered].includes(
-										tradeInfo?.state as TRADE_STATE
-									) && (
-										<Row>
-											<Button
-												size='extraLarge'
-												href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
-												fullWidth
-												variant='gradient'
-											>
-												<div>{t('trade-listings:make-offer')}</div>
-											</Button>
-										</Row>
-									)}
+								{!isMyTrade && trade && (
+									<Row>
+										<Button
+											disabled={
+												![TRADE_STATE.Published, TRADE_STATE.Countered].includes(
+													tradeInfo?.state as TRADE_STATE
+												)
+											}
+											size='extraLarge'
+											href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
+											fullWidth
+											variant='gradient'
+										>
+											<div>{t('trade-listings:make-offer')}</div>
+										</Button>
+									</Row>
+								)}
 							</Box>
 						</Flex>
 
