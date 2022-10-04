@@ -145,6 +145,12 @@ export const Image = styled(Img)`
 	overflow: hidden;
 	z-index: ${props => props.theme.zIndices.listingCardImg};
 	position: absolute;
+
+	transition: transform 0.2s;
+
+	&:hover {
+		transform: scale(1.02);
+	}
 `
 
 export const PreviewImage = styled(Image)`
