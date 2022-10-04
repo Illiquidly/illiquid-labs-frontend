@@ -115,6 +115,9 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	)
 
 	const handleApprove = async (counterTrade: CounterTrade) => {
+		if (!tradeId) {
+			return
+		}
 		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
 			NiceModal.show(AcceptCounterOfferModal, {
 				counterTrade,
@@ -131,6 +134,12 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 				),
 				closeOnFinish: true,
 			})
+
+			await CounterTradesService.getCounterTrade(
+				wallet.network.name,
+				tradeId,
+				counterTrade.counterId
+			)
 
 			setInfiniteData([])
 			queryClient.invalidateQueries(['counterTrades'])
@@ -151,6 +160,13 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
+		await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			tradeId,
+			counterTrade.counterId
+		)
+
+		setInfiniteData([])
 		queryClient.invalidateQueries(['counterTrades'])
 	}
 
@@ -167,10 +183,20 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
+		await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			tradeId,
+			counterTrade.counterId
+		)
+
+		setInfiniteData([])
 		queryClient.invalidateQueries(['counterTrades'])
 	}
 
 	const handleDeny = async (counterTrade: CounterTrade) => {
+		if (!tradeId) {
+			return
+		}
 		const [, result] = await asyncAction<DenyCounterOfferModalResult>(
 			NiceModal.show(DenyCounterOfferModal, {
 				counterTrade,
@@ -187,6 +213,12 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
+			await CounterTradesService.getCounterTrade(
+				wallet.network.name,
+				tradeId,
+				counterTrade.counterId
+			)
+
 			setInfiniteData([])
 			queryClient.invalidateQueries(['counterTrades'])
 
@@ -196,7 +228,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		}
 	}
 
-	const withdrawAccepted = async () => {
+	const withdrawAccepted = async (counterTrade: CounterTrade) => {
 		if (!tradeId) {
 			return
 		}
@@ -205,6 +237,13 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
+		await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			tradeId,
+			counterTrade.counterId
+		)
+
+		setInfiniteData([])
 		queryClient.invalidateQueries(['counterTrades'])
 	}
 
@@ -218,6 +257,13 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
+		await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			tradeId,
+			counterTrade.counterId
+		)
+
+		setInfiniteData([])
 		queryClient.invalidateQueries(['counterTrades'])
 	}
 

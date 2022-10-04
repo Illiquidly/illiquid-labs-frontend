@@ -178,33 +178,13 @@ export class CounterTradesService {
 
 	public static async getCounterTrade(
 		network: string,
-		tradeId: string,
-		counterTradeId: string
+		tradeId: string | number,
+		counterId: string | number
 	): Promise<CounterTrade> {
-		const queryBuilder = RequestQueryBuilder.create()
+		const response = await axios.patch(
+			`counter-trades?network=${network}&tradeId=${tradeId}&counterId=${counterId}`
+		)
 
-		queryBuilder.setFilter({
-			field: 'network',
-			operator: '$eq',
-			value: network,
-		})
-
-		queryBuilder.setFilter({
-			field: 'tradeId',
-			operator: '$eq',
-			value: tradeId,
-		})
-
-		queryBuilder.setFilter({
-			field: 'counterTradeId',
-			operator: '$eq',
-			value: counterTradeId,
-		})
-
-		const response = await axios.get(`counter-trades?${queryBuilder.query()}`)
-
-		const [trade] = response.data
-
-		return keysToCamel(trade)
+		return keysToCamel(response.data)
 	}
 }
