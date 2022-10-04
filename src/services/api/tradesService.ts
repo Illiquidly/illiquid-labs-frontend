@@ -254,24 +254,10 @@ export class TradesService {
 		network: string,
 		tradeId: string
 	): Promise<Trade> {
-		const queryBuilder = RequestQueryBuilder.create()
+		const response = await axios.patch(
+			`trades?network=${network}&tradeId=${tradeId}`
+		)
 
-		queryBuilder.setFilter({
-			field: 'network',
-			operator: '$eq',
-			value: network,
-		})
-
-		queryBuilder.setFilter({
-			field: 'tradeId',
-			operator: '$eq',
-			value: tradeId,
-		})
-
-		const response = await axios.get(`trades?${queryBuilder.query()}`)
-
-		const [trade] = response.data
-
-		return keysToCamel(trade)
+		return keysToCamel(response.data)
 	}
 }

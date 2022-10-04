@@ -56,6 +56,7 @@ import {
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
 import { ConnectButton, LayoutContainer, Page } from 'components'
+import useAddress from 'hooks/useAddress'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -155,7 +156,7 @@ export default function TradeListings() {
 	const [lookingForLiquidAssetsChecked, setLookingForLiquidAssetsChecked] =
 		React.useState(false)
 
-	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
+	const myAddress = useAddress()
 
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<Trade[]>([])

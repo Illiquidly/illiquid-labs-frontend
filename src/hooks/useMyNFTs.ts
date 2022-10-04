@@ -1,6 +1,5 @@
 import { useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
-import { useRouter } from 'next/router'
 import promiseRetry from 'promise-retry'
 import React from 'react'
 import {
@@ -12,6 +11,7 @@ import {
 } from 'services/api/walletNFTsService'
 import { getNetworkName } from 'utils/blockchain/terraUtils'
 import { asyncAction } from 'utils/js/asyncAction'
+import useAddress from './useAddress'
 
 export type UseMyNFTsFilters = {
 	collectionAddresses: string[]
@@ -23,8 +23,7 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 	const [NFTs, setNFTs] = React.useState<NFT[]>([])
 	const [collections, setCollections] = React.useState<Collection[]>([])
 	const wallet = useWallet()
-	const { query } = useRouter()
-	const myAddress = (query?.address as string) || wallet.wallets[0]?.terraAddress
+	const myAddress = useAddress()
 
 	const [partiallyLoading, setPartiallyLoading] = React.useState(false)
 	const [fullyLoading, setFullyLoading] = React.useState(false)

@@ -42,8 +42,8 @@ const TxBroadcastingModal = NiceModal.create(
 		const theme = useTheme()
 		const parsedError = error ? parseTxError(error) : ''
 
-		const closeModal = () => {
-			modal.resolve(data)
+		const closeModal = (resolveData?: any) => {
+			modal.resolve(resolveData || data)
 			modal.remove()
 		}
 
@@ -51,7 +51,7 @@ const TxBroadcastingModal = NiceModal.create(
 			setData({ ...responseData, ...txReceipt })
 
 			if (closeOnFinish) {
-				closeModal()
+				closeModal({ ...responseData, ...txReceipt })
 			}
 		}
 

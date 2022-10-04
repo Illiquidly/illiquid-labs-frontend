@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { GridController, GRID_TYPE } from 'components/trade-listings'
+import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionsService } from 'services/api'
@@ -30,7 +31,7 @@ export interface TradeListingsYouMightLikeProps {
 function TradeListingsYouMightLike({ search }: TradeListingsYouMightLikeProps) {
 	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'trade-listings'])
-	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
+	const myAddress = useAddress()
 
 	const { data: verifiedCollections } = useQuery(
 		['verifiedCollections', wallet.network],

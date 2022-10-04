@@ -1,4 +1,4 @@
-export * from './ListingDetails.styled'
+export * from './styled'
 export { default as CounterOffersTable } from './CounterOffersTable'
 export { default as TradeHeaderActionsRow } from './TradeHeaderActionsRow'
 export { default as ImageRow } from './ImageRow'

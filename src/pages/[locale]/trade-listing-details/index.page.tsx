@@ -50,6 +50,7 @@ import {
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
 } from 'components'
+import useAddress from 'hooks/useAddress'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -128,6 +129,9 @@ export default function ListingDetails() {
 			setTradePreview(oldPrev => ({ ...oldPrev, cw721Coin: result.nft }))
 		}
 	}
+
+	const myAddress = useAddress()
+	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
 	return (
 		<Page title={t('title')}>
@@ -220,11 +224,21 @@ export default function ListingDetails() {
 										</WalletItem>
 									</Wallet>
 								</Row>
-								{tradeInfo && (
+								{Boolean((additionalInfo?.lookingFor ?? []).length) && (
 									<Row>
 										<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
 									</Row>
 								)}
+								{!isMyTrade &&
+									[TRADE_STATE.Published, TRADE_STATE.Countered].includes(
+										tradeInfo?.state as TRADE_STATE
+									) && (
+										<Row>
+											<Button size='extraLarge' fullWidth variant='gradient'>
+												<div>{t('listing-details:make-offer')}</div>
+											</Button>
+										</Row>
+									)}
 							</Box>
 						</Flex>
 

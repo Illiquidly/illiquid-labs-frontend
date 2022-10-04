@@ -253,6 +253,7 @@ async function updateTrade(
 			contractAddress: p2pContractAddress,
 			message: {
 				set_n_f_ts_wanted: {
+					trade_id: tradeId,
 					nfts_wanted: nftsWanted,
 				},
 			},
@@ -261,6 +262,7 @@ async function updateTrade(
 			contractAddress: p2pContractAddress,
 			message: {
 				set_tokens_wanted: {
+					trade_id: tradeId,
 					tokens_wanted: (tokensWanted ?? []).map(({ amount, denom }) => ({
 						coin: {
 							amount,

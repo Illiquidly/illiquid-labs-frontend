@@ -30,10 +30,11 @@ import {
 	updateTrade,
 } from 'services/blockchain'
 import { Trade } from 'services/api/tradesService'
-import { useWallet } from '@terra-money/use-wallet'
 import { useRouter } from 'next/router'
 import { noop } from 'lodash'
 import { TxBroadcastingModal } from 'components/shared'
+import { useQueryClient } from '@tanstack/react-query'
+import useAddress from 'hooks/useAddress'
 
 interface TradeHeaderActionsRowProps {
 	trade?: Trade
@@ -44,9 +45,9 @@ export const TradeHeaderActionsRow = ({
 }: TradeHeaderActionsRowProps) => {
 	const { tradeInfo } = trade ?? {}
 
-	const wallet = useWallet()
-
 	const router = useRouter()
+
+	const queryClient = useQueryClient()
 
 	const editDisabled = ![
 		TRADE_STATE.Published,
@@ -60,7 +61,7 @@ export const TradeHeaderActionsRow = ({
 		TRADE_STATE.Created,
 	].includes((tradeInfo?.state as TRADE_STATE) ?? TRADE_STATE.Cancelled)
 
-	const myAddress = wallet.wallets[0]?.terraAddress ?? ''
+	const myAddress = useAddress()
 
 	const isMyTradeListing = tradeInfo?.owner === myAddress
 
@@ -89,10 +90,13 @@ export const TradeHeaderActionsRow = ({
 					newTokensWanted,
 					newNFTsWanted
 				),
+				closeOnFinish: true,
 			})
 
-			// TODO refetch trade
-			console.warn(response)
+			if (response) {
+				console.warn('invalidate')
+				queryClient.invalidateQueries(['trade'])
+			}
 		}
 	}
 
@@ -109,7 +113,12 @@ export const TradeHeaderActionsRow = ({
 		if (result) {
 			const cancelTradeResponse = await NiceModal.show(TxBroadcastingModal, {
 				transactionAction: cancelAndWithdrawTrade(Number(result.tradeId)),
+				closeOnFinish: true,
 			})
+
+			if (cancelTradeResponse) {
+				queryClient.invalidateQueries(['trade'])
+			}
 
 			if (cancelTradeResponse) {
 				NiceModal.show(RemoveSuccessModal, {
