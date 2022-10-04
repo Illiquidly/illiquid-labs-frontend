@@ -55,3 +55,35 @@ export const LinkContent = styled.div`
 		cursor: pointer;
 	}
 `
+
+export const HeaderDropdownContainer = styled(Flex)`
+	position: fixed;
+	top: ${HEADER_HEIGHT};
+	left: 0;
+	right: 0;
+	bottom: 0;
+`
+
+export const HeaderDropdownBackdrop = styled(Flex)`
+	width: 43px;
+	background-color: rgba(0, 0, 0, 0.7);
+`
+
+export const HeaderDropdown = styled(Flex)`
+	flex: 1;
+	flex-direction: column;
+	padding: 12px 16px;
+	background: ${props => props.theme.colors.dark400};
+`
+
+export const HeaderDropdownItem = styled(Flex)`
+	align-items: center;
+	padding: 0 25px;
+	height: 55px;
+	border-radius: 8px;
+
+	background: ${props => props.theme.colors.dark400};
+	&:hover {
+		background: ${props => props.theme.colors.dark200};
+	}
+`
