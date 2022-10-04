@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionsService } from 'services/api'
 import { TradesService } from 'services/api/tradesService'
+import { TRADE_STATE } from 'services/blockchain'
 import { Box, Flex } from 'theme-ui'
 
 const MightLikeText = styled(Flex)`
@@ -51,6 +52,7 @@ function TradeListingsYouMightLike({ search }: TradeListingsYouMightLikeProps) {
 				{
 					myAddress,
 					search,
+					states: [TRADE_STATE.Published, TRADE_STATE.Countered],
 				},
 				{
 					page: 1,

@@ -6,8 +6,8 @@ import {
 	AttributeCard,
 	BlueWarning,
 	Button,
-	Wallet,
-	WalletItem,
+	DescriptionCard,
+	DescriptionCardItem,
 } from 'components/ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
@@ -196,33 +196,37 @@ export default function ListingDetails() {
 									</Row>
 								)}
 								<Row>
-									<Wallet>
-										<WalletItem>
-											{tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}
-										</WalletItem>
-										<WalletItem>
+									<DescriptionCard>
+										<DescriptionCardItem>
+											<Box sx={{ flex: 1 }}>
+												{tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}
+											</Box>
+										</DescriptionCardItem>
+										<DescriptionCardItem>
 											<WalletIcon width='20px' height='20px' color='#fff' />
 											<Box
 												sx={{
 													ml: 9,
+													flex: 1,
 												}}
 											>
 												{tradeInfo?.owner ?? ''}
 											</Box>
-										</WalletItem>
-										<WalletItem>
+										</DescriptionCardItem>
+										<DescriptionCardItem>
 											<CalendarIcon width='20px' height='20px' color='#fff' />
 											<Box
 												sx={{
 													ml: 9,
+													flex: 1,
 												}}
 											>
 												{t(`trade-listings:listed`, {
 													listed: moment(tradeInfo?.additionalInfo?.time ?? '').fromNow(),
 												})}
 											</Box>
-										</WalletItem>
-									</Wallet>
+										</DescriptionCardItem>
+									</DescriptionCard>
 								</Row>
 								{Boolean((additionalInfo?.lookingFor ?? []).length) && (
 									<Row>
