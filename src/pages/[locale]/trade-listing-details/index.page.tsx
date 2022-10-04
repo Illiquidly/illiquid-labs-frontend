@@ -166,7 +166,7 @@ export default function ListingDetails() {
 									</Button>
 								</Row>
 							</Box>
-							<Box>
+							<Box sx={{ flex: 1 }}>
 								<Row>
 									<DescriptionRow
 										name={tradePreview?.cw721Coin?.name}

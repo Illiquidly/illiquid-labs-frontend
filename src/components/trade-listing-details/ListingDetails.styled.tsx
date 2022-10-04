@@ -28,8 +28,8 @@ export const Title = styled(Text)`
 
 Title.defaultProps = {
 	sx: {
-		fontSize: ['50px'],
-		lineHeight: ['66.7px'],
+		fontSize: ['30px', '50px'],
+		lineHeight: ['36px', '66.7px'],
 	},
 }
 
