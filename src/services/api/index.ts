@@ -1,2 +1,5 @@
 export { SupportedCollectionsService } from './supportedCollectionsService'
 export { WalletNFTsService } from './walletNFTsService'
+export { TradesService } from './tradesService'
+export { CounterTradesService } from './counterTradesService'
+export { TradeNotificationsService } from './tradeNotificationsService'
