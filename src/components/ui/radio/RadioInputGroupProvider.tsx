@@ -1,7 +1,7 @@
 import React from 'react'
 import RadioInputGroupContext, {
 	RadioInputGroupContextProps,
-} from 'context/radioInputGroupContext'
+} from 'components/ui/radio/context/radioInputGroupContext'
 
 const RadioInputGroupProvider = ({
 	children,
