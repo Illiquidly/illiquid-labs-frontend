@@ -26,6 +26,7 @@ import {
 } from 'components/trade-listing-details'
 
 import {
+	AvatarIcon,
 	CalendarIcon,
 	CreateListingAddIcon,
 	WalletIcon,
@@ -198,8 +199,9 @@ export default function ListingDetails() {
 								<Row>
 									<DescriptionCard>
 										<DescriptionCardItem>
-											<Box sx={{ flex: 1 }}>
-												{tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}
+											<AvatarIcon />
+											<Box sx={{ ml: 9, flex: 1 }}>
+												{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
 											</Box>
 										</DescriptionCardItem>
 										<DescriptionCardItem>

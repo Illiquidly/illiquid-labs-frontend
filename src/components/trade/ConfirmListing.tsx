@@ -1,5 +1,4 @@
-import { PrivateIcon, PublicIcon } from 'assets/icons/mixed'
-import { TwitterIcon } from 'assets/icons/social'
+import { PrivateIcon, PublicIcon, TwitterIcon } from 'assets/icons/mixed'
 import ConfirmListingSuccessImage from 'assets/images/ConfirmListingSuccessImage'
 import If from 'components/core/if-statement'
 import { theme } from 'components/theme/theme'
