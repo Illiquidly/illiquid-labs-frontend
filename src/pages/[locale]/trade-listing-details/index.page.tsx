@@ -52,6 +52,7 @@ import {
 	ViewNFTsModalResult,
 } from 'components'
 import useAddress from 'hooks/useAddress'
+import NFTPreviewImages from 'components/trade-listing-details/NFTPreviewImages'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -163,11 +164,14 @@ export default function ListingDetails() {
 
 								<Row>
 									<Button fullWidth variant='dark' onClick={handleViewAllNFTs}>
-										{t('trade-listings:view-all-nfts')} (
-										{t('common:nft', {
-											count: (tradeInfo?.associatedAssets || []).length,
-										})}
-										)
+										<Flex sx={{ alignItems: 'center' }}>
+											<NFTPreviewImages
+												nfts={(tradeInfo?.associatedAssets ?? [])
+													.filter(asset => asset.cw721Coin)
+													.map(({ cw721Coin }) => cw721Coin as NFT)}
+											/>
+											<div>{t('trade-listings:view-all-nfts')}</div>
+										</Flex>
 									</Button>
 								</Row>
 							</Box>
@@ -200,7 +204,7 @@ export default function ListingDetails() {
 									<DescriptionCard>
 										<DescriptionCardItem>
 											<AvatarIcon />
-											<Box sx={{ ml: 9, flex: 1 }}>
+											<Box sx={{ ml: '3px', flex: 1 }}>
 												{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
 											</Box>
 										</DescriptionCardItem>
@@ -208,7 +212,7 @@ export default function ListingDetails() {
 											<WalletIcon width='20px' height='20px' color='#fff' />
 											<Box
 												sx={{
-													ml: 9,
+													ml: '9px',
 													flex: 1,
 												}}
 											>
@@ -219,7 +223,7 @@ export default function ListingDetails() {
 											<CalendarIcon width='20px' height='20px' color='#fff' />
 											<Box
 												sx={{
-													ml: 9,
+													ml: '9px',
 													flex: 1,
 												}}
 											>
