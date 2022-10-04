@@ -15,7 +15,6 @@ import { WalletOutlineIcon } from 'assets/icons/24ptOutline'
 import { BurgerMenuIcon, CloseIcon } from 'assets/icons/mixed'
 import useIsTablet from 'hooks/react/useIsTablet'
 import React from 'react'
-import { useRouter } from 'next/router'
 import { LayoutContainer } from '../layout'
 import {
 	HeaderDropdown,
@@ -32,7 +31,6 @@ function Header() {
 	const headerActions = useHeaderActions()
 	const { t } = useTranslation(['common'])
 	const isTablet = useIsTablet()
-	const router = useRouter()
 	const [isMenuOpen, setMenuOpen] = React.useState<boolean>(false)
 
 	React.useEffect(() => {
@@ -41,14 +39,6 @@ function Header() {
 			setMenuOpen(false)
 		}
 	}, [isTablet])
-
-	React.useEffect(() => {
-		router.events.on('routeChangeStart', () => setMenuOpen(false))
-
-		return () => {
-			router.events.off('routeChangeStart', () => setMenuOpen(false))
-		}
-	})
 
 	return (
 		<HeaderWrapper as='header'>
@@ -117,46 +107,48 @@ function Header() {
 				<HeaderDropdownContainer>
 					<HeaderDropdownBackdrop onClick={() => setMenuOpen(false)} />
 					<HeaderDropdown>
-						<HeaderDropdownItem onClick={() => setMenuOpen(false)}>
-							<Link href={ROUTES.DASHBOARD}>
-								<LinkContent>
-									<LogoVkMusicOutlineIcon />
-									<LinkText>{t('links.dashboard')}</LinkText>
-								</LinkContent>
-							</Link>
-						</HeaderDropdownItem>
-						<HeaderDropdownItem>
-							<Link href={ROUTES.TRADE_LISTINGS}>
-								<LinkContent>
-									<TradeIcon />
-									<LinkText>{t('links.trade')}</LinkText>
-								</LinkContent>
-							</Link>
-						</HeaderDropdownItem>
-						<HeaderDropdownItem>
-							<Link href={ROUTES.SEND}>
-								<LinkContent>
-									<ArrowShapeRightOutlineIcon />
-									<LinkText>{t('links.send')}</LinkText>
-								</LinkContent>
-							</Link>
-						</HeaderDropdownItem>
-						<HeaderDropdownItem>
-							<Link href={ROUTES.LOANS}>
-								<LinkContent>
-									<WalletOutlineIcon />
-									<LinkText>{t('links.loans')}</LinkText>
-								</LinkContent>
-							</Link>
-						</HeaderDropdownItem>
-						<HeaderDropdownItem>
-							<Link href={ROUTES.RAFFLES}>
-								<LinkContent>
-									<TicketOutlineIcon />
-									<LinkText>{t('links.raffles')}</LinkText>
-								</LinkContent>
-							</Link>
-						</HeaderDropdownItem>
+						<Flex onClick={() => setMenuOpen(false)} sx={{ flexDirection: 'column' }}>
+							<HeaderDropdownItem>
+								<Link href={ROUTES.DASHBOARD}>
+									<LinkContent>
+										<LogoVkMusicOutlineIcon />
+										<LinkText>{t('links.dashboard')}</LinkText>
+									</LinkContent>
+								</Link>
+							</HeaderDropdownItem>
+							<HeaderDropdownItem>
+								<Link href={ROUTES.TRADE_LISTINGS}>
+									<LinkContent>
+										<TradeIcon />
+										<LinkText>{t('links.trade')}</LinkText>
+									</LinkContent>
+								</Link>
+							</HeaderDropdownItem>
+							<HeaderDropdownItem>
+								<Link href={ROUTES.SEND}>
+									<LinkContent>
+										<ArrowShapeRightOutlineIcon />
+										<LinkText>{t('links.send')}</LinkText>
+									</LinkContent>
+								</Link>
+							</HeaderDropdownItem>
+							<HeaderDropdownItem>
+								<Link href={ROUTES.LOANS}>
+									<LinkContent>
+										<WalletOutlineIcon />
+										<LinkText>{t('links.loans')}</LinkText>
+									</LinkContent>
+								</Link>
+							</HeaderDropdownItem>
+							<HeaderDropdownItem>
+								<Link href={ROUTES.RAFFLES}>
+									<LinkContent>
+										<TicketOutlineIcon />
+										<LinkText>{t('links.raffles')}</LinkText>
+									</LinkContent>
+								</Link>
+							</HeaderDropdownItem>
+						</Flex>
 					</HeaderDropdown>
 				</HeaderDropdownContainer>
 			)}
