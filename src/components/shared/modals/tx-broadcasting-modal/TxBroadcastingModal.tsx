@@ -81,7 +81,7 @@ const TxBroadcastingModal = NiceModal.create(
 			<Modal
 				isOverHeader
 				isOpen={modal.visible}
-				onCloseModal={error || !loading.broadcasting ? closeModal : noop}
+				onCloseModal={error || !loading.broadcasting ? () => closeModal() : noop}
 			>
 				<ModalContainer>
 					<LayoutContainer>
@@ -94,7 +94,7 @@ const TxBroadcastingModal = NiceModal.create(
 										backgroundColor: theme.colors.dark500,
 									}}
 									disabled={loading.broadcasting || loading.send}
-									onClick={closeModal}
+									onClick={() => closeModal()}
 								>
 									<ModalCloseIcon />
 								</IconButton>

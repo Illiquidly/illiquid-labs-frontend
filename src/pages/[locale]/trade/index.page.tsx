@@ -47,13 +47,18 @@ import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
+import { TradesService } from 'services/api/tradesService'
+import { useWallet } from '@terra-money/use-wallet'
+import { useQueryClient } from '@tanstack/react-query'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Trade() {
+	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'trade'])
+	const queryClient = useQueryClient()
 	useHeaderActions(
 		<Button variant='secondary' size='medium' href={ROUTES.TRADE_LISTINGS}>
 			{t('common:exit-create-listing')}
@@ -108,10 +113,12 @@ export default function Trade() {
 			trader: string
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: listTradeOffers(fromCreateTradeFormToBlockchain(values)),
+			closeOnFinish: true,
 		})
 
 		if (data) {
 			const { tradeId, txTerraFinderUrl } = data
+
 			const origin =
 				typeof window !== 'undefined' && window.location.origin
 					? window.location.origin
@@ -122,6 +129,11 @@ export default function Trade() {
 			)
 			formMethods.setValue('terraFinderUrl', txTerraFinderUrl)
 			formMethods.setValue('isSuccessScreen', true)
+
+			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
+			await TradesService.getTrade(wallet.network.name, tradeId)
+
+			queryClient.invalidateQueries(['trade', 'trades', 'counterTrades'])
 		}
 	}
 
