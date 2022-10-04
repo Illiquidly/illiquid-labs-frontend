@@ -8,6 +8,7 @@ import {
 	Button,
 	DescriptionCard,
 	DescriptionCardItem,
+	Loader,
 } from 'components/ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
@@ -21,7 +22,6 @@ import {
 	DescriptionRow,
 	LookingForRow,
 	CounterOffersTable,
-	NoLongerExist,
 	TradeListingsYouMightLike,
 } from 'components/trade-listing-details'
 
@@ -65,7 +65,6 @@ export default function ListingDetails() {
 	const route = useRouter()
 
 	const wallet = useWallet()
-	const [noLongerExist] = React.useState(false)
 
 	const { tradeId } = route.query ?? {}
 
@@ -79,7 +78,7 @@ export default function ListingDetails() {
 		}
 	)
 
-	const { data: trade } = useQuery(
+	const { data: trade, isLoading } = useQuery(
 		['trade', tradeId, wallet.network],
 		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
 		{
@@ -138,7 +137,7 @@ export default function ListingDetails() {
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
-				{!noLongerExist ? (
+				{!isLoading ? (
 					<>
 						<TradeHeaderActionsRow trade={trade} />
 						<Row>
@@ -262,17 +261,21 @@ export default function ListingDetails() {
 						<Row>
 							<CounterOffersTable trade={trade} />
 						</Row>
+						<TradeListingsYouMightLike
+							search={
+								tradePreview?.cw721Coin?.collectionName ??
+								sample(verifiedCollections ?? [])?.collectionName ??
+								''
+							}
+						/>
 					</>
 				) : (
-					<NoLongerExist />
+					<Flex
+						sx={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}
+					>
+						<Loader />
+					</Flex>
 				)}
-				<TradeListingsYouMightLike
-					search={
-						tradePreview?.cw721Coin?.collectionName ??
-						sample(verifiedCollections ?? [])?.collectionName ??
-						''
-					}
-				/>
 			</LayoutContainer>
 		</Page>
 	)
