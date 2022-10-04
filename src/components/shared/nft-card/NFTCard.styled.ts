@@ -190,4 +190,10 @@ export const Image = styled(Img)`
 	max-height: 100%;
 	overflow: hidden;
 	position: absolute;
+
+	transition: transform 0.2s;
+
+	&:hover {
+		transform: scale(1.02);
+	}
 `
