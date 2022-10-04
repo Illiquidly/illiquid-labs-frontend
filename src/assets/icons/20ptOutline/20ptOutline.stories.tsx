@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Box, Flex } from 'theme-ui'
 
-import { BackTrackIcon, ArrowshapeRightOutlineIcon } from './index'
+import { BackTrackIcon, ArrowShapeRightOutlineIcon } from './index'
 
 export default {
 	/* 👇 The title prop is optional.
@@ -19,7 +19,7 @@ export const Icons = () => (
 		<Flex my={2} sx={{ flexWrap: 'wrap' }}>
 			<Box mr={28}>
 				<BackTrackIcon />
-				<ArrowshapeRightOutlineIcon />
+				<ArrowShapeRightOutlineIcon />
 			</Box>
 		</Flex>
 	</Box>

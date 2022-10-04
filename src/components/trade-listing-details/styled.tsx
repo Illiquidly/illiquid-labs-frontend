@@ -196,6 +196,7 @@ export const StatusIconContainer = styled(Flex)`
 	justify-content: center;
 	width: 29px;
 	height: 32px;
+	color: ${props => props.theme.colors.gray1000};
 
 	background: ${props => props.theme.colors.dark400};
 	border-radius: 8px;
