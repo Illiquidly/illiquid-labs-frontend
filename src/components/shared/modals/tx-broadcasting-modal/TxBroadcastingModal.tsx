@@ -57,7 +57,7 @@ const TxBroadcastingError = ({
 				</HeaderErrorIconContainer>
 				<IconButton
 					sx={{
-						borderRadius: '100px',
+						borderRadius: '100%',
 						background: 'dark500',
 					}}
 					onClick={onClose}
@@ -133,7 +133,7 @@ const TxBroadcastingComplete = ({
 				</HeaderSuccessIconContainer>
 				<IconButton
 					sx={{
-						borderRadius: '100px',
+						borderRadius: '100%',
 						background: 'dark500',
 					}}
 					onClick={onDone}

@@ -34,8 +34,8 @@ export const HeaderErrorIconContainer = styled(Flex)`
 	justify-content: center;
 	width: 44px;
 	height: 44px;
-	border-radius: 100px;
-	background: 'rgba(255, 255, 255, 0.1);';
+	border-radius: 100%;
+	background: rgba(255, 255, 255, 0.1);
 `
 
 export const HeaderSuccessIconContainer = styled(HeaderErrorIconContainer)`
