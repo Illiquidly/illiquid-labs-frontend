@@ -12,7 +12,7 @@ export const StyledDescriptionCard = styled(Flex)`
 export const StyledDescriptionCardItem = styled(Flex)`
 	overflow: hidden;
 	gap: 4px;
-	background-color: ${props => props.theme.colors.dark300};
+	background: ${props => props.theme.colors.dark300};
 	width: 100%;
 	min-height: 40px;
 	align-items: center;
@@ -20,6 +20,14 @@ export const StyledDescriptionCardItem = styled(Flex)`
 	font-size: 14px;
 	line-height: 16px;
 	color: ${props => props.theme.colors.gray600};
+
+	&:first-of-type {
+		border-radius: 4px 4px 0 0;
+	}
+
+	&:last-of-type {
+		border-radius: 0 0 4px 4px;
+	}
 `
 
 export function DescriptionCard({ children, ...props }) {

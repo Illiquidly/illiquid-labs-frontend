@@ -56,9 +56,9 @@ export const ImageSection = styled(Flex)`
 	border-radius: 8px;
 	overflow: hidden;
 
-	aspect-ratio: 1 / 1;
+	border-radius: 12px;
 
-	background: ${props => props.theme.colors.neutral900};
+	aspect-ratio: 1 / 1;
 `
 
 export const DescriptionSection = styled(Flex)`

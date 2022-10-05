@@ -4,8 +4,8 @@ import NiceModal from '@ebay/nice-modal-react'
 
 import {
 	AttributeCard,
-	BlueWarning,
 	Button,
+	Card,
 	DescriptionCard,
 	DescriptionCardItem,
 	Loader,
@@ -38,7 +38,6 @@ import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
-import { TRADE_STATE } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -46,6 +45,7 @@ import {
 	LayoutContainer,
 	ModalTitle,
 	Page,
+	theme,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
@@ -132,136 +132,135 @@ export default function TradeCounter() {
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
-				{!isLoading ? (
-					<>
-						<Flex
-							sx={{
-								justifyContent: 'flex-start',
-								padding: '22px 0',
-							}}
-						>
-							<Button
-								href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
-								sx={{ height: '40px', padding: '13px' }}
-								variant='secondary'
-								startIcon={<ArrowLeftIcon />}
+				<Flex sx={{ flexDirection: 'column', mb: '48px' }}>
+					{!isLoading ? (
+						<>
+							<Flex
+								sx={{
+									justifyContent: 'flex-start',
+									padding: '22px 0',
+								}}
 							>
-								{t('trade-listings:back-to-listings')}
-							</Button>
-						</Flex>
-						<Row>
-							<ModalTitle>
-								{t('trade-listings:trade-counter.submit-counter-offer')}
-							</ModalTitle>
-						</Row>
-						<Row>
-							{[TRADE_STATE.Cancelled, TRADE_STATE.Accepted].includes(
-								tradeInfo?.state as TRADE_STATE
-							) && (
-								<BlueWarning sx={{ width: '100%', height: '49px' }}>
-									{t('trade-listings:item-not-available')}
-								</BlueWarning>
-							)}
-						</Row>
+								<Button
+									href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
+									sx={{ height: '40px', padding: '13px' }}
+									variant='secondary'
+									startIcon={<ArrowLeftIcon />}
+								>
+									{t('trade-listings:back-to-listings')}
+								</Button>
+							</Flex>
+							<Row>
+								<ModalTitle>
+									{t('trade-listings:trade-counter.submit-counter-offer')}
+								</ModalTitle>
+							</Row>
 
-						<Flex
-							sx={{ flexDirection: ['column', 'column', 'row'], gap: [0, 0, '32px'] }}
-						>
-							<Box sx={{ flex: [1, 1, 'unset'], width: ['unset', 'unset', '491px'] }}>
-								<ImageRow
-									nft={tradePreview?.cw721Coin}
-									imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
-									onLike={noop}
-									liked={false}
-								/>
-
-								<Row>
-									<Button fullWidth variant='dark' onClick={handleViewAllNFTs}>
-										<Flex sx={{ alignItems: 'center' }}>
-											<NFTPreviewImages
-												nfts={(tradeInfo?.associatedAssets ?? [])
-													.filter(asset => asset.cw721Coin)
-													.map(({ cw721Coin }) => cw721Coin as NFT)}
-											/>
-											<div>{t('trade-listings:view-all-nfts')}</div>
-										</Flex>
-									</Button>
-								</Row>
-							</Box>
-							<Box sx={{ flex: 1 }}>
-								<Row>
-									<DescriptionRow
-										name={tradePreview?.cw721Coin?.name}
-										isPrivate={(whitelistedUsers ?? []).length > 0}
-										collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
-										verified={(verifiedCollections ?? []).some(
-											({ collectionAddress }) =>
-												tradePreview?.cw721Coin?.collectionAddress === collectionAddress
-										)}
+							<Card sx={{ flexDirection: 'column', p: '12px' }}>
+								<Box sx={{ flex: 1 }}>
+									<ImageRow
+										nft={tradePreview?.cw721Coin}
+										imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
+										onLike={noop}
+										liked={false}
 									/>
-								</Row>
-								{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
+
 									<Row>
-										<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-											{(tradePreview?.cw721Coin?.attributes ?? []).map(attribute => (
-												<AttributeCard
-													key={JSON.stringify(attribute)}
-													name={attribute.traitType}
-													value={attribute.value}
+										<Button fullWidth variant='dark' onClick={handleViewAllNFTs}>
+											<Flex sx={{ alignItems: 'center' }}>
+												<NFTPreviewImages
+													nfts={(tradeInfo?.associatedAssets ?? [])
+														.filter(asset => asset.cw721Coin)
+														.map(({ cw721Coin }) => cw721Coin as NFT)}
 												/>
-											))}
-										</Flex>
+												<div>{t('trade-listings:view-all-nfts')}</div>
+											</Flex>
+										</Button>
 									</Row>
-								)}
-								<Row>
-									<DescriptionCard>
-										<DescriptionCardItem>
-											<AvatarIcon />
-											<Box sx={{ ml: '3px', flex: 1 }}>
-												{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
-											</Box>
-										</DescriptionCardItem>
-										<DescriptionCardItem>
-											<WalletIcon width='20px' height='20px' color='#fff' />
-											<Box
-												sx={{
-													ml: '9px',
-													flex: 1,
-												}}
-											>
-												{tradeInfo?.owner ?? ''}
-											</Box>
-										</DescriptionCardItem>
-										<DescriptionCardItem>
-											<CalendarIcon width='20px' height='20px' color='#fff' />
-											<Box
-												sx={{
-													ml: '9px',
-													flex: 1,
-												}}
-											>
-												{t(`trade-listings:listed`, {
-													listed: moment(tradeInfo?.additionalInfo?.time ?? '').fromNow(),
-												})}
-											</Box>
-										</DescriptionCardItem>
-									</DescriptionCard>
-								</Row>
-								{Boolean((additionalInfo?.lookingFor ?? []).length) && (
+								</Box>
+								<Box sx={{ flex: 1 }}>
 									<Row>
-										<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
+										<DescriptionRow
+											name={tradePreview?.cw721Coin?.name}
+											isPrivate={(whitelistedUsers ?? []).length > 0}
+											collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
+											verified={(verifiedCollections ?? []).some(
+												({ collectionAddress }) =>
+													tradePreview?.cw721Coin?.collectionAddress === collectionAddress
+											)}
+										/>
 									</Row>
-								)}
-							</Box>
+									{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
+										<Row>
+											<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+												{(tradePreview?.cw721Coin?.attributes ?? []).map(attribute => (
+													<AttributeCard
+														key={JSON.stringify(attribute)}
+														name={attribute.traitType}
+														value={attribute.value}
+													/>
+												))}
+											</Flex>
+										</Row>
+									)}
+									<Row>
+										<DescriptionCard>
+											<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+												<AvatarIcon />
+												<Box sx={{ ml: '3px', flex: 1 }}>
+													{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
+												</Box>
+											</DescriptionCardItem>
+											<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+												<WalletIcon
+													width='20px'
+													height='20px'
+													color={theme.colors.gray1000}
+												/>
+												<Box
+													sx={{
+														ml: '9px',
+														flex: 1,
+													}}
+												>
+													{tradeInfo?.owner ?? ''}
+												</Box>
+											</DescriptionCardItem>
+											<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+												<CalendarIcon
+													width='20px'
+													height='20px'
+													color={theme.colors.gray1000}
+												/>
+												<Box
+													sx={{
+														ml: '9px',
+														flex: 1,
+													}}
+												>
+													{t(`trade-listings:listed`, {
+														listed: moment(tradeInfo?.additionalInfo?.time ?? '').fromNow(),
+													})}
+												</Box>
+											</DescriptionCardItem>
+										</DescriptionCard>
+									</Row>
+									{Boolean((additionalInfo?.lookingFor ?? []).length) && (
+										<Row>
+											<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
+										</Row>
+									)}
+								</Box>
+							</Card>
+						</>
+					) : (
+						<Flex
+							sx={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}
+						>
+							<Loader />
 						</Flex>
-					</>
-				) : (
-					<Flex
-						sx={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}
-					>
-						<Loader />
-					</Flex>
-				)}
+					)}
+				</Flex>
 			</LayoutContainer>
 		</Page>
 	)
