@@ -27,9 +27,13 @@ MightLikeText.defaultProps = {
 
 export interface TradeListingsYouMightLikeProps {
 	search: string
+	tradeId?: string | number
 }
 
-function TradeListingsYouMightLike({ search }: TradeListingsYouMightLikeProps) {
+function TradeListingsYouMightLike({
+	search,
+	tradeId,
+}: TradeListingsYouMightLikeProps) {
 	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const myAddress = useAddress()
@@ -53,6 +57,8 @@ function TradeListingsYouMightLike({ search }: TradeListingsYouMightLikeProps) {
 					myAddress,
 					search,
 					states: [TRADE_STATE.Published, TRADE_STATE.Countered],
+					excludeMyTrades: true,
+					...(tradeId ? { excludeTrades: [tradeId] } : {}),
 				},
 				{
 					page: 1,

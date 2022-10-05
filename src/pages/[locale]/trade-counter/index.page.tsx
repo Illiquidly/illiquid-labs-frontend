@@ -287,6 +287,7 @@ export default function TradeCounter() {
 								sample(verifiedCollections ?? [])?.collectionName ??
 								''
 							}
+							tradeId={trade?.tradeId}
 						/>
 					</>
 				) : (

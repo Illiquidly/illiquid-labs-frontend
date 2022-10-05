@@ -86,6 +86,8 @@ type TradeFilters = {
 	owners?: string[]
 	hasLiquidAsset?: boolean
 	search?: string
+	excludeMyTrades?: boolean
+	excludeTrades?: (string | number)[]
 	myAddress: string
 }
 
@@ -223,6 +225,26 @@ export class TradesService {
 							{
 								'tradeInfo_cw721Assets_join.allNftInfo': {
 									$cont: filters?.search,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.excludeMyTrades
+					? [
+							{
+								'tradeInfo.owner': {
+									$notin: [filters.myAddress],
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.excludeTrades
+					? [
+							{
+								tradeId: {
+									$notin: filters?.excludeTrades,
 								},
 							},
 					  ]

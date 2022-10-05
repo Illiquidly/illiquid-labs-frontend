@@ -267,6 +267,7 @@ export default function ListingDetails() {
 								sample(verifiedCollections ?? [])?.collectionName ??
 								''
 							}
+							tradeId={trade?.tradeId}
 						/>
 					</>
 				) : (
