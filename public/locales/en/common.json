@@ -47,5 +47,12 @@
 		"trade-form-steps-min-one-collections-selected": "Token or one collection is required"
 	},
 	"show-more": "Show more",
-	"checkout-my-trade": "Checkout my trade on Illiquid Labs"
+	"checkout-my-trade": "Checkout my trade on Illiquid Labs",
+	"failed": "Failed",
+	"try-again": "Try again",
+	"processing": "Processing...",
+	"fee": "Fee",
+	"tx-hash": "Tx Hash",
+	"complete": "Complete",
+	"done": "Done"
 }

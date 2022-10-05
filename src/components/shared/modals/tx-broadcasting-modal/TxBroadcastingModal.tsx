@@ -1,27 +1,35 @@
 import React from 'react'
-import { Box, Flex, IconButton } from 'theme-ui'
+import { Flex, IconButton } from 'theme-ui'
 import { useTranslation } from 'next-i18next'
 
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
-import { useTheme } from '@emotion/react'
 
-import { ModalCloseIcon } from 'assets/icons/modal'
+import {
+	ModalCloseIcon,
+	ModalErrorCircleIcon,
+	ModalSuccessCircleIcon,
+} from 'assets/icons/modal'
 
-import { Modal } from 'components/ui'
+import { Button, Loader, Modal } from 'components/ui'
 
 import parseTxError from 'utils/blockchain/parseTxError'
 import { useBroadcastingTx } from 'hooks'
-import { noop } from 'lodash'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { asyncAction } from 'utils/js/asyncAction'
-import { LayoutContainer } from 'components/layout'
+import getShortText from 'utils/js/getShortText'
 import {
-	ModalBody,
 	ModalContainer,
-	ModalHeader,
 	ModalContent,
 	Title,
 	Subtitle,
+	TxHashText,
+	TxHashContainer,
+	HeaderErrorIconContainer,
+	HeaderSuccessIconContainer,
+	DividerLine,
+	CompleteSectionTitle,
+	CompleteSectionTxHash,
+	CompleteSectionSubtitle,
 } from './TxBroadcastingModal.styled'
 
 export interface TxBroadcastingModalProps {
@@ -29,20 +37,153 @@ export interface TxBroadcastingModalProps {
 	closeOnFinish?: boolean
 }
 
+interface TxBroadcastingErrorProps {
+	errorMessage: string
+	onTryAgain: () => void
+	onClose: () => void
+}
+
+const TxBroadcastingError = ({
+	errorMessage,
+	onTryAgain,
+	onClose,
+}: TxBroadcastingErrorProps) => {
+	const { t } = useTranslation(['common'])
+	return (
+		<Flex sx={{ flexDirection: 'column' }}>
+			<Flex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+				<HeaderErrorIconContainer>
+					<ModalErrorCircleIcon width='19.2px' height='19.2px' />
+				</HeaderErrorIconContainer>
+				<IconButton
+					sx={{
+						borderRadius: '100px',
+						background: 'dark500',
+					}}
+					onClick={onClose}
+				>
+					<ModalCloseIcon />
+				</IconButton>
+			</Flex>
+			<Flex sx={{ mt: '8px' }}>
+				<Title>{t('common:failed')}</Title>
+			</Flex>
+			<Flex sx={{ mt: '12px' }}>
+				<Subtitle>{errorMessage}</Subtitle>
+			</Flex>
+			<Flex sx={{ mt: '20px' }}>
+				<Button fullWidth onClick={onTryAgain}>
+					{t('common:try-again')}
+				</Button>
+			</Flex>
+		</Flex>
+	)
+}
+
+interface TxBroadcastingProcessingProps {
+	txHash?: string
+	terraFinderUrl?: string
+}
+
+const TxBroadcastingProcessing = ({
+	txHash,
+	terraFinderUrl,
+}: TxBroadcastingProcessingProps) => {
+	const { t } = useTranslation(['common'])
+	return (
+		<Flex sx={{ flexDirection: 'column', marginTop: '48px' }}>
+			<Flex sx={{ justifyContent: 'center' }}>
+				<Loader size={28} loadingText={t('common:processing')} />
+			</Flex>
+			{txHash && (
+				<Flex sx={{ mt: '12px' }}>
+					<TxHashContainer onClick={() => window.open(terraFinderUrl, '_blank')}>
+						<TxHashText>{getShortText(txHash, 6)}</TxHashText>
+					</TxHashContainer>
+				</Flex>
+			)}
+		</Flex>
+	)
+}
+
+TxBroadcastingProcessing.defaultProps = {
+	txHash: '',
+	terraFinderUrl: '',
+}
+
+interface TxBroadcastingCompleteProps {
+	txHash: string
+	fee: string
+	terraFinderUrl: string
+	onDone: () => void
+}
+
+const TxBroadcastingComplete = ({
+	onDone,
+	txHash,
+	terraFinderUrl,
+	fee,
+}: TxBroadcastingCompleteProps) => {
+	const { t } = useTranslation(['common'])
+	return (
+		<Flex sx={{ flexDirection: 'column' }}>
+			<Flex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+				<HeaderSuccessIconContainer>
+					<ModalSuccessCircleIcon width='20px' height='20px' />
+				</HeaderSuccessIconContainer>
+				<IconButton
+					sx={{
+						borderRadius: '100px',
+						background: 'dark500',
+					}}
+					onClick={onDone}
+				>
+					<ModalCloseIcon />
+				</IconButton>
+			</Flex>
+			<Flex sx={{ mt: '8px' }}>
+				<Title>{t('common:complete')}</Title>
+			</Flex>
+
+			<Flex sx={{ mt: '28px' }}>
+				<DividerLine />
+			</Flex>
+
+			<Flex sx={{ mt: '8px', justifyContent: 'space-between' }}>
+				<CompleteSectionTitle>{t('common:tx-hash')}</CompleteSectionTitle>
+				<CompleteSectionTxHash
+					onClick={() => window.open(terraFinderUrl, '_blank')}
+				>
+					{getShortText(txHash, 6)}
+				</CompleteSectionTxHash>
+			</Flex>
+
+			<Flex sx={{ mt: '8px', justifyContent: 'space-between' }}>
+				<CompleteSectionSubtitle>{t('common:fee')}</CompleteSectionSubtitle>
+				<CompleteSectionSubtitle>{fee}</CompleteSectionSubtitle>
+			</Flex>
+
+			<Flex sx={{ mt: '20px' }}>
+				<Button fullWidth onClick={onDone}>
+					{t('common:done')}
+				</Button>
+			</Flex>
+		</Flex>
+	)
+}
+
 const TxBroadcastingModal = NiceModal.create(
 	({ transactionAction, closeOnFinish = false }: TxBroadcastingModalProps) => {
 		const modal = useModal()
 
-		const { t } = useTranslation(['common'])
 		const [txReceipt, setTxReceipt] = React.useState<TxReceipt | null>(null)
 		const [error, setError] = React.useState('')
 
 		const [data, setData] = React.useState<unknown>(null)
 
-		const theme = useTheme()
 		const parsedError = error ? parseTxError(error) : ''
 
-		const closeModal = (resolveData?: any) => {
+		const closeResolveModal = (resolveData?: any) => {
 			modal.resolve(resolveData || data)
 			modal.remove()
 		}
@@ -51,7 +192,7 @@ const TxBroadcastingModal = NiceModal.create(
 			setData({ ...responseData, ...txReceipt })
 
 			if (closeOnFinish) {
-				closeModal({ ...responseData, ...txReceipt })
+				closeResolveModal({ ...responseData, ...txReceipt })
 			}
 		}
 
@@ -78,42 +219,31 @@ const TxBroadcastingModal = NiceModal.create(
 		}, [])
 
 		return (
-			<Modal
-				isOverHeader
-				isOpen={modal.visible}
-				onCloseModal={error || !loading.broadcasting ? () => closeModal() : noop}
-			>
+			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 				<ModalContainer>
-					<LayoutContainer>
-						<ModalContent>
-							<ModalHeader>
-								{t('common:tx-broadcasting.title')}
-								<IconButton
-									sx={{
-										borderRadius: '32px',
-										backgroundColor: theme.colors.dark500,
-									}}
-									disabled={loading.broadcasting || loading.send}
-									onClick={() => closeModal()}
-								>
-									<ModalCloseIcon />
-								</IconButton>
-							</ModalHeader>
-							<ModalBody>
-								<Flex sx={{ gap: '8px' }}>
-									<Box>
-										{/* TODO: implement */}
-										{loading.broadcasting && <div>Broadcasting</div>}
-										{loading.send && <div>Sending</div>}
-										{error && <div>Errored: {parsedError}</div>}
-
-										<Title>{t('common:tx-broadcasting.success-title')}</Title>
-										<Subtitle>{t('common:tx-broadcasting.success-subtitle')}</Subtitle>
-									</Box>
-								</Flex>
-							</ModalBody>
-						</ModalContent>
-					</LayoutContainer>
+					<ModalContent>
+						{error && !loading.broadcasting && !loading.send && (
+							<TxBroadcastingError
+								onTryAgain={executeBlockchain}
+								errorMessage={parsedError}
+								onClose={modal.remove}
+							/>
+						)}
+						{(loading.send || loading.broadcasting) && (
+							<TxBroadcastingProcessing
+								txHash={txReceipt?.txId}
+								terraFinderUrl={txReceipt?.txTerraFinderUrl}
+							/>
+						)}
+						{!loading.send && !loading.broadcasting && !error && txReceipt?.txId && (
+							<TxBroadcastingComplete
+								txHash={txReceipt?.txId}
+								terraFinderUrl={txReceipt.txTerraFinderUrl}
+								fee={txReceipt.txFee}
+								onDone={closeResolveModal}
+							/>
+						)}
+					</ModalContent>
 				</ModalContainer>
 			</Modal>
 		)

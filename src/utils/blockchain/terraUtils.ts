@@ -325,10 +325,9 @@ async function postManyTransactions(
 
 	const txTerraFinderUrl = await getTerraUrlForTxId(txId)
 
-	// TODO: improve result fee fetching
 	return {
 		txId,
-		txFee: '< 5UST',
+		txFee: `< 1 LUNA`,
 		txTerraFinderUrl,
 	}
 }
