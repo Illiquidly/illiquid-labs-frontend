@@ -17,6 +17,7 @@ import { useBroadcastingTx } from 'hooks'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { asyncAction } from 'utils/js/asyncAction'
 import getShortText from 'utils/js/getShortText'
+import { noop } from 'lodash'
 import {
 	ModalContainer,
 	ModalContent,
@@ -83,16 +84,31 @@ const TxBroadcastingError = ({
 interface TxBroadcastingProcessingProps {
 	txHash?: string
 	terraFinderUrl?: string
+	onClose?: () => void
 }
 
 const TxBroadcastingProcessing = ({
 	txHash,
 	terraFinderUrl,
+	onClose,
 }: TxBroadcastingProcessingProps) => {
 	const { t } = useTranslation(['common'])
 	return (
-		<Flex sx={{ flexDirection: 'column', marginTop: '48px' }}>
-			<Flex sx={{ justifyContent: 'center' }}>
+		<Flex sx={{ flexDirection: 'column' }}>
+			{!txHash && (
+				<Flex sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+					<IconButton
+						sx={{
+							borderRadius: '100%',
+							background: 'dark500',
+						}}
+						onClick={onClose}
+					>
+						<ModalCloseIcon />
+					</IconButton>
+				</Flex>
+			)}
+			<Flex sx={{ justifyContent: 'center', marginTop: '48px' }}>
 				<Loader size={28} loadingText={t('common:processing')} />
 			</Flex>
 			{txHash && (
@@ -109,6 +125,7 @@ const TxBroadcastingProcessing = ({
 TxBroadcastingProcessing.defaultProps = {
 	txHash: '',
 	terraFinderUrl: '',
+	onClose: noop,
 }
 
 interface TxBroadcastingCompleteProps {
@@ -233,6 +250,7 @@ const TxBroadcastingModal = NiceModal.create(
 							<TxBroadcastingProcessing
 								txHash={txReceipt?.txId}
 								terraFinderUrl={txReceipt?.txTerraFinderUrl}
+								onClose={modal.remove}
 							/>
 						)}
 						{!loading.send && !loading.broadcasting && !error && txReceipt?.txId && (
