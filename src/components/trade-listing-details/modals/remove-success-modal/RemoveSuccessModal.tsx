@@ -11,7 +11,7 @@ import { Button, Modal } from 'components/ui'
 
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
-import { LayoutContainer } from 'components/layout'
+import { ModalLayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,
@@ -33,7 +33,7 @@ const RemoveSuccessModal = NiceModal.create(() => {
 	return (
 		<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 			<ModalContainer>
-				<LayoutContainer>
+				<ModalLayoutContainer>
 					<ModalContent>
 						<ModalHeader>
 							{t('trade-listings:remove-modal.title')}
@@ -85,7 +85,7 @@ const RemoveSuccessModal = NiceModal.create(() => {
 							</Flex>
 						</ModalBody>
 					</ModalContent>
-				</LayoutContainer>
+				</ModalLayoutContainer>
 			</ModalContainer>
 		</Modal>
 	)

@@ -13,7 +13,7 @@ import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
 import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
-import { LayoutContainer } from 'components/layout'
+import { ModalLayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,
@@ -39,7 +39,7 @@ const DenySuccessModal = NiceModal.create(
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 				<ModalContainer>
-					<LayoutContainer>
+					<ModalLayoutContainer>
 						<ModalContent>
 							<ModalHeader>
 								{t('trade-listings:deny-success-modal.title')}
@@ -92,7 +92,7 @@ const DenySuccessModal = NiceModal.create(
 								</Flex>
 							</ModalBody>
 						</ModalContent>
-					</LayoutContainer>
+					</ModalLayoutContainer>
 				</ModalContainer>
 			</Modal>
 		)

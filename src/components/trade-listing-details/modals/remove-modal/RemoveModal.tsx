@@ -14,7 +14,7 @@ import {
 	RadioInputGroupProvider,
 } from 'components/ui'
 
-import { LayoutContainer } from 'components/layout'
+import { ModalLayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,
@@ -52,7 +52,7 @@ const RemoveModal = NiceModal.create(({ tradeId }: RemoveModalProps) => {
 	return (
 		<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 			<ModalContainer>
-				<LayoutContainer>
+				<ModalLayoutContainer>
 					<ModalContent>
 						<ModalHeader>
 							{t('trade-listings:remove-modal.title')}
@@ -108,7 +108,7 @@ const RemoveModal = NiceModal.create(({ tradeId }: RemoveModalProps) => {
 							</ModalBody>
 						</ModalBody>
 					</ModalContent>
-				</LayoutContainer>
+				</ModalLayoutContainer>
 			</ModalContainer>
 		</Modal>
 	)

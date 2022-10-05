@@ -32,7 +32,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { TextInputField } from 'components/form'
 import { LOOKING_FOR_TYPE, TradeDetailsStepSchema } from 'components/trade'
-import { LayoutContainer } from 'components/layout'
+import { ModalLayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,
@@ -146,7 +146,7 @@ const EditModal = NiceModal.create(
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 				<ModalContainer>
-					<LayoutContainer>
+					<ModalLayoutContainer>
 						<ModalContent>
 							<ModalHeader>
 								{t('trade-listings:edit-modal.title')}
@@ -270,7 +270,7 @@ const EditModal = NiceModal.create(
 								</form>
 							</FormProvider>
 						</ModalContent>
-					</LayoutContainer>
+					</ModalLayoutContainer>
 				</ModalContainer>
 			</Modal>
 		)

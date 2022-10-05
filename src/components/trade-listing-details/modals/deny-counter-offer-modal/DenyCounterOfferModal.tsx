@@ -18,7 +18,7 @@ import {
 import { CounterTrade } from 'services/api/counterTradesService'
 import { FormProvider, useForm } from 'react-hook-form'
 import getShortText from 'utils/js/getShortText'
-import { LayoutContainer } from 'components/layout'
+import { ModalLayoutContainer } from 'components/layout'
 import {
 	ModalBody,
 	ModalContainer,
@@ -75,7 +75,7 @@ const DenyCounterOfferModal = NiceModal.create(
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 				<ModalContainer>
-					<LayoutContainer>
+					<ModalLayoutContainer>
 						<ModalContent>
 							<ModalHeader>
 								{t('trade-listings:deny-counter-offer-modal.title')}
@@ -160,7 +160,7 @@ const DenyCounterOfferModal = NiceModal.create(
 								</FormProvider>
 							</ModalBody>
 						</ModalContent>
-					</LayoutContainer>
+					</ModalLayoutContainer>
 				</ModalContainer>
 			</Modal>
 		)
