@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, Flex } from 'theme-ui'
+import { Flex } from 'theme-ui'
 
 export const ModalContent = styled(Flex)`
 	flex-direction: column;
@@ -43,19 +43,6 @@ ModalBody.defaultProps = {
 		borderRadius: [0, 0, '16px 16px 0px 0px'],
 		overflow: 'hidden',
 		justifyContent: 'center',
-	},
-}
-
-export const ModalTitle = styled(Box)`
-	font-family: 'Inter';
-	font-style: normal;
-	font-weight: 700;
-`
-
-ModalTitle.defaultProps = {
-	sx: {
-		fontSize: ['26px', '26px', '34px'],
-		lineHeight: ['36px', '36px', '48px'],
 	},
 }
 
