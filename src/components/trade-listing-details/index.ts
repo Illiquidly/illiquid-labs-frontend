@@ -1,8 +1,5 @@
 export * from './styled'
 export { default as CounterOffersTable } from './CounterOffersTable'
 export { default as TradeHeaderActionsRow } from './TradeHeaderActionsRow'
-export { default as ImageRow } from './ImageRow'
-export { default as LookingForRow } from './LookingForRow'
-export { default as DescriptionRow } from './DescriptionRow'
 export { default as NoLongerExist } from './NoLongerExist'
 export { default as TradeListingsYouMightLike } from './TradeListingsYouMightLike'

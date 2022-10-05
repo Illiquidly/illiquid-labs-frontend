@@ -15,12 +15,7 @@ import { makeStaticPaths, makeStaticProps } from 'lib'
 import { Box, Flex } from 'theme-ui'
 import moment from 'moment'
 
-import {
-	Row,
-	ImageRow,
-	DescriptionRow,
-	LookingForRow,
-} from 'components/trade-listing-details'
+import { Row } from 'components/trade-listing-details'
 
 import {
 	ArrowLeftIcon,
@@ -42,7 +37,10 @@ import { asyncAction } from 'utils/js/asyncAction'
 
 import {
 	ConnectButton,
+	DescriptionRow,
+	ImageRow,
 	LayoutContainer,
+	LookingForRow,
 	ModalTitle,
 	Page,
 	theme,
@@ -50,7 +48,7 @@ import {
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
 } from 'components'
-import NFTPreviewImages from 'components/trade-listing-details/NFTPreviewImages'
+import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()

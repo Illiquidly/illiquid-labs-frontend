@@ -43,9 +43,7 @@ import {
 	FiltersButtonContainer,
 	FiltersButtonLabel,
 	FiltersSection,
-	GridController,
 	GridSwitchContainer,
-	GRID_TYPE,
 	ListingsNFTsContainer,
 	SearchInputContainer,
 	// SortSelectContainer,
@@ -55,7 +53,13 @@ import {
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
-import { ConnectButton, LayoutContainer, Page } from 'components'
+import {
+	ConnectButton,
+	GridController,
+	GRID_TYPE,
+	LayoutContainer,
+	Page,
+} from 'components'
 import useAddress from 'hooks/useAddress'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])

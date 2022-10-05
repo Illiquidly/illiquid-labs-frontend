@@ -18,9 +18,6 @@ import moment from 'moment'
 import {
 	Row,
 	TradeHeaderActionsRow,
-	ImageRow,
-	DescriptionRow,
-	LookingForRow,
 	CounterOffersTable,
 	TradeListingsYouMightLike,
 } from 'components/trade-listing-details'
@@ -45,14 +42,17 @@ import { asyncAction } from 'utils/js/asyncAction'
 
 import {
 	ConnectButton,
+	DescriptionRow,
+	ImageRow,
 	LayoutContainer,
+	LookingForRow,
 	Page,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
 } from 'components'
 import useAddress from 'hooks/useAddress'
-import NFTPreviewImages from 'components/trade-listing-details/NFTPreviewImages'
+import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])

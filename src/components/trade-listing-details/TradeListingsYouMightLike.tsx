@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
-import { GridController, GRID_TYPE } from 'components/trade-listings'
+import { GridController, GRID_TYPE } from 'components/shared'
 import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
