@@ -92,5 +92,8 @@
 	"not-found-text": "Oops! Looks like this listing",
 	"no-longer-exists": "no longer exists",
 	"you-might-like": "Trade Listings You Might Like",
-	"make-offer": "Make offer"
+	"make-offer": "Make offer",
+	"trade-counter": {
+		"submit-counter-offer": "Submit a counter offer"
+	}
 }

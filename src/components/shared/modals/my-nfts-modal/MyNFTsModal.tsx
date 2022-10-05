@@ -35,12 +35,12 @@ import {
 	ModalContentHeader,
 	ModalHeader,
 	ModalOverlay,
-	ModalTitle,
 	NFTCardsGrid,
 	NFTSelectionOverlay,
 	SearchContainer,
 	SortSelectContainer,
 } from './MyNFTsModal.styled'
+import { ModalTitle } from '../common'
 
 export interface MyNFTsModalProps {
 	title?: string
