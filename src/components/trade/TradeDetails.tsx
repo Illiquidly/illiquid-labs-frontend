@@ -183,6 +183,7 @@ const TradeDetailsForm = () => {
 							fieldError={
 								errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
 							}
+							type='number'
 							error={!!errors.tokenAmount}
 							placeholder={t('trade:trade-details.tokens-placeholder', {
 								token: 'Luna',

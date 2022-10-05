@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { OverflowTip } from 'components/ui'
+import { OverflowTip, Tooltip } from 'components/ui'
 import { Box, Flex } from 'theme-ui'
 
 import {
@@ -12,10 +12,12 @@ import {
 import { VerifiedIcon } from 'assets/icons/16pt'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import styled from '@emotion/styled'
+import { useTranslation } from 'next-i18next'
 
 export const DescriptionSection = styled(Flex)`
 	flex-direction: column;
 	margin-top: 12px;
+	flex: 1;
 `
 
 export const DescriptionRow = ({
@@ -24,19 +26,22 @@ export const DescriptionRow = ({
 	collectionName,
 	verified,
 }) => {
+	const { t } = useTranslation()
 	return (
 		<DescriptionSection>
-			<Flex>
+			<Flex sx={{ flex: 1 }}>
 				<Flex sx={{ flex: 1 }}>
 					<OverflowTip>
 						<Title>{name}</Title>
 					</OverflowTip>
 				</Flex>
-				<Flex sx={{ gap: '4px' }}>
+				<Flex sx={{ gap: '4px', alignItems: 'center' }}>
 					{isPrivate && (
-						<StatusIconContainer>
-							<TradeIcon />
-						</StatusIconContainer>
+						<Tooltip overlay={<div>{t('common:private-trade')}</div>}>
+							<StatusIconContainer>
+								<TradeIcon />
+							</StatusIconContainer>
+						</Tooltip>
 					)}
 				</Flex>
 			</Flex>

@@ -20,8 +20,6 @@ import {
 	ImageRow,
 	DescriptionRow,
 	LookingForRow,
-	CounterOffersTable,
-	TradeListingsYouMightLike,
 } from 'components/trade-listing-details'
 
 import {
@@ -38,7 +36,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Coin, TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { noop, sample } from 'lodash'
+import { noop } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { TRADE_STATE } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
@@ -52,7 +50,6 @@ import {
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
 } from 'components'
-import useAddress from 'hooks/useAddress'
 import NFTPreviewImages from 'components/trade-listing-details/NFTPreviewImages'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
@@ -131,9 +128,6 @@ export default function TradeCounter() {
 			setTradePreview(oldPrev => ({ ...oldPrev, cw721Coin: result.nft }))
 		}
 	}
-
-	const myAddress = useAddress()
-	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
 	return (
 		<Page title={t('title')}>
@@ -258,37 +252,8 @@ export default function TradeCounter() {
 										<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
 									</Row>
 								)}
-								{!isMyTrade && trade && (
-									<Row>
-										<Button
-											disabled={
-												![TRADE_STATE.Published, TRADE_STATE.Countered].includes(
-													tradeInfo?.state as TRADE_STATE
-												)
-											}
-											size='extraLarge'
-											href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
-											fullWidth
-											variant='gradient'
-										>
-											<div>{t('trade-listings:make-offer')}</div>
-										</Button>
-									</Row>
-								)}
 							</Box>
 						</Flex>
-
-						<Row>
-							<CounterOffersTable trade={trade} />
-						</Row>
-						<TradeListingsYouMightLike
-							search={
-								tradePreview?.cw721Coin?.collectionName ??
-								sample(verifiedCollections ?? [])?.collectionName ??
-								''
-							}
-							tradeId={trade?.tradeId}
-						/>
 					</>
 				) : (
 					<Flex

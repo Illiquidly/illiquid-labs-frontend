@@ -38,7 +38,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Coin, TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { noop, sample } from 'lodash'
+import { first, noop, sample } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { TRADE_STATE } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
@@ -53,6 +53,7 @@ import {
 } from 'components'
 import useAddress from 'hooks/useAddress'
 import NFTPreviewImages from 'components/trade-listing-details/NFTPreviewImages'
+import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -231,6 +232,19 @@ export default function ListingDetails() {
 												})}
 											</Box>
 										</DescriptionCardItem>
+										{whitelistedUsers && (whitelistedUsers ?? []).length > 0 && (
+											<DescriptionCardItem>
+												<TradeIcon width='20px' height='20px' color='#fff' />
+												<Box
+													sx={{
+														ml: '9px',
+														flex: 1,
+													}}
+												>
+													{first(whitelistedUsers) ?? ''}
+												</Box>
+											</DescriptionCardItem>
+										)}
 									</DescriptionCard>
 								</Row>
 								{Boolean((additionalInfo?.lookingFor ?? []).length) && (

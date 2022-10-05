@@ -54,5 +54,6 @@
 	"fee": "Fee",
 	"tx-hash": "Tx Hash",
 	"complete": "Complete",
-	"done": "Done"
+	"done": "Done",
+	"private-trade": "Private trade"
 }
