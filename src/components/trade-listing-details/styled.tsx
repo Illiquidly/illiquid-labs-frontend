@@ -49,6 +49,22 @@ Subtitle.defaultProps = {
 	},
 }
 
+export const TokenChip = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 4px 6px 4px 4px;
+	gap: 8px;
+	min-width: 38px;
+
+	height: 32px;
+
+	background: ${props => props.theme.colors.dark500};
+	border-radius: 6px;
+`
+
 export const ImageSection = styled(Flex)`
 	align-items: center;
 	justify-content: center;

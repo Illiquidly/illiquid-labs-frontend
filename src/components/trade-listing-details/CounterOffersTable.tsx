@@ -12,6 +12,7 @@ import {
 	TableBodyRow,
 	TableBodyRowCell,
 	Button,
+	OverflowTip,
 } from 'components/ui'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'
@@ -51,6 +52,7 @@ import {
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
+	TokenChip,
 } from './styled'
 
 const Title = styled.div`
@@ -114,6 +116,22 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 		[counterTrades]
 	)
 
+	const updateCounterTrade = async (counterTrade: CounterTrade) => {
+		refetchTrade()
+
+		const updatedCounter = await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			counterTrade.trade.tradeId,
+			counterTrade.counterId
+		)
+
+		setInfiniteData(
+			infiniteData.map(counter =>
+				counter.id === updatedCounter.id ? updatedCounter : counter
+			)
+		)
+	}
+
 	const handleApprove = async (counterTrade: CounterTrade) => {
 		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
 			NiceModal.show(AcceptCounterOfferModal, {
@@ -132,19 +150,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
-			refetchTrade()
-
-			const updatedCounter = await CounterTradesService.getCounterTrade(
-				wallet.network.name,
-				counterTrade.trade.tradeId,
-				counterTrade.counterId
-			)
-
-			setInfiniteData(
-				infiniteData.map(counter =>
-					counter.id === updatedCounter.id ? updatedCounter : counter
-				)
-			)
+			await updateCounterTrade(counterTrade)
 
 			console.warn(acceptTradeResult)
 
@@ -161,23 +167,10 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		refetchTrade()
-
-		const updatedCounter = await CounterTradesService.getCounterTrade(
-			wallet.network.name,
-			counterTrade.trade.tradeId,
-			counterTrade.counterId
-		)
-
-		setInfiniteData(
-			infiniteData.map(counter =>
-				counter.id === updatedCounter.id ? updatedCounter : counter
-			)
-		)
+		await updateCounterTrade(counterTrade)
 	}
 
 	const cancelCounterTrade = async (counterTrade: CounterTrade) => {
-		console.warn(counterTrade.counterId, counterTrade.trade.tradeId)
 		await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: cancelCounterTradeAndWithdraw(
 				counterTrade.counterId,
@@ -186,19 +179,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		refetchTrade()
-
-		const updatedCounter = await CounterTradesService.getCounterTrade(
-			wallet.network.name,
-			counterTrade.trade.tradeId,
-			counterTrade.counterId
-		)
-
-		setInfiniteData(
-			infiniteData.map(counter =>
-				counter.id === updatedCounter.id ? updatedCounter : counter
-			)
-		)
+		await updateCounterTrade(counterTrade)
 	}
 
 	const handleDeny = async (counterTrade: CounterTrade) => {
@@ -218,17 +199,8 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
-			const updatedCounter = await CounterTradesService.getCounterTrade(
-				wallet.network.name,
-				counterTrade.trade.tradeId,
-				counterTrade.counterId
-			)
+			await updateCounterTrade(counterTrade)
 
-			setInfiniteData(
-				infiniteData.map(counter =>
-					counter.id === updatedCounter.id ? updatedCounter : counter
-				)
-			)
 			await NiceModal.show(DenyCounterOfferSuccessModal, {
 				counterTrade,
 			} as DenySuccessModalProps)
@@ -241,19 +213,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		refetchTrade()
-
-		const updatedCounter = await CounterTradesService.getCounterTrade(
-			wallet.network.name,
-			counterTrade.trade.tradeId,
-			counterTrade.counterId
-		)
-
-		setInfiniteData(
-			infiniteData.map(counter =>
-				counter.id === updatedCounter.id ? updatedCounter : counter
-			)
-		)
+		await updateCounterTrade(counterTrade)
 	}
 
 	const confirmCounter = async (counterTrade: CounterTrade) => {
@@ -265,19 +225,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		refetchTrade()
-
-		const updatedCounter = await CounterTradesService.getCounterTrade(
-			wallet.network.name,
-			counterTrade.trade.tradeId,
-			counterTrade.counterId
-		)
-
-		setInfiniteData(
-			infiniteData.map(counter =>
-				counter.id === updatedCounter.id ? updatedCounter : counter
-			)
-		)
+		await updateCounterTrade(counterTrade)
 	}
 
 	const { t } = useTranslation(['common', 'trade-listings'])
@@ -291,6 +239,10 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 	const myAddress = useAddress()
 	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
+	const viewCounterTrade = async (counterTrade: CounterTrade) => {
+		console.warn(counterTrade)
+	}
+
 	return (
 		<Container>
 			<Box sx={{ padding: '8px 0' }}>
@@ -302,6 +254,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 						{columns.map(col => (
 							<TableHeadRowCell key={col}>{col}</TableHeadRowCell>
 						))}
+						<TableHeadRowCell />
 					</TableHeadRow>
 				</TableHead>
 				<TableBody>
@@ -318,21 +271,32 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 							.map(x => x.coin) as Coin[]
 
 						return (
-							<TableBodyRow key={id}>
-								<TableBodyRowCell>
+							<TableBodyRow key={id} onClick={() => viewCounterTrade(counterTrade)}>
+								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
 									<Flex
 										sx={{
-											minWidth: '314px',
-											justifyContent: 'flex-start',
+											maxWidth: '314px',
+											flex: 1,
+											flexDirection: 'column',
 										}}
 									>
-										<p>{counterTradeInfo?.owner ?? ''}</p>
+										<OverflowTip>
+											<div>{counterTradeInfo?.owner ?? ''}</div>
+										</OverflowTip>
+										<OverflowTip>
+											<div>
+												{`''${
+													counterTradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
+												}''`}
+											</div>
+										</OverflowTip>
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex
 										sx={{
-											width: '100%',
+											flex: 1,
+											maxWidth: '144px',
 											justifyContent: 'flex-start',
 										}}
 									>
@@ -361,13 +325,20 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 											justifyContent: 'flex-start',
 										}}
 									>
-										{!coins.length && '-'}
-										{coins.map(
-											({ amount, denom }) =>
-												`${amountConverter.luna.blockchainValueToUserFacing(
-													amount
-												)}${denom.substring(1)}`
+										{!coins.length && (
+											<TokenChip>
+												<strong>-</strong>
+											</TokenChip>
 										)}
+										{coins.map(({ amount, denom }) => (
+											<TokenChip>
+												<strong>
+													{`${Number(
+														amountConverter.luna.blockchainValueToUserFacing(amount)
+													).toFixed(3)} ${denom.substring(1)}`}
+												</strong>
+											</TokenChip>
+										))}
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
@@ -380,7 +351,12 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 										{moment(counterTradeInfo?.additionalInfo?.time).fromNow()}
 									</Flex>
 								</TableBodyRowCell>
-								<TableBodyRowCell>
+								<TableBodyRowCell
+									onClick={e => {
+										e.stopPropagation()
+										e.preventDefault()
+									}}
+								>
 									<Flex
 										sx={{
 											gap: '12px',
@@ -468,16 +444,18 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 					})}
 				</TableBody>
 			</Table>
-			{counterTrades?.data && !!counterTrades.data?.length && !isLoading && (
-				<Button
-					disabled={counterTrades?.page === counterTrades.pageCount}
-					fullWidth
-					variant='dark'
-					onClick={() => setPage(prev => prev + 1)}
-				>
-					{t('common:show-more')}
-				</Button>
-			)}
+			<Flex sx={{ mt: '12px' }}>
+				{counterTrades?.data && !!counterTrades.data?.length && !isLoading && (
+					<Button
+						disabled={counterTrades?.page === counterTrades.pageCount}
+						fullWidth
+						variant='dark'
+						onClick={() => setPage(prev => prev + 1)}
+					>
+						{t('common:show-more')}
+					</Button>
+				)}
+			</Flex>
 		</Container>
 	)
 }

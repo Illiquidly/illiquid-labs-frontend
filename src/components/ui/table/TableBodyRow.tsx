@@ -5,6 +5,11 @@ const TableBodyRow = styled.tr`
 	height: 80px;
 	width: 100%;
 
+	&:hover {
+		background: ${props => props.theme.colors.dark300};
+		cursor: pointer;
+	}
+
 	&:last-child {
 		border-bottom: none;
 	}
