@@ -34,10 +34,7 @@ export default function SearchInput(props: SearchInputProps) {
 			ref={inputRef}
 			{...props}
 			iconLeft={
-				<IconContainer
-					sx={{ mr: '10px' }}
-					onClick={() => inputRef.current?.focus()}
-				>
+				<IconContainer onClick={() => inputRef.current?.focus()}>
 					<SearchIconContainer>
 						<InputSearchIcon />
 					</SearchIconContainer>
