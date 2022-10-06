@@ -60,7 +60,6 @@ const Button = ({ children, ...props }: ButtonProps) => {
 	const {
 		startIcon,
 		endIcon,
-		disabled,
 		// loading,
 		size = 'medium',
 		href,
@@ -70,7 +69,7 @@ const Button = ({ children, ...props }: ButtonProps) => {
 
 	if (href) {
 		return (
-			<Link disabled={disabled} href={href} passHref>
+			<Link disabled={props.disabled} href={href} passHref>
 				<StyledNavLink
 					href={href}
 					ref={forwardedRef as React.Ref<HTMLAnchorElement>}
