@@ -31,8 +31,8 @@ import { Coin, TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { first, noop, sample } from 'lodash'
-import { SupportedCollectionsService } from 'services/api'
-import { TRADE_STATE } from 'services/blockchain'
+import { CounterTradesService, SupportedCollectionsService } from 'services/api'
+import { TRADE_STATE, withdrawPendingAssets } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -41,6 +41,7 @@ import {
 	LayoutContainer,
 	LookingForRow,
 	Page,
+	TxBroadcastingModal,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
@@ -48,8 +49,13 @@ import {
 import useAddress from 'hooks/useAddress'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
-import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import {
+	ACCEPTED_COUNTER_TRADE,
+	TRADE,
+	VERIFIED_COLLECTIONS,
+} from 'constants/use-query-keys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
+import { CounterTrade } from 'services/api/counterTradesService'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -88,6 +94,31 @@ export default function ListingDetails() {
 		}
 	)
 
+	const myAddress = useAddress()
+
+	const { data: acceptedCounterTrades } = useQuery(
+		[ACCEPTED_COUNTER_TRADE, tradeId, wallet.network],
+		async () =>
+			CounterTradesService.getAllCounterTrades(
+				wallet.network.name,
+				{
+					owners: [myAddress],
+					tradeIds: [`${tradeId}`],
+					states: [TRADE_STATE.Accepted],
+				},
+				{
+					limit: 1,
+					page: 1,
+				}
+			),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
+
+	const [acceptedCounterTrade] = acceptedCounterTrades?.data ?? []
+
 	const { tradeInfo } = trade ?? {}
 	const { additionalInfo, whitelistedUsers } = tradeInfo ?? {}
 
@@ -104,6 +135,21 @@ export default function ListingDetails() {
 	}, [trade])
 
 	useHeaderActions(<CreateTradeListing />)
+
+	const countererWithdrawAccepted = async (counterTrade: CounterTrade) => {
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: withdrawPendingAssets(counterTrade.trade.tradeId),
+			closeOnFinish: true,
+		})
+
+		refetch()
+
+		await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			counterTrade.trade.tradeId,
+			counterTrade.counterId
+		)
+	}
 
 	const handleViewAllNFTs = async () => {
 		if (!trade) {
@@ -122,7 +168,6 @@ export default function ListingDetails() {
 		}
 	}
 
-	const myAddress = useAddress()
 	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
 	return (
@@ -256,6 +301,26 @@ export default function ListingDetails() {
 												variant='gradient'
 											>
 												<div>{t('trade-listings:make-offer')}</div>
+											</Button>
+										</Row>
+									)}
+
+								{/* Case when counterer withdraws my trade, after accepting. */}
+								{tradeInfo &&
+									!isMyTrade &&
+									[TRADE_STATE.Accepted].includes(tradeInfo?.state) &&
+									acceptedCounterTrade &&
+									!tradeInfo?.assetsWithdrawn && (
+										<Row>
+											<Button
+												size='extraLarge'
+												fullWidth
+												variant='gradient'
+												onClick={async () =>
+													countererWithdrawAccepted(acceptedCounterTrade)
+												}
+											>
+												{t('common:withdraw')}
 											</Button>
 										</Row>
 									)}
