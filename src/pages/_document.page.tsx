@@ -20,7 +20,10 @@ export default class extends Document {
 					<link rel='apple-touch-icon' href='/logo.png' />
 					<link rel='shortcut icon' href='/favicon.ico' />
 					<meta name='theme-color' content='#000000' />
-					<meta name='description' content='Illiquid Labs | NFT Infrastructure' />
+					<meta
+						name='description'
+						content='A toolbox for safe exchange, management of Illiquid assets, we deliver solutions to the problems of both builders and users within the Cosmos NFT space.'
+					/>
 					<link rel='preconnect' href='https://fonts.googleapis.com' />
 					<link rel='preconnect' href='https://fonts.gstatic.com' />
 					<link
