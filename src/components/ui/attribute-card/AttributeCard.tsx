@@ -6,7 +6,7 @@ interface Props {
 	value: string
 }
 
-const StyledAttributeCard = styled(Box)`
+export const StyledAttributeCard = styled(Box)`
 	flex-direction: column;
 	padding: 11px;
 	background: ${props => props.theme.colors.dark400};
@@ -17,25 +17,29 @@ const StyledAttributeCard = styled(Box)`
 	gap: 4px;
 `
 
-const AttributeName = styled.p`
+export const StyledAttributeName = styled.p`
 	margin: 0;
-	font-weight: 300;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 600;
 	font-size: 12px;
 	line-height: 16px;
 	letter-spacing: -0.02;
 	margin-bottom: 3px;
-	color: ${props => props.theme.colors.gray600};
+	color: ${props => props.theme.colors.gray700};
 	display: flex;
 	align-items: top;
 	text-transform: uppercase;
 	text-align: left;
 `
 
-const AttributeValue = styled.p`
+export const StyledAttributeValue = styled.p`
 	margin: 0;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 14px;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 12px;
+	line-height: 16px;
 	color: ${props => props.theme.colors.gray1000};
 	display: flex;
 	align-items: top;
@@ -45,8 +49,8 @@ const AttributeValue = styled.p`
 export const AttributeCard = ({ name, value }: Props) => {
 	return (
 		<StyledAttributeCard>
-			<AttributeName>{name}</AttributeName>
-			<AttributeValue>{value}</AttributeValue>
+			<StyledAttributeName>{name}</StyledAttributeName>
+			<StyledAttributeValue>{value}</StyledAttributeValue>
 		</StyledAttributeCard>
 	)
 }

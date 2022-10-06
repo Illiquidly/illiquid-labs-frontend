@@ -96,6 +96,12 @@
 	"make-offer": "Make offer",
 
 	"trade-counter": {
-		"submit-counter-offer": "Submit a counter offer"
+		"add-a-token-on-top": "Add a token on top",
+		"pick-nfts": "Pick NFTs",
+		"submit-counter-offer": "Submit a counter offer",
+		"you-offer-as": "You offer as",
+		"select-offer": "Select offer",
+		"select-at-least-one-item": "Select at least one item",
+		"explain-what-sets-you-and-your-nfts-apart": "Explain what sets you and your NFTs apart"
 	}
 }

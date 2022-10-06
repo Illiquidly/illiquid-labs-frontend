@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 
 import {
-	AttributeCard,
 	Button,
 	Card,
 	DescriptionCard,
@@ -44,12 +43,20 @@ import {
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
+	AttributeCard as PrimaryAttributeCard,
 } from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
+import {
+	TradeCounterValidationSchema,
+	TradeCounterForm,
+} from 'components/trade-counter'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import SelectNFTs from 'components/trade-counter/SelectNFTs'
 
-const getStaticProps = makeStaticProps(['common', 'trade-listings'])
+const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
 
 export { getStaticPaths, getStaticProps }
@@ -99,6 +106,15 @@ export default function TradeCounter() {
 
 	useHeaderActions(<CreateTradeListing />)
 
+	const formMethods = useForm<TradeCounterForm>({
+		mode: 'onChange',
+		resolver: yupResolver(TradeCounterValidationSchema),
+		defaultValues: {
+			selectedNFTs: [],
+			tokenName: 'LUNA',
+		},
+	})
+
 	const handleViewAllNFTs = async () => {
 		if (!trade) {
 			return
@@ -116,133 +132,148 @@ export default function TradeCounter() {
 		}
 	}
 
+	const onSubmit = values => {
+		console.warn(values)
+	}
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
-				<Flex sx={{ flexDirection: 'column', mb: '48px' }}>
-					{!isLoading ? (
-						<>
-							<Flex
-								sx={{
-									justifyContent: 'flex-start',
-									padding: '22px 0',
-								}}
-							>
-								<Button
-									href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
-									sx={{ height: '40px', padding: '13px' }}
-									variant='secondary'
-									startIcon={<ArrowLeftIcon />}
-								>
-									{t('trade-listings:back-to-listing')}
-								</Button>
-							</Flex>
-							<Row>
-								<ModalTitle>
-									{t('trade-listings:trade-counter.submit-counter-offer')}
-								</ModalTitle>
-							</Row>
-
-							<Card sx={{ flexDirection: 'column', p: '12px' }}>
-								<Box sx={{ flex: 1 }}>
-									<ImageRow
-										nft={tradePreview?.cw721Coin}
-										imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
-										onLike={noop}
-										liked={false}
-									/>
-
-									<Row>
-										<Button fullWidth variant='dark' onClick={handleViewAllNFTs}>
-											<Flex sx={{ alignItems: 'center' }}>
-												<NFTPreviewImages
-													nfts={(tradeInfo?.associatedAssets ?? [])
-														.filter(asset => asset.cw721Coin)
-														.map(({ cw721Coin }) => cw721Coin as NFT)}
-												/>
-												<div>{t('trade-listings:view-all-nfts')}</div>
-											</Flex>
+				<FormProvider {...formMethods}>
+					<form onSubmit={formMethods.handleSubmit(onSubmit)}>
+						<Flex sx={{ flexDirection: 'column', mb: '48px', overflow: 'auto' }}>
+							{!isLoading ? (
+								<>
+									<Flex
+										sx={{
+											justifyContent: 'flex-start',
+											padding: '22px 0',
+										}}
+									>
+										<Button
+											href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
+											sx={{ height: '40px', padding: '13px' }}
+											variant='secondary'
+											startIcon={<ArrowLeftIcon />}
+										>
+											{t('trade-listings:back-to-listing')}
 										</Button>
-									</Row>
-								</Box>
-								<Box sx={{ flex: 1 }}>
+									</Flex>
 									<Row>
-										<DescriptionRow
-											name={tradePreview?.cw721Coin?.name}
-											isPrivate={(whitelistedUsers ?? []).length > 0}
-											collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
-											verified={(verifiedCollections ?? []).some(
-												({ collectionAddress }) =>
-													tradePreview?.cw721Coin?.collectionAddress === collectionAddress
+										<ModalTitle>
+											{t('trade-listings:trade-counter.submit-counter-offer')}
+										</ModalTitle>
+									</Row>
+									<Flex>
+										<SelectNFTs />
+									</Flex>
+
+									<Card sx={{ flexDirection: 'column', p: '12px' }}>
+										<Box sx={{ flex: 1 }}>
+											<ImageRow
+												nft={tradePreview?.cw721Coin}
+												imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
+												onLike={noop}
+												liked={false}
+											/>
+
+											<Row>
+												<Button fullWidth variant='dark' onClick={handleViewAllNFTs}>
+													<Flex sx={{ alignItems: 'center' }}>
+														<NFTPreviewImages
+															nfts={(tradeInfo?.associatedAssets ?? [])
+																.filter(asset => asset.cw721Coin)
+																.map(({ cw721Coin }) => cw721Coin as NFT)}
+														/>
+														<div>{t('trade-listings:view-all-nfts')}</div>
+													</Flex>
+												</Button>
+											</Row>
+										</Box>
+										<Box sx={{ flex: 1 }}>
+											<Row>
+												<DescriptionRow
+													name={tradePreview?.cw721Coin?.name}
+													isPrivate={(whitelistedUsers ?? []).length > 0}
+													collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
+													verified={(verifiedCollections ?? []).some(
+														({ collectionAddress }) =>
+															tradePreview?.cw721Coin?.collectionAddress === collectionAddress
+													)}
+												/>
+											</Row>
+											{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
+												<Row>
+													<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+														{(tradePreview?.cw721Coin?.attributes ?? []).map(attribute => (
+															<PrimaryAttributeCard
+																key={JSON.stringify(attribute)}
+																name={attribute.traitType}
+																value={attribute.value}
+															/>
+														))}
+													</Flex>
+												</Row>
 											)}
-										/>
-									</Row>
-									{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
-										<Row>
-											<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-												{(tradePreview?.cw721Coin?.attributes ?? []).map(attribute => (
-													<AttributeCard
-														key={JSON.stringify(attribute)}
-														name={attribute.traitType}
-														value={attribute.value}
-													/>
-												))}
-											</Flex>
-										</Row>
-									)}
-									<Row>
-										<DescriptionCard>
-											<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
-												<AvatarIcon />
-												<Box sx={{ ml: '3px', flex: 1 }}>
-													{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
-												</Box>
-											</DescriptionCardItem>
-											<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
-												<WalletIcon
-													width='20px'
-													height='20px'
-													color={theme.colors.gray1000}
-												/>
-												<Box
-													sx={{
-														ml: '9px',
-														flex: 1,
-													}}
-												>
-													{tradeInfo?.owner ?? ''}
-												</Box>
-											</DescriptionCardItem>
-											<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
-												<CalendarIcon
-													width='20px'
-													height='20px'
-													color={theme.colors.gray1000}
-												/>
-												<Box
-													sx={{
-														ml: '9px',
-														flex: 1,
-													}}
-												>
-													{t(`trade-listings:listed`, {
-														listed: moment(tradeInfo?.additionalInfo?.time ?? '').fromNow(),
-													})}
-												</Box>
-											</DescriptionCardItem>
-										</DescriptionCard>
-									</Row>
-								</Box>
-							</Card>
-						</>
-					) : (
-						<Flex
-							sx={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}
-						>
-							<Loader />
-						</Flex>
-					)}
-				</Flex>
+											<Row>
+												<DescriptionCard>
+													<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+														<AvatarIcon />
+														<Box sx={{ ml: '3px', flex: 1 }}>
+															{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
+														</Box>
+													</DescriptionCardItem>
+													<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+														<WalletIcon
+															width='20px'
+															height='20px'
+															color={theme.colors.gray1000}
+														/>
+														<Box
+															sx={{
+																ml: '9px',
+																flex: 1,
+															}}
+														>
+															{tradeInfo?.owner ?? ''}
+														</Box>
+													</DescriptionCardItem>
+													<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+														<CalendarIcon
+															width='20px'
+															height='20px'
+															color={theme.colors.gray1000}
+														/>
+														<Box
+															sx={{
+																ml: '9px',
+																flex: 1,
+															}}
+														>
+															{t(`trade-listings:listed`, {
+																listed: moment(tradeInfo?.additionalInfo?.time ?? '').fromNow(),
+															})}
+														</Box>
+													</DescriptionCardItem>
+												</DescriptionCard>
+											</Row>
+										</Box>
+									</Card>
+								</>
+							) : (
+								<Flex
+									sx={{
+										height: '100vh',
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}
+								>
+									<Loader />
+								</Flex>
+							)}
+						</Flex>{' '}
+					</form>
+				</FormProvider>
 			</LayoutContainer>
 		</Page>
 	)

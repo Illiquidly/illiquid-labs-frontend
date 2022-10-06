@@ -90,8 +90,7 @@ const Select = (props: SelectInputProps) => {
 		setIsDropDownOpen(prev => !prev)
 	}
 
-	useOnClickOutside(containerRef, e => {
-		e.preventDefault()
+	useOnClickOutside(containerRef, () => {
 		if (dismissOnOutsideClick) {
 			setIsDropDownOpen(false)
 		}

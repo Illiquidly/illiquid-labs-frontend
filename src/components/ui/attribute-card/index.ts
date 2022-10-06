@@ -1,1 +1,6 @@
-export { default as AttributeCard } from './AttributeCard'
+export {
+	default as AttributeCard,
+	StyledAttributeCard,
+	StyledAttributeValue,
+	StyledAttributeName,
+} from './AttributeCard'
