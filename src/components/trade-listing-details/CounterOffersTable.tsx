@@ -88,11 +88,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		setPage(1)
 	}, [wallet.network, tradeId])
 
-	const {
-		data: counterTrades,
-		isLoading,
-		refetch: refetchCounterTrades,
-	} = useQuery(
+	const { data: counterTrades, isLoading } = useQuery(
 		[COUNTER_TRADES, wallet.network, page],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
@@ -138,14 +134,17 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
-			await CounterTradesService.getCounterTrade(
+			const updatedCounter = await CounterTradesService.getCounterTrade(
 				wallet.network.name,
 				tradeId,
 				counterTrade.counterId
 			)
 
-			setInfiniteData([])
-			refetchCounterTrades()
+			setInfiniteData(
+				infiniteData.map(counter =>
+					counter.id === updatedCounter.id ? updatedCounter : counter
+				)
+			)
 
 			console.warn(acceptTradeResult)
 
@@ -163,14 +162,17 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		await CounterTradesService.getCounterTrade(
+		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
 			tradeId,
 			counterTrade.counterId
 		)
 
-		setInfiniteData([])
-		refetchCounterTrades()
+		setInfiniteData(
+			infiniteData.map(counter =>
+				counter.id === updatedCounter.id ? updatedCounter : counter
+			)
+		)
 	}
 
 	const cancelCounterTrade = async (counterTrade: CounterTrade) => {
@@ -186,14 +188,17 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		await CounterTradesService.getCounterTrade(
+		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
 			tradeId,
 			counterTrade.counterId
 		)
 
-		setInfiniteData([])
-		refetchCounterTrades()
+		setInfiniteData(
+			infiniteData.map(counter =>
+				counter.id === updatedCounter.id ? updatedCounter : counter
+			)
+		)
 	}
 
 	const handleDeny = async (counterTrade: CounterTrade) => {
@@ -216,15 +221,17 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
-			await CounterTradesService.getCounterTrade(
+			const updatedCounter = await CounterTradesService.getCounterTrade(
 				wallet.network.name,
 				tradeId,
 				counterTrade.counterId
 			)
 
-			setInfiniteData([])
-			refetchCounterTrades()
-
+			setInfiniteData(
+				infiniteData.map(counter =>
+					counter.id === updatedCounter.id ? updatedCounter : counter
+				)
+			)
 			await NiceModal.show(DenyCounterOfferSuccessModal, {
 				counterTrade,
 			} as DenySuccessModalProps)
@@ -240,14 +247,17 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		await CounterTradesService.getCounterTrade(
+		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
 			tradeId,
 			counterTrade.counterId
 		)
 
-		setInfiniteData([])
-		refetchCounterTrades()
+		setInfiniteData(
+			infiniteData.map(counter =>
+				counter.id === updatedCounter.id ? updatedCounter : counter
+			)
+		)
 	}
 
 	const confirmCounter = async (counterTrade: CounterTrade) => {
@@ -260,14 +270,17 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			closeOnFinish: true,
 		})
 
-		await CounterTradesService.getCounterTrade(
+		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
 			tradeId,
 			counterTrade.counterId
 		)
 
-		setInfiniteData([])
-		refetchCounterTrades()
+		setInfiniteData(
+			infiniteData.map(counter =>
+				counter.id === updatedCounter.id ? updatedCounter : counter
+			)
+		)
 	}
 
 	const { t } = useTranslation(['common', 'trade-listings'])
