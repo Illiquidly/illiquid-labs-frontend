@@ -24,8 +24,6 @@ export function parseTxError(error: AxiosError<{ message?: string }>) {
 		return `Unspecified Error: ${error.message}`
 	}
 
-	console.warn(error?.response?.data?.message)
-
 	if (error?.response?.data?.message) {
 		return String(error?.response?.data?.message)
 	}
