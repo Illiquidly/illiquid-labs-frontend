@@ -33,6 +33,7 @@ import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-acco
 import { TextInputField } from 'components/form'
 import { LOOKING_FOR_TYPE, TradeDetailsStepSchema } from 'components/trade'
 import { ModalLayoutContainer } from 'components/layout'
+import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import {
 	ModalBody,
 	ModalContainer,
@@ -79,7 +80,7 @@ const EditModal = NiceModal.create(
 		const wallet = useWallet()
 
 		const { data: verifiedCollections } = useQuery(
-			['verifiedCollections'],
+			[VERIFIED_COLLECTIONS],
 			async () =>
 				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 			{

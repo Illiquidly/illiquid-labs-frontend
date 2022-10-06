@@ -17,6 +17,7 @@ import { useTranslation } from 'next-i18next'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { SupportedCollectionsService } from 'services/api'
 import { Flex } from 'theme-ui'
+import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import { LOOKING_FOR_TYPE, TradeFormStepsProps } from './types'
 import { NavigationFooter } from './NavigationFooter'
 import {
@@ -95,7 +96,7 @@ const TradeDetailsForm = () => {
 	})
 
 	const { data: verifiedCollections } = useQuery(
-		['verifiedCollections'],
+		[VERIFIED_COLLECTIONS],
 		async () =>
 			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 		{

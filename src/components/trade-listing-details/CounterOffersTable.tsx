@@ -46,6 +46,7 @@ import {
 import { asyncAction } from 'utils/js/asyncAction'
 import { TxBroadcastingModal } from 'components/shared'
 import useAddress from 'hooks/useAddress'
+import { COUNTER_TRADES, TRADE } from 'constants/use-query-keys'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -88,7 +89,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	}, [wallet.network, tradeId])
 
 	const { data: counterTrades, isLoading } = useQuery(
-		['counterTrades', wallet.network, page, tradeId],
+		[COUNTER_TRADES, wallet.network, page, tradeId],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
 				wallet.network.name,
@@ -142,7 +143,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			)
 
 			setInfiniteData([])
-			queryClient.invalidateQueries(['counterTrades'])
+			queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
 
 			console.warn(acceptTradeResult)
 
@@ -167,7 +168,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries(['counterTrades'])
+		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
 	}
 
 	const cancelCounterTrade = async (counterTrade: CounterTrade) => {
@@ -190,7 +191,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries(['counterTrades'])
+		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
 	}
 
 	const handleDeny = async (counterTrade: CounterTrade) => {
@@ -220,7 +221,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			)
 
 			setInfiniteData([])
-			queryClient.invalidateQueries(['counterTrades'])
+			queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
 
 			await NiceModal.show(DenyCounterOfferSuccessModal, {
 				counterTrade,
@@ -244,7 +245,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries(['counterTrades'])
+		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
 	}
 
 	const confirmCounter = async (counterTrade: CounterTrade) => {
@@ -264,7 +265,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries(['counterTrades'])
+		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
 	}
 
 	const { t } = useTranslation(['common', 'trade-listings'])

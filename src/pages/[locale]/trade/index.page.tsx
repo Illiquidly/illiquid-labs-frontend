@@ -50,6 +50,7 @@ import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { useQueryClient } from '@tanstack/react-query'
+import { COUNTER_TRADES, TRADE, TRADES } from 'constants/use-query-keys'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -133,7 +134,7 @@ export default function Trade() {
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
 			await TradesService.getTrade(wallet.network.name, tradeId)
 
-			queryClient.invalidateQueries(['trade', 'trades', 'counterTrades'])
+			queryClient.invalidateQueries([TRADE, TRADES, COUNTER_TRADES])
 		}
 	}
 

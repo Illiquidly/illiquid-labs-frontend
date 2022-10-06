@@ -35,6 +35,7 @@ import { noop } from 'lodash'
 import { TxBroadcastingModal } from 'components/shared'
 import { useQueryClient } from '@tanstack/react-query'
 import useAddress from 'hooks/useAddress'
+import { TRADE } from 'constants/use-query-keys'
 
 interface TradeHeaderActionsRowProps {
 	trade?: Trade
@@ -95,7 +96,7 @@ export const TradeHeaderActionsRow = ({
 
 			if (response) {
 				console.warn('invalidate')
-				queryClient.invalidateQueries(['trade'])
+				queryClient.invalidateQueries([TRADE])
 			}
 		}
 	}
@@ -117,7 +118,7 @@ export const TradeHeaderActionsRow = ({
 			})
 
 			if (cancelTradeResponse) {
-				queryClient.invalidateQueries(['trade'])
+				queryClient.invalidateQueries([TRADE])
 			}
 
 			if (cancelTradeResponse) {

@@ -61,6 +61,7 @@ import {
 	Page,
 } from 'components'
 import useAddress from 'hooks/useAddress'
+import { TRADES, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -91,7 +92,7 @@ export default function TradeListings() {
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
-			['verifiedCollections', wallet.network],
+			[VERIFIED_COLLECTIONS, wallet.network],
 			async () =>
 				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 			{
@@ -182,7 +183,7 @@ export default function TradeListings() {
 
 	const { data: trades, isLoading } = useQuery(
 		[
-			'trades',
+			TRADES,
 			wallet.network,
 			listingsType,
 			statuses,

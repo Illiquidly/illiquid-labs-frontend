@@ -2,6 +2,7 @@
 	"listing-unavailable": "We’re sorry, but this listing is no longer available",
 	"item-not-available": "This item is no longer available",
 	"back-to-listings": "Back to Listings",
+	"back-to-listing": "Back to Listing",
 	"counter-offers": {
 		"title": "Counter Offers",
 		"table": {
@@ -93,6 +94,7 @@
 	"no-longer-exists": "no longer exists",
 	"you-might-like": "Trade Listings You Might Like",
 	"make-offer": "Make offer",
+
 	"trade-counter": {
 		"submit-counter-offer": "Submit a counter offer"
 	}

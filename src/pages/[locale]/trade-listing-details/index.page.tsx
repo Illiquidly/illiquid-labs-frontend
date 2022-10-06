@@ -54,6 +54,7 @@ import {
 import useAddress from 'hooks/useAddress'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
+import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -70,7 +71,7 @@ export default function ListingDetails() {
 	const { tradeId } = route.query ?? {}
 
 	const { data: verifiedCollections } = useQuery(
-		['verifiedCollections', wallet.network],
+		[VERIFIED_COLLECTIONS, wallet.network],
 		async () =>
 			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 		{
@@ -80,7 +81,7 @@ export default function ListingDetails() {
 	)
 
 	const { data: trade, isLoading } = useQuery(
-		['trade', tradeId, wallet.network],
+		[TRADE, tradeId, wallet.network],
 		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
 		{
 			enabled: !!wallet.network,

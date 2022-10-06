@@ -40,7 +40,6 @@ import {
 	DescriptionRow,
 	ImageRow,
 	LayoutContainer,
-	LookingForRow,
 	ModalTitle,
 	Page,
 	theme,
@@ -49,6 +48,7 @@ import {
 	ViewNFTsModalResult,
 } from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
+import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -65,7 +65,7 @@ export default function TradeCounter() {
 	const { tradeId } = route.query ?? {}
 
 	const { data: verifiedCollections } = useQuery(
-		['verifiedCollections', wallet.network],
+		[VERIFIED_COLLECTIONS, wallet.network],
 		async () =>
 			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 		{
@@ -75,7 +75,7 @@ export default function TradeCounter() {
 	)
 
 	const { data: trade, isLoading } = useQuery(
-		['trade', tradeId, wallet.network],
+		[TRADE, tradeId, wallet.network],
 		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
 		{
 			enabled: !!wallet.network,
@@ -145,7 +145,7 @@ export default function TradeCounter() {
 									variant='secondary'
 									startIcon={<ArrowLeftIcon />}
 								>
-									{t('trade-listings:back-to-listings')}
+									{t('trade-listings:back-to-listing')}
 								</Button>
 							</Flex>
 							<Row>
@@ -243,11 +243,6 @@ export default function TradeCounter() {
 											</DescriptionCardItem>
 										</DescriptionCard>
 									</Row>
-									{Boolean((additionalInfo?.lookingFor ?? []).length) && (
-										<Row>
-											<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
-										</Row>
-									)}
 								</Box>
 							</Card>
 						</>

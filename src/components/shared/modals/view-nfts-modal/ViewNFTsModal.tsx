@@ -21,6 +21,7 @@ import { SupportedCollectionsService } from 'services/api/supportedCollectionsSe
 import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
 import { uniqBy } from 'lodash'
+import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import {
 	FiltersSection,
 	ModalBody,
@@ -51,7 +52,7 @@ export const ViewNFTsModal = NiceModal.create(
 		const wallet = useWallet()
 
 		const { data: verifiedCollections } = useQuery(
-			['verifiedCollections'],
+			[VERIFIED_COLLECTIONS],
 			async () =>
 				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 			{

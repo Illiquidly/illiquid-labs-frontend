@@ -27,6 +27,7 @@ import { isEmpty } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import { SelectOption } from 'components/ui/select/Select'
+import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	FiltersSection,
@@ -94,7 +95,7 @@ export const MyNFTsModal = NiceModal.create(
 		})
 
 		const { data: verifiedCollections } = useQuery(
-			['verifiedCollections'],
+			[VERIFIED_COLLECTIONS],
 			async () =>
 				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
 			{
