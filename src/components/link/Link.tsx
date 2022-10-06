@@ -1,11 +1,13 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { withForwardRef } from 'hoc'
 
 const LinkComponent = ({
 	children,
 	skipLocaleHandling = false,
 	disabled = false,
+	forwardedRef = undefined,
 	...rest
 }) => {
 	const router = useRouter()
@@ -24,10 +26,10 @@ const LinkComponent = ({
 	}
 
 	return (
-		<>
-			<Link href={href}>{children}</Link>
-		</>
+		<Link ref={forwardedRef} href={href}>
+			{children}
+		</Link>
 	)
 }
 
-export default LinkComponent
+export default withForwardRef<HTMLAnchorElement, any>(LinkComponent)
