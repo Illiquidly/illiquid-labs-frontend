@@ -32,6 +32,7 @@ import {
 	TRADE_STATE,
 	withdrawAcceptedTrade,
 	withdrawAllFromCounter,
+	withdrawPendingAssets,
 } from 'services/blockchain'
 import {
 	AcceptCounterOfferModal,
@@ -71,8 +72,9 @@ const Container = styled(Flex)`
 
 interface CounterOffersTableProps {
 	trade?: Trade
+	refetchTrade: () => void
 }
-function CounterOffersTable({ trade }: CounterOffersTableProps) {
+function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 	const wallet = useWallet()
 	const previewItemsLimit = 5
 
@@ -114,9 +116,6 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	)
 
 	const handleApprove = async (counterTrade: CounterTrade) => {
-		if (!tradeId) {
-			return
-		}
 		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
 			NiceModal.show(AcceptCounterOfferModal, {
 				counterTrade,
@@ -134,9 +133,11 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
+			refetchTrade()
+
 			const updatedCounter = await CounterTradesService.getCounterTrade(
 				wallet.network.name,
-				tradeId,
+				counterTrade.trade.tradeId,
 				counterTrade.counterId
 			)
 
@@ -153,18 +154,19 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	}
 
 	const withdrawCounterTrade = async (counterTrade: CounterTrade) => {
-		if (!tradeId) {
-			return
-		}
-
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: withdrawAllFromCounter(tradeId, counterTrade?.counterId),
+			transactionAction: withdrawAllFromCounter(
+				counterTrade.trade.tradeId,
+				counterTrade.counterId
+			),
 			closeOnFinish: true,
 		})
 
+		refetchTrade()
+
 		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
-			tradeId,
+			counterTrade.trade.tradeId,
 			counterTrade.counterId
 		)
 
@@ -176,21 +178,20 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	}
 
 	const cancelCounterTrade = async (counterTrade: CounterTrade) => {
-		if (!tradeId) {
-			return
-		}
-
+		console.warn(counterTrade.counterId, counterTrade.trade.tradeId)
 		await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: cancelCounterTradeAndWithdraw(
-				counterTrade?.counterId,
-				tradeId
+				counterTrade.counterId,
+				counterTrade.trade.tradeId
 			),
 			closeOnFinish: true,
 		})
 
+		refetchTrade()
+
 		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
-			tradeId,
+			counterTrade.trade.tradeId,
 			counterTrade.counterId
 		)
 
@@ -202,9 +203,6 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	}
 
 	const handleDeny = async (counterTrade: CounterTrade) => {
-		if (!tradeId) {
-			return
-		}
 		const [, result] = await asyncAction<DenyCounterOfferModalResult>(
 			NiceModal.show(DenyCounterOfferModal, {
 				counterTrade,
@@ -214,7 +212,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		if (result) {
 			await NiceModal.show(TxBroadcastingModal, {
 				transactionAction: refuseCounterTrade(
-					counterTrade.trade.id,
+					counterTrade.trade.tradeId,
 					counterTrade.counterId,
 					result.comment
 				),
@@ -223,7 +221,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 
 			const updatedCounter = await CounterTradesService.getCounterTrade(
 				wallet.network.name,
-				tradeId,
+				counterTrade.trade.tradeId,
 				counterTrade.counterId
 			)
 
@@ -239,17 +237,37 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	}
 
 	const withdrawAccepted = async (counterTrade: CounterTrade) => {
-		if (!tradeId) {
-			return
-		}
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: withdrawAcceptedTrade(tradeId),
+			transactionAction: withdrawAcceptedTrade(counterTrade.trade.tradeId),
 			closeOnFinish: true,
 		})
 
+		refetchTrade()
+
 		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
-			tradeId,
+			counterTrade.trade.tradeId,
+			counterTrade.counterId
+		)
+
+		setInfiniteData(
+			infiniteData.map(counter =>
+				counter.id === updatedCounter.id ? updatedCounter : counter
+			)
+		)
+	}
+
+	const countererWithdrawAccepted = async (counterTrade: CounterTrade) => {
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: withdrawPendingAssets(counterTrade.trade.tradeId),
+			closeOnFinish: true,
+		})
+
+		refetchTrade()
+
+		const updatedCounter = await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			counterTrade.trade.tradeId,
 			counterTrade.counterId
 		)
 
@@ -261,18 +279,19 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 	}
 
 	const confirmCounter = async (counterTrade: CounterTrade) => {
-		if (!tradeId) {
-			return
-		}
-
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: confirmCounterTrade(counterTrade?.counterId, tradeId),
+			transactionAction: confirmCounterTrade(
+				counterTrade?.counterId,
+				counterTrade.trade.tradeId
+			),
 			closeOnFinish: true,
 		})
 
+		refetchTrade()
+
 		const updatedCounter = await CounterTradesService.getCounterTrade(
 			wallet.network.name,
-			tradeId,
+			counterTrade.trade.tradeId,
 			counterTrade.counterId
 		)
 
@@ -438,7 +457,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 										{!isMyTrade &&
 											isMyCounterTrade &&
 											[TRADE_STATE.Published].includes(counterTrade?.tradeInfo?.state) && (
-												<Button onClick={() => cancelCounterTrade(counterTrade)}>
+												<Button onClick={async () => cancelCounterTrade(counterTrade)}>
 													{t('common:remove')}
 												</Button>
 											)}
@@ -448,7 +467,23 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 											!isMyCounterTrade &&
 											[TRADE_STATE.Accepted].includes(counterTrade?.tradeInfo?.state) &&
 											!counterTrade?.tradeInfo?.assetsWithdrawn && (
-												<Button onClick={withdrawAccepted}>{t('common:withdraw')}</Button>
+												<Button onClick={() => withdrawAccepted(counterTrade)}>
+													{t('common:withdraw')}
+												</Button>
+											)}
+
+										{/* Case when counterer withdraws my trade, after accepting. */}
+										{tradeInfo &&
+											!isMyTrade &&
+											[TRADE_STATE.Accepted].includes(tradeInfo?.state) &&
+											isMyCounterTrade &&
+											!tradeInfo?.assetsWithdrawn &&
+											[TRADE_STATE.Accepted].includes(counterTrade?.tradeInfo?.state) && (
+												<Button
+													onClick={async () => countererWithdrawAccepted(counterTrade)}
+												>
+													{t('common:withdraw')}
+												</Button>
 											)}
 
 										{!isMyTrade &&

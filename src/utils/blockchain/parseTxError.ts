@@ -5,8 +5,9 @@ import {
 	TxUnspecifiedError,
 	UserDenied,
 } from '@terra-money/use-wallet'
+import { AxiosError } from 'axios'
 
-export function parseTxError(error: unknown) {
+export function parseTxError(error: AxiosError<{ message?: string }>) {
 	if (error instanceof UserDenied) {
 		return 'User Denied'
 	}
@@ -22,6 +23,13 @@ export function parseTxError(error: unknown) {
 	if (error instanceof TxUnspecifiedError) {
 		return `Unspecified Error: ${error.message}`
 	}
+
+	console.warn(error?.response?.data?.message)
+
+	if (error?.response?.data?.message) {
+		return String(error?.response?.data?.message)
+	}
+
 	return `Unknown Error: ${
 		error instanceof Error ? error.message : String(error)
 	}`

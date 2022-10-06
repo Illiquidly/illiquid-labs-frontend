@@ -75,7 +75,11 @@ export default function ListingDetails() {
 		}
 	)
 
-	const { data: trade, isLoading } = useQuery(
+	const {
+		data: trade,
+		isLoading,
+		refetch,
+	} = useQuery(
 		[TRADE, tradeId, wallet.network],
 		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
 		{
@@ -238,28 +242,28 @@ export default function ListingDetails() {
 										<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
 									</Row>
 								)}
-								{!isMyTrade && trade && (
-									<Row>
-										<Button
-											disabled={
-												![TRADE_STATE.Published, TRADE_STATE.Countered].includes(
-													tradeInfo?.state as TRADE_STATE
-												)
-											}
-											size='extraLarge'
-											href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
-											fullWidth
-											variant='gradient'
-										>
-											<div>{t('trade-listings:make-offer')}</div>
-										</Button>
-									</Row>
-								)}
+
+								{!isMyTrade &&
+									trade &&
+									[TRADE_STATE.Published, TRADE_STATE.Countered].includes(
+										tradeInfo?.state as TRADE_STATE
+									) && (
+										<Row>
+											<Button
+												size='extraLarge'
+												href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
+												fullWidth
+												variant='gradient'
+											>
+												<div>{t('trade-listings:make-offer')}</div>
+											</Button>
+										</Row>
+									)}
 							</Box>
 						</Flex>
 
 						<Row>
-							<CounterOffersTable trade={trade} />
+							<CounterOffersTable trade={trade} refetchTrade={refetch} />
 						</Row>
 						<TradeListingsYouMightLike
 							search={

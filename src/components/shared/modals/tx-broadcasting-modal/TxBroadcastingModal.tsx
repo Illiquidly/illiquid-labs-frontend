@@ -17,7 +17,7 @@ import { useBroadcastingTx } from 'hooks'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { asyncAction } from 'utils/js/asyncAction'
 import getShortText from 'utils/js/getShortText'
-import { noop } from 'lodash'
+import { AxiosError } from 'axios'
 import {
 	ModalContainer,
 	ModalContent,
@@ -84,18 +84,18 @@ const TxBroadcastingError = ({
 interface TxBroadcastingProcessingProps {
 	txHash?: string
 	terraFinderUrl?: string
-	onClose?: () => void
+	// onClose?: () => void
 }
 
 const TxBroadcastingProcessing = ({
 	txHash,
 	terraFinderUrl,
-	onClose,
-}: TxBroadcastingProcessingProps) => {
+}: // onClose,
+TxBroadcastingProcessingProps) => {
 	const { t } = useTranslation(['common'])
 	return (
 		<Flex sx={{ flexDirection: 'column' }}>
-			{!txHash && (
+			{/* {!txHash && (
 				<Flex sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
 					<IconButton
 						sx={{
@@ -107,7 +107,7 @@ const TxBroadcastingProcessing = ({
 						<ModalCloseIcon />
 					</IconButton>
 				</Flex>
-			)}
+			)} */}
 			<Flex sx={{ justifyContent: 'center', marginTop: '48px' }}>
 				<Loader size={28} loadingText={t('common:processing')} />
 			</Flex>
@@ -125,7 +125,7 @@ const TxBroadcastingProcessing = ({
 TxBroadcastingProcessing.defaultProps = {
 	txHash: '',
 	terraFinderUrl: '',
-	onClose: noop,
+	// onClose: noop,
 }
 
 interface TxBroadcastingCompleteProps {
@@ -194,11 +194,9 @@ const TxBroadcastingModal = NiceModal.create(
 		const modal = useModal()
 
 		const [txReceipt, setTxReceipt] = React.useState<TxReceipt | null>(null)
-		const [error, setError] = React.useState('')
+		const [error, setError] = React.useState<string>('')
 
 		const [data, setData] = React.useState<unknown>(null)
-
-		const parsedError = error ? parseTxError(error) : ''
 
 		const closeResolveModal = (resolveData?: any) => {
 			modal.resolve(resolveData || data)
@@ -226,7 +224,7 @@ const TxBroadcastingModal = NiceModal.create(
 				setTxReceipt(txResponse)
 			}
 			if (txError) {
-				setError(parseTxError(txError))
+				setError(parseTxError(txError as AxiosError<{ message?: string }>))
 			}
 			setLoading({ ...loading, send: false })
 		}
@@ -242,7 +240,7 @@ const TxBroadcastingModal = NiceModal.create(
 						{error && !loading.broadcasting && !loading.send && (
 							<TxBroadcastingError
 								onTryAgain={executeBlockchain}
-								errorMessage={parsedError}
+								errorMessage={error}
 								onClose={modal.remove}
 							/>
 						)}
@@ -250,7 +248,7 @@ const TxBroadcastingModal = NiceModal.create(
 							<TxBroadcastingProcessing
 								txHash={txReceipt?.txId}
 								terraFinderUrl={txReceipt?.txTerraFinderUrl}
-								onClose={modal.remove}
+								// onClose={modal.remove}
 							/>
 						)}
 						{!loading.send && !loading.broadcasting && !error && txReceipt?.txId && (
