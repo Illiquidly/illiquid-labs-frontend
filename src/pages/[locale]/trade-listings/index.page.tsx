@@ -8,7 +8,6 @@ import { useDebounce } from 'react-use'
 
 import {
 	CollectionsBoxesIcon,
-	CreateListingAddIcon,
 	FilterIcon,
 	LookingForCompassIcon,
 	TargetIcon,
@@ -33,7 +32,6 @@ import { SupportedCollectionsService } from 'services/api'
 import { Trade, TradesService } from 'services/api/tradesService'
 import { Box, Flex } from 'theme-ui'
 
-import * as ROUTES from 'constants/routes'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -53,15 +51,10 @@ import {
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
-import {
-	ConnectButton,
-	GridController,
-	GRID_TYPE,
-	LayoutContainer,
-	Page,
-} from 'components'
+import { GridController, GRID_TYPE, LayoutContainer, Page } from 'components'
 import useAddress from 'hooks/useAddress'
 import { TRADES, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -76,17 +69,7 @@ export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const wallet = useWallet()
 
-	useHeaderActions(
-		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Button variant='gradient' size='medium' href={ROUTES.TRADE_CREATE_LISTING}>
-				<CreateListingAddIcon />
-				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
-					{t('common:create-listing')}
-				</Box>
-			</Button>
-			<ConnectButton />
-		</Flex>
-	)
+	useHeaderActions(<CreateTradeListing />)
 
 	const isTablet = useIsTablet()
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)

@@ -10,7 +10,6 @@ import {
 import { appWithTranslation } from 'next-i18next'
 import { AppProps } from 'next/app'
 import { NextComponentType, NextPageContext } from 'next/types'
-import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'theme-ui'
 
 import { theme } from 'components'
@@ -48,11 +47,9 @@ const Main = ({
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
-				<RecoilRoot>
-					<NiceModal.Provider>
-						<Component {...pageProps} />
-					</NiceModal.Provider>
-				</RecoilRoot>
+				<NiceModal.Provider>
+					<Component {...pageProps} />
+				</NiceModal.Provider>
 			</ThemeProvider>
 		</QueryClientProvider>
 	)

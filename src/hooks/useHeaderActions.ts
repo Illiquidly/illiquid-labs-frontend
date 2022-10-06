@@ -1,20 +1,23 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { HEADER_ACTIONS } from 'constants/use-query-keys'
 import React from 'react'
-import { atom, useRecoilState } from 'recoil'
 
 export default function useHeaderActions(
 	headerComponent: React.ReactNode = null
 ) {
-	const [headerAction, setHeaderAction] = useRecoilState(
-		atom({
-			key: 'headerActionsState',
-			default: headerComponent ?? null,
-		})
-	)
+	const queryClient = useQueryClient()
+	const { data } = useQuery([HEADER_ACTIONS], () => headerComponent, {
+		initialData: headerComponent,
+		staleTime: Infinity,
+	})
+
+	const setHeaderComponent = component =>
+		queryClient.setQueryData([HEADER_ACTIONS], component)
 
 	React.useEffect(() => {
-		setHeaderAction(headerComponent)
-		return () => setHeaderAction(null)
+		setHeaderComponent(headerComponent)
+		return () => setHeaderComponent(null)
 	}, [])
 
-	return headerAction
+	return data
 }

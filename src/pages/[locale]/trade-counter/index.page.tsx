@@ -21,7 +21,6 @@ import {
 	ArrowLeftIcon,
 	AvatarIcon,
 	CalendarIcon,
-	CreateListingAddIcon,
 	WalletIcon,
 } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
@@ -36,7 +35,6 @@ import { SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
-	ConnectButton,
 	DescriptionRow,
 	ImageRow,
 	LayoutContainer,
@@ -49,6 +47,7 @@ import {
 } from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -98,17 +97,7 @@ export default function TradeCounter() {
 		}
 	}, [trade])
 
-	useHeaderActions(
-		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Button variant='gradient' size='medium' href={ROUTES.TRADE_CREATE_LISTING}>
-				<CreateListingAddIcon />
-				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
-					{t('common:create-listing')}
-				</Box>
-			</Button>
-			<ConnectButton />
-		</Flex>
-	)
+	useHeaderActions(<CreateTradeListing />)
 
 	const handleViewAllNFTs = async () => {
 		if (!trade) {

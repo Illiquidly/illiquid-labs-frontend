@@ -22,12 +22,7 @@ import {
 	TradeListingsYouMightLike,
 } from 'components/trade-listing-details'
 
-import {
-	AvatarIcon,
-	CalendarIcon,
-	CreateListingAddIcon,
-	WalletIcon,
-} from 'assets/icons/mixed'
+import { AvatarIcon, CalendarIcon, WalletIcon } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
@@ -41,7 +36,6 @@ import { TRADE_STATE } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
-	ConnectButton,
 	DescriptionRow,
 	ImageRow,
 	LayoutContainer,
@@ -55,6 +49,7 @@ import useAddress from 'hooks/useAddress'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -104,17 +99,7 @@ export default function ListingDetails() {
 		}
 	}, [trade])
 
-	useHeaderActions(
-		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Button variant='gradient' size='medium' href={ROUTES.TRADE_CREATE_LISTING}>
-				<CreateListingAddIcon />
-				<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
-					{t('common:create-listing')}
-				</Box>
-			</Button>
-			<ConnectButton />
-		</Flex>
-	)
+	useHeaderActions(<CreateTradeListing />)
 
 	const handleViewAllNFTs = async () => {
 		if (!trade) {

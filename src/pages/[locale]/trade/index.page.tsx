@@ -8,7 +8,6 @@ import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import NiceModal from '@ebay/nice-modal-react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
-	Button,
 	LayoutContainer,
 	MobileSteps,
 	Page,
@@ -51,6 +50,7 @@ import { TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { useQueryClient } from '@tanstack/react-query'
 import { COUNTER_TRADES, TRADE, TRADES } from 'constants/use-query-keys'
+import ExitCreateTradeListing from 'components/shared/header-actions/exit-create-trade-listing/ExitCreateTradeListing'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -60,11 +60,7 @@ export default function Trade() {
 	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'trade'])
 	const queryClient = useQueryClient()
-	useHeaderActions(
-		<Button variant='secondary' size='medium' href={ROUTES.TRADE_LISTINGS}>
-			{t('common:exit-create-listing')}
-		</Button>
-	)
+	useHeaderActions(<ExitCreateTradeListing />)
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
 	const { step, setStep, goNextStep, goBackStep } = useStep({ max: 3 })
 	const [steps] = useState([

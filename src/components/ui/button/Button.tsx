@@ -41,7 +41,9 @@ const StyledButton = styled(ThemeUIButton, {
 	${props => (props.fullWidth ? 'flex: 1' : '')}
 `
 
-const StyledNavLink = styled(NavLink)<ButtonProps>`
+const StyledNavLink = styled(NavLink, {
+	shouldForwardProp: prop => prop !== 'fullWidth',
+})<ButtonProps>`
 	${props => (props.fullWidth ? 'flex: 1' : '')}
 `
 
