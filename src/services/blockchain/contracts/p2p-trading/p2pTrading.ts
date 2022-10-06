@@ -509,10 +509,10 @@ async function listCounterTradeOffer({
 	cw721Tokens,
 }: {
 	tradeId: number
-	amountUST: string
-	amountLuna: string
-	comment: string
-	cw721Tokens: any[]
+	amountUST?: string
+	amountLuna?: string
+	comment?: string
+	cw721Tokens: NFT[]
 }) {
 	const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
 
@@ -530,8 +530,11 @@ async function listCounterTradeOffer({
 						contractAddress: p2pContractAddress,
 						message: {
 							add_asset: {
-								trade_id: tradeId,
-								to_last_counter: true,
+								action: {
+									to_last_counter_trade: {
+										trade_id: tradeId,
+									},
+								},
 								asset: {
 									coin: {
 										amount: amountConverter.userFacingToBlockchainValue(amountUST),
@@ -552,8 +555,11 @@ async function listCounterTradeOffer({
 						contractAddress: p2pContractAddress,
 						message: {
 							add_asset: {
-								trade_id: tradeId,
-								to_last_counter: true,
+								action: {
+									to_last_counter_trade: {
+										trade_id: tradeId,
+									},
+								},
 								asset: {
 									coin: {
 										amount: amountConverter.userFacingToBlockchainValue(amountLuna),
@@ -570,7 +576,7 @@ async function listCounterTradeOffer({
 			: []),
 		...cw721Tokens.flatMap(cw721 => [
 			{
-				contractAddress: cw721.contractAddress,
+				contractAddress: cw721.collectionAddress,
 				message: {
 					approve: {
 						spender: p2pContractAddress,
@@ -584,12 +590,15 @@ async function listCounterTradeOffer({
 					add_asset: {
 						asset: {
 							cw721_coin: {
-								address: cw721.contractAddress,
+								address: cw721.collectionAddress,
 								token_id: cw721.tokenId,
 							},
 						},
-						to_last_counter: true,
-						trade_id: tradeId,
+						action: {
+							to_last_counter_trade: {
+								trade_id: tradeId,
+							},
+						},
 					},
 				},
 			},

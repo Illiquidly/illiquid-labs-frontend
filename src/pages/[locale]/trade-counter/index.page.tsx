@@ -25,12 +25,12 @@ import {
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Coin, TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { noop } from 'lodash'
-import { SupportedCollectionsService } from 'services/api'
+import { CounterTradesService, SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -44,9 +44,14 @@ import {
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
 	AttributeCard as PrimaryAttributeCard,
+	TxBroadcastingModal,
 } from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
-import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import {
+	COUNTER_TRADES,
+	TRADE,
+	VERIFIED_COLLECTIONS,
+} from 'constants/use-query-keys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import {
 	TradeCounterValidationSchema,
@@ -55,6 +60,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import SelectNFTs from 'components/trade-counter/SelectNFTs'
+import { listCounterTradeOffer } from 'services/blockchain'
+import { TxReceipt } from 'services/blockchain/blockchain.interface'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -69,6 +76,8 @@ export default function TradeCounter() {
 	const wallet = useWallet()
 
 	const { tradeId } = route.query ?? {}
+
+	const queryClient = useQueryClient()
 
 	const { data: verifiedCollections } = useQuery(
 		[VERIFIED_COLLECTIONS, wallet.network],
@@ -132,8 +141,31 @@ export default function TradeCounter() {
 		}
 	}
 
-	const onSubmit = values => {
-		console.warn(values)
+	const onSubmit = async ({ comment, selectedNFTs }) => {
+		if (!tradeId) {
+			return
+		}
+		const {
+			counterId,
+		}: {
+			tradeId: string
+			counterId: string
+		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: listCounterTradeOffer({
+				tradeId: Number(tradeId),
+				comment,
+				cw721Tokens: selectedNFTs,
+			}),
+			closeOnFinish: true,
+		})
+
+		await CounterTradesService.getCounterTrade(
+			wallet.network.name,
+			tradeId as string,
+			counterId
+		)
+
+		await queryClient.invalidateQueries([TRADE, COUNTER_TRADES])
 	}
 
 	return (

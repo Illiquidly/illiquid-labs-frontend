@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react'
 import { WalletIcon } from 'assets/icons/mixed'
 import TradeAssetImage from 'assets/images/TradeAsset'
-import { Button, Card } from 'components/ui'
+import { Button, Card, TextArea } from 'components/ui'
 import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -15,6 +15,7 @@ import {
 	AttributeCard,
 	AttributeName,
 	AttributeValue,
+	Label,
 	SelectNFTsSection,
 	Subtitle,
 	Title,
@@ -24,7 +25,13 @@ export default function SelectNFTs() {
 	const theme = useTheme()
 	const { t } = useTranslation(['common', 'trade-listings'])
 	const myAddress = useAddress()
-	const { setValue, getValues } = useFormContext()
+	const {
+		setValue,
+		getValues,
+		handleSubmit,
+		register,
+		formState: { isValid },
+	} = useFormContext()
 
 	const handleSelectMyNFTs = async () => {
 		const [, NFTs] = await asyncAction<NFT[]>(
@@ -79,6 +86,23 @@ export default function SelectNFTs() {
 			</SelectNFTsSection>
 			<Button variant='dark'>
 				{t('trade-listings:trade-counter.add-a-token-on-top')}
+			</Button>
+
+			<Label>{t('trade-listings:trade-counter.write-a-comment')}</Label>
+			<TextArea
+				id='comment'
+				style={{ height: '128px' }}
+				{...register('comment')}
+				placeholder={t('trade-listings:trade-counter.enter-text')}
+			/>
+
+			<Button
+				disabled={isValid}
+				onClick={handleSubmit}
+				variant='gradient'
+				size='extraLarge'
+			>
+				{t('trade-listings:trade-counter.review-offer')}
 			</Button>
 		</Card>
 	)

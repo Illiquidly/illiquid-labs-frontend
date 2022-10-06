@@ -54,3 +54,10 @@ export const Subtitle = styled.div`
 
 	color: ${props => props.theme.colors.gray700};
 `
+
+export const Label = styled.label`
+	font-size: 16px;
+	line-height: 20px;
+	margin: 0;
+	margin-bottom: 6px;
+`
