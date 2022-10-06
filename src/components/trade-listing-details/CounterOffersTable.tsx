@@ -78,7 +78,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 
 	const [page, setPage] = React.useState(1)
 
-	const { tradeId } = trade ?? {}
+	const { tradeId, tradeInfo } = trade ?? {}
 
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<CounterTrade[]>([])
@@ -311,12 +311,12 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 					{infiniteData.map(counterTrade => {
 						const isMyCounterTrade = counterTrade?.tradeInfo?.owner === myAddress
 
-						const { id, tradeInfo } = counterTrade
-						const nfts = (tradeInfo.associatedAssets ?? [])
+						const { id, tradeInfo: counterTradeInfo } = counterTrade
+						const nfts = (counterTradeInfo.associatedAssets ?? [])
 							.filter(x => x.cw721Coin)
 							.map(x => x.cw721Coin) as NFT[]
 
-						const coins = (tradeInfo.associatedAssets ?? [])
+						const coins = (counterTradeInfo.associatedAssets ?? [])
 							.filter(x => x.coin)
 							.map(x => x.coin) as Coin[]
 
@@ -329,7 +329,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 											justifyContent: 'flex-start',
 										}}
 									>
-										<p>{tradeInfo?.owner ?? ''}</p>
+										<p>{counterTradeInfo?.owner ?? ''}</p>
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
@@ -380,7 +380,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 											justifyContent: 'flex-start',
 										}}
 									>
-										{moment(tradeInfo.additionalInfo.time).fromNow()}
+										{moment(counterTradeInfo?.additionalInfo?.time).fromNow()}
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
@@ -394,8 +394,9 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 											* I can refuse/deny counter trade.
 											* I can accept/approve trade offer.
 										*/}
+
 										{isMyTrade &&
-											[TRADE_STATE.Countered].includes(tradeInfo?.state) &&
+											[TRADE_STATE.Countered].includes(tradeInfo?.state as TRADE_STATE) &&
 											!isMyCounterTrade &&
 											[TRADE_STATE.Published].includes(counterTrade?.tradeInfo.state) && (
 												<>
@@ -443,7 +444,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 											)}
 
 										{isMyTrade &&
-											[TRADE_STATE.Accepted].includes(tradeInfo?.state) &&
+											[TRADE_STATE.Accepted].includes(tradeInfo?.state as TRADE_STATE) &&
 											!isMyCounterTrade &&
 											[TRADE_STATE.Accepted].includes(counterTrade?.tradeInfo?.state) &&
 											!counterTrade?.tradeInfo?.assetsWithdrawn && (
@@ -453,7 +454,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 										{!isMyTrade &&
 											isMyCounterTrade &&
 											!counterTrade?.tradeInfo?.assetsWithdrawn &&
-											![TRADE_STATE.Accepted].includes(tradeInfo?.state) &&
+											![TRADE_STATE.Accepted].includes(tradeInfo?.state as TRADE_STATE) &&
 											[TRADE_STATE.Created].includes(counterTrade?.tradeInfo?.state) && (
 												<>
 													<Button onClick={async () => confirmCounter(counterTrade)}>
