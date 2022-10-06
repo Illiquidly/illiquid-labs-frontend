@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import NiceModal from '@ebay/nice-modal-react'
@@ -46,7 +46,7 @@ import {
 import { asyncAction } from 'utils/js/asyncAction'
 import { TxBroadcastingModal } from 'components/shared'
 import useAddress from 'hooks/useAddress'
-import { COUNTER_TRADES, TRADE } from 'constants/use-query-keys'
+import { COUNTER_TRADES } from 'constants/use-query-keys'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -88,8 +88,12 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		setPage(1)
 	}, [wallet.network, tradeId])
 
-	const { data: counterTrades, isLoading } = useQuery(
-		[COUNTER_TRADES, wallet.network, page, tradeId],
+	const {
+		data: counterTrades,
+		isLoading,
+		refetch: refetchCounterTrades,
+	} = useQuery(
+		[COUNTER_TRADES, wallet.network, page],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
 				wallet.network.name,
@@ -106,8 +110,6 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			retry: true,
 		}
 	)
-
-	const queryClient = useQueryClient()
 
 	React.useEffect(
 		() =>
@@ -143,7 +145,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			)
 
 			setInfiniteData([])
-			queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
+			refetchCounterTrades()
 
 			console.warn(acceptTradeResult)
 
@@ -168,7 +170,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
+		refetchCounterTrades()
 	}
 
 	const cancelCounterTrade = async (counterTrade: CounterTrade) => {
@@ -191,7 +193,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
+		refetchCounterTrades()
 	}
 
 	const handleDeny = async (counterTrade: CounterTrade) => {
@@ -221,7 +223,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 			)
 
 			setInfiniteData([])
-			queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
+			refetchCounterTrades()
 
 			await NiceModal.show(DenyCounterOfferSuccessModal, {
 				counterTrade,
@@ -245,7 +247,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
+		refetchCounterTrades()
 	}
 
 	const confirmCounter = async (counterTrade: CounterTrade) => {
@@ -265,7 +267,7 @@ function CounterOffersTable({ trade }: CounterOffersTableProps) {
 		)
 
 		setInfiniteData([])
-		queryClient.invalidateQueries([COUNTER_TRADES, TRADE])
+		refetchCounterTrades()
 	}
 
 	const { t } = useTranslation(['common', 'trade-listings'])

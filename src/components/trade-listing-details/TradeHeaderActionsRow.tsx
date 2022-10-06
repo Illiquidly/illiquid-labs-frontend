@@ -96,7 +96,7 @@ export const TradeHeaderActionsRow = ({
 
 			if (response) {
 				console.warn('invalidate')
-				queryClient.invalidateQueries([TRADE])
+				await queryClient.invalidateQueries([TRADE])
 			}
 		}
 	}
@@ -118,7 +118,7 @@ export const TradeHeaderActionsRow = ({
 			})
 
 			if (cancelTradeResponse) {
-				queryClient.invalidateQueries([TRADE])
+				await queryClient.invalidateQueries([TRADE])
 			}
 
 			if (cancelTradeResponse) {

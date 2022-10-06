@@ -47,11 +47,7 @@ import {
 	TxBroadcastingModal,
 } from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
-import {
-	COUNTER_TRADES,
-	TRADE,
-	VERIFIED_COLLECTIONS,
-} from 'constants/use-query-keys'
+import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import {
 	TradeCounterValidationSchema,
@@ -165,7 +161,7 @@ export default function TradeCounter() {
 			counterId
 		)
 
-		await queryClient.invalidateQueries([TRADE, COUNTER_TRADES])
+		await queryClient.invalidateQueries([TRADE])
 	}
 
 	return (
