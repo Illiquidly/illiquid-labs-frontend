@@ -63,7 +63,7 @@ const DenyCounterOfferModal = NiceModal.create(
 			},
 		})
 
-		const { register, setValue, watch, handleSubmit } = formMethods
+		const { register, setValue, watch } = formMethods
 
 		const onSubmit = ({ comment }) => {
 			modal.resolve({
@@ -150,7 +150,7 @@ const DenyCounterOfferModal = NiceModal.create(
 													disabled={
 														watch('confirmStatusType') === CONFIRM_STATUS_TYPE.DEFAULT
 													}
-													onClick={handleSubmit}
+													type='submit'
 												>
 													{t('trade-listings:deny-counter-offer-modal.deny-offer')}
 												</Button>

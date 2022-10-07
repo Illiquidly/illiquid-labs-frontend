@@ -35,7 +35,6 @@ function DropdownMultiselect(props: DropdownMultiselectProps) {
 		dismissOnOutsideClick,
 		defaultExpanded,
 		dropdownReferenceElement,
-
 		...rest
 	} = props
 
@@ -103,7 +102,7 @@ function DropdownMultiselect(props: DropdownMultiselectProps) {
 				onClick={() => setExpanded(prevExpanded => !prevExpanded)}
 				variant='select'
 				ref={_setReferenceElement}
-				{...rest}
+				disabled={rest.disabled}
 			>
 				<Flex sx={{ flex: 1, justifyContent: 'space-between' }}>
 					<ButtonText>{label}</ButtonText>

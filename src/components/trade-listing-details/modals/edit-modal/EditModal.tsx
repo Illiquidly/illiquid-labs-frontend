@@ -259,11 +259,7 @@ const EditModal = NiceModal.create(
 											<Button variant='secondary' fullWidth onClick={modal.remove}>
 												{t('trade-listings:edit-modal.discard-changes')}
 											</Button>
-											<Button
-												variant='gradient'
-												fullWidth
-												onClick={formMethods.handleSubmit}
-											>
+											<Button variant='gradient' fullWidth type='submit'>
 												{t('trade-listings:edit-modal.update-listing')}
 											</Button>
 										</ModalActions>

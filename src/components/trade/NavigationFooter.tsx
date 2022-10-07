@@ -27,6 +27,7 @@ export const NavigationFooter = ({
 				{t('common:buttons.previous-step')}
 			</Button>
 			<Button
+				type='submit'
 				variant='gradient'
 				onClick={() => goNextStep()}
 				disabled={isNextButtonDisabled}

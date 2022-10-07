@@ -28,7 +28,6 @@ export default function SelectNFTs() {
 	const {
 		setValue,
 		getValues,
-		handleSubmit,
 		register,
 		formState: { isValid },
 	} = useFormContext()
@@ -98,7 +97,7 @@ export default function SelectNFTs() {
 
 			<Button
 				disabled={isValid}
-				onClick={handleSubmit}
+				type='submit'
 				variant='gradient'
 				size='extraLarge'
 			>

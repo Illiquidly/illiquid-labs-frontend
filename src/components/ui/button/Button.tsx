@@ -3,7 +3,11 @@ import styled from '@emotion/styled'
 import { withForwardRef } from 'hoc'
 import { noop } from 'lodash'
 import React from 'react'
-import { Button as ThemeUIButton, ThemeUIStyleObject } from 'theme-ui'
+import {
+	Button as ThemeUIButton,
+	ThemeUIStyleObject,
+	ButtonProps as ThemeUIButtonProps,
+} from 'theme-ui'
 
 export interface ButtonProps {
 	fullWidth?: boolean
@@ -45,15 +49,16 @@ export const StartIconContainer = styled.span`
 export const EndIconContainer = styled.span`
 	margin-left: 11px;
 `
-const Button = ({ children, ...props }: ButtonProps) => {
+const Button = (props: ButtonProps & ThemeUIButtonProps) => {
 	const theme = useTheme()
 
 	const {
 		startIcon,
 		endIcon,
-		// loading,
+		children,
 		size = 'medium',
 		forwardedRef,
+		sx,
 		...attrs
 	} = props
 
@@ -63,7 +68,7 @@ const Button = ({ children, ...props }: ButtonProps) => {
 			ref={forwardedRef as React.Ref<HTMLButtonElement>}
 			sx={{
 				...theme.buttons.sizes[size],
-				...props.sx,
+				...sx,
 			}}
 		>
 			{/* {loading ? <LoadingCircular size={16} /> : icon} */}
@@ -85,9 +90,13 @@ Button.defaultProps = {
 
 	// Size variants
 	size: 'medium',
+	type: 'button',
 
 	onClick: noop,
 	sx: {},
 }
 
-export default withForwardRef<HTMLButtonElement, ButtonProps>(Button)
+export default withForwardRef<
+	HTMLButtonElement,
+	ButtonProps & ThemeUIButtonProps
+>(Button)
