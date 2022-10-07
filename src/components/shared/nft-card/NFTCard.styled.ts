@@ -117,6 +117,10 @@ export const CardContainer = styled.div<CardContainerProps>`
 	position: relative;
 	display: block;
 
+	&:hover {
+		cursor: pointer;
+	}
+
 	${props =>
 		props.isCover
 			? css`

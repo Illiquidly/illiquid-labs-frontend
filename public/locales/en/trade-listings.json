@@ -88,6 +88,9 @@
 		"view-all-listings": "View All Listings",
 		"go-to-listing": "Go To Listing"
 	},
+	"view-counter-offer-modal": {
+		"title": "Counter Offer"
+	},
 	"listed": "Listed {{listed}}",
 	"view-all-nfts": "View all NFTs",
 	"not-found-text": "Oops! Looks like this listing",

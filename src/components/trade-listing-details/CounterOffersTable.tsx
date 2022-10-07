@@ -54,6 +54,7 @@ import {
 	PreviewNFTsSection,
 	TokenChip,
 } from './styled'
+import { ViewCounterOfferModal } from './modals/view-counter-offer-modal'
 
 const Title = styled.div`
 	font-style: normal;
@@ -240,7 +241,10 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
 	const viewCounterTrade = async (counterTrade: CounterTrade) => {
-		console.warn(counterTrade)
+		await NiceModal.show(ViewCounterOfferModal, {
+			counterTrade,
+			title: t('trade-listings:view-counter-offer-modal.title'),
+		})
 	}
 
 	return (
