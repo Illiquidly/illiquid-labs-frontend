@@ -45,3 +45,12 @@ input[type='reset'] {
 	cursor: pointer;
 	outline: inherit;
 }
+
+a {
+	all: unset;
+}
+
+a:hover {
+	text-decoration: none;
+	cursor: pointer;
+}

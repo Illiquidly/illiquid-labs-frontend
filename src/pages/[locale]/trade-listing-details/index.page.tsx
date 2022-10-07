@@ -39,6 +39,7 @@ import {
 	DescriptionRow,
 	ImageRow,
 	LayoutContainer,
+	LinkButton,
 	LookingForRow,
 	Page,
 	TxBroadcastingModal,
@@ -294,14 +295,14 @@ export default function ListingDetails() {
 										tradeInfo?.state as TRADE_STATE
 									) && (
 										<Row>
-											<Button
+											<LinkButton
 												size='extraLarge'
 												href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
 												fullWidth
 												variant='gradient'
 											>
 												<div>{t('trade-listings:make-offer')}</div>
-											</Button>
+											</LinkButton>
 										</Row>
 									)}
 

@@ -45,6 +45,7 @@ import {
 	ViewNFTsModalResult,
 	AttributeCard as PrimaryAttributeCard,
 	TxBroadcastingModal,
+	LinkButton,
 } from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import { TRADE, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
@@ -178,14 +179,14 @@ export default function TradeCounter() {
 											padding: '22px 0',
 										}}
 									>
-										<Button
+										<LinkButton
 											href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
 											sx={{ height: '40px', padding: '13px' }}
 											variant='secondary'
 											startIcon={<ArrowLeftIcon />}
 										>
 											{t('trade-listings:back-to-listing')}
-										</Button>
+										</LinkButton>
 									</Flex>
 									<Row>
 										<ModalTitle>

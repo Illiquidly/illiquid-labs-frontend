@@ -1,15 +1,17 @@
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { withForwardRef } from 'hoc'
-import { noop } from 'lodash'
 import React from 'react'
-import { Button as ThemeUIButton, ThemeUIStyleObject } from 'theme-ui'
+import { Box, ThemeUIStyleObject } from 'theme-ui'
 
-export interface ButtonProps {
+import { Link } from '..'
+
+export interface LinkButtonProps {
 	fullWidth?: boolean
 	disabled?: boolean
 	sx?: ThemeUIStyleObject
-	forwardedRef?: React.LegacyRef<HTMLButtonElement | HTMLAnchorElement>
+	href?: string
+	forwardedRef?: React.LegacyRef<HTMLAnchorElement>
 
 	// Style variants
 	variant?:
@@ -28,13 +30,12 @@ export interface ButtonProps {
 	startIcon?: React.ReactNode
 	endIcon?: React.ReactNode
 
-	children: React.ReactNode
-	onClick?: (e: any) => void
+	children?: React.ReactNode
 }
 
-const StyledButton = styled(ThemeUIButton, {
+const StyledA = styled(Box, {
 	shouldForwardProp: prop => prop !== 'fullWidth',
-})<ButtonProps>`
+})<LinkButtonProps>`
 	${props => (props.fullWidth ? 'flex: 1' : '')}
 `
 
@@ -45,40 +46,45 @@ export const StartIconContainer = styled.span`
 export const EndIconContainer = styled.span`
 	margin-left: 11px;
 `
-const Button = ({ children, ...props }: ButtonProps) => {
+const LinkButton = ({ children, ...props }: LinkButtonProps) => {
 	const theme = useTheme()
 
 	const {
 		startIcon,
 		endIcon,
-		// loading,
 		size = 'medium',
+		href,
 		forwardedRef,
+		variant = 'primary',
 		...attrs
 	} = props
 
 	return (
-		<StyledButton
-			{...attrs}
-			ref={forwardedRef as React.Ref<HTMLButtonElement>}
-			sx={{
-				...theme.buttons.sizes[size],
-				...props.sx,
-			}}
-		>
-			{/* {loading ? <LoadingCircular size={16} /> : icon} */}
-			<>
-				{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
-				{children}
-				{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
-			</>
-		</StyledButton>
+		<Link disabled={props.disabled} href={href} passHref>
+			<StyledA
+				as='a'
+				ref={forwardedRef as React.Ref<HTMLAnchorElement>}
+				{...attrs}
+				sx={{
+					...theme.buttons.sizes[size],
+					...theme.buttons[variant],
+					...props.sx,
+				}}
+			>
+				<>
+					{startIcon && <StartIconContainer>{startIcon}</StartIconContainer>}
+					{children}
+					{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
+				</>
+			</StyledA>
+		</Link>
 	)
 }
 
-Button.defaultProps = {
+LinkButton.defaultProps = {
 	fullWidth: false,
 	disabled: false,
+	href: undefined,
 
 	// Style variant
 	variant: 'primary',
@@ -86,8 +92,7 @@ Button.defaultProps = {
 	// Size variants
 	size: 'medium',
 
-	onClick: noop,
 	sx: {},
 }
 
-export default withForwardRef<HTMLButtonElement, ButtonProps>(Button)
+export default withForwardRef<HTMLAnchorElement, LinkButtonProps>(LinkButton)

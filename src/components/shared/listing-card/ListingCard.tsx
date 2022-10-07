@@ -68,108 +68,112 @@ function ListingCard({
 	const { t } = useTranslation('common')
 
 	return (
-		<Link href={href} disabled={disabled}>
-			<CardContainer unavailable={unavailable}>
-				{unavailable && <ListingOverlay>{unavailableText}</ListingOverlay>}
-				<ImageSection>
-					{imageUrl?.every(img => img === '') ? (
-						<ImagePlaceholder width='61.56px' height='57.87px' />
-					) : (
-						<Image src={imageUrl ?? []} />
-					)}
-					<RightTopImageArea
-						onClick={e => {
-							// disable link when clicking on like icon
-							e.preventDefault()
-							onLike(NFTProps)
-						}}
-					>
-						<LikeIconContainer>
-							{liked ? (
-								<HeartFilledIcon width='18px' height='15.24px' />
-							) : (
-								<HeartIcon width='18px' height='15.24px' />
-							)}
-						</LikeIconContainer>
-					</RightTopImageArea>
-					{(nfts || []).length ? (
-						<BottomImageArea>
-							<PreviewNFTsSection>
-								{(nfts || []).slice(0, previewItemsLimit).map(nft => (
-									<PreviewImageContainer key={`${nft.collectionAddress}_${nft.tokenId}`}>
-										{nft?.imageUrl?.every(img => img === '') ? (
-											<ImagePlaceholder width='18px' height='18px' />
-										) : (
-											<PreviewImage src={nft?.imageUrl ?? []} />
-										)}
-									</PreviewImageContainer>
-								))}
-								{(nfts || []).slice(previewItemsLimit).length
-									? `+${(nfts || []).slice(previewItemsLimit).length}`
-									: ''}
-							</PreviewNFTsSection>
-						</BottomImageArea>
-					) : null}
-				</ImageSection>
-				<DescriptionSection>
-					<Flex>
-						<Flex sx={{ flex: 1 }}>
-							<OverflowTip>
-								<Title>{name}</Title>
-							</OverflowTip>
-						</Flex>
-						<Flex sx={{ gap: '4px' }}>
-							{isPrivate && (
-								<StatusIconContainer>
-									<TradeIcon />
-								</StatusIconContainer>
-							)}
-						</Flex>
-					</Flex>
-					<Flex>
-						<OverflowTip>
-							<Subtitle>{collectionName}</Subtitle>
-						</OverflowTip>
-						{verified && (
-							<Box ml={['4px']} mt='6px'>
-								<VerifiedIcon width='17.27px' height='17.27px' />
-							</Box>
+		<Link passHref href={href} disabled={disabled}>
+			<a>
+				<CardContainer unavailable={unavailable}>
+					{unavailable && <ListingOverlay>{unavailableText}</ListingOverlay>}
+					<ImageSection>
+						{imageUrl?.every(img => img === '') ? (
+							<ImagePlaceholder width='61.56px' height='57.87px' />
+						) : (
+							<Image src={imageUrl ?? []} />
 						)}
-					</Flex>
-				</DescriptionSection>
-				<LookingForSection>
-					<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
-					<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-						{!lookingFor?.length ? <Chip>{t('common:any-offer')}</Chip> : null}
-						{(lookingFor || []).map((value, index) =>
-							index < lookingForItemsLimit ? (
-								<Chip key={JSON.stringify(value)}>
-									{value.amount
-										? `${value.amount} ${value.currency}`
-										: value.collectionName}
-								</Chip>
-							) : null
-						)}
-						{lookingFor?.slice(lookingForItemsLimit).length ? (
-							<Tooltip
-								overlay={
-									<div>
-										{lookingFor?.slice(lookingForItemsLimit).map(value => (
-											<div key={JSON.stringify(value)}>
-												{value.amount
-													? `${value.amount} ${value.currency}`
-													: value.collectionName}
-											</div>
-										))}
-									</div>
-								}
-							>
-								<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
-							</Tooltip>
+						<RightTopImageArea
+							onClick={e => {
+								// disable link when clicking on like icon
+								e.preventDefault()
+								onLike(NFTProps)
+							}}
+						>
+							<LikeIconContainer>
+								{liked ? (
+									<HeartFilledIcon width='18px' height='15.24px' />
+								) : (
+									<HeartIcon width='18px' height='15.24px' />
+								)}
+							</LikeIconContainer>
+						</RightTopImageArea>
+						{(nfts || []).length ? (
+							<BottomImageArea>
+								<PreviewNFTsSection>
+									{(nfts || []).slice(0, previewItemsLimit).map(nft => (
+										<PreviewImageContainer
+											key={`${nft.collectionAddress}_${nft.tokenId}`}
+										>
+											{nft?.imageUrl?.every(img => img === '') ? (
+												<ImagePlaceholder width='18px' height='18px' />
+											) : (
+												<PreviewImage src={nft?.imageUrl ?? []} />
+											)}
+										</PreviewImageContainer>
+									))}
+									{(nfts || []).slice(previewItemsLimit).length
+										? `+${(nfts || []).slice(previewItemsLimit).length}`
+										: ''}
+								</PreviewNFTsSection>
+							</BottomImageArea>
 						) : null}
-					</Flex>
-				</LookingForSection>
-			</CardContainer>
+					</ImageSection>
+					<DescriptionSection>
+						<Flex>
+							<Flex sx={{ flex: 1 }}>
+								<OverflowTip>
+									<Title>{name}</Title>
+								</OverflowTip>
+							</Flex>
+							<Flex sx={{ gap: '4px' }}>
+								{isPrivate && (
+									<StatusIconContainer>
+										<TradeIcon />
+									</StatusIconContainer>
+								)}
+							</Flex>
+						</Flex>
+						<Flex>
+							<OverflowTip>
+								<Subtitle>{collectionName}</Subtitle>
+							</OverflowTip>
+							{verified && (
+								<Box ml={['4px']} mt='6px'>
+									<VerifiedIcon width='17.27px' height='17.27px' />
+								</Box>
+							)}
+						</Flex>
+					</DescriptionSection>
+					<LookingForSection>
+						<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
+						<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+							{!lookingFor?.length ? <Chip>{t('common:any-offer')}</Chip> : null}
+							{(lookingFor || []).map((value, index) =>
+								index < lookingForItemsLimit ? (
+									<Chip key={JSON.stringify(value)}>
+										{value.amount
+											? `${value.amount} ${value.currency}`
+											: value.collectionName}
+									</Chip>
+								) : null
+							)}
+							{lookingFor?.slice(lookingForItemsLimit).length ? (
+								<Tooltip
+									overlay={
+										<div>
+											{lookingFor?.slice(lookingForItemsLimit).map(value => (
+												<div key={JSON.stringify(value)}>
+													{value.amount
+														? `${value.amount} ${value.currency}`
+														: value.collectionName}
+												</div>
+											))}
+										</div>
+									}
+								>
+									<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
+								</Tooltip>
+							) : null}
+						</Flex>
+					</LookingForSection>
+				</CardContainer>
+			</a>
 		</Link>
 	)
 }

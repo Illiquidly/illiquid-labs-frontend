@@ -431,11 +431,9 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 											!counterTrade?.tradeInfo?.assetsWithdrawn &&
 											![TRADE_STATE.Accepted].includes(tradeInfo?.state as TRADE_STATE) &&
 											[TRADE_STATE.Created].includes(counterTrade?.tradeInfo?.state) && (
-												<>
-													<Button onClick={async () => confirmCounter(counterTrade)}>
-														{t('common:publish')}
-													</Button>
-												</>
+												<Button onClick={async () => confirmCounter(counterTrade)}>
+													{t('common:publish')}
+												</Button>
 											)}
 									</Flex>
 								</TableBodyRowCell>
