@@ -117,18 +117,20 @@ export const theme = makeTheme({
 			boxShadow: 'inset 0px -1px 0px 1px rgba(0, 0, 0, 0.15)',
 			borderRadius: '8px',
 			'&:hover': {
+				cursor: 'pointer',
 				bg: 'primary200',
 				boxShadow: 'inset 0px -1px 0px 1px rgba(15, 58, 81, 0.3)',
 			},
 			'&:active': {
+				cursor: 'pointer',
 				bg: 'primary200',
 				boxShadow: '0px 0px 0px 4px rgba(63, 138, 224, 0.3)',
 			},
 			'&:disabled': {
+				cursor: 'not-allowed',
 				background: 'dark400',
 				boxShadow: 'inset 0px -1px 0px 1px rgba(0, 0, 0, 0.15)',
 				color: 'dark500',
-				cursor: 'not-allowed',
 			},
 		},
 		secondary: {
@@ -143,12 +145,14 @@ export const theme = makeTheme({
 			boxShadow: 'inset 0px -1px 0px 1px rgba(36, 88, 116, 0.4)',
 			borderRadius: '8px',
 			'&:hover': {
+				cursor: 'pointer',
 				bg: 'dark400',
 				borderStyle: 'solid',
 				borderWidth: '1px',
 				borderColor: 'dark500',
 			},
 			'&:active': {
+				cursor: 'pointer',
 				bg: 'dark400',
 				boxShadow: '0px 0px 0px 4px rgba(63, 138, 224, 0.3)',
 			},
@@ -172,6 +176,7 @@ export const theme = makeTheme({
 			boxShadow: 'inset 0px -1px 0px 1px rgba(36, 88, 116, 0.4)',
 			borderRadius: '8px',
 			'&:hover': {
+				cursor: 'pointer',
 				bg: 'rgba(45, 115, 255, 0.3)',
 				borderWidth: '1px',
 				borderStyle: 'solid',
@@ -179,6 +184,7 @@ export const theme = makeTheme({
 				boxShadow: 'none',
 			},
 			'&:active': {
+				cursor: 'pointer',
 				bg: 'primary100',
 			},
 			'&:disabled': {
@@ -198,10 +204,12 @@ export const theme = makeTheme({
 			boxShadow: 'inset 0px -1px 0px 1px rgba(0, 0, 0, 0.15)',
 			borderRadius: '8px',
 			'&:hover': {
+				cursor: 'pointer',
 				bg: 'error100',
 				boxShadow: '0px 0px 0px 4px rgba(224, 63, 63, 0.3)',
 			},
 			'&:active': {
+				cursor: 'pointer',
 				bg: 'error300',
 			},
 			'&:disabled': {
@@ -223,6 +231,7 @@ export const theme = makeTheme({
 			borderStyle: 'solid',
 			borderColor: 'dark500',
 			'&:hover': {
+				cursor: 'pointer',
 				bg: '#4F798E',
 				borderWidth: '2px',
 				borderStyle: 'solid',
@@ -230,6 +239,7 @@ export const theme = makeTheme({
 				boxShadow: '0px 0px 0px 4px rgba(63, 138, 224, 0.3)',
 			},
 			'&:active': {
+				cursor: 'pointer',
 				bg: 'dark300',
 				borderWidth: '2px',
 				borderStyle: 'solid',
@@ -254,10 +264,12 @@ export const theme = makeTheme({
 			borderRadius: '8px',
 			boxShadow: 'inset 0px -1px 0px 1px rgba(0, 0, 0, 0.15)',
 			'&:hover': {
+				cursor: 'pointer',
 				background: 'primary90',
 				boxShadow: '0px 0px 0px 4px rgba(63, 138, 224, 0.3)',
 			},
 			'&:active': {
+				cursor: 'pointer',
 				background: 'primary90',
 				borderStyle: 'solid',
 				borderColor: 'dark300',
@@ -283,12 +295,14 @@ export const theme = makeTheme({
 			boxShadow: 'inset 0px -1px 0px 1px rgba(36, 88, 116, 0.4)',
 			borderRadius: '8px',
 			'&:hover': {
+				cursor: 'pointer',
 				bg: 'dark400',
 				borderStyle: 'solid',
 				borderWidth: '1px',
 				borderColor: 'dark500',
 			},
 			'&:active': {
+				cursor: 'pointer',
 				bg: 'dark400',
 				boxShadow: '0px 0px 0px 4px rgba(63, 138, 224, 0.3)',
 				borderColor: 'primary100',

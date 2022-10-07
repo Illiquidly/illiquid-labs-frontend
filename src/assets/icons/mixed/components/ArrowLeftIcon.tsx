@@ -12,7 +12,7 @@ function SvgComponent(props) {
 		>
 			<path
 				d='M5.793 9.667L1.5 5.5m0 0l4.293-4.166M1.5 5.5h11'
-				stroke='#fff'
+				stroke='currentColor'
 				strokeWidth={2}
 				strokeMiterlimit={10}
 				strokeLinecap='round'

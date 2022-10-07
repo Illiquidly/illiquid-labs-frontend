@@ -49,8 +49,3 @@ input[type='reset'] {
 a {
 	all: unset;
 }
-
-a:hover {
-	text-decoration: none;
-	cursor: pointer;
-}

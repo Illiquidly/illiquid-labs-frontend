@@ -33,7 +33,7 @@ export interface LinkButtonProps {
 	children?: React.ReactNode
 }
 
-const StyledA = styled(Box, {
+const StyledButton = styled(Box, {
 	shouldForwardProp: prop => prop !== 'fullWidth',
 })<LinkButtonProps>`
 	${props => (props.fullWidth ? 'flex: 1' : '')}
@@ -61,13 +61,15 @@ const LinkButton = ({ children, ...props }: LinkButtonProps) => {
 
 	return (
 		<Link disabled={props.disabled} href={href} passHref>
-			<StyledA
-				as='a'
+			<StyledButton
 				ref={forwardedRef as React.Ref<HTMLAnchorElement>}
 				{...attrs}
 				sx={{
 					...theme.buttons.sizes[size],
 					...theme.buttons[variant],
+					...(theme.buttons[variant]
+						? { '&[disabled]': theme.buttons[variant]['&:disabled'] }
+						: {}),
 					...props.sx,
 				}}
 			>
@@ -76,7 +78,7 @@ const LinkButton = ({ children, ...props }: LinkButtonProps) => {
 					{children}
 					{endIcon && <EndIconContainer>{endIcon}</EndIconContainer>}
 				</>
-			</StyledA>
+			</StyledButton>
 		</Link>
 	)
 }
