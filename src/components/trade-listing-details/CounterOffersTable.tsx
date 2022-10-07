@@ -43,6 +43,7 @@ import {
 	DenyCounterOfferModalProps,
 	DenyCounterOfferModalResult,
 	DenySuccessModalProps,
+	OfferAcceptedModal,
 } from 'components/trade-listing-details/modals'
 import { asyncAction } from 'utils/js/asyncAction'
 import { TxBroadcastingModal } from 'components/shared'
@@ -141,7 +142,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 		)
 
 		if (result) {
-			const acceptTradeResult = await NiceModal.show(TxBroadcastingModal, {
+			await NiceModal.show(TxBroadcastingModal, {
 				transactionAction: acceptTrade(
 					counterTrade.counterId,
 					counterTrade.trade.tradeId,
@@ -153,9 +154,10 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 			await updateCounterTrade(counterTrade)
 
-			console.warn(acceptTradeResult)
-
-			// TODO: show offer accepted modal
+			await NiceModal.show(OfferAcceptedModal, {
+				counterTrade,
+				trade,
+			})
 		}
 	}
 

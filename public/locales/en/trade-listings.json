@@ -91,6 +91,15 @@
 	"view-counter-offer-modal": {
 		"title": "Counter Offer"
 	},
+	"offer-accepted-modal": {
+		"title": "Offer Accepted",
+		"answer": "Congratulations! You’ve accepted {{username}} offer! This is what you will receive.",
+		"note": "Your should receive your items",
+		"back-to-listing": "Back to Listing",
+		"go-to-dashboard": "Go to Dashboard",
+		"your-listing": "Your listing",
+		"offer": "{{username}}'s offer"
+	},
 	"listed": "Listed {{listed}}",
 	"view-all-nfts": "View all NFTs",
 	"not-found-text": "Oops! Looks like this listing",

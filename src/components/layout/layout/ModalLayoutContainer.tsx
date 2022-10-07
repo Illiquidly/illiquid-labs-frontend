@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { Box } from 'theme-ui'
-import { Container } from './LayoutContainer.styled'
 
 export const ModalLayoutContainer = styled(Box)`
 	position: relative;
@@ -9,8 +8,9 @@ export const ModalLayoutContainer = styled(Box)`
 	margin: 0 auto;
 `
 
-Container.defaultProps = {
+ModalLayoutContainer.defaultProps = {
 	sx: {
 		px: ['16px', '32px', '32px', '16px'],
+		py: ['16px', '32px', '32px', '16px'],
 	},
 }

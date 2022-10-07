@@ -1,4 +1,6 @@
+import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
+import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import { Button } from 'components/ui'
 import { Img } from 'react-image'
 import { Box, Flex, Text } from 'theme-ui'
@@ -57,7 +59,7 @@ export const TokenChip = styled.div`
 	text-align: center;
 	padding: 4px 6px 4px 4px;
 	gap: 8px;
-	min-width: 38px;
+	min-width: 54px;
 
 	height: 32px;
 
@@ -220,3 +222,76 @@ export const StatusIconContainer = styled(Flex)`
 	border-radius: 8px;
 	backdrop-filter: blur(24px);
 `
+
+export const HorizontalDividerLine = styled.div`
+	flex: 1;
+	height: 1px;
+	background: ${props => props.theme.colors.dark500};
+`
+
+export const VerticalDividerLine = styled.div`
+	flex: 1;
+	width: 1px;
+	background: ${props => props.theme.colors.dark500};
+`
+
+export const HorizontalTradeLine = () => {
+	const theme = useTheme()
+	return (
+		<Flex sx={{ mt: '10px', gap: '2px', mb: '10px', alignItems: 'center' }}>
+			<HorizontalDividerLine />
+			<Flex
+				sx={{
+					width: '20px',
+					height: '20px',
+					background: 'primary100',
+					borderWidth: '2px',
+					borderStyle: 'solid',
+					borderColor: 'dark400',
+					borderRadius: '6px',
+					alignItems: 'center',
+					justifyContent: 'center',
+					transform: 'rotate(90deg)',
+				}}
+			>
+				<TradeIcon color={theme.colors.dark400} width='12px' height='12px' />
+			</Flex>
+			<HorizontalDividerLine />
+		</Flex>
+	)
+}
+
+export const VerticalTradeLine = () => {
+	const theme = useTheme()
+	return (
+		<Flex
+			sx={{
+				height: '100%',
+				flexDirection: 'column',
+				ml: '10px',
+				gap: '2px',
+				mr: '10px',
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
+			<VerticalDividerLine />
+			<Flex
+				sx={{
+					width: '20px',
+					height: '20px',
+					background: 'primary100',
+					borderWidth: '2px',
+					borderStyle: 'solid',
+					borderColor: 'dark400',
+					borderRadius: '6px',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<TradeIcon color={theme.colors.dark400} width='12px' height='12px' />
+			</Flex>
+			<VerticalDividerLine />
+		</Flex>
+	)
+}

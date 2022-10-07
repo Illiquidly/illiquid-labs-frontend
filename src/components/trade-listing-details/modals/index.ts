@@ -19,3 +19,7 @@ export type { DenySuccessModalProps } from './deny-counter-offer-success-modal/D
 export type { EditModalResult } from './edit-modal/EditModal'
 
 export type { RemoveModalProps } from './remove-modal/RemoveModal'
+
+export type { OfferAcceptedModalProps } from './offer-accepted-modal/OfferAcceptedModal'
+
+export { default as OfferAcceptedModal } from './offer-accepted-modal/OfferAcceptedModal'
