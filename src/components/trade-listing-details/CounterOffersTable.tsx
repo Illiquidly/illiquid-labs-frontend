@@ -342,6 +342,11 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
+									<Box sx={{ textTransform: 'capitalize' }}>
+										{counterTrade.tradeInfo.state}
+									</Box>
+								</TableBodyRowCell>
+								<TableBodyRowCell>
 									<Flex
 										sx={{
 											minWidth: '100px',
@@ -351,6 +356,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 										{moment(counterTradeInfo?.additionalInfo?.time).fromNow()}
 									</Flex>
 								</TableBodyRowCell>
+
 								<TableBodyRowCell
 									onClick={e => {
 										e.stopPropagation()

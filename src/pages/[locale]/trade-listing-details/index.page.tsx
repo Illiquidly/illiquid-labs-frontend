@@ -289,23 +289,22 @@ export default function ListingDetails() {
 									</Row>
 								)}
 
-								{!isMyTrade && trade && (
-									<Row>
-										<LinkButton
-											disabled={
-												![TRADE_STATE.Published, TRADE_STATE.Countered].includes(
-													tradeInfo?.state as TRADE_STATE
-												)
-											}
-											size='extraLarge'
-											href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
-											fullWidth
-											variant='gradient'
-										>
-											<div>{t('trade-listings:make-offer')}</div>
-										</LinkButton>
-									</Row>
-								)}
+								{!isMyTrade &&
+									trade &&
+									[TRADE_STATE.Published, TRADE_STATE.Countered].includes(
+										tradeInfo?.state as TRADE_STATE
+									) && (
+										<Row>
+											<LinkButton
+												size='extraLarge'
+												href={`${ROUTES.TRADE_CREATE_COUNTER_LISTING}?tradeId=${tradeId}`}
+												fullWidth
+												variant='gradient'
+											>
+												<div>{t('trade-listings:make-offer')}</div>
+											</LinkButton>
+										</Row>
+									)}
 
 								{/* Case when counterer withdraws my trade, after accepting. */}
 								{tradeInfo &&

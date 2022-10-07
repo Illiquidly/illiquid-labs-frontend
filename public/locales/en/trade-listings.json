@@ -6,7 +6,7 @@
 	"counter-offers": {
 		"title": "Counter Offers",
 		"table": {
-			"columns": ["User", "NFTs", "Tokens", "Date"],
+			"columns": ["User", "NFTs", "Tokens", "Status", "Date"],
 			"approve": "Approve",
 			"deny": "Deny"
 		}
