@@ -202,7 +202,6 @@ export default function TradeCounter() {
 											sx={{
 												flex: 1,
 												order: [1, 1, 3],
-												maxWidth: [null, null, '488px'],
 											}}
 										>
 											<Box sx={{ width: '100%' }}>
@@ -234,7 +233,6 @@ export default function TradeCounter() {
 										<Card
 											sx={{
 												flex: 1,
-												maxWidth: [null, null, '488px'],
 												order: [3, 3, 1],
 												flexDirection: 'column',
 												p: '12px',
