@@ -4,6 +4,7 @@ import React from 'react'
 import { LayoutContainer, Page } from 'components'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
+import PageNotFound from 'components/shared/page-not-found/PageNotFound'
 
 const getStaticProps = makeStaticProps(['common'])
 const getStaticPaths = makeStaticPaths()
@@ -15,7 +16,7 @@ export default function Trade() {
 	return (
 		<Page title={t('common:title')}>
 			<LayoutContainer>
-				<div>404</div>
+				<PageNotFound />
 			</LayoutContainer>
 		</Page>
 	)

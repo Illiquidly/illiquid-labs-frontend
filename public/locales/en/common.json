@@ -55,5 +55,7 @@
 	"tx-hash": "Tx Hash",
 	"complete": "Complete",
 	"done": "Done",
-	"private-trade": "Private trade"
+	"private-trade": "Private trade",
+	"oops": "Oops",
+	"page-not-found-text": "404 - Page not found"
 }
