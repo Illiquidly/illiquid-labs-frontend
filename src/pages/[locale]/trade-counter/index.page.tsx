@@ -14,7 +14,11 @@ import { makeStaticPaths, makeStaticProps } from 'lib'
 import { Box, Flex } from 'theme-ui'
 import moment from 'moment'
 
-import { Row } from 'components/trade-listing-details'
+import {
+	HorizontalTradeLine,
+	Row,
+	VerticalTradeLine,
+} from 'components/trade-listing-details'
 
 import {
 	ArrowLeftIcon,
@@ -193,101 +197,153 @@ export default function TradeCounter() {
 											{t('trade-listings:trade-counter.submit-counter-offer')}
 										</ModalTitle>
 									</Row>
-									<Flex>
-										<SelectNFTs />
-									</Flex>
+									<Flex sx={{ flexDirection: ['column', 'column', 'row'] }}>
+										<Flex
+											sx={{
+												flex: 1,
+												order: [1, 1, 3],
+												maxWidth: [null, null, '488px'],
+											}}
+										>
+											<Box sx={{ width: '100%' }}>
+												<SelectNFTs />
+											</Box>
+										</Flex>
 
-									<Card sx={{ flexDirection: 'column', p: '12px' }}>
-										<Box sx={{ flex: 1 }}>
-											<ImageRow
-												nft={tradePreview?.cw721Coin}
-												imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
-												onLike={noop}
-												liked={false}
-											/>
-
-											<Row>
-												<Button fullWidth variant='dark' onClick={handleViewAllNFTs}>
-													<Flex sx={{ alignItems: 'center' }}>
-														<NFTPreviewImages
-															nfts={(tradeInfo?.associatedAssets ?? [])
-																.filter(asset => asset.cw721Coin)
-																.map(({ cw721Coin }) => cw721Coin as NFT)}
-														/>
-														<div>{t('trade-listings:view-all-nfts')}</div>
-													</Flex>
-												</Button>
-											</Row>
+										<Box
+											sx={{
+												order: 2,
+												my: 10,
+												width: '100%',
+												display: ['block', 'block', 'none'],
+											}}
+										>
+											<HorizontalTradeLine />
 										</Box>
-										<Box sx={{ flex: 1 }}>
-											<Row>
-												<DescriptionRow
-													name={tradePreview?.cw721Coin?.name}
-													isPrivate={(whitelistedUsers ?? []).length > 0}
-													collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
-													verified={(verifiedCollections ?? []).some(
-														({ collectionAddress }) =>
-															tradePreview?.cw721Coin?.collectionAddress === collectionAddress
-													)}
+
+										<Box
+											sx={{
+												order: 2,
+												minHeight: '100%',
+												display: ['none', 'none', 'block'],
+											}}
+										>
+											<VerticalTradeLine />
+										</Box>
+
+										<Card
+											sx={{
+												flex: 1,
+												maxWidth: [null, null, '488px'],
+												order: [3, 3, 1],
+												flexDirection: 'column',
+												p: '12px',
+											}}
+										>
+											<Box sx={{ flex: 1 }}>
+												<ImageRow
+													nft={tradePreview?.cw721Coin}
+													imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
+													onLike={noop}
+													liked={false}
 												/>
-											</Row>
-											{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
+
 												<Row>
-													<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-														{(tradePreview?.cw721Coin?.attributes ?? []).map(attribute => (
-															<PrimaryAttributeCard
-																key={JSON.stringify(attribute)}
-																name={attribute.traitType}
-																value={attribute.value}
+													<Button fullWidth variant='dark' onClick={handleViewAllNFTs}>
+														<Flex sx={{ alignItems: 'center' }}>
+															<NFTPreviewImages
+																nfts={(tradeInfo?.associatedAssets ?? [])
+																	.filter(asset => asset.cw721Coin)
+																	.map(({ cw721Coin }) => cw721Coin as NFT)}
 															/>
-														))}
-													</Flex>
+															<div>{t('trade-listings:view-all-nfts')}</div>
+														</Flex>
+													</Button>
 												</Row>
-											)}
-											<Row>
-												<DescriptionCard>
-													<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
-														<AvatarIcon />
-														<Box sx={{ ml: '3px', flex: 1 }}>
-															{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
-														</Box>
-													</DescriptionCardItem>
-													<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
-														<WalletIcon
-															width='20px'
-															height='20px'
-															color={theme.colors.gray1000}
-														/>
-														<Box
-															sx={{
-																ml: '9px',
-																flex: 1,
-															}}
-														>
-															{tradeInfo?.owner ?? ''}
-														</Box>
-													</DescriptionCardItem>
-													<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
-														<CalendarIcon
-															width='20px'
-															height='20px'
-															color={theme.colors.gray1000}
-														/>
-														<Box
-															sx={{
-																ml: '9px',
-																flex: 1,
-															}}
-														>
-															{t(`trade-listings:listed`, {
-																listed: moment(tradeInfo?.additionalInfo?.time ?? '').fromNow(),
-															})}
-														</Box>
-													</DescriptionCardItem>
-												</DescriptionCard>
-											</Row>
-										</Box>
-									</Card>
+											</Box>
+											<Box sx={{ flex: 1 }}>
+												<Row>
+													<DescriptionRow
+														name={
+															<Box
+																sx={{
+																	fontSize: [null, null, '30px'],
+																	lineHeight: [null, null, '32px'],
+																}}
+															>
+																{tradePreview?.cw721Coin?.name}
+															</Box>
+														}
+														isPrivate={(whitelistedUsers ?? []).length > 0}
+														collectionName={tradePreview?.cw721Coin?.collectionName ?? ''}
+														verified={(verifiedCollections ?? []).some(
+															({ collectionAddress }) =>
+																tradePreview?.cw721Coin?.collectionAddress === collectionAddress
+														)}
+													/>
+												</Row>
+												{Boolean(tradePreview?.cw721Coin?.attributes?.length) && (
+													<Row>
+														<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
+															{(tradePreview?.cw721Coin?.attributes ?? []).map(attribute => (
+																<PrimaryAttributeCard
+																	key={JSON.stringify(attribute)}
+																	name={attribute.traitType}
+																	value={attribute.value}
+																/>
+															))}
+														</Flex>
+													</Row>
+												)}
+												<Row>
+													<DescriptionCard>
+														<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+															<AvatarIcon />
+															<Box sx={{ ml: '3px', flex: 1 }}>
+																{`''${
+																	tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
+																}''`}
+															</Box>
+														</DescriptionCardItem>
+														<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+															<WalletIcon
+																width='20px'
+																height='20px'
+																color={theme.colors.gray1000}
+															/>
+															<Box
+																sx={{
+																	ml: '9px',
+																	flex: 1,
+																}}
+															>
+																{tradeInfo?.owner ?? ''}
+															</Box>
+														</DescriptionCardItem>
+														<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
+															<CalendarIcon
+																width='20px'
+																height='20px'
+																color={theme.colors.gray1000}
+															/>
+															<Box
+																sx={{
+																	ml: '9px',
+																	flex: 1,
+																}}
+															>
+																{t(`trade-listings:listed`, {
+																	listed: moment(
+																		tradeInfo?.additionalInfo?.time ?? ''
+																	).fromNow(),
+																})}
+															</Box>
+														</DescriptionCardItem>
+													</DescriptionCard>
+												</Row>
+											</Box>
+										</Card>
+									</Flex>
 								</>
 							) : (
 								<Flex
