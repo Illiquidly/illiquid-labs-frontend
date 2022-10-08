@@ -67,7 +67,6 @@ import {
 	SubmitCounterOfferModal,
 	SubmitCounterOfferModalProps,
 } from 'components/trade-counter/modals'
-import { amountConverter } from 'utils/blockchain/terraUtils'
 import SubmitCounterOfferSuccessModal, {
 	SubmitCounterOfferSuccessModalProps,
 } from 'components/trade-counter/modals/submit-counter-offer-success/SubmitCounterOfferSuccessModal'
@@ -123,7 +122,7 @@ export default function TradeCounter() {
 	useHeaderActions(<CreateTradeListing />)
 
 	const formMethods = useForm<TradeCounterForm>({
-		mode: 'onChange',
+		mode: 'all',
 		resolver: yupResolver(TradeCounterValidationSchema),
 		defaultValues: {
 			selectedNFTs: [],
@@ -160,7 +159,7 @@ export default function TradeCounter() {
 					...(tokenAmount
 						? [
 								{
-									amount: amountConverter.userFacingToBlockchainValue(tokenAmount),
+									amount: tokenAmount,
 									currency: tokenName,
 								},
 						  ]
@@ -181,6 +180,7 @@ export default function TradeCounter() {
 					tradeId: Number(tradeId),
 					comment,
 					cw721Tokens: selectedNFTs,
+					amountLuna: tokenAmount,
 				}),
 				closeOnFinish: true,
 			})

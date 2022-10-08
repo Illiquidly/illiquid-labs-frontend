@@ -1,21 +1,25 @@
 import { useTheme } from '@emotion/react'
 import { WalletIcon } from 'assets/icons/mixed'
 import TradeAssetImage from 'assets/images/TradeAsset'
-import { Button, Card, TextArea } from 'components/ui'
+import { Button, Card, TextArea, TextInput } from 'components/ui'
 import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { Box } from 'theme-ui'
+import { Box, Flex } from 'theme-ui'
 import NiceModal from '@ebay/nice-modal-react'
 import { asyncAction } from 'utils/js/asyncAction'
 import { MyNFTsModal } from 'components/shared'
 import { NFT } from 'services/api/walletNFTsService'
 import { useFormContext } from 'react-hook-form'
+import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import {
 	AttributeCard,
 	AttributeName,
 	AttributeValue,
+	Grid,
 	Label,
+	PreviewImage,
+	PreviewImageContainer,
 	SelectNFTsSection,
 	Subtitle,
 	Title,
@@ -29,6 +33,7 @@ export default function SelectNFTs() {
 		setValue,
 		getValues,
 		register,
+		watch,
 		formState: { isValid },
 	} = useFormContext()
 
@@ -63,29 +68,85 @@ export default function SelectNFTs() {
 				</AttributeValue>
 			</AttributeCard>
 			<SelectNFTsSection>
-				<TradeAssetImage height='99.84px' width='91.59px' />
-				<Title>{t('trade-listings:trade-counter.select-at-least-one-item')}</Title>
-				<Box sx={{ mt: 2 }}>
-					<Subtitle>
-						{t(
-							'trade-listings:trade-counter.explain-what-sets-you-and-your-nfts-apart'
-						)}
-					</Subtitle>
-				</Box>
+				{watch('selectedNFTs').length ? (
+					<Flex sx={{ width: '100%', flexDirection: 'column' }}>
+						<Flex
+							sx={{
+								width: '100%',
+								justifyContent: 'space-between',
+							}}
+						>
+							<Flex sx={{ alignSelf: 'flex-start', flexDirection: 'column', flex: 1 }}>
+								<Flex>
+									<Title>{t('trade-listings:trade-counter.selected-nfts')}</Title>
+								</Flex>
+								<Box sx={{ mt: 2, alignSelf: 'flex-start' }}>
+									<Subtitle>
+										{t(
+											'trade-listings:trade-counter.explain-what-sets-you-and-your-nfts-apart'
+										)}
+									</Subtitle>
+								</Box>
+							</Flex>
+							<Flex sx={{ marginLeft: 'auto', alignItems: 'center' }}>
+								<Button onClick={handleSelectMyNFTs} variant='dark'>
+									{t('trade-listings:trade-counter.select-more')}
+								</Button>
+							</Flex>
+						</Flex>
+						<Flex>
+							<Grid>
+								{watch('selectedNFTs').map(nft => (
+									<PreviewImageContainer key={`${nft.collectionAddress}_${nft.tokenId}`}>
+										{nft?.imageUrl?.every(img => img === '') ? (
+											<Flex sx={{ maxWidth: '61px', maxHeight: '61px' }}>
+												<ImagePlaceholder width='100%' height='100%' />
+											</Flex>
+										) : (
+											<PreviewImage src={nft?.imageUrl ?? []} />
+										)}
+									</PreviewImageContainer>
+								))}
+							</Grid>
+						</Flex>
+					</Flex>
+				) : (
+					<>
+						<TradeAssetImage height='99.84px' width='91.59px' />
+						<Title>
+							{t('trade-listings:trade-counter.select-at-least-one-item')}
+						</Title>
+						<Box sx={{ mt: 2 }}>
+							<Subtitle>
+								{t(
+									'trade-listings:trade-counter.explain-what-sets-you-and-your-nfts-apart'
+								)}
+							</Subtitle>
+						</Box>
 
-				<Box sx={{ mt: 10 }}>
-					<Button
-						onClick={handleSelectMyNFTs}
-						sx={{ minWidth: ['140px'] }}
-						variant='gradient'
-					>
-						{t('trade-listings:trade-counter.pick-nfts')}
-					</Button>
-				</Box>
+						<Box sx={{ mt: 10 }}>
+							<Button
+								onClick={handleSelectMyNFTs}
+								sx={{ minWidth: ['140px'] }}
+								variant='gradient'
+							>
+								{t('trade-listings:trade-counter.pick-nfts')}
+							</Button>
+						</Box>
+					</>
+				)}
 			</SelectNFTsSection>
-			<Button variant='dark'>
-				{t('trade-listings:trade-counter.add-a-token-on-top')}
-			</Button>
+
+			<Label>
+				{t('trade-listings:trade-counter.tokens-i-would-like-to-offer')}
+			</Label>
+			<TextInput
+				id='tokenAmount'
+				{...register('tokenAmount')}
+				placeholder={t('trade-listings:trade-counter.enter-amount', {
+					currency: getValues('tokenName'),
+				})}
+			/>
 
 			<Label>{t('trade-listings:trade-counter.write-a-comment')}</Label>
 			<TextArea
@@ -96,7 +157,7 @@ export default function SelectNFTs() {
 			/>
 
 			<Button
-				disabled={isValid}
+				disabled={!isValid}
 				type='submit'
 				variant='gradient'
 				size='extraLarge'

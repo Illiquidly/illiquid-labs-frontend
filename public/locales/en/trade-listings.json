@@ -118,7 +118,11 @@
 		"explain-what-sets-you-and-your-nfts-apart": "Explain what sets you and your NFTs apart",
 		"review-offer": "Review Offer",
 		"write-a-comment": "Write a comment",
-		"enter-text": "Enter text"
+		"enter-text": "Enter text",
+		"selected-nfts": "Selected NFT's",
+		"select-more": "Select more",
+		"tokens-i-would-like-to-offer": "Token I’d like to offer",
+		"enter-amount": "Enter amount for {{currency}}"
 	},
 	"submit-counter-offer-modal": {
 		"title": "Submit counter offer",
