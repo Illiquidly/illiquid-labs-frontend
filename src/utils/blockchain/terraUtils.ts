@@ -160,10 +160,11 @@ async function getWalletAddress(
 // Returns UST balance on the user's wallet
 export async function getBalanceUST(): Promise<number> {
 	const address = await getWalletAddress()
-	const lcdUrl = await getLcdURL()
-	const response = await axios.get(`${lcdUrl}/bank/balances/${address}`)
+	const lcdClient = await getLCDClient()
 
-	for (const coin of response.data.result) {
+	const [coins] = await lcdClient.bank.balance(address)
+
+	for (const coin of coins.toData()) {
 		if (coin.denom === 'uusd') {
 			return amountConverter.ust.blockchainValueToUserFacing(coin.amount)
 		}
@@ -175,10 +176,12 @@ export async function getBalanceUST(): Promise<number> {
 
 export async function getBalanceLUNA(): Promise<number> {
 	const address = await getWalletAddress()
-	const lcdUrl = await getLcdURL()
-	const response = await axios.get(`${lcdUrl}/bank/balances/${address}`)
 
-	for (const coin of response.data.result) {
+	const lcdClient = await getLCDClient()
+
+	const [coins] = await lcdClient.bank.balance(address)
+
+	for (const coin of coins.toData()) {
 		if (coin.denom === 'uluna') {
 			return amountConverter.luna.blockchainValueToUserFacing(coin.amount)
 		}

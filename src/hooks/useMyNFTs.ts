@@ -1,16 +1,13 @@
-import { useWallet, WalletStatus } from '@terra-money/use-wallet'
+import { useModal } from '@ebay/nice-modal-react'
+import { useQuery } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
-import promiseRetry from 'promise-retry'
 import React from 'react'
 import {
-	Collection,
-	NFT,
-	WalletNFTsResponse,
 	WalletNFTsService,
 	WALLET_NFT_STATE,
 } from 'services/api/walletNFTsService'
-import { getNetworkName } from 'utils/blockchain/terraUtils'
-import { asyncAction } from 'utils/js/asyncAction'
+
 import useAddress from './useAddress'
 
 export type UseMyNFTsFilters = {
@@ -20,77 +17,54 @@ export type UseMyNFTsFilters = {
 }
 
 export function useMyNFTs(filters: UseMyNFTsFilters) {
-	const [NFTs, setNFTs] = React.useState<NFT[]>([])
-	const [collections, setCollections] = React.useState<Collection[]>([])
 	const wallet = useWallet()
 	const myAddress = useAddress()
+	const modal = useModal()
 
-	const [partiallyLoading, setPartiallyLoading] = React.useState(false)
-	const [fullyLoading, setFullyLoading] = React.useState(false)
+	const {
+		data: partialData,
+		isLoading: partiallyLoading,
+		refetch: refetchPartial,
+	} = useQuery(
+		['partialWalletNFTs', myAddress, modal.visible],
+		async () =>
+			WalletNFTsService.requestUpdateNFTs(wallet.network.name, myAddress),
+		{
+			enabled: !!wallet.network && Boolean(myAddress) && modal.visible,
+			retry: true,
+		}
+	)
 
-	async function fetchMyNFTs() {
-		setPartiallyLoading(true)
-		setFullyLoading(true)
-
-		if (myAddress) {
-			const [, partialNFTs] = await asyncAction(
-				WalletNFTsService.requestUpdateNFTs(getNetworkName(), myAddress)
+	const { data: fullData, isLoading: fullyLoading } = useQuery(
+		['fullWalletNFTs', myAddress, partialData, modal.visible],
+		async () => {
+			const data = await WalletNFTsService.requestNFTs(
+				wallet.network.name,
+				myAddress
 			)
 
-			if (partialNFTs) {
-				const { ownedTokens, ownedCollections } = partialNFTs ?? {}
-
-				setCollections(ownedCollections)
-				setNFTs(ownedTokens)
+			if (data.state === WALLET_NFT_STATE.isUpdating) {
+				return Promise.reject(new Error('Not loaded fully reject!'))
 			}
 
-			setPartiallyLoading(false)
-
-			const [, fullNFTs] = await asyncAction(
-				promiseRetry(
-					{ minTimeout: 500, retries: 100, factor: 2, randomize: true },
-					async retry => {
-						const [error, response] = await asyncAction(
-							WalletNFTsService.requestNFTs(getNetworkName(), myAddress)
-						)
-
-						if (response?.state === WALLET_NFT_STATE.isUpdating) {
-							return retry("Try again, It's not ready yet!")
-						}
-
-						// If we get a partial result, we need to call update on the API once again
-						if (response?.state === WALLET_NFT_STATE.Partial) {
-							await asyncAction(
-								WalletNFTsService.requestNFTs(getNetworkName(), myAddress)
-							)
-
-							return retry("Try again, It's partial update!")
-						}
-
-						if (error) {
-							return retry('Try again state unknown')
-						}
-
-						return response
-					}
-				) as Promise<WalletNFTsResponse>
-			)
-
-			if (fullNFTs) {
-				const { ownedTokens, ownedCollections } = fullNFTs ?? {}
-
-				setCollections(ownedCollections)
-				setNFTs(ownedTokens)
+			if (data.state === WALLET_NFT_STATE.Partial) {
+				refetchPartial()
+				return Promise.reject(new Error('Loaded partially return!'))
 			}
-		}
-		setFullyLoading(false)
-	}
 
-	React.useEffect(() => {
-		if (wallet.status === WalletStatus.WALLET_CONNECTED) {
-			fetchMyNFTs()
+			return data
+		},
+		{
+			enabled:
+				!!wallet.network && !!partialData && Boolean(myAddress) && modal.visible,
+			retry: true,
 		}
-	}, [wallet.connection, wallet.network])
+	)
+
+	const data = fullData ?? partialData
+
+	const NFTs = data?.ownedTokens ?? []
+	const ownedCollections = data?.ownedCollections ?? []
 
 	const ownedNFTs = React.useMemo(() => {
 		return NFTs.filter(
@@ -115,10 +89,10 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 
 	return {
 		ownedNFTs,
-		ownedCollections: collections,
+		ownedCollections,
 		partiallyLoading,
 		fullyLoading,
-		fetchMyNFTs,
+		fetchMyNFTs: refetchPartial,
 	}
 }
 
