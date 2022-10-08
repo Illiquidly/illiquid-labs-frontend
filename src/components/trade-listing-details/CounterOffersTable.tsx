@@ -152,12 +152,13 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
-			await updateCounterTrade(counterTrade)
-
-			await NiceModal.show(OfferAcceptedModal, {
-				counterTrade,
-				trade,
-			})
+			await Promise.all([
+				updateCounterTrade(counterTrade),
+				NiceModal.show(OfferAcceptedModal, {
+					counterTrade,
+					trade,
+				}),
+			])
 		}
 	}
 
@@ -202,11 +203,12 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 				closeOnFinish: true,
 			})
 
-			await updateCounterTrade(counterTrade)
-
-			await NiceModal.show(DenyCounterOfferSuccessModal, {
-				counterTrade,
-			} as DenySuccessModalProps)
+			await Promise.all([
+				updateCounterTrade(counterTrade),
+				NiceModal.show(DenyCounterOfferSuccessModal, {
+					counterTrade,
+				} as DenySuccessModalProps),
+			])
 		}
 	}
 

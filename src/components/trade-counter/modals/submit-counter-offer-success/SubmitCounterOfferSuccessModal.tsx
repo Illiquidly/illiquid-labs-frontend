@@ -11,7 +11,6 @@ import { Button, Modal } from 'components/ui'
 
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
-import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
 import { ModalLayoutContainer } from 'components/layout'
 import { Trade } from 'services/api/tradesService'
@@ -25,11 +24,10 @@ import {
 } from './SubmitCounterOfferSuccessModal.styled'
 
 export interface SubmitCounterOfferSuccessModalProps {
-	counterTrade: CounterTrade
 	trade: Trade
 }
 const SubmitCounterOfferSuccessModal = NiceModal.create(
-	({ counterTrade, trade }: SubmitCounterOfferSuccessModalProps) => {
+	({ trade }: SubmitCounterOfferSuccessModalProps) => {
 		const modal = useModal()
 
 		const { t } = useTranslation(['common', 'trade-listings'])
@@ -90,7 +88,7 @@ const SubmitCounterOfferSuccessModal = NiceModal.create(
 										fullWidth
 										onClick={() => {
 											router.push(
-												`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${counterTrade.trade.tradeId}`
+												`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${trade.tradeId}`
 											)
 											modal.remove()
 										}}

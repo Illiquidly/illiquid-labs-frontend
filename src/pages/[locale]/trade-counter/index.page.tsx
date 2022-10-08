@@ -187,16 +187,16 @@ export default function TradeCounter() {
 
 			formMethods.reset()
 
-			const counterTrade = await CounterTradesService.getCounterTrade(
-				wallet.network.name,
-				tradeId as string,
-				counterId
-			)
-
-			await NiceModal.show(SubmitCounterOfferSuccessModal, {
-				counterTrade,
-				trade,
-			} as SubmitCounterOfferSuccessModalProps)
+			await Promise.all([
+				CounterTradesService.getCounterTrade(
+					wallet.network.name,
+					tradeId as string,
+					counterId
+				),
+				NiceModal.show(SubmitCounterOfferSuccessModal, {
+					trade,
+				} as SubmitCounterOfferSuccessModalProps),
+			])
 		}
 	}
 

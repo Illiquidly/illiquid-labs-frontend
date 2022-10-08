@@ -13,11 +13,11 @@ function AvatarIcon(props) {
 		>
 			<g clipPath='url(#clip0_3545_87031)'>
 				<rect y={0.781738} width={24} height={24} rx={4} fill='#2D73FF' />
-				<circle cx={12.5} cy={17.2817} r={16.5} fill='url(#pattern0)' />
+				<circle cx={12.5} cy={17.2817} r={16.5} fill='url(#avatar_icon0)' />
 			</g>
 			<defs>
 				<pattern
-					id='pattern0'
+					id='avatar_icon0'
 					patternContentUnits='objectBoundingBox'
 					width={1}
 					height={1}

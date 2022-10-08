@@ -11,10 +11,13 @@ function TradeAssetImage(props) {
 			xmlnsXlink='http://www.w3.org/1999/xlink'
 			{...props}
 		>
-			<path fill='url(#pattern0)' d='M0.90625 0H174.09425V188.774H0.90625z' />
+			<path
+				fill='url(#trade_asset_img0)'
+				d='M0.90625 0H174.09425V188.774H0.90625z'
+			/>
 			<defs>
 				<pattern
-					id='pattern0'
+					id='trade_asset_img0'
 					patternContentUnits='objectBoundingBox'
 					width={1}
 					height={1}
