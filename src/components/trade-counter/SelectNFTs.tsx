@@ -96,7 +96,7 @@ export default function SelectNFTs() {
 								</Button>
 							</Flex>
 						</Flex>
-						<Flex>
+						<Box>
 							<Grid>
 								{watch('selectedNFTs').map(nft => (
 									<PreviewImageContainer key={`${nft.collectionAddress}_${nft.tokenId}`}>
@@ -110,7 +110,7 @@ export default function SelectNFTs() {
 									</PreviewImageContainer>
 								))}
 							</Grid>
-						</Flex>
+						</Box>
 					</Flex>
 				) : (
 					<>
