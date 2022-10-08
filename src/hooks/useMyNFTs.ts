@@ -48,7 +48,7 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 
 			const [, fullNFTs] = await asyncAction(
 				promiseRetry(
-					{ minTimeout: 125, retries: 100, factor: 2, randomize: true },
+					{ minTimeout: 500, retries: 100, factor: 2, randomize: true },
 					async retry => {
 						const [error, response] = await asyncAction(
 							WalletNFTsService.requestNFTs(getNetworkName(), myAddress)
