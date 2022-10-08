@@ -63,6 +63,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import SelectNFTs from 'components/trade-counter/SelectNFTs'
 import { listCounterTradeOffer } from 'services/blockchain'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
+import {
+	SubmitCounterOfferModal,
+	SubmitCounterOfferModalProps,
+} from 'components/trade-counter/modals'
+import { amountConverter } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -142,31 +147,51 @@ export default function TradeCounter() {
 		}
 	}
 
-	const onSubmit = async ({ comment, selectedNFTs }) => {
+	const onSubmit = async ({ comment, selectedNFTs, tokenAmount, tokenName }) => {
 		if (!tradeId) {
 			return
 		}
-		const {
-			counterId,
-		}: {
-			tradeId: string
-			counterId: string
-		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: listCounterTradeOffer({
-				tradeId: Number(tradeId),
-				comment,
-				cw721Tokens: selectedNFTs,
-			}),
-			closeOnFinish: true,
-		})
 
-		await CounterTradesService.getCounterTrade(
-			wallet.network.name,
-			tradeId as string,
-			counterId
+		const [, result] = await asyncAction(
+			NiceModal.show(SubmitCounterOfferModal, {
+				counterTradeNFTs: selectedNFTs,
+				counterTradeCoins: [
+					...(tokenAmount
+						? [
+								{
+									amount: amountConverter.userFacingToBlockchainValue(tokenAmount),
+									currency: tokenName,
+								},
+						  ]
+						: []),
+				],
+				trade,
+			} as SubmitCounterOfferModalProps)
 		)
 
-		await queryClient.invalidateQueries([TRADE])
+		if (result) {
+			const {
+				counterId,
+			}: {
+				tradeId: string
+				counterId: string
+			} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: listCounterTradeOffer({
+					tradeId: Number(tradeId),
+					comment,
+					cw721Tokens: selectedNFTs,
+				}),
+				closeOnFinish: true,
+			})
+
+			await CounterTradesService.getCounterTrade(
+				wallet.network.name,
+				tradeId as string,
+				counterId
+			)
+
+			await queryClient.invalidateQueries([TRADE])
+		}
 	}
 
 	return (
