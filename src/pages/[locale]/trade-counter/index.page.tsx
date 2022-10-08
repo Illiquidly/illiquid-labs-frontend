@@ -29,7 +29,7 @@ import {
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Coin, TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
@@ -68,6 +68,9 @@ import {
 	SubmitCounterOfferModalProps,
 } from 'components/trade-counter/modals'
 import { amountConverter } from 'utils/blockchain/terraUtils'
+import SubmitCounterOfferSuccessModal, {
+	SubmitCounterOfferSuccessModalProps,
+} from 'components/trade-counter/modals/submit-counter-offer-success/SubmitCounterOfferSuccessModal'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -82,8 +85,6 @@ export default function TradeCounter() {
 	const wallet = useWallet()
 
 	const { tradeId } = route.query ?? {}
-
-	const queryClient = useQueryClient()
 
 	const { data: verifiedCollections } = useQuery(
 		[VERIFIED_COLLECTIONS, wallet.network],
@@ -184,13 +185,18 @@ export default function TradeCounter() {
 				closeOnFinish: true,
 			})
 
-			await CounterTradesService.getCounterTrade(
+			formMethods.reset()
+
+			const counterTrade = await CounterTradesService.getCounterTrade(
 				wallet.network.name,
 				tradeId as string,
 				counterId
 			)
 
-			await queryClient.invalidateQueries([TRADE])
+			await NiceModal.show(SubmitCounterOfferSuccessModal, {
+				counterTrade,
+				trade,
+			} as SubmitCounterOfferSuccessModalProps)
 		}
 	}
 

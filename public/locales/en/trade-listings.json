@@ -131,5 +131,12 @@
 		"go-to-dashboard": "Go to Dashboard",
 		"edit-offer": "Edit offer",
 		"submit-offer": "Submit offer"
+	},
+	"submit-counter-offer-success-modal": {
+		"title": "Submit counter offer",
+		"question": "You’ve successfully sent {{username}} your offer!",
+		"note": "We’ve sent them a message, so hang tight as they take a look.",
+		"view-all-listings": "View All Listings",
+		"go-to-listing": "Go To Listing"
 	}
 }
