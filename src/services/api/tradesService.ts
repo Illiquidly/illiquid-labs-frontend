@@ -10,6 +10,11 @@ export type Coin = {
 	denom: string
 }
 
+export type HumanCoin = {
+	amount: string
+	currency: string
+}
+
 export type Cw721Coin = {
 	address: string
 	tokenId: string
@@ -38,7 +43,7 @@ export interface Trade {
 		}
 		assetsWithdrawn: boolean
 		lastCounterId?: number
-		associatedAssets: { cw721Coin?: NFT; cw1155Coin?: any; coin?: Coin }[]
+		associatedAssets: { cw721Coin?: NFT; cw1155Coin?: any; coin?: HumanCoin }[]
 		additionalInfo: {
 			ownerComment: {
 				comment: string

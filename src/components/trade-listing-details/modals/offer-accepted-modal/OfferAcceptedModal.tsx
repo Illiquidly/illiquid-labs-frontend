@@ -14,11 +14,10 @@ import { useRouter } from 'next/router'
 import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
 import { ModalLayoutContainer } from 'components/layout'
-import { Coin, Trade } from 'services/api/tradesService'
+import { HumanCoin, Trade } from 'services/api/tradesService'
 import { NFT } from 'services/api/walletNFTsService'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 
-import { amountConverter } from 'utils/blockchain/terraUtils'
 import {
 	HorizontalTradeLine,
 	VerticalTradeLine,
@@ -69,7 +68,7 @@ const OfferAcceptedModal = NiceModal.create(
 			() =>
 				(counterTrade?.tradeInfo?.associatedAssets ?? [])
 					.filter(x => x.coin)
-					.map(x => x.coin) as Coin[],
+					.map(x => x.coin) as HumanCoin[],
 			[counterTrade]
 		)
 
@@ -155,11 +154,9 @@ const OfferAcceptedModal = NiceModal.create(
 											))}
 										</Grid>
 										<Flex sx={{ mt: 8, flexDirection: 'column', gap: 8 }}>
-											{counterTradeCoins.map(({ amount, denom }) => (
-												<CoinCard key={JSON.stringify({ amount, denom })}>
-													{`${Number(
-														amountConverter.luna.blockchainValueToUserFacing(amount)
-													).toFixed(3)} ${denom.substring(1)}`}
+											{counterTradeCoins.map(({ amount, currency }) => (
+												<CoinCard key={JSON.stringify({ amount, currency })}>
+													{`${amount} ${currency}`}
 												</CoinCard>
 											))}
 										</Flex>

@@ -24,8 +24,7 @@ import { uniqBy } from 'lodash'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
-import { Coin } from 'services/api/tradesService'
-import { amountConverter } from 'utils/blockchain/terraUtils'
+import { HumanCoin } from 'services/api/tradesService'
 import {
 	CoinText,
 	CounterTradeComment,
@@ -65,7 +64,7 @@ export const ViewCounterOfferModal = NiceModal.create(
 			() =>
 				(counterTrade?.tradeInfo?.associatedAssets ?? [])
 					.filter(x => x.coin)
-					.map(x => x.coin) as Coin[],
+					.map(x => x.coin) as HumanCoin[],
 			[counterTrade]
 		)
 
@@ -136,12 +135,8 @@ export const ViewCounterOfferModal = NiceModal.create(
 									</CounterTradeComment>
 								</ModalContentHeader>
 								<ModalContentHeader>
-									{coins.map(({ amount, denom }) => (
-										<CoinText>
-											{`${Number(
-												amountConverter.luna.blockchainValueToUserFacing(amount)
-											).toFixed(3)} ${denom.substring(1)}`}
-										</CoinText>
+									{coins.map(({ amount, currency }) => (
+										<CoinText>{`${amount} ${currency}`}</CoinText>
 									))}
 								</ModalContentHeader>
 							</Flex>

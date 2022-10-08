@@ -3,7 +3,13 @@ import { axios } from 'services/axios'
 import { TRADE_STATE } from 'services/blockchain'
 import { LookingFor, NetworkType } from 'types'
 import { keysToCamel } from 'utils/js/keysToCamel'
-import { Coin, Cw1155Coin, Cw721Coin, NFTWanted } from './tradesService'
+import {
+	Coin,
+	Cw1155Coin,
+	Cw721Coin,
+	HumanCoin,
+	NFTWanted,
+} from './tradesService'
 import { NFT } from './walletNFTsService'
 
 export interface CounterTrade {
@@ -18,7 +24,7 @@ export interface CounterTrade {
 		}
 		assetsWithdrawn: boolean
 		lastCounterId?: number
-		associatedAssets: { cw721Coin?: NFT; cw1155Coin?: any; coin?: Coin }[]
+		associatedAssets: { cw721Coin?: NFT; cw1155Coin?: any; coin?: HumanCoin }[]
 		additionalInfo: {
 			ownerComment: {
 				comment: string

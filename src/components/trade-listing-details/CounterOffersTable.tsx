@@ -21,10 +21,9 @@ import {
 	CounterTrade,
 	CounterTradesService,
 } from 'services/api/counterTradesService'
-import { Coin, Trade } from 'services/api/tradesService'
+import { HumanCoin, Trade } from 'services/api/tradesService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
-import { amountConverter } from 'utils/blockchain/terraUtils'
 import {
 	acceptTrade,
 	cancelCounterTradeAndWithdraw,
@@ -276,7 +275,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 						const coins = (counterTradeInfo.associatedAssets ?? [])
 							.filter(x => x.coin)
-							.map(x => x.coin) as Coin[]
+							.map(x => x.coin) as HumanCoin[]
 
 						return (
 							<TableBodyRow key={id} onClick={() => viewCounterTrade(counterTrade)}>
@@ -338,13 +337,9 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 												<strong>-</strong>
 											</TokenChip>
 										)}
-										{coins.map(({ amount, denom }) => (
+										{coins.map(({ amount, currency }) => (
 											<TokenChip>
-												<strong>
-													{`${Number(
-														amountConverter.luna.blockchainValueToUserFacing(amount)
-													).toFixed(3)} ${denom.substring(1)}`}
-												</strong>
+												<strong>{`${amount} ${currency}`}</strong>
 											</TokenChip>
 										))}
 									</Flex>
