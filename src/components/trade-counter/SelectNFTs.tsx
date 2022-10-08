@@ -35,6 +35,7 @@ export default function SelectNFTs() {
 		register,
 		watch,
 		formState: { isValid },
+		trigger,
 	} = useFormContext()
 
 	const handleSelectMyNFTs = async () => {
@@ -46,6 +47,7 @@ export default function SelectNFTs() {
 
 		if (NFTs) {
 			setValue('selectedNFTs', NFTs)
+			trigger('selectedNFTs')
 		}
 	}
 
