@@ -159,14 +159,15 @@ export const MyNFTsModal = NiceModal.create(
 
 							<Flex
 								sx={{
-									overflow: ['auto', 'auto', 'auto'],
+									overflow: 'auto',
 									marginTop: ['16px', '32px'],
+									pr: ['10px', '10px', 0],
 									flexDirection: 'column',
 									flex: 1,
 								}}
 							>
 								<Flex sx={{ flexDirection: 'column', height: '100%' }}>
-									<Flex sx={{ gap: '12px', minHeight: ['50px'] }}>
+									<Flex sx={{ gap: '12px', minHeight: ['50px'], pr: [0, 0, '10px'] }}>
 										<SearchContainer>
 											<SearchInput
 												placeholder={t('select-NFTs.search')}
@@ -279,6 +280,7 @@ export const MyNFTsModal = NiceModal.create(
 											<Flex
 												sx={{
 													overflow: ['initial', 'initial', 'auto'],
+													pr: [0, 0, '10px'],
 													flex: 1,
 												}}
 											>

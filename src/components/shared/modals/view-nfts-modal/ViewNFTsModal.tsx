@@ -111,14 +111,15 @@ export const ViewNFTsModal = NiceModal.create(
 
 							<Flex
 								sx={{
-									overflow: ['auto', 'auto', 'auto'],
+									overflow: 'auto',
 									marginTop: ['16px', '32px'],
+									pr: ['10px', '10px', 0],
 									flexDirection: 'column',
 									flex: 1,
 								}}
 							>
 								<Flex sx={{ flexDirection: 'column', height: '100%' }}>
-									<Flex sx={{ gap: '12px', minHeight: ['50px'] }}>
+									<Flex sx={{ gap: '12px', minHeight: ['50px'], pr: [0, 0, '10px'] }}>
 										<SearchContainer>
 											<SearchInput
 												onChange={e => setSearchName(e.target.value)}
@@ -199,6 +200,7 @@ export const ViewNFTsModal = NiceModal.create(
 											sx={{
 												overflow: ['initial', 'initial', 'auto'],
 												flex: 1,
+												pr: [0, 0, '10px'],
 											}}
 										>
 											<NFTCardsGrid>
