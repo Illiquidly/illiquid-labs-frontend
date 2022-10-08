@@ -6,26 +6,42 @@ import {
 	UserDenied,
 } from '@terra-money/use-wallet'
 import { AxiosError } from 'axios'
+import { amountConverter } from './terraUtils'
+
+const processErrorMessage = message => {
+	const coins = [...message.matchAll(/([0-9]+)(u[a-zA-Z]+)/g)]
+	let processedMessage = message
+	coins.forEach(([toReplace, amount, denom]) => {
+		processedMessage = processedMessage.replace(
+			toReplace,
+			`${Number(amountConverter.luna.blockchainValueToUserFacing(amount)).toFixed(
+				3
+			)} ${denom.substring(1)}`
+		)
+	})
+
+	return processedMessage
+}
 
 export function parseTxError(error: AxiosError<{ message?: string }>) {
 	if (error instanceof UserDenied) {
 		return 'User Denied'
 	}
 	if (error instanceof CreateTxFailed) {
-		return `Create Tx Failed: ${error.message}`
+		return processErrorMessage(`Create Tx Failed: ${error.message}`)
 	}
 	if (error instanceof TxFailed) {
-		return `Tx Failed: ${error.message}`
+		return processErrorMessage(`Tx Failed: ${error.message}`)
 	}
 	if (error instanceof Timeout) {
 		return 'Timeout'
 	}
 	if (error instanceof TxUnspecifiedError) {
-		return `Unspecified Error: ${error.message}`
+		return processErrorMessage(`Unspecified Error: ${error.message}`)
 	}
 
 	if (error?.response?.data?.message) {
-		return String(error?.response?.data?.message)
+		return processErrorMessage(error.response.data.message)
 	}
 
 	return `Unknown Error: ${
