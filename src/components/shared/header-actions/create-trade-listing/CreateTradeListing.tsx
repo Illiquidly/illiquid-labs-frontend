@@ -17,6 +17,9 @@ export default function CreateTradeListing() {
 					variant='gradient'
 					size='medium'
 					href={ROUTES.TRADE_CREATE_LISTING}
+					sx={{
+						padding: ['11.75px', '10px 16px'],
+					}}
 				>
 					<CreateListingAddIcon />
 
