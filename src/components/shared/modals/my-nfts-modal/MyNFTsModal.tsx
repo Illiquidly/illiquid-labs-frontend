@@ -193,6 +193,7 @@ export const MyNFTsModal = NiceModal.create(
 											position: 'sticky',
 											top: 0,
 											zIndex: theme.zIndices.header,
+											bg: 'dark100',
 										}}
 									>
 										<OnlyMobileAndTablet>
@@ -231,7 +232,6 @@ export const MyNFTsModal = NiceModal.create(
 											sx={{
 												mt: ['8px'],
 												display: ['flex', 'flex', 'none'],
-												bg: 'dark100',
 												pb: ['16px', '32px'],
 											}}
 										>
