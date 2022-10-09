@@ -1,6 +1,6 @@
 import { useTheme } from '@emotion/react'
 import React from 'react'
-import useWindowSize from './useWindowSize'
+import { useWindowSize } from 'react-use'
 
 export default function useIsMobile() {
 	const theme = useTheme()

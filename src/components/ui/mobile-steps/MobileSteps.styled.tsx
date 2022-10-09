@@ -16,11 +16,15 @@ export const StepBox = styled.div<{ checked?: boolean }>`
 	}
 `
 
-export const Circle = styled.div`
+export const Circle = styled.div<{ isHighlighted?: boolean }>`
 	align-items: center;
 	justify-content: center;
 
-	background-color: ${props => props.theme.colors.dark100};
+	background-color: ${props =>
+		props.isHighlighted
+			? props.theme.colors.primary100
+			: props.theme.colors.dark100};
+
 	border-radius: 100%;
 	padding: 4px;
 

@@ -7,6 +7,7 @@ interface Props {
 	goNextStep: () => void
 	isNextButtonDisabled?: boolean
 	isBackButtonDisabled?: boolean
+	canGoToNextStep?: boolean
 }
 
 export const NavigationFooter = ({
@@ -14,11 +15,12 @@ export const NavigationFooter = ({
 	goNextStep,
 	isNextButtonDisabled,
 	isBackButtonDisabled,
+	canGoToNextStep,
 }: Props) => {
 	const { t } = useTranslation('common')
 
 	return (
-		<Flex sx={{ justifyContent: 'space-between', paddingTop: '12px' }}>
+		<Flex sx={{ justifyContent: 'space-between', py: '12px' }}>
 			<Button
 				onClick={() => goBackStep()}
 				variant='secondary'
@@ -27,7 +29,7 @@ export const NavigationFooter = ({
 				{t('common:buttons.previous-step')}
 			</Button>
 			<Button
-				type='submit'
+				type={canGoToNextStep ? 'button' : 'submit'}
 				variant='gradient'
 				onClick={() => goNextStep()}
 				disabled={isNextButtonDisabled}
@@ -41,4 +43,5 @@ export const NavigationFooter = ({
 NavigationFooter.defaultProps = {
 	isBackButtonDisabled: false,
 	isNextButtonDisabled: false,
+	canGoToNextStep: true,
 }

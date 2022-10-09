@@ -33,7 +33,7 @@ function MobileSteps({ steps, currentStep }: MobileStepsProps) {
 			<Card sx={{ p: ['16px 12px'] }}>
 				<Flex sx={{ alignItems: 'center' }}>
 					<Flex sx={{ alignItems: 'center', mr: ['12px'] }}>
-						<Circle>
+						<Circle isHighlighted>
 							<CheckLineIcon fill={theme.colors.natural50} />
 						</Circle>
 					</Flex>

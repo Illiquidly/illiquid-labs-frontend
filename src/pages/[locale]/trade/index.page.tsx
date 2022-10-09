@@ -59,22 +59,23 @@ export default function Trade() {
 	const { t } = useTranslation(['common', 'trade'])
 	useHeaderActions(<ExitCreateTradeListing />)
 	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
-	const { step, setStep, goNextStep, goBackStep } = useStep({ max: 3 })
+	const [step, { setStep, goToNextStep, goToPrevStep, canGoToNextStep }] =
+		useStep(4)
 	const [steps] = useState([
 		{
-			id: 0,
+			id: CREATE_LISTING_FORM_STEPS.SELECT_NFTS,
 			label: stepLabels[0],
 		},
 		{
-			id: 1,
+			id: CREATE_LISTING_FORM_STEPS.TRADE_DETAILS,
 			label: stepLabels[1],
 		},
 		{
-			id: 2,
+			id: CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY,
 			label: stepLabels[2],
 		},
 		{
-			id: 3,
+			id: CREATE_LISTING_FORM_STEPS.CONFIRM_LISTING,
 			label: stepLabels[3],
 		},
 	])
@@ -91,7 +92,7 @@ export default function Trade() {
 
 	const formMethods = useForm<TradeFormStepsProps>({
 		mode: 'onChange',
-		resolver: yupResolver(getStepSchema(step.current)),
+		resolver: yupResolver(getStepSchema(step)),
 		defaultValues: {
 			selectedNFTs: [],
 			collections: [],
@@ -146,7 +147,7 @@ export default function Trade() {
 						{/* Only Mobile And Tablet */}
 						<HeaderSubtitleContainer>
 							<Text color='gray1000' variant='textMdBold'>
-								{`${step.current + 1}/${steps.length}`}
+								{`${step}/${steps.length}`}
 							</Text>
 						</HeaderSubtitleContainer>
 					</HeaderContainer>
@@ -157,29 +158,36 @@ export default function Trade() {
 							<BodyContainer>
 								{/* Only on Mobile and Tablet */}
 								<MobileStepsWrapper>
-									<MobileSteps steps={steps} currentStep={step.current} />
+									<MobileSteps steps={steps} currentStep={step} />
 								</MobileStepsWrapper>
 
 								{/* Only on Laptop and Desktop */}
 								<StepsWrapper>
-									<Steps steps={steps} currentStep={step.current} />
+									<Steps steps={steps} currentStep={step} />
 								</StepsWrapper>
 
 								{/* STEP 1 */}
-								{step.current === CREATE_LISTING_FORM_STEPS.SELECT_NFTS && (
-									<SelectNFTs goBackStep={goBackStep} goNextStep={goNextStep} />
+								{step === CREATE_LISTING_FORM_STEPS.SELECT_NFTS && (
+									<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
 								)}
 								{/* STEP 2 */}
-								{step.current === CREATE_LISTING_FORM_STEPS.TRADE_DETAILS && (
-									<TradeDetails goNextStep={goNextStep} goBackStep={goBackStep} />
+								{step === CREATE_LISTING_FORM_STEPS.TRADE_DETAILS && (
+									<TradeDetails goNextStep={goToNextStep} goBackStep={goToPrevStep} />
 								)}
 								{/* STEP 3 */}
-								{step.current === CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY && (
-									<ChooseVisibility goNextStep={goNextStep} goBackStep={goBackStep} />
+								{step === CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY && (
+									<ChooseVisibility
+										goNextStep={goToNextStep}
+										goBackStep={goToPrevStep}
+									/>
 								)}
 								{/* STEP 4 */}
-								{step.current === CREATE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
-									<ConfirmListing goBackStep={goBackStep} setStep={setStep} />
+								{step === CREATE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
+									<ConfirmListing
+										canGoToNextStep={canGoToNextStep}
+										goBackStep={goToPrevStep}
+										setStep={setStep}
+									/>
 								)}
 							</BodyContainer>
 						</form>

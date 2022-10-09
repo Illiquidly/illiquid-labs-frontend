@@ -17,12 +17,12 @@ export default function Steps({ steps, currentStep }: StepsProps) {
 			{steps.map(({ id, label }) => (
 				<Card key={id}>
 					<Flex sx={{ alignItems: 'center', mr: ['12px'] }}>
-						<Circle isHighlighted={currentStep > id}>
+						<Circle isHighlighted={currentStep >= id}>
 							{currentStep >= id && <CheckLineIcon />}
 						</Circle>
 					</Flex>
 					<Text
-						color={currentStep > id ? 'gray1000' : 'secondary200'}
+						color={currentStep >= id ? 'gray1000' : 'secondary200'}
 						variant='textMdSemibold'
 					>
 						{label}

@@ -6,7 +6,6 @@ import { Button } from 'components/ui/button'
 import { Chip, VisibilityChip } from 'components/ui/chip'
 import { CopyField } from 'components/shared'
 import { NFTCard } from 'components/shared/nft-card'
-import { StepProps } from 'hooks/react/useStep'
 import { useTranslation } from 'next-i18next'
 import { Dispatch, ReactNode, SetStateAction } from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -14,6 +13,7 @@ import { Box, Flex } from 'theme-ui'
 import { noop } from 'lodash'
 
 import { TwitterShareButton } from 'react-share'
+import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -36,11 +36,12 @@ interface StepHeaderProps {
 }
 
 interface SuccessScreenProps {
-	setStep: Dispatch<SetStateAction<StepProps>>
+	setStep: Dispatch<SetStateAction<number>>
 }
 interface Props {
 	goBackStep: () => void
-	setStep: Dispatch<SetStateAction<StepProps>>
+	setStep: Dispatch<SetStateAction<number>>
+	canGoToNextStep: boolean
 }
 
 const StepHeader = ({ children, onEditClick }: StepHeaderProps) => {
@@ -80,7 +81,7 @@ const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 							variant='primary'
 							onClick={() => {
 								reset()
-								setStep(prevStep => ({ ...prevStep, current: 0 }))
+								setStep(CREATE_LISTING_FORM_STEPS.SELECT_NFTS)
 							}}
 						>
 							{t('common:create-another')}
@@ -120,7 +121,11 @@ const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 	)
 }
 
-export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
+export const ConfirmListing = ({
+	goBackStep,
+	setStep,
+	canGoToNextStep,
+}: Props) => {
 	const { t } = useTranslation(['common', 'trade'])
 	const { getValues, setValue, watch, handleSubmit } =
 		useFormContext<TradeFormStepsProps>()
@@ -151,7 +156,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 						{/* WHAT YOU ARE OFFERING */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(prevStep => ({ ...prevStep, current: 0 }))}
+								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.SELECT_NFTS)}
 							>
 								<StepTitle>
 									{t('trade:confirm-listing.what-are-you-offering')}
@@ -181,7 +186,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 						{/* WHAT YOU ARE LOOKING FOR */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(prevStep => ({ ...prevStep, current: 1 }))}
+								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.TRADE_DETAILS)}
 							>
 								<StepTitle>
 									{t('trade:confirm-listing.what-are-you-looking-for')}
@@ -209,7 +214,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 						{/* COMMENTS */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(prevStep => ({ ...prevStep, current: 1 }))}
+								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.TRADE_DETAILS)}
 							>
 								<StepTitle>{t('trade:confirm-listing.comments')}</StepTitle>
 							</StepHeader>
@@ -225,7 +230,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 						{/* TRADE VISIBILITY */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(prevStep => ({ ...prevStep, current: 2 }))}
+								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY)}
 							>
 								<StepTitle>{t('trade:confirm-listing.trade-visibility')}</StepTitle>
 							</StepHeader>
@@ -249,6 +254,7 @@ export const ConfirmListing = ({ goBackStep, setStep }: Props) => {
 
 					{/* Footer Navigation Section */}
 					<NavigationFooter
+						canGoToNextStep={canGoToNextStep}
 						goBackStep={goBackStep}
 						goNextStep={() => handleSubmit(noop)}
 						isNextButtonDisabled={false}
