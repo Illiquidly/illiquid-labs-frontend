@@ -48,6 +48,7 @@ import { asyncAction } from 'utils/js/asyncAction'
 import { TxBroadcastingModal } from 'components/shared'
 import useAddress from 'hooks/useAddress'
 import { COUNTER_TRADES } from 'constants/use-query-keys'
+import { LunaIcon } from 'assets/icons/mixed'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -339,7 +340,8 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 										)}
 										{coins.map(({ amount, currency }) => (
 											<TokenChip>
-												<strong>{`${amount} ${currency}`}</strong>
+												<LunaIcon />
+												<div>{`${amount} ${currency}`}</div>
 											</TokenChip>
 										))}
 									</Flex>

@@ -54,7 +54,7 @@ Subtitle.defaultProps = {
 export const TokenChip = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	text-align: center;
 	padding: 4px 6px 4px 4px;
@@ -65,6 +65,11 @@ export const TokenChip = styled.div`
 
 	background: ${props => props.theme.colors.dark500};
 	border-radius: 6px;
+
+	font-family: 'Heebo';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
 `
 
 export const ImageSection = styled(Flex)`

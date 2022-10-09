@@ -25,6 +25,7 @@ import {
 	HorizontalTradeLine,
 	VerticalTradeLine,
 } from 'components/trade-listing-details'
+import { LunaIcon } from 'assets/icons/mixed'
 import {
 	ModalBody,
 	ModalContainer,
@@ -113,7 +114,8 @@ const SubmitCounterOfferModal = NiceModal.create(
 										<Flex sx={{ mt: 8, flexDirection: 'column', gap: 8 }}>
 											{counterTradeCoins.map(({ amount, currency }) => (
 												<CoinCard key={JSON.stringify({ amount, currency })}>
-													{`${Number(amount).toFixed(3)} ${currency}`}
+													<LunaIcon />
+													<div>{`${Number(amount).toFixed(3)} ${currency}`}</div>
 												</CoinCard>
 											))}
 										</Flex>

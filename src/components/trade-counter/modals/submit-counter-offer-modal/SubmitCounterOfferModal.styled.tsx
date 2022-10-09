@@ -107,4 +107,9 @@ export const CoinCard = styled.div`
 	width: 100%;
 	background: ${props => props.theme.colors.dark500};
 	border-radius: 6px;
+
+	font-family: 'Heebo';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
 `
