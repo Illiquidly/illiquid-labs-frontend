@@ -196,7 +196,7 @@ export default function TradeListings() {
 				},
 				{
 					page,
-					limit: 30,
+					limit: 28,
 				}
 			),
 		{
