@@ -165,7 +165,13 @@ export const MyNFTsModal = NiceModal.create(
 									flex: 1,
 								}}
 							>
-								<Flex sx={{ flexDirection: 'column', height: '100%' }}>
+								<Flex
+									sx={{
+										flexDirection: 'column',
+										flex: [1, 1, 'unset'],
+										height: [null, null, '100%'],
+									}}
+								>
 									<Flex sx={{ gap: '12px', minHeight: ['50px'], pr: [0, 0, '10px'] }}>
 										<SearchContainer>
 											<SearchInput
@@ -182,62 +188,81 @@ export const MyNFTsModal = NiceModal.create(
 											/>
 										</SortSelectContainer>
 									</Flex>
-									<OnlyMobileAndTablet>
-										<Box sx={{ height: ['8px'] }} />
-										<Flex sx={{ height: ['50px'], gap: 10 }}>
-											<DropdownMultiselect
-												dropdownReferenceElement={dropdownRefElement}
-												label='Collections'
-												placeholder={t('select-NFTs.type-here-to-search')}
-												value={selectedCollections}
-												onChange={collections => setSelectedCollections(collections)}
-												options={ownedCollections.map(
-													({ collectionName, collectionAddress }) => ({
-														label: collectionName,
-														value: collectionAddress,
-													})
-												)}
-											/>
+									<Box
+										sx={{
+											position: 'sticky',
+											top: 0,
+											zIndex: theme.zIndices.header,
+										}}
+									>
+										<OnlyMobileAndTablet>
+											<Box sx={{ height: ['8px'] }} />
+											<Flex sx={{ height: ['50px'], gap: 10 }}>
+												<DropdownMultiselect
+													dropdownReferenceElement={dropdownRefElement}
+													label='Collections'
+													placeholder={t('select-NFTs.type-here-to-search')}
+													value={selectedCollections}
+													onChange={collections => setSelectedCollections(collections)}
+													options={ownedCollections.map(
+														({ collectionName, collectionAddress }) => ({
+															label: collectionName,
+															value: collectionAddress,
+														})
+													)}
+												/>
 
-											<Select
-												dropdownReferenceElement={dropdownRefElement}
-												value={selectedSortValue}
-												options={sortOptions}
-												onChange={(value: string) => setSelectedSortValue(value)}
+												<Select
+													dropdownReferenceElement={dropdownRefElement}
+													value={selectedSortValue}
+													options={sortOptions}
+													onChange={(value: string) => setSelectedSortValue(value)}
+												/>
+											</Flex>
+											<div
+												ref={setDropdownRefElement}
+												style={{
+													width: '100%',
+													height: '0px',
+												}}
 											/>
-										</Flex>
-										<div
-											ref={setDropdownRefElement}
-											style={{
-												width: '100%',
-												height: '0px',
-											}}
-										/>
-									</OnlyMobileAndTablet>
-									<Flex sx={{ mt: ['8px'], display: ['flex', 'flex', 'none'] }}>
-										<Button
-											variant='gradient'
-											sx={{ p: '12px 0', fontWeight: 400 }}
-											fullWidth
-											disabled={!selectedNFTs.length}
-											onClick={() => {
-												modal.resolve(selectedNFTs)
-												modal.remove()
+										</OnlyMobileAndTablet>
+										<Flex
+											sx={{
+												mt: ['8px'],
+												display: ['flex', 'flex', 'none'],
+												bg: 'dark100',
+												pb: ['16px', '32px'],
 											}}
 										>
-											{addNFTsButtonLabel}
-										</Button>
-									</Flex>
+											<Button
+												variant='gradient'
+												sx={{ p: '12px 0', fontWeight: 400 }}
+												fullWidth
+												onClick={() => {
+													modal.resolve(selectedNFTs)
+													modal.remove()
+												}}
+											>
+												{addNFTsButtonLabel}
+											</Button>
+										</Flex>
+									</Box>
+
 									{partiallyLoading || (fullyLoading && isEmpty(ownedNFTs)) ? (
 										<Flex
-											sx={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+											sx={{
+												flex: 1,
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}
 										>
 											<Loader loadingText={t('common:loading')} />
 										</Flex>
 									) : (
 										<Flex
 											sx={{
-												mt: ['16px', '32px', '36px'],
+												mt: [null, null, '36px'],
 												flex: 1,
 												gap: '34px',
 												overflow: ['initial', 'initial', 'auto'],
