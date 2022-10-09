@@ -329,13 +329,15 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 								<TableBodyRowCell>
 									<Flex
 										sx={{
-											minWidth: '100px',
+											minWidth: '160px',
 											justifyContent: 'flex-start',
 										}}
 									>
 										{!coins.length && (
 											<TokenChip>
-												<strong>-</strong>
+												<Box sx={{ flex: 1, justifyContent: 'center' }}>
+													<div>-</div>
+												</Box>
 											</TokenChip>
 										)}
 										{coins.map(({ amount, currency }) => (
