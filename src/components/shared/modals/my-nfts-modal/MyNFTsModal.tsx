@@ -139,7 +139,6 @@ export const MyNFTsModal = NiceModal.create(
 													fontWeight: 400,
 												}}
 												fullWidth
-												disabled={!selectedNFTs.length}
 												onClick={() => {
 													modal.resolve(selectedNFTs)
 													modal.remove()
