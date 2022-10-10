@@ -44,9 +44,15 @@ function Header() {
 		<HeaderWrapper as='header'>
 			<LayoutContainer>
 				<Flex>
-					<Box sx={{ cursor: 'pointer' }}>
+					<Box
+						sx={{
+							cursor: 'pointer',
+							maxWidth: ['127px', '141px'],
+							maxHeight: ['38.63px', '42.89px'],
+						}}
+					>
 						<Link href={ROUTES.TRADE_LISTINGS}>
-							<IlliquidlyFooterLogo />
+							<IlliquidlyFooterLogo width='100%' height='100%' />
 						</Link>
 					</Box>
 					<LinksContainer>

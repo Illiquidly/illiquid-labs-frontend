@@ -283,7 +283,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
 									<Flex
 										sx={{
-											maxWidth: '314px',
+											maxWidth: '354px',
 											flex: 1,
 											flexDirection: 'column',
 										}}
