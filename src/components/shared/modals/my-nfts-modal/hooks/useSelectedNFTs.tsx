@@ -1,4 +1,3 @@
-import { uniqBy } from 'lodash'
 import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 
@@ -7,12 +6,7 @@ export default function useSelectedNFTs(defaultSelectedNFTs) {
 		React.useState<NFT[]>(defaultSelectedNFTs)
 
 	const addSelectedNFT = (nft: NFT) => {
-		setSelectedNFTs(prevState =>
-			uniqBy(
-				[...prevState, nft],
-				({ collectionAddress, tokenId }) => `${collectionAddress}_${tokenId}`
-			)
-		)
+		setSelectedNFTs(prevNFTs => [...prevNFTs, nft])
 	}
 
 	const removeSelectedNFT = (nft: NFT) => {
