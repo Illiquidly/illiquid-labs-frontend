@@ -85,7 +85,7 @@ const TradeDetailsForm = () => {
 		setValue,
 		getValues,
 		control,
-
+		watch,
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
 	const wallet = useWallet()
@@ -167,7 +167,7 @@ const TradeDetailsForm = () => {
 					</div>
 
 					<ChipsWrapper>
-						{getValues('collections').map((collection, index) => (
+						{watch('collections').map((collection, index) => (
 							<Chip key={collection.value} onClick={() => remove(index)}>
 								{collection.label}
 							</Chip>
