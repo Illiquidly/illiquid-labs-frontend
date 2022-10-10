@@ -47,6 +47,7 @@ interface ListingCardProps extends NFT {
 	lookingForItemsLimit?: number
 	previewItemsLimit?: number
 	isPrivate?: boolean
+	hasLookingFor?: boolean
 }
 
 function ListingCard({
@@ -62,6 +63,7 @@ function ListingCard({
 	lookingForItemsLimit = 3,
 	previewItemsLimit = 4,
 	isPrivate,
+	hasLookingFor = true,
 	...NFTProps
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -140,7 +142,7 @@ function ListingCard({
 							)}
 						</Flex>
 					</DescriptionSection>
-					<LookingForSection>
+					<LookingForSection sx={{ display: hasLookingFor ? 'flex' : 'none' }}>
 						<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
 						<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
 							{!lookingFor?.length ? <Chip>{t('common:any-offer')}</Chip> : null}
@@ -189,6 +191,7 @@ ListingCard.defaultProps = {
 	lookingForItemsLimit: 4,
 	previewItemsLimit: 4,
 	isPrivate: false,
+	hasLookingFor: true,
 }
 
 export default ListingCard

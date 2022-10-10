@@ -41,11 +41,15 @@ export const ModalBody = styled.div`
 `
 
 export const Title = styled.p`
+	font-family: 'Inter';
+	font-style: normal;
 	font-weight: 600;
 	font-size: 16px;
 	line-height: 20px;
 	margin: 0;
 	margin-bottom: 4px;
+
+	color: ${props => props.theme.colors.gray1000};
 `
 
 export const Subtitle = styled.p`

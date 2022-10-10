@@ -105,6 +105,7 @@ function GridController({
 							collectionName={
 								additionalInfo?.tradePreview?.cw721Coin?.collectionName || ''
 							}
+							hasLookingFor={gridType !== GRID_TYPE.BIG}
 						/>
 					</Box>
 				)
