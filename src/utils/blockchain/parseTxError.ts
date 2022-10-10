@@ -9,12 +9,12 @@ import { AxiosError } from 'axios'
 import { amountConverter } from './terraUtils'
 
 const processErrorMessage = message => {
-	const coins = [...message.matchAll(/([0-9]+)(u[a-zA-Z]+)/g)]
+	const coins = [...message.matchAll(/(\s+)([0-9]+)(u[a-zA-Z]+)/g)]
 	let processedMessage = message
-	coins.forEach(([toReplace, amount, denom]) => {
+	coins.forEach(([toReplace, , amount, denom]) => {
 		processedMessage = processedMessage.replace(
 			toReplace,
-			`${Number(amountConverter.luna.blockchainValueToUserFacing(amount)).toFixed(
+			` ${Number(amountConverter.luna.blockchainValueToUserFacing(amount)).toFixed(
 				3
 			)} ${denom.substring(1)}`
 		)
