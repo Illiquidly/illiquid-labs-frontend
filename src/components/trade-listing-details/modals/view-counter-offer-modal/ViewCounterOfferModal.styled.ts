@@ -104,22 +104,6 @@ SearchContainer.defaultProps = {
 	sx: { flex: 1 },
 }
 
-export const NFTSelectionOverlay = styled(Flex)``
-
-NFTSelectionOverlay.defaultProps = {
-	sx: {
-		position: 'absolute',
-		bottom: 0,
-		justifyContent: 'center',
-		left: ['47px', '128px'],
-		right: ['47px', '128px'],
-		height: ['160px'],
-		display: 'flex',
-		zIndex: 'modalNFTCard',
-		p: '14px',
-	},
-}
-
 export const NFTCardsGrid = styled(Flex)``
 
 NFTCardsGrid.defaultProps = {

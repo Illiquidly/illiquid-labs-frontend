@@ -341,11 +341,7 @@ export const MyNFTsModal = NiceModal.create(
 
 							{selectedNFTs.length > 0 && (
 								<NFTSelectionOverlay>
-									<SelectCard
-										sx={{ maxWidth: '424px' }}
-										items={selectedNFTs}
-										onRemove={removeSelectedNFT}
-									/>
+									<SelectCard items={selectedNFTs} onRemove={removeSelectedNFT} />
 								</NFTSelectionOverlay>
 							)}
 						</ModalContent>

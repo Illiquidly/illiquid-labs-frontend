@@ -90,7 +90,6 @@ NFTSelectionOverlay.defaultProps = {
 		right: ['47px', '128px'],
 		height: ['160px'],
 		display: 'flex',
-		zIndex: 'modalNFTCard',
 		p: '14px',
 	},
 }
