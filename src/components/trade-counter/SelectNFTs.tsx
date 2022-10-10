@@ -79,7 +79,7 @@ export default function SelectNFTs() {
 							}}
 						>
 							<Flex sx={{ alignSelf: 'flex-start', flexDirection: 'column', flex: 1 }}>
-								<Flex>
+								<Flex sx={{}}>
 									<Title>{t('trade-listings:trade-counter.selected-nfts')}</Title>
 								</Flex>
 								<Box sx={{ mt: 2, alignSelf: 'flex-start' }}>
@@ -115,10 +115,12 @@ export default function SelectNFTs() {
 				) : (
 					<>
 						<TradeAssetImage height='99.84px' width='91.59px' />
-						<Title>
-							{t('trade-listings:trade-counter.select-at-least-one-item')}
-						</Title>
-						<Box sx={{ mt: 2 }}>
+						<Box sx={{ textAlign: 'center' }}>
+							<Title>
+								{t('trade-listings:trade-counter.select-at-least-one-item')}
+							</Title>
+						</Box>
+						<Box sx={{ mt: 2, textAlign: 'center' }}>
 							<Subtitle>
 								{t(
 									'trade-listings:trade-counter.explain-what-sets-you-and-your-nfts-apart'

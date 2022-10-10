@@ -40,8 +40,6 @@ export const Title = styled.div`
 	font-size: 20px;
 	line-height: 32px;
 
-	text-align: center;
-
 	color: ${props => props.theme.colors.gray1000};
 `
 
@@ -51,14 +49,12 @@ export const Subtitle = styled.div`
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 20px;
-	text-align: center;
 
 	color: ${props => props.theme.colors.gray700};
 `
 
 export const Grid = styled.div`
 	display: grid;
-	padding: 8px;
 	margin-top: 8px;
 	grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
 	grid-template-rows: max-content;
