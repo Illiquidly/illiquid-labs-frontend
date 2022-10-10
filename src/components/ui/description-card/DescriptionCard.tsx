@@ -36,6 +36,8 @@ export function DescriptionCard({ children, ...props }) {
 
 export function DescriptionCardItem({ children, ...props }) {
 	return (
-		<StyledDescriptionCardItem {...props}>{children}</StyledDescriptionCardItem>
+		<StyledDescriptionCardItem {...props}>
+			<Flex sx={{ width: '100%', overflow: 'hidden' }}>{children}</Flex>
+		</StyledDescriptionCardItem>
 	)
 }

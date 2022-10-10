@@ -54,20 +54,22 @@ export default function SelectNFTs() {
 	return (
 		<Card sx={{ flexDirection: 'column', p: '12px', gap: '16px' }}>
 			<AttributeCard>
-				<AttributeName>
-					{t('trade-listings:trade-counter.you-offer-as')}
-				</AttributeName>
-				<AttributeValue>
-					<WalletIcon width='20px' height='20px' color={theme.colors.gray1000} />
-					<Box
-						sx={{
-							ml: '9px',
-							flex: 1,
-						}}
-					>
-						{myAddress ?? ''}
-					</Box>
-				</AttributeValue>
+				<Box sx={{ width: '100%' }}>
+					<AttributeName>
+						{t('trade-listings:trade-counter.you-offer-as')}
+					</AttributeName>
+					<AttributeValue>
+						<WalletIcon width='20px' height='20px' color={theme.colors.gray1000} />
+						<Box
+							sx={{
+								ml: '9px',
+								flex: 1,
+							}}
+						>
+							{myAddress ?? ''}
+						</Box>
+					</AttributeValue>
+				</Box>
 			</AttributeCard>
 			<SelectNFTsSection>
 				{watch('selectedNFTs').length ? (

@@ -9,12 +9,14 @@ import { Flex } from 'theme-ui'
 
 export const AttributeCard = styled(StyledAttributeCard)`
 	align-items: flex-start;
+	width: 100%;
 `
 
 export const AttributeName = styled(StyledAttributeName)``
 
 export const AttributeValue = styled(StyledAttributeValue)`
 	align-items: center;
+	overflow: hidden;
 `
 
 export const SelectNFTsSection = styled(Flex)`
