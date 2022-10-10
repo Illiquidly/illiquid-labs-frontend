@@ -24,7 +24,7 @@ interface GridControllerProps {
 const stylesByGrid = {
 	[GRID_TYPE.SMALL]: {
 		gridTemplateColumns: [
-			'repeat(auto-fill, minmax(345px, 1fr))',
+			'1fr',
 			'repeat(auto-fill, minmax(332px, 1fr))',
 			'repeat(auto-fill, minmax(245px, 1fr))',
 		],
@@ -33,7 +33,7 @@ const stylesByGrid = {
 	},
 	[GRID_TYPE.BIG]: {
 		gridTemplateColumns: [
-			'repeat(auto-fill, minmax(345px, 1fr))',
+			'1fr',
 			'repeat(auto-fill, minmax(332px, 1fr))',
 			'repeat(auto-fill, minmax(225px, 1fr))',
 		],
