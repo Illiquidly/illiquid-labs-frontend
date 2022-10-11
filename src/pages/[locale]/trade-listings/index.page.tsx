@@ -217,7 +217,7 @@ export default function TradeListings() {
 				},
 				{
 					page,
-					limit: 28,
+					limit: 10,
 				}
 			),
 		{
