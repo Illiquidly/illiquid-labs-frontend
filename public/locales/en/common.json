@@ -57,5 +57,6 @@
 	"done": "Done",
 	"private-trade": "Private trade",
 	"oops": "Oops",
-	"page-not-found-text": "404 - Page not found"
+	"page-not-found-text": "404 - Page not found",
+	"more-nfts": "{{count}} NFTs"
 }

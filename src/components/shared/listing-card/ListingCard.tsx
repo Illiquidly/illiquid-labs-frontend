@@ -21,6 +21,7 @@ import {
 	ListingOverlay,
 	LookingForSection,
 	LookingForTitle,
+	MoreChip,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -123,6 +124,7 @@ function ListingCard({
 									<Title>{name}</Title>
 								</OverflowTip>
 							</Flex>
+
 							<Flex sx={{ gap: '4px' }}>
 								{isPrivate && (
 									<StatusIconContainer>
@@ -131,15 +133,25 @@ function ListingCard({
 								)}
 							</Flex>
 						</Flex>
-						<Flex>
+						<Flex sx={{ alignItems: 'center' }}>
 							<OverflowTip>
 								<Subtitle>{collectionName}</Subtitle>
 							</OverflowTip>
+
 							{verified && (
 								<Box ml={['4px']} mt='6px'>
 									<VerifiedIcon width='17.27px' height='17.27px' />
 								</Box>
 							)}
+							<Flex sx={{ ml: 'auto' }}>
+								{Boolean(nfts.length > 1) && (
+									<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+										<OverflowTip>
+											<MoreChip>{t('common:more-nfts', { count: nfts.length })}</MoreChip>
+										</OverflowTip>
+									</Flex>
+								)}
+							</Flex>
 						</Flex>
 					</DescriptionSection>
 					<LookingForSection sx={{ display: hasLookingFor ? 'flex' : 'none' }}>

@@ -214,3 +214,20 @@ export const StatusIconContainer = styled(Flex)`
 	border-radius: 8px;
 	backdrop-filter: blur(24px);
 `
+
+export const MoreChip = styled(Box)`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 2px 8px;
+
+	background: ${props => props.theme.colors.primary200};
+	border-radius: 16px;
+
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 18px;
+`
