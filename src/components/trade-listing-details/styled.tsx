@@ -118,6 +118,10 @@ export const RightTopImageArea = styled.div`
 	right: -6px;
 	top: -6px;
 	padding: 22px;
+
+	&:hover {
+		cursor: pointer;
+	}
 `
 
 export const LikeIconContainer = styled(Flex)`

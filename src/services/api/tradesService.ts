@@ -94,6 +94,7 @@ type TradeFilters = {
 	excludeMyTrades?: boolean
 	excludeTrades?: (string | number)[]
 	myAddress: string
+	favoritesOf?: string
 }
 
 type TradePagination = {
@@ -250,6 +251,15 @@ export class TradesService {
 							{
 								tradeId: {
 									$notin: filters?.excludeTrades,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.favoritesOf
+					? [
+							{
+								'tradeFavorites.user': {
+									$eq: filters?.favoritesOf,
 								},
 							},
 					  ]

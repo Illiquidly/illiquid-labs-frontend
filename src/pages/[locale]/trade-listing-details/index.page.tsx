@@ -26,11 +26,11 @@ import { AvatarIcon, CalendarIcon, WalletIcon } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Coin, TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { first, noop, sample } from 'lodash'
+import { first, sample } from 'lodash'
 import { CounterTradesService, SupportedCollectionsService } from 'services/api'
 import { TRADE_STATE, withdrawPendingAssets } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
@@ -52,11 +52,14 @@ import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewIma
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import {
 	ACCEPTED_COUNTER_TRADE,
+	FAVORITES_TRADES,
 	TRADE,
 	VERIFIED_COLLECTIONS,
 } from 'constants/use-query-keys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { CounterTrade } from 'services/api/counterTradesService'
+import { NetworkType } from 'types'
+import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -70,7 +73,33 @@ export default function ListingDetails() {
 
 	const wallet = useWallet()
 
+	const queryClient = useQueryClient()
+
 	const { tradeId } = route.query ?? {}
+
+	const { mutate: addFavoriteTrade } = useMutation(
+		FavoriteTradesService.addFavoriteTrade,
+		{
+			onSuccess: data => {
+				queryClient.setQueryData([FAVORITES_TRADES, wallet.network], (old: any) => [
+					...old.filter(o => o.id !== data.id),
+					data,
+				])
+			},
+		}
+	)
+
+	const { mutate: removeFavoriteTrade } = useMutation(
+		FavoriteTradesService.removeFavoriteTrade,
+		{
+			onSuccess: data => {
+				queryClient.setQueryData([FAVORITES_TRADES, wallet.network], (old: any) => [
+					...old.filter(o => o.id !== data.id),
+					data,
+				])
+			},
+		}
+	)
 
 	const { data: verifiedCollections } = useQuery(
 		[VERIFIED_COLLECTIONS, wallet.network],
@@ -96,6 +125,21 @@ export default function ListingDetails() {
 	)
 
 	const myAddress = useAddress()
+
+	const { data: favoriteTrades } = useQuery(
+		[FAVORITES_TRADES, wallet.network],
+		async () =>
+			FavoriteTradesService.getFavoriteTrades(
+				{ network: wallet.network.name as NetworkType },
+				{
+					users: [myAddress],
+				}
+			),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
 
 	const { data: acceptedCounterTrades } = useQuery(
 		[ACCEPTED_COUNTER_TRADE, tradeId, wallet.network],
@@ -171,6 +215,27 @@ export default function ListingDetails() {
 
 	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
+	const liked = Boolean(
+		(favoriteTrades ?? []).find(
+			favoriteTrade =>
+				favoriteTrade.trades.some(fTrade => fTrade.tradeId === Number(tradeId)) &&
+				favoriteTrade.user === myAddress
+		)
+	)
+
+	const toggleLike = () =>
+		liked
+			? removeFavoriteTrade({
+					network: wallet.network.name as NetworkType,
+					tradeId: [Number(tradeId)],
+					user: myAddress,
+			  })
+			: addFavoriteTrade({
+					network: wallet.network.name as NetworkType,
+					tradeId: [Number(tradeId)],
+					user: myAddress,
+			  })
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -194,8 +259,8 @@ export default function ListingDetails() {
 								<ImageRow
 									nft={tradePreview?.cw721Coin}
 									imageUrl={tradePreview?.cw721Coin?.imageUrl ?? []}
-									onLike={noop}
-									liked={false}
+									onLike={toggleLike}
+									liked={liked}
 								/>
 
 								<Row>

@@ -53,8 +53,14 @@ import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
 import { GridController, GRID_TYPE, LayoutContainer, Page } from 'components'
 import useAddress from 'hooks/useAddress'
-import { TRADES, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import {
+	FAVORITES_TRADES,
+	TRADES,
+	VERIFIED_COLLECTIONS,
+} from 'constants/use-query-keys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
+import { FavoriteTradesService } from 'services/api/favoriteTradesService'
+import { NetworkType } from 'types'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -146,6 +152,21 @@ export default function TradeListings() {
 
 	const myAddress = useAddress()
 
+	const { data: favoriteTrades } = useQuery(
+		[FAVORITES_TRADES, wallet.network],
+		async () =>
+			FavoriteTradesService.getFavoriteTrades(
+				{ network: wallet.network.name as NetworkType },
+				{
+					users: [myAddress],
+				}
+			),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
+
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<Trade[]>([])
 	React.useEffect(() => {
@@ -192,7 +213,7 @@ export default function TradeListings() {
 					hasLiquidAsset: lookingForLiquidAssetsChecked,
 					search: debouncedSearch,
 					myAddress,
-					// myFavoritesChecked
+					favoritesOf: myFavoritesChecked ? myAddress : undefined,
 				},
 				{
 					page,
@@ -200,7 +221,7 @@ export default function TradeListings() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
+			enabled: !!wallet.network && !!favoriteTrades,
 			retry: true,
 		}
 	)
@@ -396,6 +417,7 @@ export default function TradeListings() {
 								isLoading={!infiniteData.length && isLoading}
 								verifiedCollections={verifiedCollections}
 								gridType={Number(gridType)}
+								favoriteTrades={favoriteTrades}
 							/>
 							<Flex sx={{ width: '100%', marginTop: '14px' }}>
 								{trades?.data && !!trades.data?.length && !isLoading && (
