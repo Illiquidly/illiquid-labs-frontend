@@ -301,11 +301,11 @@ export const MyNFTsModal = NiceModal.create(
 												})}
 											</FiltersSection>
 
-											<Flex
+											<Box
 												sx={{
 													overflow: ['initial', 'initial', 'auto'],
 													pr: [0, 0, '10px'],
-													flex: 1,
+													width: '100%',
 												}}
 											>
 												<NFTCardsGrid>
@@ -333,7 +333,7 @@ export const MyNFTsModal = NiceModal.create(
 														)
 													})}
 												</NFTCardsGrid>
-											</Flex>
+											</Box>
 										</Flex>
 									)}
 								</Flex>
