@@ -33,7 +33,11 @@ export default function LookingFor({
 		<LookingForSection sx={{ display: hasLookingFor ? 'flex' : 'none' }}>
 			<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
 			<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-				{!lookingFor?.length ? <Chip>{t('common:any-offer')}</Chip> : null}
+				{!lookingFor?.length ? (
+					<Chip primary={primary} secondary={secondary}>
+						{t('common:any-offer')}
+					</Chip>
+				) : null}
 				{(lookingFor || []).map((value, index) =>
 					index < lookingForItemsLimit ? (
 						<Chip primary={primary} secondary={secondary} key={JSON.stringify(value)}>
@@ -67,7 +71,9 @@ export default function LookingFor({
 							</div>
 						}
 					>
-						<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
+						<Chip primary={primary} secondary={secondary}>
+							+{lookingFor?.slice(lookingForItemsLimit).length}
+						</Chip>
 					</Tooltip>
 				) : null}
 			</Flex>
