@@ -157,7 +157,6 @@ export default function SelectNFTs() {
 				fieldError={
 					errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
 				}
-				type='number'
 				error={!!errors.tokenAmount}
 				tokenName={getValues('tokenName')}
 			/>
