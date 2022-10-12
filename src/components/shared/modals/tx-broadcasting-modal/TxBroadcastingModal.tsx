@@ -9,6 +9,7 @@ import {
 	ModalErrorCircleIcon,
 	ModalSuccessCircleIcon,
 } from 'assets/icons/modal'
+import { noop } from 'lodash'
 
 import { Button, Loader, Modal } from 'components/ui'
 
@@ -84,18 +85,18 @@ const TxBroadcastingError = ({
 interface TxBroadcastingProcessingProps {
 	txHash?: string
 	terraFinderUrl?: string
-	// onClose?: () => void
+	onClose?: () => void
 }
 
 const TxBroadcastingProcessing = ({
 	txHash,
 	terraFinderUrl,
-}: // onClose,
-TxBroadcastingProcessingProps) => {
+	onClose,
+}: TxBroadcastingProcessingProps) => {
 	const { t } = useTranslation(['common'])
 	return (
 		<Flex sx={{ flexDirection: 'column' }}>
-			{/* {!txHash && (
+			{!txHash && (
 				<Flex sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
 					<IconButton
 						sx={{
@@ -107,7 +108,7 @@ TxBroadcastingProcessingProps) => {
 						<ModalCloseIcon />
 					</IconButton>
 				</Flex>
-			)} */}
+			)}
 			<Flex sx={{ justifyContent: 'center', marginTop: '48px' }}>
 				<Loader size={28} loadingText={t('common:processing')} />
 			</Flex>
@@ -125,7 +126,7 @@ TxBroadcastingProcessingProps) => {
 TxBroadcastingProcessing.defaultProps = {
 	txHash: '',
 	terraFinderUrl: '',
-	// onClose: noop,
+	onClose: noop,
 }
 
 interface TxBroadcastingCompleteProps {
@@ -248,7 +249,7 @@ const TxBroadcastingModal = NiceModal.create(
 							<TxBroadcastingProcessing
 								txHash={txReceipt?.txId}
 								terraFinderUrl={txReceipt?.txTerraFinderUrl}
-								// onClose={modal.remove}
+								onClose={modal.remove}
 							/>
 						)}
 						{!loading.send && !loading.broadcasting && !error && txReceipt?.txId && (
