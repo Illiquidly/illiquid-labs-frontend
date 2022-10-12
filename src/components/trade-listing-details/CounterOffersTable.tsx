@@ -102,7 +102,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 					tradeIds: [`${tradeId}`],
 				},
 				{
-					limit: 10,
+					limit: 20,
 					page,
 				}
 			),
