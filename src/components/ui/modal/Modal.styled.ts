@@ -16,16 +16,14 @@ export const ModalContainer = styled.div<{ isOverHeader?: boolean }>`
 	top: ${HEADER_HEIGHT};
 	width: 100%;
 	height: 100%;
-	left: 50%;
-	transform: translateX(-50%);
-	min-width: 310px;
+	left: 0;
+	right: 0;
 	overflow: auto;
-	max-height: calc(100vh - ${HEADER_HEIGHT});
+	bottom: 0;
 
 	${props =>
 		props.isOverHeader &&
 		css`
-			max-height: 100vh;
 			top: 0;
 		`}
 `
