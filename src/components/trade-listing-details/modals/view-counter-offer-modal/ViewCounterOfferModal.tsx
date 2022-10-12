@@ -88,14 +88,16 @@ export const ViewCounterOfferModal = NiceModal.create(
 			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
 
-		const filteredNFTs = nfts.filter(nft =>
-			(selectedCollections.length
-				? selectedCollections
-						.map(({ value }) => value)
-						.includes(nft.collectionAddress)
-				: true) && searchName
-				? (nft?.name || '').toLowerCase().match(`^${searchName.toLowerCase()}.*$`)
-				: true
+		const filteredNFTs = nfts.filter(
+			nft =>
+				(selectedCollections.length
+					? selectedCollections
+							.map(({ value }) => value)
+							.includes(nft.collectionAddress)
+					: true) &&
+				(searchName
+					? (nft?.name || '').toLowerCase().match(`^${searchName.toLowerCase()}.*$`)
+					: true)
 		)
 
 		return (
