@@ -7,6 +7,7 @@ import {
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	TextArea,
+	TokenInputField,
 } from 'components'
 import If from 'components/core/if-statement'
 import { Chip } from 'components/ui/chip'
@@ -178,7 +179,7 @@ const TradeDetailsForm = () => {
 						<Label htmlFor='tokenAmount'>
 							{t('trade:trade-details.tokens-label')}
 						</Label>
-						<TextInputField
+						<TokenInputField
 							id='tokenAmount'
 							{...register('tokenAmount')}
 							fieldError={
@@ -187,8 +188,9 @@ const TradeDetailsForm = () => {
 							type='number'
 							error={!!errors.tokenAmount}
 							placeholder={t('trade:trade-details.tokens-placeholder', {
-								token: 'Luna',
+								token: getValues('tokenName'),
 							})}
+							tokenName={getValues('tokenName')}
 						/>
 					</div>
 					<div style={{ paddingTop: '8px' }}>

@@ -30,7 +30,7 @@ import {
 } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
-import { TextInputField } from 'components/form'
+import { TokenInputField } from 'components/form'
 import { LOOKING_FOR_TYPE, TradeDetailsStepSchema } from 'components/trade'
 import { ModalLayoutContainer } from 'components/layout'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
@@ -108,7 +108,7 @@ const EditModal = NiceModal.create(
 						label: collectionName as string,
 						value: collectionAddress as string,
 					})),
-				tokenName: 'LUNA',
+				tokenName: 'Luna',
 				tokenAmount: (initialLookingFor ?? []).find(x => x.amount)?.amount ?? '',
 			},
 		})
@@ -227,10 +227,9 @@ const EditModal = NiceModal.create(
 													<Label htmlFor='tokenAmount'>
 														{t('trade-listings:edit-modal:tokens-interested-in')}
 													</Label>
-													<TextInputField
+													<TokenInputField
 														id='tokenAmount'
 														{...register('tokenAmount')}
-														type='number'
 														fieldError={
 															errors.tokenAmount &&
 															t(`common:errors.${errors.tokenAmount.message}`)
@@ -242,6 +241,7 @@ const EditModal = NiceModal.create(
 																tokenName: getValues('tokenName'),
 															}
 														)}
+														tokenName={getValues('tokenName')}
 													/>
 												</Flex>
 											</Flex>

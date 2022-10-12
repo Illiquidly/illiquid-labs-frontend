@@ -175,7 +175,7 @@ export default function TradeCounter() {
 		resolver: yupResolver(TradeCounterValidationSchema),
 		defaultValues: {
 			selectedNFTs: [],
-			tokenName: 'LUNA',
+			tokenName: 'Luna',
 		},
 	})
 

@@ -23,10 +23,10 @@ export type Asset = {
 }
 
 export function getDenomForCurrency(currency: TerraCurrency) {
-	if (currency === 'LUNA') {
+	if (currency.toUpperCase() === 'LUNA') {
 		return 'uluna'
 	}
-	if (currency === 'UST') {
+	if (currency.toUpperCase() === 'UST') {
 		return 'uusd'
 	}
 	throw new Error(`Unsupported currency: ${currency}`)

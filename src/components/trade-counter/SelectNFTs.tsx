@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react'
 import { WalletIcon } from 'assets/icons/mixed'
 import TradeAssetImage from 'assets/images/TradeAsset'
-import { Button, Card, TextArea, TextInput } from 'components/ui'
+import { Button, Card, TextArea } from 'components/ui'
 import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -12,6 +12,7 @@ import { MyNFTsModal } from 'components/shared'
 import { NFT } from 'services/api/walletNFTsService'
 import { useFormContext } from 'react-hook-form'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
+import { TokenInputField } from 'components/form'
 import {
 	AttributeCard,
 	AttributeName,
@@ -21,7 +22,7 @@ import {
 	PreviewImage,
 	PreviewImageContainer,
 	SelectNFTsSection,
-	Subtitle,
+	// Subtitle,
 	Title,
 } from './styled'
 
@@ -34,7 +35,7 @@ export default function SelectNFTs() {
 		getValues,
 		register,
 		watch,
-		formState: { isValid },
+		formState: { isValid, errors },
 		trigger,
 	} = useFormContext()
 
@@ -84,13 +85,13 @@ export default function SelectNFTs() {
 								<Flex sx={{}}>
 									<Title>{t('trade-listings:trade-counter.selected-nfts')}</Title>
 								</Flex>
-								<Box sx={{ mt: 2, alignSelf: 'flex-start' }}>
+								{/* <Box sx={{ mt: 2, alignSelf: 'flex-start' }}>
 									<Subtitle>
 										{t(
 											'trade-listings:trade-counter.explain-what-sets-you-and-your-nfts-apart'
 										)}
 									</Subtitle>
-								</Box>
+								</Box> */}
 							</Flex>
 							<Flex sx={{ marginLeft: 'auto', alignItems: 'center' }}>
 								<Button onClick={handleSelectMyNFTs} variant='dark'>
@@ -122,13 +123,13 @@ export default function SelectNFTs() {
 								{t('trade-listings:trade-counter.select-at-least-one-item')}
 							</Title>
 						</Box>
-						<Box sx={{ mt: 2, textAlign: 'center' }}>
+						{/* <Box sx={{ mt: 2, textAlign: 'center' }}>
 							<Subtitle>
 								{t(
 									'trade-listings:trade-counter.explain-what-sets-you-and-your-nfts-apart'
 								)}
 							</Subtitle>
-						</Box>
+						</Box> */}
 
 						<Box sx={{ mt: 10 }}>
 							<Button
@@ -146,12 +147,19 @@ export default function SelectNFTs() {
 			<Label>
 				{t('trade-listings:trade-counter.tokens-i-would-like-to-offer')}
 			</Label>
-			<TextInput
+
+			<TokenInputField
 				id='tokenAmount'
 				{...register('tokenAmount')}
 				placeholder={t('trade-listings:trade-counter.enter-amount', {
 					currency: getValues('tokenName'),
 				})}
+				fieldError={
+					errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
+				}
+				type='number'
+				error={!!errors.tokenAmount}
+				tokenName={getValues('tokenName')}
 			/>
 
 			<Label>{t('trade-listings:trade-counter.write-a-comment')}</Label>

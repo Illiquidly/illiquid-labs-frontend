@@ -96,7 +96,7 @@ export default function Trade() {
 		defaultValues: {
 			selectedNFTs: [],
 			collections: [],
-			tokenName: 'LUNA',
+			tokenName: 'Luna',
 			isSuccessScreen: false,
 		},
 	})
