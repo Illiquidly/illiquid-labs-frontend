@@ -144,30 +144,35 @@ export default function SelectNFTs() {
 				)}
 			</SelectNFTsSection>
 
-			<Label>
-				{t('trade-listings:trade-counter.tokens-i-would-like-to-offer')}
-			</Label>
+			<Box>
+				<Label>
+					{t('trade-listings:trade-counter.tokens-i-would-like-to-offer')}
+				</Label>
+				<Box sx={{ mt: '8px' }}>
+					<TokenInputField
+						id='tokenAmount'
+						{...register('tokenAmount')}
+						placeholder={t('trade-listings:trade-counter.enter-amount', {
+							currency: getValues('tokenName'),
+						})}
+						fieldError={
+							errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
+						}
+						error={!!errors.tokenAmount}
+						tokenName={getValues('tokenName')}
+					/>
+				</Box>
 
-			<TokenInputField
-				id='tokenAmount'
-				{...register('tokenAmount')}
-				placeholder={t('trade-listings:trade-counter.enter-amount', {
-					currency: getValues('tokenName'),
-				})}
-				fieldError={
-					errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
-				}
-				error={!!errors.tokenAmount}
-				tokenName={getValues('tokenName')}
-			/>
-
-			<Label>{t('trade-listings:trade-counter.write-a-comment')}</Label>
-			<TextArea
-				id='comment'
-				style={{ height: '128px' }}
-				{...register('comment')}
-				placeholder={t('trade-listings:trade-counter.enter-text')}
-			/>
+				<Label>{t('trade-listings:trade-counter.write-a-comment')}</Label>
+				<Box sx={{ mt: '8px' }}>
+					<TextArea
+						id='comment'
+						style={{ height: '128px' }}
+						{...register('comment')}
+						placeholder={t('trade-listings:trade-counter.enter-text')}
+					/>
+				</Box>
+			</Box>
 
 			<Button
 				disabled={!isValid}
