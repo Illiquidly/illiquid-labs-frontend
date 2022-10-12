@@ -77,9 +77,8 @@ NFTSelectionOverlay.defaultProps = {
 		marginLeft: 'auto',
 		marginRight: 'auto',
 		display: 'flex',
-		maxWidth: ['316px', '452px'],
+		maxWidth: ['288px', '424px'],
 		height: ['160px'],
-		p: '14px',
 	},
 }
 

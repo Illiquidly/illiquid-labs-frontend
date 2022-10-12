@@ -89,5 +89,5 @@ HeaderTitleContainer.defaultProps = {
 export const BodyContainer = styled(Flex)``
 
 BodyContainer.defaultProps = {
-	sx: { flexDirection: ['column', 'column', 'row'], px: '0.5px' },
+	sx: { flexDirection: ['column', 'column', 'row'], px: '0.5px', pb: '48px' },
 }
