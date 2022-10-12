@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Img } from 'react-image'
 import { Box, Flex, Text } from 'theme-ui'
@@ -59,6 +60,7 @@ export const LookingForTitle = styled(Box)`
 	font-weight: 600;
 	font-size: 12px;
 	line-height: 30px;
+	text-align: left;
 
 	letter-spacing: -0.02em;
 	text-transform: uppercase;
@@ -186,22 +188,45 @@ export const ListingOverlay = styled(Flex)`
 	color: ${props => props.theme.colors.gray600};
 `
 
-export const Chip = styled.div`
+export const Chip = styled.div<{ primary?: boolean; secondary?: boolean }>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: 6.5px;
-	height: 26.6px; 
-	padding: 4px 12.8px;
 
-	font-style: normal;
-	font-weight: 600;
-	font-size: 12px;
+	${props =>
+		props.primary &&
+		css`
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 6.5px;
+			height: 26.6px;
+			padding: 4px 12.8px;
 
-	text-align: center;
-	letter-spacing: -0.02em;
-	color ${props => props.theme.colors.gray700}
+			font-style: normal;
+			font-weight: 600;
+			font-size: 12px;
+
+			text-align: center;
+			letter-spacing: -0.02em;
+			color: ${props.theme.colors.gray700};
+		`}
+
+	${props =>
+		props.secondary &&
+		css`
+			background: ${props.theme.colors.dark400};
+			border-radius: 6px;
+			height: 24px;
+			padding: 4px 12.8px;
+
+			font-style: normal;
+			font-weight: 600;
+			font-size: 16px;
+			line-height: 24px;
+
+			text-align: center;
+			letter-spacing: -0.02em;
+			color: ${props.theme.colors.gray600};
+		`}
 `
 
 export const StatusIconContainer = styled(Flex)`

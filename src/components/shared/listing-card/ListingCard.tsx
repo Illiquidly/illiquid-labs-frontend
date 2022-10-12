@@ -8,19 +8,16 @@ import React from 'react'
 import { Collection, NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../../ui/overflow-tip'
-import { Tooltip } from '../../ui/tooltip'
+import { LookingFor } from '../looking-for'
 
 import {
 	BottomImageArea,
 	CardContainer,
-	Chip,
 	DescriptionSection,
 	Image,
 	ImageSection,
 	LikeIconContainer,
 	ListingOverlay,
-	LookingForSection,
-	LookingForTitle,
 	MoreChip,
 	PreviewImage,
 	PreviewImageContainer,
@@ -154,38 +151,11 @@ function ListingCard({
 							</Flex>
 						</Flex>
 					</DescriptionSection>
-					<LookingForSection sx={{ display: hasLookingFor ? 'flex' : 'none' }}>
-						<LookingForTitle>{t('common:looking-for')}</LookingForTitle>
-						<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
-							{!lookingFor?.length ? <Chip>{t('common:any-offer')}</Chip> : null}
-							{(lookingFor || []).map((value, index) =>
-								index < lookingForItemsLimit ? (
-									<Chip key={JSON.stringify(value)}>
-										{value.amount
-											? `${value.amount} ${value.currency}`
-											: value.collectionName}
-									</Chip>
-								) : null
-							)}
-							{lookingFor?.slice(lookingForItemsLimit).length ? (
-								<Tooltip
-									overlay={
-										<div>
-											{lookingFor?.slice(lookingForItemsLimit).map(value => (
-												<div key={JSON.stringify(value)}>
-													{value.amount
-														? `${value.amount} ${value.currency}`
-														: value.collectionName}
-												</div>
-											))}
-										</div>
-									}
-								>
-									<Chip>+{lookingFor?.slice(lookingForItemsLimit).length}</Chip>
-								</Tooltip>
-							) : null}
-						</Flex>
-					</LookingForSection>
+					<LookingFor
+						lookingFor={lookingFor}
+						lookingForItemsLimit={lookingForItemsLimit}
+						hasLookingFor={hasLookingFor}
+					/>
 				</CardContainer>
 			</a>
 		</Link>

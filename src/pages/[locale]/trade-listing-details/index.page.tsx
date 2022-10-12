@@ -40,7 +40,6 @@ import {
 	ImageRow,
 	LayoutContainer,
 	LinkButton,
-	LookingForRow,
 	Page,
 	TxBroadcastingModal,
 	ViewNFTsModal,
@@ -60,6 +59,7 @@ import CreateTradeListing from 'components/shared/header-actions/create-trade-li
 import { CounterTrade } from 'services/api/counterTradesService'
 import { NetworkType } from 'types'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
+import { LookingFor } from 'components/shared/looking-for'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -350,7 +350,7 @@ export default function ListingDetails() {
 								</Row>
 								{Boolean((additionalInfo?.lookingFor ?? []).length) && (
 									<Row>
-										<LookingForRow lookingFor={additionalInfo?.lookingFor ?? []} />
+										<LookingFor secondary lookingFor={additionalInfo?.lookingFor ?? []} />
 									</Row>
 								)}
 
