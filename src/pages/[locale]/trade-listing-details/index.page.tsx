@@ -304,10 +304,12 @@ export default function ListingDetails() {
 								<Row>
 									<DescriptionCard>
 										<DescriptionCardItem>
-											<AvatarIcon />
-											<Box sx={{ ml: '3px', flex: 1 }}>
-												{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
-											</Box>
+											<Flex sx={{ alignItems: 'center' }}>
+												<AvatarIcon />
+												<Box sx={{ ml: '3px', flex: 1 }}>
+													{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
+												</Box>
+											</Flex>
 										</DescriptionCardItem>
 										<DescriptionCardItem>
 											<WalletIcon width='20px' height='20px' color='#fff' />

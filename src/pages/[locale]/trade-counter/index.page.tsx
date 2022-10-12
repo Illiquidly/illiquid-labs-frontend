@@ -397,12 +397,14 @@ export default function TradeCounter() {
 												<Row>
 													<DescriptionCard>
 														<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
-															<AvatarIcon />
-															<Box sx={{ ml: '3px', flex: 1 }}>
-																{`''${
-																	tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
-																}''`}
-															</Box>
+															<Flex sx={{ alignItems: 'center' }}>
+																<AvatarIcon />
+																<Box sx={{ ml: '3px', flex: 1 }}>
+																	{`''${
+																		tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
+																	}''`}
+																</Box>
+															</Flex>
 														</DescriptionCardItem>
 														<DescriptionCardItem style={{ background: theme.colors.dark400 }}>
 															<WalletIcon
