@@ -99,7 +99,7 @@ const Circle = styled.div`
 
 const ImageWrapper = styled.div`
 	display: flex;
-	margin-right: 13px;
+	margin-right: 22px;
 	position: relative;
 	width: 50px;
 	height: 50px;

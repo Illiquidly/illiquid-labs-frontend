@@ -58,5 +58,21 @@
 	"private-trade": "Private trade",
 	"oops": "Oops",
 	"page-not-found-text": "404 - Page not found",
-	"more-nfts": "{{count}} NFTs"
+	"more-nfts": "{{count}} NFTs",
+	"notifications": "Notifications",
+	"new": "New",
+	"older": "Older",
+	"new-counter-trade-message": "You received an offer on your trade",
+	"counter-trade-review-message": "Your offer is in review",
+	"counter-trade-accepted-message": "Your offer has been accepted",
+	"other-counter-trade-accepted": "Other offer was has been accepted",
+	"trade-cancelled-message": "This trade has been cancelled",
+	"refuse-counter-trade-message": "Your counter has been refused",
+
+	"new-counter-trade-action-message": "Reply to offer to make the deal",
+	"counter-trade-review-action-message": "Check your offer",
+	"counter-trade-accepted-action-message": "Withdraw your trade",
+	"other-counter-trade-action-accepted": "Check your offer",
+	"trade-cancelled-action-message": "Withdraw your offers",
+	"refuse-counter-trade-action-message": "Check your offer"
 }

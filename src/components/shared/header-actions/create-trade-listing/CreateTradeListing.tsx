@@ -6,12 +6,16 @@ import { ConnectButton } from 'components/shared/connect-button'
 import { useTranslation } from 'next-i18next'
 import { useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { LinkButton } from 'components/link'
+import { NotificationsBell } from 'components/shared/notifications-bell'
 
 export default function CreateTradeListing() {
 	const { t } = useTranslation(['common'])
 	const wallet = useWallet()
 	return (
 		<Flex sx={{ gap: '8px', height: '40px' }}>
+			<Box sx={{ display: ['none', 'block'] }}>
+				<NotificationsBell />
+			</Box>
 			{wallet.status === WalletStatus.WALLET_CONNECTED && (
 				<LinkButton
 					variant='gradient'

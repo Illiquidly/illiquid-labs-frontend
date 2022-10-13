@@ -1,6 +1,7 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { NetworkType } from 'types'
+import { NFT } from './walletNFTsService'
 
 export enum TRADE_NOTIFICATION_TYPE {
 	NewCounterTrade = 'new_counter_trade',
@@ -25,6 +26,9 @@ export interface TradeNotification {
 	counterTradeId: number
 	notificationType: TRADE_NOTIFICATION_TYPE
 	status: READ_STATUS
+	notificationPreview?: {
+		cw721Coin?: NFT
+	}
 }
 
 export interface TradeNotificationsResponse {
@@ -50,7 +54,7 @@ export class TradeNotificationsService {
 		filters: TradeNotificationsFilters,
 		pagination?: TradePagination,
 		sort: 'ASC' | 'DESC' = 'DESC'
-	): Promise<TradeNotificationsResponse[]> {
+	): Promise<TradeNotificationsResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
 
 		queryBuilder.setFilter({
