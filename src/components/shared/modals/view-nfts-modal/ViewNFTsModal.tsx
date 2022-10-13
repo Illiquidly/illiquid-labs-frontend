@@ -79,7 +79,7 @@ export const ViewNFTsModal = NiceModal.create(
 							.includes(nft.collectionAddress)
 					: true) &&
 				(searchName
-					? (nft?.name || '').toLowerCase().match(`^${searchName.toLowerCase()}.*$`)
+					? (nft?.name || '').toLowerCase().match(`${searchName.toLowerCase()}.*`)
 					: true)
 		)
 

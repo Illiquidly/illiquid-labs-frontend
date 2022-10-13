@@ -42,12 +42,12 @@ export default function LookingFor({
 					index < lookingForItemsLimit ? (
 						<Chip primary={primary} secondary={secondary} key={JSON.stringify(value)}>
 							{value.currency && (
-								<Box sx={{ mr: '5px' }}>
+								<Flex sx={{ mr: '5px', alignItems: 'center' }}>
 									<LunaIcon
 										width={primary ? '16.2px' : '20px'}
 										height={primary ? '16.2px' : '20px'}
 									/>
-								</Box>
+								</Flex>
 							)}
 							<Box>
 								{value.amount

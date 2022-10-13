@@ -75,9 +75,7 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 					: true) &&
 				// Filter by name %LIKE
 				(filters.name
-					? (nft?.name || '')
-							.toLowerCase()
-							.match(`^${filters.name.toLowerCase()}.*$`)
+					? (nft?.name || '').toLowerCase().match(`${filters.name.toLowerCase()}.*`)
 					: true)
 		).sort((a, b) =>
 			filters.sort === NFTS_SORT_VALUE.ASCENDING
