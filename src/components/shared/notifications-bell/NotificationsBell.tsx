@@ -12,7 +12,10 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { TradeNotificationsService } from 'services/api'
-import { TRADE_NOTIFICATION_TYPE } from 'services/api/tradeNotificationsService'
+import {
+	READ_STATUS,
+	TRADE_NOTIFICATION_TYPE,
+} from 'services/api/tradeNotificationsService'
 import { Box } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
 
@@ -119,33 +122,62 @@ export default function NotificationsBell() {
 						title={t('common:notifications')}
 						newNotificationsTitle={t('common:new')}
 						oldNotificationsTitle={t('common:older')}
-						oldNotifications={[]}
-						newNotifications={(data?.data ?? []).map(
-							({
-								id,
-								tradeId,
-								notificationPreview,
-								notificationType,
-								time,
-								status,
-							}) => {
-								const { message, actionMessage } =
-									getNotificationMessageFromType(notificationType)
-								return {
+						oldNotifications={(data?.data ?? [])
+							.filter(x => x.status === READ_STATUS.READ)
+							.map(
+								({
 									id,
-									data: { tradeId },
-									timeDescription: moment(time).fromNow(),
+									tradeId,
+									notificationPreview,
+									notificationType,
+									time,
 									status,
-									message,
-									actionMessage,
-									imageUrl: notificationPreview?.cw721Coin?.imageUrl ?? [],
-									typeBadge: {
-										icon: <TradeIcon width='15px' height='17px' color='#fff' />,
-										background: 'linear-gradient(135deg, #61EA77 0%, #22BB28 100%)',
-									},
+								}) => {
+									const { message, actionMessage } =
+										getNotificationMessageFromType(notificationType)
+									return {
+										id,
+										data: { tradeId },
+										timeDescription: moment(time).fromNow(),
+										status,
+										message,
+										actionMessage,
+										imageUrl: notificationPreview?.cw721Coin?.imageUrl ?? [],
+										typeBadge: {
+											icon: <TradeIcon width='15px' height='17px' color='#fff' />,
+											background: 'linear-gradient(135deg, #61EA77 0%, #22BB28 100%)',
+										},
+									}
 								}
-							}
-						)}
+							)}
+						newNotifications={(data?.data ?? [])
+							.filter(x => x.status === READ_STATUS.UNREAD)
+							.map(
+								({
+									id,
+									tradeId,
+									notificationPreview,
+									notificationType,
+									time,
+									status,
+								}) => {
+									const { message, actionMessage } =
+										getNotificationMessageFromType(notificationType)
+									return {
+										id,
+										data: { tradeId },
+										timeDescription: moment(time).fromNow(),
+										status,
+										message,
+										actionMessage,
+										imageUrl: notificationPreview?.cw721Coin?.imageUrl ?? [],
+										typeBadge: {
+											icon: <TradeIcon width='15px' height='17px' color='#fff' />,
+											background: 'linear-gradient(135deg, #61EA77 0%, #22BB28 100%)',
+										},
+									}
+								}
+							)}
 					/>
 				</Box>
 			)}
