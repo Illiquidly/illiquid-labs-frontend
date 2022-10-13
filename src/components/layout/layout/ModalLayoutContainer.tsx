@@ -3,7 +3,7 @@ import { Box } from 'theme-ui'
 
 export const ModalLayoutContainer = styled(Box)`
 	position: relative;
-	max-width: 842px;
+	max-width: 668px;
 	width: 100%;
 	margin: 0 auto;
 `
