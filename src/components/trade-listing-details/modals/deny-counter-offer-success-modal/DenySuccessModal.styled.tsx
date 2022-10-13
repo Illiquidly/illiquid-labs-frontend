@@ -29,6 +29,7 @@ export const ModalHeader = styled.div`
 	border-bottom: 1px solid ${props => props.theme.colors.dark500};
 	padding: 0 12px;
 	background: ${props => props.theme.colors.dark200};
+	font-weight: 600;
 `
 
 export const ModalBody = styled.div`

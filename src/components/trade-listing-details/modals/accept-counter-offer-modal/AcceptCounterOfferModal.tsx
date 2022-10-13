@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, IconButton } from 'theme-ui'
+import { Box, Flex, IconButton } from 'theme-ui'
 import { useTranslation } from 'next-i18next'
 
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
@@ -7,48 +7,47 @@ import { useTheme } from '@emotion/react'
 
 import { ModalCloseIcon } from 'assets/icons/modal'
 
-import {
-	Button,
-	Modal,
-	RadioCardInput,
-	RadioInputGroupProvider,
-	TextArea,
-} from 'components/ui'
+import { Button, Modal, TextArea } from 'components/ui'
 
 import { CounterTrade } from 'services/api/counterTradesService'
 import { FormProvider, useForm } from 'react-hook-form'
 import getShortText from 'utils/js/getShortText'
 import { ModalLayoutContainer } from 'components/layout'
 import {
+	HorizontalTradeLine,
+	VerticalTradeLine,
+} from 'components/trade-listing-details'
+import ImagePlaceholder from 'assets/images/ImagePlaceholder'
+import { NFT } from 'services/api/walletNFTsService'
+import { HumanCoin, Trade } from 'services/api/tradesService'
+import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
 	Label,
-	RadioText,
 	Title,
 	Subtitle,
+	Grid,
+	CoinCard,
+	PreviewImageContainer,
+	PreviewImage,
 } from './AcceptCounterOfferModal.styled'
 
 export interface AcceptCounterOfferModalProps {
 	counterTrade: CounterTrade
-}
-
-enum CONFIRM_STATUS_TYPE {
-	DEFAULT = '0',
-	CONFIRMED = '1',
+	trade: Trade
 }
 
 export interface AcceptCounterOfferModalResult {
 	comment: string
 }
 export interface AcceptCounterOfferModalState {
-	confirmStatusType: CONFIRM_STATUS_TYPE
 	comment: string
 }
 
 const AcceptCounterOfferModal = NiceModal.create(
-	({ counterTrade }: AcceptCounterOfferModalProps) => {
+	({ trade, counterTrade }: AcceptCounterOfferModalProps) => {
 		const modal = useModal()
 
 		const { t } = useTranslation(['common', 'trade-listings'])
@@ -58,12 +57,11 @@ const AcceptCounterOfferModal = NiceModal.create(
 		const formMethods = useForm<AcceptCounterOfferModalState>({
 			mode: 'all',
 			defaultValues: {
-				confirmStatusType: CONFIRM_STATUS_TYPE.DEFAULT,
 				comment: '',
 			},
 		})
 
-		const { register, setValue, watch } = formMethods
+		const { register } = formMethods
 
 		const onSubmit = ({ comment }) => {
 			modal.resolve({
@@ -71,6 +69,30 @@ const AcceptCounterOfferModal = NiceModal.create(
 			} as AcceptCounterOfferModalResult)
 			modal.remove()
 		}
+
+		const tradeNFTs = React.useMemo(
+			() =>
+				(trade?.tradeInfo.associatedAssets ?? [])
+					.filter(({ cw721Coin }) => cw721Coin)
+					.map(({ cw721Coin }) => cw721Coin as NFT),
+			[trade]
+		)
+
+		const counterTradeNFTs = React.useMemo(
+			() =>
+				(counterTrade?.tradeInfo.associatedAssets ?? [])
+					.filter(({ cw721Coin }) => cw721Coin)
+					.map(({ cw721Coin }) => cw721Coin as NFT),
+			[counterTrade]
+		)
+
+		const counterTradeCoins = React.useMemo(
+			() =>
+				(counterTrade?.tradeInfo?.associatedAssets ?? [])
+					.filter(x => x.coin)
+					.map(x => x.coin) as HumanCoin[],
+			[counterTrade]
+		)
 
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
@@ -103,23 +125,72 @@ const AcceptCounterOfferModal = NiceModal.create(
 													{t('trade-listings:accept-counter-offer-modal.note')}
 												</Subtitle>
 											</Flex>
-											<Flex>
-												<RadioInputGroupProvider
-													name='confirmStatusType'
-													value={watch('confirmStatusType')}
-													onChange={e =>
-														setValue(
-															'confirmStatusType',
-															e.target.value as CONFIRM_STATUS_TYPE
-														)
-													}
+
+											<Flex
+												sx={{
+													flexDirection: ['column', 'column', 'row'],
+												}}
+											>
+												<Box sx={{ flex: 1 }}>
+													<Title>
+														{t('trade-listings:offer-accepted-modal.your-listing')}
+													</Title>
+													<Grid>
+														{tradeNFTs.map(nft => (
+															<PreviewImageContainer
+																key={`${nft.collectionAddress}_${nft.tokenId}`}
+															>
+																{nft?.imageUrl?.every(img => img === '') ? (
+																	<Flex sx={{ maxWidth: '61px', maxHeight: '61px' }}>
+																		<ImagePlaceholder width='100%' height='100%' />
+																	</Flex>
+																) : (
+																	<PreviewImage src={nft?.imageUrl ?? []} />
+																)}
+															</PreviewImageContainer>
+														))}
+													</Grid>
+												</Box>
+												<Box sx={{ display: ['block', 'block', 'none'] }}>
+													<HorizontalTradeLine />
+												</Box>
+												<Box sx={{ display: ['none', 'none', 'block'] }}>
+													<VerticalTradeLine />
+												</Box>
+												<Flex
+													sx={{
+														flexDirection: 'column',
+														flex: 1,
+													}}
 												>
-													<RadioCardInput value={CONFIRM_STATUS_TYPE.CONFIRMED}>
-														<RadioText>
-															{t('trade-listings:accept-counter-offer-modal.radio-text')}
-														</RadioText>
-													</RadioCardInput>
-												</RadioInputGroupProvider>
+													<Title>
+														{t('trade-listings:offer-accepted-modal.offer', {
+															username: getShortText(counterTrade?.tradeInfo?.owner, 6),
+														})}
+													</Title>
+													<Grid>
+														{counterTradeNFTs.map(nft => (
+															<PreviewImageContainer
+																key={`${nft.collectionAddress}_${nft.tokenId}`}
+															>
+																{nft?.imageUrl?.every(img => img === '') ? (
+																	<Flex sx={{ maxWidth: '61px', maxHeight: '61px' }}>
+																		<ImagePlaceholder width='100%' height='100%' />
+																	</Flex>
+																) : (
+																	<PreviewImage src={nft?.imageUrl ?? []} />
+																)}
+															</PreviewImageContainer>
+														))}
+													</Grid>
+													<Flex sx={{ mt: 8, flexDirection: 'column', gap: 8 }}>
+														{counterTradeCoins.map(({ amount, currency }) => (
+															<CoinCard key={JSON.stringify({ amount, currency })}>
+																{`${amount} ${currency}`}
+															</CoinCard>
+														))}
+													</Flex>
+												</Flex>
 											</Flex>
 
 											<Flex sx={{ flexDirection: 'column' }}>
@@ -144,14 +215,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 												<Button onClick={modal.remove} variant='secondary' fullWidth>
 													{t('trade-listings:accept-counter-offer-modal.back-to-listing')}
 												</Button>
-												<Button
-													variant='gradient'
-													fullWidth
-													disabled={
-														watch('confirmStatusType') === CONFIRM_STATUS_TYPE.DEFAULT
-													}
-													type='submit'
-												>
+												<Button variant='gradient' fullWidth type='submit'>
 													{t('trade-listings:accept-counter-offer-modal.accept-offer')}
 												</Button>
 											</Flex>

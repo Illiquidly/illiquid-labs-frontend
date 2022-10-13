@@ -138,6 +138,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
 			NiceModal.show(AcceptCounterOfferModal, {
 				counterTrade,
+				trade,
 			} as AcceptCounterOfferModalProps)
 		)
 

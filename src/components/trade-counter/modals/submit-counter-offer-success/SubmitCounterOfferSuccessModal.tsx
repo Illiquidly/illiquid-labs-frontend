@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next'
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { useTheme } from '@emotion/react'
 
-import { ModalCloseIcon } from 'assets/icons/modal'
+import { ModalCloseIcon, ModalSuccessCircleIcon } from 'assets/icons/modal'
 
 import { Button, Modal } from 'components/ui'
 
@@ -54,16 +54,22 @@ const SubmitCounterOfferSuccessModal = NiceModal.create(
 								</IconButton>
 							</ModalHeader>
 							<ModalBody>
-								<Box>
-									<Title>
-										{t('trade-listings:submit-counter-offer-success-modal.question', {
-											username: getShortText(trade?.tradeInfo?.owner ?? '', 8),
-										})}
-									</Title>
-									<Subtitle>
-										{t('trade-listings:submit-counter-offer-success-modal.note')}
-									</Subtitle>
-								</Box>
+								<Flex sx={{ gap: '8px' }}>
+									<Box sx={{ minWidth: '32px', minHeight: '32px' }}>
+										<ModalSuccessCircleIcon />
+									</Box>
+									<Box>
+										<Title>
+											{t('trade-listings:submit-counter-offer-success-modal.question', {
+												username: getShortText(trade?.tradeInfo?.owner ?? '', 8),
+											})}
+										</Title>
+										<Subtitle>
+											{t('trade-listings:submit-counter-offer-success-modal.note')}
+										</Subtitle>
+									</Box>
+								</Flex>
+								<Box />
 								<Flex
 									sx={{
 										justifyContent: 'space-between',

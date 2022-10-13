@@ -83,9 +83,6 @@ const DenySuccessModal = NiceModal.create(
 										variant='gradient'
 										fullWidth
 										onClick={() => {
-											router.push(
-												`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${counterTrade.trade.tradeId}`
-											)
 											modal.remove()
 										}}
 									>

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import { RadioCardText } from 'components/ui/radio/RadioCardInput'
+import { Img } from 'react-image'
 
 export const ModalContainer = styled.div`
 	display: flex;
@@ -18,6 +19,7 @@ export const ModalContent = styled.div`
 	overflow: hidden;
 	margin-top: 80px;
 	background: ${props => props.theme.colors.dark400};
+	font-weight: 600;
 `
 
 export const ModalHeader = styled.div`
@@ -77,4 +79,55 @@ export const Subtitle = styled.div`
 	font-size: 14px;
 	line-height: 20px;
 	color: ${props => props.theme.colors.gray700};
+`
+
+export const Grid = styled.div`
+	display: grid;
+	padding: 8px;
+	margin-top: 8px;
+	grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+	grid-template-rows: max-content;
+	background: ${props => props.theme.colors.dark100};
+	border-radius: 8px;
+	grid-gap: 8px;
+`
+
+export const CoinCard = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 4px 6px 4px 4px;
+	gap: 8px;
+
+	width: 100%;
+	background: ${props => props.theme.colors.dark500};
+	border-radius: 6px;
+`
+
+export const PreviewImageContainer = styled.div`
+	aspect-ratio: 1/1;
+	overflow: hidden;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+
+export const Image = styled(Img)`
+	max-width: 100%;
+	max-height: 100%;
+	overflow: hidden;
+	z-index: ${props => props.theme.zIndices.listingCardImg};
+	position: absolute;
+
+	transition: transform 0.2s;
+
+	&:hover {
+		transform: scale(1.02);
+	}
+`
+
+export const PreviewImage = styled(Image)`
+	position: unset;
+	border-radius: 8px;
 `
