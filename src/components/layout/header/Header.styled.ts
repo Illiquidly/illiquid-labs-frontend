@@ -55,13 +55,15 @@ export const LinkContent = styled.div<{ active?: boolean }>`
 	padding: 4px 12px;
 
 	&:hover {
-		color: ${props => props.theme.colors.gray700};
+		color: ${props =>
+			props.active ? props.theme.colors.gray1000 : props.theme.colors.gray700};
 		cursor: pointer;
 	}
 
 	${props =>
 		props.active &&
 		css`
+			color: ${props.theme.colors.gray1000};
 			background: ${props.theme.colors.dark300};
 		`}
 `
