@@ -16,7 +16,6 @@ export default function useHeaderActions(
 
 	React.useEffect(() => {
 		setHeaderComponent(headerComponent)
-		return () => setHeaderComponent(null)
 	}, [])
 
 	return data
