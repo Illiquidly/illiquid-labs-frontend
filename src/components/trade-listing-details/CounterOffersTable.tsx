@@ -342,7 +342,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 											</TokenChip>
 										)}
 										{coins.map(({ amount, currency }) => (
-											<TokenChip>
+											<TokenChip key={JSON.stringify({ amount, currency, id })}>
 												<LunaIcon />
 												<div>{`${amount} ${currency}`}</div>
 											</TokenChip>
