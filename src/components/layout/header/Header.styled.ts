@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { theme } from 'components/theme/theme'
 import { HEADER_HEIGHT } from 'constants/components'
@@ -24,7 +25,7 @@ HeaderWrapper.defaultProps = {
 }
 
 export const LinksContainer = styled(Flex)`
-	gap: 25px;
+	gap: 13px;
 	margin-left: 54px;
 	align-items: center;
 	justify-content: flex-start;
@@ -44,16 +45,25 @@ export const LinkText = styled.div`
 	line-height: 24px;
 `
 
-export const LinkContent = styled.div`
+export const LinkContent = styled.div<{ active?: boolean }>`
 	display: flex;
 	align-items: center;
 	gap: 11.5px;
 	color: ${props => props.theme.colors.gray600};
 
+	border-radius: 8px;
+	padding: 4px 12px;
+
 	&:hover {
 		color: ${props => props.theme.colors.gray700};
 		cursor: pointer;
 	}
+
+	${props =>
+		props.active &&
+		css`
+			background: ${props.theme.colors.dark300};
+		`}
 `
 
 export const HeaderDropdownContainer = styled(Flex)`

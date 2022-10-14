@@ -15,6 +15,7 @@ import { WalletOutlineIcon } from 'assets/icons/24ptOutline'
 import { BurgerMenuIcon, CloseIcon } from 'assets/icons/mixed'
 import useIsTablet from 'hooks/react/useIsTablet'
 import React from 'react'
+import { useRouter } from 'next/router'
 import { LayoutContainer } from '../layout'
 import {
 	HeaderDropdown,
@@ -32,13 +33,41 @@ function Header() {
 	const { t } = useTranslation(['common'])
 	const isTablet = useIsTablet()
 	const [isMenuOpen, setMenuOpen] = React.useState<boolean>(false)
-
+	const router = useRouter()
 	React.useEffect(() => {
 		// Close on resize
 		if (!isTablet) {
 			setMenuOpen(false)
 		}
 	}, [isTablet])
+
+	const navigationRoutes = [
+		{
+			route: ROUTES.DASHBOARD,
+			name: 'dashboard',
+			icon: <LogoVkMusicOutlineIcon />,
+		},
+		{
+			route: ROUTES.TRADE_LISTINGS,
+			name: 'trade',
+			icon: <TradeIcon />,
+		},
+		{
+			route: ROUTES.SEND,
+			name: 'send',
+			icon: <ArrowShapeRightOutlineIcon />,
+		},
+		{
+			route: ROUTES.LOANS,
+			name: 'loans',
+			icon: <WalletOutlineIcon />,
+		},
+		{
+			route: ROUTES.RAFFLES,
+			name: 'raffles',
+			icon: <TicketOutlineIcon />,
+		},
+	]
 
 	return (
 		<HeaderWrapper as='header'>
@@ -56,36 +85,18 @@ function Header() {
 						</Link>
 					</Box>
 					<LinksContainer>
-						<Link href={ROUTES.DASHBOARD}>
-							<LinkContent>
-								<LinkText>{t('links.dashboard')}</LinkText>
-								<LogoVkMusicOutlineIcon />
-							</LinkContent>
-						</Link>
-						<Link href={ROUTES.TRADE_LISTINGS}>
-							<LinkContent>
-								<LinkText>{t('links.trade')}</LinkText>
-								<TradeIcon />
-							</LinkContent>
-						</Link>
-						<Link href={ROUTES.SEND}>
-							<LinkContent>
-								<LinkText>{t('links.send')}</LinkText>
-								<ArrowShapeRightOutlineIcon />
-							</LinkContent>
-						</Link>
-						<Link href={ROUTES.LOANS}>
-							<LinkContent>
-								<LinkText>{t('links.loans')}</LinkText>
-								<WalletOutlineIcon />
-							</LinkContent>
-						</Link>
-						<Link href={ROUTES.RAFFLES}>
-							<LinkContent>
-								<LinkText>{t('links.raffles')}</LinkText>
-								<TicketOutlineIcon />
-							</LinkContent>
-						</Link>
+						{navigationRoutes.map(({ name, route, icon }) => (
+							<Link href={route} key={name}>
+								<LinkContent
+									active={(router.route ?? '')
+										.replace('/[locale]/', '')
+										.startsWith(name)}
+								>
+									<LinkText>{t(`links.${name}`)}</LinkText>
+									{icon}
+								</LinkContent>
+							</Link>
+						))}
 					</LinksContainer>
 					<Flex
 						sx={{
@@ -114,46 +125,20 @@ function Header() {
 					<HeaderDropdownBackdrop onClick={() => setMenuOpen(false)} />
 					<HeaderDropdown>
 						<Flex onClick={() => setMenuOpen(false)} sx={{ flexDirection: 'column' }}>
-							<HeaderDropdownItem>
-								<Link href={ROUTES.DASHBOARD}>
-									<LinkContent>
-										<LogoVkMusicOutlineIcon />
-										<LinkText>{t('links.dashboard')}</LinkText>
-									</LinkContent>
-								</Link>
-							</HeaderDropdownItem>
-							<HeaderDropdownItem>
-								<Link href={ROUTES.TRADE_LISTINGS}>
-									<LinkContent>
-										<TradeIcon />
-										<LinkText>{t('links.trade')}</LinkText>
-									</LinkContent>
-								</Link>
-							</HeaderDropdownItem>
-							<HeaderDropdownItem>
-								<Link href={ROUTES.SEND}>
-									<LinkContent>
-										<ArrowShapeRightOutlineIcon />
-										<LinkText>{t('links.send')}</LinkText>
-									</LinkContent>
-								</Link>
-							</HeaderDropdownItem>
-							<HeaderDropdownItem>
-								<Link href={ROUTES.LOANS}>
-									<LinkContent>
-										<WalletOutlineIcon />
-										<LinkText>{t('links.loans')}</LinkText>
-									</LinkContent>
-								</Link>
-							</HeaderDropdownItem>
-							<HeaderDropdownItem>
-								<Link href={ROUTES.RAFFLES}>
-									<LinkContent>
-										<TicketOutlineIcon />
-										<LinkText>{t('links.raffles')}</LinkText>
-									</LinkContent>
-								</Link>
-							</HeaderDropdownItem>
+							{navigationRoutes.map(({ name, route, icon }) => (
+								<HeaderDropdownItem key={name}>
+									<Link href={route}>
+										<LinkContent
+											active={(router.route ?? '')
+												.replace('/[locale]/', '')
+												.startsWith(name)}
+										>
+											{icon}
+											<LinkText>{t(`links.${name}`)}</LinkText>
+										</LinkContent>
+									</Link>
+								</HeaderDropdownItem>
+							))}
 						</Flex>
 					</HeaderDropdown>
 				</HeaderDropdownContainer>
