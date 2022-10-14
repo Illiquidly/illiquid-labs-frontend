@@ -20,6 +20,7 @@ import {
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { NFT } from 'services/api/walletNFTsService'
 import { HumanCoin, Trade } from 'services/api/tradesService'
+import { LunaIcon } from 'assets/icons/mixed'
 import {
 	ModalBody,
 	ModalContainer,
@@ -186,6 +187,7 @@ const AcceptCounterOfferModal = NiceModal.create(
 													<Flex sx={{ mt: 8, flexDirection: 'column', gap: 8 }}>
 														{counterTradeCoins.map(({ amount, currency }) => (
 															<CoinCard key={JSON.stringify({ amount, currency })}>
+																<LunaIcon />
 																{`${amount} ${currency}`}
 															</CoinCard>
 														))}

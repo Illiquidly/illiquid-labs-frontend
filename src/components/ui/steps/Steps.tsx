@@ -6,7 +6,7 @@ type Step = {
 	id: number
 	label: string
 }
-export interface StepsProps {
+interface StepsProps {
 	steps: Step[]
 	currentStep: number
 }

@@ -35,7 +35,7 @@ export const TokenChipContainer = styled.div`
 	background: ${props => props.theme.colors.dark500};
 `
 
-export const TokenText = styled.div`
+const TokenText = styled.div`
 	font-family: 'Heebo';
 	font-style: normal;
 	font-weight: 500;

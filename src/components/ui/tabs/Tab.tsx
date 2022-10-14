@@ -18,7 +18,7 @@ export const Input = styled.input`
 	z-index: -9999;
 `
 
-export const Background = styled.div<{ checked?: boolean; disabled?: boolean }>`
+const Background = styled.div<{ checked?: boolean; disabled?: boolean }>`
 	overflow: hidden;
 	flex: 1;
 	display: flex;
@@ -35,7 +35,7 @@ export const Background = styled.div<{ checked?: boolean; disabled?: boolean }>`
 	border-radius: 8px;
 `
 
-export const TabText = styled.div`
+const TabText = styled.div`
 	font-style: normal;
 	font-weight: 600;
 	font-size: 14px;
