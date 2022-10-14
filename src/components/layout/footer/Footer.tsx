@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import * as ROUTES from 'constants/routes'
-import { IconButton } from 'theme-ui'
+import { Box, IconButton } from 'theme-ui'
 import { DiscordIcon, TwitterIcon } from 'assets/icons/mixed'
 import { Link } from '../../link'
 import { Button } from '../../ui/button'
@@ -27,7 +27,17 @@ function Footer() {
 			<LayoutContainer>
 				<Content>
 					<LeftFooterSection>
-						<IlliquidlyFooterLogo />
+						<Box
+							sx={{
+								cursor: 'pointer',
+								maxWidth: ['127px', '161px'],
+								maxHeight: ['38.63px', '42px'],
+							}}
+						>
+							<Link href={ROUTES.TRADE_LISTINGS}>
+								<IlliquidlyFooterLogo width='100%' height='100%' />
+							</Link>
+						</Box>
 						<LightText sx={{ margin: '16px 0 40px' }}>{t('description')}</LightText>
 
 						<SocialActionContainer>

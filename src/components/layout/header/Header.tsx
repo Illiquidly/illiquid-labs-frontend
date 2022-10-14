@@ -47,8 +47,8 @@ function Header() {
 					<Box
 						sx={{
 							cursor: 'pointer',
-							maxWidth: ['127px', '141px'],
-							maxHeight: ['38.63px', '42.89px'],
+							maxWidth: ['127px', '161px'],
+							maxHeight: ['38.63px', '42px'],
 						}}
 					>
 						<Link href={ROUTES.TRADE_LISTINGS}>
