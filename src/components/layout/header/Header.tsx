@@ -128,11 +128,7 @@ function Header() {
 							{navigationRoutes.map(({ name, route, icon }) => (
 								<HeaderDropdownItem key={name}>
 									<Link href={route}>
-										<LinkContent
-											active={(router.route ?? '')
-												.replace('/[locale]/', '')
-												.startsWith(name)}
-										>
+										<LinkContent>
 											{icon}
 											<LinkText>{t(`links.${name}`)}</LinkText>
 										</LinkContent>
