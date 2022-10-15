@@ -10,8 +10,8 @@ function NotFoundImage(props) {
 			clipRule='evenodd'
 			strokeLinejoin='round'
 			strokeMiterlimit={2}
-			width='601.2'
-			height='421.2'
+			width='100%'
+			height='100%'
 			{...props}
 		>
 			<use

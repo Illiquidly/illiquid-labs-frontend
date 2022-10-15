@@ -22,18 +22,29 @@ export default function PageNotFound() {
 	const { t } = useTranslation()
 
 	return (
-		<Flex sx={{ flex: 1, flexDirection: 'column' }}>
-			<Flex sx={{ justifyContent: 'center', marginTop: '148px' }}>
-				<NotFoundImg />
-			</Flex>
+		<Flex
+			sx={{
+				flex: 1,
+				flexDirection: 'column',
+				justifyContent: 'center',
+				height: '60vh',
+			}}
+		>
 			<Flex
 				sx={{
-					paddingBottom: '96px',
 					alignItems: 'center',
 					justifyContent: 'center',
 					flexDirection: 'column',
 				}}
 			>
+				<Flex
+					sx={{
+						minWidth: ['unset', '601.2px'],
+						minHeight: ['unset', '421.2px'],
+					}}
+				>
+					<NotFoundImg />
+				</Flex>
 				<NotFoundText>{t('common:page-not-found-text')}</NotFoundText>
 			</Flex>
 		</Flex>
