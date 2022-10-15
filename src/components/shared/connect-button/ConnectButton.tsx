@@ -17,6 +17,13 @@ export default function ConnectButton() {
 					? disconnect()
 					: connect(isTablet ? ConnectType.WALLETCONNECT : undefined)
 			}
+			sx={{
+				padding: ['10px 10px', '10px 16px'],
+				fontSize: ['12px', '14px'],
+				textOverflow: 'ellipsis',
+				overflow: 'hidden',
+				whiteSpace: 'nowrap',
+			}}
 			variant='secondary'
 			size='medium'
 			disabled={status === WalletStatus.INITIALIZING}
