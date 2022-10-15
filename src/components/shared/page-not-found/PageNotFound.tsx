@@ -25,27 +25,23 @@ export default function PageNotFound() {
 	return (
 		<Flex
 			sx={{
-				height: `calc(100vh - ${HEADER_HEIGHT})`,
+				position: 'fixed',
+				inset: 0,
+				bottom: HEADER_HEIGHT,
+				alignItems: 'center',
 				justifyContent: 'center',
+				flexDirection: 'column',
 			}}
 		>
 			<Flex
 				sx={{
-					alignItems: 'center',
-					justifyContent: 'center',
-					flexDirection: 'column',
+					minWidth: ['unset', '601.2px'],
+					minHeight: ['unset', '421.2px'],
 				}}
 			>
-				<Flex
-					sx={{
-						minWidth: ['unset', '601.2px'],
-						minHeight: ['unset', '421.2px'],
-					}}
-				>
-					<NotFoundImg />
-				</Flex>
-				<NotFoundText>{t('common:page-not-found-text')}</NotFoundText>
+				<NotFoundImg />
 			</Flex>
+			<NotFoundText>{t('common:page-not-found-text')}</NotFoundText>
 		</Flex>
 	)
 }
