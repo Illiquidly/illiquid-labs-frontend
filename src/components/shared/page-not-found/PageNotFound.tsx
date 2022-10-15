@@ -3,6 +3,7 @@ import { Flex } from 'theme-ui'
 import { useTranslation } from 'next-i18next'
 import NotFoundImg from 'assets/images/NotFoundImg'
 import styled from '@emotion/styled'
+import { HEADER_HEIGHT } from 'constants/components'
 
 const NotFoundText = styled(Flex)`
 	font-family: 'Inter';
@@ -24,10 +25,8 @@ export default function PageNotFound() {
 	return (
 		<Flex
 			sx={{
-				flex: 1,
-				flexDirection: 'column',
+				height: `calc(100vh - ${HEADER_HEIGHT})`,
 				justifyContent: 'center',
-				height: '90vh',
 			}}
 		>
 			<Flex
