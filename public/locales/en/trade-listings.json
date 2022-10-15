@@ -69,7 +69,8 @@
 		"send-message": "Send Message",
 		"enter-text": "Enter text",
 		"back-to-listing": "Back to Listing",
-		"accept-offer": "Accept Offer"
+		"accept-offer": "Accept Offer",
+		"withdrawal-fees": "Withdrawal fees if accepted"
 	},
 	"deny-counter-offer-modal": {
 		"title": "Deny counter offer",
@@ -134,7 +135,8 @@
 		"back-to-listing": "Back to Listing",
 		"go-to-dashboard": "Go to Dashboard",
 		"edit-offer": "Edit offer",
-		"submit-offer": "Submit offer"
+		"submit-offer": "Submit offer",
+		"withdrawal-fees": "Withdrawal fees if accepted"
 	},
 	"submit-counter-offer-success-modal": {
 		"title": "Submit counter offer",

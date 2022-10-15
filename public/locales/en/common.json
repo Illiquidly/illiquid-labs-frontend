@@ -75,6 +75,5 @@
 	"other-counter-trade-action-accepted": "Check your offer",
 	"trade-cancelled-action-message": "Withdraw your offers",
 	"refuse-counter-trade-action-message": "Check your offer",
-	"withdrawal-fees": "Withdrawal fees",
 	"total-fees": "{{amount}} {{currency}}"
 }

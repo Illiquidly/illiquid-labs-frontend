@@ -198,7 +198,9 @@ const AcceptCounterOfferModal = NiceModal.create(
 											</Flex>
 
 											<Flex sx={{ flexDirection: 'column' }}>
-												<Title>{t('common:withdrawal-fees')}</Title>
+												<Title>
+													{t('trade-listings:accept-counter-offer-modal:withdrawal-fees')}
+												</Title>
 												<CoinCard>
 													<LunaIcon />
 													{t('common:total-fees', {
