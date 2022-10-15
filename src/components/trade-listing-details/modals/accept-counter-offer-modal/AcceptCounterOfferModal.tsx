@@ -21,6 +21,7 @@ import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { NFT } from 'services/api/walletNFTsService'
 import { HumanCoin, Trade } from 'services/api/tradesService'
 import { LunaIcon } from 'assets/icons/mixed'
+import { TradeFee } from 'services/blockchain'
 import {
 	ModalBody,
 	ModalContainer,
@@ -38,6 +39,7 @@ import {
 export interface AcceptCounterOfferModalProps {
 	counterTrade: CounterTrade
 	trade: Trade
+	fees: TradeFee
 }
 
 export interface AcceptCounterOfferModalResult {
@@ -48,7 +50,7 @@ export interface AcceptCounterOfferModalState {
 }
 
 const AcceptCounterOfferModal = NiceModal.create(
-	({ trade, counterTrade }: AcceptCounterOfferModalProps) => {
+	({ trade, counterTrade, fees }: AcceptCounterOfferModalProps) => {
 		const modal = useModal()
 
 		const { t } = useTranslation(['common', 'trade-listings'])
@@ -193,6 +195,17 @@ const AcceptCounterOfferModal = NiceModal.create(
 														))}
 													</Flex>
 												</Flex>
+											</Flex>
+
+											<Flex sx={{ flexDirection: 'column' }}>
+												<Title>{t('common:withdrawal-fees')}</Title>
+												<CoinCard>
+													<LunaIcon />
+													{t('common:total-fees', {
+														amount: fees.amount,
+														currency: fees.currency,
+													})}
+												</CoinCard>
 											</Flex>
 
 											<Flex sx={{ flexDirection: 'column' }}>

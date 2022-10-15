@@ -26,6 +26,7 @@ import {
 	VerticalTradeLine,
 } from 'components/trade-listing-details'
 import { LunaIcon } from 'assets/icons/mixed'
+import { TradeFee } from 'services/blockchain'
 import {
 	ModalBody,
 	ModalContainer,
@@ -42,12 +43,14 @@ export interface SubmitCounterOfferModalProps {
 	trade: Trade
 	counterTradeNFTs: NFT[]
 	counterTradeCoins: { amount: string; currency: string }[]
+	fees: TradeFee
 }
 const SubmitCounterOfferModal = NiceModal.create(
 	({
 		trade,
 		counterTradeNFTs,
 		counterTradeCoins,
+		fees,
 	}: SubmitCounterOfferModalProps) => {
 		const modal = useModal()
 
@@ -153,6 +156,17 @@ const SubmitCounterOfferModal = NiceModal.create(
 											))}
 										</Grid>
 									</Flex>
+								</Flex>
+
+								<Flex sx={{ flexDirection: 'column' }}>
+									<Title>{t('common:withdrawal-fees')}</Title>
+									<CoinCard>
+										<LunaIcon />
+										{t('common:total-fees', {
+											amount: fees.amount,
+											currency: fees.currency,
+										})}
+									</CoinCard>
 								</Flex>
 								<Flex
 									sx={{

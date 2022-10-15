@@ -64,7 +64,11 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import SelectNFTs from 'components/trade-counter/SelectNFTs'
-import { listCounterTradeOffer } from 'services/blockchain'
+import {
+	getDenomForCurrency,
+	listCounterTradeOffer,
+	simulateTradeFee,
+} from 'services/blockchain'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import {
 	SubmitCounterOfferModal,
@@ -76,6 +80,7 @@ import SubmitCounterOfferSuccessModal, {
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { NetworkType } from 'types'
 import useAddress from 'hooks/useAddress'
+import { amountConverter } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -201,6 +206,30 @@ export default function TradeCounter() {
 			return
 		}
 
+		const assets = [
+			...selectedNFTs.map(({ collectionAddress, tokenId }) => ({
+				cw721Coin: {
+					address: collectionAddress,
+					tokenId,
+				},
+			})),
+			...(tokenAmount
+				? [
+						{
+							coin: {
+								amount: amountConverter.luna.userFacingToBlockchainValue(tokenAmount),
+								denom: getDenomForCurrency(tokenName),
+							},
+						},
+				  ]
+				: []),
+		]
+
+		const fees = await simulateTradeFee({
+			tradeId: Number(tradeId),
+			counterAssets: assets,
+		})
+
 		const [, result] = await asyncAction(
 			NiceModal.show(SubmitCounterOfferModal, {
 				counterTradeNFTs: selectedNFTs,
@@ -215,6 +244,7 @@ export default function TradeCounter() {
 						: []),
 				],
 				trade,
+				fees,
 			} as SubmitCounterOfferModalProps)
 		)
 

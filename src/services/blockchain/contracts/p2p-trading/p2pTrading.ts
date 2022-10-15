@@ -8,6 +8,7 @@ import { keysToCamel } from 'utils/js/keysToCamel'
 import addresses, { ContractName } from 'services/blockchain/addresses'
 import { NFT } from 'services/api/walletNFTsService'
 import { Coin } from 'services/api/tradesService'
+import { keysToSnake } from 'utils/js/keysToSnake'
 
 const amountConverter = converter.ust
 
@@ -785,6 +786,72 @@ async function withdrawAcceptedTrade(tradeId: number) {
 	})
 }
 
+export interface TradeFee {
+	amount: string
+	currency: 'luna' | 'ust'
+}
+
+async function getAcceptedTradeFee({
+	tradeId,
+	counterId,
+}: {
+	tradeId: number
+	counterId: number
+}): Promise<TradeFee> {
+	const feeContractAddress = addresses.getContractAddress('fee-collector')
+
+	const feeResponse: { amount: string; denom: string } =
+		await terraUtils.sendQuery(feeContractAddress, {
+			fee: {
+				trade_id: tradeId,
+				counter_id: counterId,
+			},
+		})
+
+	const currency = { uluna: 'luna', uusd: 'ust' }[
+		feeResponse.denom ?? 'uluna'
+	] as 'luna' | 'ust'
+
+	return {
+		amount: amountConverter.blockchainValueToUserFacing(feeResponse.amount),
+		currency,
+	}
+}
+
+async function simulateTradeFee({
+	tradeId,
+	counterAssets,
+}: {
+	tradeId: number
+	counterAssets: Asset[]
+}) {
+	const feeContractAddress = addresses.getContractAddress('fee-collector')
+
+	const feeResponse: { amount: string; denom: string } =
+		await terraUtils.sendQuery(feeContractAddress, {
+			simulate_fee: {
+				trade_id: tradeId,
+				counter_assets: counterAssets.map(
+					({ cw721Coin, coin, cw20Coin, cw1155Coin }) => ({
+						cw721_coin: keysToSnake(cw721Coin),
+						coin: keysToSnake(coin),
+						cw20_coin: keysToSnake(cw20Coin),
+						cw1155_coin: keysToSnake(cw1155Coin),
+					})
+				),
+			},
+		})
+
+	const currency = { uluna: 'luna', uusd: 'ust' }[
+		feeResponse.denom ?? 'uluna'
+	] as 'luna' | 'ust'
+
+	return {
+		amount: amountConverter.blockchainValueToUserFacing(feeResponse.amount),
+		currency,
+	}
+}
+
 async function acceptTrade(
 	counterId: number,
 	tradeId: number,
@@ -1254,4 +1321,6 @@ export {
 	removeAllFromCreatedCounterTrade,
 	withdrawAllFromCounter,
 	setTradeComment,
+	getAcceptedTradeFee,
+	simulateTradeFee,
 }

@@ -29,6 +29,7 @@ import {
 	cancelCounterTradeAndWithdraw,
 	confirmCounterTrade,
 	refuseCounterTrade,
+	getAcceptedTradeFee,
 	TRADE_STATE,
 	withdrawAcceptedTrade,
 	withdrawAllFromCounter,
@@ -135,10 +136,16 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 	}
 
 	const handleApprove = async (counterTrade: CounterTrade) => {
+		const fees = await getAcceptedTradeFee({
+			counterId: counterTrade.counterId,
+			tradeId: counterTrade.trade.tradeId,
+		})
+
 		const [, result] = await asyncAction<AcceptCounterOfferModalResult>(
 			NiceModal.show(AcceptCounterOfferModal, {
 				counterTrade,
 				trade,
+				fees,
 			} as AcceptCounterOfferModalProps)
 		)
 
