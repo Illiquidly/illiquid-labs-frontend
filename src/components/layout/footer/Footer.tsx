@@ -3,6 +3,7 @@ import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import * as ROUTES from 'constants/routes'
 import { Box, IconButton } from 'theme-ui'
 import { DiscordIcon, TwitterIcon } from 'assets/icons/mixed'
+import moment from 'moment'
 import { Link } from '../../link'
 import { Button } from '../../ui/button'
 import { LayoutContainer } from '../layout'
@@ -85,7 +86,9 @@ function Footer() {
 						</LinksContainer>
 
 						<TradeMarkContainer>
-							<LightText>{t('trademark')}</LightText>
+							<LightText>
+								{t('trademark', { year: moment().year().toString() })}
+							</LightText>
 						</TradeMarkContainer>
 					</RightFooterSection>
 				</Content>

@@ -14,7 +14,7 @@
 	},
 	"exit-create-listing": "Exit Create Listing",
 	"create-listing": "Create Listing",
-	"trademark": "© 2022 Illiquidly Labs",
+	"trademark": "© {{year}} Illiquidly Labs",
 	"cover": "cover",
 	"set-as-cover": "set as cover",
 	"buttons": {
