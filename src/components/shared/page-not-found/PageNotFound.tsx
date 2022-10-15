@@ -23,19 +23,17 @@ export default function PageNotFound() {
 
 	return (
 		<Flex sx={{ flex: 1, flexDirection: 'column' }}>
-			<Flex sx={{ justifyContent: 'center', marginTop: '48px' }}>
+			<Flex sx={{ justifyContent: 'center', marginTop: '148px' }}>
 				<NotFoundImg />
 			</Flex>
 			<Flex
 				sx={{
 					paddingBottom: '96px',
-					paddingTop: '48px',
 					alignItems: 'center',
 					justifyContent: 'center',
 					flexDirection: 'column',
 				}}
 			>
-				<NotFoundText>{t('common:oops')}</NotFoundText>
 				<NotFoundText>{t('common:page-not-found-text')}</NotFoundText>
 			</Flex>
 		</Flex>

@@ -1,6 +1,4 @@
 import { WalletIcon } from 'assets/icons/mixed'
-import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
-import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
@@ -12,6 +10,8 @@ import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
+import PublicTradeListing from 'assets/images/PublicTradeListing'
+import PrivateTradeListing from 'assets/images/PrivateTradeListing'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -36,14 +36,14 @@ const ChooseVisibilityCollectionSelector = () => {
 				value={VISIBILITY_TYPE.PUBLIC}
 				title={t('trade:choose-visibility.option-1')}
 				subtitle={t('trade:choose-visibility.option-1-subtitle')}
-				Image={<TradeDetailsOpenToOffers />}
+				Image={<PublicTradeListing />}
 				{...register('visibilityType')}
 			/>
 			<RadioCardSelector
 				value={VISIBILITY_TYPE.PRIVATE}
 				title={t('trade:choose-visibility.option-2')}
 				subtitle={t('trade:choose-visibility.option-2-subtitle')}
-				Image={<TradeDetailsSpecifiedCollection />}
+				Image={<PrivateTradeListing />}
 				{...register('visibilityType')}
 			/>
 		</Flex>
