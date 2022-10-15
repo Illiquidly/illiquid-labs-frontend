@@ -27,7 +27,7 @@ export default function PageNotFound() {
 				flex: 1,
 				flexDirection: 'column',
 				justifyContent: 'center',
-				height: '60vh',
+				height: '90vh',
 			}}
 		>
 			<Flex
