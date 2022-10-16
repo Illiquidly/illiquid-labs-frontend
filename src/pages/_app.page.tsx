@@ -11,6 +11,7 @@ import { appWithTranslation } from 'next-i18next'
 import { AppProps } from 'next/app'
 import { NextComponentType, NextPageContext } from 'next/types'
 import { ThemeProvider } from 'theme-ui'
+import { GoogleAnalytics } from 'nextjs-google-analytics'
 
 import { theme } from 'components'
 import blockchain from 'utils/blockchain/terraUtils'
@@ -48,6 +49,7 @@ const Main = ({
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<NiceModal.Provider>
+					<GoogleAnalytics trackPageViews />
 					<Component {...pageProps} />
 				</NiceModal.Provider>
 			</ThemeProvider>

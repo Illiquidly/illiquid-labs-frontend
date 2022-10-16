@@ -34,6 +34,7 @@
 		"next": "^12.0.9",
 		"next-i18next": "^12.0.0",
 		"next-language-detector": "^1.0.2",
+		"nextjs-google-analytics": "^2.1.0",
 		"numeral": "^2.0.6",
 		"p-map": "^5.5.0",
 		"p-memoize": "^7.1.0",
