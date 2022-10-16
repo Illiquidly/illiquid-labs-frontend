@@ -49,3 +49,29 @@ input[type='reset'] {
 a {
 	all: unset;
 }
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 4px;
+}
+
+/* background of the scrollbar except button or resizer */
+::-webkit-scrollbar-track {}
+
+/* scrollbar itself */
+::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    border: 4px solid #9CA3AF;
+}
+
+/* set button(top and bottom of the scrollbar) */
+::-webkit-scrollbar-button {
+    display:none;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
