@@ -21,17 +21,15 @@ const addresses: { [k: string]: { [key: string]: string } } = {
 		...cw20Addresses['columbus-5'],
 	},
 	'phoenix-1': {
-		'p2p-trade':
-			'terra1d3xtfkumcxl6225mhfvgwjt0sql30x5yc0hrap2qdfwfs762aj5sa2we47',
-		'fee-collector':
-			'terra1f0u8h08a8eyvyg770tkcln6l78080kafrmnlw0f5qd89qcydqv6s0y0wcc',
+		'p2p-trade': '',
+		'fee-collector': '',
 		...cw20Addresses['phoenix-1'],
 	},
 	'pisco-1': {
 		'p2p-trade':
-			'terra1sft6nydyn487w6seslg5vruz95gyeqlwvqeux20rs9l7fk4qq8lq2f94x0',
+			'terra1d3xtfkumcxl6225mhfvgwjt0sql30x5yc0hrap2qdfwfs762aj5sa2we47',
 		'fee-collector':
-			'terra1xavp8ha2hj07704wz9c3t5v9cx2d7urmvz3gvrtftyyygdjl4arq3zavuy',
+			'terra1f0u8h08a8eyvyg770tkcln6l78080kafrmnlw0f5qd89qcydqv6s0y0wcc',
 		...cw20Addresses['pisco-1'],
 	},
 }
