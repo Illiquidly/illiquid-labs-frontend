@@ -57,6 +57,7 @@ import {
 	TokenChip,
 } from './styled'
 import { ViewCounterOfferModal } from './modals/view-counter-offer-modal'
+import WithdrawCancelledCounterModal from './modals/withdraw-cancelled-counter-modal/WithdrawCancelledCounterModal'
 
 const Title = styled.div`
 	font-style: normal;
@@ -171,6 +172,28 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 	}
 
 	const withdrawCounterTrade = async (counterTrade: CounterTrade) => {
+		if (counterTrade?.tradeInfo?.state.includes(TRADE_STATE.Refused)) {
+			const [, result] = await asyncAction(
+				NiceModal.show(WithdrawCancelledCounterModal, {
+					trade,
+					counterTrade,
+				})
+			)
+
+			if (result) {
+				await NiceModal.show(TxBroadcastingModal, {
+					transactionAction: withdrawAllFromCounter(
+						counterTrade.trade.tradeId,
+						counterTrade.counterId
+					),
+					closeOnFinish: true,
+				})
+
+				await updateCounterTrade(counterTrade)
+				return
+			}
+		}
+
 		await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: withdrawAllFromCounter(
 				counterTrade.trade.tradeId,

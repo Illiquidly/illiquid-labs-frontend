@@ -102,6 +102,16 @@
 		"offer": "{{username}}'s offer"
 	},
 
+	"withdraw-cancelled-counter-modal": {
+		"title": "Offer Denied",
+		"answer": "{{username}} denied your offer!",
+		"note": "You can withdraw your offer.",
+		"back-to-listing": "Back to Listing",
+		"withdraw-offer": "Withdraw offer",
+		"offer": "{{username}}'s offer",
+		"comment": "{{username}}'s comment"
+	},
+
 	"listed": "Listed {{listed}}",
 	"view-all-nfts": "View all NFTs",
 	"not-found-text": "Oops! Looks like this listing",
