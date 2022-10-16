@@ -27,9 +27,9 @@ const addresses: { [k: string]: { [key: string]: string } } = {
 	},
 	'pisco-1': {
 		'p2p-trade':
-			'terra1d3xtfkumcxl6225mhfvgwjt0sql30x5yc0hrap2qdfwfs762aj5sa2we47',
+			'terra1405pwjpdl629uemdqaf57gf765ufv7y3e2xszch4y8zhhwczapwsse2eh0',
 		'fee-collector':
-			'terra1f0u8h08a8eyvyg770tkcln6l78080kafrmnlw0f5qd89qcydqv6s0y0wcc',
+			'terra1uh0vx5eh5tu49g5hw98r622m805vg533j3kjf8c2mtqhz6qfyyxqms5tmw',
 		...cw20Addresses['pisco-1'],
 	},
 }
