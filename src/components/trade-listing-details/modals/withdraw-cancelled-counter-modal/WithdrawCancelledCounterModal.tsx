@@ -21,6 +21,7 @@ import {
 	ModalContent,
 	Title,
 	Label,
+	Subtitle,
 } from './WithdrawCancelledCounterModal.styled'
 
 export interface WithdrawCancelledCounterModalProps {
@@ -63,6 +64,9 @@ const WithdrawCancelledCounterModal = NiceModal.create(
 												username: getShortText(trade.tradeInfo.owner ?? '', 8),
 											})}
 										</Title>
+										<Subtitle>
+											{t('trade-listings:withdraw-cancelled-counter-modal.note')}
+										</Subtitle>
 									</Box>
 								</Flex>
 
