@@ -53,6 +53,7 @@ export const RightFooterSection = styled(Flex)`
 	flex: 1;
 	flex-direction: column;
 	align-items: flex-end;
+	justify-content: space-between;
 `
 
 export const LinksContainer = styled(Flex)`
@@ -67,6 +68,5 @@ export const SocialActionContainer = styled(Flex)`
 `
 
 export const TradeMarkContainer = styled(Flex)`
-	margin-top: auto;
 	margin-bottom: 8px;
 `

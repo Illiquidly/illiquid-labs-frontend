@@ -25,6 +25,8 @@ export const PRICING = ''
 export const GITHUB = 'https://github.com/Illiquidly'
 export const GITBOOK =
 	'https://illiquidlabs.gitbook.io/litepaper/illiquid-labs-litepaper/introduction'
+export const AUDIT =
+	'https://illiquidlabs.gitbook.io/illiquid-labs/about-us/security'
 
 // SOCIALS
 export const DISCORD = 'https://discord.com/invite/K4P5AKugpg'

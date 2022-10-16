@@ -75,5 +75,9 @@
 	"other-counter-trade-action-accepted": "Check your offer",
 	"trade-cancelled-action-message": "Withdraw your offers",
 	"refuse-counter-trade-action-message": "Check your offer",
-	"total-fees": "{{amount}} {{currency}}"
+	"total-fees": "{{amount}} {{currency}}",
+	"audit": "Illiquid Labs tooling is audited for your safety",
+	"click": "Click",
+	"here": "here",
+	"to-see-reports": "to see reports"
 }

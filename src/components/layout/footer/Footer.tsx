@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import IlliquidlyFooterLogo from 'assets/images/IlliquidLabsLogo'
 import * as ROUTES from 'constants/routes'
-import { Box, IconButton } from 'theme-ui'
+import { Box, Flex, IconButton } from 'theme-ui'
 import { DiscordIcon, TwitterIcon } from 'assets/icons/mixed'
 import moment from 'moment'
 import { Link } from '../../link'
@@ -84,6 +84,27 @@ function Footer() {
 								<LinkText>{t('links.raffles')}</LinkText>
 							</Link>
 						</LinksContainer>
+
+						<Flex
+							sx={{
+								flexDirection: 'column',
+								textAlign: 'end',
+								justifyContent: 'flex-end',
+							}}
+						>
+							<LightText>{t('audit')}</LightText>
+							<LightText>
+								{`${t('click')} `}
+								<Box
+									onClick={() => window.open(ROUTES.AUDIT, '_blank')}
+									as='span'
+									sx={{ color: 'primary200', cursor: 'pointer' }}
+								>
+									{t('here')}
+								</Box>
+								{` ${t('to-see-reports')}`}
+							</LightText>
+						</Flex>
 
 						<TradeMarkContainer>
 							<LightText>
