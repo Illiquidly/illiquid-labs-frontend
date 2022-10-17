@@ -110,7 +110,12 @@ const TxBroadcastingProcessing = ({
 				</Flex>
 			)}
 			<Flex sx={{ justifyContent: 'center', marginTop: '48px' }}>
-				<Loader size={28} loadingText={t('common:processing')} />
+				<Loader
+					size={28}
+					loadingText={
+						txHash ? t('common:processing') : t('common:waiting-for-terra-station')
+					}
+				/>
 			</Flex>
 			{txHash && (
 				<Flex sx={{ mt: '12px' }}>

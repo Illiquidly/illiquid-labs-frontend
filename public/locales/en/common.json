@@ -51,6 +51,7 @@
 	"failed": "Failed",
 	"try-again": "Try again",
 	"processing": "Processing...",
+	"waiting-for-terra-station": "Waiting for Terra Station...",
 	"fee": "Fee",
 	"tx-hash": "Tx Hash",
 	"complete": "Complete",
