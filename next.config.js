@@ -2,14 +2,6 @@
 module.exports = {
 	trailingSlash: true,
 	pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
-	redirects: () => [
-		{
-			source: '/migrate',
-			destination: 'https://migrate.illiquidlabs.io',
-			permanent: false,
-			basePath: false,
-		},
-	],
 	webpack(config) {
 		config.module.rules.push({
 			test: /\.svg$/,
