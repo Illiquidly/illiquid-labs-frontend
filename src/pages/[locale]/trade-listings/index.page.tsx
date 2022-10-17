@@ -162,7 +162,7 @@ export default function TradeListings() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
+			enabled: !!wallet.network && !!myAddress,
 			retry: true,
 		}
 	)

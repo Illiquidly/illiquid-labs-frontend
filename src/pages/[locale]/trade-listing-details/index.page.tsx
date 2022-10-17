@@ -136,7 +136,7 @@ export default function ListingDetails() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
+			enabled: !!wallet.network && !!myAddress,
 			retry: true,
 		}
 	)

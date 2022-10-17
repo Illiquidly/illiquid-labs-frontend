@@ -153,7 +153,7 @@ export default function TradeCounter() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
+			enabled: !!wallet.network && !!myAddress,
 			retry: true,
 		}
 	)
