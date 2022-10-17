@@ -75,6 +75,7 @@ const RemoveSuccessModal = NiceModal.create(() => {
 								<Button
 									variant='gradient'
 									fullWidth
+									disabled
 									onClick={() => {
 										router.push(ROUTES.DASHBOARD)
 										modal.remove()
