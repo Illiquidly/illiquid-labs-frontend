@@ -41,13 +41,13 @@ export interface TxBroadcastingModalProps {
 
 interface TxBroadcastingErrorProps {
 	errorMessage: string
-	onTryAgain: () => void
+	// onTryAgain: () => void
 	onClose: () => void
 }
 
 const TxBroadcastingError = ({
 	errorMessage,
-	onTryAgain,
+	// onTryAgain,
 	onClose,
 }: TxBroadcastingErrorProps) => {
 	const { t } = useTranslation(['common'])
@@ -73,11 +73,11 @@ const TxBroadcastingError = ({
 			<Flex sx={{ mt: '12px' }}>
 				<Subtitle>{errorMessage}</Subtitle>
 			</Flex>
-			<Flex sx={{ mt: '20px' }}>
+			{/* <Flex sx={{ mt: '20px' }}>
 				<Button fullWidth onClick={onTryAgain}>
 					{t('common:try-again')}
 				</Button>
-			</Flex>
+			</Flex> */}
 		</Flex>
 	)
 }
@@ -240,7 +240,7 @@ const TxBroadcastingModal = NiceModal.create(
 					<ModalContent>
 						{error && !loading.broadcasting && !loading.send && (
 							<TxBroadcastingError
-								onTryAgain={executeBlockchain}
+								// onTryAgain={executeBlockchain}
 								errorMessage={error}
 								onClose={modal.remove}
 							/>
