@@ -50,6 +50,7 @@ import { TxBroadcastingModal } from 'components/shared'
 import useAddress from 'hooks/useAddress'
 import { COUNTER_TRADES } from 'constants/use-query-keys'
 import { LunaIcon } from 'assets/icons/mixed'
+import { isNil } from 'lodash'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -109,7 +110,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 				}
 			),
 		{
-			enabled: !!wallet.network && !!tradeId,
+			enabled: !!wallet.network && !isNil(tradeId),
 			retry: true,
 		}
 	)
