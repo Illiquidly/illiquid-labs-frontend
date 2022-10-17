@@ -25,8 +25,8 @@ HeaderWrapper.defaultProps = {
 }
 
 export const LinksContainer = styled(Flex)`
-	gap: 13px;
-	margin-left: 54px;
+	gap: 8px;
+	margin-left: 24px;
 	align-items: center;
 	justify-content: flex-start;
 `

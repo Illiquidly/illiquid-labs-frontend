@@ -10,7 +10,8 @@
 		"trade": "Trade",
 		"send": "Send",
 		"loans": "Loans",
-		"raffles": "Raffles"
+		"raffles": "Raffles",
+		"migrate": "Migrate"
 	},
 	"exit-create-listing": "Exit Create Listing",
 	"create-listing": "Create Listing",

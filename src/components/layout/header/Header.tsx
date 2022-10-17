@@ -7,6 +7,7 @@ import { ConnectButton } from 'components/shared'
 import { useTranslation } from 'next-i18next'
 import {
 	ArrowShapeRightOutlineIcon,
+	DoorArrowRightOutlineIcon,
 	LogoVkMusicOutlineIcon,
 	TicketOutlineIcon,
 } from 'assets/icons/20ptOutline'
@@ -66,6 +67,11 @@ function Header() {
 			route: ROUTES.RAFFLES,
 			name: 'raffles',
 			icon: <TicketOutlineIcon />,
+		},
+		{
+			route: ROUTES.MIGRATE,
+			name: 'migrate',
+			icon: <DoorArrowRightOutlineIcon />,
 		},
 	]
 

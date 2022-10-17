@@ -1,9 +1,13 @@
-import React from 'react'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { Redirect } from 'lib'
 
-export default function Migrate() {
-	React.useEffect(() => {
-		window.location.href = 'https://migrate.illiquidlabs.io/migrate'
-	}, [])
-
-	return null
+export async function getStaticProps({ locale = 'en' }) {
+	return {
+		props: {
+			...(await serverSideTranslations(locale, ['common'])),
+			// Will be passed to the page component as props
+		},
+	}
 }
+
+export default Redirect
