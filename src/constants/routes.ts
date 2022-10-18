@@ -8,7 +8,6 @@ export const TRADE_LISTING_DETAILS = '/trade-listing-details'
 export const TRADE_CREATE_LISTING = '/trade'
 export const TRADE_CREATE_COUNTER_LISTING = '/trade-counter'
 export const SEND = '/send'
-export const MIGRATE = '/migrate'
 
 export const RAFFLE_LISTINGS = '/raffle-listings'
 export const RAFFLE_LISTING_DETAILS = '/raffle-listing-details'
@@ -30,6 +29,7 @@ export const GITBOOK =
 	'https://illiquidlabs.gitbook.io/litepaper/illiquid-labs-litepaper/introduction'
 export const AUDIT =
 	'https://illiquidlabs.gitbook.io/illiquid-labs/about-us/security'
+export const MIGRATION = 'https://migrate.illiquidlabs.io/migrate'
 
 // SOCIALS
 export const DISCORD = 'https://discord.com/invite/K4P5AKugpg'

@@ -83,6 +83,9 @@ function Footer() {
 							<Link href={ROUTES.RAFFLE_LISTINGS}>
 								<LinkText>{t('links.raffles')}</LinkText>
 							</Link>
+							<Link href={ROUTES.MIGRATION}>
+								<LinkText>{t('links.migrate')}</LinkText>
+							</Link>
 						</LinksContainer>
 
 						<Flex

@@ -69,7 +69,7 @@ function Header() {
 			icon: <TicketOutlineIcon />,
 		},
 		{
-			route: ROUTES.MIGRATE,
+			route: ROUTES.MIGRATION,
 			name: 'migrate',
 			icon: <DoorArrowRightOutlineIcon />,
 		},
