@@ -205,6 +205,7 @@ export default function ListingDetails() {
 				nfts: (trade?.tradeInfo.associatedAssets ?? [])
 					.filter(({ cw721Coin }) => cw721Coin)
 					.map(({ cw721Coin }) => cw721Coin),
+				title: t('common:all-nfts'),
 			} as ViewNFTsModalProps)
 		)
 

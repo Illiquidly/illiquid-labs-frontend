@@ -57,7 +57,10 @@ import {
 	PreviewNFTsSection,
 	TokenChip,
 } from './styled'
-import { ViewCounterOfferModal } from './modals/view-counter-offer-modal'
+import {
+	ViewCounterOfferModal,
+	ViewCounterOfferModalProps,
+} from './modals/view-counter-offer-modal'
 import WithdrawCancelledCounterModal from './modals/withdraw-cancelled-counter-modal/WithdrawCancelledCounterModal'
 
 const Title = styled.div`
@@ -280,7 +283,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 		await NiceModal.show(ViewCounterOfferModal, {
 			counterTrade,
 			title: t('trade-listings:view-counter-offer-modal.title'),
-		})
+		} as ViewCounterOfferModalProps)
 	}
 
 	return (
