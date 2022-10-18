@@ -1,10 +1,10 @@
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 
-import { useTranslation } from 'next-i18next'
-
-import { Page } from 'components'
+import { LayoutContainer, Page } from 'components'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
+import PageNotFound from 'components/shared/page-not-found/PageNotFound'
 
 const getStaticProps = makeStaticProps(['common'])
 const getStaticPaths = makeStaticPaths()
@@ -12,9 +12,12 @@ export { getStaticPaths, getStaticProps }
 
 export default function RaffleListings() {
 	const { t } = useTranslation(['common'])
-	React.useEffect(() => {
-		window.location.assign('https://migrate.illiquidlabs.io/migrate')
-	}, [])
 
-	return <Page title={t('common:title')} />
+	return (
+		<Page title={t('common:title')}>
+			<LayoutContainer>
+				<PageNotFound />
+			</LayoutContainer>
+		</Page>
+	)
 }
