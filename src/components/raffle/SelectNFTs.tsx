@@ -31,7 +31,7 @@ const ListOfSelectedNFTs = ({
 	goNextStep,
 }: ListOfSelectedNFTsProps) => {
 	const { setValue, getValues, watch } = useFormContext<TradeFormStepsProps>()
-	const { t } = useTranslation(['common', 'trade'])
+	const { t } = useTranslation(['common', 'raffle'])
 	const selectedCoverNFT = watch('coverNFT') || getValues('selectedNFTs')[0]
 
 	return (
@@ -40,13 +40,13 @@ const ListOfSelectedNFTs = ({
 				<ListOfSelectedNFTsHeader>
 					<div>
 						<ContentCardTitle sx={{ textAlign: 'left' }}>
-							{t('trade:select-NFTs.selected-nfts')}
+							{t('raffle:select-NFTs.selected-nfts')}
 							<ContentCardTitleChip>
 								{t('common:nft', { count: getValues('selectedNFTs').length })}
 							</ContentCardTitleChip>
 						</ContentCardTitle>
 						<ContentCardSubtitle sx={{ textAlign: 'left' }}>
-							{t('trade:select-NFTs.selected-nfts-description')}
+							{t('raffle:select-NFTs.selected-nfts-description')}
 						</ContentCardSubtitle>
 					</div>
 					<Button
@@ -62,7 +62,7 @@ const ListOfSelectedNFTs = ({
 								NiceModal.show(MyNFTsModal, {
 									selectedNFTs: getValues('selectedNFTs'),
 									title: t('common:my-nfts'),
-									addNFTsButtonLabel: t('common:add-nfs-to-trade'),
+									addNFTsButtonLabel: t('raffle:select-NFTs.add-nfts-to-raffle'),
 								} as MyNFTsModalProps)
 							)
 
@@ -105,7 +105,7 @@ const ListOfSelectedNFTs = ({
 }
 
 const SelectNFTsEmpty = () => {
-	const { t } = useTranslation(['common', 'trade'])
+	const { t } = useTranslation(['common', 'raffle'])
 	const { setValue, getValues } = useFormContext<TradeFormStepsProps>()
 
 	return (
@@ -115,11 +115,11 @@ const SelectNFTsEmpty = () => {
 			</TradeAssetImageContainer>
 
 			<Box sx={{ mb: ['2px'] }}>
-				<ContentCardTitle>{t('trade:select-NFTs:question')}</ContentCardTitle>
+				<ContentCardTitle>{t('raffle:select-NFTs:question')}</ContentCardTitle>
 			</Box>
 			<Box sx={{ mb: ['16px'] }}>
 				<ContentCardSubtitle>
-					{t('trade:select-NFTs:add-instruction')}
+					{t('raffle:select-NFTs:add-instruction')}
 				</ContentCardSubtitle>
 			</Box>
 
@@ -131,7 +131,7 @@ const SelectNFTsEmpty = () => {
 						NiceModal.show(MyNFTsModal, {
 							selectedNFTs: getValues('selectedNFTs'),
 							title: t('common:my-nfts'),
-							addNFTsButtonLabel: t('common:add-nfs-to-trade'),
+							addNFTsButtonLabel: t('raffle:select-NFTs.add-nfts-to-raffle'),
 						} as MyNFTsModalProps)
 					)
 
@@ -144,7 +144,7 @@ const SelectNFTsEmpty = () => {
 				fullWidth
 				variant='gradient'
 			>
-				<Text variant='textSmMedium'>{t('trade:select-NFTs:select-nfts')}</Text>
+				<Text variant='textSmMedium'>{t('raffle:select-NFTs.select-nfts')}</Text>
 			</Button>
 		</ContentCard>
 	)

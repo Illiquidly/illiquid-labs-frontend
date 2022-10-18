@@ -15,6 +15,7 @@ import { noop } from 'lodash'
 import { TwitterShareButton } from 'react-share'
 import { CREATE_TRADE_LISTING_FORM_STEPS } from 'constants/steps'
 import { TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
+import { NavigationFooter } from 'components/shared/navigation-footer'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -28,7 +29,6 @@ import {
 	SuccessMessage,
 	SuccessTitle,
 } from './ConfirmListing.styled'
-import { NavigationFooter } from './NavigationFooter'
 
 interface StepHeaderProps {
 	children: ReactNode

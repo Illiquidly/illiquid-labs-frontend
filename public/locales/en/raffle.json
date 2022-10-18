@@ -7,9 +7,6 @@
 		"select-nfts": "Select NFTs",
 		"selected-nfts": "Selected NFT's",
 		"selected-nfts-description": "These items will be included in the raffle listing",
-		"search": "Search",
-		"type-here-to-search": "Type here to search...",
-		"a-to-z": "A to Z",
-		"z-to-a": "Z to A"
+		"add-nfts-to-raffle": "Add NFTs to Raffle"
 	}
 }

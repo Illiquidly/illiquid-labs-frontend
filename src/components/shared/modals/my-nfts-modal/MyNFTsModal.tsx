@@ -63,16 +63,16 @@ export const MyNFTsModal = NiceModal.create(
 			MultiSelectInputOption[]
 		>([])
 
-		const { t } = useTranslation('trade')
+		const { t } = useTranslation(['common', 'trade', 'raffle'])
 
 		const sortOptions: SelectOption[] = [
 			{
 				value: NFTS_SORT_VALUE.ASCENDING,
-				label: t('select-NFTs.a-to-z'),
+				label: t('common:select-NFTs.a-to-z'),
 			},
 			{
 				value: NFTS_SORT_VALUE.DESCENDING,
-				label: t('select-NFTs.z-to-a'),
+				label: t('common:select-NFTs.z-to-a'),
 			},
 		]
 
@@ -175,7 +175,7 @@ export const MyNFTsModal = NiceModal.create(
 									<Flex sx={{ gap: '12px', minHeight: ['50px'], pr: [0, 0, '10px'] }}>
 										<SearchContainer>
 											<SearchInput
-												placeholder={t('select-NFTs.search')}
+												placeholder={t('common:select-NFTs.search')}
 												onChange={e => setSearchName(e.target.value)}
 												value={searchName}
 											/>
@@ -202,7 +202,7 @@ export const MyNFTsModal = NiceModal.create(
 												<DropdownMultiselect
 													dropdownReferenceElement={dropdownRefElement}
 													label='Collections'
-													placeholder={t('select-NFTs.type-here-to-search')}
+													placeholder={t('common:select-NFTs.type-here-to-search')}
 													value={selectedCollections}
 													onChange={collections => setSelectedCollections(collections)}
 													options={ownedCollections.map(

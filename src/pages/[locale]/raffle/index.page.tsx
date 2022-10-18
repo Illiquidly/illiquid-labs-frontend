@@ -23,6 +23,7 @@ import {
 	HeaderTitle,
 	HeaderTitleContainer,
 	MobileStepsWrapper,
+	SelectNFTs,
 	StepsWrapper,
 	TradeBackgroundBlobContainer,
 	TradeBackgroundLogoContainer,
@@ -55,8 +56,13 @@ export default function Raffle() {
 	const stepLabels: Array<string> = t('raffle:steps', { returnObjects: true })
 	const [
 		step,
-		// { setStep, goToNextStep, goToPrevStep, canGoToNextStep }
-	] = useStep(4)
+		{
+			// setStep,
+			goToNextStep,
+			goToPrevStep,
+			// canGoToNextStep
+		},
+	] = useStep(3)
 	const [steps] = useState([
 		{
 			id: CREATE_RAFFLE_LISTING_FORM_STEPS.SELECT_NFTS,
@@ -155,9 +161,9 @@ export default function Raffle() {
 								</StepsWrapper>
 
 								{/* STEP 1 */}
-								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS && (
+								{step === CREATE_RAFFLE_LISTING_FORM_STEPS.SELECT_NFTS && (
 									<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
-								)} */}
+								)}
 								{/* STEP 2 */}
 								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS && (
 									<TradeDetails goNextStep={goToNextStep} goBackStep={goToPrevStep} />

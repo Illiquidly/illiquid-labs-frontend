@@ -20,7 +20,7 @@ import { SupportedCollectionsService } from 'services/api'
 import { Flex } from 'theme-ui'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import { LOOKING_FOR_TYPE, TradeFormStepsProps } from 'types'
-import { NavigationFooter } from './NavigationFooter'
+import { NavigationFooter } from 'components/shared/navigation-footer'
 import {
 	ChipsWrapper,
 	ContentCard,

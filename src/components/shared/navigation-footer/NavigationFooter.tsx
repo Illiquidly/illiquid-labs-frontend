@@ -10,7 +10,7 @@ interface Props {
 	canGoToNextStep?: boolean
 }
 
-export const NavigationFooter = ({
+const NavigationFooter = ({
 	goBackStep,
 	goNextStep,
 	isNextButtonDisabled,
@@ -45,3 +45,5 @@ NavigationFooter.defaultProps = {
 	isNextButtonDisabled: false,
 	canGoToNextStep: true,
 }
+
+export default NavigationFooter

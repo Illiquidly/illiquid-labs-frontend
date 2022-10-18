@@ -13,6 +13,7 @@ import { Box, Flex } from 'theme-ui'
 import PublicTradeListing from 'assets/images/PublicTradeListing'
 import PrivateTradeListing from 'assets/images/PrivateTradeListing'
 import { TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
+import { NavigationFooter } from 'components/shared/navigation-footer'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -24,7 +25,6 @@ import {
 	RadioWrapper,
 	RadioWrapperSubtitle,
 } from './ChooseVisibility.styled'
-import { NavigationFooter } from './NavigationFooter'
 
 const ChooseVisibilityCollectionSelector = () => {
 	const { t } = useTranslation(['common', 'trade'])
