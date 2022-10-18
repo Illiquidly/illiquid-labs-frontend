@@ -7,6 +7,7 @@ import { useFormContext } from 'react-hook-form'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, Text } from 'theme-ui'
 import { asyncAction } from 'utils/js/asyncAction'
+import { MyNFTsModalProps } from 'components/shared/modals/my-nfts-modal/MyNFTsModal'
 import { TradeFormStepsProps } from './types'
 import { NavigationFooter } from './NavigationFooter'
 import {
@@ -60,7 +61,9 @@ const ListOfSelectedNFTs = ({
 							const [, NFTs] = await asyncAction<NFT[]>(
 								NiceModal.show(MyNFTsModal, {
 									selectedNFTs: getValues('selectedNFTs'),
-								})
+									title: t('common:my-nfts'),
+									addNFTsButtonLabel: t('common:add-nfs-to-trade'),
+								} as MyNFTsModalProps)
 							)
 
 							if (NFTs) {
@@ -127,7 +130,9 @@ const SelectNFTsEmpty = () => {
 					const [, NFTs] = await asyncAction<NFT[]>(
 						NiceModal.show(MyNFTsModal, {
 							selectedNFTs: getValues('selectedNFTs'),
-						})
+							title: t('common:my-nfts'),
+							addNFTsButtonLabel: t('common:add-nfs-to-trade'),
+						} as MyNFTsModalProps)
 					)
 
 					if (NFTs) {

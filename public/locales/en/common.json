@@ -81,5 +81,8 @@
 	"audit": "Illiquid Labs tooling is audited for your safety",
 	"click": "Click",
 	"here": "here",
-	"to-see-reports": "to see reports"
+	"to-see-reports": "to see reports",
+	"my-nfts": "My NFTs",
+	"add-nfs-to-trade": "Add NFTs to Trade",
+	"add-nfs-to-offer": "Add NFTs to Offer"
 }

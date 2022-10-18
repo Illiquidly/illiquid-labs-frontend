@@ -43,6 +43,8 @@ export default function SelectNFTs() {
 		const [, NFTs] = await asyncAction<NFT[]>(
 			NiceModal.show(MyNFTsModal, {
 				selectedNFTs: getValues('selectedNFTs'),
+				title: t('common:my-nfts'),
+				addNFTsButtonLabel: t('common:add-nfs-to-offer'),
 			})
 		)
 
