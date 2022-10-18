@@ -1,14 +1,17 @@
+import 'flatpickr/dist/flatpickr.min.css'
+import React from 'react'
+import Flatpickr, { DateTimePickerProps } from 'react-flatpickr'
+
 import styled from '@emotion/styled'
 import { AlertCircleIcon } from 'assets/icons/16pt'
-import React from 'react'
 import { Flex } from 'theme-ui'
+import { RecentOutline18pt } from 'assets/icons/mixed'
 
-export interface TextInputProps
-	extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TimePickerProps extends DateTimePickerProps {
+	disabled?: boolean
 	error?: boolean
 	fieldError?: string
 	iconLeft?: React.ReactNode
-	iconRight?: React.ReactNode
 }
 
 interface ContainerProps {
@@ -20,14 +23,11 @@ const Container = styled.div<ContainerProps>`
 	display: inline-flex;
 	align-items: center;
 	position: relative;
-	/* margin-bottom: 24px; */
-
 	width: 100%;
 	border: 1.5px solid
 		${props =>
 			props.error ? props.theme.colors.error100 : props.theme.colors.dark500};
 	padding-inline: 14px;
-	padding-block: 10px;
 	background: ${props => props.theme.colors.dark400};
 	border-radius: 8px;
 
@@ -39,9 +39,9 @@ const Container = styled.div<ContainerProps>`
 	`}
 
 	&:hover {
-		cursor: pointer;
 		margin: 0;
 		outline: none;
+		cursor: pointer;
 		border: ${props =>
 			`1.5px solid ${
 				props.error ? props.theme.colors.error100 : props.theme.colors.primary100
@@ -68,12 +68,13 @@ const Container = styled.div<ContainerProps>`
 	}
 `
 
-const TextInputStyled = styled.input<TextInputProps>`
+const TextInputStyled = styled(Flatpickr)<TimePickerProps>`
 	flex: 1;
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
+	padding-block: 10px;
 
 	&::placeholder {
 		color: ${props => props.theme.colors.gray600};
@@ -93,31 +94,40 @@ const TextInputStyled = styled.input<TextInputProps>`
 	color: ${props => props.theme.colors.natural50};
 `
 
-export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
+export const TimePicker = React.forwardRef<Flatpickr, TimePickerProps>(
 	(props, ref) => {
-		const { children, iconLeft, iconRight, ...rest } = props
-		const inputRef = React.useRef<HTMLInputElement>(null)
+		const { iconLeft, ...rest } = props
+		const inputRef = React.useRef<Flatpickr>(null)
 
-		const handleClick = () => inputRef?.current?.click()
+		const handleClick = () => inputRef?.current?.flatpickr?.open()
 
-		React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
+		React.useImperativeHandle(ref, () => inputRef.current as Flatpickr)
 
 		return (
-			<>
-				<Container
+			<Container
+				disabled={props.disabled}
+				error={props.error}
+				onClick={handleClick}
+			>
+				{iconLeft ? <Flex sx={{ paddingRight: '8px' }}>{iconLeft}</Flex> : null}
+				<TextInputStyled
+					{...rest}
+					ref={inputRef}
 					disabled={props.disabled}
-					error={props.error}
-					onClick={handleClick}
-				>
-					{iconLeft ? <Flex sx={{ paddingRight: '8px' }}>{iconLeft}</Flex> : null}
-					<TextInputStyled {...rest} ref={inputRef}>
-						{children}
-					</TextInputStyled>
-					{props.error ? <AlertCircleIcon /> : iconRight}
-				</Container>
-			</>
+					options={{
+						enableTime: true,
+						noCalendar: true,
+						dateFormat: 'h:i K',
+					}}
+				/>
+				{props.error ? (
+					<AlertCircleIcon />
+				) : (
+					<RecentOutline18pt width='15px' height='15px' />
+				)}
+			</Container>
 		)
 	}
 )
 
-export default TextInput
+export default TimePicker

@@ -31,6 +31,7 @@ const Container = styled.div<ContainerProps>`
 	`}
 
 	&:hover {
+		cursor: pointer;
 		margin: 0;
 		outline: none;
 		border: ${props =>
