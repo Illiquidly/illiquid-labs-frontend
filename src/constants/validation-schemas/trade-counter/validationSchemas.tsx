@@ -21,11 +21,15 @@ export const TradeCounterValidationSchema = yup.object().shape({
 		)
 		.typeError('trade-form-steps-token-must-be-number')
 		.positive('trade-forms-steps-token-must-be-positive')
-		.test('isTokenAmountSpecified', function (value) {
-			const { selectedNFTs } = this.parent
+		.test(
+			'isTokenAmountSpecified',
+			'trade-form-steps-token-must-be-number',
+			function (value) {
+				const { selectedNFTs } = this.parent
 
-			return !(!(selectedNFTs ?? []).length && !value)
-		}),
+				return !(!(selectedNFTs ?? []).length && !value)
+			}
+		),
 
 	tokenName: yup.string(),
 })
