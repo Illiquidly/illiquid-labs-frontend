@@ -13,7 +13,8 @@ import { Box, Flex } from 'theme-ui'
 import { noop } from 'lodash'
 
 import { TwitterShareButton } from 'react-share'
-import { CREATE_LISTING_FORM_STEPS } from 'constants/steps'
+import { CREATE_TRADE_LISTING_FORM_STEPS } from 'constants/steps'
+import { TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -27,7 +28,6 @@ import {
 	SuccessMessage,
 	SuccessTitle,
 } from './ConfirmListing.styled'
-import { TradeFormStepsProps, VISIBILITY_TYPE } from './types'
 import { NavigationFooter } from './NavigationFooter'
 
 interface StepHeaderProps {
@@ -81,7 +81,7 @@ const SuccessScreen = ({ setStep }: SuccessScreenProps) => {
 							variant='primary'
 							onClick={() => {
 								reset()
-								setStep(CREATE_LISTING_FORM_STEPS.SELECT_NFTS)
+								setStep(CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS)
 							}}
 						>
 							{t('common:create-another')}
@@ -156,7 +156,7 @@ export const ConfirmListing = ({
 						{/* WHAT YOU ARE OFFERING */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.SELECT_NFTS)}
+								onEditClick={() => setStep(CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS)}
 							>
 								<StepTitle>
 									{t('trade:confirm-listing.what-are-you-offering')}
@@ -186,7 +186,9 @@ export const ConfirmListing = ({
 						{/* WHAT YOU ARE LOOKING FOR */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.TRADE_DETAILS)}
+								onEditClick={() =>
+									setStep(CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS)
+								}
 							>
 								<StepTitle>
 									{t('trade:confirm-listing.what-are-you-looking-for')}
@@ -214,7 +216,9 @@ export const ConfirmListing = ({
 						{/* COMMENTS */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.TRADE_DETAILS)}
+								onEditClick={() =>
+									setStep(CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS)
+								}
 							>
 								<StepTitle>{t('trade:confirm-listing.comments')}</StepTitle>
 							</StepHeader>
@@ -230,7 +234,9 @@ export const ConfirmListing = ({
 						{/* TRADE VISIBILITY */}
 						<Box>
 							<StepHeader
-								onEditClick={() => setStep(CREATE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY)}
+								onEditClick={() =>
+									setStep(CREATE_TRADE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY)
+								}
 							>
 								<StepTitle>{t('trade:confirm-listing.trade-visibility')}</StepTitle>
 							</StepHeader>

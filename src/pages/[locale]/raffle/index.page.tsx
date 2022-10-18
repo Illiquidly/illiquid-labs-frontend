@@ -16,10 +16,6 @@ import {
 } from 'components'
 
 import {
-	ChooseVisibility,
-	ConfirmListing,
-	SelectNFTs,
-	TradeDetails,
 	BodyContainer,
 	Container,
 	HeaderContainer,
@@ -30,106 +26,95 @@ import {
 	StepsWrapper,
 	TradeBackgroundBlobContainer,
 	TradeBackgroundLogoContainer,
-} from 'components/trade'
+} from 'components/raffle'
 
-import { CREATE_TRADE_LISTING_FORM_STEPS } from 'constants/steps'
+import { CREATE_RAFFLE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { listTradeOffers } from 'services/blockchain'
 
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { TradesService } from 'services/api/tradesService'
-import { useWallet } from '@terra-money/use-wallet'
-import ExitCreateTradeListing from 'components/shared/header-actions/exit-create-trade-listing/ExitCreateTradeListing'
+// import { useWallet } from '@terra-money/use-wallet'
+import ExitCreateRaffleListing from 'components/shared/header-actions/exit-create-raffle-listing/ExitCreateRaffleListing'
 import {
-	ChooseVisibilityStepSchema,
-	SelectNFTStepSchema,
-	TradeDetailsStepSchema,
-} from 'constants/validation-schemas/trade'
-import { TradeFormStepsProps } from 'types'
+	RaffleDetailsStepSchema,
+	RafflesSelectNFTStepSchema,
+} from 'constants/validation-schemas/raffle'
+import { RaffleFormStepsProps } from 'types/raffle/types'
 
-const getStaticProps = makeStaticProps(['common', 'trade'])
+const getStaticProps = makeStaticProps(['common', 'raffle'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
-export default function Trade() {
-	const wallet = useWallet()
-	const { t } = useTranslation(['common', 'trade'])
-	useHeaderActions(<ExitCreateTradeListing />)
-	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
-	const [step, { setStep, goToNextStep, goToPrevStep, canGoToNextStep }] =
-		useStep(4)
+export default function Raffle() {
+	// const wallet = useWallet()
+	const { t } = useTranslation(['common', 'raffle'])
+	useHeaderActions(<ExitCreateRaffleListing />)
+	const stepLabels: Array<string> = t('raffle:steps', { returnObjects: true })
+	const [
+		step,
+		// { setStep, goToNextStep, goToPrevStep, canGoToNextStep }
+	] = useStep(4)
 	const [steps] = useState([
 		{
-			id: CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS,
+			id: CREATE_RAFFLE_LISTING_FORM_STEPS.SELECT_NFTS,
 			label: stepLabels[0],
 		},
 		{
-			id: CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS,
+			id: CREATE_RAFFLE_LISTING_FORM_STEPS.RAFFLE_DETAILS,
 			label: stepLabels[1],
 		},
 		{
-			id: CREATE_TRADE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY,
+			id: CREATE_RAFFLE_LISTING_FORM_STEPS.CONFIRM_RAFFLE,
 			label: stepLabels[2],
-		},
-		{
-			id: CREATE_TRADE_LISTING_FORM_STEPS.CONFIRM_LISTING,
-			label: stepLabels[3],
 		},
 	])
 
 	const getStepSchema = (currentStep: number) => {
 		const formSchemas = {
-			[CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS]: SelectNFTStepSchema,
-			[CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS]: TradeDetailsStepSchema,
-			[CREATE_TRADE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY]:
-				ChooseVisibilityStepSchema,
+			[CREATE_RAFFLE_LISTING_FORM_STEPS.SELECT_NFTS]: RafflesSelectNFTStepSchema,
+			[CREATE_RAFFLE_LISTING_FORM_STEPS.RAFFLE_DETAILS]: RaffleDetailsStepSchema,
 		}
 
-		return formSchemas[currentStep] ?? SelectNFTStepSchema
+		return formSchemas[currentStep] ?? RafflesSelectNFTStepSchema
 	}
 
-	const formMethods = useForm<TradeFormStepsProps>({
+	const formMethods = useForm<RaffleFormStepsProps>({
 		mode: 'onChange',
 		resolver: yupResolver(getStepSchema(step)),
 		defaultValues: {
 			selectedNFTs: [],
-			collections: [],
-			tokenName: 'Luna',
 			isSuccessScreen: false,
 		},
 	})
 
-	const onSubmit: SubmitHandler<TradeFormStepsProps> = async values => {
+	const onSubmit: SubmitHandler<RaffleFormStepsProps> = async () => {
 		const data: {
 			action: string
-			tradeId: string
-			trader: string
+			raffleId: string
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: listTradeOffers(fromCreateTradeFormToBlockchain(values)),
+			transactionAction: new Promise(() => null),
 			closeOnFinish: true,
 		})
 
 		if (data) {
-			const { tradeId, txTerraFinderUrl } = data
+			const { raffleId, txTerraFinderUrl } = data
 
 			const origin =
 				typeof window !== 'undefined' && window.location.origin
 					? window.location.origin
 					: ''
 			formMethods.setValue(
-				'tradeDetailsUrl',
-				`${origin}${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`
+				'raffleDetailsUrl',
+				`${origin}${ROUTES.TRADE_LISTING_DETAILS}?raffleId=${raffleId}`
 			)
 			formMethods.setValue('terraFinderUrl', txTerraFinderUrl)
 			formMethods.setValue('isSuccessScreen', true)
 
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
-			await TradesService.getTrade(wallet.network.name, tradeId)
+			// await TradesService.getRaffle(wallet.network.name, raffleId)
 		}
 	}
 
@@ -145,7 +130,7 @@ export default function Trade() {
 				<Container>
 					<HeaderContainer>
 						<HeaderTitleContainer>
-							<HeaderTitle>{t('trade:title')}</HeaderTitle>
+							<HeaderTitle>{t('raffle:title')}</HeaderTitle>
 						</HeaderTitleContainer>
 						{/* Only Mobile And Tablet */}
 						<HeaderSubtitleContainer>
@@ -170,28 +155,21 @@ export default function Trade() {
 								</StepsWrapper>
 
 								{/* STEP 1 */}
-								{step === CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS && (
+								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS && (
 									<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
-								)}
+								)} */}
 								{/* STEP 2 */}
-								{step === CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS && (
+								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS && (
 									<TradeDetails goNextStep={goToNextStep} goBackStep={goToPrevStep} />
-								)}
-								{/* STEP 3 */}
-								{step === CREATE_TRADE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY && (
-									<ChooseVisibility
-										goNextStep={goToNextStep}
-										goBackStep={goToPrevStep}
-									/>
-								)}
+								)} */}
 								{/* STEP 4 */}
-								{step === CREATE_TRADE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
+								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
 									<ConfirmListing
 										canGoToNextStep={canGoToNextStep}
 										goBackStep={goToPrevStep}
 										setStep={setStep}
 									/>
-								)}
+								)} */}
 							</BodyContainer>
 						</form>
 					</FormProvider>

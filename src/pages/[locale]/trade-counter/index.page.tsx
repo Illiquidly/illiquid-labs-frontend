@@ -57,10 +57,6 @@ import {
 	VERIFIED_COLLECTIONS,
 } from 'constants/use-query-keys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
-import {
-	TradeCounterValidationSchema,
-	TradeCounterForm,
-} from 'components/trade-counter'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import SelectNFTs from 'components/trade-counter/SelectNFTs'
@@ -81,6 +77,8 @@ import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { NetworkType } from 'types'
 import useAddress from 'hooks/useAddress'
 import { amountConverter } from 'utils/blockchain/terraUtils'
+import { TradeCounterValidationSchema } from 'constants/validation-schemas/trade-counter'
+import { TradeCounterForm } from 'types/trade-counter'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()

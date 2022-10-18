@@ -31,9 +31,10 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { TokenInputField } from 'components/form'
-import { LOOKING_FOR_TYPE, TradeDetailsStepSchema } from 'components/trade'
 import { ModalLayoutContainer } from 'components/layout'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import { TradeDetailsStepSchema } from 'constants/validation-schemas/trade'
+import { LOOKING_FOR_TYPE } from 'types'
 import {
 	ModalBody,
 	ModalContainer,

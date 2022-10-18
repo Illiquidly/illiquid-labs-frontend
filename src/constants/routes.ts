@@ -9,7 +9,10 @@ export const TRADE_CREATE_LISTING = '/trade'
 export const TRADE_CREATE_COUNTER_LISTING = '/trade-counter'
 export const SEND = '/send'
 export const MIGRATE = '/migrate'
-export const RAFFLES = '/raffles'
+
+export const RAFFLE_LISTINGS = '/raffle-listings'
+export const RAFFLE_LISTING_DETAILS = '/raffle-listing-details'
+export const RAFFLE_CREATE_LISTING = '/raffle'
 
 export const ANALYTICS = '/analytics'
 export const LOANS = '/loans'

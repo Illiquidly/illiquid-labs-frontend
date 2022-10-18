@@ -8,7 +8,7 @@ import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, Text } from 'theme-ui'
 import { asyncAction } from 'utils/js/asyncAction'
 import { MyNFTsModalProps } from 'components/shared/modals/my-nfts-modal/MyNFTsModal'
-import { TradeFormStepsProps } from './types'
+import { TradeFormStepsProps } from 'types'
 import { NavigationFooter } from './NavigationFooter'
 import {
 	ContentCard,

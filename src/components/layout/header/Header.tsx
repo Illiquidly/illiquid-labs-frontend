@@ -64,7 +64,7 @@ function Header() {
 			icon: <WalletOutlineIcon />,
 		},
 		{
-			route: ROUTES.RAFFLES,
+			route: ROUTES.RAFFLE_LISTINGS,
 			name: 'raffles',
 			icon: <TicketOutlineIcon />,
 		},

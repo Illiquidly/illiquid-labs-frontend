@@ -12,6 +12,7 @@ import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
 import PublicTradeListing from 'assets/images/PublicTradeListing'
 import PrivateTradeListing from 'assets/images/PrivateTradeListing'
+import { TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -23,7 +24,6 @@ import {
 	RadioWrapper,
 	RadioWrapperSubtitle,
 } from './ChooseVisibility.styled'
-import { TradeFormStepsProps, VISIBILITY_TYPE } from './types'
 import { NavigationFooter } from './NavigationFooter'
 
 const ChooseVisibilityCollectionSelector = () => {

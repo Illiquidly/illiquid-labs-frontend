@@ -1,5 +1,5 @@
-import { LOOKING_FOR_TYPE } from 'components/trade'
 import { getDenomForCurrency } from 'services/blockchain'
+import { LOOKING_FOR_TYPE } from 'types'
 import { amountConverter } from 'utils/blockchain/terraUtils'
 
 export function fromUpdateTradeToBlockchain({

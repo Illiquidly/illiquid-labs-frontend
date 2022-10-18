@@ -80,7 +80,7 @@ function Footer() {
 							<Link href={ROUTES.LOANS}>
 								<LinkText>{t('links.loans')}</LinkText>
 							</Link>
-							<Link href={ROUTES.RAFFLES}>
+							<Link href={ROUTES.RAFFLE_LISTINGS}>
 								<LinkText>{t('links.raffles')}</LinkText>
 							</Link>
 						</LinksContainer>
