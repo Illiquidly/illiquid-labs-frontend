@@ -23,6 +23,7 @@ import {
 	HeaderTitle,
 	HeaderTitleContainer,
 	MobileStepsWrapper,
+	RaffleDetails,
 	SelectNFTs,
 	StepsWrapper,
 	TradeBackgroundBlobContainer,
@@ -93,6 +94,7 @@ export default function Raffle() {
 		defaultValues: {
 			selectedNFTs: [],
 			isSuccessScreen: false,
+			ticketPriceCurrency: 'Luna',
 		},
 	})
 
@@ -165,9 +167,9 @@ export default function Raffle() {
 									<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
 								)}
 								{/* STEP 2 */}
-								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS && (
-									<TradeDetails goNextStep={goToNextStep} goBackStep={goToPrevStep} />
-								)} */}
+								{step === CREATE_RAFFLE_LISTING_FORM_STEPS.RAFFLE_DETAILS && (
+									<RaffleDetails goNextStep={goToNextStep} goBackStep={goToPrevStep} />
+								)}
 								{/* STEP 4 */}
 								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
 									<ConfirmListing

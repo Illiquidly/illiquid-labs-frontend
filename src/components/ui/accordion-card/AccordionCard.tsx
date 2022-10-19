@@ -29,18 +29,11 @@ const AccordionCardContentWrapper = styled.div<{ isOpen: boolean }>`
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: ${props => (props.isOpen ? '15px' : '0')};
-	padding-top: ${props => (props.isOpen ? '15px' : '0')};
 	width: 100%;
 	max-height: ${props => (props.isOpen ? 'unset' : '0')};
 	transition: all 0.15s ease-in-out;
 	overflow: hidden;
 	display: flex;
-
-	font-family: 'Heebo';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 20px;
 `
 
 const Container = styled(Flex)`
@@ -48,6 +41,19 @@ const Container = styled(Flex)`
 	flex-direction: column;
 	gap: 8px;
 `
+
+export const AccordionCardText = styled(Box)``
+
+AccordionCardText.defaultProps = {
+	sx: {
+		fontFamily: ['Heebo', 'Inter'],
+		fontStyle: 'normal',
+		fontWeight: ['400', '500'],
+		fontSize: ['14px', '16px'],
+		lineHeight: ['20px', '28px'],
+		pb: ['8px', '10px'],
+	},
+}
 
 export const AccordionCardTitle = styled(Box)`
 	font-style: normal;

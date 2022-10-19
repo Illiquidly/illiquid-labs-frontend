@@ -1,1 +1,5 @@
-export { default as AccordionCard, AccordionCardTitle } from './AccordionCard'
+export {
+	default as AccordionCard,
+	AccordionCardTitle,
+	AccordionCardText,
+} from './AccordionCard'
