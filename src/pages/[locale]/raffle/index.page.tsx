@@ -170,7 +170,7 @@ export default function Raffle() {
 								{step === CREATE_RAFFLE_LISTING_FORM_STEPS.RAFFLE_DETAILS && (
 									<RaffleDetails goNextStep={goToNextStep} goBackStep={goToPrevStep} />
 								)}
-								{/* STEP 4 */}
+								{/* STEP 3 */}
 								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
 									<ConfirmListing
 										canGoToNextStep={canGoToNextStep}

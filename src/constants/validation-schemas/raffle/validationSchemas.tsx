@@ -13,7 +13,6 @@ export const RaffleDetailsStepSchema = yup.object().shape({
 	ticketPriceCurrency: yup.string(),
 	ticketPrice: yup
 		.number()
-		.nullable()
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
@@ -22,7 +21,6 @@ export const RaffleDetailsStepSchema = yup.object().shape({
 	ticketSupply: yup
 		.number()
 		.integer()
-		.nullable()
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
