@@ -23,6 +23,7 @@ export const theme = makeTheme({
 		dark300: '#013049',
 		dark400: '#012539',
 		dark500: '#395E71',
+		dark600: '#0E405A',
 
 		gray100: '#000000',
 		gray200: '#232530',

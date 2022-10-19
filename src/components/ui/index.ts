@@ -1,4 +1,5 @@
 export * from './accordion'
+export * from './accordion-card'
 export * from './attribute-card'
 export * from './blue-warning'
 export * from './button'
