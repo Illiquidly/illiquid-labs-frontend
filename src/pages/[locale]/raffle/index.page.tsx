@@ -17,6 +17,7 @@ import {
 
 import {
 	BodyContainer,
+	ConfirmListing,
 	Container,
 	HeaderContainer,
 	HeaderSubtitleContainer,
@@ -45,6 +46,8 @@ import {
 	RafflesSelectNFTStepSchema,
 } from 'constants/validation-schemas/raffle'
 import { RaffleFormStepsProps } from 'types/raffle/types'
+import { createRaffleListing } from 'services/blockchain'
+import moment from 'moment'
 
 const getStaticProps = makeStaticProps(['common', 'raffle'])
 const getStaticPaths = makeStaticPaths()
@@ -55,15 +58,8 @@ export default function Raffle() {
 	const { t } = useTranslation(['common', 'raffle'])
 	useHeaderActions(<ExitCreateRaffleListing />)
 	const stepLabels: Array<string> = t('raffle:steps', { returnObjects: true })
-	const [
-		step,
-		{
-			// setStep,
-			goToNextStep,
-			goToPrevStep,
-			// canGoToNextStep
-		},
-	] = useStep(3)
+	const [step, { setStep, goToNextStep, goToPrevStep, canGoToNextStep }] =
+		useStep(3)
 	const [steps] = useState([
 		{
 			id: CREATE_RAFFLE_LISTING_FORM_STEPS.SELECT_NFTS,
@@ -98,12 +94,35 @@ export default function Raffle() {
 		},
 	})
 
-	const onSubmit: SubmitHandler<RaffleFormStepsProps> = async () => {
+	const onSubmit: SubmitHandler<RaffleFormStepsProps> = async ({
+		selectedNFTs,
+		ticketPrice,
+		coverNFT,
+		ticketSupply,
+		endDate,
+		endTime,
+	}) => {
+		const now = moment()
+
+		const end = moment(
+			`${moment(endDate).format('YYYY-MM-DD')} ${moment(endTime).format('HH:mm')}`
+		)
+
+		const duration = moment.duration(end.diff(now))
+
 		const data: {
 			action: string
 			raffleId: string
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: new Promise(() => null),
+			transactionAction: createRaffleListing(selectedNFTs, ticketPrice, {
+				rafflePreview: selectedNFTs.findIndex(
+					nft =>
+						`${coverNFT.collectionAddress}_${coverNFT.tokenId}` ===
+						`${nft.collectionAddress}_${nft.tokenId}`
+				),
+				maxParticipantNumber: +ticketSupply,
+				raffleDuration: Math.floor(duration.asSeconds()),
+			}),
 			closeOnFinish: true,
 		})
 
@@ -122,7 +141,7 @@ export default function Raffle() {
 			formMethods.setValue('isSuccessScreen', true)
 
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
-			// await TradesService.getRaffle(wallet.network.name, raffleId)
+			// await RafflesService.getRaffle(wallet.network.name, raffleId)
 		}
 	}
 
@@ -171,13 +190,13 @@ export default function Raffle() {
 									<RaffleDetails goNextStep={goToNextStep} goBackStep={goToPrevStep} />
 								)}
 								{/* STEP 3 */}
-								{/* {step === CREATE_TRADE_LISTING_FORM_STEPS.CONFIRM_LISTING && (
+								{step === CREATE_RAFFLE_LISTING_FORM_STEPS.CONFIRM_RAFFLE && (
 									<ConfirmListing
 										canGoToNextStep={canGoToNextStep}
 										goBackStep={goToPrevStep}
 										setStep={setStep}
 									/>
-								)} */}
+								)}
 							</BodyContainer>
 						</form>
 					</FormProvider>

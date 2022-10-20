@@ -8,8 +8,8 @@ export const RafflesSelectNFTStepSchema = yup.object().shape({
 })
 
 export const RaffleDetailsStepSchema = yup.object().shape({
-	endDate: yup.string().required(),
-	endTime: yup.string().required(),
+	endDate: yup.date().required(),
+	endTime: yup.date().required(),
 	ticketPriceCurrency: yup.string(),
 	ticketPrice: yup
 		.number()

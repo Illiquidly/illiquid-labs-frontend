@@ -32,5 +32,17 @@
 			"Raffles CANNOT be edited or cancelled once a ticket is sold.",
 			"We do not take responsibility for promoting or marketing the raffles."
 		]
+	},
+	"confirm-listing": {
+		"title-message": "Confirm Raffle",
+		"instruction": "Review the details below and make any adjustments",
+		"what-are-you-raffling": "What you’re raffling",
+		"raffle-end-time-and-start-time": "Raffle end date and end time",
+		"raffle-ticket-supply-label": "Ticket supply",
+		"raffle-ticket-price-label": "Ticket price",
+		"congratulations": "Congratulations!",
+		"congratulations-message": "Your Raffle has been successfully created!",
+		"your-listing-url": "Your Raffle URL",
+		"transaction-id": "Transaction ID"
 	}
 }

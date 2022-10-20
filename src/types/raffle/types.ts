@@ -8,8 +8,8 @@ export interface RaffleFormStepsProps {
 	selectedNFTs: NFT[]
 
 	// RAFFLE DETAILS STEP
-	endDate: string
-	endTime: string
+	endDate: Date
+	endTime: Date
 	ticketSupply: number
 	ticketPrice: number
 	ticketPriceCurrency: string

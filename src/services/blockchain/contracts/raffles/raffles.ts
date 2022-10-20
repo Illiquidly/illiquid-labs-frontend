@@ -22,7 +22,7 @@ const RAFFLE = 'raffle'
 
 async function createRaffleListing(
 	nfts: NFT[],
-	ticketPriceLuna: string,
+	ticketPriceLuna: string | number,
 	raffleOptions: RawRaffleOptions
 ): Promise<TxReceipt> {
 	const p2pContractAddress = addresses.getContractAddress(RAFFLE)
@@ -47,7 +47,7 @@ async function createRaffleListing(
 					assets: [
 						...nfts.flatMap(({ collectionAddress, tokenId }) => [
 							{
-								cw721Coin: {
+								cw721_coin: {
 									token_id: tokenId,
 									address: collectionAddress,
 								},

@@ -38,6 +38,7 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 		getValues,
 		register,
 		setValue,
+
 		formState: { isValid, errors },
 	} = useFormContext<RaffleFormStepsProps>()
 
@@ -55,13 +56,13 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 						</Label>
 						<DatePickerField
 							id='endDate'
-							{...(register('endDate') as any)}
+							value={getValues('endDate')}
 							onChange={([date]) =>
-								setValue('endDate', moment(date).toISOString(), {
+								setValue('endDate', date, {
 									shouldValidate: true,
 								})
 							}
-							minDate={moment().add(1, 'day').toDate()}
+							minDate={moment().add('1', 'day').startOf('day').toDate()}
 							fieldError={
 								errors.endDate && t(`common:errors.${errors?.endDate?.message}`)
 							}
@@ -74,9 +75,9 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 						</Label>
 						<TimePickerField
 							id='endTime'
-							{...(register('endTime') as any)}
+							value={getValues('endTime')}
 							onChange={([date]) =>
-								setValue('endTime', moment(date).toISOString(), {
+								setValue('endTime', date, {
 									shouldValidate: true,
 								})
 							}
