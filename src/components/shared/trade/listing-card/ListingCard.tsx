@@ -8,7 +8,7 @@ import React from 'react'
 import { Collection, NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../../../ui/overflow-tip'
-import { LookingFor } from '../../looking-for'
+import { LookingFor } from '../looking-for'
 
 import {
 	BottomImageArea,

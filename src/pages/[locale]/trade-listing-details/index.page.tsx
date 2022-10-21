@@ -59,7 +59,7 @@ import CreateTradeListing from 'components/shared/header-actions/create-trade-li
 import { CounterTrade } from 'services/api/counterTradesService'
 import { NetworkType } from 'types'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
-import { LookingFor } from 'components/shared/looking-for'
+import { LookingFor } from 'components/shared/trade/looking-for'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()

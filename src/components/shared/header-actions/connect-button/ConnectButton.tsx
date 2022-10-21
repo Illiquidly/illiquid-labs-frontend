@@ -1,7 +1,7 @@
 import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import useIsTablet from 'hooks/react/useIsTablet'
 import { useTranslation } from 'next-i18next'
-import { Button } from '../../ui/button'
+import { Button } from '../../../ui/button'
 
 export default function ConnectButton() {
 	const { status, connect, disconnect } = useWallet()

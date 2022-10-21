@@ -8,7 +8,7 @@ import {
 	LookingForSection,
 	LookingForTitle,
 	Chip,
-} from '../trade/listing-card/ListingCard.styled'
+} from '../listing-card/ListingCard.styled'
 
 export interface LookingForProps {
 	lookingFor: (Partial<Collection> & {
