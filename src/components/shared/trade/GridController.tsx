@@ -1,4 +1,3 @@
-import { ListingCard } from 'components/shared'
 import { Loader } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -16,6 +15,7 @@ import useAddress from 'hooks/useAddress'
 import { useWallet } from '@terra-money/use-wallet'
 import { FAVORITES_TRADES } from 'constants/use-query-keys'
 import { NetworkType } from 'types'
+import { ListingCard } from './listing-card'
 
 export enum GRID_TYPE {
 	SMALL = 0,
