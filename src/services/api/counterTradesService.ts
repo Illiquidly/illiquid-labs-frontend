@@ -2,6 +2,7 @@ import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { TRADE_STATE } from 'services/blockchain'
 import { LookingFor, NetworkType } from 'types'
+import { APIGetAllResponse, APIPagination } from 'types/common'
 import { keysToCamel } from 'utils/js/keysToCamel'
 import {
 	Coin,
@@ -54,13 +55,7 @@ export interface CounterTrade {
 	}
 }
 
-export interface CounterTradesResponse {
-	data: CounterTrade[]
-	count: number
-	total: number
-	page: number
-	pageCount: number
-}
+export type CounterTradesResponse = APIGetAllResponse<CounterTrade>
 
 type CounterTradeFilters = {
 	tradeIds?: string[]
@@ -70,16 +65,11 @@ type CounterTradeFilters = {
 	search?: string
 }
 
-type TradePagination = {
-	page?: number
-	limit?: number
-}
-
 export class CounterTradesService {
 	public static async getAllCounterTrades(
 		network: string,
 		filters?: CounterTradeFilters,
-		pagination?: TradePagination,
+		pagination?: APIPagination,
 		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<CounterTradesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()

@@ -1,6 +1,7 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { NetworkType } from 'types'
+import { APIGetAllResponse, NetworkType } from 'types'
+import { APIPagination } from 'types/common'
 import { NFT } from './walletNFTsService'
 
 export enum TRADE_NOTIFICATION_TYPE {
@@ -31,18 +32,7 @@ export interface TradeNotification {
 	}
 }
 
-export interface TradeNotificationsResponse {
-	data: TradeNotification[]
-	count: number
-	total: number
-	page: number
-	pageCount: number
-}
-
-type TradePagination = {
-	page?: number
-	limit?: number
-}
+export type TradeNotificationsResponse = APIGetAllResponse<TradeNotification>
 
 type TradeNotificationsFilters = {
 	user: string
@@ -52,7 +42,7 @@ export class TradeNotificationsService {
 	static async getTradeNotifications(
 		network: string,
 		filters: TradeNotificationsFilters,
-		pagination?: TradePagination,
+		pagination?: APIPagination,
 		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<TradeNotificationsResponse> {
 		const queryBuilder = RequestQueryBuilder.create()

@@ -2,7 +2,8 @@ import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { TRADE_STATE } from 'services/blockchain'
 import { keysToCamel } from 'utils/js/keysToCamel'
-import { LookingFor, NetworkType } from 'types'
+import { APIGetAllResponse, LookingFor, NetworkType } from 'types'
+import { APIPagination } from 'types/common'
 import { NFT } from './walletNFTsService'
 
 export type Coin = {
@@ -73,13 +74,7 @@ export interface Trade {
 	}
 }
 
-export interface TradesResponse {
-	data: Trade[]
-	count: number
-	total: number
-	page: number
-	pageCount: number
-}
+export type TradesResponse = APIGetAllResponse<Trade>
 
 type TradeFilters = {
 	tradeIds?: string[]
@@ -97,16 +92,11 @@ type TradeFilters = {
 	favoritesOf?: string
 }
 
-type TradePagination = {
-	page?: number
-	limit?: number
-}
-
 export class TradesService {
 	public static async getAllTrades(
 		network: string,
 		filters?: TradeFilters,
-		pagination?: TradePagination,
+		pagination?: APIPagination,
 		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<TradesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()

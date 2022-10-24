@@ -19,8 +19,6 @@ export type FavoriteTradeResponse = {
 	}[]
 }
 
-export type FavoriteTradesFilters = {}
-
 export class FavoriteTradesService {
 	static async addFavoriteTrade({
 		network,
