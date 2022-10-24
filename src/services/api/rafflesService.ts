@@ -12,7 +12,12 @@ interface Cw20Coin {
 }
 
 enum RAFFLE_STATE {
-	closed = 'closed',
+	Closed = 'closed',
+	Created = 'created',
+	Started = 'started',
+	Finished = 'finished',
+	Claimed = 'claimed',
+	Cancelled = 'cancelled',
 }
 
 export interface Raffle {
