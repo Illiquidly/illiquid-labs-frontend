@@ -11,7 +11,7 @@ interface Cw20Coin {
 	currency: string
 }
 
-enum RAFFLE_STATE {
+export enum RAFFLE_STATE {
 	Closed = 'closed',
 	Created = 'created',
 	Started = 'started',
@@ -48,6 +48,15 @@ export interface Raffle {
 			}
 		}
 	}
+	participants?: [
+		{
+			id: number
+			raffleId: number
+			user: string
+			ticketNumber: number
+			raffle: string
+		}
+	]
 }
 
 type RafflesResponse = APIGetAllResponse<Raffle>
@@ -60,6 +69,9 @@ type RaffleFilters = {
 	owners?: string[]
 	excludeRaffles?: (string | number)[]
 	favoritesOf?: string
+	search?: string // TODO implement
+	excludeMyRaffles?: boolean // TODO implement
+	myAddress: string // TODO implement
 }
 
 export class RafflesService {

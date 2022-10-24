@@ -147,7 +147,7 @@ function GridController({
 								collectionAddress={
 									raffleOptions?.rafflePreview?.cw721Coin?.collectionAddress ?? ''
 								}
-								href={`${ROUTES.RAFFLE_LISTINGS}?raffleId=${raffleId}`}
+								href={`${ROUTES.RAFFLE_LISTING_DETAILS}?raffleId=${raffleId}`}
 								nfts={(allAssociatedAssets || [])
 									.filter(nft => nft.cw721Coin)
 									.map(({ cw721Coin }) => cw721Coin as NFT)}

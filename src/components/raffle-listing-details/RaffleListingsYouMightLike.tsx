@@ -1,14 +1,14 @@
 import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
-import { TradeGridController, GRID_TYPE } from 'components/shared'
-import { TRADES, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import { RaffleGridController } from 'components/shared/raffle'
+import { GRID_TYPE } from 'components/shared/raffle/GridController'
+import { RAFFLES, VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionsService } from 'services/api'
-import { TradesService } from 'services/api/tradesService'
-import { TRADE_STATE } from 'services/blockchain'
+import { RafflesService, RAFFLE_STATE } from 'services/api/rafflesService'
 import { Box, Flex } from 'theme-ui'
 
 const MightLikeText = styled(Flex)`
@@ -26,17 +26,17 @@ MightLikeText.defaultProps = {
 	},
 }
 
-export interface TradeListingsYouMightLikeProps {
+export interface RaffleListingsYouMightLikeProps {
 	search: string
-	tradeId?: string | number
+	raffleId?: string | number
 }
 
-function TradeListingsYouMightLike({
+function RaffleListingsYouMightLike({
 	search,
-	tradeId,
-}: TradeListingsYouMightLikeProps) {
+	raffleId,
+}: RaffleListingsYouMightLikeProps) {
 	const wallet = useWallet()
-	const { t } = useTranslation(['common', 'trade-listings'])
+	const { t } = useTranslation(['common', 'raffle-listings'])
 	const myAddress = useAddress()
 
 	const { data: verifiedCollections } = useQuery(
@@ -49,17 +49,17 @@ function TradeListingsYouMightLike({
 		}
 	)
 
-	const { data: trades, isLoading } = useQuery(
-		[TRADES, wallet.network, search],
+	const { data: raffles, isLoading } = useQuery(
+		[RAFFLES, wallet.network, search],
 		async () =>
-			TradesService.getAllTrades(
+			RafflesService.getAllRaffles(
 				wallet.network.name,
 				{
 					myAddress,
 					search,
-					states: [TRADE_STATE.Published, TRADE_STATE.Countered],
-					excludeMyTrades: true,
-					...(tradeId ? { excludeTrades: [tradeId] } : {}),
+					states: [RAFFLE_STATE.Started],
+					excludeMyRaffles: true,
+					...(raffleId ? { excludeRaffles: [raffleId] } : {}),
 				},
 				{
 					page: 1,
@@ -81,11 +81,11 @@ function TradeListingsYouMightLike({
 					marginBottom: ['16px', '25px'],
 				}}
 			>
-				<MightLikeText>{t('trade-listings:you-might-like')}</MightLikeText>
+				<MightLikeText>{t('raffle-listings:you-might-like')}</MightLikeText>
 			</Box>
 			<Box sx={{ width: '100%' }}>
-				<TradeGridController
-					trades={trades?.data ?? []}
+				<RaffleGridController
+					raffles={raffles?.data ?? []}
 					isLoading={isLoading}
 					verifiedCollections={verifiedCollections}
 					gridType={Number(Boolean(GRID_TYPE.SMALL))}
@@ -95,4 +95,4 @@ function TradeListingsYouMightLike({
 	)
 }
 
-export default TradeListingsYouMightLike
+export default RaffleListingsYouMightLike

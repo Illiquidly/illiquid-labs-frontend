@@ -30,9 +30,7 @@ import useAddress from 'hooks/useAddress'
 import { Raffle, RafflesService } from 'services/api/rafflesService'
 import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
 import { NetworkType } from 'types'
-import GridController, {
-	GRID_TYPE,
-} from 'components/shared/raffle/GridController'
+import { GRID_TYPE } from 'components/shared/raffle/GridController'
 import { Box, Flex } from 'theme-ui'
 import {
 	AccordionContentWrapper,
@@ -56,6 +54,7 @@ import { SupportedCollectionsService } from 'services/api'
 import { RAFFLE_LISTINGS_TYPE } from 'constants/listings'
 import { useDebounce } from 'react-use'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import { RaffleGridController } from 'components/shared/raffle'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -142,6 +141,7 @@ export default function RaffleListings() {
 		myFavoritesChecked,
 		participatedByMeChecked,
 		debouncedSearch,
+		myAddress,
 	])
 
 	const { data: raffles, isLoading } = useQuery(
@@ -155,11 +155,13 @@ export default function RaffleListings() {
 			participatedByMeChecked,
 			debouncedSearch,
 			page,
+			myAddress,
 		],
 		async () =>
 			RafflesService.getAllRaffles(
 				wallet.network.name,
 				{
+					myAddress,
 					owners:
 						listingsType === RAFFLE_LISTINGS_TYPE.MY_LISTINGS
 							? [myAddress]
@@ -333,7 +335,7 @@ export default function RaffleListings() {
 							</DesktopFiltersSection>
 						)}
 						<Box sx={{ width: '100%' }}>
-							<GridController
+							<RaffleGridController
 								raffles={infiniteData}
 								isLoading={!infiniteData.length && isLoading}
 								verifiedCollections={verifiedCollections}

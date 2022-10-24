@@ -51,7 +51,12 @@ import {
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TRADE_STATE } from 'services/blockchain'
-import { GridController, GRID_TYPE, LayoutContainer, Page } from 'components'
+import {
+	GRID_TYPE,
+	LayoutContainer,
+	Page,
+	TradeGridController,
+} from 'components'
 import useAddress from 'hooks/useAddress'
 import {
 	FAVORITES_TRADES,
@@ -410,7 +415,7 @@ export default function TradeListings() {
 							</DesktopFiltersSection>
 						)}
 						<Box sx={{ width: '100%' }}>
-							<GridController
+							<TradeGridController
 								trades={infiniteData}
 								isLoading={!infiniteData.length && isLoading}
 								verifiedCollections={verifiedCollections}
