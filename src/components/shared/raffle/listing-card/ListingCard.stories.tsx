@@ -9,11 +9,11 @@ export default {
 	 * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
 	 * to learn how to generate automatic titles
 	 */
-	title: 'Trade Listing Card',
+	title: 'Raffle Listing Card',
 	component: ListingCard,
 }
 
-export const TradeListingCardExample = () => {
+export const RaffleListingCardExample = () => {
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: 8 }}>
 			<Box as='h3'>Default Card</Box>
