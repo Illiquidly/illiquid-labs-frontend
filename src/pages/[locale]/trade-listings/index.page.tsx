@@ -61,15 +61,11 @@ import {
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { NetworkType } from 'types'
+import { TRADE_LISTINGS_TYPE } from 'constants/listings'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
-
-enum LISTINGS_TYPE {
-	ALL_LISTINGS = '0',
-	MY_LISTINGS = '1',
-}
 
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
@@ -128,7 +124,7 @@ export default function TradeListings() {
 	useDebounce(() => setDebouncedSearch(search), 800, [search])
 
 	const [listingsType, setListingsType] = React.useState(
-		LISTINGS_TYPE.ALL_LISTINGS
+		TRADE_LISTINGS_TYPE.ALL_LISTINGS
 	)
 
 	const [page, setPage] = React.useState(1)
@@ -205,7 +201,9 @@ export default function TradeListings() {
 				wallet.network.name,
 				{
 					owners:
-						listingsType === LISTINGS_TYPE.MY_LISTINGS ? [myAddress] : undefined,
+						listingsType === TRADE_LISTINGS_TYPE.MY_LISTINGS
+							? [myAddress]
+							: undefined,
 					states: statuses.flatMap(({ value }) => JSON.parse(value)),
 					collections: collections.map(({ value }) => value),
 					lookingFor: lookingForCollections.map(({ value }) => value),
@@ -268,14 +266,14 @@ export default function TradeListings() {
 				<Box sx={{ minHeight: '1248px' }}>
 					<TabsSection>
 						<Tabs
-							onChange={e => setListingsType(e.target.value as LISTINGS_TYPE)}
+							onChange={e => setListingsType(e.target.value as TRADE_LISTINGS_TYPE)}
 							value={listingsType}
 							name='listings'
 						>
-							<Tab value={LISTINGS_TYPE.ALL_LISTINGS}>
+							<Tab value={TRADE_LISTINGS_TYPE.ALL_LISTINGS}>
 								{t('trade-listings:tabs:all-listings')}
 							</Tab>
-							<Tab value={LISTINGS_TYPE.MY_LISTINGS}>
+							<Tab value={TRADE_LISTINGS_TYPE.MY_LISTINGS}>
 								{t('trade-listings:tabs:my-listings')}
 							</Tab>
 						</Tabs>

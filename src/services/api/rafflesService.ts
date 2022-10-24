@@ -54,11 +54,11 @@ type RaffleFilters = {
 	participatedBy?: string[]
 	owners?: string[]
 	excludeRaffles?: (string | number)[]
-	favoritesOf: string
+	favoritesOf?: string
 }
 
 export class RafflesService {
-	public static async getAllTrades(
+	public static async getAllRaffles(
 		network: string,
 		filters?: RaffleFilters,
 		pagination?: APIPagination,
@@ -84,7 +84,7 @@ export class RafflesService {
 				...(filters?.states?.length
 					? [
 							{
-								state: {
+								'raffleInfo.state': {
 									$in: filters?.states,
 								},
 							},
@@ -94,7 +94,7 @@ export class RafflesService {
 				...(filters?.collections?.length
 					? [
 							{
-								'cw721Assets.collectionAddress.collection.collectionAddress': {
+								'raffleInfo_cw721Assets_collection_join.collectionAddress': {
 									$in: filters?.collections,
 								},
 							},

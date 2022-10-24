@@ -1,0 +1,30 @@
+{
+	"item-not-available": "This item is no longer available",
+	"back-to-listings": "Back to Listings",
+	"back-to-listing": "Back to Listing",
+	"filters": {
+		"search-placeholder": "Search",
+		"status-label": "Status",
+		"collections-label": "Collections",
+		"looking-for-label": "Looking for",
+		"nft-collections-search-label": "NFT Collection",
+		"my-favorites-label": "My favorites",
+		"countered-by-me-label": "Countered by me",
+		"search-collections-placeholder": "Search collections...",
+		"search-status-placeholder": "Search status...",
+		"participated-by-me-label": "Purchased tickets"
+	},
+	"statuses": [
+		"Active",
+		"Inactive",
+		"Cancelled",
+		"Published",
+		"Countered",
+		"Accepted"
+	],
+	"tabs": {
+		"all-listings": "All Raffles",
+		"my-listings": "My Raffles",
+		"past-listings": "Past Raffles"
+	}
+}

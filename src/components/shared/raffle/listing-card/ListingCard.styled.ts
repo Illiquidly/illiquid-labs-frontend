@@ -56,7 +56,7 @@ export const Line = styled(Flex)`
 export const RightCutout = styled.div`
 	position: absolute;
 	border: 1.34px solid ${props => props.theme.colors.dark500};
-	right: -13px;
+	right: -14px;
 	bottom: -11.39px;
 
 	border-top-left-radius: 22.78px;
@@ -64,14 +64,14 @@ export const RightCutout = styled.div`
 	border-right-width: 0;
 
 	height: 22.78px;
-	width: 11.39px;
+	width: 12.39px;
 	background-color: ${props => props.theme.colors.dark100};
 `
 
 export const LeftCutout = styled.div`
 	position: absolute;
 	border: 1.34px solid ${props => props.theme.colors.dark500};
-	left: -13px;
+	left: -14px;
 	bottom: -11.39px;
 
 	border-top-right-radius: 22.78px;
@@ -79,7 +79,7 @@ export const LeftCutout = styled.div`
 	border-left-width: 0;
 
 	height: 22.78px;
-	width: 11.39px;
+	width: 12.39px;
 	background-color: ${props => props.theme.colors.dark100};
 `
 

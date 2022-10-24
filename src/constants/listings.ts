@@ -1,4 +1,10 @@
-export enum LISTINGS_TYPE {
+export enum TRADE_LISTINGS_TYPE {
 	ALL_LISTINGS = '0',
 	MY_LISTINGS = '1',
+}
+
+export enum RAFFLE_LISTINGS_TYPE {
+	ALL_LISTINGS = '0',
+	MY_LISTINGS = '1',
+	PAST_LISTINGS = '2',
 }
