@@ -39,22 +39,23 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-// import { useWallet } from '@terra-money/use-wallet'
+import { useWallet } from '@terra-money/use-wallet'
 import ExitCreateRaffleListing from 'components/shared/header-actions/exit-create-raffle-listing/ExitCreateRaffleListing'
 import {
 	RaffleDetailsStepSchema,
 	RafflesSelectNFTStepSchema,
 } from 'constants/validation-schemas/raffle'
 import { RaffleFormStepsProps } from 'types/raffle/types'
-import { createRaffleListing } from 'services/blockchain'
+import { RafflesContract } from 'services/blockchain'
 import moment from 'moment'
+import { RafflesService } from 'services/api/rafflesService'
 
 const getStaticProps = makeStaticProps(['common', 'raffle'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Raffle() {
-	// const wallet = useWallet()
+	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'raffle'])
 	useHeaderActions(<ExitCreateRaffleListing />)
 	const stepLabels: Array<string> = t('raffle:steps', { returnObjects: true })
@@ -114,15 +115,19 @@ export default function Raffle() {
 			action: string
 			raffleId: string
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: createRaffleListing(selectedNFTs, ticketPrice, {
-				rafflePreview: selectedNFTs.findIndex(
-					nft =>
-						`${coverNFT.collectionAddress}_${coverNFT.tokenId}` ===
-						`${nft.collectionAddress}_${nft.tokenId}`
-				),
-				maxParticipantNumber: +ticketSupply,
-				raffleDuration: Math.floor(duration.asSeconds()),
-			}),
+			transactionAction: RafflesContract.createRaffleListing(
+				selectedNFTs,
+				ticketPrice,
+				{
+					rafflePreview: selectedNFTs.findIndex(
+						nft =>
+							`${coverNFT.collectionAddress}_${coverNFT.tokenId}` ===
+							`${nft.collectionAddress}_${nft.tokenId}`
+					),
+					maxParticipantNumber: +ticketSupply,
+					raffleDuration: Math.floor(duration.asSeconds()),
+				}
+			),
 			closeOnFinish: true,
 		})
 
@@ -141,7 +146,7 @@ export default function Raffle() {
 			formMethods.setValue('isSuccessScreen', true)
 
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
-			// await RafflesService.getRaffle(wallet.network.name, raffleId)
+			await RafflesService.getRaffle(wallet.network.name, raffleId)
 		}
 	}
 

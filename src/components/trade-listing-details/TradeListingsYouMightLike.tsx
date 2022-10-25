@@ -7,8 +7,7 @@ import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionsService } from 'services/api'
-import { TradesService } from 'services/api/tradesService'
-import { TRADE_STATE } from 'services/blockchain'
+import { TradesService, TRADE_STATE } from 'services/api/tradesService'
 import { Box, Flex } from 'theme-ui'
 
 const MightLikeText = styled(Flex)`

@@ -36,7 +36,6 @@ import { CREATE_TRADE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { listTradeOffers } from 'services/blockchain'
 
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
@@ -51,6 +50,7 @@ import {
 	TradeDetailsStepSchema,
 } from 'constants/validation-schemas/trade'
 import { TradeFormStepsProps } from 'types'
+import { P2PTradingContract } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -110,7 +110,9 @@ export default function Trade() {
 			tradeId: string
 			trader: string
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: listTradeOffers(fromCreateTradeFormToBlockchain(values)),
+			transactionAction: P2PTradingContract.listTradeOffers(
+				fromCreateTradeFormToBlockchain(values)
+			),
 			closeOnFinish: true,
 		})
 

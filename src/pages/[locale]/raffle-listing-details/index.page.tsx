@@ -28,7 +28,7 @@ import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { noop, sample } from 'lodash'
+import { sample } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
@@ -188,6 +188,10 @@ export default function ListingDetails() {
 					user: myAddress,
 			  })
 
+	const purchaseTicket = () => {
+		console.warn('test')
+	}
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -298,11 +302,11 @@ export default function ListingDetails() {
 										<Row>
 											<Button
 												size='extraLarge'
-												onClick={noop}
+												onClick={purchaseTicket}
 												fullWidth
 												variant='gradient'
 											>
-												<div>{t('Raffle-listings:make-offer')}</div>
+												<div>{t('Raffle-listings:buy-raffle-ticket')}</div>
 											</Button>
 										</Row>
 									)}

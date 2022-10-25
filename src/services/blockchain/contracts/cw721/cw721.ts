@@ -2,8 +2,8 @@ import { TxReceipt } from 'services/blockchain/blockchain.interface'
 
 import terraUtils from 'utils/blockchain/terraUtils'
 
-import pMemoize from 'p-memoize'
 import type { TransactionDetails } from 'utils/blockchain/terraUtils'
+import { Contract } from '../shared'
 
 const LIMIT = 30
 
@@ -13,128 +13,97 @@ export interface NFTWithRecipient {
 	recipient: string
 }
 
-async function transferToken(
-	nftContractAddress: string,
-	tokenId: string,
-	userAddress: string
-): Promise<TxReceipt> {
-	return terraUtils.postTransaction({
-		contractAddress: nftContractAddress,
-		message: {
-			transfer_nft: {
-				token_id: tokenId,
-				recipient: userAddress,
-			},
-		},
-	})
-}
-
-// Those functions however do not reduce gas costs.
-async function transferMultipleToken(
-	nfts: NFTWithRecipient[]
-): Promise<TxReceipt> {
-	const txs: TransactionDetails[] = nfts
-		.map(nft => ({
-			contractAddress: nft.nftAddress,
+class Cw721Contract extends Contract {
+	static async transferToken(
+		nftContractAddress: string,
+		tokenId: string,
+		userAddress: string
+	): Promise<TxReceipt> {
+		return terraUtils.postTransaction({
+			contractAddress: nftContractAddress,
 			message: {
 				transfer_nft: {
-					token_id: nft.tokenId,
-					recipient: nft.recipient,
+					token_id: tokenId,
+					recipient: userAddress,
 				},
 			},
-		}))
-		.filter(nft => nft.contractAddress)
-	return terraUtils.postManyTransactions(txs)
-}
-
-async function getTokenIdsOwnedByUserWithOffset(
-	nftContractAddress: string,
-	userAddress: string,
-	startAfterTokenId?: string
-): Promise<string[]> {
-	const response = await terraUtils.sendQuery(nftContractAddress, {
-		tokens: {
-			limit: LIMIT,
-			owner: userAddress,
-			start_after: startAfterTokenId,
-		},
-	})
-
-	// Unstables: Guardians of Terra returns different data
-	if (response.tokens?.[0]?.token_id) {
-		return response.tokens.map((token: any) => token.token_id)
+		})
 	}
 
-	return response.tokens
-}
+	static async transferMultipleToken(
+		nfts: NFTWithRecipient[]
+	): Promise<TxReceipt> {
+		const txs: TransactionDetails[] = nfts
+			.map(nft => ({
+				contractAddress: nft.nftAddress,
+				message: {
+					transfer_nft: {
+						token_id: nft.tokenId,
+						recipient: nft.recipient,
+					},
+				},
+			}))
+			.filter(nft => nft.contractAddress)
+		return terraUtils.postManyTransactions(txs)
+	}
 
-async function getTokensOwnedByUserCountInCollection(
-	nftContractAddress: string
-): Promise<number> {
-	const userAddress = await terraUtils.getWalletAddress()
+	static async getTokenIdsOwnedByUserWithOffset(
+		nftContractAddress: string,
+		userAddress: string,
+		startAfterTokenId?: string
+	): Promise<string[]> {
+		const response = await terraUtils.sendQuery(nftContractAddress, {
+			tokens: {
+				limit: LIMIT,
+				owner: userAddress,
+				start_after: startAfterTokenId,
+			},
+		})
 
-	const tokenIds = await getTokenIdsOwnedByUserWithOffset(
-		nftContractAddress,
-		userAddress
-	)
+		// Unstables: Guardians of Terra returns different data
+		if (response.tokens?.[0]?.token_id) {
+			return response.tokens.map((token: any) => token.token_id)
+		}
 
-	return tokenIds ? tokenIds.length : 0
-}
+		return response.tokens
+	}
 
-async function getOwnerOfToken(
-	nftContractAddress: string,
-	tokenId: string
-): Promise<string> {
-	const response = await terraUtils.sendQuery(nftContractAddress, {
-		owner_of: {
-			token_id: tokenId,
-		},
-	})
+	static async getTokensOwnedByUserCountInCollection(
+		nftContractAddress: string
+	): Promise<number> {
+		const userAddress = await terraUtils.getWalletAddress()
 
-	return response.owner
-}
+		const tokenIds = await this.getTokenIdsOwnedByUserWithOffset(
+			nftContractAddress,
+			userAddress
+		)
 
-interface ContractInfo {
-	name: string
-}
+		return tokenIds ? tokenIds.length : 0
+	}
 
-async function getContractInfo(
-	nftContractAddress: string
-): Promise<ContractInfo> {
-	const { name } = await terraUtils.sendQuery(nftContractAddress, {
-		contract_info: {},
-	})
+	static async getOwnerOfToken(
+		nftContractAddress: string,
+		tokenId: string
+	): Promise<string> {
+		const response = await terraUtils.sendQuery(nftContractAddress, {
+			owner_of: {
+				token_id: tokenId,
+			},
+		})
 
-	return {
-		name,
+		return response.owner
+	}
+
+	static async getNFTInfo(
+		nftContractAddress: string,
+		tokenId: string
+	): Promise<any> {
+		return terraUtils.sendQuery(nftContractAddress, {
+			nft_info: {
+				token_id: tokenId,
+			},
+		})
 	}
 }
 
-async function getNFTInfo(
-	nftContractAddress: string,
-	tokenId: string
-): Promise<any> {
-	return terraUtils.sendQuery(nftContractAddress, {
-		nft_info: {
-			token_id: tokenId,
-		},
-	})
-}
-
-const memoizedGetContractInfo = pMemoize(getContractInfo)
-
-const memoizedGetNFTInfo = pMemoize(getNFTInfo, {
-	cacheKey: args => JSON.stringify(args),
-})
-
-export default {
-	// getTokensOnWalletForUser,
-	getTokensOwnedByUserCountInCollection,
-	getOwnerOfToken,
-	transferToken,
-	transferMultipleToken,
-	getContractInfo,
-	getNFTInfo,
-	memoizedGetContractInfo,
-	memoizedGetNFTInfo,
-}
+export default Cw721Contract

@@ -23,12 +23,7 @@ import { asyncAction } from 'utils/js/asyncAction'
 
 import { fromUpdateTradeToBlockchain } from 'utils/mappers/fromUpdateTradeToBlockchain'
 
-import {
-	cancelAndWithdrawTrade,
-	TRADE_STATE,
-	updateTrade,
-} from 'services/blockchain'
-import { Trade } from 'services/api/tradesService'
+import { Trade, TRADE_STATE } from 'services/api/tradesService'
 import { useRouter } from 'next/router'
 import { noop } from 'lodash'
 import { TxBroadcastingModal } from 'components/shared'
@@ -36,6 +31,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import useAddress from 'hooks/useAddress'
 import { TRADE } from 'constants/use-query-keys'
 import { LinkButton } from 'components/link'
+import { P2PTradingContract } from 'services/blockchain'
 
 interface TradeHeaderActionsRowProps {
 	trade?: Trade
@@ -85,7 +81,7 @@ export const TradeHeaderActionsRow = ({
 				fromUpdateTradeToBlockchain(result)
 
 			const response = await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: updateTrade(
+				transactionAction: P2PTradingContract.updateTrade(
 					trade.tradeId,
 					comment,
 					newTokensWanted,
@@ -112,7 +108,9 @@ export const TradeHeaderActionsRow = ({
 
 		if (result) {
 			const cancelTradeResponse = await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: cancelAndWithdrawTrade(Number(result.tradeId)),
+				transactionAction: P2PTradingContract.cancelAndWithdrawTrade(
+					Number(result.tradeId)
+				),
 				closeOnFinish: true,
 			})
 

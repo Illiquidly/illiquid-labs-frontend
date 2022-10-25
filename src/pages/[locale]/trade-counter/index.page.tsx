@@ -60,11 +60,7 @@ import CreateTradeListing from 'components/shared/header-actions/create-trade-li
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import SelectNFTs from 'components/trade-counter/SelectNFTs'
-import {
-	getDenomForCurrency,
-	listCounterTradeOffer,
-	simulateTradeFee,
-} from 'services/blockchain'
+
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import {
 	SubmitCounterOfferModal,
@@ -79,6 +75,7 @@ import useAddress from 'hooks/useAddress'
 import { amountConverter } from 'utils/blockchain/terraUtils'
 import { TradeCounterValidationSchema } from 'constants/validation-schemas/trade-counter'
 import { TradeCounterForm } from 'types/trade-counter'
+import { getDenomForCurrency, P2PTradingContract } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -224,7 +221,7 @@ export default function TradeCounter() {
 				: []),
 		]
 
-		const fees = await simulateTradeFee({
+		const fees = await P2PTradingContract.simulateTradeFee({
 			tradeId: Number(tradeId),
 			counterAssets: assets,
 		})
@@ -254,7 +251,7 @@ export default function TradeCounter() {
 				tradeId: string
 				counterId: string
 			} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: listCounterTradeOffer({
+				transactionAction: P2PTradingContract.listCounterTradeOffer({
 					tradeId: Number(tradeId),
 					comment,
 					cw721Tokens: selectedNFTs,

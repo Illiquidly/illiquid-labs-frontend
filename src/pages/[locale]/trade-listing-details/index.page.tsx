@@ -27,12 +27,11 @@ import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Coin, TradesService } from 'services/api/tradesService'
+import { Coin, TradesService, TRADE_STATE } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { first, sample } from 'lodash'
 import { CounterTradesService, SupportedCollectionsService } from 'services/api'
-import { TRADE_STATE, withdrawPendingAssets } from 'services/blockchain'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -60,6 +59,7 @@ import { CounterTrade } from 'services/api/counterTradesService'
 import { NetworkType } from 'types'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { LookingFor } from 'components/shared/trade/looking-for'
+import { P2PTradingContract } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -183,7 +183,9 @@ export default function ListingDetails() {
 
 	const countererWithdrawAccepted = async (counterTrade: CounterTrade) => {
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: withdrawPendingAssets(counterTrade.trade.tradeId),
+			transactionAction: P2PTradingContract.withdrawPendingAssets(
+				counterTrade.trade.tradeId
+			),
 			closeOnFinish: true,
 		})
 

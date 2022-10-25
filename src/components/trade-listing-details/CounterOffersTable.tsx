@@ -21,19 +21,10 @@ import {
 	CounterTrade,
 	CounterTradesService,
 } from 'services/api/counterTradesService'
-import { HumanCoin, Trade } from 'services/api/tradesService'
+import { HumanCoin, Trade, TRADE_STATE } from 'services/api/tradesService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
-import {
-	acceptTrade,
-	cancelCounterTradeAndWithdraw,
-	confirmCounterTrade,
-	refuseCounterTrade,
-	getAcceptedTradeFee,
-	TRADE_STATE,
-	withdrawAcceptedTrade,
-	withdrawAllFromCounter,
-} from 'services/blockchain'
+
 import {
 	AcceptCounterOfferModal,
 	DenyCounterOfferSuccessModal,
@@ -51,6 +42,7 @@ import useAddress from 'hooks/useAddress'
 import { COUNTER_TRADES } from 'constants/use-query-keys'
 import { LunaIcon } from 'assets/icons/mixed'
 import { isNil } from 'lodash'
+import { P2PTradingContract } from 'services/blockchain'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -141,7 +133,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 	}
 
 	const handleApprove = async (counterTrade: CounterTrade) => {
-		const fees = await getAcceptedTradeFee({
+		const fees = await P2PTradingContract.getAcceptedTradeFee({
 			counterId: counterTrade.counterId,
 			tradeId: counterTrade.trade.tradeId,
 		})
@@ -156,7 +148,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 		if (result) {
 			await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: acceptTrade(
+				transactionAction: P2PTradingContract.acceptTrade(
 					counterTrade.counterId,
 					counterTrade.trade.tradeId,
 					result.comment,
@@ -186,7 +178,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 			if (result) {
 				await NiceModal.show(TxBroadcastingModal, {
-					transactionAction: withdrawAllFromCounter(
+					transactionAction: P2PTradingContract.withdrawAllFromCounter(
 						counterTrade.trade.tradeId,
 						counterTrade.counterId
 					),
@@ -199,7 +191,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 		}
 
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: withdrawAllFromCounter(
+			transactionAction: P2PTradingContract.withdrawAllFromCounter(
 				counterTrade.trade.tradeId,
 				counterTrade.counterId
 			),
@@ -211,7 +203,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 	const cancelCounterTrade = async (counterTrade: CounterTrade) => {
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: cancelCounterTradeAndWithdraw(
+			transactionAction: P2PTradingContract.cancelCounterTradeAndWithdraw(
 				counterTrade.counterId,
 				counterTrade.trade.tradeId
 			),
@@ -230,7 +222,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 		if (result) {
 			await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: refuseCounterTrade(
+				transactionAction: P2PTradingContract.refuseCounterTrade(
 					counterTrade.trade.tradeId,
 					counterTrade.counterId,
 					result.comment
@@ -249,7 +241,9 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 	const withdrawAccepted = async (counterTrade: CounterTrade) => {
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: withdrawAcceptedTrade(counterTrade.trade.tradeId),
+			transactionAction: P2PTradingContract.withdrawAcceptedTrade(
+				counterTrade.trade.tradeId
+			),
 			closeOnFinish: true,
 		})
 
@@ -258,7 +252,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 	const confirmCounter = async (counterTrade: CounterTrade) => {
 		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: confirmCounterTrade(
+			transactionAction: P2PTradingContract.confirmCounterTrade(
 				counterTrade?.counterId,
 				counterTrade.trade.tradeId
 			),

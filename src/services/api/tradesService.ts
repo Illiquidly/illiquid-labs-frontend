@@ -1,6 +1,5 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { TRADE_STATE } from 'services/blockchain'
 import { keysToCamel } from 'utils/js/keysToCamel'
 import { APIGetAllResponse, LookingFor, NetworkType } from 'types'
 import { APIPagination } from 'types/common'
@@ -32,6 +31,15 @@ export type NFTWanted = {
 	collectionAddress: string
 	collectionName: string
 	symbol: string
+}
+
+export enum TRADE_STATE {
+	Created = 'created',
+	Published = 'published',
+	Countered = 'countered',
+	Refused = 'refused',
+	Accepted = 'accepted',
+	Cancelled = 'cancelled',
 }
 
 export interface Trade {

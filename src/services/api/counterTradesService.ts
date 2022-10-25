@@ -1,6 +1,5 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { TRADE_STATE } from 'services/blockchain'
 import { LookingFor, NetworkType } from 'types'
 import { APIGetAllResponse, APIPagination } from 'types/common'
 import { keysToCamel } from 'utils/js/keysToCamel'
@@ -10,6 +9,7 @@ import {
 	Cw721Coin,
 	HumanCoin,
 	NFTWanted,
+	TRADE_STATE,
 } from './tradesService'
 import { NFT } from './walletNFTsService'
 

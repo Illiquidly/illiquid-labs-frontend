@@ -29,7 +29,7 @@ import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-acco
 import useIsTablet from 'hooks/react/useIsTablet'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { SupportedCollectionsService } from 'services/api'
-import { Trade, TradesService } from 'services/api/tradesService'
+import { Trade, TradesService, TRADE_STATE } from 'services/api/tradesService'
 import { Box, Flex } from 'theme-ui'
 
 import { asyncAction } from 'utils/js/asyncAction'
@@ -50,7 +50,6 @@ import {
 	TradeListingsFilterModalProps,
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { TRADE_STATE } from 'services/blockchain'
 import {
 	GRID_TYPE,
 	LayoutContainer,
