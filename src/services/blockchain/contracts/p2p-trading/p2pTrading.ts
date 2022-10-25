@@ -7,7 +7,7 @@ import addresses, { ContractName } from 'services/blockchain/addresses'
 import { NFT } from 'services/api/walletNFTsService'
 import { Coin } from 'services/api/tradesService'
 import { keysToSnake } from 'utils/js/keysToSnake'
-import { getDenomForCurrency, TerraCurrency } from '../shared'
+import { Contract, getDenomForCurrency, TerraCurrency } from '../shared'
 
 const amountConverter = converter.ust
 
@@ -38,7 +38,7 @@ export interface P2PTradeOffer {
 	previewNFT: NFT
 }
 
-class P2PTradingContract {
+class P2PTradingContract extends Contract {
 	static async listTradeOffers(offers: P2PTradeOffer[]) {
 		const txs = offers.map(
 			({

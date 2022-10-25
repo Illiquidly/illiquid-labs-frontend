@@ -69,9 +69,9 @@ type RaffleFilters = {
 	owners?: string[]
 	excludeRaffles?: (string | number)[]
 	favoritesOf?: string
-	search?: string // TODO implement
-	excludeMyRaffles?: boolean // TODO implement
-	myAddress: string // TODO implement
+	search?: string
+	excludeMyRaffles?: boolean
+	myAddress: string
 }
 
 export class RafflesService {
@@ -101,7 +101,7 @@ export class RafflesService {
 				...(filters?.states?.length
 					? [
 							{
-								'raffleInfo.state': {
+								state: {
 									$in: filters?.states,
 								},
 							},
@@ -111,7 +111,7 @@ export class RafflesService {
 				...(filters?.collections?.length
 					? [
 							{
-								'raffleInfo_cw721Assets_collection_join.collectionAddress': {
+								'cw721Assets_collection_join.collectionAddress': {
 									$in: filters?.collections,
 								},
 							},
@@ -152,6 +152,24 @@ export class RafflesService {
 							{
 								'raffleFavorites.user': {
 									$eq: filters?.favoritesOf,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.search?.length
+					? [
+							{
+								'cw721Assets.allNftInfo': {
+									$cont: filters?.search,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.excludeRaffles
+					? [
+							{
+								owner: {
+									$notin: [filters.myAddress],
 								},
 							},
 					  ]
