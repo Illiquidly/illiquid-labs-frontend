@@ -64,6 +64,7 @@ type RaffleFilters = {
 	excludeRaffles?: (string | number)[]
 	favoritesOf?: string
 	search?: string
+	wonByMe?: boolean
 	excludeMyRaffles?: boolean
 	myAddress: string
 }
@@ -164,6 +165,15 @@ export class RafflesService {
 							{
 								owner: {
 									$notin: [filters.myAddress],
+								},
+							},
+					  ]
+					: []),
+				...(filters?.wonByMe
+					? [
+							{
+								winner: {
+									$eq: filters?.myAddress,
 								},
 							},
 					  ]

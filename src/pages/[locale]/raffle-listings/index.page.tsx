@@ -83,37 +83,35 @@ export default function RaffleListings() {
 			}
 		)
 
-	const statusesLabels: Array<string> = t('raffle-listings:statuses', {
+	const [
+		startedStatusLabel,
+		closedStatusLabel,
+		finishedStatusLabel,
+		cancelledStatusLabel,
+	]: Array<string> = t('raffle-listings:statuses', {
 		returnObjects: true,
 	})
 
 	const statusOptions = [
 		{
-			label: statusesLabels[0],
+			label: startedStatusLabel,
 			value: JSON.stringify([RAFFLE_STATE.Started]),
 		},
 		{
-			label: statusesLabels[1],
-			value: JSON.stringify([
-				RAFFLE_STATE.Cancelled,
-				RAFFLE_STATE.Finished,
-				RAFFLE_STATE.Closed,
-				RAFFLE_STATE.Claimed,
-			]),
-		},
-		{
-			label: statusesLabels[2],
-			value: JSON.stringify([RAFFLE_STATE.Cancelled]),
-		},
-		{
-			label: statusesLabels[3],
-			value: JSON.stringify([RAFFLE_STATE.Created]),
-		},
-		{
-			label: statusesLabels[3],
+			label: closedStatusLabel,
 			value: JSON.stringify([RAFFLE_STATE.Closed]),
 		},
+		{
+			label: finishedStatusLabel,
+			value: JSON.stringify([RAFFLE_STATE.Finished]),
+		},
+		{
+			label: cancelledStatusLabel,
+			value: JSON.stringify([RAFFLE_STATE.Cancelled]),
+		},
 	]
+
+	const [defaultStatusOption] = statusOptions
 
 	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.SMALL))
 
@@ -131,7 +129,7 @@ export default function RaffleListings() {
 
 	const [statuses, setStatuses] = React.useState<
 		MultiSelectAccordionInputOption[]
-	>([])
+	>([defaultStatusOption])
 
 	const [collections, setCollections] = React.useState<
 		MultiSelectAccordionInputOption[]
@@ -141,6 +139,8 @@ export default function RaffleListings() {
 
 	const [participatedByMeChecked, setParticipatedByMeChecked] =
 		React.useState(false)
+
+	const [wonByMe, setWonByMe] = React.useState(false)
 
 	const myAddress = useAddress()
 
@@ -172,6 +172,7 @@ export default function RaffleListings() {
 		myFavoritesChecked,
 		participatedByMeChecked,
 		debouncedSearch,
+		wonByMe,
 		myAddress,
 	])
 
@@ -185,6 +186,7 @@ export default function RaffleListings() {
 			myFavoritesChecked,
 			participatedByMeChecked,
 			debouncedSearch,
+			wonByMe,
 			page,
 			myAddress,
 		],
@@ -202,6 +204,7 @@ export default function RaffleListings() {
 					collections: collections.map(({ value }) => value),
 					participatedBy: participatedByMeChecked ? [myAddress] : undefined,
 					favoritesOf: myFavoritesChecked ? myAddress : undefined,
+					wonByMe,
 				},
 				{
 					page,
@@ -362,6 +365,15 @@ export default function RaffleListings() {
 										title={t('raffle-listings:filters:participated-by-me-label')}
 										onChange={e => setParticipatedByMeChecked(e.target.checked)}
 										checked={participatedByMeChecked}
+									/>
+								</Box>
+
+								<Box mb='8px'>
+									<CheckboxCard
+										variant='medium'
+										title={t('raffle-listings:filters:won-by-me-label')}
+										onChange={e => setWonByMe(e.target.checked)}
+										checked={wonByMe}
 									/>
 								</Box>
 							</DesktopFiltersSection>

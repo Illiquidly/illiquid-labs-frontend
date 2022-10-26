@@ -17,6 +17,16 @@ import { noop } from 'lodash'
 import useAddress from 'hooks/useAddress'
 import { LinkButton } from 'components/link'
 import { Raffle, RAFFLE_STATE } from 'services/api/rafflesService'
+import { asyncAction } from 'utils/js/asyncAction'
+import NiceModal from '@ebay/nice-modal-react'
+import { TxBroadcastingModal } from 'components/shared'
+import { RafflesContract } from 'services/blockchain'
+import { useQueryClient } from '@tanstack/react-query'
+import { RAFFLE } from 'constants/use-query-keys'
+import RemoveModal, {
+	RemoveModalProps,
+} from './modals/remove-modal/RemoveModal'
+import RemoveSuccessModal from './modals/remove-success-modal/RemoveSuccessModal'
 
 interface RaffleHeaderActionsRowProps {
 	raffle?: Raffle
@@ -29,13 +39,15 @@ export const RaffleHeaderActionsRow = ({
 
 	const router = useRouter()
 
+	const queryClient = useQueryClient()
+
 	const editDisabled =
-		![RAFFLE_STATE.Started].includes(
+		[RAFFLE_STATE.Cancelled].includes(
 			(raffleInfo?.state as RAFFLE_STATE) ?? RAFFLE_STATE.Cancelled
 		) || (raffle?.participants ?? []).length > 0
 
 	const removeDisabled =
-		![RAFFLE_STATE.Started].includes(
+		[RAFFLE_STATE.Cancelled].includes(
 			(raffleInfo?.state as RAFFLE_STATE) ?? RAFFLE_STATE.Cancelled
 		) || (raffle?.participants ?? []).length > 0
 
@@ -71,33 +83,31 @@ export const RaffleHeaderActionsRow = ({
 	// }
 	// }
 
-	// const handleRemoveClick = async () => {
-	// 	if (!raffle) {
-	// 		return
-	// 	}
-	// 	const [, result] = await asyncAction<RemoveModalProps>(
-	// 		NiceModal.show(RemoveModal, {
-	// 			tradeId: trade.tradeId,
-	// 		})
-	// 	)
+	const handleRemoveClick = async () => {
+		if (!raffle) {
+			return
+		}
+		const [, result] = await asyncAction<RemoveModalProps>(
+			NiceModal.show(RemoveModal, {
+				raffleId: raffle.raffleId,
+			})
+		)
 
-	// 	if (result) {
-	// 		const cancelTradeResponse = await NiceModal.show(TxBroadcastingModal, {
-	// 			transactionAction: cancelAndWithdrawTrade(Number(result.tradeId)),
-	// 			closeOnFinish: true,
-	// 		})
+		if (result) {
+			const cancelRaffleResponse = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: RafflesContract.cancelRaffleListing(
+					Number(result.raffleId)
+				),
+				closeOnFinish: true,
+			})
 
-	// 		if (cancelTradeResponse) {
-	// 			await queryClient.invalidateQueries([TRADE])
-	// 		}
+			if (cancelRaffleResponse) {
+				await queryClient.invalidateQueries([RAFFLE])
 
-	// 		if (cancelTradeResponse) {
-	// 			NiceModal.show(RemoveSuccessModal, {
-	// 				tradeId: trade.tradeId,
-	// 			})
-	// 		}
-	// 	}
-	// }
+				NiceModal.show(RemoveSuccessModal)
+			}
+		}
+	}
 
 	const { t } = useTranslation(['common', 'raffle-listings'])
 
@@ -141,7 +151,7 @@ export const RaffleHeaderActionsRow = ({
 							{t('common:edit')}
 						</Box>
 					</IconButton>
-					<IconButton disabled={removeDisabled}>
+					<IconButton disabled={removeDisabled} onClick={handleRemoveClick}>
 						<DeleteOutlineIcon />
 						<Box sx={{ ml: 9, display: ['none', 'none', 'block'] }}>
 							{t('common:remove')}
