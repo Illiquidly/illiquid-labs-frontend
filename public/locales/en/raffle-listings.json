@@ -33,7 +33,13 @@
 		"my-listings": "My Raffles",
 		"past-listings": "Past Raffles"
 	},
-	"buy-raffle-ticket": "Buy Ticket",
+	"buy-raffle-ticket": "Buy Raffle Ticket",
 	"view-all-nfts": "View all NFTs",
-	"raffle-winner": "Raffler Winner!"
+	"raffle-winner": "Raffler Winner!",
+	"listed": "Listed: {{listed}}",
+	"you-might-like": "Raffles You Might Like",
+	"raffle-tickets-remaining": "Tickets Remaining",
+	"raffle-ticket-cost": "Ticket cost",
+	"raffle-ends-in": "Ends in",
+	"raffle-start-date": "Raffle start date"
 }

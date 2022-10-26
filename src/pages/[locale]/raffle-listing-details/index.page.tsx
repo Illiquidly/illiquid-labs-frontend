@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 
 import {
-	AttributeCard,
+	AttributeCard as UIAttributeCard,
 	BlueWarning,
 	Button,
 	DescriptionCard,
@@ -20,9 +20,18 @@ import {
 	RaffleHeaderActionsRow,
 	RaffleParticipantsTable,
 	RaffleListingsYouMightLike,
+	AttributeCard,
+	AttributeName,
+	AttributeValue,
+	AttributesCard,
 } from 'components/raffle-listing-details'
 
-import { AvatarIcon, CalendarIcon, WalletIcon } from 'assets/icons/mixed'
+import {
+	AvatarIcon,
+	CalendarIcon,
+	LunaIcon,
+	WalletIcon,
+} from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -54,7 +63,6 @@ import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
 import { RafflesService, RAFFLE_STATE } from 'services/api/rafflesService'
 import CreateRaffleListing from 'components/shared/header-actions/create-raffle-listing/CreateRaffleListing'
 import { RafflesContract } from 'services/blockchain'
-import { amountConverter } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -116,6 +124,7 @@ export default function ListingDetails() {
 		{
 			enabled: !!wallet.network,
 			retry: true,
+			refetchInterval: 60 * 1000, // Refetch every minute
 		}
 	)
 
@@ -208,10 +217,7 @@ export default function ListingDetails() {
 			transactionAction: RafflesContract.purchaseRaffleTickets(
 				raffle?.raffleId,
 				ticketNumber,
-				coin && {
-					...coin,
-					amount: amountConverter.luna.blockchainValueToUserFacing(coin.amount),
-				},
+				coin,
 				cw20Coin
 			),
 			closeOnFinish: true,
@@ -276,7 +282,7 @@ export default function ListingDetails() {
 									<Row>
 										<Flex sx={{ flexWrap: 'wrap', gap: '4.3px' }}>
 											{(rafflePreview?.cw721Coin?.attributes ?? []).map(attribute => (
-												<AttributeCard
+												<UIAttributeCard
 													key={JSON.stringify(attribute)}
 													name={attribute.traitType}
 													value={attribute.value}
@@ -322,6 +328,57 @@ export default function ListingDetails() {
 											</Box>
 										</DescriptionCardItem>
 									</DescriptionCard>
+								</Row>
+
+								<Row>
+									<AttributesCard>
+										<AttributeCard>
+											<AttributeName>
+												{t('raffle-listings:raffle-start-date')}
+											</AttributeName>
+											<AttributeValue>
+												{moment(raffleInfo?.raffleOptions?.raffleStartDate ?? '').format(
+													'L'
+												)}
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>{t('raffle-listings:raffle-ends-in')}</AttributeName>
+											<AttributeValue>
+												{moment(raffleInfo?.raffleOptions?.raffleStartDate)
+													.add(raffleInfo?.raffleOptions?.raffleDuration ?? 0, 'seconds')
+													.fromNow()}
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>
+												{t('raffle-listings:raffle-ticket-cost')}
+											</AttributeName>
+											<AttributeValue>
+												{raffleInfo?.raffleTicketPrice?.coin?.amount ??
+													raffleInfo?.raffleTicketPrice?.cw20Coin?.amount ??
+													''}{' '}
+												{raffleInfo?.raffleTicketPrice?.coin?.currency ??
+													raffleInfo?.raffleTicketPrice?.cw20Coin?.currency ??
+													''}
+												<Box sx={{ ml: 8 }}>
+													<LunaIcon />
+												</Box>
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>
+												{t('raffle-listings:raffle-tickets-remaining')}
+											</AttributeName>
+											<AttributeValue>
+												{(raffleOptions?.maxParticipantNumber ?? 0) -
+													(raffle?.participants?.length ?? 0)}
+												{raffleOptions?.maxParticipantNumber
+													? `/ ${raffleOptions?.maxParticipantNumber}`
+													: ''}
+											</AttributeValue>
+										</AttributeCard>
+									</AttributesCard>
 								</Row>
 
 								{!isMyRaffle &&

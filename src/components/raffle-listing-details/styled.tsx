@@ -1,7 +1,10 @@
-import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
-import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
-import { Button } from 'components/ui'
+import {
+	Button,
+	StyledAttributeCard,
+	StyledAttributeName,
+	StyledAttributeValue,
+} from 'components/ui'
 import { Img } from 'react-image'
 import { Box, Flex, Text } from 'theme-ui'
 
@@ -182,25 +185,6 @@ export const PreviewImageContainer = styled.div`
 	justify-content: center;
 `
 
-export const ListingOverlay = styled(Flex)`
-	z-index: ${props => props.theme.zIndices.listingCardOverlay};
-	background: rgba(7, 21, 29, 0.8);
-	backdrop-filter: blur(5px);
-	position: absolute;
-	inset: 0;
-	padding-left: 64px;
-	padding-right: 64px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-weight: 500;
-	font-size: 16px;
-	line-height: 24px;
-	text-align: center;
-
-	color: ${props => props.theme.colors.gray600};
-`
-
 export const Chip = styled.div`
 	display: flex;
 	align-items: center;
@@ -232,75 +216,37 @@ export const StatusIconContainer = styled(Flex)`
 	backdrop-filter: blur(24px);
 `
 
-export const HorizontalDividerLine = styled.div`
+export const AttributesCard = styled(Box)`
 	flex: 1;
-	height: 1px;
-	background: ${props => props.theme.colors.dark500};
+	background: ${props => props.theme.colors.dark300};
+	padding: 10px;
 `
 
-export const VerticalDividerLine = styled.div`
-	flex: 1;
-	width: 1px;
-	background: ${props => props.theme.colors.dark500};
+AttributesCard.defaultProps = {
+	sx: {
+		display: 'grid',
+		gridTemplateColumns: ['1fr', '1fr 2fr', '1fr 2fr'],
+		gap: '8px',
+	},
+}
+
+export const AttributeCard = styled(StyledAttributeCard)`
+	align-items: flex-start;
+	width: 100%;
 `
 
-export const HorizontalTradeLine = () => {
-	const theme = useTheme()
-	return (
-		<Flex sx={{ mt: '10px', gap: '2px', mb: '10px', alignItems: 'center' }}>
-			<HorizontalDividerLine />
-			<Flex
-				sx={{
-					width: '20px',
-					height: '20px',
-					background: 'primary100',
-					borderWidth: '2px',
-					borderStyle: 'solid',
-					borderColor: 'dark400',
-					borderRadius: '6px',
-					alignItems: 'center',
-					justifyContent: 'center',
-					transform: 'rotate(90deg)',
-				}}
-			>
-				<TradeIcon color={theme.colors.dark400} width='12px' height='12px' />
-			</Flex>
-			<HorizontalDividerLine />
-		</Flex>
-	)
-}
+export const AttributeName = styled(StyledAttributeName)`
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 17px;
+	color: ${props => props.theme.colors.gray600};
+	text-transform: none;
+`
 
-export const VerticalTradeLine = () => {
-	const theme = useTheme()
-	return (
-		<Flex
-			sx={{
-				height: '100%',
-				flexDirection: 'column',
-				ml: '10px',
-				gap: '2px',
-				mr: '10px',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
-			<VerticalDividerLine />
-			<Flex
-				sx={{
-					width: '20px',
-					height: '20px',
-					background: 'primary100',
-					borderWidth: '2px',
-					borderStyle: 'solid',
-					borderColor: 'dark400',
-					borderRadius: '6px',
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}
-			>
-				<TradeIcon color={theme.colors.dark400} width='12px' height='12px' />
-			</Flex>
-			<VerticalDividerLine />
-		</Flex>
-	)
-}
+export const AttributeValue = styled(StyledAttributeValue)`
+	align-items: center;
+	overflow: hidden;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 19px;
+`
