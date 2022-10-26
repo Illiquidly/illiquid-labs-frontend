@@ -27,7 +27,11 @@ import {
 } from 'constants/use-query-keys'
 
 import useAddress from 'hooks/useAddress'
-import { Raffle, RafflesService } from 'services/api/rafflesService'
+import {
+	Raffle,
+	RafflesService,
+	RAFFLE_STATE,
+} from 'services/api/rafflesService'
 import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
 import { NetworkType } from 'types'
 import { GRID_TYPE } from 'components/shared/raffle/GridController'
@@ -79,9 +83,38 @@ export default function RaffleListings() {
 			}
 		)
 
-	// const statusesLabels: Array<string> = t('raffle-listings:statuses', {
-	// 	returnObjects: true,
-	// })
+	const statusesLabels: Array<string> = t('raffle-listings:statuses', {
+		returnObjects: true,
+	})
+
+	const statusOptions = [
+		{
+			label: statusesLabels[0],
+			value: JSON.stringify([RAFFLE_STATE.Started]),
+		},
+		{
+			label: statusesLabels[1],
+			value: JSON.stringify([
+				RAFFLE_STATE.Cancelled,
+				RAFFLE_STATE.Finished,
+				RAFFLE_STATE.Closed,
+				RAFFLE_STATE.Claimed,
+			]),
+		},
+		{
+			label: statusesLabels[2],
+			value: JSON.stringify([RAFFLE_STATE.Cancelled]),
+		},
+		{
+			label: statusesLabels[3],
+			value: JSON.stringify([RAFFLE_STATE.Created]),
+		},
+		{
+			label: statusesLabels[3],
+			value: JSON.stringify([RAFFLE_STATE.Closed]),
+		},
+	]
+
 	const [gridType, setGridType] = React.useState(Boolean(GRID_TYPE.SMALL))
 
 	const [search, setSearch] = React.useState('')
@@ -126,8 +159,6 @@ export default function RaffleListings() {
 		}
 	)
 
-	const statusOptions = []
-
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<Raffle[]>([])
 	React.useEffect(() => {
@@ -161,6 +192,7 @@ export default function RaffleListings() {
 			RafflesService.getAllRaffles(
 				wallet.network.name,
 				{
+					search: debouncedSearch,
 					myAddress,
 					owners:
 						listingsType === RAFFLE_LISTINGS_TYPE.MY_LISTINGS

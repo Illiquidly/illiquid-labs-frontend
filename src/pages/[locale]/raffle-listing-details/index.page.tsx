@@ -37,6 +37,7 @@ import {
 	ImageRow,
 	LayoutContainer,
 	Page,
+	TxBroadcastingModal,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
@@ -52,6 +53,8 @@ import { NetworkType } from 'types'
 import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
 import { RafflesService, RAFFLE_STATE } from 'services/api/rafflesService'
 import CreateRaffleListing from 'components/shared/header-actions/create-raffle-listing/CreateRaffleListing'
+import { RafflesContract } from 'services/blockchain'
+import { amountConverter } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -103,7 +106,11 @@ export default function ListingDetails() {
 		}
 	)
 
-	const { data: raffle, isLoading } = useQuery(
+	const {
+		data: raffle,
+		isLoading,
+		refetch,
+	} = useQuery(
 		[RAFFLE, raffleId, wallet.network],
 		async () => RafflesService.getRaffle(wallet.network.name, raffleId as string),
 		{
@@ -188,8 +195,29 @@ export default function ListingDetails() {
 					user: myAddress,
 			  })
 
-	const purchaseTicket = () => {
-		console.warn('test')
+	const purchaseTicket = async () => {
+		if (!raffle) {
+			return
+		}
+
+		const ticketNumber = 1
+
+		const { coin, cw20Coin } = raffleInfo?.raffleTicketPrice ?? {}
+
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: RafflesContract.purchaseRaffleTickets(
+				raffle?.raffleId,
+				ticketNumber,
+				coin && {
+					...coin,
+					amount: amountConverter.luna.blockchainValueToUserFacing(coin.amount),
+				},
+				cw20Coin
+			),
+			closeOnFinish: true,
+		})
+
+		refetch()
 	}
 
 	return (
@@ -227,7 +255,7 @@ export default function ListingDetails() {
 													.filter(asset => asset.cw721Coin)
 													.map(({ cw721Coin }) => cw721Coin as NFT)}
 											/>
-											<div>{t('Raffle-listings:view-all-nfts')}</div>
+											<div>{t('raffle-listings:view-all-nfts')}</div>
 										</Flex>
 									</Button>
 								</Row>
@@ -286,7 +314,7 @@ export default function ListingDetails() {
 													flex: 1,
 												}}
 											>
-												{t(`Raffle-listings:listed`, {
+												{t(`raffle-listings:listed`, {
 													listed: moment(
 														raffleInfo?.raffleOptions?.raffleStartDate ?? ''
 													).fromNow(),
@@ -306,7 +334,7 @@ export default function ListingDetails() {
 												fullWidth
 												variant='gradient'
 											>
-												<div>{t('Raffle-listings:buy-raffle-ticket')}</div>
+												<div>{t('raffle-listings:buy-raffle-ticket')}</div>
 											</Button>
 										</Row>
 									)}

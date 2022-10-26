@@ -1,15 +1,9 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { APIGetAllResponse, NetworkType } from 'types'
-import { APIPagination } from 'types/common'
+import { APIPagination, HumanCoin, HumanCw20Coin } from 'types/common'
 import { keysToCamel } from 'utils/js/keysToCamel'
-import { HumanCoin } from './tradesService'
 import { NFT } from './walletNFTsService'
-
-interface Cw20Coin {
-	amount: string
-	currency: string
-}
 
 export enum RAFFLE_STATE {
 	Closed = 'closed',
@@ -29,7 +23,7 @@ export interface Raffle {
 		owner: string
 		allAssociatedAssets: { cw721Coin?: NFT; cw1155Coin?: any }[]
 		raffleTicketPrice: {
-			cw20Coin: Cw20Coin
+			cw20Coin: HumanCw20Coin
 			coin: HumanCoin
 		}
 		numberOfTickets: number

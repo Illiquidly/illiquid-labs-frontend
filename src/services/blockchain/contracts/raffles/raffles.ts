@@ -1,6 +1,7 @@
 import { NFT } from 'services/api/walletNFTsService'
 import addresses from 'services/blockchain/addresses'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
+import { HumanCoin, HumanCw20Coin } from 'types'
 import terraUtils, {
 	amountConverter as converter,
 } from 'utils/blockchain/terraUtils'
@@ -17,16 +18,6 @@ export interface RaffleOptions {
 	rafflePreview?: number
 	raffleStartTimestamp?: number
 	raffleTimeout?: number
-}
-
-type Cw20Coin = {
-	address: string
-	amount: string | number
-}
-
-type Coin = {
-	amount: string | number
-	denom: string
 }
 
 const RAFFLE = 'raffle'
@@ -122,11 +113,11 @@ class RafflesContract extends Contract {
 		})
 	}
 
-	static async purchaseRaffleTicket(
-		raffleId,
-		ticketNumber,
-		cw20Coin?: Cw20Coin,
-		coin?: Coin
+	static async purchaseRaffleTickets(
+		raffleId: number,
+		ticketNumber: number,
+		coin?: HumanCoin,
+		cw20Coin?: HumanCw20Coin
 	): Promise<TxReceipt> {
 		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
 
@@ -138,7 +129,9 @@ class RafflesContract extends Contract {
 							message: {
 								increase_allowance: {
 									spender: raffleContractAddress,
-									amount: amountConverter.userFacingToBlockchainValue(cw20Coin.amount),
+									amount: amountConverter.userFacingToBlockchainValue(
+										+cw20Coin.amount * ticketNumber
+									),
 								},
 							},
 						},
@@ -171,6 +164,15 @@ class RafflesContract extends Contract {
 						},
 					},
 				},
+				...(coin
+					? {
+							coins: {
+								luna: amountConverter.userFacingToBlockchainValue(
+									+coin.amount * ticketNumber
+								),
+							},
+					  }
+					: {}),
 			},
 		])
 	}

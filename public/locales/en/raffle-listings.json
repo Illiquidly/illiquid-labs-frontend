@@ -17,7 +17,7 @@
 	"participants": {
 		"title": "Participants",
 		"table": {
-			"columns": ["User", "NFTs", "Tokens", "Status", "Date"]
+			"columns": ["User", "Tickets", "Date"]
 		}
 	},
 	"statuses": [
@@ -32,5 +32,8 @@
 		"all-listings": "All Raffles",
 		"my-listings": "My Raffles",
 		"past-listings": "Past Raffles"
-	}
+	},
+	"buy-raffle-ticket": "Buy Ticket",
+	"view-all-nfts": "View all NFTs",
+	"raffle-winner": "Raffler Winner!"
 }

@@ -9,6 +9,7 @@ import {
 	TableBodyRow,
 	TableBodyRowCell,
 	OverflowTip,
+	Button,
 } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -16,6 +17,7 @@ import React from 'react'
 import { Box, Flex } from 'theme-ui'
 
 import { Raffle } from 'services/api/rafflesService'
+import { ConfettiIcon } from 'assets/icons/mixed'
 
 const Title = styled.div`
 	font-style: normal;
@@ -37,8 +39,6 @@ interface RaffleParticipantsTableProps {
 	raffle?: Raffle
 }
 function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
-	// const wallet = useWallet()
-
 	const { t } = useTranslation(['common', 'raffle-listings'])
 	const columns: Array<string> = t(
 		'raffle-listings:participants.table.columns',
@@ -46,9 +46,6 @@ function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
 			returnObjects: true,
 		}
 	)
-
-	// const myAddress = useAddress()
-	// const isMyRaffle = raffle?.raffleInfo?.owner === myAddress
 
 	return (
 		<Container>
@@ -66,42 +63,49 @@ function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
 				</TableHead>
 				<TableBody>
 					{(raffle?.participants ?? []).map(raffleParticipant => {
+						const isWinner = raffleParticipant?.user === raffle?.raffleInfo?.winner
+
 						return (
 							<TableBodyRow key={raffleParticipant.id}>
 								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
-									<Flex
-										sx={{
-											maxWidth: '354px',
-											flex: 1,
-											flexDirection: 'column',
-										}}
-									>
-										<OverflowTip>
-											<div>{raffleParticipant?.owner ?? ''}</div>
-										</OverflowTip>
-									</Flex>
+									<OverflowTip>
+										<div>{raffleParticipant?.user ?? ''}</div>
+									</OverflowTip>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex
 										sx={{
-											flex: 1,
-											maxWidth: '144px',
+											justifyContent: 'flex-start',
+										}}
+									>
+										{raffleParticipant?.ticketNumber ?? ''}
+									</Flex>
+								</TableBodyRowCell>
+
+								<TableBodyRowCell>
+									<Flex
+										sx={{
 											justifyContent: 'flex-start',
 										}}
 									/>
 								</TableBodyRowCell>
-
-								<TableBodyRowCell
-									onClick={e => {
-										e.stopPropagation()
-										e.preventDefault()
-									}}
-								>
+								<TableBodyRowCell>
 									<Flex
 										sx={{
 											gap: '12px',
+											justifyContent: 'flex-end',
+											minWidth: '160px',
 										}}
-									/>
+									>
+										{isWinner && (
+											<Button sx={{ pointerEvents: 'none' }} variant='primary'>
+												<Flex sx={{ mr: 10 }}>
+													<ConfettiIcon />
+												</Flex>
+												{t('raffle-listings:raffle-winner')}
+											</Button>
+										)}
+									</Flex>
 								</TableBodyRowCell>
 							</TableBodyRow>
 						)
