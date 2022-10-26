@@ -10,6 +10,7 @@ export interface ModalProps {
 	isOverHeader?: boolean
 	onCloseModal: () => void
 	sx?: ThemeUIStyleObject
+	disableDismissOnOutsideClick?: boolean
 }
 
 const Modal: React.FunctionComponent<ModalProps> = ({
@@ -17,9 +18,12 @@ const Modal: React.FunctionComponent<ModalProps> = ({
 	onCloseModal,
 	children,
 	isOverHeader,
+	disableDismissOnOutsideClick = false,
 }) => {
 	const containerRef = useRef(null)
-	useOnClickOutside(containerRef, onCloseModal)
+	useOnClickOutside(containerRef, () =>
+		disableDismissOnOutsideClick ? {} : onCloseModal()
+	)
 
 	if (!isOpen) return null
 

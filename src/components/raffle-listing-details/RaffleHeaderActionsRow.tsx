@@ -23,10 +23,12 @@ import { TxBroadcastingModal } from 'components/shared'
 import { RafflesContract } from 'services/blockchain'
 import { useQueryClient } from '@tanstack/react-query'
 import { RAFFLE } from 'constants/use-query-keys'
+import moment from 'moment'
 import RemoveModal, {
 	RemoveModalProps,
 } from './modals/remove-modal/RemoveModal'
 import RemoveSuccessModal from './modals/remove-success-modal/RemoveSuccessModal'
+import EditModal, { EditModalResult } from './modals/edit-modal/EditModal'
 
 interface RaffleHeaderActionsRowProps {
 	raffle?: Raffle
@@ -36,6 +38,7 @@ export const RaffleHeaderActionsRow = ({
 	raffle,
 }: RaffleHeaderActionsRowProps) => {
 	const { raffleInfo } = raffle ?? {}
+	const { raffleOptions } = raffleInfo ?? {}
 
 	const router = useRouter()
 
@@ -55,33 +58,55 @@ export const RaffleHeaderActionsRow = ({
 
 	const isMyRaffleListing = raffleInfo?.owner === myAddress
 
-	// const handleEditClick = async () => {
-	// if (!raffle) {
-	// 	return
-	// }
-	// const initialComment = raffleOptions?.comment ?? ''
-	// const [, result] = await asyncAction<EditModalResult>(
-	// 	NiceModal.show(EditModal, {
-	// 		initialComment,
-	// 	})
-	// )
-	// if (result) {
-	// 	const { newTokensWanted, newNFTsWanted, comment } =
-	// 		fromUpdateTradeToBlockchain(result)
-	// 	const response = await NiceModal.show(TxBroadcastingModal, {
-	// 		transactionAction: updateTrade(
-	// 			trade.tradeId,
-	// 			comment,
-	// 			newTokensWanted,
-	// 			newNFTsWanted
-	// 		),
-	// 		closeOnFinish: true,
-	// 	})
-	// 	if (response) {
-	// 		await queryClient.invalidateQueries([TRADE])
-	// 	}
-	// }
-	// }
+	const handleEditClick = async () => {
+		if (!raffle) {
+			return
+		}
+		const initialComment = raffleOptions?.comment ?? ''
+		const initialEndDate = moment(raffleOptions?.raffleStartDate).toDate()
+		const initialEndTime = moment(raffleOptions?.raffleStartDate).toDate()
+		const initialTicketSupply = `${raffleOptions?.maxParticipantNumber ?? 0}`
+
+		const initialTicketPrice = `${
+			raffle?.raffleInfo?.raffleTicketPrice?.coin?.amount ??
+			raffle?.raffleInfo?.raffleTicketPrice?.cw20Coin?.amount
+		}`
+
+		const initialTicketPriceCurrency = 'Luna'
+
+		const [, result] = await asyncAction<EditModalResult>(
+			NiceModal.show(EditModal, {
+				initialComment,
+				initialEndDate,
+				initialEndTime,
+				initialTicketSupply,
+				initialTicketPrice,
+				initialTicketPriceCurrency,
+			})
+		)
+		if (result) {
+			const { endDate, endTime, ticketSupply } = result
+			const now = moment()
+
+			const end = moment(
+				`${moment(endDate).format('YYYY-MM-DD')} ${moment(endTime).format('HH:mm')}`
+			)
+
+			const duration = moment.duration(end.diff(now))
+
+			const response = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: RafflesContract.modifyRaffleListing(raffle.raffleId, {
+					maxParticipantNumber: +(ticketSupply ?? 0),
+					raffleDuration: Math.floor(duration.asSeconds()),
+				}),
+				closeOnFinish: true,
+			})
+
+			if (response) {
+				await queryClient.invalidateQueries([RAFFLE])
+			}
+		}
+	}
 
 	const handleRemoveClick = async () => {
 		if (!raffle) {
@@ -145,7 +170,7 @@ export const RaffleHeaderActionsRow = ({
 						justifyContent: 'flex-end',
 					}}
 				>
-					<IconButton disabled={editDisabled}>
+					<IconButton disabled={editDisabled} onClick={handleEditClick}>
 						<PenOutlineIcon />
 						<Box sx={{ ml: 9, display: ['none', 'none', 'block'] }}>
 							{t('common:edit')}

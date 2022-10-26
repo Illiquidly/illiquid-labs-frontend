@@ -147,16 +147,15 @@ export default function ListingDetails() {
 
 	const { raffleInfo } = raffle ?? {}
 	const { raffleOptions } = raffleInfo ?? {}
-	const { rafflePreview } = raffleOptions ?? {}
 
-	const [RafflePreview, setRafflePreview] = React.useState<{
+	const [rafflePreview, setRafflePreview] = React.useState<{
 		cw721Coin?: NFT
 		cw1155Coin?: any
 	} | null>(null)
 
 	React.useEffect(() => {
 		if (raffle) {
-			setRafflePreview(rafflePreview ?? null)
+			setRafflePreview(raffleOptions?.rafflePreview ?? null)
 		}
 	}, [raffle])
 
@@ -247,8 +246,8 @@ export default function ListingDetails() {
 						>
 							<Box sx={{ flex: [1, 1, 'unset'], width: ['unset', 'unset', '491px'] }}>
 								<ImageRow
-									nft={RafflePreview?.cw721Coin}
-									imageUrl={RafflePreview?.cw721Coin?.imageUrl ?? []}
+									nft={rafflePreview?.cw721Coin}
+									imageUrl={rafflePreview?.cw721Coin?.imageUrl ?? []}
 									onLike={toggleLike}
 									liked={liked}
 								/>
@@ -403,7 +402,7 @@ export default function ListingDetails() {
 						</Row>
 						<RaffleListingsYouMightLike
 							search={
-								RafflePreview?.cw721Coin?.collectionName ??
+								rafflePreview?.cw721Coin?.collectionName ??
 								sample(verifiedCollections ?? [])?.collectionName ??
 								''
 							}

@@ -49,5 +49,19 @@
 		"removal-successful": "Your listing has been successfully removed!",
 		"create-listing-suggestion": "Feel free to create another listing at any time",
 		"back-to-listing": "Back to Listing"
+	},
+	"edit-modal": {
+		"title": "Edit listing",
+		"discard-changes": "Discard Changes",
+		"update-listing": "Update Listing",
+		"write-comment": "Write a comment",
+		"tokens-placeholder": "Enter amount for {{token}}",
+		"end-date-label": "End date",
+		"end-time-label": "End time",
+		"enter-time": "Enter time",
+		"enter-date": "DD/MM/YY",
+		"ticket-supply-label": "Ticket supply",
+		"ticket-price-label": "Ticket price",
+		"enter-ticket-placeholder": "Enter ticket"
 	}
 }
