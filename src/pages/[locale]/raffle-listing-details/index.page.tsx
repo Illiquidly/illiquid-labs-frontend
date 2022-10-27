@@ -66,6 +66,9 @@ import {
 import { RafflesService, RAFFLE_STATE } from 'services/api/rafflesService'
 import CreateRaffleListing from 'components/shared/header-actions/create-raffle-listing/CreateRaffleListing'
 import { RafflesContract } from 'services/blockchain'
+import BuyTicketModal, {
+	BuyTicketModalResult,
+} from 'components/raffle-listing-details/modals/buy-ticket-modal/BuyTicketModal'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -203,21 +206,25 @@ export default function ListingDetails() {
 			return
 		}
 
-		const ticketNumber = 1
+		const [, result] = await asyncAction<BuyTicketModalResult>(
+			NiceModal.show(BuyTicketModal)
+		)
 
-		const { coin, cw20Coin } = raffleInfo?.raffleTicketPrice ?? {}
+		if (result) {
+			const { coin, cw20Coin } = raffleInfo?.raffleTicketPrice ?? {}
 
-		await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: RafflesContract.purchaseRaffleTickets(
-				raffle?.raffleId,
-				ticketNumber,
-				coin,
-				cw20Coin
-			),
-			closeOnFinish: true,
-		})
+			await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: RafflesContract.purchaseRaffleTickets(
+					raffle?.raffleId,
+					+result.ticketNumber,
+					coin,
+					cw20Coin
+				),
+				closeOnFinish: true,
+			})
 
-		refetch()
+			refetch()
+		}
 	}
 
 	const drawTicket = async () => {

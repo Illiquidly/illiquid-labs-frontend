@@ -27,3 +27,13 @@ export const RaffleDetailsStepSchema = yup.object().shape({
 		.typeError('trade-form-steps-token-must-be-number')
 		.positive('trade-forms-steps-token-must-be-positive'),
 })
+
+export const RaffleBuyTicketSchema = yup.object().shape({
+	ticketNumber: yup
+		.number()
+		.transform((value: string, originalValue: string) =>
+			originalValue.trim() === '' ? null : value
+		)
+		.typeError('trade-form-steps-token-must-be-number')
+		.positive('trade-forms-steps-token-must-be-positive'),
+})

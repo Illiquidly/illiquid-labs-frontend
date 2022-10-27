@@ -64,5 +64,13 @@
 		"ticket-supply-label": "Ticket supply",
 		"ticket-price-label": "Ticket price",
 		"enter-ticket-placeholder": "Enter ticket"
+	},
+	"buy-ticket-modal": {
+		"title": "",
+		"selecting-amount-of-tickets": "Selecting amount of tickets",
+		"feel-free-to-add-amount-of-tickets": "Feel free to add amount of tickets you want",
+		"ticket-number": "Amount of tickets",
+		"enter-amount": "Enter amount",
+		"buy-raffle-ticket": "Buy Raffle Ticket"
 	}
 }
