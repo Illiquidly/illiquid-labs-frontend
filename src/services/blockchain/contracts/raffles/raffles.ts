@@ -85,7 +85,9 @@ class RafflesContract extends Contract {
 
 	static async modifyRaffleListing(
 		raffleId: number,
-		raffleOptions: RaffleOptions
+		raffleOptions: RaffleOptions,
+		ticketPriceAmount: number,
+		ticketPriceCurrency: string
 	) {
 		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
 
@@ -95,6 +97,12 @@ class RafflesContract extends Contract {
 				modify_raffle: {
 					raffle_id: raffleId,
 					raffle_options: keysToSnake(raffleOptions),
+					raffle_ticket_price: {
+						coin: {
+							amount: amountConverter.userFacingToBlockchainValue(ticketPriceAmount),
+							denom: getDenomForCurrency(ticketPriceCurrency),
+						},
+					},
 				},
 			},
 		})

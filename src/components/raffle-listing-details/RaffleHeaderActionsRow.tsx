@@ -45,14 +45,12 @@ export const RaffleHeaderActionsRow = ({
 	const queryClient = useQueryClient()
 
 	const editDisabled =
-		[RAFFLE_STATE.Cancelled].includes(
-			(raffleInfo?.state as RAFFLE_STATE) ?? RAFFLE_STATE.Cancelled
-		) || (raffle?.participants ?? []).length > 0
+		[RAFFLE_STATE.Cancelled].includes(raffleInfo?.state as RAFFLE_STATE) ||
+		(raffle?.participants ?? []).length > 0
 
 	const removeDisabled =
-		[RAFFLE_STATE.Cancelled].includes(
-			(raffleInfo?.state as RAFFLE_STATE) ?? RAFFLE_STATE.Cancelled
-		) || (raffle?.participants ?? []).length > 0
+		[RAFFLE_STATE.Cancelled].includes(raffleInfo?.state as RAFFLE_STATE) ||
+		(raffle?.participants ?? []).length > 0
 
 	const myAddress = useAddress()
 
@@ -62,9 +60,17 @@ export const RaffleHeaderActionsRow = ({
 		if (!raffle) {
 			return
 		}
+
+		const initialEnd = moment(raffleOptions?.raffleStartDate).add(
+			raffleOptions?.raffleDuration ?? 0,
+			'seconds'
+		)
+
+		const startDate = moment(raffleOptions?.raffleStartDate).toDate()
+
 		const initialComment = raffleOptions?.comment ?? ''
-		const initialEndDate = moment(raffleOptions?.raffleStartDate).toDate()
-		const initialEndTime = moment(raffleOptions?.raffleStartDate).toDate()
+		const initialEndDate = initialEnd.toDate()
+		const initialEndTime = initialEnd.toDate()
 		const initialTicketSupply = `${raffleOptions?.maxParticipantNumber ?? 0}`
 
 		const initialTicketPrice = `${
@@ -85,20 +91,31 @@ export const RaffleHeaderActionsRow = ({
 			})
 		)
 		if (result) {
-			const { endDate, endTime, ticketSupply } = result
-			const now = moment()
+			const {
+				endDate,
+				endTime,
+				ticketSupply,
+				comment,
+				ticketPriceCurrency = 'Luna',
+			} = result
 
 			const end = moment(
 				`${moment(endDate).format('YYYY-MM-DD')} ${moment(endTime).format('HH:mm')}`
 			)
 
-			const duration = moment.duration(end.diff(now))
+			const duration = moment.duration(end.diff(startDate))
 
 			const response = await NiceModal.show(TxBroadcastingModal, {
-				transactionAction: RafflesContract.modifyRaffleListing(raffle.raffleId, {
-					maxParticipantNumber: +(ticketSupply ?? 0),
-					raffleDuration: Math.floor(duration.asSeconds()),
-				}),
+				transactionAction: RafflesContract.modifyRaffleListing(
+					raffle.raffleId,
+					{
+						maxParticipantNumber: +(ticketSupply ?? 0),
+						raffleDuration: Math.floor(duration.asSeconds()),
+						comment,
+					},
+					+initialTicketPrice,
+					ticketPriceCurrency
+				),
 				closeOnFinish: true,
 			})
 
