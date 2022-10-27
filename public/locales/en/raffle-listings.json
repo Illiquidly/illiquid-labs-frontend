@@ -29,6 +29,7 @@
 		"past-listings": "Past Raffles"
 	},
 	"buy-raffle-ticket": "Buy Raffle Ticket",
+	"draw-raffle-ticket": "Draw Raffle Ticket",
 	"view-all-nfts": "View all NFTs",
 	"raffle-winner": "Raffler Winner!",
 	"listed": "Listed: {{listed}}",

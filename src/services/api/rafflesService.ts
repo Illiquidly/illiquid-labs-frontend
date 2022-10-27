@@ -14,6 +14,14 @@ export enum RAFFLE_STATE {
 	Cancelled = 'cancelled',
 }
 
+export interface RaffleParticipant {
+	id: number
+	raffleId: number
+	user: string
+	ticketNumber: number
+	updatedAt: string
+	raffle: string
+}
 export interface Raffle {
 	network: NetworkType
 	raffleId: number
@@ -42,15 +50,7 @@ export interface Raffle {
 			}
 		}
 	}
-	participants?: [
-		{
-			id: number
-			raffleId: number
-			user: string
-			ticketNumber: number
-			raffle: string
-		}
-	]
+	participants?: RaffleParticipant[]
 }
 
 type RafflesResponse = APIGetAllResponse<Raffle>

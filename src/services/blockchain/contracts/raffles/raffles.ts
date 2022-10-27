@@ -6,7 +6,7 @@ import terraUtils, {
 	amountConverter as converter,
 } from 'utils/blockchain/terraUtils'
 import { keysToSnake } from 'utils/js/keysToSnake'
-import { Contract } from '../shared'
+import { Contract, getDenomForCurrency } from '../shared'
 
 const amountConverter = converter.ust
 
@@ -100,7 +100,7 @@ class RafflesContract extends Contract {
 		})
 	}
 
-	static async claimRaffle(raffleId: number) {
+	static async drawRaffle(raffleId: number) {
 		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
 
 		return terraUtils.postTransaction({
@@ -157,7 +157,7 @@ class RafflesContract extends Contract {
 								? {
 										coin: {
 											amount: amountConverter.userFacingToBlockchainValue(coin.amount),
-											denom: coin.denom,
+											denom: getDenomForCurrency(coin.currency),
 										},
 								  }
 								: {}),

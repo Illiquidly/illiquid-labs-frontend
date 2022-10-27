@@ -24,7 +24,6 @@ export interface HumanCw20Coin {
 export interface HumanCoin {
 	amount: string
 	currency: string
-	denom: string
 }
 
 export type Coin = {

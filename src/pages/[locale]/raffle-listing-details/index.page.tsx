@@ -225,6 +225,25 @@ export default function ListingDetails() {
 		refetch()
 	}
 
+	const drawTicket = async () => {
+		if (!raffle) {
+			return
+		}
+
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: RafflesContract.drawRaffle(raffle?.raffleId),
+			closeOnFinish: true,
+		})
+
+		refetch()
+	}
+
+	const ticketsSold =
+		(raffleOptions?.maxParticipantNumber ?? 0) -
+		(raffle?.participants ?? [])
+			.map(p => p.ticketNumber)
+			.reduce((a, b) => a + b, 0)
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -370,8 +389,7 @@ export default function ListingDetails() {
 												{t('raffle-listings:raffle-tickets-remaining')}
 											</AttributeName>
 											<AttributeValue>
-												{(raffleOptions?.maxParticipantNumber ?? 0) -
-													(raffle?.participants?.length ?? 0)}
+												{ticketsSold}
 												{raffleOptions?.maxParticipantNumber
 													? `/ ${raffleOptions?.maxParticipantNumber}`
 													: ''}
@@ -382,6 +400,8 @@ export default function ListingDetails() {
 
 								{!isMyRaffle &&
 									raffle &&
+									ticketsSold <
+										(raffleOptions?.maxParticipantNumber ?? Number.POSITIVE_INFINITY) &&
 									[RAFFLE_STATE.Started].includes(raffleInfo?.state as RAFFLE_STATE) && (
 										<Row>
 											<Button
@@ -391,6 +411,22 @@ export default function ListingDetails() {
 												variant='gradient'
 											>
 												<div>{t('raffle-listings:buy-raffle-ticket')}</div>
+											</Button>
+										</Row>
+									)}
+
+								{raffle &&
+									[RAFFLE_STATE.Finished].includes(raffleInfo?.state as RAFFLE_STATE) &&
+									(raffleInfo?.winner === myAddress ||
+										(raffle.participants ?? []).some(p => p.user === myAddress)) && (
+										<Row>
+											<Button
+												size='extraLarge'
+												onClick={drawTicket}
+												fullWidth
+												variant='gradient'
+											>
+												<div>{t('raffle-listings:draw-raffle-ticket')}</div>
 											</Button>
 										</Row>
 									)}

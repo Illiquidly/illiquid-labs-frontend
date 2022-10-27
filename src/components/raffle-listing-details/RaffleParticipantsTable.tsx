@@ -18,6 +18,7 @@ import { Box, Flex } from 'theme-ui'
 
 import { Raffle } from 'services/api/rafflesService'
 import { ConfettiIcon } from 'assets/icons/mixed'
+import moment from 'moment'
 
 const Title = styled.div`
 	font-style: normal;
@@ -87,7 +88,9 @@ function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
 										sx={{
 											justifyContent: 'flex-start',
 										}}
-									/>
+									>
+										{moment(raffleParticipant?.updatedAt).toLocaleString()}
+									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex
