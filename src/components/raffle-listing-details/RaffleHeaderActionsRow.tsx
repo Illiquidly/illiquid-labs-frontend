@@ -96,6 +96,7 @@ export const RaffleHeaderActionsRow = ({
 				endTime,
 				ticketSupply,
 				comment,
+				ticketPrice,
 				ticketPriceCurrency = 'Luna',
 			} = result
 
@@ -113,7 +114,7 @@ export const RaffleHeaderActionsRow = ({
 						raffleDuration: Math.floor(duration.asSeconds()),
 						comment,
 					},
-					+initialTicketPrice,
+					Number(ticketPrice),
 					ticketPriceCurrency
 				),
 				closeOnFinish: true,
