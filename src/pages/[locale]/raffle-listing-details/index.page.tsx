@@ -59,7 +59,10 @@ import {
 	VERIFIED_COLLECTIONS,
 } from 'constants/use-query-keys'
 import { NetworkType } from 'types'
-import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
+import {
+	FavoriteRaffleResponse,
+	FavoriteRafflesService,
+} from 'services/api/favoriteRafflesService'
 import { RafflesService, RAFFLE_STATE } from 'services/api/rafflesService'
 import CreateRaffleListing from 'components/shared/header-actions/create-raffle-listing/CreateRaffleListing'
 import { RafflesContract } from 'services/blockchain'
@@ -80,27 +83,23 @@ export default function ListingDetails() {
 
 	const { raffleId } = route.query ?? {}
 
+	const updateFavoriteRaffleState = (data: FavoriteRaffleResponse) =>
+		queryClient.setQueryData([FAVORITES_RAFFLES, wallet.network], (old: any) => [
+			...old.filter(o => o.id !== data.id),
+			data,
+		])
+
 	const { mutate: addFavoriteRaffle } = useMutation(
 		FavoriteRafflesService.addFavoriteRaffle,
 		{
-			onSuccess: data => {
-				queryClient.setQueryData(
-					[FAVORITES_RAFFLES, wallet.network],
-					(old: any) => [...old.filter(o => o.id !== data.id), data]
-				)
-			},
+			onSuccess: updateFavoriteRaffleState,
 		}
 	)
 
 	const { mutate: removeFavoriteRaffle } = useMutation(
 		FavoriteRafflesService.removeFavoriteRaffle,
 		{
-			onSuccess: data => {
-				queryClient.setQueryData(
-					[FAVORITES_RAFFLES, wallet.network],
-					(old: any) => [...old.filter(o => o.id !== data.id), data]
-				)
-			},
+			onSuccess: updateFavoriteRaffleState,
 		}
 	)
 
@@ -191,17 +190,13 @@ export default function ListingDetails() {
 	)
 
 	const toggleLike = () =>
-		liked
-			? removeFavoriteRaffle({
-					network: wallet.network.name as NetworkType,
-					raffleId: [Number(raffleId)],
-					user: myAddress,
-			  })
-			: addFavoriteRaffle({
-					network: wallet.network.name as NetworkType,
-					raffleId: [Number(raffleId)],
-					user: myAddress,
-			  })
+		({ addFavoriteRaffle, removeFavoriteRaffle }[
+			liked ? 'removeFavoriteRaffle' : 'addFavoriteRaffle'
+		]({
+			network: wallet.network.name as NetworkType,
+			raffleId: [Number(raffleId)],
+			user: myAddress,
+		}))
 
 	const purchaseTicket = async () => {
 		if (!raffle) {

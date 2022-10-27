@@ -66,27 +66,23 @@ function GridController({
 
 	const queryClient = useQueryClient()
 
+	const updateFavoriteTradeState = data =>
+		queryClient.setQueryData([FAVORITES_TRADES, wallet.network], (old: any) => [
+			...old.filter(o => o.id !== data.id),
+			data,
+		])
+
 	const { mutate: addFavoriteTrade } = useMutation(
 		FavoriteTradesService.addFavoriteTrade,
 		{
-			onSuccess: data => {
-				queryClient.setQueryData([FAVORITES_TRADES, wallet.network], (old: any) => [
-					...old.filter(o => o.id !== data.id),
-					data,
-				])
-			},
+			onSuccess: updateFavoriteTradeState,
 		}
 	)
 
 	const { mutate: removeFavoriteTrade } = useMutation(
 		FavoriteTradesService.removeFavoriteTrade,
 		{
-			onSuccess: data => {
-				queryClient.setQueryData([FAVORITES_TRADES, wallet.network], (old: any) => [
-					...old.filter(o => o.id !== data.id),
-					data,
-				])
-			},
+			onSuccess: updateFavoriteTradeState,
 		}
 	)
 
@@ -127,17 +123,13 @@ function GridController({
 					)
 
 					const toggleLike = () =>
-						liked
-							? removeFavoriteTrade({
-									network: wallet.network.name as NetworkType,
-									tradeId: [tradeId],
-									user: myAddress,
-							  })
-							: addFavoriteTrade({
-									network: wallet.network.name as NetworkType,
-									tradeId: [tradeId],
-									user: myAddress,
-							  })
+						({ addFavoriteTrade, removeFavoriteTrade }[
+							liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
+						]({
+							network: wallet.network.name as NetworkType,
+							tradeId: [Number(tradeId)],
+							user: myAddress,
+						}))
 
 					return (
 						<Box key={tradeId}>

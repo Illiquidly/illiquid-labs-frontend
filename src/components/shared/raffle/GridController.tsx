@@ -67,27 +67,23 @@ function GridController({
 
 	const queryClient = useQueryClient()
 
+	const updateFavoriteRaffleState = (data: FavoriteRaffleResponse) =>
+		queryClient.setQueryData([FAVORITES_RAFFLES, wallet.network], (old: any) => [
+			...old.filter(o => o.id !== data.id),
+			data,
+		])
+
 	const { mutate: addFavoriteRaffle } = useMutation(
 		FavoriteRafflesService.addFavoriteRaffle,
 		{
-			onSuccess: data => {
-				queryClient.setQueryData(
-					[FAVORITES_RAFFLES, wallet.network],
-					(old: any) => [...old.filter(o => o.id !== data.id), data]
-				)
-			},
+			onSuccess: updateFavoriteRaffleState,
 		}
 	)
 
 	const { mutate: removeFavoriteRaffle } = useMutation(
 		FavoriteRafflesService.removeFavoriteRaffle,
 		{
-			onSuccess: data => {
-				queryClient.setQueryData(
-					[FAVORITES_RAFFLES, wallet.network],
-					(old: any) => [...old.filter(o => o.id !== data.id), data]
-				)
-			},
+			onSuccess: updateFavoriteRaffleState,
 		}
 	)
 
@@ -125,17 +121,13 @@ function GridController({
 					)
 
 					const toggleLike = () =>
-						liked
-							? removeFavoriteRaffle({
-									network: wallet.network.name as NetworkType,
-									raffleId: [raffleId],
-									user: myAddress,
-							  })
-							: addFavoriteRaffle({
-									network: wallet.network.name as NetworkType,
-									raffleId: [raffleId],
-									user: myAddress,
-							  })
+						({ addFavoriteRaffle, removeFavoriteRaffle }[
+							liked ? 'removeFavoriteRaffle' : 'addFavoriteRaffle'
+						]({
+							network: wallet.network.name as NetworkType,
+							raffleId: [Number(raffleId)],
+							user: myAddress,
+						}))
 
 					return (
 						<Box key={raffleId}>
