@@ -363,7 +363,20 @@ export default function ListingDetails() {
 											</AttributeValue>
 										</AttributeCard>
 										<AttributeCard>
-											<AttributeName>{t('raffle-listings:raffle-ends-in')}</AttributeName>
+											<AttributeName>
+												{t(
+													`raffle-listings:${
+														moment().isAfter(
+															moment(raffleInfo?.raffleOptions?.raffleStartDate).add(
+																raffleInfo?.raffleOptions?.raffleDuration ?? 0,
+																'seconds'
+															)
+														)
+															? 'raffle-ended'
+															: 'raffle-ends-in'
+													}`
+												)}
+											</AttributeName>
 											<AttributeValue>
 												{moment(raffleInfo?.raffleOptions?.raffleStartDate)
 													.add(raffleInfo?.raffleOptions?.raffleDuration ?? 0, 'seconds')

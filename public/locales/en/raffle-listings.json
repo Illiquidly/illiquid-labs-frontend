@@ -2,7 +2,10 @@
 	"item-not-available": "This item is no longer available",
 	"back-to-listings": "Back to Listings",
 	"back-to-listing": "Back to Listing",
-
+	"price-ticket": "Price/Ticket",
+	"remaining": "Remaining",
+	"ends-in": "Ends in",
+	"ended": "Ended",
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
@@ -37,6 +40,7 @@
 	"raffle-tickets-remaining": "Tickets Remaining",
 	"raffle-ticket-cost": "Ticket cost",
 	"raffle-ends-in": "Ends in",
+	"raffle-ended": "Ended",
 	"raffle-start-date": "Raffle start date",
 	"remove-modal": {
 		"title": "Remove listing",

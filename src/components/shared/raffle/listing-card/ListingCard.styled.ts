@@ -1,4 +1,9 @@
 import styled from '@emotion/styled'
+import {
+	StyledAttributeCard,
+	StyledAttributeName,
+	StyledAttributeValue,
+} from 'components/ui'
 import { Img } from 'react-image'
 import { Box, Flex, Text } from 'theme-ui'
 
@@ -226,4 +231,27 @@ export const MoreChip = styled(Box)`
 	font-weight: 500;
 	font-size: 12px;
 	line-height: 18px;
+`
+
+export const AttributeCard = styled(StyledAttributeCard)`
+	align-items: flex-start;
+	width: 100%;
+	display: flex;
+	padding: 8px 12px;
+`
+
+export const AttributeName = styled(StyledAttributeName)`
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 17px;
+	color: ${props => props.theme.colors.gray600};
+	text-transform: none;
+`
+
+export const AttributeValue = styled(StyledAttributeValue)`
+	align-items: center;
+	overflow: hidden;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 19px;
 `

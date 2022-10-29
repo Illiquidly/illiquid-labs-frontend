@@ -1,5 +1,6 @@
 // Footer.stories.ts|tsx
 
+import moment from 'moment'
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import ListingCard from './ListingCard'
@@ -32,6 +33,11 @@ export const RaffleListingCardExample = () => {
 					]}
 					name='Fox #7561'
 					collectionName='Mutant Ape Yacht Club'
+					ticketCurrency='Luna'
+					ticketPrice='10'
+					ticketsSold={10}
+					ticketNumber={100}
+					endsIn={moment().add(1, 'day').toDate()}
 				/>
 			</Flex>
 		</Flex>

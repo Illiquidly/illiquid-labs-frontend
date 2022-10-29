@@ -2,6 +2,7 @@ import { VerifiedIcon } from 'assets/icons/16pt'
 import { HeartFilledIcon, HeartIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
+import moment from 'moment'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Collection, NFT } from 'services/api/walletNFTsService'
@@ -9,6 +10,9 @@ import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../../../ui/overflow-tip'
 
 import {
+	AttributeCard,
+	AttributeName,
+	AttributeValue,
 	BottomImageArea,
 	CardContainer,
 	DescriptionSection,
@@ -43,11 +47,11 @@ interface ListingCardProps extends NFT {
 	lookingForItemsLimit?: number
 	previewItemsLimit?: number
 	// winner?: string
-	// raffleDuration?: string
-	// ticketPrice?: string
-	// ticketCurrency?: string
-	// ticketNumber?: number
-	// ticketSupply?: number
+	ticketPrice: string
+	ticketCurrency: string
+	ticketNumber: number
+	ticketsSold: number
+	endsIn: Date
 	// withdrawn?: boolean
 }
 
@@ -59,10 +63,15 @@ function ListingCard({
 	onLike,
 	disabled,
 	previewItemsLimit = 4,
+	ticketPrice,
+	ticketCurrency,
+	ticketNumber,
+	ticketsSold,
+	endsIn,
 	...NFTProps
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
-	const { t } = useTranslation('common')
+	const { t } = useTranslation(['common', 'raffle-listings'])
 
 	return (
 		<Box sx={{ overflow: 'hidden' }}>
@@ -145,6 +154,28 @@ function ListingCard({
 								</Flex>
 							</Flex>
 						</DescriptionSection>
+						<Flex sx={{ flexDirection: 'column', gap: '6px' }}>
+							<AttributeCard>
+								<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
+									<Flex sx={{ flexDirection: 'column' }}>
+										<AttributeName>{t('raffle-listings:price-ticket')}</AttributeName>
+										<AttributeValue>{`${ticketPrice} ${ticketCurrency}`}</AttributeValue>
+									</Flex>
+									<Flex sx={{ flexDirection: 'column' }}>
+										<AttributeName>{t('raffle-listings:remaining')}</AttributeName>
+										<AttributeValue>{`${ticketsSold} / ${ticketNumber}`}</AttributeValue>
+									</Flex>
+								</Flex>
+							</AttributeCard>
+							<AttributeCard>
+								<AttributeName>
+									{t(
+										`raffle-listings:${moment().isAfter(endsIn) ? 'ended' : 'ends-in'}`
+									)}
+								</AttributeName>
+								<AttributeValue>{moment(endsIn).fromNow()}</AttributeValue>
+							</AttributeCard>
+						</Flex>
 					</CardContainer>
 				</a>
 			</Link>

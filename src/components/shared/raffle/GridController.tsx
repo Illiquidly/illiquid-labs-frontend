@@ -16,6 +16,7 @@ import {
 	FavoriteRaffleResponse,
 	FavoriteRafflesService,
 } from 'services/api/favoriteRafflesService'
+import moment from 'moment'
 import { ListingCard } from './listing-card'
 
 export enum GRID_TYPE {
@@ -111,7 +112,11 @@ function GridController({
 			}}
 		>
 			{raffles.map(
-				({ raffleId, raffleInfo: { raffleOptions, allAssociatedAssets } }) => {
+				({
+					raffleId,
+					participants,
+					raffleInfo: { raffleTicketPrice, raffleOptions, allAssociatedAssets },
+				}) => {
 					const liked = Boolean(
 						(favoriteRaffles ?? []).find(
 							favoriteRaffle =>
@@ -128,6 +133,10 @@ function GridController({
 							raffleId: [Number(raffleId)],
 							user: myAddress,
 						}))
+
+					const ticketsSold =
+						(raffleOptions?.maxParticipantNumber ?? 0) -
+						(participants ?? []).map(p => p.ticketNumber).reduce((a, b) => a + b, 0)
 
 					return (
 						<Box key={raffleId}>
@@ -154,6 +163,20 @@ function GridController({
 								collectionName={
 									raffleOptions?.rafflePreview?.cw721Coin?.collectionName || ''
 								}
+								ticketPrice={
+									raffleTicketPrice?.coin?.amount ??
+									raffleTicketPrice?.cw20Coin?.amount ??
+									0
+								}
+								ticketCurrency={
+									raffleTicketPrice?.coin?.currency ??
+									raffleTicketPrice?.cw20Coin?.currency
+								}
+								ticketNumber={raffleOptions.maxParticipantNumber}
+								ticketsSold={ticketsSold}
+								endsIn={moment(raffleOptions?.raffleStartDate)
+									.add(raffleOptions?.raffleDuration ?? 0, 'seconds')
+									.toDate()}
 							/>
 						</Box>
 					)
