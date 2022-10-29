@@ -87,6 +87,7 @@ function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
 									<Flex
 										sx={{
 											justifyContent: 'flex-start',
+											minWidth: '160px',
 										}}
 									>
 										{moment(raffleParticipant?.updatedAt).toLocaleString()}
