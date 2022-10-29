@@ -156,7 +156,7 @@ export default function ListingDetails() {
 	} | null>(null)
 
 	React.useEffect(() => {
-		if (raffle) {
+		if (raffle && !rafflePreview) {
 			setRafflePreview(raffleOptions?.rafflePreview ?? null)
 		}
 	}, [raffle])
@@ -402,7 +402,9 @@ export default function ListingDetails() {
 
 								{!isMyRaffle &&
 									raffle &&
-									ticketsSold <
+									(raffle?.participants ?? [])
+										.map(p => p.ticketNumber)
+										.reduce((a, b) => a + b, 0) <
 										(raffleOptions?.maxParticipantNumber ?? Number.POSITIVE_INFINITY) &&
 									[RAFFLE_STATE.Started].includes(raffleInfo?.state as RAFFLE_STATE) && (
 										<Row>

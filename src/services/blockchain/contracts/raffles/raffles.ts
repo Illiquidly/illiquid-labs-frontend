@@ -161,7 +161,9 @@ class RafflesContract extends Contract {
 							...(cw20Coin
 								? {
 										cw20_coin: {
-											amount: amountConverter.userFacingToBlockchainValue(cw20Coin.amount),
+											amount: amountConverter.userFacingToBlockchainValue(
+												+cw20Coin.amount * ticketNumber
+											),
 											address: cw20Coin.address,
 										},
 								  }
@@ -169,7 +171,9 @@ class RafflesContract extends Contract {
 							...(coin
 								? {
 										coin: {
-											amount: amountConverter.userFacingToBlockchainValue(coin.amount),
+											amount: amountConverter.userFacingToBlockchainValue(
+												+coin.amount * ticketNumber
+											),
 											denom: getDenomForCurrency(coin.currency),
 										},
 								  }
