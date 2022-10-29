@@ -1,5 +1,5 @@
 import { VerifiedIcon } from 'assets/icons/16pt'
-import { HeartFilledIcon, HeartIcon } from 'assets/icons/mixed'
+import { HeartFilledIcon, HeartIcon, LunaIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import moment from 'moment'
@@ -159,7 +159,12 @@ function ListingCard({
 								<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
 									<Flex sx={{ flexDirection: 'column' }}>
 										<AttributeName>{t('raffle-listings:price-ticket')}</AttributeName>
-										<AttributeValue>{`${ticketPrice} ${ticketCurrency}`}</AttributeValue>
+										<AttributeValue>
+											{`${ticketPrice} ${ticketCurrency}`}{' '}
+											<Box sx={{ ml: 8 }}>
+												<LunaIcon />
+											</Box>
+										</AttributeValue>
 									</Flex>
 									<Flex sx={{ flexDirection: 'column' }}>
 										<AttributeName>{t('raffle-listings:remaining')}</AttributeName>
