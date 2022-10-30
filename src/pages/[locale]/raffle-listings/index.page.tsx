@@ -217,6 +217,33 @@ export default function RaffleListings() {
 		}
 	)
 
+	React.useEffect(() => {
+		// eslint-disable-next-line security/detect-object-injection
+		const fnc = {
+			[RAFFLE_LISTINGS_TYPE.MY_LISTINGS]: () => setStatuses([]),
+			[RAFFLE_LISTINGS_TYPE.PAST_LISTINGS]: () =>
+				setStatuses([
+					{
+						label: closedStatusLabel,
+						value: JSON.stringify([RAFFLE_STATE.Closed]),
+					},
+					{
+						label: finishedStatusLabel,
+						value: JSON.stringify([RAFFLE_STATE.Finished]),
+					},
+				]),
+			[RAFFLE_LISTINGS_TYPE.ALL_LISTINGS]: () =>
+				setStatuses([
+					{
+						label: startedStatusLabel,
+						value: JSON.stringify([RAFFLE_STATE.Started]),
+					},
+				]),
+		}[listingsType]
+
+		fnc?.()
+	}, [listingsType])
+
 	React.useEffect(
 		() => raffles && setInfiniteData(prev => [...prev, ...raffles.data]),
 		[raffles]
