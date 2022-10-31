@@ -93,6 +93,7 @@ export default function RaffleListings() {
 		closedStatusLabel,
 		finishedStatusLabel,
 		cancelledStatusLabel,
+		claimedStatusLabel,
 	]: Array<string> = t('raffle-listings:statuses', {
 		returnObjects: true,
 	})
@@ -113,6 +114,10 @@ export default function RaffleListings() {
 		{
 			label: cancelledStatusLabel,
 			value: JSON.stringify([RAFFLE_STATE.Cancelled]),
+		},
+		{
+			label: claimedStatusLabel,
+			value: JSON.stringify([RAFFLE_STATE.Claimed]),
 		},
 	]
 
@@ -235,6 +240,10 @@ export default function RaffleListings() {
 					{
 						label: finishedStatusLabel,
 						value: JSON.stringify([RAFFLE_STATE.Finished]),
+					},
+					{
+						label: claimedStatusLabel,
+						value: JSON.stringify([RAFFLE_STATE.Claimed]),
 					},
 				]),
 			[RAFFLE_LISTINGS_TYPE.ALL_LISTINGS]: () =>

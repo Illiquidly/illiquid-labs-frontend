@@ -25,7 +25,7 @@
 			"columns": ["User", "Tickets", "Date"]
 		}
 	},
-	"statuses": ["Started", "Closed", "Finished", "Cancelled"],
+	"statuses": ["Started", "Closed", "Finished", "Cancelled", "Claimed"],
 	"tabs": {
 		"all-listings": "All Raffles",
 		"my-listings": "My Raffles",
