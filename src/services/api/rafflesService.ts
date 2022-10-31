@@ -74,7 +74,7 @@ export class RafflesService {
 		network: string,
 		filters?: RaffleFilters,
 		pagination?: APIPagination,
-		sort: 'ASC' | 'DESC' = 'DESC'
+		sort: 'ASC' | 'DESC' = 'ASC'
 	): Promise<RafflesResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
 
@@ -191,7 +191,7 @@ export class RafflesService {
 
 		if (sort) {
 			queryBuilder.sortBy({
-				field: 'id',
+				field: 'raffleEndDate',
 				order: sort,
 			})
 		}
