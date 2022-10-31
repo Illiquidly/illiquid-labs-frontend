@@ -196,7 +196,7 @@ const EditModal = NiceModal.create(
 														name='collections'
 														control={control}
 														render={({ field: { value, onChange, onBlur } }) => (
-															<Flex sx={{ height: '42px', flex: 1 }}>
+															<Flex sx={{ maxHeight: '42px', flex: 1 }}>
 																<MultiSelectInput
 																	error={!!errors.collections}
 																	placeholder={t('trade-listings:edit-modal:interested-in')}
