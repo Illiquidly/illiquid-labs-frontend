@@ -270,6 +270,8 @@ export const RaffleWinnerBadge = styled(Flex)`
 	height: 34px;
 	justify-content: center;
 	align-items: center;
+	border-radius: 4px;
+	gap: 4px;
 	background-color: ${props => props.theme.colors.primary200};
 `
 

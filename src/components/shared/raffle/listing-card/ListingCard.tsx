@@ -192,7 +192,11 @@ function ListingCard({
 					{winner && (
 						<RaffleWinnerSection>
 							<RaffleWinnerBadge>
+								<Box>🎊</Box>
+								<Box>🥳</Box>
 								<RaffleWinner>{t('raffle-listings:raffle-winner')}</RaffleWinner>
+								<Box>🥳</Box>
+								<Box>🎊</Box>
 							</RaffleWinnerBadge>
 							<RaffleWinnerAddress>{getShortText(winner, 10)}</RaffleWinnerAddress>
 						</RaffleWinnerSection>
