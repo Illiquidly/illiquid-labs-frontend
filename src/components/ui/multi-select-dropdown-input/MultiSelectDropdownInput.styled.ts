@@ -5,6 +5,7 @@ export const Container = styled.div<{
 	error?: boolean
 	disabled?: boolean
 }>`
+	height: 42px;
 	display: inline-flex;
 	width: 100%;
 	border: 1.5px solid
