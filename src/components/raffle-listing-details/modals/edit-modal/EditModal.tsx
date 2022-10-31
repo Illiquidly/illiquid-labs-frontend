@@ -18,12 +18,12 @@ import { RaffleDetailsStepSchema } from 'constants/validation-schemas/raffle'
 import { DatePickerField } from 'components/form/fields/date-picker-field'
 import { TimePickerField } from 'components/form/fields/time-picker-field'
 import moment from 'moment'
+import { FieldLabel } from 'components/form/components'
 import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	Label,
 	ModalActions,
 } from './EditModal.styled'
 
@@ -198,9 +198,9 @@ const EditModal = NiceModal.create(
 												/>
 											</Flex>
 										</Flex>
-										<Label htmlFor='comment'>
+										<FieldLabel htmlFor='comment'>
 											{t('raffle-listings:edit-modal:write-comment')}
-										</Label>
+										</FieldLabel>
 										<TextArea
 											id='comment'
 											style={{ height: '128px' }}

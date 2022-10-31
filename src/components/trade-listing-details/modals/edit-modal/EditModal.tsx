@@ -35,12 +35,12 @@ import { ModalLayoutContainer } from 'components/layout'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import { TradeDetailsStepSchema } from 'constants/validation-schemas/trade'
 import { LOOKING_FOR_TYPE } from 'types'
+import { FieldLabel } from 'components/form/components'
 import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	Label,
 	ModalActions,
 } from './EditModal.styled'
 
@@ -189,9 +189,9 @@ const EditModal = NiceModal.create(
 										{watch('lookingForType') === LOOKING_FOR_TYPE.SPECIFIC && (
 											<Flex sx={{ flexDirection: 'column', gap: '24px' }}>
 												<Flex sx={{ flexDirection: 'column' }}>
-													<Label htmlFor='collections'>
+													<FieldLabel htmlFor='collections'>
 														{t('trade-listings:edit-modal:interested-in')}
-													</Label>
+													</FieldLabel>
 													<Controller
 														name='collections'
 														control={control}
@@ -243,9 +243,9 @@ const EditModal = NiceModal.create(
 												/>
 											</Flex>
 										)}
-										<Label htmlFor='comment'>
+										<FieldLabel htmlFor='comment'>
 											{t('trade-listings:edit-modal:write-comment')}
-										</Label>
+										</FieldLabel>
 										<TextArea
 											id='comment'
 											style={{ height: '128px' }}

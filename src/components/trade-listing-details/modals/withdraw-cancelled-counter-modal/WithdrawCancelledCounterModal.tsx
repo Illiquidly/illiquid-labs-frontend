@@ -14,13 +14,13 @@ import getShortText from 'utils/js/getShortText'
 import { ModalLayoutContainer } from 'components/layout'
 import { Trade } from 'services/api/tradesService'
 
+import { FieldLabel } from 'components/form/components'
 import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
 	Title,
-	Label,
 	Subtitle,
 } from './WithdrawCancelledCounterModal.styled'
 
@@ -71,11 +71,11 @@ const WithdrawCancelledCounterModal = NiceModal.create(
 								</Flex>
 
 								<Flex sx={{ flexDirection: 'column' }}>
-									<Label htmlFor='comment'>
+									<FieldLabel htmlFor='comment'>
 										{t('trade-listings:withdraw-cancelled-counter-modal.comment', {
 											username: getShortText(trade.tradeInfo.owner ?? '', 8),
 										})}
-									</Label>
+									</FieldLabel>
 									<TextArea
 										id='comment'
 										disabled

@@ -19,12 +19,12 @@ import { CounterTrade } from 'services/api/counterTradesService'
 import { FormProvider, useForm } from 'react-hook-form'
 import getShortText from 'utils/js/getShortText'
 import { ModalLayoutContainer } from 'components/layout'
+import { FieldLabel } from 'components/form/components'
 import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	Label,
 	RadioText,
 	Title,
 	Subtitle,
@@ -123,9 +123,9 @@ const DenyCounterOfferModal = NiceModal.create(
 											</Flex>
 
 											<Flex sx={{ flexDirection: 'column' }}>
-												<Label htmlFor='comment'>
+												<FieldLabel htmlFor='comment'>
 													{t('trade-listings:deny-counter-offer-modal:send-message')}
-												</Label>
+												</FieldLabel>
 												<TextArea
 													id='comment'
 													style={{ height: '128px' }}

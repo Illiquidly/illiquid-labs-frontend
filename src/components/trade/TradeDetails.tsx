@@ -21,6 +21,7 @@ import { Flex } from 'theme-ui'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import { LOOKING_FOR_TYPE, TradeFormStepsProps } from 'types'
 import { NavigationFooter } from 'components/shared/navigation-footer'
+import { FieldLabel } from 'components/form/components'
 import {
 	ChipsWrapper,
 	ContentCard,
@@ -28,7 +29,6 @@ import {
 	ContentCardTitle,
 	ContentCardWrapper,
 	FormWrapper,
-	Label,
 	RadioWrapper,
 } from './TradeDetails.styled'
 
@@ -128,7 +128,9 @@ const TradeDetailsForm = () => {
 
 			{getValues('lookingForType') === LOOKING_FOR_TYPE.ANY && (
 				<div style={{ paddingTop: '48px' }}>
-					<Label htmlFor='comment'>{t('trade:trade-details.text-area-label')}</Label>
+					<FieldLabel htmlFor='comment'>
+						{t('trade:trade-details.text-area-label')}
+					</FieldLabel>
 					<TextArea
 						id='comment'
 						style={{ height: '128px' }}
@@ -141,9 +143,9 @@ const TradeDetailsForm = () => {
 			{getValues('lookingForType') === LOOKING_FOR_TYPE.SPECIFIC && (
 				<>
 					<div style={{ paddingTop: '24px' }}>
-						<Label htmlFor='collections'>
+						<FieldLabel htmlFor='collections'>
 							{t('trade:trade-details.collections-label')}
-						</Label>
+						</FieldLabel>
 						<Controller
 							name='collections'
 							control={control}

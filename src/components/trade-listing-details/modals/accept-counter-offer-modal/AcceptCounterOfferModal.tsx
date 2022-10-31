@@ -22,12 +22,12 @@ import { NFT } from 'services/api/walletNFTsService'
 import { HumanCoin, Trade } from 'services/api/tradesService'
 import { LunaIcon } from 'assets/icons/mixed'
 import { TradeFee } from 'services/blockchain'
+import { FieldLabel } from 'components/form/components'
 import {
 	ModalBody,
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	Label,
 	Title,
 	Subtitle,
 	Grid,
@@ -211,9 +211,9 @@ const AcceptCounterOfferModal = NiceModal.create(
 											</Flex>
 
 											<Flex sx={{ flexDirection: 'column' }}>
-												<Label htmlFor='comment'>
+												<FieldLabel htmlFor='comment'>
 													{t('trade-listings:accept-counter-offer-modal:send-message')}
-												</Label>
+												</FieldLabel>
 												<TextArea
 													id='comment'
 													style={{ height: '128px' }}
