@@ -7,6 +7,7 @@ import {
 import { TokenInputProps } from 'components/ui/token-input/TokenInput'
 import { withForwardRef } from 'hoc'
 import React from 'react'
+import { Flex } from 'theme-ui'
 
 export interface TokenInputFieldProps extends TokenInputProps {
 	error?: boolean
@@ -27,7 +28,9 @@ const TokenInputField = ({ fieldError, label, forwardedRef, ...props }) => {
 	return (
 		<FieldContainer>
 			<FieldLabel>{label}</FieldLabel>
-			<TokenInput ref={inputRef} {...props} />
+			<Flex sx={{ height: '42px' }}>
+				<TokenInput ref={inputRef} {...props} />
+			</Flex>
 			<FieldError>{fieldError || null}</FieldError>
 		</FieldContainer>
 	)

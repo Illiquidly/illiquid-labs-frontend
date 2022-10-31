@@ -5,6 +5,7 @@ import {
 	FieldLabel,
 } from 'components/form/components'
 import React from 'react'
+import { Flex } from 'theme-ui'
 
 export interface TextInputFieldProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -24,7 +25,9 @@ const TextInputField = React.forwardRef<HTMLInputElement, TextInputFieldProps>(
 		return (
 			<FieldContainer>
 				<FieldLabel htmlFor={props.name}>{label}</FieldLabel>
-				<TextInput ref={ref} {...props} />
+				<Flex sx={{ height: '42px' }}>
+					<TextInput ref={ref} {...props} />
+				</Flex>
 				<FieldError>{props.fieldError || null}</FieldError>
 			</FieldContainer>
 		)

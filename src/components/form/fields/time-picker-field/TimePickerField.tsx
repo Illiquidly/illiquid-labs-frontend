@@ -9,6 +9,7 @@ import TimePicker, {
 import { withForwardRef } from 'hoc'
 import React from 'react'
 import TimePickerRef from 'react-flatpickr'
+import { Flex } from 'theme-ui'
 
 export interface TimePickerFieldProps extends TimePickerProps {
 	error?: boolean
@@ -34,7 +35,9 @@ const TimePickerField = ({
 	return (
 		<FieldContainer>
 			<FieldLabel htmlFor={props.name}>{label}</FieldLabel>
-			<TimePicker ref={inputRef} {...props} />
+			<Flex sx={{ height: '42px' }}>
+				<TimePicker ref={inputRef} {...props} />
+			</Flex>
 			<FieldError>{fieldError || null}</FieldError>
 		</FieldContainer>
 	)

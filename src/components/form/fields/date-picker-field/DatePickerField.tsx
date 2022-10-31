@@ -8,6 +8,7 @@ import { DatePicker, DatePickerProps } from 'components/ui'
 import { withForwardRef } from 'hoc'
 import React from 'react'
 import DatePickerRef from 'react-flatpickr'
+import { Flex } from 'theme-ui'
 
 export interface DatePickerFieldProps extends DatePickerProps {
 	error?: boolean
@@ -27,7 +28,9 @@ const DatePickerField = ({ fieldError, forwardedRef, label, ...props }) => {
 	return (
 		<FieldContainer>
 			<FieldLabel htmlFor={props.name}>{label}</FieldLabel>
-			<DatePicker ref={inputRef} {...props} />
+			<Flex sx={{ height: '42px' }}>
+				<DatePicker ref={inputRef} {...props} />
+			</Flex>
 			<FieldError>{fieldError || null}</FieldError>
 		</FieldContainer>
 	)
