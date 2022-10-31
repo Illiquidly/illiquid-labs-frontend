@@ -119,6 +119,7 @@ export const TimePicker = React.forwardRef<Flatpickr, TimePickerProps>(
 						enableTime: true,
 						noCalendar: true,
 						dateFormat: 'h:i K',
+						disableMobile: true,
 					}}
 				/>
 				{props.error ? (

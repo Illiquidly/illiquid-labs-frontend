@@ -123,6 +123,7 @@ export const DatePicker = React.forwardRef<Flatpickr, DatePickerProps>(
 						altInput: true,
 						minDate,
 						maxDate,
+						disableMobile: true,
 					}}
 				/>
 				{props.error ? (
