@@ -146,7 +146,7 @@ const MultiSelectDropdownInput = React.forwardRef<
 	useOnClickOutside(containerRef, () => dismissOnOutsideClick && onDismiss())
 
 	return (
-		<div ref={containerRef}>
+		<div ref={containerRef} style={{ flex: 1 }}>
 			<Container
 				disabled={props.disabled}
 				error={props.error}

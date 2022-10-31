@@ -150,21 +150,23 @@ const TradeDetailsForm = () => {
 							name='collections'
 							control={control}
 							render={({ field: { value, onChange, onBlur } }) => (
-								<MultiSelectInput
-									error={!!errors.collections}
-									placeholder={t('trade:trade-details.collections-placeholder')}
-									dropdownTitle={t('trade:trade-details.nft-name')}
-									value={value}
-									onBlur={onBlur}
-									onChange={onChange}
-									dismissOnOutsideClick
-									options={(verifiedCollections ?? []).map(collection => {
-										return {
-											label: collection.collectionName,
-											value: collection.collectionAddress,
-										}
-									})}
-								/>
+								<Flex sx={{ height: '42px', flex: 1 }}>
+									<MultiSelectInput
+										error={!!errors.collections}
+										placeholder={t('trade:trade-details.collections-placeholder')}
+										dropdownTitle={t('trade:trade-details.nft-name')}
+										value={value}
+										onBlur={onBlur}
+										onChange={onChange}
+										dismissOnOutsideClick
+										options={(verifiedCollections ?? []).map(collection => {
+											return {
+												label: collection.collectionName,
+												value: collection.collectionAddress,
+											}
+										})}
+									/>
+								</Flex>
 							)}
 						/>
 					</div>
