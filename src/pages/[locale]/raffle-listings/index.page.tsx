@@ -14,7 +14,7 @@ import {
 	Tab,
 	Tabs,
 } from 'components'
-
+import NiceModal from '@ebay/nice-modal-react'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { useWallet } from '@terra-money/use-wallet'
 import useHeaderActions from 'hooks/useHeaderActions'
@@ -59,6 +59,11 @@ import { RAFFLE_LISTINGS_TYPE } from 'constants/listings'
 import { useDebounce } from 'react-use'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { RaffleGridController } from 'components/shared/raffle'
+import {
+	RaffleListingsFilterModal,
+	RaffleListingsFilterModalProps,
+} from 'components/raffle-listings/modals'
+import { asyncAction } from 'utils/js/asyncAction'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -140,7 +145,7 @@ export default function RaffleListings() {
 	const [participatedByMeChecked, setParticipatedByMeChecked] =
 		React.useState(false)
 
-	const [wonByMe, setWonByMe] = React.useState(false)
+	const [wonByMeChecked, setWonByMeChecked] = React.useState(false)
 
 	const myAddress = useAddress()
 
@@ -172,7 +177,7 @@ export default function RaffleListings() {
 		myFavoritesChecked,
 		participatedByMeChecked,
 		debouncedSearch,
-		wonByMe,
+		wonByMeChecked,
 		myAddress,
 	])
 
@@ -186,7 +191,7 @@ export default function RaffleListings() {
 			myFavoritesChecked,
 			participatedByMeChecked,
 			debouncedSearch,
-			wonByMe,
+			wonByMeChecked,
 			page,
 			myAddress,
 		],
@@ -204,7 +209,7 @@ export default function RaffleListings() {
 					collections: collections.map(({ value }) => value),
 					participatedBy: participatedByMeChecked ? [myAddress] : undefined,
 					favoritesOf: myFavoritesChecked ? myAddress : undefined,
-					wonByMe,
+					wonByMe: wonByMeChecked,
 				},
 				{
 					page,
@@ -255,30 +260,28 @@ export default function RaffleListings() {
 			return
 		}
 		if (!verifiedCollectionsFetched) {
-			console.warn('TODO')
+			return
 		}
 
-		// const [, filters] = await asyncAction<TradeListingsFilterModalProps>(
-		// 	NiceModal.show(TradeListingsFilterModal, {
-		// 		statusOptions,
-		// 		verifiedCollections,
-		// 		statuses,
-		// 		lookingForCollections,
-		// 		collections,
-		// 		counteredByMeChecked,
-		// 		myFavoritesChecked,
-		// 		lookingForLiquidAssetsChecked,
-		// 	})
-		// )
+		const [, filters] = await asyncAction<RaffleListingsFilterModalProps>(
+			NiceModal.show(RaffleListingsFilterModal, {
+				statusOptions,
+				verifiedCollections,
+				statuses,
+				collections,
+				myFavoritesChecked,
+				wonByMeChecked,
+				participatedByMeChecked,
+			} as RaffleListingsFilterModalProps)
+		)
 
-		// if (filters) {
-		// 	setStatuses(filters.statuses)
-		// 	setCollections(filters.collections)
-		// 	setLookingForCollections(filters.lookingForCollections)
-		// 	setCounteredByMeChecked(filters.counteredByMeChecked)
-		// 	setMyFavoritesChecked(filters.myFavoritesChecked)
-		// 	setLookingForLiquidAssetsChecked(filters.lookingForLiquidAssetsChecked)
-		// }
+		if (filters) {
+			setStatuses(filters.statuses)
+			setCollections(filters.collections)
+			setMyFavoritesChecked(filters.myFavoritesChecked)
+			setParticipatedByMeChecked(filters.participatedByMeChecked)
+			setWonByMeChecked(filters.wonByMeChecked)
+		}
 	}
 
 	return (
@@ -317,7 +320,6 @@ export default function RaffleListings() {
 								<FiltersButtonLabel>{t('common:filters-label')}</FiltersButtonLabel>
 							</FilterButton>
 						</FiltersButtonContainer>
-						{/* <SortSelectContainer /> */}
 
 						<GridSwitchContainer>
 							<GridSwitch
@@ -399,8 +401,8 @@ export default function RaffleListings() {
 									<CheckboxCard
 										variant='medium'
 										title={t('raffle-listings:filters:won-by-me-label')}
-										onChange={e => setWonByMe(e.target.checked)}
-										checked={wonByMe}
+										onChange={e => setWonByMeChecked(e.target.checked)}
+										checked={wonByMeChecked}
 									/>
 								</Box>
 							</DesktopFiltersSection>
