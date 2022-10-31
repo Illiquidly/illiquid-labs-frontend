@@ -196,21 +196,19 @@ const EditModal = NiceModal.create(
 														name='collections'
 														control={control}
 														render={({ field: { value, onChange, onBlur } }) => (
-															<Flex sx={{ maxHeight: '42px', flex: 1 }}>
-																<MultiSelectInput
-																	error={!!errors.collections}
-																	placeholder={t('trade-listings:edit-modal:interested-in')}
-																	dropdownTitle={t('trade-listings:edit-modal:nft-name')}
-																	value={value}
-																	onBlur={onBlur}
-																	onChange={onChange}
-																	dismissOnOutsideClick
-																	options={(verifiedCollections ?? []).map(collection => ({
-																		label: collection.collectionName,
-																		value: collection.collectionAddress,
-																	}))}
-																/>
-															</Flex>
+															<MultiSelectInput
+																error={!!errors.collections}
+																placeholder={t('trade-listings:edit-modal:interested-in')}
+																dropdownTitle={t('trade-listings:edit-modal:nft-name')}
+																value={value}
+																onBlur={onBlur}
+																onChange={onChange}
+																dismissOnOutsideClick
+																options={(verifiedCollections ?? []).map(collection => ({
+																	label: collection.collectionName,
+																	value: collection.collectionAddress,
+																}))}
+															/>
 														)}
 													/>
 													{Boolean(watch('collections')?.length) && (
