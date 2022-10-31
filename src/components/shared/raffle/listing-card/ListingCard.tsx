@@ -1,5 +1,10 @@
 import { VerifiedIcon } from 'assets/icons/16pt'
-import { HeartFilledIcon, HeartIcon, LunaIcon } from 'assets/icons/mixed'
+import {
+	AvatarIcon,
+	HeartFilledIcon,
+	HeartIcon,
+	LunaIcon,
+} from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import moment from 'moment'
@@ -160,7 +165,7 @@ function ListingCard({
 							</Flex>
 						</DescriptionSection>
 						{!winner && (
-							<Flex sx={{ flexDirection: 'column', gap: '6px' }}>
+							<Flex sx={{ flexDirection: 'column', gap: '6px', height: '130px' }}>
 								<AttributeCard>
 									<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
 										<Flex sx={{ flexDirection: 'column' }}>
@@ -198,7 +203,10 @@ function ListingCard({
 								<Box>🥳</Box>
 								<Box>🎊</Box>
 							</RaffleWinnerBadge>
-							<RaffleWinnerAddress>{getShortText(winner, 10)}</RaffleWinnerAddress>
+							<Flex sx={{ gap: '10px', alignItems: 'flex-end' }}>
+								<AvatarIcon width='34px' height='34px' />
+								<RaffleWinnerAddress>{getShortText(winner, 10)}</RaffleWinnerAddress>
+							</Flex>
 						</RaffleWinnerSection>
 					)}
 				</a>
