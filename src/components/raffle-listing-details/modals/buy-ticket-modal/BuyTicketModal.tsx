@@ -22,7 +22,6 @@ import {
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	Label,
 	ModalActions,
 	Title,
 	Subtitle,
@@ -104,11 +103,8 @@ const BuyTicketModal = NiceModal.create(() => {
 										</Box>
 									</Flex>
 									<Flex sx={{ mt: '12px', flexDirection: 'column' }}>
-										<Label htmlFor='ticketNumber'>
-											{t('raffle-listings:buy-ticket-modal:ticket-number')}
-										</Label>
-
 										<TextInputField
+											label={t('raffle-listings:buy-ticket-modal:ticket-number')}
 											id='ticketNumber'
 											{...register('ticketNumber')}
 											fieldError={

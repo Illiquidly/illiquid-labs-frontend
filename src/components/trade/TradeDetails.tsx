@@ -176,10 +176,8 @@ const TradeDetailsForm = () => {
 					</ChipsWrapper>
 
 					<div style={{ paddingTop: '8px' }}>
-						<Label htmlFor='tokenAmount'>
-							{t('trade:trade-details.tokens-label')}
-						</Label>
 						<TokenInputField
+							label={t('trade:trade-details.tokens-label')}
 							id='tokenAmount'
 							{...register('tokenAmount')}
 							fieldError={
@@ -192,16 +190,12 @@ const TradeDetailsForm = () => {
 							tokenName={getValues('tokenName')}
 						/>
 					</div>
-					<div style={{ paddingTop: '8px' }}>
-						<Label htmlFor='comment'>
-							{t('trade:trade-details.text-area-label')}
-						</Label>
-						<TextInputField
-							id='comment'
-							{...register('comment')}
-							placeholder={t('trade:trade-details.text-area-placeholder')}
-						/>
-					</div>
+					<TextInputField
+						label={t('trade:trade-details.text-area-label')}
+						id='comment'
+						{...register('comment')}
+						placeholder={t('trade:trade-details.text-area-placeholder')}
+					/>
 				</>
 			)}
 		</FormWrapper>

@@ -13,12 +13,12 @@ import { NFT } from 'services/api/walletNFTsService'
 import { useFormContext } from 'react-hook-form'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { TokenInputField } from 'components/form'
+import { FieldLabel } from 'components/form/components'
 import {
 	AttributeCard,
 	AttributeName,
 	AttributeValue,
 	Grid,
-	Label,
 	PreviewImage,
 	PreviewImageContainer,
 	SelectNFTsSection,
@@ -147,33 +147,31 @@ export default function SelectNFTs() {
 			</SelectNFTsSection>
 
 			<Box>
-				<Label>
-					{t('trade-listings:trade-counter.tokens-i-would-like-to-offer')}
-				</Label>
-				<Box sx={{ mt: '8px' }}>
-					<TokenInputField
-						id='tokenAmount'
-						{...register('tokenAmount')}
-						placeholder={t('trade-listings:trade-counter.enter-amount', {
-							currency: getValues('tokenName'),
-						})}
-						fieldError={
-							errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
-						}
-						error={!!errors.tokenAmount}
-						tokenName={getValues('tokenName')}
-					/>
-				</Box>
+				<TokenInputField
+					label={t('trade-listings:trade-counter.tokens-i-would-like-to-offer')}
+					id='tokenAmount'
+					{...register('tokenAmount')}
+					placeholder={t('trade-listings:trade-counter.enter-amount', {
+						currency: getValues('tokenName'),
+					})}
+					fieldError={
+						errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
+					}
+					error={!!errors.tokenAmount}
+					tokenName={getValues('tokenName')}
+				/>
 
-				<Label>{t('trade-listings:trade-counter.write-a-comment')}</Label>
-				<Box sx={{ mt: '8px' }}>
+				<Flex sx={{ flexDirection: 'column' }}>
+					<FieldLabel>
+						{t('trade-listings:trade-counter.write-a-comment')}
+					</FieldLabel>
 					<TextArea
 						id='comment'
 						style={{ height: '128px' }}
 						{...register('comment')}
 						placeholder={t('trade-listings:trade-counter.enter-text')}
 					/>
-				</Box>
+				</Flex>
 			</Box>
 
 			<Button

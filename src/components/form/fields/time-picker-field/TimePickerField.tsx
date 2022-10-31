@@ -1,4 +1,8 @@
-import { FieldContainer, FieldError } from 'components/form/components'
+import {
+	FieldContainer,
+	FieldError,
+	FieldLabel,
+} from 'components/form/components'
 import TimePicker, {
 	TimePickerProps,
 } from 'components/ui/time-picker/TimePicker'
@@ -11,11 +15,13 @@ export interface TimePickerFieldProps extends TimePickerProps {
 	fieldError?: string
 	iconLeft?: React.ReactNode
 	forwardedRef?: React.RefObject<TimePickerRef>
+	label: string
 }
 
 const TimePickerField = ({
 	fieldError,
 	forwardedRef,
+	label,
 	...props
 }: TimePickerFieldProps) => {
 	const inputRef = React.useRef<TimePickerRef>(null)
@@ -27,6 +33,7 @@ const TimePickerField = ({
 
 	return (
 		<FieldContainer>
+			<FieldLabel htmlFor={props.name}>{label}</FieldLabel>
 			<TimePicker ref={inputRef} {...props} />
 			<FieldError>{fieldError || null}</FieldError>
 		</FieldContainer>

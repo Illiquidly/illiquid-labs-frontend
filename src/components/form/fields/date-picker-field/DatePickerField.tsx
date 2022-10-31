@@ -1,4 +1,8 @@
-import { FieldContainer, FieldError } from 'components/form/components'
+import {
+	FieldContainer,
+	FieldError,
+	FieldLabel,
+} from 'components/form/components'
 import { DatePicker, DatePickerProps } from 'components/ui'
 
 import { withForwardRef } from 'hoc'
@@ -9,9 +13,10 @@ export interface DatePickerFieldProps extends DatePickerProps {
 	error?: boolean
 	fieldError?: string
 	iconLeft?: React.ReactNode
+	label: string
 }
 
-const DatePickerField = ({ fieldError, forwardedRef, ...props }) => {
+const DatePickerField = ({ fieldError, forwardedRef, label, ...props }) => {
 	const inputRef = React.useRef<DatePickerRef>(null)
 
 	React.useImperativeHandle(
@@ -21,6 +26,7 @@ const DatePickerField = ({ fieldError, forwardedRef, ...props }) => {
 
 	return (
 		<FieldContainer>
+			<FieldLabel htmlFor={props.name}>{label}</FieldLabel>
 			<DatePicker ref={inputRef} {...props} />
 			<FieldError>{fieldError || null}</FieldError>
 		</FieldContainer>

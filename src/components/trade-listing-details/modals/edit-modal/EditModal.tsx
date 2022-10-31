@@ -224,27 +224,23 @@ const EditModal = NiceModal.create(
 													)}
 												</Flex>
 
-												<Flex sx={{ flexDirection: 'column' }}>
-													<Label htmlFor='tokenAmount'>
-														{t('trade-listings:edit-modal:tokens-interested-in')}
-													</Label>
-													<TokenInputField
-														id='tokenAmount'
-														{...register('tokenAmount')}
-														fieldError={
-															errors.tokenAmount &&
-															t(`common:errors.${errors.tokenAmount.message}`)
+												<TokenInputField
+													label={t('trade-listings:edit-modal:tokens-interested-in')}
+													id='tokenAmount'
+													{...register('tokenAmount')}
+													fieldError={
+														errors.tokenAmount &&
+														t(`common:errors.${errors.tokenAmount.message}`)
+													}
+													error={!!errors.tokenAmount}
+													placeholder={t(
+														'trade-listings:edit-modal:enter-amount-placeholder',
+														{
+															tokenName: getValues('tokenName'),
 														}
-														error={!!errors.tokenAmount}
-														placeholder={t(
-															'trade-listings:edit-modal:enter-amount-placeholder',
-															{
-																tokenName: getValues('tokenName'),
-															}
-														)}
-														tokenName={getValues('tokenName')}
-													/>
-												</Flex>
+													)}
+													tokenName={getValues('tokenName')}
+												/>
 											</Flex>
 										)}
 										<Label htmlFor='comment'>

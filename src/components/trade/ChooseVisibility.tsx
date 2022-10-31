@@ -20,7 +20,6 @@ import {
 	ContentCardTitle,
 	ContentCardWrapper,
 	FormWrapper,
-	Label,
 	MessageBox,
 	RadioWrapper,
 	RadioWrapperSubtitle,
@@ -107,22 +106,18 @@ const ChooseVisibilityForm = () => {
 					<MessageBox>{t('trade:choose-visibility.public-message')}</MessageBox>
 				)}
 				{getValues('visibilityType') === VISIBILITY_TYPE.PRIVATE && (
-					<>
-						<Label htmlFor='walletAddress'>
-							{t('trade:choose-visibility.wallet-address-label')}
-						</Label>
-						<TextInputField
-							id='walletAddress'
-							iconLeft={<WalletIcon />}
-							{...register('walletAddress')}
-							fieldError={
-								errors.walletAddress &&
-								t(`common:errors.${errors.walletAddress.message}`)
-							}
-							error={!!errors.walletAddress}
-							placeholder={t('trade:choose-visibility.wallet-address-placeholder')}
-						/>
-					</>
+					<TextInputField
+						label={t('trade:choose-visibility.wallet-address-label')}
+						id='walletAddress'
+						iconLeft={<WalletIcon />}
+						{...register('walletAddress')}
+						fieldError={
+							errors.walletAddress &&
+							t(`common:errors.${errors.walletAddress.message}`)
+						}
+						error={!!errors.walletAddress}
+						placeholder={t('trade:choose-visibility.wallet-address-placeholder')}
+					/>
 				)}
 			</Box>
 		</FormWrapper>

@@ -135,83 +135,67 @@ const EditModal = NiceModal.create(
 									<ModalBody>
 										<Flex sx={{ flexDirection: 'column' }}>
 											<Flex sx={{ flexDirection: ['column', 'row'], gap: ['0', '8px'] }}>
-												<Flex sx={{ flexDirection: 'column', flex: 1 }}>
-													<Label htmlFor='endDate'>
-														{t('raffle-listings:edit-modal.end-date-label')}
-													</Label>
-													<DatePickerField
-														id='endDate'
-														value={getValues('endDate')}
-														onChange={([date]) =>
-															setValue('endDate', date, {
-																shouldValidate: true,
-															})
-														}
-														minDate={moment().add('1', 'day').startOf('day').toDate()}
-														fieldError={
-															errors.endDate && t(`common:errors.${errors?.endDate?.message}`)
-														}
-														error={!!errors.endDate}
-														placeholder={t('raffle-listings:edit-modal.enter-date')}
-													/>
-												</Flex>
+												<DatePickerField
+													label={t('raffle-listings:edit-modal.end-date-label')}
+													id='endDate'
+													value={getValues('endDate')}
+													onChange={([date]) =>
+														setValue('endDate', date, {
+															shouldValidate: true,
+														})
+													}
+													minDate={moment().add('1', 'day').startOf('day').toDate()}
+													fieldError={
+														errors.endDate && t(`common:errors.${errors?.endDate?.message}`)
+													}
+													error={!!errors.endDate}
+													placeholder={t('raffle-listings:edit-modal.enter-date')}
+												/>
 
-												<Flex sx={{ flexDirection: 'column', flex: 1 }}>
-													<Label htmlFor='endTime'>
-														{t('raffle-listings:edit-modal.end-time-label')}
-													</Label>
-													<TimePickerField
-														id='endTime'
-														value={getValues('endTime')}
-														onChange={([date]) =>
-															setValue('endTime', date, {
-																shouldValidate: true,
-															})
-														}
-														fieldError={
-															errors.endTime && t(`common:errors.${errors?.endTime?.message}`)
-														}
-														error={!!errors.endTime}
-														placeholder={t('raffle-listings:edit-modal.enter-time')}
-													/>
-												</Flex>
+												<TimePickerField
+													id='endTime'
+													label={t('raffle-listings:edit-modal.end-time-label')}
+													value={getValues('endTime')}
+													onChange={([date]) =>
+														setValue('endTime', date, {
+															shouldValidate: true,
+														})
+													}
+													fieldError={
+														errors.endTime && t(`common:errors.${errors?.endTime?.message}`)
+													}
+													error={!!errors.endTime}
+													placeholder={t('raffle-listings:edit-modal.enter-time')}
+												/>
 											</Flex>
 											<Flex sx={{ flexDirection: ['row', 'column'] }}>
-												<Flex sx={{ flexDirection: 'column' }}>
-													<Label htmlFor='ticketSupply'>
-														{t('raffle-listings:edit-modal.ticket-supply-label')}
-													</Label>
-													<TextInputField
-														id='ticketSupply'
-														{...register('ticketSupply')}
-														fieldError={
-															errors.ticketSupply &&
-															t(`common:errors.${errors?.ticketSupply?.message}`)
-														}
-														error={!!errors.ticketSupply}
-														placeholder={t(
-															'raffle-listings:edit-modal.enter-ticket-placeholder'
-														)}
-													/>
-												</Flex>
-												<Flex sx={{ flexDirection: 'column' }}>
-													<Label htmlFor='ticketPrice'>
-														{t('raffle-listings:edit-modal.ticket-price-label')}
-													</Label>
-													<TokenInputField
-														id='ticketPrice'
-														{...register('ticketPrice')}
-														fieldError={
-															errors.ticketPrice &&
-															t(`common:errors.${errors.ticketPrice.message}`)
-														}
-														error={!!errors.ticketPrice}
-														placeholder={t('raffle-listings:edit-modal.tokens-placeholder', {
-															token: getValues('ticketPriceCurrency'),
-														})}
-														tokenName={getValues('ticketPriceCurrency')}
-													/>
-												</Flex>
+												<TextInputField
+													label={t('raffle-listings:edit-modal.ticket-supply-label')}
+													id='ticketSupply'
+													{...register('ticketSupply')}
+													fieldError={
+														errors.ticketSupply &&
+														t(`common:errors.${errors?.ticketSupply?.message}`)
+													}
+													error={!!errors.ticketSupply}
+													placeholder={t(
+														'raffle-listings:edit-modal.enter-ticket-placeholder'
+													)}
+												/>
+												<TokenInputField
+													label={t('raffle-listings:edit-modal.ticket-price-label')}
+													id='ticketPrice'
+													{...register('ticketPrice')}
+													fieldError={
+														errors.ticketPrice &&
+														t(`common:errors.${errors.ticketPrice.message}`)
+													}
+													error={!!errors.ticketPrice}
+													placeholder={t('raffle-listings:edit-modal.tokens-placeholder', {
+														token: getValues('ticketPriceCurrency'),
+													})}
+													tokenName={getValues('ticketPriceCurrency')}
+												/>
 											</Flex>
 										</Flex>
 										<Label htmlFor='comment'>

@@ -19,7 +19,6 @@ import {
 	ContentCardTitle,
 	ContentCardWrapper,
 	FormWrapper,
-	Label,
 } from './RaffleDetails.styled'
 
 interface Props {
@@ -51,10 +50,8 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 				</ContentCardSubtitle>
 				<FormWrapper>
 					<Box sx={{ pt: '8px' }}>
-						<Label htmlFor='endDate'>
-							{t('raffle:raffle-details.end-date-label')}
-						</Label>
 						<DatePickerField
+							label={t('raffle:raffle-details.end-date-label')}
 							id='endDate'
 							value={getValues('endDate')}
 							onChange={([date]) =>
@@ -70,10 +67,8 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 							placeholder={t('raffle:raffle-details.enter-date')}
 						/>
 
-						<Label htmlFor='endTime'>
-							{t('raffle:raffle-details.end-time-label')}
-						</Label>
 						<TimePickerField
+							label={t('raffle:raffle-details.end-time-label')}
 							id='endTime'
 							value={getValues('endTime')}
 							onChange={([date]) =>
@@ -88,10 +83,8 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 							placeholder={t('raffle:raffle-details.enter-time')}
 						/>
 
-						<Label htmlFor='ticketSupply'>
-							{t('raffle:raffle-details.ticket-supply-label')}
-						</Label>
 						<TextInputField
+							label={t('raffle:raffle-details.ticket-supply-label')}
 							id='ticketSupply'
 							{...register('ticketSupply')}
 							fieldError={
@@ -102,10 +95,8 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 							placeholder={t('raffle:raffle-details.enter-ticket-placeholder')}
 						/>
 
-						<Label htmlFor='ticketPrice'>
-							{t('raffle:raffle-details.ticket-price-label')}
-						</Label>
 						<TokenInputField
+							label={t('raffle:raffle-details.ticket-price-label')}
 							id='ticketPrice'
 							{...register('ticketPrice')}
 							fieldError={
