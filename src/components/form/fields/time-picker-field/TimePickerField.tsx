@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import { FieldContainer, FieldError } from 'components/form/components'
 import TimePicker, {
 	TimePickerProps,
 } from 'components/ui/time-picker/TimePicker'
@@ -13,20 +13,6 @@ export interface TimePickerFieldProps extends TimePickerProps {
 	forwardedRef?: React.RefObject<TimePickerRef>
 }
 
-const TimePickerFieldContainer = styled.div`
-	position: relative;
-	margin-bottom: 24px;
-`
-
-const StyledError = styled.p`
-	position: absolute;
-	top: 32px;
-	left: 0;
-	bottom: 0;
-	font-size: 14px;
-	color: ${props => props.theme.colors.error100};
-`
-
 const TimePickerField = ({
 	fieldError,
 	forwardedRef,
@@ -40,10 +26,10 @@ const TimePickerField = ({
 	)
 
 	return (
-		<TimePickerFieldContainer>
+		<FieldContainer>
 			<TimePicker ref={inputRef} {...props} />
-			<StyledError>{fieldError || null}</StyledError>
-		</TimePickerFieldContainer>
+			<FieldError>{fieldError || null}</FieldError>
+		</FieldContainer>
 	)
 }
 

@@ -29,6 +29,7 @@ export const TradeDetailsStepSchema = yup.object().shape(
 			.transform((value: string, originalValue: string) =>
 				originalValue.trim() === '' ? null : value
 			)
+			.typeError('trade-form-steps-token-must-be-number')
 			.when(['lookingForType', 'collections'], {
 				is: (lookingForType: LOOKING_FOR_TYPE, collections: any[]) =>
 					lookingForType === LOOKING_FOR_TYPE.SPECIFIC && collections.length <= 0,

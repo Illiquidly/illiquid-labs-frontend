@@ -45,7 +45,16 @@
 		"trade-forms-steps-token-must-be-positive": "Token amount must be a positive number",
 		"trade-form-steps-token-must-be-number": "Token amount must be a number",
 		"trade-form-steps-wallet-address-not-valid": "Wallet address is not valid",
-		"trade-form-steps-min-one-collections-selected": "Token or one collection is required"
+		"trade-form-steps-min-one-collections-selected": "Token or one collection is required",
+		"raffle-form-steps-ticket-price-is-required": "Token or one collection is required",
+		"raffle-form-steps-ticket-price-must-be-positive": "Token amount must be a positive number",
+		"raffle-form-steps-ticket-price-must-be-number": "Token amount must be a number",
+		"raffle-form-steps-min-one-collections-selected": "Token or one collection is required",
+		"raffle-form-steps-ticket-supply-must-be-number": "Ticket supply must be a number",
+		"raffle-form-steps-ticket-supply-must-be-integer": "Ticket supply must be an integer",
+		"raffle-form-steps-ticket-supply-must-be-positive": "Ticket supply must be a positive number",
+		"raffle-form-steps-ticket-number-must-be-number": "Ticket number must be a number",
+		"raffle-form-steps-ticket-number-must-be-integer": "Ticket number must be an integer"
 	},
 	"show-more": "Show more",
 	"checkout-my-trade": "Checkout my trade on Illiquid Labs",

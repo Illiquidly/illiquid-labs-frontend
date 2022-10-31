@@ -16,16 +16,16 @@ export const RaffleDetailsStepSchema = yup.object().shape({
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
-		.typeError('trade-form-steps-token-must-be-number')
-		.positive('trade-forms-steps-token-must-be-positive'),
+		.typeError('raffle-form-steps-ticket-price-must-be-number')
+		.positive('raffle-form-steps-ticket-price-must-be-positive'),
 	ticketSupply: yup
 		.number()
-		.integer()
+		.integer('raffle-form-steps-ticket-supply-must-be-integer')
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
-		.typeError('trade-form-steps-token-must-be-number')
-		.positive('trade-forms-steps-token-must-be-positive'),
+		.typeError('raffle-form-steps-ticket-supply-must-be-number')
+		.positive('raffle-form-steps-ticket-supply-must-be-positive'),
 })
 
 export const RaffleBuyTicketSchema = yup.object().shape({
@@ -34,6 +34,6 @@ export const RaffleBuyTicketSchema = yup.object().shape({
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
-		.typeError('trade-form-steps-token-must-be-number')
-		.positive('trade-forms-steps-token-must-be-positive'),
+		.typeError('raffle-form-steps-ticket-number-must-be-number')
+		.positive('raffle-form-steps-ticket-number-must-be-positive'),
 })

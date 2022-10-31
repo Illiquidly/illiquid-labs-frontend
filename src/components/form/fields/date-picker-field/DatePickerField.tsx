@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import { FieldContainer, FieldError } from 'components/form/components'
 import { DatePicker, DatePickerProps } from 'components/ui'
 
 import { withForwardRef } from 'hoc'
@@ -11,20 +11,6 @@ export interface DatePickerFieldProps extends DatePickerProps {
 	iconLeft?: React.ReactNode
 }
 
-const DatePickerFieldContainer = styled.div`
-	position: relative;
-	margin-bottom: 24px;
-`
-
-const StyledError = styled.p`
-	position: absolute;
-	top: 32px;
-	left: 0;
-	bottom: 0;
-	font-size: 14px;
-	color: ${props => props.theme.colors.error100};
-`
-
 const DatePickerField = ({ fieldError, forwardedRef, ...props }) => {
 	const inputRef = React.useRef<DatePickerRef>(null)
 
@@ -34,10 +20,10 @@ const DatePickerField = ({ fieldError, forwardedRef, ...props }) => {
 	)
 
 	return (
-		<DatePickerFieldContainer>
+		<FieldContainer>
 			<DatePicker ref={inputRef} {...props} />
-			<StyledError>{fieldError || null}</StyledError>
-		</DatePickerFieldContainer>
+			<FieldError>{fieldError || null}</FieldError>
+		</FieldContainer>
 	)
 }
 

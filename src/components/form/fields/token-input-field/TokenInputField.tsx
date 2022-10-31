@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
 import { TokenInput } from 'components'
+import { FieldContainer, FieldError } from 'components/form/components'
 import { TokenInputProps } from 'components/ui/token-input/TokenInput'
 import { withForwardRef } from 'hoc'
 import React from 'react'
@@ -11,20 +11,6 @@ export interface TokenInputFieldProps extends TokenInputProps {
 	iconRight?: React.ReactNode
 }
 
-const TokenInputFieldContainer = styled.div`
-	position: relative;
-	margin-bottom: 24px;
-`
-
-const StyledError = styled.p`
-	position: absolute;
-	top: 32px;
-	left: 0;
-	bottom: 0;
-	font-size: 14px;
-	color: ${props => props.theme.colors.error100};
-`
-
 const TokenInputField = ({ fieldError, forwardedRef, ...props }) => {
 	const inputRef = React.useRef<HTMLInputElement>(null)
 
@@ -34,10 +20,10 @@ const TokenInputField = ({ fieldError, forwardedRef, ...props }) => {
 	)
 
 	return (
-		<TokenInputFieldContainer>
+		<FieldContainer>
 			<TokenInput ref={inputRef} {...props} />
-			<StyledError>{fieldError || null}</StyledError>
-		</TokenInputFieldContainer>
+			<FieldError>{fieldError || null}</FieldError>
+		</FieldContainer>
 	)
 }
 
