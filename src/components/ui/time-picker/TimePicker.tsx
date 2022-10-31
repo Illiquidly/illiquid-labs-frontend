@@ -20,6 +20,7 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
+	min-height: 42px;
 	display: inline-flex;
 	align-items: center;
 	position: relative;
