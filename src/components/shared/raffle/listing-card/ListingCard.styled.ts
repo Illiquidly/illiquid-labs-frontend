@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import {
 	StyledAttributeCard,
@@ -101,7 +102,7 @@ export const LookingForSection = styled(Flex)`
 	overflow: hidden;
 `
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<{ hasNoBottomRadius?: boolean }>`
 	width: 100%;
 	position: relative;
 	padding: 12px;
@@ -113,6 +114,14 @@ export const CardContainer = styled.div`
 	box-shadow: '0px 1px 3px rgba(16, 24, 40, 0.1),0px 1px 2px rgba(16, 24, 40, 0.06)';
 
 	border-radius: 10px;
+
+	${props =>
+		props.hasNoBottomRadius &&
+		css`
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+			border-bottom: 0;
+		`}
 
 	&:hover {
 		cursor: pointer;
@@ -254,4 +263,43 @@ export const AttributeValue = styled(StyledAttributeValue)`
 	font-weight: 600;
 	font-size: 16px;
 	line-height: 19px;
+`
+
+export const RaffleWinnerBadge = styled(Flex)`
+	width: 100%;
+	height: 34px;
+	justify-content: center;
+	align-items: center;
+	background-color: ${props => props.theme.colors.primary200};
+`
+
+export const RaffleWinner = styled.div`
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 19px;
+	text-align: center;
+`
+
+export const RaffleWinnerSection = styled(Flex)`
+	flex-direction: column;
+	justify-content: space-between;
+	height: 130px;
+	background-color: ${props => props.theme.colors.primary100};
+	padding: 18px 10px;
+
+	background: ${props => props.theme.colors.primary100};
+	border-radius: 0px 0px 9.25px 9.25px;
+`
+
+export const RaffleWinnerAddress = styled.div`
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 19px;
+	text-align: center;
+
+	color: ${props => props.theme.colors.gray700};
 `

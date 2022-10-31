@@ -115,7 +115,13 @@ function GridController({
 				({
 					raffleId,
 					participants,
-					raffleInfo: { raffleTicketPrice, raffleOptions, allAssociatedAssets },
+
+					raffleInfo: {
+						raffleTicketPrice,
+						raffleOptions,
+						allAssociatedAssets,
+						winner,
+					},
 				}) => {
 					const liked = Boolean(
 						(favoriteRaffles ?? []).find(
@@ -141,6 +147,7 @@ function GridController({
 					return (
 						<Box key={raffleId}>
 							<ListingCard
+								winner={winner}
 								onLike={toggleLike}
 								description={raffleOptions?.rafflePreview?.cw721Coin?.description ?? ''}
 								attributes={raffleOptions?.rafflePreview?.cw721Coin?.attributes ?? []}

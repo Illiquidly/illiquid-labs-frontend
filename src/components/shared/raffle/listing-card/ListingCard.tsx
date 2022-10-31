@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Collection, NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
+import getShortText from 'utils/js/getShortText'
 import { OverflowTip } from '../../../ui/overflow-tip'
 
 import {
@@ -26,6 +27,10 @@ import {
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
+	RaffleWinner,
+	RaffleWinnerAddress,
+	RaffleWinnerBadge,
+	RaffleWinnerSection,
 	RightCutout,
 	RightTopImageArea,
 	Subtitle,
@@ -46,16 +51,16 @@ interface ListingCardProps extends NFT {
 	disabled?: boolean
 	lookingForItemsLimit?: number
 	previewItemsLimit?: number
-	// winner?: string
+	winner?: string
 	ticketPrice: string
 	ticketCurrency: string
 	ticketNumber: number
 	ticketsSold: number
 	endsIn: Date
-	// withdrawn?: boolean
 }
 
 function ListingCard({
+	winner,
 	liked,
 	verified,
 	nfts,
@@ -77,7 +82,7 @@ function ListingCard({
 		<Box sx={{ overflow: 'hidden' }}>
 			<Link passHref href={href} disabled={disabled}>
 				<a>
-					<CardContainer>
+					<CardContainer hasNoBottomRadius={!!winner}>
 						<ImageSection>
 							{imageUrl?.every(img => img === '') ? (
 								<ImagePlaceholder width='61.56px' height='57.87px' />
@@ -154,34 +159,44 @@ function ListingCard({
 								</Flex>
 							</Flex>
 						</DescriptionSection>
-						<Flex sx={{ flexDirection: 'column', gap: '6px' }}>
-							<AttributeCard>
-								<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-									<Flex sx={{ flexDirection: 'column' }}>
-										<AttributeName>{t('raffle-listings:price-ticket')}</AttributeName>
-										<AttributeValue>
-											{`${ticketPrice} ${ticketCurrency}`}{' '}
-											<Box sx={{ ml: 8 }}>
-												<LunaIcon />
-											</Box>
-										</AttributeValue>
+						{!winner && (
+							<Flex sx={{ flexDirection: 'column', gap: '6px' }}>
+								<AttributeCard>
+									<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
+										<Flex sx={{ flexDirection: 'column' }}>
+											<AttributeName>{t('raffle-listings:price-ticket')}</AttributeName>
+											<AttributeValue>
+												{`${ticketPrice} ${ticketCurrency}`}{' '}
+												<Box sx={{ ml: 8 }}>
+													<LunaIcon />
+												</Box>
+											</AttributeValue>
+										</Flex>
+										<Flex sx={{ flexDirection: 'column' }}>
+											<AttributeName>{t('raffle-listings:remaining')}</AttributeName>
+											<AttributeValue>{`${ticketsSold} / ${ticketNumber}`}</AttributeValue>
+										</Flex>
 									</Flex>
-									<Flex sx={{ flexDirection: 'column' }}>
-										<AttributeName>{t('raffle-listings:remaining')}</AttributeName>
-										<AttributeValue>{`${ticketsSold} / ${ticketNumber}`}</AttributeValue>
-									</Flex>
-								</Flex>
-							</AttributeCard>
-							<AttributeCard>
-								<AttributeName>
-									{t(
-										`raffle-listings:${moment().isAfter(endsIn) ? 'ended' : 'ends-in'}`
-									)}
-								</AttributeName>
-								<AttributeValue>{moment(endsIn).fromNow()}</AttributeValue>
-							</AttributeCard>
-						</Flex>
+								</AttributeCard>
+								<AttributeCard>
+									<AttributeName>
+										{t(
+											`raffle-listings:${moment().isAfter(endsIn) ? 'ended' : 'ends-in'}`
+										)}
+									</AttributeName>
+									<AttributeValue>{moment(endsIn).fromNow()}</AttributeValue>
+								</AttributeCard>
+							</Flex>
+						)}
 					</CardContainer>
+					{winner && (
+						<RaffleWinnerSection>
+							<RaffleWinnerBadge>
+								<RaffleWinner>{t('raffle-listings:raffle-winner')}</RaffleWinner>
+							</RaffleWinnerBadge>
+							<RaffleWinnerAddress>{getShortText(winner, 10)}</RaffleWinnerAddress>
+						</RaffleWinnerSection>
+					)}
 				</a>
 			</Link>
 		</Box>
@@ -196,6 +211,7 @@ ListingCard.defaultProps = {
 	disabled: false,
 	lookingForItemsLimit: 4,
 	previewItemsLimit: 4,
+	winner: '',
 }
 
 export default ListingCard
