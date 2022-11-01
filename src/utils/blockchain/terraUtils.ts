@@ -7,6 +7,7 @@ import {
 	Msg,
 	CreateTxOptions,
 	TxInfo,
+	ExtensionOptions,
 } from '@terra-money/terra.js'
 import { Wallet } from '@terra-money/wallet-provider'
 import axios from 'axios'
@@ -62,7 +63,6 @@ export const amountConverter: any = {
 }
 
 let wallet: Wallet
-const waitedForWallet = false
 
 function setWallet(newWallet: Wallet) {
 	// console.log(`Setting a new wallet in blockchain.ts module`, { newWallet });
@@ -221,14 +221,12 @@ async function estimateTxFee(messages: Msg[]) {
 
 	const accountInfo = await lcdClient.auth.accountInfo(address)
 
-	const txOptions: CreateTxOptions = {
+	const txOptions: ExtensionOptions = {
 		msgs: messages,
 		gasPrices,
 		gasAdjustment: 1.4,
 		feeDenoms: [isClassic() ? 'uusd' : 'uluna'],
 		memo,
-		// Github issue: https://github.com/terra-money/terra.js/pull/295
-		// @ts-ignore
 		isClassic: isClassic(),
 	}
 
@@ -304,7 +302,8 @@ async function getTerraUrlForTxId(txId: string): Promise<string> {
 }
 
 async function postManyTransactions(
-	txs: TransactionDetails[]
+	txs: TransactionDetails[],
+	memo?: string
 ): Promise<TxReceipt> {
 	checkWallet('postManyTransactions')
 
@@ -320,9 +319,8 @@ async function postManyTransactions(
 	const tx = await wallet.post({
 		fee,
 		msgs,
-		// Github issue: https://github.com/terra-money/terra.js/pull/295
-		// @ts-ignore
 		isClassic: isClassic(),
+		memo,
 	})
 	const txId = tx.result.txhash
 
@@ -335,8 +333,11 @@ async function postManyTransactions(
 	}
 }
 
-async function postTransaction(tx: TransactionDetails): Promise<TxReceipt> {
-	return postManyTransactions([tx])
+async function postTransaction(
+	tx: TransactionDetails,
+	memo?: string
+): Promise<TxReceipt> {
+	return postManyTransactions([tx], memo)
 }
 
 export default {
