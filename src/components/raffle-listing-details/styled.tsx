@@ -220,6 +220,7 @@ export const AttributesCard = styled(Box)`
 	flex: 1;
 	background: ${props => props.theme.colors.dark300};
 	padding: 10px;
+	border-radius: 8px;
 `
 
 AttributesCard.defaultProps = {
