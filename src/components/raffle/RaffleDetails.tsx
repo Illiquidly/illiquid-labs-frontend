@@ -38,12 +38,10 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 		getValues,
 		register,
 		setValue,
-		watch,
 
 		formState: { isValid, errors },
 	} = useFormContext<RaffleFormStepsProps>()
 
-	console.warn(watch('comment'))
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
