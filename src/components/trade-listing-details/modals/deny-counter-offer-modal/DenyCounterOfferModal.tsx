@@ -12,14 +12,13 @@ import {
 	Modal,
 	RadioCardInput,
 	RadioInputGroupProvider,
-	TextArea,
 } from 'components/ui'
 
 import { CounterTrade } from 'services/api/counterTradesService'
 import { FormProvider, useForm } from 'react-hook-form'
 import getShortText from 'utils/js/getShortText'
 import { ModalLayoutContainer } from 'components/layout'
-import { FieldLabel } from 'components/form/components'
+import { TextAreaField } from 'components/form'
 import {
 	ModalBody,
 	ModalContainer,
@@ -122,11 +121,9 @@ const DenyCounterOfferModal = NiceModal.create(
 												</RadioInputGroupProvider>
 											</Flex>
 
-											<Flex sx={{ flexDirection: 'column' }}>
-												<FieldLabel htmlFor='comment'>
-													{t('trade-listings:deny-counter-offer-modal:send-message')}
-												</FieldLabel>
-												<TextArea
+											<Flex>
+												<TextAreaField
+													label={t('trade-listings:deny-counter-offer-modal:send-message')}
 													id='comment'
 													style={{ height: '128px' }}
 													{...register('comment')}

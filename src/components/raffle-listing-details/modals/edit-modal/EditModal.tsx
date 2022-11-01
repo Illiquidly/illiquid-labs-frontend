@@ -7,18 +7,17 @@ import { useTheme } from '@emotion/react'
 
 import { ModalCloseIcon } from 'assets/icons/modal'
 
-import { Button, Modal, TextArea } from 'components/ui'
+import { Button, Modal } from 'components/ui'
 
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TextInputField, TokenInputField } from 'components/form'
+import { TextAreaField, TextInputField, TokenInputField } from 'components/form'
 import { ModalLayoutContainer } from 'components/layout'
 
 import { RaffleDetailsStepSchema } from 'constants/validation-schemas/raffle'
 import { DatePickerField } from 'components/form/fields/date-picker-field'
 import { TimePickerField } from 'components/form/fields/time-picker-field'
 import moment from 'moment'
-import { FieldLabel } from 'components/form/components'
 import {
 	ModalBody,
 	ModalContainer,
@@ -198,10 +197,9 @@ const EditModal = NiceModal.create(
 												/>
 											</Flex>
 										</Flex>
-										<FieldLabel htmlFor='comment'>
-											{t('raffle-listings:edit-modal:write-comment')}
-										</FieldLabel>
-										<TextArea
+
+										<TextAreaField
+											label={t('raffle-listings:edit-modal:write-comment')}
 											id='comment'
 											style={{ height: '128px' }}
 											{...register('comment')}

@@ -6,7 +6,7 @@ import {
 	MultiSelectInput,
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
-	TextArea,
+	TextAreaField,
 	TokenInputField,
 } from 'components'
 import If from 'components/core/if-statement'
@@ -128,10 +128,8 @@ const TradeDetailsForm = () => {
 
 			{getValues('lookingForType') === LOOKING_FOR_TYPE.ANY && (
 				<div style={{ paddingTop: '48px' }}>
-					<FieldLabel htmlFor='comment'>
-						{t('trade:trade-details.text-area-label')}
-					</FieldLabel>
-					<TextArea
+					<TextAreaField
+						label={t('trade:trade-details.text-area-label')}
 						id='comment'
 						style={{ height: '128px' }}
 						{...register('comment')}

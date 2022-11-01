@@ -7,14 +7,14 @@ import { useTheme } from '@emotion/react'
 
 import { ModalCloseIcon, ModalErrorCircleIcon } from 'assets/icons/modal'
 
-import { Button, Modal, TextArea } from 'components/ui'
+import { Button, Modal } from 'components/ui'
 
 import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
 import { ModalLayoutContainer } from 'components/layout'
 import { Trade } from 'services/api/tradesService'
 
-import { FieldLabel } from 'components/form/components'
+import { TextAreaField } from 'components/form'
 import {
 	ModalBody,
 	ModalContainer,
@@ -70,13 +70,11 @@ const WithdrawCancelledCounterModal = NiceModal.create(
 									</Box>
 								</Flex>
 
-								<Flex sx={{ flexDirection: 'column' }}>
-									<FieldLabel htmlFor='comment'>
-										{t('trade-listings:withdraw-cancelled-counter-modal.comment', {
+								<Flex>
+									<TextAreaField
+										label={t('trade-listings:withdraw-cancelled-counter-modal.comment', {
 											username: getShortText(trade.tradeInfo.owner ?? '', 8),
 										})}
-									</FieldLabel>
-									<TextArea
 										id='comment'
 										disabled
 										value={

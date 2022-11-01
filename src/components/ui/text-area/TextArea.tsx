@@ -104,7 +104,7 @@ export const TextArea = React.forwardRef<
 			error={props.error}
 			onClick={handleClick}
 		>
-			<TextAreaStyled {...rest} ref={ref}>
+			<TextAreaStyled {...rest} ref={inputRef}>
 				{children}
 			</TextAreaStyled>
 			{props.error && <AlertCircleIcon />}

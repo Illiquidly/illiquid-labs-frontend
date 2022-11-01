@@ -102,6 +102,7 @@ export default function Raffle() {
 		ticketSupply,
 		endDate,
 		endTime,
+		comment,
 	}) => {
 		const now = moment()
 
@@ -126,6 +127,7 @@ export default function Raffle() {
 					),
 					maxParticipantNumber: +ticketSupply,
 					raffleDuration: Math.floor(duration.asSeconds()),
+					comment,
 				}
 			),
 			closeOnFinish: true,

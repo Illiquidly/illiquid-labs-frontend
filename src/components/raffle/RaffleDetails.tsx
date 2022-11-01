@@ -1,6 +1,7 @@
 import {
 	AccordionCard,
 	AccordionCardText,
+	TextAreaField,
 	TextInputField,
 	TokenInputField,
 } from 'components'
@@ -37,10 +38,12 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 		getValues,
 		register,
 		setValue,
+		watch,
 
 		formState: { isValid, errors },
 	} = useFormContext<RaffleFormStepsProps>()
 
+	console.warn(watch('comment'))
 	return (
 		<ContentCardWrapper>
 			<ContentCard>
@@ -50,63 +53,79 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 				</ContentCardSubtitle>
 				<FormWrapper>
 					<Box sx={{ pt: '8px' }}>
-						<DatePickerField
-							label={t('raffle:raffle-details.end-date-label')}
-							id='endDate'
-							value={getValues('endDate')}
-							onChange={([date]) =>
-								setValue('endDate', date, {
-									shouldValidate: true,
-								})
-							}
-							minDate={moment().add('1', 'day').startOf('day').toDate()}
-							fieldError={
-								errors.endDate && t(`common:errors.${errors?.endDate?.message}`)
-							}
-							error={!!errors.endDate}
-							placeholder={t('raffle:raffle-details.enter-date')}
-						/>
+						<Flex sx={{ flexDirection: ['column', 'row'], gap: [0, '16px'] }}>
+							<DatePickerField
+								label={t('raffle:raffle-details.end-date-label')}
+								id='endDate'
+								value={getValues('endDate')}
+								onChange={([date]) =>
+									setValue('endDate', date, {
+										shouldValidate: true,
+									})
+								}
+								minDate={moment().add('1', 'day').startOf('day').toDate()}
+								fieldError={
+									errors.endDate && t(`common:errors.${errors?.endDate?.message}`)
+								}
+								error={!!errors.endDate}
+								placeholder={t('raffle:raffle-details.enter-date')}
+							/>
 
-						<TimePickerField
-							label={t('raffle:raffle-details.end-time-label')}
-							id='endTime'
-							value={getValues('endTime')}
-							onChange={([date]) =>
-								setValue('endTime', date, {
-									shouldValidate: true,
-								})
-							}
-							fieldError={
-								errors.endTime && t(`common:errors.${errors?.endTime?.message}`)
-							}
-							error={!!errors.endTime}
-							placeholder={t('raffle:raffle-details.enter-time')}
-						/>
+							<TimePickerField
+								label={t('raffle:raffle-details.end-time-label')}
+								id='endTime'
+								value={getValues('endTime')}
+								onChange={([date]) =>
+									setValue('endTime', date, {
+										shouldValidate: true,
+									})
+								}
+								fieldError={
+									errors.endTime && t(`common:errors.${errors?.endTime?.message}`)
+								}
+								error={!!errors.endTime}
+								placeholder={t('raffle:raffle-details.enter-time')}
+							/>
+						</Flex>
 
-						<TextInputField
-							label={t('raffle:raffle-details.ticket-supply-label')}
-							id='ticketSupply'
-							{...register('ticketSupply')}
-							fieldError={
-								errors.ticketSupply &&
-								t(`common:errors.${errors?.ticketSupply?.message}`)
-							}
-							error={!!errors.ticketSupply}
-							placeholder={t('raffle:raffle-details.enter-ticket-placeholder')}
-						/>
+						<Flex sx={{ flexDirection: ['column', 'row'], gap: [0, '16px'] }}>
+							<TextInputField
+								label={t('raffle:raffle-details.ticket-supply-label')}
+								id='ticketSupply'
+								{...register('ticketSupply')}
+								fieldError={
+									errors.ticketSupply &&
+									t(`common:errors.${errors?.ticketSupply?.message}`)
+								}
+								error={!!errors.ticketSupply}
+								placeholder={t('raffle:raffle-details.enter-ticket-placeholder')}
+							/>
 
-						<TokenInputField
-							label={t('raffle:raffle-details.ticket-price-label')}
-							id='ticketPrice'
-							{...register('ticketPrice')}
+							<TokenInputField
+								label={t('raffle:raffle-details.ticket-price-label')}
+								id='ticketPrice'
+								{...register('ticketPrice')}
+								fieldError={
+									errors.ticketPrice && t(`common:errors.${errors.ticketPrice.message}`)
+								}
+								error={!!errors.ticketPrice}
+								placeholder={t('raffle:raffle-details.tokens-placeholder', {
+									token: getValues('ticketPriceCurrency'),
+								})}
+								tokenName={getValues('ticketPriceCurrency')}
+							/>
+						</Flex>
+
+						<TextAreaField
+							style={{ height: '128px' }}
+							label={t('raffle:raffle-details.comment-label')}
+							id='comment'
+							{...register('comment')}
 							fieldError={
-								errors.ticketPrice && t(`common:errors.${errors.ticketPrice.message}`)
+								errors.ticketSupply && t(`common:errors.${errors?.comment?.message}`)
 							}
-							error={!!errors.ticketPrice}
-							placeholder={t('raffle:raffle-details.tokens-placeholder', {
-								token: getValues('ticketPriceCurrency'),
-							})}
-							tokenName={getValues('ticketPriceCurrency')}
+							error={!!errors.comment}
+							placeholder={t('raffle:raffle-details.comment-placeholder')}
 						/>
 					</Box>
 

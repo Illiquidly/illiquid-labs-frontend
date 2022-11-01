@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react'
 import { WalletIcon } from 'assets/icons/mixed'
 import TradeAssetImage from 'assets/images/TradeAsset'
-import { Button, Card, TextArea } from 'components/ui'
+import { Button, Card } from 'components/ui'
 import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -12,8 +12,7 @@ import { MyNFTsModal } from 'components/shared'
 import { NFT } from 'services/api/walletNFTsService'
 import { useFormContext } from 'react-hook-form'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
-import { TokenInputField } from 'components/form'
-import { FieldLabel } from 'components/form/components'
+import { TextAreaField, TokenInputField } from 'components/form'
 import {
 	AttributeCard,
 	AttributeName,
@@ -22,7 +21,6 @@ import {
 	PreviewImage,
 	PreviewImageContainer,
 	SelectNFTsSection,
-	// Subtitle,
 	Title,
 } from './styled'
 
@@ -162,10 +160,8 @@ export default function SelectNFTs() {
 				/>
 
 				<Flex sx={{ flexDirection: 'column' }}>
-					<FieldLabel>
-						{t('trade-listings:trade-counter.write-a-comment')}
-					</FieldLabel>
-					<TextArea
+					<TextAreaField
+						label={t('trade-listings:trade-counter.write-a-comment')}
 						id='comment'
 						style={{ height: '128px' }}
 						{...register('comment')}

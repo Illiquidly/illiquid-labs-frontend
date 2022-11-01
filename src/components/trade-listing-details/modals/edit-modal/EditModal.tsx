@@ -13,7 +13,6 @@ import {
 	RadioInputGroupProvider,
 	MultiSelectInput,
 	SelectChip,
-	TextArea,
 } from 'components/ui'
 
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
@@ -30,7 +29,7 @@ import {
 } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
-import { TokenInputField } from 'components/form'
+import { TextAreaField, TokenInputField } from 'components/form'
 import { ModalLayoutContainer } from 'components/layout'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
 import { TradeDetailsStepSchema } from 'constants/validation-schemas/trade'
@@ -243,10 +242,9 @@ const EditModal = NiceModal.create(
 												/>
 											</Flex>
 										)}
-										<FieldLabel htmlFor='comment'>
-											{t('trade-listings:edit-modal:write-comment')}
-										</FieldLabel>
-										<TextArea
+
+										<TextAreaField
+											label={t('trade-listings:edit-modal:write-comment')}
 											id='comment'
 											style={{ height: '128px' }}
 											{...register('comment')}

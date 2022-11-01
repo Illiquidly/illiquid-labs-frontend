@@ -7,7 +7,7 @@ import { useTheme } from '@emotion/react'
 
 import { ModalCloseIcon } from 'assets/icons/modal'
 
-import { Button, Modal, TextArea } from 'components/ui'
+import { Button, Modal } from 'components/ui'
 
 import { CounterTrade } from 'services/api/counterTradesService'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -22,7 +22,7 @@ import { NFT } from 'services/api/walletNFTsService'
 import { HumanCoin, Trade } from 'services/api/tradesService'
 import { LunaIcon } from 'assets/icons/mixed'
 import { TradeFee } from 'services/blockchain'
-import { FieldLabel } from 'components/form/components'
+import { TextAreaField } from 'components/form'
 import {
 	ModalBody,
 	ModalContainer,
@@ -211,10 +211,8 @@ const AcceptCounterOfferModal = NiceModal.create(
 											</Flex>
 
 											<Flex sx={{ flexDirection: 'column' }}>
-												<FieldLabel htmlFor='comment'>
-													{t('trade-listings:accept-counter-offer-modal:send-message')}
-												</FieldLabel>
-												<TextArea
+												<TextAreaField
+													label={t('trade-listings:accept-counter-offer-modal:send-message')}
 													id='comment'
 													style={{ height: '128px' }}
 													{...register('comment')}

@@ -13,6 +13,7 @@ export interface RaffleFormStepsProps {
 	ticketSupply: number
 	ticketPrice: number
 	ticketPriceCurrency: string
+	comment: string
 
 	// CONFIRM
 	isSuccessScreen: boolean

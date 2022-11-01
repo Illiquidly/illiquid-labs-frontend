@@ -21,6 +21,8 @@
 		"ticket-price-label": "Ticket price",
 		"enter-ticket-placeholder": "Enter ticket",
 		"terms-title": "Terms & Conditions",
+		"comment-label": "Write a comment",
+		"comment-placeholder": "",
 
 		"terms": [
 			"When a raffle is created, the NFT you have chosen will be transferred from your wallet into an escrow contract.",
