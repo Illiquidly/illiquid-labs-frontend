@@ -10,7 +10,7 @@ import { Link } from 'components/link'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { Collection, NFT } from 'services/api/walletNFTsService'
+import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 import getShortText from 'utils/js/getShortText'
 import { OverflowTip } from '../../../ui/overflow-tip'
@@ -46,10 +46,6 @@ interface ListingCardProps extends NFT {
 	liked?: boolean
 	verified?: boolean
 	name?: string
-	lookingFor?: (Partial<Collection> & {
-		currency?: string
-		amount?: string
-	})[]
 	nfts: NFT[]
 	href: string
 	onLike: (nft: NFT) => void
@@ -62,6 +58,7 @@ interface ListingCardProps extends NFT {
 	ticketNumber: number
 	ticketsSold: number
 	endsIn: Date
+	isSmall?: boolean
 }
 
 function ListingCard({
@@ -78,6 +75,7 @@ function ListingCard({
 	ticketNumber,
 	ticketsSold,
 	endsIn,
+	isSmall,
 	...NFTProps
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -169,8 +167,10 @@ function ListingCard({
 								<AttributeCard>
 									<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
 										<Flex sx={{ flexDirection: 'column' }}>
-											<AttributeName>{t('raffle-listings:price-ticket')}</AttributeName>
-											<AttributeValue>
+											<AttributeName isSmall={isSmall}>
+												{t('raffle-listings:price-ticket')}
+											</AttributeName>
+											<AttributeValue isSmall={isSmall}>
 												{`${ticketPrice} ${ticketCurrency}`}{' '}
 												<Box sx={{ ml: 8 }}>
 													<LunaIcon />
@@ -178,18 +178,24 @@ function ListingCard({
 											</AttributeValue>
 										</Flex>
 										<Flex sx={{ flexDirection: 'column' }}>
-											<AttributeName>{t('raffle-listings:remaining')}</AttributeName>
-											<AttributeValue>{`${ticketsSold} / ${ticketNumber}`}</AttributeValue>
+											<AttributeName isSmall={isSmall}>
+												{t('raffle-listings:remaining')}
+											</AttributeName>
+											<AttributeValue
+												isSmall={isSmall}
+											>{`${ticketsSold} / ${ticketNumber}`}</AttributeValue>
 										</Flex>
 									</Flex>
 								</AttributeCard>
 								<AttributeCard>
-									<AttributeName>
+									<AttributeName isSmall={isSmall}>
 										{t(
 											`raffle-listings:${moment().isAfter(endsIn) ? 'ended' : 'ends-in'}`
 										)}
 									</AttributeName>
-									<AttributeValue>{moment(endsIn).fromNow()}</AttributeValue>
+									<AttributeValue isSmall={isSmall}>
+										{moment(endsIn).fromNow()}
+									</AttributeValue>
 								</AttributeCard>
 							</Flex>
 						)}
@@ -219,11 +225,11 @@ ListingCard.defaultProps = {
 	liked: false,
 	verified: false,
 	name: '',
-	lookingFor: undefined,
 	disabled: false,
 	lookingForItemsLimit: 4,
 	previewItemsLimit: 4,
 	winner: '',
+	isSmall: false,
 }
 
 export default ListingCard

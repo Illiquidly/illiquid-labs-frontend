@@ -249,20 +249,39 @@ export const AttributeCard = styled(StyledAttributeCard)`
 	padding: 8px 12px;
 `
 
-export const AttributeName = styled(StyledAttributeName)`
+export const AttributeName = styled(StyledAttributeName)<{ isSmall?: boolean }>`
 	font-weight: 600;
-	font-size: 14px;
-	line-height: 17px;
+
 	color: ${props => props.theme.colors.gray600};
 	text-transform: none;
+	line-height: 17px;
+
+	${props =>
+		props.isSmall
+			? css`
+					font-size: 12px;
+			  `
+			: css`
+					font-size: 14px;
+			  `}
 `
 
-export const AttributeValue = styled(StyledAttributeValue)`
+export const AttributeValue = styled(StyledAttributeValue)<{
+	isSmall?: boolean
+}>`
 	align-items: center;
 	overflow: hidden;
 	font-weight: 600;
-	font-size: 16px;
 	line-height: 19px;
+
+	${props =>
+		props.isSmall
+			? css`
+					font-size: 14px;
+			  `
+			: css`
+					font-size: 16px;
+			  `}
 `
 
 export const RaffleWinnerBadge = styled(Flex)`

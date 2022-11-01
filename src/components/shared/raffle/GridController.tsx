@@ -184,6 +184,7 @@ function GridController({
 								endsIn={moment(raffleOptions?.raffleStartDate)
 									.add(raffleOptions?.raffleDuration ?? 0, 'seconds')
 									.toDate()}
+								isSmall={gridType === GRID_TYPE.BIG}
 							/>
 						</Box>
 					)
