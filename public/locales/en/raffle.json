@@ -36,6 +36,8 @@
 		]
 	},
 	"confirm-listing": {
+		"comments": "Comments",
+		"no-content-comments": "No comments specified",
 		"title-message": "Confirm Raffle",
 		"instruction": "Review the details below and make any adjustments",
 		"what-are-you-raffling": "What you’re raffling",

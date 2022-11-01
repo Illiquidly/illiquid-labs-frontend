@@ -142,7 +142,7 @@ export default function Raffle() {
 					: ''
 			formMethods.setValue(
 				'raffleDetailsUrl',
-				`${origin}${ROUTES.TRADE_LISTING_DETAILS}?raffleId=${raffleId}`
+				`${origin}${ROUTES.RAFFLE_LISTING_DETAILS}?raffleId=${raffleId}`
 			)
 			formMethods.setValue('terraFinderUrl', txTerraFinderUrl)
 			formMethods.setValue('isSuccessScreen', true)

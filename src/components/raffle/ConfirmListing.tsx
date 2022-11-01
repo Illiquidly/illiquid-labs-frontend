@@ -25,6 +25,7 @@ import {
 	ContentCardWrapper,
 	EditButton,
 	NFTCardsContainer,
+	NoContent,
 	StepTitle,
 	SuccessLabel,
 	SuccessMessage,
@@ -133,7 +134,7 @@ export const ConfirmListing = ({
 
 	const selectedCoverNFT = watch('coverNFT')
 	const selectedNFTs = getValues('selectedNFTs')
-	// const selectedComment = getValues('comment') || ''
+	const comment = getValues('comment') || ''
 	const isSuccessScreen = watch('isSuccessScreen')
 	const ticketSupply = getValues('ticketSupply')
 	const ticketPrice = getValues('ticketPrice')
@@ -243,6 +244,26 @@ export const ConfirmListing = ({
 									<LunaIcon />
 									<div>{`${ticketPrice} ${ticketPriceCurrency}`}</div>
 								</Chip>
+							</Box>
+						</Box>
+
+						{/* Comment */}
+						<Box>
+							<StepHeader
+								onEditClick={() =>
+									setStep(CREATE_RAFFLE_LISTING_FORM_STEPS.RAFFLE_DETAILS)
+								}
+							>
+								<StepTitle>{t('raffle:confirm-listing.comments')}</StepTitle>
+							</StepHeader>
+							<Box pb='24px' style={{ width: 'fit-content' }}>
+								{comment ? (
+									<Chip isViewMode>{`"${comment}"`}</Chip>
+								) : (
+									<NoContent>
+										{t('raffle:confirm-listing.no-content-comments')}
+									</NoContent>
+								)}
 							</Box>
 						</Box>
 					</ContentCard>
