@@ -170,8 +170,12 @@ function ListingCard({
 											<AttributeName isSmall={isSmall}>
 												{t('raffle-listings:price-ticket')}
 											</AttributeName>
+
 											<AttributeValue isSmall={isSmall}>
-												{`${ticketPrice} ${ticketCurrency}`}{' '}
+												<OverflowTip>
+													<div>{`${ticketPrice} ${ticketCurrency}`} </div>
+												</OverflowTip>
+
 												<Box sx={{ ml: 8 }}>
 													<LunaIcon />
 												</Box>
@@ -181,9 +185,12 @@ function ListingCard({
 											<AttributeName isSmall={isSmall}>
 												{t('raffle-listings:remaining')}
 											</AttributeName>
-											<AttributeValue
-												isSmall={isSmall}
-											>{`${ticketsSold} / ${ticketNumber}`}</AttributeValue>
+
+											<AttributeValue isSmall={isSmall}>
+												<OverflowTip>
+													<div>{`${ticketsSold} / ${ticketNumber}`}</div>
+												</OverflowTip>
+											</AttributeValue>
 										</Flex>
 									</Flex>
 								</AttributeCard>
