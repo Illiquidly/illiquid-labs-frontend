@@ -59,6 +59,7 @@ export const Subtitle = styled.div`
 	font-size: 16px;
 	line-height: 24px;
 	color: ${props => props.theme.colors.gray700};
+	word-break: break-word;
 `
 
 export const TxHashText = styled.div`
