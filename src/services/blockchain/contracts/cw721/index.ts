@@ -1,1 +1,1 @@
-export * from './cw721'
+export { default as Cw721Contract } from './cw721'
