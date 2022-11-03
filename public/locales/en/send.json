@@ -1,0 +1,12 @@
+{
+	"title": "Send NFTs",
+	"steps": ["Select NFTs", "Send Details", "Confirm"],
+	"select-NFTs": {
+		"question": "Which NFTs are you looking to send",
+		"add-instruction": "Add them here by clicking below",
+		"select-nfts": "Select NFTs",
+		"selected-nfts": "Selected NFT's",
+		"selected-nfts-description": "These items will be included in the send transaction",
+		"add-nfts-to-raffle": "Add NFTs to Send"
+	}
+}

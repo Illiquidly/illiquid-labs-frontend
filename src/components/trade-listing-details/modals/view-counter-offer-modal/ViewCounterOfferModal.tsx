@@ -190,7 +190,6 @@ export const ViewCounterOfferModal = NiceModal.create(
 									<Flex
 										sx={{
 											mt: ['16px', '32px', '36px'],
-											flex: 1,
 											gap: '34px',
 											overflow: ['initial', 'initial', 'auto'],
 										}}
@@ -233,8 +232,8 @@ export const ViewCounterOfferModal = NiceModal.create(
 										<Box
 											sx={{
 												overflow: ['initial', 'initial', 'auto'],
-												flex: 1,
 												pr: [0, 0, '10px'],
+												width: '100%',
 											}}
 										>
 											<NFTCardsGrid>

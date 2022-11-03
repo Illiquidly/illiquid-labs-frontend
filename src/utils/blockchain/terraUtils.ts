@@ -295,7 +295,7 @@ function checkWallet(parentFunctionName: string): void {
 	}
 }
 
-async function getTerraUrlForTxId(txId: string): Promise<string> {
+export function getTerraUrlForTxId(txId: string): string {
 	const networkId = getNetworkId()
 
 	return `https://finder.terra.money/${networkId}/tx/${txId}`
@@ -324,7 +324,7 @@ async function postManyTransactions(
 	})
 	const txId = tx.result.txhash
 
-	const txTerraFinderUrl = await getTerraUrlForTxId(txId)
+	const txTerraFinderUrl = getTerraUrlForTxId(txId)
 
 	return {
 		txId,

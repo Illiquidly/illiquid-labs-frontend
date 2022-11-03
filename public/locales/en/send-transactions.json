@@ -1,0 +1,8 @@
+{
+	"transactions": {
+		"table": {
+			"columns": ["Recipient", "NFTs", "Transaction id", "Sent", ""]
+		}
+	},
+	"previous-transactions": "Previous Transactions"
+}

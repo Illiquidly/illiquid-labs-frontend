@@ -102,5 +102,6 @@
 		"type-here-to-search": "Type here to search...",
 		"a-to-z": "A to Z",
 		"z-to-a": "Z to A"
-	}
+	},
+	"view-transaction": "View Transaction"
 }

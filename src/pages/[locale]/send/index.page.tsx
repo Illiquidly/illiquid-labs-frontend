@@ -6,12 +6,12 @@ import { LayoutContainer, Page } from 'components'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import PageNotFound from 'components/shared/page-not-found/PageNotFound'
 
-const getStaticProps = makeStaticProps(['common'])
+const getStaticProps = makeStaticProps(['common', 'send'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
-export default function Trade() {
-	const { t } = useTranslation(['common'])
+export default function Send() {
+	const { t } = useTranslation(['common', 'send'])
 
 	return (
 		<Page title={t('common:title')}>

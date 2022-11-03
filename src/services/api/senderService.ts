@@ -1,5 +1,5 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
-import axios from 'axios'
+import { axios } from 'services/axios'
 import { APIGetAllResponse, APIPagination, NetworkType } from 'types'
 import { NFT } from './walletNFTsService'
 
@@ -89,13 +89,17 @@ export class SenderService {
 			})
 		}
 
-		const response = await axios.get(`nft-transfer?${queryBuilder.query()}`)
+		const response = await axios.get(
+			`/nft-transfer-transactions?${queryBuilder.query()}`
+		)
 
 		return response.data
 	}
 
 	public static async getTransaction(network: string): Promise<SendTransaction> {
-		const response = await axios.patch(`nft-transfer/update/${network}`)
+		const response = await axios.patch(
+			`/nft-transfer-transactions/update/${network}`
+		)
 
 		return response.data
 	}
