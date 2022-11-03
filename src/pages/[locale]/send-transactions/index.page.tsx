@@ -34,7 +34,9 @@ export default function Send() {
 				>
 					<SendingCard>
 						<MultisenderImg />
-						<Title>{t('send-transactions:nft-multisender')}</Title>
+						<Box sx={{ mt: '8px' }}>
+							<Title>{t('send-transactions:nft-multisender')}</Title>
+						</Box>
 						<Box sx={{ mt: '8px' }}>
 							<CardSubtitle>
 								{t('send-transactions:nft-multisender-description')}
@@ -48,7 +50,9 @@ export default function Send() {
 					</SendingCard>
 					<SendingCard>
 						<AirdropperImg />
-						<Title>{t('send-transactions:nft-airdropper')}</Title>
+						<Box sx={{ mt: '8px' }}>
+							<Title>{t('send-transactions:nft-airdropper')}</Title>
+						</Box>
 						<Box sx={{ mt: '8px' }}>
 							<CardSubtitle>
 								{t('send-transactions:nft-airdropper-description')}
