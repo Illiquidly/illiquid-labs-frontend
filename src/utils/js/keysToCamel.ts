@@ -4,17 +4,17 @@ const toCamel = (s: string) =>
 		$1.toUpperCase().replace('-', '').replace('_', '')
 	)
 
-function isArray(a: any) {
+function isArray(a) {
 	return Array.isArray(a)
 }
 
-function isObject(o: any) {
+function isObject(o) {
 	return o === Object(o) && !isArray(o) && typeof o !== 'function'
 }
 
-function keysToCamel(o: any) {
+function keysToCamel(o) {
 	if (isObject(o)) {
-		const n: any = {}
+		const n = {}
 
 		Object.keys(o).forEach((k: string) => {
 			n[toCamel(k)] = keysToCamel(o[k])

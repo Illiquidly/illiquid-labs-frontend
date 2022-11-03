@@ -1,7 +1,7 @@
 import { findLast } from 'lodash'
 import { keysToCamel } from 'utils/js/keysToCamel'
 
-export function parseTxResult(txResult: any) {
+export function parseTxResult(txResult) {
 	return keysToCamel(
 		Object.fromEntries(
 			(

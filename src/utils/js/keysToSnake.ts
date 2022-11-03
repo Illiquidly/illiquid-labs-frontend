@@ -2,17 +2,17 @@
 
 import { snakeCase } from 'lodash'
 
-function isArray(a: any) {
+function isArray(a) {
 	return Array.isArray(a)
 }
 
-function isObject(o: any) {
+function isObject(o) {
 	return o === Object(o) && !isArray(o) && typeof o !== 'function'
 }
 
-function keysToSnake(o: any) {
+function keysToSnake(o) {
 	if (isObject(o)) {
-		const n: any = {}
+		const n = {}
 
 		Object.keys(o).forEach((k: string) => {
 			n[snakeCase(k)] = keysToSnake(o[k])
@@ -21,7 +21,7 @@ function keysToSnake(o: any) {
 		return n
 	}
 	if (isArray(o)) {
-		return o.map((i: any) => keysToSnake(i))
+		return o.map(i => keysToSnake(i))
 	}
 
 	return o

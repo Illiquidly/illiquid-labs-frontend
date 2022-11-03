@@ -50,13 +50,13 @@ const FCD_URLS = {
 
 function createAmountConverter(decimals: number) {
 	return {
-		userFacingToBlockchainValue: (amount: number) =>
-			String(Math.floor(amount * 10 ** decimals)),
+		userFacingToBlockchainValue: (amount?: number | string) =>
+			String(Math.floor(Number(amount ?? 0) * 10 ** decimals)),
 		blockchainValueToUserFacing: (amount: any) => Number(amount) / 10 ** decimals,
 	}
 }
 
-export const amountConverter: any = {
+export const amountConverter = {
 	ust: createAmountConverter(UST_DECIMALS),
 	lp: createAmountConverter(LP_DECIMALS),
 	luna: createAmountConverter(LUNA_DECIMALS),
@@ -214,7 +214,7 @@ async function sendIndependentQuery(
 async function estimateTxFee(messages: Msg[]) {
 	const address = await getWalletAddress()
 
-	const gasPrices: any = await fetchGasPrices()
+	const gasPrices = await fetchGasPrices()
 
 	const lcdClient = await getLCDClient(gasPrices)
 	const memo = 'estimate fee'

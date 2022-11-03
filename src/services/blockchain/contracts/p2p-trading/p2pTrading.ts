@@ -21,7 +21,7 @@ export type Asset = {
 }
 
 export interface TradeFee {
-	amount: string
+	amount: number
 	currency: 'luna' | 'ust'
 }
 
