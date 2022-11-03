@@ -10,6 +10,8 @@ import {
 	TableBodyRowCell,
 	OverflowTip,
 	Button,
+	Tabs,
+	Tab,
 } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -35,9 +37,14 @@ import {
 import { NFT } from 'services/api/walletNFTsService'
 import { asyncAction } from 'utils/js/asyncAction'
 import {
+	ILLIQUID_LABS_AIR_DROPPER_MEMO,
+	ILLIQUID_LABS_MULTI_SEND_MEMO,
+} from 'constants/memo'
+import {
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
+	TabsSection,
 } from './styled'
 
 const Container = styled(Flex)`
@@ -46,8 +53,15 @@ const Container = styled(Flex)`
 	width: 100%;
 `
 
+export enum SEND_TYPE {
+	MULTISENDER = 'MULTISENDER',
+	AIRDROPPER = 'AIRDROPPER',
+	ALL = 'ALL',
+}
+
 function SendTransactionsTable({ previewItemsLimit = 4 }) {
 	const wallet = useWallet()
+	const [sendType, setSendType] = React.useState<SEND_TYPE>(SEND_TYPE.ALL)
 	const { t } = useTranslation(['common', 'send-transactions'])
 	const columns: Array<string> = t(
 		'send-transactions:transactions.table.columns',
@@ -72,15 +86,20 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 	React.useEffect(() => {
 		setInfiniteData([])
 		setPage(1)
-	}, [wallet.network])
+	}, [wallet.network, sendType])
 
 	const { data: transactions, isLoading } = useQuery(
-		[SEND_TRANSACTIONS, wallet.network, page],
+		[SEND_TRANSACTIONS, wallet.network, page, sendType],
 		async () =>
 			SenderService.getAllTransactions(
 				wallet.network.name,
 				{
 					senders: [myAddress],
+					memo: {
+						[SEND_TYPE.AIRDROPPER]: [ILLIQUID_LABS_AIR_DROPPER_MEMO],
+						[SEND_TYPE.MULTISENDER]: [ILLIQUID_LABS_MULTI_SEND_MEMO],
+						[SEND_TYPE.ALL]: undefined,
+					}[sendType],
 				},
 				{
 					limit: 5,
@@ -118,6 +137,22 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 
 	return (
 		<Container>
+			<TabsSection>
+				<Tabs
+					onChange={e => setSendType(e.target.value as SEND_TYPE)}
+					value={sendType}
+					name='listings'
+				>
+					<Tab value={SEND_TYPE.ALL}>{t('send-transactions:tabs:all')}</Tab>
+
+					<Tab value={SEND_TYPE.MULTISENDER}>
+						{t('send-transactions:tabs:multisender')}
+					</Tab>
+					<Tab value={SEND_TYPE.AIRDROPPER}>
+						{t('send-transactions:tabs:airdropper')}
+					</Tab>
+				</Tabs>
+			</TabsSection>
 			<Table>
 				<TableHead>
 					<TableHeadRow>
@@ -136,7 +171,7 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 
 						return (
 							<TableBodyRow key={id} onClick={() => handleViewAllNFTs(nfts)}>
-								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
+								<TableBodyRowCell>
 									<Flex
 										sx={{
 											maxWidth: '354px',
@@ -224,7 +259,7 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 					})}
 				</TableBody>
 			</Table>
-			<Flex sx={{ mt: '32px' }}>
+			<Flex sx={{ mt: '8px' }}>
 				{transactions?.data && !!transactions.data?.length && !isLoading && (
 					<Button
 						disabled={transactions?.page === transactions.pageCount}

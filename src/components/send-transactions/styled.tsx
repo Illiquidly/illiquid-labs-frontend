@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import { Img } from 'react-image'
+import { Flex } from 'theme-ui'
 
 export const PreviewNFTsSection = styled.div`
 	flex: 1;
@@ -51,3 +52,13 @@ export const Title = styled.div`
 
 	color: ${props => props.theme.colors.gray1000};
 `
+
+export const TabsSection = styled(Flex)``
+
+TabsSection.defaultProps = {
+	sx: {
+		marginBottom: ['12px'],
+		display: ['flex', 'flex', 'flex'],
+		maxWidth: [null, null, '356px'],
+	},
+}

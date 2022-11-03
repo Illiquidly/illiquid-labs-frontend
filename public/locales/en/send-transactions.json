@@ -4,5 +4,10 @@
 			"columns": ["Recipient", "NFTs", "Transaction id", "Sent", ""]
 		}
 	},
+	"tabs": {
+		"multisender": "Multisender",
+		"airdropper": "Airdropper",
+		"all": "All"
+	},
 	"previous-transactions": "Previous Transactions"
 }
