@@ -33,7 +33,7 @@ export class SenderService {
 		network: string,
 		filters?: SenderFilters,
 		pagination?: APIPagination,
-		sort: 'ASC' | 'DESC' = 'ASC'
+		sort: 'ASC' | 'DESC' = 'DESC'
 	): Promise<SendTransactionResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
 
