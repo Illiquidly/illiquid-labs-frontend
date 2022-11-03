@@ -54,7 +54,7 @@ function Header() {
 			icon: <TradeIcon />,
 		},
 		{
-			route: ROUTES.SEND,
+			route: ROUTES.SEND_TRANSACTIONS,
 			name: 'send',
 			icon: <ArrowShapeRightOutlineIcon />,
 		},

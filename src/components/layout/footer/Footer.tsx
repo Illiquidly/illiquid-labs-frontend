@@ -74,7 +74,7 @@ function Footer() {
 							<Link href={ROUTES.TRADE_LISTINGS}>
 								<LinkText>{t('links.trade')}</LinkText>
 							</Link>
-							<Link href={ROUTES.SEND}>
+							<Link href={ROUTES.SEND_TRANSACTIONS}>
 								<LinkText>{t('links.send')}</LinkText>
 							</Link>
 							<Link href={ROUTES.LOANS}>

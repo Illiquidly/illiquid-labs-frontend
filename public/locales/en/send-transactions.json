@@ -9,5 +9,13 @@
 		"airdropper": "Airdropper",
 		"all": "All"
 	},
-	"previous-transactions": "Previous Transactions"
+	"previous-transactions": "Previous Transactions",
+	"no-previous-transactions": "No previous transactions.",
+	"nft-multisender": "NFT Multisender",
+	"nft-multisender-description": "Send many NFT to go to many wallet addresses. Get started by clicking below.",
+	"multisend": "Multisend",
+	"airdrop": "Airdrop",
+	"nft-airdropper": "NFT Airdropper",
+	"nft-airdropper-description": "Send many NFT to go to many wallet addresses. Get started by clicking below.",
+	"start-sending": "Start Sending"
 }

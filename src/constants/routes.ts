@@ -8,6 +8,7 @@ export const TRADE_LISTING_DETAILS = '/trade-listing-details'
 export const TRADE_CREATE_LISTING = '/trade'
 export const TRADE_CREATE_COUNTER_LISTING = '/trade-counter'
 export const SEND = '/send'
+export const SEND_TRANSACTIONS = '/send-transactions'
 
 export const RAFFLE_LISTINGS = '/raffle-listings'
 export const RAFFLE_LISTING_DETAILS = '/raffle-listing-details'

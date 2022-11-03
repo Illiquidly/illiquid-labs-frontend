@@ -40,6 +40,7 @@ import {
 	ILLIQUID_LABS_AIR_DROPPER_MEMO,
 	ILLIQUID_LABS_MULTI_SEND_MEMO,
 } from 'constants/memo'
+import EmptyBox from 'assets/images/EmptyBox'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -51,6 +52,25 @@ const Container = styled(Flex)`
 	flex-direction: column;
 	padding-bottom: 45px;
 	width: 100%;
+`
+
+const EmptyCard = styled(Flex)`
+	width: 100%;
+	height: 287px;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	background: ${props => props.theme.colors.dark400};
+	border-radius: 20px;
+`
+
+const EmptyCardTitle = styled(Box)`
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 32px;
 `
 
 export enum SEND_TYPE {
@@ -96,8 +116,8 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 				{
 					senders: [myAddress],
 					memo: {
-						[SEND_TYPE.AIRDROPPER]: [ILLIQUID_LABS_AIR_DROPPER_MEMO],
-						[SEND_TYPE.MULTISENDER]: [ILLIQUID_LABS_MULTI_SEND_MEMO],
+						[SEND_TYPE.AIRDROPPER]: ILLIQUID_LABS_AIR_DROPPER_MEMO,
+						[SEND_TYPE.MULTISENDER]: ILLIQUID_LABS_MULTI_SEND_MEMO,
 						[SEND_TYPE.ALL]: undefined,
 					}[sendType],
 				},
@@ -153,112 +173,121 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 					</Tab>
 				</Tabs>
 			</TabsSection>
-			<Table>
-				<TableHead>
-					<TableHeadRow>
-						{columns.map(col => (
-							<TableHeadRowCell key={col}>{col}</TableHeadRowCell>
-						))}
-					</TableHeadRow>
-				</TableHead>
-				<TableBody>
-					{getUniqueTransferred(infiniteData).map(transaction => {
-						const { id } = transaction
+			{infiniteData.length ? (
+				<Table>
+					<TableHead>
+						<TableHeadRow>
+							{columns.map(col => (
+								<TableHeadRowCell key={col}>{col}</TableHeadRowCell>
+							))}
+						</TableHeadRow>
+					</TableHead>
+					<TableBody>
+						{getUniqueTransferred(infiniteData).map(transaction => {
+							const { id } = transaction
 
-						const nfts = (transaction?.sentAssets ?? []).map(
-							asset => asset.cw721Token
-						)
+							const nfts = (transaction?.sentAssets ?? []).map(
+								asset => asset.cw721Token
+							)
 
-						return (
-							<TableBodyRow key={id} onClick={() => handleViewAllNFTs(nfts)}>
-								<TableBodyRowCell>
-									<Flex
-										sx={{
-											maxWidth: '354px',
-											flex: 1,
-											flexDirection: 'column',
-										}}
-									>
-										<OverflowTip>
-											<div>{first(transaction?.sentAssets)?.recipient ?? ''}</div>
-										</OverflowTip>
-									</Flex>
-								</TableBodyRowCell>
-								<TableBodyRowCell>
-									<Flex
-										sx={{
-											flex: 1,
-											maxWidth: '144px',
-											justifyContent: 'flex-start',
-										}}
-									>
-										<PreviewNFTsSection>
-											{nfts.slice(0, previewItemsLimit).map(nft => (
-												<PreviewImageContainer
-													key={`${nft.collectionAddress}_${nft.tokenId}`}
-												>
-													{nft.imageUrl?.every(img => img === '') ? (
-														<ImagePlaceholder width='18px' height='18px' />
-													) : (
-														<PreviewImage src={nft.imageUrl ?? []} />
-													)}
-												</PreviewImageContainer>
-											))}
-											{(nfts || []).slice(previewItemsLimit).length
-												? `+${(nfts || []).slice(previewItemsLimit).length}`
-												: ''}
-										</PreviewNFTsSection>
-									</Flex>
-								</TableBodyRowCell>
-								<TableBodyRowCell>
-									<Flex
-										sx={{
-											minWidth: '160px',
-											justifyContent: 'flex-start',
-										}}
-									>
-										{getShortText(transaction.txHash, 6)}
-									</Flex>
-								</TableBodyRowCell>
-								<TableBodyRowCell>
-									<Box sx={{ textTransform: 'capitalize' }}>
+							return (
+								<TableBodyRow key={id} onClick={() => handleViewAllNFTs(nfts)}>
+									<TableBodyRowCell>
 										<Flex
 											sx={{
-												minWidth: '100px',
+												maxWidth: '354px',
+												flex: 1,
+												flexDirection: 'column',
+											}}
+										>
+											<OverflowTip>
+												<div>{first(transaction?.sentAssets)?.recipient ?? ''}</div>
+											</OverflowTip>
+										</Flex>
+									</TableBodyRowCell>
+									<TableBodyRowCell>
+										<Flex
+											sx={{
+												flex: 1,
+												maxWidth: '144px',
 												justifyContent: 'flex-start',
 											}}
 										>
-											{moment(transaction.date).fromNow()}
+											<PreviewNFTsSection>
+												{nfts.slice(0, previewItemsLimit).map(nft => (
+													<PreviewImageContainer
+														key={`${nft.collectionAddress}_${nft.tokenId}`}
+													>
+														{nft.imageUrl?.every(img => img === '') ? (
+															<ImagePlaceholder width='18px' height='18px' />
+														) : (
+															<PreviewImage src={nft.imageUrl ?? []} />
+														)}
+													</PreviewImageContainer>
+												))}
+												{(nfts || []).slice(previewItemsLimit).length
+													? `+${(nfts || []).slice(previewItemsLimit).length}`
+													: ''}
+											</PreviewNFTsSection>
 										</Flex>
-									</Box>
-								</TableBodyRowCell>
-								<TableBodyRowCell
-									onClick={e => {
-										e.stopPropagation()
-										e.preventDefault()
-									}}
-								>
-									<Flex
-										sx={{
-											minWidth: '180px',
-											justifyContent: 'flex-start',
+									</TableBodyRowCell>
+									<TableBodyRowCell>
+										<Flex
+											sx={{
+												minWidth: '160px',
+												justifyContent: 'flex-start',
+											}}
+										>
+											{getShortText(transaction.txHash, 6)}
+										</Flex>
+									</TableBodyRowCell>
+									<TableBodyRowCell>
+										<Box sx={{ textTransform: 'capitalize' }}>
+											<Flex
+												sx={{
+													minWidth: '100px',
+													justifyContent: 'flex-start',
+												}}
+											>
+												{moment(transaction.date).fromNow()}
+											</Flex>
+										</Box>
+									</TableBodyRowCell>
+									<TableBodyRowCell
+										onClick={e => {
+											e.stopPropagation()
+											e.preventDefault()
 										}}
 									>
-										<Button
-											onClick={async () =>
-												window.open(getTerraUrlForTxId(transaction.txHash), '_blank')
-											}
-											variant='secondary'
+										<Flex
+											sx={{
+												minWidth: '172px',
+												justifyContent: 'flex-start',
+											}}
 										>
-											{t('common:view-transaction')}
-										</Button>
-									</Flex>
-								</TableBodyRowCell>
-							</TableBodyRow>
-						)
-					})}
-				</TableBody>
-			</Table>
+											<Button
+												onClick={async () =>
+													window.open(getTerraUrlForTxId(transaction.txHash), '_blank')
+												}
+												variant='secondary'
+											>
+												{t('common:view-transaction')}
+											</Button>
+										</Flex>
+									</TableBodyRowCell>
+								</TableBodyRow>
+							)
+						})}
+					</TableBody>
+				</Table>
+			) : (
+				<EmptyCard>
+					<EmptyBox />
+					<EmptyCardTitle>
+						{t('send-transactions:no-previous-transactions')}
+					</EmptyCardTitle>
+				</EmptyCard>
+			)}
 			<Flex sx={{ mt: '8px' }}>
 				{transactions?.data && !!transactions.data?.length && !isLoading && (
 					<Button

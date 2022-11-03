@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Card } from 'components/ui'
 import { Img } from 'react-image'
 import { Flex } from 'theme-ui'
 
@@ -62,3 +63,29 @@ TabsSection.defaultProps = {
 		maxWidth: [null, null, '356px'],
 	},
 }
+
+export const SendingCard = styled(Card)`
+	background: ${props => props.theme.colors.dark200};
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 12px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+`
+
+SendingCard.defaultProps = {
+	sx: {
+		minHeight: ['412px'],
+		px: ['12px', '24px', '64px'],
+	},
+}
+
+export const CardSubtitle = styled.div`
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 20px;
+
+	color: ${props => props.theme.colors.gray700};
+`

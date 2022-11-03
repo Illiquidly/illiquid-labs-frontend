@@ -21,7 +21,7 @@ export interface SendTransaction {
 }
 
 type SenderFilters = {
-	memo?: string[] // Can be any but in constants we have defined those we are interested in. Airdrop and Multi-send.
+	memo?: string // Can be any but in constants we have defined those we are interested in. Airdrop and Multi-send.
 	senders?: string[]
 	recipients?: string[]
 }
@@ -46,7 +46,7 @@ export class SenderService {
 					? [
 							{
 								memo: {
-									$eq: filters?.memo,
+									$contL: filters?.memo,
 								},
 							},
 					  ]
