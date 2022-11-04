@@ -25,7 +25,7 @@ import useAddress from 'hooks/useAddress'
 import { SendTransaction, SenderService } from 'services/api/senderService'
 import { useWallet } from '@terra-money/use-wallet'
 import { SEND_TRANSACTIONS } from 'constants/use-query-keys'
-import { first, groupBy, omit } from 'lodash'
+import { first, groupBy, last, omit } from 'lodash'
 import moment from 'moment'
 import { getTerraUrlForTxId } from 'utils/blockchain/terraUtils'
 import getShortText from 'utils/js/getShortText'
@@ -201,6 +201,9 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 										>
 											<OverflowTip>
 												<div>{first(transaction?.sentAssets)?.recipient ?? ''}</div>
+											</OverflowTip>
+											<OverflowTip>
+												<div>{`"${last(transaction.memo.split(':'))}"`}</div>
 											</OverflowTip>
 										</Flex>
 									</TableBodyRowCell>
