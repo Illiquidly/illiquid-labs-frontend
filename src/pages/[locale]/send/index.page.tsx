@@ -26,6 +26,7 @@ import {
 	StepsWrapper,
 	SendBackgroundBlobContainer,
 	SendBackgroundLogoContainer,
+	SelectNFTs,
 } from 'components/send'
 
 import { CREATE_SEND_FORM_STEPS } from 'constants/steps'
@@ -47,6 +48,8 @@ import {
 } from 'constants/validation-schemas/send'
 import { useRouter } from 'next/router'
 import { SEND_TYPE } from 'constants/send-types'
+import { SendDetails } from 'components/send/SendDetails'
+import { ConfirmSend } from 'components/send/ConfirmSend'
 
 const getStaticProps = makeStaticProps(['common', 'send'])
 const getStaticPaths = makeStaticPaths()
@@ -66,10 +69,8 @@ export default function Send() {
 		recipientDetailsLabel,
 		confirmSendLabel,
 	]: Array<string> = t('send:steps', { returnObjects: true })
-	const [
-		step,
-		// { setStep, goToNextStep, goToPrevStep, canGoToNextStep }
-	] = useStep(3)
+	const [step, { setStep, goToNextStep, goToPrevStep, canGoToNextStep }] =
+		useStep(3)
 
 	const [steps] = useState([
 		{
@@ -107,6 +108,7 @@ export default function Send() {
 
 	const onSubmit: SubmitHandler<SendFormStepsProps> = async ({
 		selectedNFTs,
+		recipient,
 		memo,
 	}) => {
 		const data: {
@@ -114,7 +116,10 @@ export default function Send() {
 			selectedNFTs: string
 			memo
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: Cw721Contract.transferTokens(selectedNFTs, memo),
+			transactionAction: Cw721Contract.transferTokens(
+				recipient ? selectedNFTs.map(nft => ({ ...nft, recipient })) : selectedNFTs,
+				`${sendType}:${memo}`
+			),
 			closeOnFinish: true,
 		})
 
@@ -163,6 +168,25 @@ export default function Send() {
 								<StepsWrapper>
 									<Steps steps={steps} currentStep={step} />
 								</StepsWrapper>
+
+								{/* STEP 1 */}
+								{step === CREATE_SEND_FORM_STEPS.SELECT_NFTS && (
+									<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
+								)}
+
+								{/* STEP 2 */}
+								{step === CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS && (
+									<SendDetails goBackStep={goToPrevStep} goNextStep={goToNextStep} />
+								)}
+
+								{/* STEP 3 */}
+								{step === CREATE_SEND_FORM_STEPS.CONFIRM_SEND && (
+									<ConfirmSend
+										canGoToNextStep={canGoToNextStep}
+										goBackStep={goToPrevStep}
+										setStep={setStep}
+									/>
+								)}
 							</BodyContainer>
 						</form>
 					</FormProvider>

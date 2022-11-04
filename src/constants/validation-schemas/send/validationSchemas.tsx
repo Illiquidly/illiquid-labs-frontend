@@ -13,7 +13,7 @@ export const SendMultiSendRecipientSchema = yup.object().shape({
 		.string()
 		.test(
 			'valid-wallet-address',
-			'trade-form-steps-wallet-address-not-valid',
+			'send-form-steps-wallet-address-not-valid',
 			value => (value ? isValidTerraAddress(value) : false)
 		),
 })

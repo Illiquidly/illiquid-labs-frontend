@@ -120,7 +120,7 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 							id='comment'
 							{...register('comment')}
 							fieldError={
-								errors.ticketSupply && t(`common:errors.${errors?.comment?.message}`)
+								errors.comment && t(`common:errors.${errors?.comment?.message}`)
 							}
 							error={!!errors.comment}
 							placeholder={t('raffle:raffle-details.comment-placeholder')}

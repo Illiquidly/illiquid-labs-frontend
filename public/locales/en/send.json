@@ -7,6 +7,25 @@
 		"select-nfts": "Select NFTs",
 		"selected-nfts": "Selected NFT's",
 		"selected-nfts-description": "These items will be included in the send transaction",
-		"add-nfts-to-raffle": "Add NFTs to Send"
+		"add-nfts-to-send": "Add NFTs to Send"
+	},
+	"send-details": {
+		"question": "These items will be included in the send.",
+		"instructions": "Define the details of your send",
+		"recipient-label": "Recipient",
+		"recipient-placeholder": "Enter recipient address",
+		"memo-label": "Write a comment",
+		"memo-placeholder": ""
+	},
+	"confirm-send": {
+		"memo": "Comments",
+		"recipient": "Recipient",
+		"no-content-memo": "No comments specified",
+		"title-message": "Confirm Send",
+		"instruction": "Review the details below and make any adjustments",
+		"what-are-you-sending": "What you’re sending",
+		"congratulations": "Congratulations!",
+		"congratulations-message": "Your Send has been successfully executed!",
+		"transaction-id": "Transaction ID"
 	}
 }
