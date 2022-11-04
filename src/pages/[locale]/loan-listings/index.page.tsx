@@ -10,7 +10,7 @@ const getStaticProps = makeStaticProps(['common'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
-export default function Trade() {
+export default function LoanListings() {
 	const { t } = useTranslation(['common'])
 
 	return (
