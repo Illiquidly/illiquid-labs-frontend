@@ -7,7 +7,7 @@ import { NFT } from 'services/api/walletNFTsService'
 import { Contract } from '../shared'
 
 class Cw721Contract extends Contract {
-	static async transferMultipleToken(
+	static async transferTokens(
 		nfts: (NFT & { recipient: string })[],
 		memo?: string
 	): Promise<TxReceipt> {
@@ -30,7 +30,7 @@ class Cw721Contract extends Contract {
 		recipient: string,
 		memo?: string
 	): Promise<TxReceipt> {
-		return this.transferMultipleToken([{ ...nft, recipient }], memo)
+		return this.transferTokens([{ ...nft, recipient }], memo)
 	}
 
 	static async getOwnerOfToken(

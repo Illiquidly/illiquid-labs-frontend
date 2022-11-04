@@ -1,6 +1,6 @@
 import AirdropperImg from 'assets/images/AirdropperImg'
 import MultisenderImg from 'assets/images/MultisenderImg'
-import { Button, LayoutContainer, Page } from 'components'
+import { LayoutContainer, LinkButton, Page } from 'components'
 import {
 	CardSubtitle,
 	SendingCard,
@@ -11,12 +11,14 @@ import { makeStaticPaths, makeStaticProps } from 'lib'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
+import * as ROUTES from 'constants/routes'
+import { SEND_TYPE } from 'constants/send-types'
 
 const getStaticProps = makeStaticProps(['common', 'send-transactions'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
-export default function Send() {
+export default function SendTransactions() {
 	const { t } = useTranslation(['common', 'send-transactions'])
 
 	return (
@@ -43,9 +45,13 @@ export default function Send() {
 							</CardSubtitle>
 						</Box>
 						<Flex sx={{ mt: '16px', width: '128px' }}>
-							<Button disabled fullWidth variant='gradient'>
+							<LinkButton
+								href={`${ROUTES.SEND}?type=${SEND_TYPE.MULTI_SEND_TYPE}`}
+								fullWidth
+								variant='gradient'
+							>
 								{t('send-transactions:multisend')}
-							</Button>
+							</LinkButton>
 						</Flex>
 					</SendingCard>
 					<SendingCard>
@@ -60,9 +66,14 @@ export default function Send() {
 						</Box>
 
 						<Flex sx={{ mt: '16px', width: '128px' }}>
-							<Button disabled fullWidth variant='gradient'>
+							<LinkButton
+								// href={`${ROUTES.SEND}?type=${SEND_TYPE.AIRDROP_TYPE}`}
+								disabled
+								fullWidth
+								variant='gradient'
+							>
 								{t('send-transactions:airdrop')}
-							</Button>
+							</LinkButton>
 						</Flex>
 					</SendingCard>
 				</Flex>

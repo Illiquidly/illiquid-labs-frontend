@@ -59,7 +59,7 @@ function Header() {
 			icon: <ArrowShapeRightOutlineIcon />,
 		},
 		{
-			route: ROUTES.LOANS,
+			route: ROUTES.LOAN_LISTINGS,
 			name: 'loans',
 			icon: <WalletOutlineIcon />,
 		},

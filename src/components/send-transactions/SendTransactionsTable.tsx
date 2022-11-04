@@ -36,11 +36,9 @@ import {
 } from 'components/shared'
 import { NFT } from 'services/api/walletNFTsService'
 import { asyncAction } from 'utils/js/asyncAction'
-import {
-	ILLIQUID_LABS_AIR_DROPPER_MEMO,
-	ILLIQUID_LABS_MULTI_SEND_MEMO,
-} from 'constants/memo'
+
 import EmptyBox from 'assets/images/EmptyBox'
+import { SEND_TYPE } from 'constants/send-types'
 import {
 	PreviewImage,
 	PreviewImageContainer,
@@ -73,15 +71,16 @@ const EmptyCardTitle = styled(Box)`
 	line-height: 32px;
 `
 
-export enum SEND_TYPE {
+export enum SEND_TYPE_TABS {
 	MULTISENDER = 'MULTISENDER',
 	AIRDROPPER = 'AIRDROPPER',
 	ALL = 'ALL',
 }
-
 function SendTransactionsTable({ previewItemsLimit = 4 }) {
 	const wallet = useWallet()
-	const [sendType, setSendType] = React.useState<SEND_TYPE>(SEND_TYPE.ALL)
+	const [sendType, setSendType] = React.useState<SEND_TYPE_TABS>(
+		SEND_TYPE_TABS.ALL
+	)
 	const { t } = useTranslation(['common', 'send-transactions'])
 	const columns: Array<string> = t(
 		'send-transactions:transactions.table.columns',
@@ -116,9 +115,9 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 				{
 					senders: [myAddress],
 					memo: {
-						[SEND_TYPE.AIRDROPPER]: ILLIQUID_LABS_AIR_DROPPER_MEMO,
-						[SEND_TYPE.MULTISENDER]: ILLIQUID_LABS_MULTI_SEND_MEMO,
-						[SEND_TYPE.ALL]: undefined,
+						[SEND_TYPE_TABS.AIRDROPPER]: SEND_TYPE.AIRDROP_TYPE,
+						[SEND_TYPE_TABS.MULTISENDER]: SEND_TYPE.MULTI_SEND_TYPE,
+						[SEND_TYPE_TABS.ALL]: undefined,
 					}[sendType],
 				},
 				{
@@ -159,16 +158,16 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 		<Container>
 			<TabsSection>
 				<Tabs
-					onChange={e => setSendType(e.target.value as SEND_TYPE)}
+					onChange={e => setSendType(e.target.value as SEND_TYPE_TABS)}
 					value={sendType}
 					name='listings'
 				>
-					<Tab value={SEND_TYPE.ALL}>{t('send-transactions:tabs:all')}</Tab>
+					<Tab value={SEND_TYPE_TABS.ALL}>{t('send-transactions:tabs:all')}</Tab>
 
-					<Tab value={SEND_TYPE.MULTISENDER}>
+					<Tab value={SEND_TYPE_TABS.MULTISENDER}>
 						{t('send-transactions:tabs:multisender')}
 					</Tab>
-					<Tab value={SEND_TYPE.AIRDROPPER}>
+					<Tab value={SEND_TYPE_TABS.AIRDROPPER}>
 						{t('send-transactions:tabs:airdropper')}
 					</Tab>
 				</Tabs>

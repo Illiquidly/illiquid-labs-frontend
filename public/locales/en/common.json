@@ -103,5 +103,6 @@
 		"a-to-z": "A to Z",
 		"z-to-a": "Z to A"
 	},
-	"view-transaction": "View Transaction"
+	"view-transaction": "View Transaction",
+	"exit-send": "Exit Send"
 }
