@@ -134,7 +134,9 @@ function Header() {
 							{navigationRoutes.map(({ name, route, icon }) => (
 								<HeaderDropdownItem key={name}>
 									<Link href={route}>
-										<LinkContent>
+										<LinkContent
+											style={{ width: '100%', height: '100%', padding: '0 25px' }}
+										>
 											{icon}
 											<LinkText>{t(`links.${name}`)}</LinkText>
 										</LinkContent>

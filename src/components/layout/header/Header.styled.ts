@@ -90,7 +90,6 @@ export const HeaderDropdown = styled(Flex)`
 
 export const HeaderDropdownItem = styled(Flex)`
 	align-items: center;
-	padding: 0 25px;
 	height: 55px;
 	border-radius: 8px;
 
