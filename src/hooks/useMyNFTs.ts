@@ -7,6 +7,7 @@ import {
 	WalletNFTsService,
 	WALLET_NFT_STATE,
 } from 'services/api/walletNFTsService'
+import { asyncAction } from 'utils/js/asyncAction'
 
 import useAddress from './useAddress'
 
@@ -27,8 +28,18 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 		refetch: refetchPartial,
 	} = useQuery(
 		['partialWalletNFTs', myAddress, modal.visible],
-		async () =>
-			WalletNFTsService.requestUpdateNFTs(wallet.network.name, myAddress),
+		async () => {
+			const [error, data] = await asyncAction(
+				WalletNFTsService.requestUpdateNFTs(wallet.network.name, myAddress)
+			)
+
+			if (error) {
+				return WalletNFTsService.requestNFTs(wallet.network.name, myAddress)
+			}
+
+			return data
+		},
+
 		{
 			enabled: !!wallet.network && Boolean(myAddress) && modal.visible,
 			retry: true,
