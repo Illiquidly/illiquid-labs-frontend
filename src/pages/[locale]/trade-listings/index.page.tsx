@@ -153,7 +153,7 @@ export default function TradeListings() {
 	const myAddress = useAddress()
 
 	const { data: favoriteTrades } = useQuery(
-		[FAVORITES_TRADES, wallet.network],
+		[FAVORITES_TRADES, wallet.network, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
 				{ network: wallet.network.name as NetworkType },
