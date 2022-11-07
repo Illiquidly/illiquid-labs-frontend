@@ -133,7 +133,7 @@ export default function ListingDetails() {
 	const myAddress = useAddress()
 
 	const { data: favoriteRaffles } = useQuery(
-		[FAVORITES_RAFFLES, wallet.network],
+		[FAVORITES_RAFFLES, wallet.network, myAddress],
 		async () =>
 			FavoriteRafflesService.getFavoriteRaffles(
 				{ network: wallet.network.name as NetworkType },

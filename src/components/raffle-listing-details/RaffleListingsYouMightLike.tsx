@@ -50,7 +50,7 @@ function RaffleListingsYouMightLike({
 	)
 
 	const { data: raffles, isLoading } = useQuery(
-		[RAFFLES, wallet.network, search],
+		[RAFFLES, wallet.network, search, myAddress],
 		async () =>
 			RafflesService.getAllRaffles(
 				wallet.network.name,
