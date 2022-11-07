@@ -123,7 +123,7 @@ export default function ListingDetails() {
 	const myAddress = useAddress()
 
 	const { data: favoriteTrades } = useQuery(
-		[FAVORITES_TRADES, wallet.network],
+		[FAVORITES_TRADES, wallet.network, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
 				{ network: wallet.network.name as NetworkType },
@@ -138,7 +138,7 @@ export default function ListingDetails() {
 	)
 
 	const { data: acceptedCounterTrades } = useQuery(
-		[ACCEPTED_COUNTER_TRADE, tradeId, wallet.network],
+		[ACCEPTED_COUNTER_TRADE, tradeId, wallet.network, myAddress],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
 				wallet.network.name,

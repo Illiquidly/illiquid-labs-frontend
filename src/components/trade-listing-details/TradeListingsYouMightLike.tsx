@@ -49,7 +49,7 @@ function TradeListingsYouMightLike({
 	)
 
 	const { data: trades, isLoading } = useQuery(
-		[TRADES, wallet.network, search],
+		[TRADES, wallet.network, search, myAddress],
 		async () =>
 			TradesService.getAllTrades(
 				wallet.network.name,

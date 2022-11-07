@@ -26,7 +26,7 @@ export default function NotificationsBell() {
 	const { t } = useTranslation(['common'])
 
 	const { data } = useQuery(
-		[NOTIFICATIONS],
+		[NOTIFICATIONS, myAddress],
 		async () =>
 			TradeNotificationsService.getTradeNotifications(
 				wallet.network.name,

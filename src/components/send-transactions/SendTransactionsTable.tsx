@@ -108,7 +108,7 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 	}, [wallet.network, sendType])
 
 	const { data: transactions, isLoading } = useQuery(
-		[SEND_TRANSACTIONS, wallet.network, page, sendType],
+		[SEND_TRANSACTIONS, wallet.network, page, sendType, myAddress],
 		async () =>
 			SenderService.getAllTransactions(
 				wallet.network.name,
