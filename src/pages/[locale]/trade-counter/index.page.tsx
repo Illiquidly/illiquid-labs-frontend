@@ -96,10 +96,10 @@ export default function TradeCounter() {
 	const queryClient = useQueryClient()
 
 	const updateFavoriteTradeState = data =>
-		queryClient.setQueryData([FAVORITES_TRADES, wallet.network], (old: any) => [
-			...old.filter(o => o.id !== data.id),
-			data,
-		])
+		queryClient.setQueryData(
+			[FAVORITES_TRADES, wallet.network, myAddress],
+			(old: any) => [...old.filter(o => o.id !== data.id), data]
+		)
 
 	const { mutate: addFavoriteTrade } = useMutation(
 		FavoriteTradesService.addFavoriteTrade,

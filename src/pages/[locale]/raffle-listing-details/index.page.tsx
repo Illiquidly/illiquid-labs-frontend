@@ -82,15 +82,17 @@ export default function ListingDetails() {
 
 	const wallet = useWallet()
 
+	const myAddress = useAddress()
+
 	const queryClient = useQueryClient()
 
 	const { raffleId } = route.query ?? {}
 
 	const updateFavoriteRaffleState = (data: FavoriteRaffleResponse) =>
-		queryClient.setQueryData([FAVORITES_RAFFLES, wallet.network], (old: any) => [
-			...old.filter(o => o.id !== data.id),
-			data,
-		])
+		queryClient.setQueryData(
+			[FAVORITES_RAFFLES, wallet.network, myAddress],
+			(old: any) => [...old.filter(o => o.id !== data.id), data]
+		)
 
 	const { mutate: addFavoriteRaffle } = useMutation(
 		FavoriteRafflesService.addFavoriteRaffle,
@@ -129,8 +131,6 @@ export default function ListingDetails() {
 			refetchInterval: 60 * 1000, // Refetch every minute
 		}
 	)
-
-	const myAddress = useAddress()
 
 	const { data: favoriteRaffles } = useQuery(
 		[FAVORITES_RAFFLES, wallet.network, myAddress],

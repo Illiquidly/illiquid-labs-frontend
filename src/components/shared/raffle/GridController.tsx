@@ -69,10 +69,10 @@ function GridController({
 	const queryClient = useQueryClient()
 
 	const updateFavoriteRaffleState = (data: FavoriteRaffleResponse) =>
-		queryClient.setQueryData([FAVORITES_RAFFLES, wallet.network], (old: any) => [
-			...old.filter(o => o.id !== data.id),
-			data,
-		])
+		queryClient.setQueryData(
+			[FAVORITES_RAFFLES, wallet.network, myAddress],
+			(old: any) => [...old.filter(o => o.id !== data.id), data]
+		)
 
 	const { mutate: addFavoriteRaffle } = useMutation(
 		FavoriteRafflesService.addFavoriteRaffle,

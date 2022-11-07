@@ -73,15 +73,17 @@ export default function ListingDetails() {
 
 	const wallet = useWallet()
 
+	const myAddress = useAddress()
+
 	const queryClient = useQueryClient()
 
 	const { tradeId } = route.query ?? {}
 
 	const updateFavoriteTradeState = data =>
-		queryClient.setQueryData([FAVORITES_TRADES, wallet.network], (old: any) => [
-			...old.filter(o => o.id !== data.id),
-			data,
-		])
+		queryClient.setQueryData(
+			[FAVORITES_TRADES, wallet.network, myAddress],
+			(old: any) => [...old.filter(o => o.id !== data.id), data]
+		)
 
 	const { mutate: addFavoriteTrade } = useMutation(
 		FavoriteTradesService.addFavoriteTrade,
@@ -119,8 +121,6 @@ export default function ListingDetails() {
 			retry: true,
 		}
 	)
-
-	const myAddress = useAddress()
 
 	const { data: favoriteTrades } = useQuery(
 		[FAVORITES_TRADES, wallet.network, myAddress],
