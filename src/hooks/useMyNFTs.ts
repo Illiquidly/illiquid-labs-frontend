@@ -2,6 +2,7 @@ import { useModal } from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
+import { FULL_WALLET_NFTS, PARTIAL_WALLET_NFTS } from 'constants/use-query-keys'
 import React from 'react'
 import {
 	WalletNFTsService,
@@ -27,7 +28,7 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 		isLoading: partiallyLoading,
 		refetch: refetchPartial,
 	} = useQuery(
-		['partialWalletNFTs', myAddress, modal.visible],
+		[PARTIAL_WALLET_NFTS, myAddress, modal.visible],
 		async () => {
 			const [error, data] = await asyncAction(
 				WalletNFTsService.requestUpdateNFTs(wallet.network.name, myAddress)
@@ -41,13 +42,13 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 		},
 
 		{
-			enabled: !!wallet.network && Boolean(myAddress) && modal.visible,
+			enabled: !!wallet.network && !!myAddress && modal.visible,
 			retry: true,
 		}
 	)
 
 	const { data: fullData, isLoading: fullyLoading } = useQuery(
-		['fullWalletNFTs', myAddress, partialData, modal.visible],
+		[FULL_WALLET_NFTS, myAddress, partialData, modal.visible],
 		async () => {
 			const data = await WalletNFTsService.requestNFTs(
 				wallet.network.name,
@@ -66,8 +67,7 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 			return data
 		},
 		{
-			enabled:
-				!!wallet.network && !!partialData && Boolean(myAddress) && modal.visible,
+			enabled: !!wallet.network && !!partialData && !!myAddress && modal.visible,
 			retry: true,
 		}
 	)
