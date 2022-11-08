@@ -72,29 +72,35 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 		}
 	)
 
-	const data = fullData ?? partialData
+	const data = React.useMemo(
+		() => fullData ?? partialData,
+		[fullData, partialData]
+	)
 
-	const NFTs = data?.ownedTokens ?? []
-	const ownedCollections = data?.ownedCollections ?? []
+	const ownedCollections = React.useMemo(
+		() => data?.ownedCollections ?? [],
+		[data]
+	)
 
 	const ownedNFTs = React.useMemo(() => {
-		return NFTs.filter(
-			nft =>
-				// Filter by collections
-				(filters.collectionAddresses.length
-					? filters.collectionAddresses.includes(nft.collectionAddress)
-					: true) &&
-				// Filter by name %LIKE
-				(filters.name
-					? (nft?.name || '').toLowerCase().match(`${filters.name.toLowerCase()}.*`)
-					: true)
-		).sort((a, b) =>
-			filters.sort === NFTS_SORT_VALUE.ASCENDING
-				? (a?.name || '').toLowerCase().localeCompare((b?.name || '').toLowerCase())
-				: -1 *
-				  (a?.name || '').toLowerCase().localeCompare((b?.name || '').toLowerCase())
-		)
-	}, [NFTs, filters.sort, filters.name, filters.collectionAddresses])
+		return (data?.ownedTokens ?? [])
+			.filter(
+				nft =>
+					// Filter by collections
+					(filters.collectionAddresses.length
+						? filters.collectionAddresses.includes(nft.collectionAddress)
+						: true) &&
+					// Filter by name %LIKE
+					(filters.name
+						? (nft?.name || '').toLowerCase().match(`${filters.name.toLowerCase()}.*`)
+						: true)
+			)
+			.sort(
+				(a, b) =>
+					(filters.sort === NFTS_SORT_VALUE.ASCENDING ? 1 : -1) *
+					(a?.name || '').toLowerCase().localeCompare((b?.name || '').toLowerCase())
+			)
+	}, [data, filters.sort, filters.name, filters.collectionAddresses])
 
 	return {
 		ownedNFTs,
