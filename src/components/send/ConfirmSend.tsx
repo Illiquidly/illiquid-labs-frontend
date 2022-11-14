@@ -13,6 +13,8 @@ import { noop } from 'lodash'
 import { NavigationFooter } from 'components/shared/navigation-footer'
 import { SendFormStepsProps } from 'types/send'
 import { CREATE_SEND_FORM_STEPS } from 'constants/steps'
+import { useRouter } from 'next/router'
+import { SEND_TYPE } from 'constants/send-types'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -26,6 +28,7 @@ import {
 	SuccessMessage,
 	SuccessTitle,
 } from './ConfirmSend.styled'
+import RecipientTable from './RecipientTable'
 
 interface StepHeaderProps {
 	children: ReactNode
@@ -114,6 +117,9 @@ export const ConfirmSend = ({
 	const memo = getValues('memo') || ''
 	const recipient = getValues('recipient') || ''
 	const isSuccessScreen = watch('isSuccessScreen')
+	const router = useRouter()
+
+	const { type: sendType = SEND_TYPE.MULTI_SEND_TYPE } = router.query
 
 	return (
 		<ContentCardWrapper>
@@ -141,17 +147,23 @@ export const ConfirmSend = ({
 								</StepTitle>
 							</StepHeader>
 
-							<NFTCardsContainer>
-								{selectedNFTs.map(selectedNFT => {
-									return (
-										<NFTCard
-											key={`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}`}
-											{...selectedNFT}
-											size='small'
-										/>
-									)
-								})}
-							</NFTCardsContainer>
+							{sendType === SEND_TYPE.MULTI_SEND_TYPE && (
+								<NFTCardsContainer>
+									{selectedNFTs.map(selectedNFT => {
+										return (
+											<NFTCard
+												key={`${selectedNFT.collectionAddress}_${selectedNFT.tokenId}`}
+												{...selectedNFT}
+												size='small'
+											/>
+										)
+									})}
+								</NFTCardsContainer>
+							)}
+
+							{sendType === SEND_TYPE.AIRDROP_TYPE && (
+								<RecipientTable nfts={selectedNFTs} />
+							)}
 						</Box>
 
 						{/* Memo */}
@@ -170,21 +182,23 @@ export const ConfirmSend = ({
 							</Box>
 						</Box>
 
-						{/* Memo */}
-						<Box>
-							<StepHeader
-								onEditClick={() => setStep(CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS)}
-							>
-								<StepTitle>{t('send:confirm-send.recipient')}</StepTitle>
-							</StepHeader>
-							<Box pb='24px' style={{ width: 'fit-content' }}>
-								{recipient ? (
-									<Chip isViewMode>{`"${recipient}"`}</Chip>
-								) : (
-									<NoContent>{t('send:confirm-send.no-content-recipient')}</NoContent>
-								)}
+						{/* Recipient */}
+						{sendType === SEND_TYPE.MULTI_SEND_TYPE && (
+							<Box>
+								<StepHeader
+									onEditClick={() => setStep(CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS)}
+								>
+									<StepTitle>{t('send:confirm-send.recipient')}</StepTitle>
+								</StepHeader>
+								<Box pb='24px' style={{ width: 'fit-content' }}>
+									{recipient ? (
+										<Chip isViewMode>{`"${recipient}"`}</Chip>
+									) : (
+										<NoContent>{t('send:confirm-send.no-content-recipient')}</NoContent>
+									)}
+								</Box>
 							</Box>
-						</Box>
+						)}
 					</ContentCard>
 
 					{/* Footer Navigation Section */}

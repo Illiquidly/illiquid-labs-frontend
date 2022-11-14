@@ -15,7 +15,7 @@ export const DropdownContainer = styled.div`
 `
 
 export const DropdownContent = styled.div`
-	overflow: scroll;
+	overflow-y: auto;
 `
 
 export const DropdownItem = styled.div<{ checked?: boolean }>`
@@ -24,12 +24,13 @@ export const DropdownItem = styled.div<{ checked?: boolean }>`
 	align-items: center;
 	justify-content: space-between;
 
-	&:hover {
-		cursor: pointer;
-	}
-
 	background: ${props =>
 		props.checked ? props.theme.colors.primary600 : props.theme.colors.dark100};
+
+	&:hover {
+		background: ${props => props.theme.colors.dark300};
+		cursor: pointer;
+	}
 `
 
 export const Label = styled.div`

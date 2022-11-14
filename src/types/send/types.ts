@@ -1,3 +1,4 @@
+import { AIRDROP_TYPE } from 'constants/send-types'
 import { NFT } from 'services/api/walletNFTsService'
 
 export interface SendFormStepsProps {
@@ -9,6 +10,10 @@ export interface SendFormStepsProps {
 	// SEND DETAILS STEP
 	memo: string
 	recipient?: string
+
+	// AIRDROP SPECIFIC
+	airdropType: AIRDROP_TYPE
+	fileName: string
 
 	// CONFIRM
 	isSuccessScreen: boolean

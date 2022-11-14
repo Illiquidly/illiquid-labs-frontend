@@ -32,3 +32,6 @@ export { default as BroadcastingModalErrorIcon } from './components/Broadcasting
 export { default as CounterTradeIconVertical } from './components/CounterTradeIconVertical'
 export { default as RecentOutline18pt } from './components/RecentOutline18pt'
 export { default as ConfettiIcon } from './components/ConfettiIcon'
+export { default as UploadIcon } from './components/UploadIcon'
+export { default as DocumentIcon } from './components/DocumentIcon'
+export { default as CheckCircleIcon } from './components/CheckCircleIcon'

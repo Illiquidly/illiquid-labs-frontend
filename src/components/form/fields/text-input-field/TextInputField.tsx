@@ -13,7 +13,7 @@ export interface TextInputFieldProps
 	fieldError?: string
 	iconLeft?: React.ReactNode
 	iconRight?: React.ReactNode
-	label: string
+	label?: string
 }
 
 const TextInputField = React.forwardRef<HTMLInputElement, TextInputFieldProps>(
@@ -24,7 +24,7 @@ const TextInputField = React.forwardRef<HTMLInputElement, TextInputFieldProps>(
 
 		return (
 			<FieldContainer>
-				<FieldLabel htmlFor={props.name}>{label}</FieldLabel>
+				{label && <FieldLabel htmlFor={props.name}>{label}</FieldLabel>}
 				<Flex sx={{ height: '42px' }}>
 					<TextInput ref={ref} {...props} />
 				</Flex>

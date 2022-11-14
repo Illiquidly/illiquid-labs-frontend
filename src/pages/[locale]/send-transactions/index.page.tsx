@@ -67,8 +67,7 @@ export default function SendTransactions() {
 
 						<Flex sx={{ mt: '16px', width: '128px' }}>
 							<LinkButton
-								// href={`${ROUTES.SEND}?type=${SEND_TYPE.AIRDROP_TYPE}`}
-								disabled
+								href={`${ROUTES.SEND}?type=${SEND_TYPE.AIRDROP_TYPE}`}
 								fullWidth
 								variant='gradient'
 							>

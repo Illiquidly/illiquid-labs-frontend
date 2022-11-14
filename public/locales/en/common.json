@@ -56,7 +56,11 @@
 		"raffle-form-steps-ticket-supply-must-be-integer": "Ticket supply must be an integer",
 		"raffle-form-steps-ticket-supply-must-be-positive": "Ticket supply must be a positive number",
 		"raffle-form-steps-ticket-number-must-be-number": "Ticket number must be a number",
-		"raffle-form-steps-ticket-number-must-be-integer": "Ticket number must be an integer"
+		"raffle-form-steps-ticket-number-must-be-integer": "Ticket number must be an integer",
+		"csv-contains-invalid-fields": "CSV contains invalid fields.",
+		"csv-is-empty": "CSV contains no values",
+		"csv-contains-invalid-addresses": "CSV contains invalid addresses",
+		"selected-nfts-invalid": "Invalid data."
 	},
 	"show-more": "Show more",
 	"checkout-my-trade": "Checkout my trade on Illiquid Labs",
@@ -106,5 +110,9 @@
 		"z-to-a": "Z to A"
 	},
 	"view-transaction": "View Transaction",
-	"exit-send": "Exit Send"
+	"exit-send": "Exit Send",
+	"upload-label": "Click or drag a file to upload",
+	"max-csv-file-size-label": "CSV (max. 5MB)",
+	"download-csv-template-file": "Download a template CSV file",
+	"upload-csv-file": "Upload CSV file"
 }

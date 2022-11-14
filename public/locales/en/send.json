@@ -1,6 +1,12 @@
 {
 	"multisend-title": "Multisend NFTs",
-	"steps": ["Select NFTs", "Recipient Details", "Confirm"],
+	"airdrop-title": "Airdrop NFTs",
+	"steps": ["Select NFTs", "Recipient Details", "Confirm", "Airdrop Details"],
+	"recipients": {
+		"table": {
+			"columns": ["Recipient", "Collection Address", "Token Id"]
+		}
+	},
 	"select-NFTs": {
 		"question": "Which NFTs are you looking to send",
 		"add-instruction": "Add them here by clicking below",
@@ -9,13 +15,27 @@
 		"selected-nfts-description": "These items will be included in the send transaction",
 		"add-nfts-to-send": "Add NFTs to Send"
 	},
+	"airdrop-details": {
+		"question": "What do you want to do?",
+		"instructions": "You can upload a CSV of NFT ID’s and wallet addresses, or you can use our Airdrop Wizard to enter the information here.",
+		"option-1": "Upload a CSV file",
+		"option-2": "Choose NFT’s and recipients",
+		"question-2": "What happens next?",
+		"answer-participants": "We’ll take you through everything in the Wizard. Choose the NFT in your wallet you want to include in the airdrop and then enter the wallet addresses that you want to send the NFT to.",
+		"answer-csv": "Simply upload a CSV file with all of the correct information and we’ll take care of the rest. Download the sample file below if you need help knowing how to format the CSV file.",
+		"upload-csv-file": "Upload CSV File"
+	},
 	"send-details": {
 		"question": "These items will be included in the send.",
+		"question2": "Enter the receiving address of the wallets who should receive each NFT. ",
 		"instructions": "Define the details of your send",
+		"instructions2": "Fill out the address information below.",
 		"recipient-label": "Recipient",
 		"recipient-placeholder": "Enter recipient address",
 		"memo-label": "Write a comment",
-		"memo-placeholder": ""
+		"memo-placeholder": "",
+		"nft": "NFT",
+		"receiving-wallet": "Receiving Wallet"
 	},
 	"confirm-send": {
 		"memo": "Comments",

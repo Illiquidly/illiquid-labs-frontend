@@ -14,7 +14,6 @@ export const ContentCard = styled(Card)`
 ContentCard.defaultProps = {
 	sx: {
 		p: ['16px', '16px', '24px', '24px'],
-		minHeight: [null, null, null, '393px'],
 	},
 }
 

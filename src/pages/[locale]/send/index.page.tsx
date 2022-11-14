@@ -2,7 +2,7 @@ import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
 import React, { useState } from 'react'
 import { Text } from 'theme-ui'
-
+import * as yup from 'yup'
 import SendBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import SendBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import NiceModal from '@ebay/nice-modal-react'
@@ -29,7 +29,10 @@ import {
 	SelectNFTs,
 } from 'components/send'
 
-import { CREATE_SEND_FORM_STEPS } from 'constants/steps'
+import {
+	CREATE_AIRDROP_FROM_STEPS,
+	CREATE_SEND_FORM_STEPS,
+} from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
@@ -43,6 +46,7 @@ import { ExitSend } from 'components/shared/header-actions'
 import { SendFormStepsProps } from 'types/send'
 import { SenderService } from 'services/api/senderService'
 import {
+	SendAirdropDetailsSchema,
 	SendMultiSendRecipientSchema,
 	SendSelectNFTStepSchema,
 } from 'constants/validation-schemas/send'
@@ -50,6 +54,7 @@ import { useRouter } from 'next/router'
 import { SEND_TYPE } from 'constants/send-types'
 import { SendDetails } from 'components/send/SendDetails'
 import { ConfirmSend } from 'components/send/ConfirmSend'
+import { AirdropDetails } from 'components/send/AirdropDetails'
 
 const getStaticProps = makeStaticProps(['common', 'send'])
 const getStaticPaths = makeStaticPaths()
@@ -68,43 +73,118 @@ export default function Send() {
 		selectNFTsLabel,
 		recipientDetailsLabel,
 		confirmSendLabel,
+		airdropDetails,
 	]: Array<string> = t('send:steps', { returnObjects: true })
 	const [step, { setStep, goToNextStep, goToPrevStep, canGoToNextStep }] =
 		useStep(3)
 
-	const [steps] = useState([
-		{
-			id: CREATE_SEND_FORM_STEPS.SELECT_NFTS,
-			label: selectNFTsLabel,
-		},
-		{
-			id: CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS,
-			label: recipientDetailsLabel,
-		},
-		{
-			id: CREATE_SEND_FORM_STEPS.CONFIRM_SEND,
-			label: confirmSendLabel,
-		},
-	])
+	const [steps, setSteps] = useState([])
 
-	const getStepSchema = (currentStep: number) => {
-		const formSchemas = {
+	const getStepSchemaByType = (
+		type = SEND_TYPE.MULTI_SEND_TYPE,
+		currentStep: number
+	) => {
+		const multisendSchemas = {
 			[CREATE_SEND_FORM_STEPS.SELECT_NFTS]: SendSelectNFTStepSchema,
 			[CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS]: SendMultiSendRecipientSchema,
 		}
 
-		return formSchemas[currentStep] ?? SendSelectNFTStepSchema
+		const airdropSchemas = {
+			[CREATE_AIRDROP_FROM_STEPS.AIRDROP_DETAILS]: SendSelectNFTStepSchema,
+			[CREATE_AIRDROP_FROM_STEPS.RECIPIENT_DETAILS]: SendAirdropDetailsSchema,
+		}
+
+		const schemasByTypes = {
+			[SEND_TYPE.MULTI_SEND_TYPE]:
+				multisendSchemas[currentStep] ?? SendSelectNFTStepSchema,
+			[SEND_TYPE.AIRDROP_TYPE]: airdropSchemas[currentStep],
+		}
+
+		return schemasByTypes[type] ?? yup.object({})
+	}
+
+	const renderComponentsByStep = (
+		type = SEND_TYPE.MULTI_SEND_TYPE,
+		currentStep: number
+	) => {
+		const multisendComponents = {
+			[CREATE_SEND_FORM_STEPS.SELECT_NFTS]: (
+				<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
+			),
+			[CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS]: (
+				<SendDetails goBackStep={goToPrevStep} goNextStep={goToNextStep} />
+			),
+			[CREATE_SEND_FORM_STEPS.CONFIRM_SEND]: (
+				<ConfirmSend
+					canGoToNextStep={canGoToNextStep}
+					goBackStep={goToPrevStep}
+					setStep={setStep}
+				/>
+			),
+		}
+
+		const airdropComponents = {
+			[CREATE_AIRDROP_FROM_STEPS.AIRDROP_DETAILS]: (
+				<AirdropDetails goBackStep={goToPrevStep} goNextStep={goToNextStep} />
+			),
+		}
+
+		const componentsByTypes = {
+			[SEND_TYPE.MULTI_SEND_TYPE]: multisendComponents[currentStep],
+			[SEND_TYPE.AIRDROP_TYPE]: airdropComponents[currentStep],
+		}
+
+		return componentsByTypes[type] ?? componentsByTypes[SEND_TYPE.MULTI_SEND_TYPE]
 	}
 
 	const formMethods = useForm<SendFormStepsProps>({
 		mode: 'onChange',
-		resolver: yupResolver(getStepSchema(step)),
+		resolver: yupResolver(getStepSchemaByType(sendType as SEND_TYPE, step)),
 		defaultValues: {
 			selectedNFTs: [],
 			isSuccessScreen: false,
 			memo: '',
 		},
 	})
+
+	const getStepsBySendType = (type = SEND_TYPE.MULTI_SEND_TYPE) => {
+		const stepsByType = {
+			[SEND_TYPE.MULTI_SEND_TYPE]: [
+				{
+					id: CREATE_SEND_FORM_STEPS.SELECT_NFTS,
+					label: selectNFTsLabel,
+				},
+				{
+					id: CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS,
+					label: recipientDetailsLabel,
+				},
+				{
+					id: CREATE_SEND_FORM_STEPS.CONFIRM_SEND,
+					label: confirmSendLabel,
+				},
+			],
+			[SEND_TYPE.AIRDROP_TYPE]: [
+				{
+					id: CREATE_AIRDROP_FROM_STEPS.AIRDROP_DETAILS,
+					label: airdropDetails,
+				},
+				{
+					id: CREATE_AIRDROP_FROM_STEPS.RECIPIENT_DETAILS,
+					label: recipientDetailsLabel,
+				},
+				{
+					id: CREATE_AIRDROP_FROM_STEPS.CONFIRM_SEND,
+					label: confirmSendLabel,
+				},
+			],
+		}
+
+		return stepsByType[type] ?? stepsByType[SEND_TYPE.MULTI_SEND_TYPE]
+	}
+
+	React.useEffect(() => {
+		setSteps(getStepsBySendType(sendType as SEND_TYPE))
+	}, [sendType])
 
 	const onSubmit: SubmitHandler<SendFormStepsProps> = async ({
 		selectedNFTs,
@@ -117,7 +197,9 @@ export default function Send() {
 			memo
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: Cw721Contract.transferTokens(
-				recipient ? selectedNFTs.map(nft => ({ ...nft, recipient })) : selectedNFTs,
+				sendType === SEND_TYPE.MULTI_SEND_TYPE
+					? selectedNFTs.map(nft => ({ ...nft, recipient: recipient ?? '' }))
+					: selectedNFTs,
 				`${sendType}:${memo}`
 			),
 			closeOnFinish: true,
@@ -169,24 +251,7 @@ export default function Send() {
 									<Steps steps={steps} currentStep={step} />
 								</StepsWrapper>
 
-								{/* STEP 1 */}
-								{step === CREATE_SEND_FORM_STEPS.SELECT_NFTS && (
-									<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
-								)}
-
-								{/* STEP 2 */}
-								{step === CREATE_SEND_FORM_STEPS.RECIPIENT_DETAILS && (
-									<SendDetails goBackStep={goToPrevStep} goNextStep={goToNextStep} />
-								)}
-
-								{/* STEP 3 */}
-								{step === CREATE_SEND_FORM_STEPS.CONFIRM_SEND && (
-									<ConfirmSend
-										canGoToNextStep={canGoToNextStep}
-										goBackStep={goToPrevStep}
-										setStep={setStep}
-									/>
-								)}
+								{renderComponentsByStep(sendType as SEND_TYPE, step)}
 							</BodyContainer>
 						</form>
 					</FormProvider>

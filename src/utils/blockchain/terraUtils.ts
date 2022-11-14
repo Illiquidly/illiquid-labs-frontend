@@ -296,9 +296,9 @@ function checkWallet(parentFunctionName: string): void {
 }
 
 export function getTerraUrlForTxId(txId: string): string {
-	const networkId = getNetworkId()
+	const networkName = getNetworkName()
 
-	return `https://finder.terra.money/${networkId}/tx/${txId}`
+	return `https://finder.terra.money/${networkName}/tx/${txId}`
 }
 
 async function postManyTransactions(
