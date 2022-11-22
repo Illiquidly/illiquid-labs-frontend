@@ -304,3 +304,13 @@ export const VerticalTradeLine = () => {
 		</Flex>
 	)
 }
+
+export const CounterOffersTableTitle = styled.div`
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+
+	text-align: left;
+	color: ${props => props.theme.colors.gray1000};
+`

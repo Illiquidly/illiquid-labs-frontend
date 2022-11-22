@@ -13,7 +13,7 @@ const SvgChevronRightSmall24 = (props: SVGProps<SVGSVGElement>) => (
 			fillRule='evenodd'
 			clipRule='evenodd'
 			d='M9.264 6.264a.9.9 0 0 0 0 1.272L13.727 12l-4.463 4.464a.9.9 0 0 0 1.272 1.272l5.1-5.1a.9.9 0 0 0 0-1.272l-5.1-5.1a.9.9 0 0 0-1.272 0Z'
-			fill='#2688EB'
+			fill='currentColor'
 		/>
 	</svg>
 )

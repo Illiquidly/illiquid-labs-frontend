@@ -1,0 +1,57 @@
+{
+	"activity": {
+		"title": "Activity",
+		"tabs": {
+			"outgoing-offers": "Outgoing Offers",
+			"incoming-offers": "Incoming Offers",
+			"raffles": "Raffles"
+		}
+	},
+	"watch-list": {
+		"title": "Your Watch List",
+		"no-watching-any-listings": "You aren't watching any listings yet.",
+		"explore-trade-listings": "Go explore some trade offers from the community to find your next gem.",
+		"explore-raffle-listings": "Go explore some raffle listings from the community to find your next gem.",
+		"explore-loan-listings": "Go explore some loan listings from the community to find your next gem."
+	},
+	"raffles": {
+		"title": "Raffles"
+	},
+	"trades": {
+		"title": "Trades",
+		"no-incoming-offers": "You don't have any incoming offers yet.",
+		"no-outgoing-offers": "You don't have any outgoing offers yet.",
+		"make-offer-to-appear": "Make an offer on a trade for it to appear here.",
+		"explore-listings": "Explore Trade Listings",
+		"statuses": [
+			"Active",
+			"Inactive",
+			"Cancelled",
+			"Published",
+			"Countered",
+			"Accepted"
+		],
+		"filters": {
+			"search-placeholder": "Search",
+			"status-label": "Status",
+			"collections-label": "Collections",
+			"looking-for-label": "Looking for",
+			"nft-collections-search-label": "NFT Collection",
+			"my-favorites-label": "My favorites",
+			"countered-by-me-label": "Countered by me",
+			"looking-for-liquid-assets-label": "Looking for liquid assets",
+			"search-collections-placeholder": "Search collections...",
+			"search-looking-for-placeholder": "Search collections...",
+			"search-status-placeholder": "Search status..."
+		},
+		"see-offers": "See offers",
+		"hide-offers": "Hide offers"
+	},
+	"loans": {
+		"title": "Loans",
+		"no-incoming-offers": "You don't have any incoming offers yet.",
+		"no-outgoing-offers": "You don't have any outgoing offers yet.",
+		"make-offer-to-appear": "Make an offer on a loan for it to appear here.",
+		"explore-listings": "Explore Loan Listings"
+	}
+}

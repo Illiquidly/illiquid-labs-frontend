@@ -1,10 +1,4 @@
-import { axios } from 'services/axios'
-
-export enum WALLET_NFT_STATE {
-	Full = 0, // All old txs were loaded
-	Partial = 1, // There is still some old info to query to have a complete nft_interacted array
-	isUpdating = 2, // THe API is currently updating info for the address
-}
+import axios from 'axios'
 
 interface NFTAttribute {
 	displayType?: string
@@ -30,37 +24,17 @@ export interface Collection {
 
 export interface WalletNFTsResponse {
 	ownedCollections: Collection[]
-	state: WALLET_NFT_STATE
 	ownedTokens: NFT[]
-	txs: {
-		external: {
-			oldest?: string
-			newest?: string
-		}
-		internal: {
-			oldest?: string
-			newest?: string
-		}
-	}
 }
 
 export class WalletNFTsService {
-	static async requestUpdateNFTs(
+	static async getNFTs(
 		network: string,
 		address: string
 	): Promise<WalletNFTsResponse> {
-		const { data } = await axios.patch(
-			`/nft-content/${network}/${address}/update`
+		const { data } = await axios.get(
+			`https://${network}.nfts.api.evenbytes.work/nft-wallet/${address}`
 		)
-
-		return data
-	}
-
-	static async requestNFTs(
-		network: string,
-		address: string
-	): Promise<WalletNFTsResponse> {
-		const { data } = await axios.get(`/nft-content/${network}/${address}`)
 
 		return data
 	}

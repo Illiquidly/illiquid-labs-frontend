@@ -20,6 +20,7 @@ import {
 	TradeHeaderActionsRow,
 	CounterOffersTable,
 	TradeListingsYouMightLike,
+	CounterOffersTableTitle,
 } from 'components/trade-listing-details'
 
 import { AvatarIcon, CalendarIcon, WalletIcon } from 'assets/icons/mixed'
@@ -391,7 +392,14 @@ export default function ListingDetails() {
 						</Flex>
 
 						<Row>
-							<CounterOffersTable trade={trade} refetchTrade={refetch} />
+							<Flex sx={{ flex: 1, flexDirection: 'column' }}>
+								<Box sx={{ padding: '8px 0' }}>
+									<CounterOffersTableTitle>
+										{t('trade-listings:counter-offers.title')}
+									</CounterOffersTableTitle>
+								</Box>
+								<CounterOffersTable trade={trade} refetchTrade={refetch} />
+							</Flex>
 						</Row>
 						<TradeListingsYouMightLike
 							search={

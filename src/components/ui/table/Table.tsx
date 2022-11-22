@@ -25,9 +25,10 @@ const Container = styled.div`
 export interface TableProps {
 	caption?: string
 	children?: React.ReactNode
+	style?: React.CSSProperties
 }
-export const Table = ({ caption, children }: TableProps) => (
-	<Container>
+export const Table = ({ style, caption, children }: TableProps) => (
+	<Container style={style}>
 		<StyledTable>
 			{caption && <caption>{caption}</caption>}
 			{children}

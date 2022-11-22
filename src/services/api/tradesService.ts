@@ -4,6 +4,7 @@ import { keysToCamel } from 'utils/js/keysToCamel'
 import { APIGetAllResponse, LookingFor, NetworkType } from 'types'
 import { APIPagination } from 'types/common'
 import { NFT } from './walletNFTsService'
+import { CounterTrade } from './counterTradesService'
 
 export type Coin = {
 	amount: string
@@ -44,6 +45,7 @@ export enum TRADE_STATE {
 
 export interface Trade {
 	id: number
+	counterTrades: CounterTrade[]
 	network: NetworkType
 	tradeId: number
 	tradeInfo: {

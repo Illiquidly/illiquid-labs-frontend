@@ -1,14 +1,9 @@
-import { useModal } from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
-import { FULL_WALLET_NFTS, PARTIAL_WALLET_NFTS } from 'constants/use-query-keys'
+import { FULL_WALLET_NFTS } from 'constants/use-query-keys'
 import React from 'react'
-import {
-	WalletNFTsService,
-	WALLET_NFT_STATE,
-} from 'services/api/walletNFTsService'
-import { asyncAction } from 'utils/js/asyncAction'
+import { WalletNFTsService } from 'services/api/walletNFTsService'
 
 import useAddress from './useAddress'
 
@@ -21,60 +16,16 @@ export type UseMyNFTsFilters = {
 export function useMyNFTs(filters: UseMyNFTsFilters) {
 	const wallet = useWallet()
 	const myAddress = useAddress()
-	const modal = useModal()
 
-	const {
-		data: partialData,
-		isLoading: partiallyLoading,
-		refetch: refetchPartial,
-	} = useQuery(
-		[PARTIAL_WALLET_NFTS, myAddress, modal.visible],
-		async () => {
-			const [error, data] = await asyncAction(
-				WalletNFTsService.requestUpdateNFTs(wallet.network.name, myAddress)
-			)
-
-			if (error) {
-				return WalletNFTsService.requestNFTs(wallet.network.name, myAddress)
-			}
-
-			return data
-		},
-
+	const { data, isLoading, refetch } = useQuery(
+		[FULL_WALLET_NFTS, myAddress],
+		async () =>
+			WalletNFTsService.getNFTs(wallet.network.chainID.split('-')[0], myAddress),
 		{
-			enabled: !!wallet.network && !!myAddress && modal.visible,
+			enabled: !!wallet.network && !!myAddress,
 			retry: true,
+			keepPreviousData: true,
 		}
-	)
-
-	const { data: fullData, isLoading: fullyLoading } = useQuery(
-		[FULL_WALLET_NFTS, myAddress, partialData, modal.visible],
-		async () => {
-			const data = await WalletNFTsService.requestNFTs(
-				wallet.network.name,
-				myAddress
-			)
-
-			if (data.state === WALLET_NFT_STATE.isUpdating) {
-				return Promise.reject(new Error('Not loaded fully reject!'))
-			}
-
-			if (data.state === WALLET_NFT_STATE.Partial) {
-				refetchPartial()
-				return Promise.reject(new Error('Loaded partially return!'))
-			}
-
-			return data
-		},
-		{
-			enabled: !!wallet.network && !!partialData && !!myAddress && modal.visible,
-			retry: true,
-		}
-	)
-
-	const data = React.useMemo(
-		() => fullData ?? partialData,
-		[fullData, partialData]
 	)
 
 	const ownedCollections = React.useMemo(
@@ -105,9 +56,8 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 	return {
 		ownedNFTs,
 		ownedCollections,
-		partiallyLoading,
-		fullyLoading,
-		fetchMyNFTs: refetchPartial,
+		fullyLoading: isLoading,
+		fetchMyNFTs: refetch,
 	}
 }
 

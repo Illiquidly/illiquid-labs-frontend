@@ -23,7 +23,6 @@ import React, { useState } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex, IconButton } from 'theme-ui'
 
-import { isEmpty } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import { SelectOption } from 'components/ui/select/Select'
@@ -82,13 +81,7 @@ export const MyNFTsModal = NiceModal.create(
 			React.useState<HTMLDivElement | null>(null)
 		const [searchName, setSearchName] = React.useState<string>('')
 
-		const {
-			partiallyLoading,
-			fullyLoading,
-			ownedNFTs,
-			ownedCollections,
-			fetchMyNFTs,
-		} = useMyNFTs({
+		const { fullyLoading, ownedNFTs, ownedCollections } = useMyNFTs({
 			collectionAddresses: selectedCollections.map(({ value }) => value),
 			name: searchName,
 			sort: selectedSortValue as NFTS_SORT_VALUE,
@@ -106,10 +99,6 @@ export const MyNFTsModal = NiceModal.create(
 
 		const { selectedNFTs, addSelectedNFT, removeSelectedNFT } =
 			useSelectedNFTs(defaultSelectedNFTs)
-
-		React.useEffect(() => {
-			fetchMyNFTs()
-		}, [modal.visible])
 
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
@@ -249,7 +238,7 @@ export const MyNFTsModal = NiceModal.create(
 										</Flex>
 									</Box>
 
-									{partiallyLoading || (fullyLoading && isEmpty(ownedNFTs)) ? (
+									{fullyLoading ? (
 										<Flex
 											sx={{
 												flex: 1,

@@ -55,16 +55,6 @@ import {
 } from './modals/view-counter-offer-modal'
 import WithdrawCancelledCounterModal from './modals/withdraw-cancelled-counter-modal/WithdrawCancelledCounterModal'
 
-const Title = styled.div`
-	font-style: normal;
-	font-weight: 600;
-	font-size: 16px;
-	line-height: 24px;
-
-	text-align: left;
-	color: ${props => props.theme.colors.gray1000};
-`
-
 const Container = styled(Flex)`
 	flex-direction: column;
 	padding-bottom: 45px;
@@ -74,8 +64,13 @@ const Container = styled(Flex)`
 interface CounterOffersTableProps {
 	trade?: Trade
 	refetchTrade: () => void
+	excludeTopBorder?: boolean
 }
-function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
+function CounterOffersTable({
+	excludeTopBorder,
+	trade,
+	refetchTrade,
+}: CounterOffersTableProps) {
 	const wallet = useWallet()
 	const previewItemsLimit = 5
 
@@ -92,7 +87,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 	}, [wallet.network, tradeId])
 
 	const { data: counterTrades, isLoading } = useQuery(
-		[COUNTER_TRADES, wallet.network, page],
+		[COUNTER_TRADES, wallet.network, page, tradeId],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
 				wallet.network.name,
@@ -282,10 +277,11 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 	return (
 		<Container>
-			<Box sx={{ padding: '8px 0' }}>
-				<Title>{t('trade-listings:counter-offers.title')}</Title>
-			</Box>
-			<Table>
+			<Table
+				style={
+					excludeTopBorder ? { borderTopRightRadius: 0, borderTopLeftRadius: 0 } : {}
+				}
+			>
 				<TableHead>
 					<TableHeadRow>
 						{columns.map(col => (
@@ -502,6 +498,7 @@ function CounterOffersTable({ trade, refetchTrade }: CounterOffersTableProps) {
 
 CounterOffersTable.defaultProps = {
 	trade: undefined,
+	excludeTopBorder: false,
 }
 
 export default CounterOffersTable
