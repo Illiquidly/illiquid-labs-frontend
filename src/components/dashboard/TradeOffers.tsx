@@ -46,6 +46,7 @@ interface TradeOffersProps {
 		React.SetStateAction<MultiSelectAccordionInputOption[]>
 	>
 	statusOptions: MultiSelectAccordionInputOption[]
+	allFetched: boolean
 }
 
 function TradeOffers({
@@ -60,6 +61,7 @@ function TradeOffers({
 	collections,
 	setCollections,
 	statusOptions,
+	allFetched,
 }: TradeOffersProps) {
 	const { t } = useTranslation()
 	const wallet = useWallet()
@@ -78,14 +80,14 @@ function TradeOffers({
 		<Flex sx={{ flexDirection: 'column', gap: '24px' }}>
 			<SectionTitle>{t('dashboard:trades:title')}</SectionTitle>
 
-			{!allTrades?.count ? (
+			{!allTrades?.total && allFetched ? (
 				<ActivityCard>
 					<ActivityCardEmptyContainer>
 						<EmptyBox />
 
 						<Box sx={{ maxWidth: '524px' }}>
 							<ActivityCardEmptyTitle>
-								{t('dashboard:trades:no-outgoing-offers')}
+								{t('dashboard:trades:no-offers')}
 								<br />
 								{t('dashboard:trades:make-offer-to-appear')}
 							</ActivityCardEmptyTitle>

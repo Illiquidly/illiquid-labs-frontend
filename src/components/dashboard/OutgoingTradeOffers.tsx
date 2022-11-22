@@ -113,6 +113,7 @@ function OutgoingTradeOffers() {
 			collections={collections}
 			setCollections={setCollections}
 			statusOptions={statusOptions}
+			allFetched={isFetched}
 		/>
 	)
 }
