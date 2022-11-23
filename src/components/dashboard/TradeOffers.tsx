@@ -101,7 +101,7 @@ function TradeOffers({
 			) : (
 				<Flex
 					sx={{
-						flexDirection: 'column',
+						flexDirection: ['column'],
 						alignItems: 'center',
 						minHeight: '960px',
 						pb: ['47px'],
@@ -109,20 +109,21 @@ function TradeOffers({
 				>
 					<Flex
 						sx={{
-							flex: [null, 1],
+							flex: [null, null, 1],
 							width: '100%',
-							flexDirection: ['column', 'row'],
+							flexDirection: ['column', 'column', 'row'],
 							gap: ['12px', '12px', '24px'],
 						}}
 					>
 						<Flex
 							sx={{
 								flex: 1,
-								flexDirection: ['column'],
+								flexDirection: ['column', 'row', 'column'],
 								maxWidth: [null, null, '308px'],
+								gap: [null, '8px', null],
 							}}
 						>
-							<Box>
+							<Box sx={{ flex: [null, 1, 'unset'] }}>
 								<Accordion
 									icon={<TargetIcon />}
 									title={
@@ -141,7 +142,7 @@ function TradeOffers({
 									</AccordionContentWrapper>
 								</Accordion>
 							</Box>
-							<Box>
+							<Box sx={{ flex: [null, 1, 'unset'] }}>
 								<Accordion
 									icon={<CollectionsBoxesIcon />}
 									title={
