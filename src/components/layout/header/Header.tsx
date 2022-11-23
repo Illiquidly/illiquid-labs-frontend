@@ -86,7 +86,7 @@ function Header() {
 							maxHeight: ['38.63px', '42px'],
 						}}
 					>
-						<Link href={ROUTES.TRADE_LISTINGS}>
+						<Link href={ROUTES.DASHBOARD}>
 							<IlliquidlyFooterLogo width='100%' height='100%' />
 						</Link>
 					</Box>

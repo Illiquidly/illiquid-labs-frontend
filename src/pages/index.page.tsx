@@ -11,4 +11,4 @@ export async function getStaticProps({ locale = 'en' }) {
 	}
 }
 
-export default () => <Redirect to={ROUTES.TRADE_LISTINGS} />
+export default () => <Redirect to={ROUTES.DASHBOARD} />
