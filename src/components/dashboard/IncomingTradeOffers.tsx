@@ -48,7 +48,7 @@ function IncomingTradeOffers() {
 
 	const [statuses, setStatuses] = React.useState<
 		MultiSelectAccordionInputOption[]
-	>([statusOptions[0]])
+	>([])
 
 	const [collections, setCollections] = React.useState<
 		MultiSelectAccordionInputOption[]

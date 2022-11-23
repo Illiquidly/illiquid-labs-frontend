@@ -95,7 +95,7 @@ function TradeOfferCard({
 								</BottomImageArea>
 							) : null}
 						</ImageSection>
-						<Box sx={{ pl: ['12px', '18px'], pr: ['12px'] }}>
+						<Box sx={{ flex: [null, 1], pl: ['12px', '18px'], pr: ['12px'] }}>
 							<DescriptionSection>
 								<Flex>
 									<Flex sx={{ flex: 1 }}>
