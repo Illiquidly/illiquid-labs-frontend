@@ -54,7 +54,7 @@ function IncomingTradeOffers() {
 		MultiSelectAccordionInputOption[]
 	>([])
 
-	const { data: allTrades, isFetched } = useQuery(
+	const { data: allTrades, isFetched: allFetched } = useQuery(
 		[ALL_TRADES, wallet.network, myAddress],
 		async () =>
 			TradesService.getAllTrades(
@@ -78,8 +78,9 @@ function IncomingTradeOffers() {
 		data: trades,
 		isLoading,
 		refetch,
+		isFetched: tradesFetched,
 	} = useQuery(
-		[TRADES, wallet.network, myAddress, page, statuses, isFetched],
+		[TRADES, wallet.network, myAddress, page, statuses, allFetched],
 		async () =>
 			TradesService.getAllTrades(
 				wallet.network.name,
@@ -95,7 +96,7 @@ function IncomingTradeOffers() {
 				}
 			),
 		{
-			enabled: !!wallet.network && isFetched,
+			enabled: !!wallet.network && allFetched,
 			retry: true,
 		}
 	)
@@ -113,7 +114,7 @@ function IncomingTradeOffers() {
 			collections={collections}
 			setCollections={setCollections}
 			statusOptions={statusOptions}
-			allFetched={isFetched}
+			tradesFetched={tradesFetched}
 		/>
 	)
 }
