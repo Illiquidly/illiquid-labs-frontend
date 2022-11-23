@@ -47,7 +47,7 @@ ActivityCardEmptyContainer.defaultProps = {
 export const ActivityLoadingContainer = styled(Flex)`
 	align-items: center;
 	justify-content: center;
-	min-height: '960px';
+	min-height: 1003px;
 `
 
 ActivityLoadingContainer.defaultProps = {

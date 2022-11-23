@@ -80,7 +80,7 @@ function IncomingTradeOffers() {
 		refetch,
 		isFetched: tradesFetched,
 	} = useQuery(
-		[TRADES, wallet.network, myAddress, page, statuses, allFetched],
+		[TRADES, wallet.network, myAddress, page, statuses, collections, allFetched],
 		async () =>
 			TradesService.getAllTrades(
 				wallet.network.name,

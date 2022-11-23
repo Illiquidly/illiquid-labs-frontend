@@ -196,47 +196,48 @@ function TradeOffers({
 										<Loader />
 									</ActivityLoadingContainer>
 								)}
-								{(trades?.data ?? []).map(trade => {
-									const {
-										tradeId,
-										tradeInfo: { additionalInfo, associatedAssets, whitelistedUsers },
-									} = trade
-									return (
-										<Box key={tradeId}>
-											<TradeOfferCard
-												refetchTrade={refetch}
-												trade={trade}
-												description={
-													additionalInfo?.tradePreview?.cw721Coin?.description ?? ''
-												}
-												attributes={
-													additionalInfo?.tradePreview?.cw721Coin?.attributes ?? []
-												}
-												tokenId={additionalInfo?.tradePreview?.cw721Coin?.tokenId ?? ''}
-												collectionAddress={
-													additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
-												}
-												href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
-												nfts={(associatedAssets || [])
-													.filter(nft => nft.cw721Coin)
-													.map(({ cw721Coin }) => cw721Coin as NFT)}
-												lookingFor={additionalInfo?.lookingFor ?? []}
-												imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
-												name={additionalInfo?.tradePreview?.cw721Coin?.name ?? ''}
-												verified={(verifiedCollections ?? []).some(
-													({ collectionAddress }) =>
-														additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ===
-														collectionAddress
-												)}
-												isPrivate={(whitelistedUsers || []).length > 0}
-												collectionName={
-													additionalInfo?.tradePreview?.cw721Coin?.collectionName || ''
-												}
-												hasLookingFor
-											/>
-										</Box>
-									)
-								})}
+								{!isLoading &&
+									(trades?.data ?? []).map(trade => {
+										const {
+											tradeId,
+											tradeInfo: { additionalInfo, associatedAssets, whitelistedUsers },
+										} = trade
+										return (
+											<Box key={tradeId}>
+												<TradeOfferCard
+													refetchTrade={refetch}
+													trade={trade}
+													description={
+														additionalInfo?.tradePreview?.cw721Coin?.description ?? ''
+													}
+													attributes={
+														additionalInfo?.tradePreview?.cw721Coin?.attributes ?? []
+													}
+													tokenId={additionalInfo?.tradePreview?.cw721Coin?.tokenId ?? ''}
+													collectionAddress={
+														additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
+													}
+													href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
+													nfts={(associatedAssets || [])
+														.filter(nft => nft.cw721Coin)
+														.map(({ cw721Coin }) => cw721Coin as NFT)}
+													lookingFor={additionalInfo?.lookingFor ?? []}
+													imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
+													name={additionalInfo?.tradePreview?.cw721Coin?.name ?? ''}
+													verified={(verifiedCollections ?? []).some(
+														({ collectionAddress }) =>
+															additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ===
+															collectionAddress
+													)}
+													isPrivate={(whitelistedUsers || []).length > 0}
+													collectionName={
+														additionalInfo?.tradePreview?.cw721Coin?.collectionName || ''
+													}
+													hasLookingFor
+												/>
+											</Box>
+										)
+									})}
 							</Box>
 							<Box sx={{ mt: 'auto', pt: '24px' }}>
 								<Pagination
