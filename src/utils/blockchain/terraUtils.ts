@@ -1,29 +1,26 @@
-/* eslint-disable */
 import {
 	LCDClient,
 	MsgExecuteContract,
 	Coins,
 	Coin,
 	Msg,
-	CreateTxOptions,
 	TxInfo,
 	ExtensionOptions,
 } from '@terra-money/terra.js'
 import { Wallet } from '@terra-money/wallet-provider'
 import axios from 'axios'
+import { contractAddresses } from 'constants/addresses'
+import { CHAIN_DENOMS, FCD_URLS, LCD_URLS } from 'constants/core'
+import { txExplorerFactory } from 'constants/transactions'
 import { pick } from 'lodash'
 
-import addresses from 'services/blockchain/addresses'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
+import { ContractName, NetworkId } from 'types'
 import { asyncAction } from 'utils/js/asyncAction'
 
 export const UST_DECIMALS = 6
 export const LP_DECIMALS = 6
 export const LUNA_DECIMALS = 6
-
-type NetworkId = 'columbus-5' | 'phoenix-1' | 'pisco-1'
-
-type NetworkName = 'mainnet' | 'classic' | 'testnet'
 
 interface CoinsDetails {
 	ust?: string
@@ -34,18 +31,6 @@ interface TransactionDetails {
 	contractAddress: string
 	message: object
 	coins?: CoinsDetails
-}
-
-const LCD_URLS = {
-	'pisco-1': 'https://pisco-lcd.terra.dev',
-	'columbus-5': 'https://columbus-lcd.terra.dev',
-	'phoenix-1': 'https://phoenix-lcd.terra.dev',
-}
-
-const FCD_URLS = {
-	'pisco-1': 'https://pisco-fcd.terra.dev',
-	'columbus-5': 'https://columbus-fcd.terra.dev',
-	'phoenix-1': 'https://phoenix-fcd.terra.dev',
 }
 
 function createAmountConverter(decimals: number) {
@@ -77,28 +62,19 @@ export function getNetworkId(): NetworkId {
 	return 'pisco-1' // phoenix-1
 }
 
-export function chainIdToNetworkName(chainId: string): NetworkName {
-	const networkIds: { [key: string]: NetworkName } = {
-		'pisco-1': 'testnet',
-		'columbus-5': 'classic',
-		'phoenix-1': 'mainnet',
-	}
-
-	return networkIds[chainId]
+export function getDefaultChainDenom(): string {
+	const networkId = getNetworkId()
+	return CHAIN_DENOMS[networkId]
 }
 
-export function getNetworkName(): NetworkName {
-	return chainIdToNetworkName(getNetworkId() ?? 'pisco-1')
+function getContractAddress(contractName: ContractName): string {
+	const networkId = getNetworkId()
+	return contractAddresses[networkId][contractName]
 }
 
 async function getLcdURL(): Promise<string> {
 	const networkId = getNetworkId()
 	return LCD_URLS[networkId]
-}
-
-function isTestnet(): boolean {
-	const networkId = getNetworkId()
-	return networkId === 'pisco-1'
 }
 
 function isClassic(): boolean {
@@ -123,22 +99,22 @@ async function fetchGasPrices() {
 
 	const response = await axios.get(`${FCD_URLS[networkId]}/v1/txs/gas_prices`)
 
-	return pick(response.data, [isClassic() ? 'uusd' : 'uluna'])
+	return pick(response.data, [getDefaultChainDenom()])
 }
 
 const DEFAULT_DELAY = 1000
 
 // Async version of sleep
 export async function sleep(ms: number = DEFAULT_DELAY): Promise<void> {
-	// eslint-disable-next-line no-promise-executor-return
 	return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 async function getWalletAddress(
-	maxTries: number = 3,
-	retryIntervalMilliseconds: number = 1000,
-	throwErrorIfNoWallet: boolean = true
+	maxTries = 3,
+	retryIntervalMilliseconds = 1000,
+	throwErrorIfNoWallet = true
 ): Promise<string> {
+	// eslint-disable-next-line no-plusplus
 	for (let i = 0; i < maxTries; i++) {
 		const address = wallet?.wallets[0]?.terraAddress
 		if (address) {
@@ -147,6 +123,7 @@ async function getWalletAddress(
 		console.log(
 			`Haven't got wallet address. Retrying in ${retryIntervalMilliseconds} ms`
 		)
+		// eslint-disable-next-line no-await-in-loop
 		await sleep(retryIntervalMilliseconds)
 	}
 
@@ -155,39 +132,6 @@ async function getWalletAddress(
 	} else {
 		return ''
 	}
-}
-
-// Returns UST balance on the user's wallet
-export async function getBalanceUST(): Promise<number> {
-	const address = await getWalletAddress()
-	const lcdClient = await getLCDClient()
-
-	const [coins] = await lcdClient.bank.balance(address)
-
-	for (const coin of coins.toData()) {
-		if (coin.denom === 'uusd') {
-			return amountConverter.ust.blockchainValueToUserFacing(coin.amount)
-		}
-	}
-
-	// If uusd not found in the coin list, return 0
-	return 0
-}
-
-export async function getBalanceLUNA(): Promise<number> {
-	const address = await getWalletAddress()
-
-	const lcdClient = await getLCDClient()
-
-	const [coins] = await lcdClient.bank.balance(address)
-
-	for (const coin of coins.toData()) {
-		if (coin.denom === 'uluna') {
-			return amountConverter.luna.blockchainValueToUserFacing(coin.amount)
-		}
-	}
-
-	return 0
 }
 
 async function sendQuery(contractAddress: string, query: object): Promise<any> {
@@ -225,12 +169,12 @@ async function estimateTxFee(messages: Msg[]) {
 		msgs: messages,
 		gasPrices,
 		gasAdjustment: 1.4,
-		feeDenoms: [isClassic() ? 'uusd' : 'uluna'],
+		feeDenoms: [getDefaultChainDenom()],
 		memo,
 		isClassic: isClassic(),
 	}
 
-	const fee = await lcdClient.tx.estimateFee(
+	return lcdClient.tx.estimateFee(
 		[
 			{
 				sequenceNumber: accountInfo.getSequenceNumber(),
@@ -239,38 +183,14 @@ async function estimateTxFee(messages: Msg[]) {
 		],
 		txOptions
 	)
-
-	return fee
 }
 
 async function getTxResult(txHash: string): Promise<TxInfo | undefined> {
 	const client = await getLCDClient()
 
-	const [_, response] = await asyncAction(client.tx.txInfo(txHash))
+	const [, response] = await asyncAction(client.tx.txInfo(txHash))
 
 	return response
-}
-
-// Checking is terra gateway working properly
-async function pingTerraGateway(): Promise<any> {
-	const networkId = getNetworkId()
-	const response = await axios.get(`${FCD_URLS[networkId]}/syncing`)
-	return response
-}
-
-async function getTxs(offset: number, limit: number) {
-	const networkId = getNetworkId()
-	const account = addresses.getContractAddress('p2p-trade')
-
-	const response = await axios.get(`${FCD_URLS[networkId]}/v1/txs`, {
-		params: {
-			account,
-			offset,
-			limit,
-		},
-	})
-
-	return response.data
 }
 
 function getCoinsConfig(coins?: CoinsDetails): Coins.Input | undefined {
@@ -295,11 +215,8 @@ function checkWallet(parentFunctionName: string): void {
 	}
 }
 
-export function getTerraUrlForTxId(txId: string): string {
-	const networkName = getNetworkName()
-
-	return `https://finder.terra.money/${networkName}/tx/${txId}`
-}
+export const getTransactionExplorer = (txId: string) =>
+	txExplorerFactory[getNetworkId() ?? 'pisco-1'](txId)
 
 async function postManyTransactions(
 	txs: TransactionDetails[],
@@ -324,7 +241,7 @@ async function postManyTransactions(
 	})
 	const txId = tx.result.txhash
 
-	const txTerraFinderUrl = getTerraUrlForTxId(txId)
+	const txTerraFinderUrl = getTransactionExplorer(txId)
 
 	return {
 		txId,
@@ -346,16 +263,12 @@ export default {
 	postTransaction,
 	postManyTransactions,
 	getNetworkId,
-	isTestnet,
 	getWalletAddress,
 	setWallet,
-	getBalanceUST,
-	getBalanceLUNA,
 	amountConverter,
 	getTxResult,
-	pingTerraGateway,
-	getTxs,
-	getTerraUrlForTxId,
+	getTransactionExplorer,
+	getContractAddress,
 }
 
 export type { TransactionDetails }

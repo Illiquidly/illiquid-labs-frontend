@@ -27,7 +27,7 @@ import { useWallet } from '@terra-money/use-wallet'
 import { SEND_TRANSACTIONS } from 'constants/use-query-keys'
 import { first, groupBy, last, omit } from 'lodash'
 import moment from 'moment'
-import { getTerraUrlForTxId } from 'utils/blockchain/terraUtils'
+import { getTransactionExplorer } from 'utils/blockchain/terraUtils'
 import getShortText from 'utils/js/getShortText'
 import {
 	ViewNFTsModal,
@@ -269,7 +269,7 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 										>
 											<Button
 												onClick={async () =>
-													window.open(getTerraUrlForTxId(transaction.txHash), '_blank')
+													window.open(getTransactionExplorer(transaction.txHash), '_blank')
 												}
 												variant='secondary'
 											>

@@ -30,3 +30,13 @@ export type Coin = {
 	amount: number | string
 	denom: string
 }
+
+export type ContractName =
+	| 'raffle'
+	| 'p2pTrade'
+	| 'feeCollector'
+	| 'nameService'
+
+export type NetworkId = 'columbus-5' | 'phoenix-1' | 'pisco-1'
+
+export type NetworkName = 'mainnet' | 'classic' | 'testnet'

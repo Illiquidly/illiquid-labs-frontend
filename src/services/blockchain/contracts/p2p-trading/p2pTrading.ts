@@ -3,10 +3,11 @@ import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import terraUtils, {
 	amountConverter as converter,
 } from 'utils/blockchain/terraUtils'
-import addresses, { ContractName } from 'services/blockchain/addresses'
 import { NFT } from 'services/api/walletNFTsService'
 import { Coin } from 'services/api/tradesService'
 import { keysToSnake } from 'utils/js/keysToSnake'
+import { ContractName } from 'types'
+import { CONTRACT_NAME } from 'constants/addresses'
 import { Contract, getDenomForCurrency, TerraCurrency } from '../shared'
 
 const amountConverter = converter.ust
@@ -24,8 +25,6 @@ export interface TradeFee {
 	amount: number
 	currency: 'luna' | 'ust'
 }
-
-const P2P_TRADE = 'p2p-trade'
 
 export interface P2PTradeOffer {
 	amountUST?: string
@@ -51,7 +50,9 @@ class P2PTradingContract extends Contract {
 				tokensWanted,
 				previewNFT,
 			}) => {
-				const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+				const p2pContractAddress = terraUtils.getContractAddress(
+					CONTRACT_NAME.p2pTrade
+				)
 
 				return [
 					// Create empty trade with comment
@@ -201,7 +202,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number,
 		comment: string
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		// Post transactions for setting comment
 		return terraUtils.postTransaction({
@@ -221,7 +224,9 @@ class P2PTradingContract extends Contract {
 		tokensWanted: Coin[],
 		nftsWanted: string[]
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postManyTransactions([
 			{
@@ -260,7 +265,9 @@ class P2PTradingContract extends Contract {
 	}
 
 	static async createTrade(whitelistedUsers: string[]): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		// Post transactions for creating trade
 		return terraUtils.postTransaction({
@@ -278,7 +285,9 @@ class P2PTradingContract extends Contract {
 		amount: number,
 		currency: TerraCurrency
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const requiredAmount = amountConverter.userFacingToBlockchainValue(amount)
 
@@ -312,8 +321,10 @@ class P2PTradingContract extends Contract {
 		token: ContractName,
 		counterId?: number
 	): Promise<TxReceipt> {
-		const cw20ContractAddress = addresses.getContractAddress(token)
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const cw20ContractAddress = terraUtils.getContractAddress(token)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 		const requiredAmount = amountConverter.userFacingToBlockchainValue(amount)
 
 		const txs = [
@@ -352,8 +363,10 @@ class P2PTradingContract extends Contract {
 		tokenId: string,
 		counterId?: number
 	): Promise<TxReceipt> {
-		const cw721ContractAddress = addresses.getContractAddress(token)
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const cw721ContractAddress = terraUtils.getContractAddress(token)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const txs = [
 			{
@@ -389,7 +402,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number,
 		assets: [number, Asset][]
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const mappedAssets = assets.map(([position, asset]) => [
 			position,
@@ -442,7 +457,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number,
 		whitelistedUsers: string[]
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -459,7 +476,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number,
 		whitelistedUsers: string[]
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -473,7 +492,9 @@ class P2PTradingContract extends Contract {
 	}
 
 	static async confirmTrade(tradeId: number): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -498,7 +519,9 @@ class P2PTradingContract extends Contract {
 		comment?: string
 		cw721Tokens: NFT[]
 	}) {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const txs = [
 			{
@@ -602,7 +625,9 @@ class P2PTradingContract extends Contract {
 	}
 
 	static async suggestCounterTrade(tradeId: number): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -620,7 +645,9 @@ class P2PTradingContract extends Contract {
 		amount: number,
 		currency: TerraCurrency
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const requiredAmount = amountConverter.userFacingToBlockchainValue(amount)
 
@@ -654,7 +681,9 @@ class P2PTradingContract extends Contract {
 		counterId: number,
 		tradeId: number
 	) {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const txs = [
 			{
@@ -676,7 +705,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number,
 		assets: [number, Asset][]
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		// eslint-disable-next-line sonarjs/no-identical-functions
 		const mappedAssets = assets.map(([position, asset]) => [
@@ -731,7 +762,9 @@ class P2PTradingContract extends Contract {
 		counterId: number,
 		tradeId: number
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -745,7 +778,9 @@ class P2PTradingContract extends Contract {
 	}
 
 	static async withdrawAcceptedTrade(tradeId: number) {
-		const feeContractAddress = addresses.getContractAddress('fee-collector')
+		const feeContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.feeCollector
+		)
 
 		const feeResponse = await terraUtils.sendQuery(feeContractAddress, {
 			fee: { trade_id: tradeId },
@@ -776,7 +811,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number
 		counterId: number
 	}): Promise<TradeFee> {
-		const feeContractAddress = addresses.getContractAddress('fee-collector')
+		const feeContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.feeCollector
+		)
 
 		const feeResponse: { amount: string; denom: string } =
 			await terraUtils.sendQuery(feeContractAddress, {
@@ -803,7 +840,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number
 		counterAssets: Asset[]
 	}) {
-		const feeContractAddress = addresses.getContractAddress('fee-collector')
+		const feeContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.feeCollector
+		)
 
 		const feeResponse: { amount: string; denom: string } =
 			await terraUtils.sendQuery(feeContractAddress, {
@@ -836,9 +875,13 @@ class P2PTradingContract extends Contract {
 		comment?: string,
 		withdraw?: boolean
 	) {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
-		const feeContractAddress = addresses.getContractAddress('fee-collector')
+		const feeContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.feeCollector
+		)
 
 		const feeResponse: { amount: string; denom: string } =
 			await terraUtils.sendQuery(feeContractAddress, {
@@ -883,7 +926,9 @@ class P2PTradingContract extends Contract {
 	}
 
 	static async cancelTrade(tradeId: number): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -899,7 +944,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number,
 		counterId: number
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -916,7 +963,9 @@ class P2PTradingContract extends Contract {
 		tradeId: number,
 		counterId: number
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -933,7 +982,9 @@ class P2PTradingContract extends Contract {
 		counterId: number,
 		tradeId: number
 	) {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const txs = [
 			{
@@ -964,7 +1015,9 @@ class P2PTradingContract extends Contract {
 		counterId: number,
 		comment?: string
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		const txs = [
 			...(comment
@@ -1000,7 +1053,9 @@ class P2PTradingContract extends Contract {
 		counterId: number,
 		comment?: string
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -1015,7 +1070,9 @@ class P2PTradingContract extends Contract {
 	}
 
 	static async withdrawPendingAssets(tradeId: number): Promise<TxReceipt> {
-		const feeContractAddress = addresses.getContractAddress('fee-collector')
+		const feeContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.feeCollector
+		)
 
 		const feeResponse = await terraUtils.sendQuery(feeContractAddress, {
 			fee: { trade_id: tradeId },
@@ -1043,7 +1100,9 @@ class P2PTradingContract extends Contract {
 	static async withdrawCancelledTradeAssets(
 		tradeId: number
 	): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: p2pContractAddress,
@@ -1056,7 +1115,9 @@ class P2PTradingContract extends Contract {
 	}
 
 	static async cancelAndWithdrawTrade(tradeId: number): Promise<TxReceipt> {
-		const p2pContractAddress = addresses.getContractAddress(P2P_TRADE)
+		const p2pContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.p2pTrade
+		)
 
 		return terraUtils.postManyTransactions([
 			{

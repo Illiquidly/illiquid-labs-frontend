@@ -1,5 +1,5 @@
+import { CONTRACT_NAME } from 'constants/addresses'
 import { NFT } from 'services/api/walletNFTsService'
-import addresses from 'services/blockchain/addresses'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { HumanCoin, HumanCw20Coin } from 'types'
 import terraUtils, {
@@ -20,15 +20,15 @@ export interface RaffleOptions {
 	raffleTimeout?: number
 }
 
-const RAFFLE = 'raffle'
-
 class RafflesContract extends Contract {
 	static async createRaffleListing(
 		nfts: NFT[],
 		ticketPriceLuna: string | number,
 		raffleOptions: RaffleOptions
 	): Promise<TxReceipt> {
-		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
+		const raffleContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.raffle
+		)
 
 		return terraUtils.postManyTransactions([
 			// Add cw721 tokens to raffle
@@ -71,7 +71,9 @@ class RafflesContract extends Contract {
 	}
 
 	static async cancelRaffleListing(raffleId: number) {
-		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
+		const raffleContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.raffle
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: raffleContractAddress,
@@ -89,7 +91,9 @@ class RafflesContract extends Contract {
 		ticketPriceAmount?: number,
 		ticketPriceCurrency?: string
 	) {
-		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
+		const raffleContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.raffle
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: raffleContractAddress,
@@ -114,7 +118,9 @@ class RafflesContract extends Contract {
 	}
 
 	static async drawRaffle(raffleId: number) {
-		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
+		const raffleContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.raffle
+		)
 
 		return terraUtils.postTransaction({
 			contractAddress: raffleContractAddress,
@@ -132,7 +138,9 @@ class RafflesContract extends Contract {
 		coin?: HumanCoin,
 		cw20Coin?: HumanCw20Coin
 	): Promise<TxReceipt> {
-		const raffleContractAddress = addresses.getContractAddress(RAFFLE)
+		const raffleContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.raffle
+		)
 
 		return terraUtils.postManyTransactions([
 			...(cw20Coin

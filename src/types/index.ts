@@ -7,4 +7,7 @@ export type {
 	HumanCoin,
 	Cw20Coin,
 	Coin,
+	ContractName,
+	NetworkId,
+	NetworkName,
 } from './common'
