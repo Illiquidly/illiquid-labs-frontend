@@ -8,6 +8,8 @@ import { Title, SectionTitle } from 'components/dashboard'
 import { Flex } from 'theme-ui'
 import IncomingTradeOffers from 'components/dashboard/IncomingTradeOffers'
 import OutgoingTradeOffers from 'components/dashboard/OutgoingTradeOffers'
+import { DefaultActions } from 'components/shared/header-actions'
+import useHeaderActions from 'hooks/useHeaderActions'
 
 const getStaticProps = makeStaticProps([
 	'common',
@@ -29,6 +31,8 @@ export default function Dashboard() {
 	const [activityType, setActivityType] = React.useState(
 		ACTIVITY_TYPE.incomingOffers
 	)
+
+	useHeaderActions(<DefaultActions />)
 
 	return (
 		<Page title={t('common:title')}>
