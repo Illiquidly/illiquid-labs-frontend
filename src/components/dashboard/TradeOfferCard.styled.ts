@@ -52,7 +52,10 @@ export const ImageSection = styled(Flex)`
 
 ImageSection.defaultProps = {
 	sx: {
-		borderRadius: ['8px', '0px'],
+		borderTopRightRadius: ['8px', 0],
+		borderTopLeftRadius: ['8px'],
+		borderBottomRightRadius: ['8px', 0],
+		borderBottomLeftRadius: ['8px', 0],
 		width: [null, '280px'],
 	},
 }

@@ -84,7 +84,7 @@ function TradeOffers({
 	}
 
 	return (
-		<Flex sx={{ flexDirection: 'column', gap: '24px' }}>
+		<Flex sx={{ flexDirection: 'column', gap: '24px', pb: '48px' }}>
 			<SectionTitle>{t('dashboard:trades:title')}</SectionTitle>
 
 			{!allTrades?.total && tradesFetched ? (
