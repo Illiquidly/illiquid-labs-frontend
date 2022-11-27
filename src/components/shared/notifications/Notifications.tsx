@@ -13,7 +13,7 @@ import {
 	TRADE_NOTIFICATION_TYPE,
 } from 'services/api/tradeNotificationsService'
 import * as ROUTES from 'constants/routes'
-import NotificationCard from 'components/ui/notifications-card/NotificationCard'
+import NotificationCard from '../notifications-card/NotificationCard'
 
 interface NotificationsProps {
 	fullWidth?: boolean

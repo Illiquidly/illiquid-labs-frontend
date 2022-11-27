@@ -168,9 +168,11 @@ export default function NotificationCard<T>({
 			<StyledHeader>
 				<Title>{title}</Title>
 			</StyledHeader>
-			{!newNotifications.length && !oldNotifications.length && (
-				<NotificationsEmptyImage />
-			)}
+			<Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
+				{!newNotifications.length && !oldNotifications.length && (
+					<NotificationsEmptyImage />
+				)}
+			</Flex>
 			{Boolean(newNotifications.length) && (
 				<StyledBody fullWidth={fullWidth}>
 					<Flex sx={{ p: '0 10px' }}>
