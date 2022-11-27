@@ -24,7 +24,7 @@ export enum ACTIVITY_TYPE {
 	raffles = '2',
 }
 
-export default function Trade() {
+export default function Dashboard() {
 	const { t } = useTranslation(['common', 'dashboard'])
 	const [activityType, setActivityType] = React.useState(
 		ACTIVITY_TYPE.incomingOffers

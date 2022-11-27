@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { css, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import NotificationsEmptyImage from 'assets/images/NotificationsEmptyImage'
@@ -30,11 +30,16 @@ const StyledHeader = styled(Flex)`
 	padding: 0 10px;
 `
 
-const StyledBody = styled(Flex)`
+const StyledBody = styled.div<{ fullWidth?: boolean }>`
+	display: flex;
 	flex-direction: column;
 	margin-top: 10px;
 
-	max-height: 288px;
+	${props =>
+		!props.fullWidth &&
+		css`
+			max-height: 288px;
+		`}
 `
 
 const Title = styled(Box)`
@@ -147,6 +152,7 @@ interface NotificationCardProps<T> {
 	newNotifications: Notification<T>[]
 	oldNotifications: Notification<T>[]
 	onNotificationClick: (data: T) => void
+	fullWidth?: boolean
 }
 
 export default function NotificationCard<T>({
@@ -156,6 +162,7 @@ export default function NotificationCard<T>({
 	newNotifications,
 	oldNotifications,
 	onNotificationClick,
+	fullWidth,
 }: NotificationCardProps<T>) {
 	const theme = useTheme()
 	return (
@@ -167,7 +174,7 @@ export default function NotificationCard<T>({
 				<NotificationsEmptyImage />
 			)}
 			{Boolean(newNotifications.length) && (
-				<StyledBody>
+				<StyledBody fullWidth={fullWidth}>
 					<Flex sx={{ p: '0 10px' }}>
 						<BodySectionTitle>{newNotificationsTitle}</BodySectionTitle>
 					</Flex>
@@ -200,9 +207,8 @@ export default function NotificationCard<T>({
 												)}
 												<TypeImageWrapper>
 													{typeBadge && (
-														<Box
-															style={{
-																display: 'flex',
+														<Flex
+															sx={{
 																alignItems: 'center',
 																justifyContent: 'center',
 																borderRadius: '100%',
@@ -211,7 +217,7 @@ export default function NotificationCard<T>({
 															}}
 														>
 															{typeBadge.icon}
-														</Box>
+														</Flex>
 													)}
 												</TypeImageWrapper>
 											</ImageWrapper>
@@ -238,7 +244,7 @@ export default function NotificationCard<T>({
 				</StyledBody>
 			)}
 			{Boolean(oldNotifications.length) && (
-				<StyledBody>
+				<StyledBody fullWidth={fullWidth}>
 					<Flex sx={{ p: '0 10px' }}>
 						<BodySectionTitle>{oldNotificationsTitle}</BodySectionTitle>
 					</Flex>
@@ -312,4 +318,5 @@ NotificationCard.defaultProps = {
 	title: '',
 	newNotificationsTitle: '',
 	oldNotificationsTitle: '',
+	fullWidth: false,
 }
