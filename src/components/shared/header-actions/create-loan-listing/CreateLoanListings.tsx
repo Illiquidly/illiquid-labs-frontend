@@ -2,20 +2,20 @@ import { CreateListingAddIcon } from 'assets/icons/mixed'
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
-import { ConnectButton } from 'components/shared/header-actions/connect-button'
 import { useTranslation } from 'next-i18next'
 import { useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { LinkButton } from 'components/link'
-import { NotificationsBell } from 'components/shared/header-actions/notifications-bell'
+import { OverflowTip } from 'components/ui'
+import { Profile } from '../profile'
+import { NotificationsBell } from '../notifications-bell'
 
 export default function CreateLoanListing() {
 	const { t } = useTranslation(['common'])
 	const wallet = useWallet()
 	return (
-		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Box sx={{ display: ['none', 'block'] }}>
-				<NotificationsBell />
-			</Box>
+		<Flex sx={{ gap: ['6px', '8px'], height: '40px' }}>
+			<Profile />
+			<NotificationsBell />
 			{wallet.status === WalletStatus.WALLET_CONNECTED && (
 				<LinkButton
 					variant='gradient'
@@ -27,12 +27,13 @@ export default function CreateLoanListing() {
 				>
 					<CreateListingAddIcon />
 
-					<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
-						{t('common:create-listing')}
-					</Box>
+					<OverflowTip>
+						<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
+							{t('common:create-listing')}
+						</Box>
+					</OverflowTip>
 				</LinkButton>
 			)}
-			<ConnectButton />
 		</Flex>
 	)
 }

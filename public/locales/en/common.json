@@ -24,6 +24,14 @@
 		"save-and-continue": "Save & Continue",
 		"select-more": "Select More"
 	},
+	"profile": {
+		"view-profile": "View Profile",
+		"my-nft-collection": "My NFT Collection",
+		"disconnect": "Disconnect",
+		"connect": "Connect"
+	},
+	"no-wallet": "No Wallet",
+	"connect-wallet": "Connect Wallet",
 	"search": "Search",
 	"loading": "loading...",
 	"looking-for": "looking for",
@@ -115,5 +123,6 @@
 	"upload-label": "Click or drag a file to upload",
 	"max-csv-file-size-label": "CSV (max. 5MB)",
 	"download-csv-template-file": "Download a template CSV file",
-	"upload-csv-file": "Upload CSV file"
+	"upload-csv-file": "Upload CSV file",
+	"unnamed": "Unnamed"
 }

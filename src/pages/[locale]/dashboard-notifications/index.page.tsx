@@ -5,8 +5,6 @@ import { LayoutContainer, Notifications, Page } from 'components'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { Flex } from 'theme-ui'
-import { DefaultActions } from 'components/shared/header-actions'
-import useHeaderActions from 'hooks/useHeaderActions'
 
 const getStaticProps = makeStaticProps(['common', 'dashboard'])
 const getStaticPaths = makeStaticPaths()
@@ -14,8 +12,6 @@ export { getStaticPaths, getStaticProps }
 
 export default function Dashboard() {
 	const { t } = useTranslation(['common', 'dashboard'])
-
-	useHeaderActions(<DefaultActions />)
 
 	return (
 		<Page title={t('common:title')}>

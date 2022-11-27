@@ -7,6 +7,7 @@ import * as ROUTES from 'constants/routes'
 import {
 	Accordion,
 	AccordionTitle,
+	Button,
 	Loader,
 	MultiSelectAccordionInput,
 	Pagination,
@@ -16,10 +17,11 @@ import { NFT } from 'services/api/walletNFTsService'
 import { TradesResponse } from 'services/api/tradesService'
 import { useTranslation } from 'next-i18next'
 import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
-import { useWallet } from '@terra-money/use-wallet'
+import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { SupportedCollectionsService } from 'services/api'
 import { useQuery } from '@tanstack/react-query'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import useIsTablet from 'hooks/react/useIsTablet'
 import TradeOfferCard from './TradeOfferCard'
 import {
 	AccordionContentWrapper,
@@ -65,6 +67,7 @@ function TradeOffers({
 }: TradeOffersProps) {
 	const { t } = useTranslation()
 	const wallet = useWallet()
+	const isTablet = useIsTablet()
 
 	const { data: verifiedCollections } = useQuery(
 		[VERIFIED_COLLECTIONS, wallet.network],
@@ -75,6 +78,10 @@ function TradeOffers({
 			retry: true,
 		}
 	)
+
+	const connectWallet = () => {
+		wallet.connect(isTablet ? ConnectType.WALLETCONNECT : undefined)
+	}
 
 	return (
 		<Flex sx={{ flexDirection: 'column', gap: '24px' }}>
@@ -93,9 +100,15 @@ function TradeOffers({
 							</ActivityCardEmptyTitle>
 						</Box>
 
-						<LinkButton href={ROUTES.TRADE_LISTINGS} variant='gradient' size='large'>
-							{t('dashboard:trades:explore-listings')}
-						</LinkButton>
+						{wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
+							<Button onClick={connectWallet} variant='gradient' size='large'>
+								{t('common:connect-wallet')}
+							</Button>
+						) : (
+							<LinkButton href={ROUTES.TRADE_LISTINGS} variant='gradient' size='large'>
+								{t('dashboard:trades:explore-listings')}
+							</LinkButton>
+						)}
 					</ActivityCardEmptyContainer>
 				</ActivityCard>
 			) : (

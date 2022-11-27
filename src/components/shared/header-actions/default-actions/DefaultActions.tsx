@@ -1,17 +1,14 @@
 import React from 'react'
-import { Box, Flex } from 'theme-ui'
-import { ConnectButton } from 'components/shared/header-actions/connect-button'
+import { Flex } from 'theme-ui'
+import { NotificationsBell } from '../notifications-bell'
 
-import { NotificationsBell } from 'components/shared/header-actions/notifications-bell'
+import { Profile } from '../profile'
 
 export default function DefaultActions() {
 	return (
-		<Flex sx={{ gap: '8px', height: '40px' }}>
-			<Box sx={{ display: ['none', 'block'] }}>
-				<NotificationsBell />
-			</Box>
-
-			<ConnectButton />
+		<Flex sx={{ gap: ['6px', '8px'] }}>
+			<NotificationsBell />
+			<Profile />
 		</Flex>
 	)
 }

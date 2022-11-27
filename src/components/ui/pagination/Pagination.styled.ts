@@ -35,10 +35,11 @@ export const ChevronContainer = styled(Flex)`
 	}
 `
 
-export const PageLabelContainer = styled(Flex)<{
+export const PageLabelContainer = styled.div<{
 	disablePointer?: boolean
 	isActive?: boolean
 }>`
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 24px;

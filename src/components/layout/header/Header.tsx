@@ -3,7 +3,6 @@ import { Box, Flex, IconButton } from 'theme-ui'
 import { Link } from 'components/link'
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { ConnectButton } from 'components/shared'
 import { useTranslation } from 'next-i18next'
 import {
 	ArrowShapeRightOutlineIcon,
@@ -20,6 +19,7 @@ import { BurgerMenuIcon, CloseIcon } from 'assets/icons/mixed'
 import useIsTablet from 'hooks/react/useIsTablet'
 import React from 'react'
 import { useRouter } from 'next/router'
+import { DefaultActions } from 'components/shared/header-actions'
 import { LayoutContainer } from '../layout'
 import {
 	HeaderDropdown,
@@ -122,7 +122,7 @@ function Header() {
 							alignItems: 'center',
 						}}
 					>
-						<Flex>{headerActions || <ConnectButton />}</Flex>
+						<Flex>{headerActions || <DefaultActions />}</Flex>
 						<Flex sx={{ marginLeft: '14px', display: ['flex', 'flex', 'none'] }}>
 							<IconButton
 								sx={{ padding: 0 }}
