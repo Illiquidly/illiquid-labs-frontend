@@ -11,7 +11,8 @@
 		"send": "Send",
 		"loans": "Loans",
 		"raffles": "Raffles",
-		"migrate": "Migrate"
+		"migrate": "Migrate",
+		"notifications": "Notifications"
 	},
 	"exit-create-listing": "Exit Create Listing",
 	"create-listing": "Create Listing",

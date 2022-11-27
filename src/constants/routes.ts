@@ -19,6 +19,7 @@ export const LOAN_LISTINGS = '/loan-listings'
 export const LOAN_LISTING_DETAILS = '/loan-listing-details'
 export const LOAN_CREATE_LISTING = '/loans'
 export const DASHBOARD = '/dashboard'
+export const DASHBOARD_NOTIFICATIONS = '/dashboard-notifications'
 
 // EXTERNAL LINKS
 export const LANDING_PAGE = ''

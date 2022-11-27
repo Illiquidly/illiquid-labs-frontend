@@ -12,7 +12,10 @@ import {
 	TicketOutlineIcon,
 } from 'assets/icons/20ptOutline'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
-import { WalletOutlineIcon } from 'assets/icons/24ptOutline'
+import {
+	NotificationOutlineIcon,
+	WalletOutlineIcon,
+} from 'assets/icons/24ptOutline'
 import { BurgerMenuIcon, CloseIcon } from 'assets/icons/mixed'
 import useIsTablet from 'hooks/react/useIsTablet'
 import React from 'react'
@@ -75,6 +78,15 @@ function Header() {
 		},
 	]
 
+	const mobileNavigationRoutes = [
+		...navigationRoutes,
+		{
+			route: ROUTES.DASHBOARD_NOTIFICATIONS,
+			name: 'notifications',
+			icon: <NotificationOutlineIcon />,
+		},
+	]
+
 	return (
 		<HeaderWrapper as='header'>
 			<LayoutContainer>
@@ -131,7 +143,7 @@ function Header() {
 					<HeaderDropdownBackdrop onClick={() => setMenuOpen(false)} />
 					<HeaderDropdown>
 						<Flex onClick={() => setMenuOpen(false)} sx={{ flexDirection: 'column' }}>
-							{navigationRoutes.map(({ name, route, icon }) => (
+							{mobileNavigationRoutes.map(({ name, route, icon }) => (
 								<HeaderDropdownItem key={name}>
 									<Link href={route}>
 										<LinkContent

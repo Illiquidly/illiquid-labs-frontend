@@ -11,7 +11,6 @@ export const theme = makeTheme({
 		listingCardImageOverlay: 110,
 		listingCardOverlay: 150,
 		notification: 1100,
-		notificationImgType: 1150,
 		// modals need to be higher than img
 		header: 1000,
 		modal: 2000,

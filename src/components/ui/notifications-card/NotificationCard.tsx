@@ -18,7 +18,6 @@ const StyledCard = styled(Flex)`
 
 	box-shadow: 0px 25px 50px -12px rgba(48, 69, 113, 0.25);
 	border-radius: 10px;
-	z-index: ${props => props.theme.zIndices.notification};
 `
 const StyledHeader = styled(Flex)`
 	flex-direction: row;
@@ -129,7 +128,6 @@ const TypeImageWrapper = styled.div`
 	height: 24px;
 	right: -8px;
 	bottom: -6px;
-	z-index: ${props => props.theme.zIndices.notificationImgType};
 `
 
 type NotificationStatus = 'unread' | 'read'
