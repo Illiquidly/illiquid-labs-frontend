@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import { useQuery } from '@tanstack/react-query'
 import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import {
 	ChevronDownSmallIcon,
@@ -8,17 +7,14 @@ import {
 import { AvatarIcon } from 'assets/icons/mixed'
 import { Button, OverflowTip } from 'components/ui'
 import { HEADER_HEIGHT } from 'constants/components'
-import {
-	NAME_SERVICE_REGISTERED_DOMAINS,
-	NAME_SERVICE_REGISTERED_DOMAIN_INFO,
-} from 'constants/use-query-keys'
+
 import useIsTablet from 'hooks/react/useIsTablet'
 import useAddress, { NO_WALLET } from 'hooks/useAddress'
+import useNameService from 'hooks/useNameService'
 import { useTranslation } from 'next-i18next'
 
 import React from 'react'
 import { Img } from 'react-image'
-import { NameServiceContract } from 'services/blockchain/contracts/nameservice'
 
 import { Box, Flex } from 'theme-ui'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
@@ -103,31 +99,7 @@ export default function Profile() {
 
 	const isTablet = useIsTablet()
 
-	const { data: reverseRecords } = useQuery(
-		[NAME_SERVICE_REGISTERED_DOMAINS, myAddress],
-		async () => NameServiceContract.reverseRecords([myAddress]),
-		{
-			enabled: !!wallet.network,
-			retry: 5,
-		}
-	)
-
-	const { data: nameServiceInfo } = useQuery(
-		[NAME_SERVICE_REGISTERED_DOMAIN_INFO, reverseRecords],
-		async () => {
-			const [record] = reverseRecords?.records ?? []
-
-			if (record.record?.tokenId) {
-				return NameServiceContract.getDomainInfo(record.record?.tokenId)
-			}
-
-			return undefined
-		},
-		{
-			enabled: !!wallet.network && !!reverseRecords?.records.length,
-			retry: 5,
-		}
-	)
+	const [nameServiceInfo] = useNameService([myAddress])
 
 	const { t } = useTranslation(['common'])
 

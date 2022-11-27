@@ -251,3 +251,21 @@ export const AttributeValue = styled(StyledAttributeValue)`
 	font-size: 16px;
 	line-height: 19px;
 `
+
+export const OwnerName = styled.div`
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 16px;
+
+	text-align: center;
+	letter-spacing: -0.02em;
+
+	color: ${props => props.theme.colors.gray1000};
+`
+
+export const OwnerAvatarImg = styled(Img)`
+	max-width: 100%;
+	max-height: 100%;
+`

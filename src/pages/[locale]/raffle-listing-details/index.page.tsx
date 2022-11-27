@@ -24,6 +24,8 @@ import {
 	AttributeName,
 	AttributeValue,
 	AttributesCard,
+	OwnerName,
+	OwnerAvatarImg,
 } from 'components/raffle-listing-details'
 
 import {
@@ -69,6 +71,8 @@ import { RafflesContract } from 'services/blockchain'
 import BuyTicketModal, {
 	BuyTicketModalResult,
 } from 'components/raffle-listing-details/modals/buy-ticket-modal/BuyTicketModal'
+import useNameService from 'hooks/useNameService'
+import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -145,6 +149,10 @@ export default function ListingDetails() {
 			enabled: !!wallet.network && !!myAddress,
 			retry: true,
 		}
+	)
+
+	const [ownerInfo] = useNameService(
+		raffle?.raffleInfo?.owner ? [raffle?.raffleInfo?.owner] : []
 	)
 
 	const { raffleInfo } = raffle ?? {}
@@ -246,6 +254,9 @@ export default function ListingDetails() {
 			.map(p => p.ticketNumber)
 			.reduce((a, b) => a + b, 0)
 
+	const ownerName =
+		ownerInfo?.extension?.publicName ?? ownerInfo?.extension?.name
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -315,10 +326,19 @@ export default function ListingDetails() {
 									<DescriptionCard>
 										<DescriptionCardItem>
 											<Flex sx={{ alignItems: 'center' }}>
-												<AvatarIcon />
-												<Box sx={{ ml: '3px', flex: 1 }}>
-													{`''${raffleOptions?.comment ?? ''}''`}
+												<Box sx={{ width: '24px', height: '24px' }}>
+													{ownerInfo?.extension?.image ? (
+														<OwnerAvatarImg
+															src={fromIPFSImageURLtoImageURL(ownerInfo?.extension?.image)}
+														/>
+													) : (
+														<AvatarIcon width='100%' height='100%' />
+													)}
 												</Box>
+												<Box sx={{ mx: '4px' }}>
+													<OwnerName>{ownerName}</OwnerName>
+												</Box>
+												<Box>{`''${raffleOptions?.comment ?? ''}''`}</Box>
 											</Flex>
 										</DescriptionCardItem>
 										<DescriptionCardItem>

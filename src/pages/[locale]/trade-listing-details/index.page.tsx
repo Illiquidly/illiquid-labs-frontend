@@ -21,6 +21,8 @@ import {
 	CounterOffersTable,
 	TradeListingsYouMightLike,
 	CounterOffersTableTitle,
+	OwnerName,
+	OwnerAvatarImg,
 } from 'components/trade-listing-details'
 
 import { AvatarIcon, CalendarIcon, WalletIcon } from 'assets/icons/mixed'
@@ -61,6 +63,8 @@ import { NetworkType } from 'types'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { LookingFor } from 'components/shared/trade/looking-for'
 import { P2PTradingContract } from 'services/blockchain'
+import useNameService from 'hooks/useNameService'
+import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -158,6 +162,13 @@ export default function ListingDetails() {
 			retry: true,
 		}
 	)
+
+	const [ownerInfo] = useNameService(
+		trade?.tradeInfo?.owner ? [trade?.tradeInfo?.owner] : []
+	)
+
+	const ownerName =
+		ownerInfo?.extension?.publicName ?? ownerInfo?.extension?.name
 
 	const [acceptedCounterTrade] = acceptedCounterTrades?.data ?? []
 
@@ -301,8 +312,19 @@ export default function ListingDetails() {
 									<DescriptionCard>
 										<DescriptionCardItem>
 											<Flex sx={{ alignItems: 'center' }}>
-												<AvatarIcon />
-												<Box sx={{ ml: '3px', flex: 1 }}>
+												<Box sx={{ width: '24px', height: '24px' }}>
+													{ownerInfo?.extension?.image ? (
+														<OwnerAvatarImg
+															src={fromIPFSImageURLtoImageURL(ownerInfo?.extension?.image)}
+														/>
+													) : (
+														<AvatarIcon width='100%' height='100%' />
+													)}
+												</Box>
+												<Box sx={{ mx: '4px' }}>
+													<OwnerName>{ownerName}</OwnerName>
+												</Box>
+												<Box sx={{ flex: 1 }}>
 													{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
 												</Box>
 											</Flex>
