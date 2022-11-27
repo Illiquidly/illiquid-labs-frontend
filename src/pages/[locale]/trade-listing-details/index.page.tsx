@@ -321,10 +321,12 @@ export default function ListingDetails() {
 														<AvatarIcon width='100%' height='100%' />
 													)}
 												</Box>
-												<Box sx={{ mx: '4px' }}>
-													<OwnerName>{ownerName}</OwnerName>
-												</Box>
-												<Box sx={{ flex: 1 }}>
+												{ownerName && (
+													<Box sx={{ ml: '4px' }}>
+														<OwnerName>{ownerName}</OwnerName>
+													</Box>
+												)}
+												<Box sx={{ ml: '4px', flex: 1 }}>
 													{`''${tradeInfo?.additionalInfo?.ownerComment?.comment ?? ''}''`}
 												</Box>
 											</Flex>
