@@ -10,7 +10,7 @@ import { ContractName } from 'types'
 import { CONTRACT_NAME } from 'constants/addresses'
 import { Contract, getDenomForCurrency, TerraCurrency } from '../shared'
 
-const amountConverter = converter.ust
+const amountConverter = converter.default
 
 export type Asset = {
 	[asset: string]: {
@@ -23,11 +23,10 @@ export type Asset = {
 
 export interface TradeFee {
 	amount: number
-	currency: 'luna' | 'ust'
+	currency: 'luna'
 }
 
 export interface P2PTradeOffer {
-	amountUST?: string
 	amountLuna?: string
 	comment: string
 	nfts: NFT[]
@@ -42,7 +41,6 @@ class P2PTradingContract extends Contract {
 		const txs = offers.map(
 			({
 				whitelistedUsers,
-				amountUST,
 				amountLuna,
 				comment,
 				nfts,
@@ -65,28 +63,7 @@ class P2PTradingContract extends Contract {
 							},
 						},
 					},
-					// Funds to new trade
-					...(amountUST
-						? [
-								{
-									contractAddress: p2pContractAddress,
-									message: {
-										add_asset: {
-											asset: {
-												coin: {
-													amount: amountConverter.userFacingToBlockchainValue(amountUST),
-													denom: 'uusd',
-												},
-											},
-											to_last_trade: true,
-										},
-									},
-									coins: {
-										ust: amountConverter.userFacingToBlockchainValue(amountUST),
-									},
-								},
-						  ]
-						: []),
+
 					...(amountLuna
 						? [
 								{
@@ -508,13 +485,11 @@ class P2PTradingContract extends Contract {
 
 	static async listCounterTradeOffer({
 		tradeId,
-		amountUST,
 		amountLuna,
 		comment,
 		cw721Tokens,
 	}: {
 		tradeId: number
-		amountUST?: string
 		amountLuna?: string
 		comment?: string
 		cw721Tokens: NFT[]
@@ -531,31 +506,6 @@ class P2PTradingContract extends Contract {
 				},
 			},
 
-			...(amountUST
-				? [
-						{
-							contractAddress: p2pContractAddress,
-							message: {
-								add_asset: {
-									action: {
-										to_last_counter_trade: {
-											trade_id: tradeId,
-										},
-									},
-									asset: {
-										coin: {
-											amount: amountConverter.userFacingToBlockchainValue(amountUST),
-											denom: 'uusd',
-										},
-									},
-								},
-							},
-							coins: {
-								ust: amountConverter.userFacingToBlockchainValue(amountUST),
-							},
-						},
-				  ]
-				: []),
 			...(amountLuna
 				? [
 						{
@@ -823,9 +773,7 @@ class P2PTradingContract extends Contract {
 				},
 			})
 
-		const currency = { uluna: 'luna', uusd: 'ust' }[
-			feeResponse.denom ?? 'uluna'
-		] as 'luna' | 'ust'
+		const currency = { uluna: 'luna' }[feeResponse.denom ?? 'uluna'] as 'luna'
 
 		return {
 			amount: amountConverter.blockchainValueToUserFacing(feeResponse.amount),
@@ -859,9 +807,7 @@ class P2PTradingContract extends Contract {
 				},
 			})
 
-		const currency = { uluna: 'luna', uusd: 'ust' }[
-			feeResponse.denom ?? 'uluna'
-		] as 'luna' | 'ust'
+		const currency = { uluna: 'luna' }[feeResponse.denom ?? 'uluna'] as 'luna'
 
 		return {
 			amount: amountConverter.blockchainValueToUserFacing(feeResponse.amount),

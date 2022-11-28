@@ -17,7 +17,7 @@ export function fromCreateTradeFormToBlockchain({
 		lookingForType === LOOKING_FOR_TYPE.SPECIFIC && +tokenAmount
 			? [
 					{
-						amount: amountConverter.luna.userFacingToBlockchainValue(
+						amount: amountConverter.default.userFacingToBlockchainValue(
 							Number(tokenAmount)
 						),
 						denom: getDenomForCurrency(tokenName),

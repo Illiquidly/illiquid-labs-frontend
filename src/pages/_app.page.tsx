@@ -18,7 +18,6 @@ import blockchain from 'utils/blockchain/terraUtils'
 import './styles.css'
 
 import 'rc-tooltip/assets/bootstrap_white.css'
-import 'react-toastify/dist/ReactToastify.css'
 
 import React from 'react'
 import i18nConfig from '../../next-i18next.config'

@@ -18,12 +18,9 @@ import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { ContractName, NetworkId } from 'types'
 import { asyncAction } from 'utils/js/asyncAction'
 
-export const UST_DECIMALS = 6
-export const LP_DECIMALS = 6
-export const LUNA_DECIMALS = 6
+export const DEFAULT_DECIMALS = 6
 
 interface CoinsDetails {
-	ust?: string
 	luna?: string
 }
 
@@ -42,9 +39,7 @@ function createAmountConverter(decimals: number) {
 }
 
 export const amountConverter = {
-	ust: createAmountConverter(UST_DECIMALS),
-	lp: createAmountConverter(LP_DECIMALS),
-	luna: createAmountConverter(LUNA_DECIMALS),
+	default: createAmountConverter(DEFAULT_DECIMALS),
 }
 
 let wallet: Wallet
@@ -200,10 +195,7 @@ function getCoinsConfig(coins?: CoinsDetails): Coins.Input | undefined {
 			const lunaCoin = Coin.fromData({ denom: 'uluna', amount: coins.luna })
 			coinObjects.push(lunaCoin)
 		}
-		if (coins.ust) {
-			const utsCoin = Coin.fromData({ denom: 'uusd', amount: coins.ust })
-			coinObjects.push(utsCoin)
-		}
+
 		return new Coins(coinObjects)
 	}
 	return undefined

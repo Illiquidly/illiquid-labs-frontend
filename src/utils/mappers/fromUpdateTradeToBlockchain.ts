@@ -14,7 +14,7 @@ export function fromUpdateTradeToBlockchain({
 			? []
 			: [
 					{
-						amount: amountConverter.luna.userFacingToBlockchainValue(
+						amount: amountConverter.default.userFacingToBlockchainValue(
 							Number(tokenAmount)
 						),
 						denom: getDenomForCurrency(tokenName),

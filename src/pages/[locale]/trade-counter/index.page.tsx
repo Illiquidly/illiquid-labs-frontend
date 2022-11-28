@@ -209,7 +209,8 @@ export default function TradeCounter() {
 				? [
 						{
 							coin: {
-								amount: amountConverter.luna.userFacingToBlockchainValue(tokenAmount),
+								amount:
+									amountConverter.default.userFacingToBlockchainValue(tokenAmount),
 								denom: getDenomForCurrency(tokenName),
 							},
 						},

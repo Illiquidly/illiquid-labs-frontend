@@ -24,16 +24,11 @@ export function getDenomForCurrency(currency: TerraCurrency) {
 	if (currency.toUpperCase() === 'LUNA') {
 		return 'uluna'
 	}
-	if (currency.toUpperCase() === 'UST') {
-		return 'uusd'
-	}
+
 	throw new Error(`Unsupported currency: ${currency}`)
 }
 
 export function getCurrencyForDenom(denom: string): TerraCurrency {
-	if (denom.toLowerCase() === 'uusd') {
-		return 'UST'
-	}
 	if (denom.toLowerCase() === 'uluna') {
 		return 'LUNA'
 	}

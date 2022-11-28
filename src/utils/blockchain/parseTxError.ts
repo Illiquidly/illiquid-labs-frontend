@@ -14,9 +14,9 @@ const processErrorMessage = message => {
 	coins.forEach(([toReplace, , amount, denom]) => {
 		processedMessage = processedMessage.replace(
 			toReplace,
-			` ${Number(amountConverter.luna.blockchainValueToUserFacing(amount)).toFixed(
-				3
-			)} ${denom.substring(1)}`
+			` ${Number(
+				amountConverter.default.blockchainValueToUserFacing(amount)
+			).toFixed(3)} ${denom.substring(1)}`
 		)
 	})
 

@@ -8,7 +8,7 @@ import terraUtils, {
 import { keysToSnake } from 'utils/js/keysToSnake'
 import { Contract, getDenomForCurrency } from '../shared'
 
-const amountConverter = converter.ust
+const amountConverter = converter.default
 
 export interface RaffleOptions {
 	comment?: string
