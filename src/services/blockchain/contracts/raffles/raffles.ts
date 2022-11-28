@@ -6,7 +6,7 @@ import terraUtils, {
 	amountConverter as converter,
 } from 'utils/blockchain/terraUtils'
 import { keysToSnake } from 'utils/js/keysToSnake'
-import { Contract, getDenomForCurrency } from '../shared'
+import { Contract } from '../shared'
 
 const amountConverter = converter.default
 
@@ -107,7 +107,7 @@ class RafflesContract extends Contract {
 									coin: {
 										amount:
 											amountConverter.userFacingToBlockchainValue(ticketPriceAmount),
-										denom: getDenomForCurrency(ticketPriceCurrency ?? ''),
+										denom: terraUtils.getDenomForCurrency(ticketPriceCurrency ?? ''),
 									},
 								},
 						  }
@@ -182,7 +182,7 @@ class RafflesContract extends Contract {
 											amount: amountConverter.userFacingToBlockchainValue(
 												+coin.amount * ticketNumber
 											),
-											denom: getDenomForCurrency(coin.currency),
+											denom: terraUtils.getDenomForCurrency(coin.currency),
 										},
 								  }
 								: {}),

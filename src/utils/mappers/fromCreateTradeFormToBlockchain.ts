@@ -1,6 +1,6 @@
-import { getDenomForCurrency, P2PTradeOffer } from 'services/blockchain'
+import { P2PTradeOffer } from 'services/blockchain'
 import { LOOKING_FOR_TYPE, TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
-import { amountConverter } from 'utils/blockchain/terraUtils'
+import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 
 export function fromCreateTradeFormToBlockchain({
 	coverNFT: previewNFT,
@@ -20,7 +20,7 @@ export function fromCreateTradeFormToBlockchain({
 						amount: amountConverter.default.userFacingToBlockchainValue(
 							Number(tokenAmount)
 						),
-						denom: getDenomForCurrency(tokenName),
+						denom: terraUtils.getDenomForCurrency(tokenName),
 					},
 			  ]
 			: []

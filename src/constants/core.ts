@@ -14,6 +14,14 @@ export const FCD_URLS: { [key in NetworkId]: string } = {
 
 export const CHAIN_DENOMS: { [key in NetworkId]: string } = {
 	'pisco-1': 'uluna',
-	'columbus-5': 'uusd',
+	'columbus-5': 'uluna',
 	'phoenix-1': 'uluna',
+}
+
+type ChainKeys = keyof typeof CHAIN_DENOMS
+
+export const CHAIN_CURRENCIES: { [key in ChainKeys]: string } = {
+	'pisco-1': 'luna',
+	'columbus-5': 'uluna',
+	'phoenix-1': 'luna',
 }

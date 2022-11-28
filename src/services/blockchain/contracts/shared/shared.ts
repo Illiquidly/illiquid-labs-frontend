@@ -6,8 +6,6 @@ export interface ContractInfo {
 	[key: string]: unknown
 }
 
-export type TerraCurrency = string
-
 export class Contract {
 	static async getContractInfo(
 		nftContractAddress: string
@@ -18,19 +16,4 @@ export class Contract {
 
 		return keysToCamel(result)
 	}
-}
-
-export function getDenomForCurrency(currency: TerraCurrency) {
-	if (currency.toUpperCase() === 'LUNA') {
-		return 'uluna'
-	}
-
-	throw new Error(`Unsupported currency: ${currency}`)
-}
-
-export function getCurrencyForDenom(denom: string): TerraCurrency {
-	if (denom.toLowerCase() === 'uluna') {
-		return 'LUNA'
-	}
-	throw new Error(`Unsupported denom: ${denom}`)
 }

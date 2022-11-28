@@ -72,10 +72,10 @@ import SubmitCounterOfferSuccessModal, {
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { NetworkType } from 'types'
 import useAddress from 'hooks/useAddress'
-import { amountConverter } from 'utils/blockchain/terraUtils'
+import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 import { TradeCounterValidationSchema } from 'constants/validation-schemas/trade-counter'
 import { TradeCounterForm } from 'types/trade-counter'
-import { getDenomForCurrency, P2PTradingContract } from 'services/blockchain'
+import { P2PTradingContract } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -211,7 +211,7 @@ export default function TradeCounter() {
 							coin: {
 								amount:
 									amountConverter.default.userFacingToBlockchainValue(tokenAmount),
-								denom: getDenomForCurrency(tokenName),
+								denom: terraUtils.getDenomForCurrency(tokenName),
 							},
 						},
 				  ]
@@ -252,7 +252,7 @@ export default function TradeCounter() {
 					tradeId: Number(tradeId),
 					comment,
 					cw721Tokens: selectedNFTs,
-					amountLuna: tokenAmount,
+					amountNative: tokenAmount,
 				}),
 				closeOnFinish: true,
 			})

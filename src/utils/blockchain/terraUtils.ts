@@ -10,7 +10,12 @@ import {
 import { Wallet } from '@terra-money/wallet-provider'
 import axios from 'axios'
 import { contractAddresses } from 'constants/addresses'
-import { CHAIN_DENOMS, FCD_URLS, LCD_URLS } from 'constants/core'
+import {
+	CHAIN_CURRENCIES,
+	CHAIN_DENOMS,
+	FCD_URLS,
+	LCD_URLS,
+} from 'constants/core'
 import { txExplorerFactory } from 'constants/transactions'
 import { pick } from 'lodash'
 
@@ -23,6 +28,10 @@ export const DEFAULT_DECIMALS = 6
 interface CoinsDetails {
 	luna?: string
 }
+
+type ChainKeys = keyof typeof CHAIN_DENOMS
+
+export type NativeCurrency = typeof CHAIN_DENOMS[ChainKeys]
 
 interface TransactionDetails {
 	contractAddress: string
@@ -57,7 +66,7 @@ export function getNetworkId(): NetworkId {
 	return 'pisco-1' // phoenix-1
 }
 
-export function getDefaultChainDenom(): string {
+function getDefaultChainDenom(): string {
 	const networkId = getNetworkId()
 	return CHAIN_DENOMS[networkId]
 }
@@ -188,13 +197,27 @@ async function getTxResult(txHash: string): Promise<TxInfo | undefined> {
 	return response
 }
 
+function getDenomForCurrency(currency: NativeCurrency) {
+	if (!Object.values(CHAIN_CURRENCIES).includes(currency.toLowerCase())) {
+		throw new Error(`Unsupported currency: ${currency.toUpperCase()}`)
+	}
+
+	return `u${currency.toLowerCase()}`
+}
+
+function getCurrencyForDenom(denom: string): NativeCurrency {
+	if (!Object.values(CHAIN_DENOMS).includes(denom.toLowerCase())) {
+		throw new Error(`Unsupported denom: ${denom.toUpperCase()}`)
+	}
+
+	return `${denom.substring(1).toUpperCase()}`
+}
+
 function getCoinsConfig(coins?: CoinsDetails): Coins.Input | undefined {
 	if (coins) {
-		const coinObjects: Coin[] = []
-		if (coins.luna) {
-			const lunaCoin = Coin.fromData({ denom: 'uluna', amount: coins.luna })
-			coinObjects.push(lunaCoin)
-		}
+		const coinObjects: Coin[] = Object.entries(coins).map(([currency, amount]) =>
+			Coin.fromData({ denom: getDenomForCurrency(currency), amount })
+		)
 
 		return new Coins(coinObjects)
 	}
@@ -257,6 +280,9 @@ export default {
 	getNetworkId,
 	getWalletAddress,
 	setWallet,
+	getDefaultChainDenom,
+	getCurrencyForDenom,
+	getDenomForCurrency,
 	amountConverter,
 	getTxResult,
 	getTransactionExplorer,

@@ -2,13 +2,14 @@
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import terraUtils, {
 	amountConverter as converter,
+	NativeCurrency,
 } from 'utils/blockchain/terraUtils'
 import { NFT } from 'services/api/walletNFTsService'
 import { Coin } from 'services/api/tradesService'
 import { keysToSnake } from 'utils/js/keysToSnake'
 import { ContractName } from 'types'
 import { CONTRACT_NAME } from 'constants/addresses'
-import { Contract, getDenomForCurrency, TerraCurrency } from '../shared'
+import { Contract } from '../shared'
 
 const amountConverter = converter.default
 
@@ -27,7 +28,7 @@ export interface TradeFee {
 }
 
 export interface P2PTradeOffer {
-	amountLuna?: string
+	amountNative?: string
 	comment: string
 	nfts: NFT[]
 	whitelistedUsers: string[]
@@ -41,7 +42,7 @@ class P2PTradingContract extends Contract {
 		const txs = offers.map(
 			({
 				whitelistedUsers,
-				amountLuna,
+				amountNative,
 				comment,
 				nfts,
 				nftsWanted,
@@ -64,7 +65,7 @@ class P2PTradingContract extends Contract {
 						},
 					},
 
-					...(amountLuna
+					...(amountNative
 						? [
 								{
 									contractAddress: p2pContractAddress,
@@ -73,14 +74,14 @@ class P2PTradingContract extends Contract {
 											to_last_trade: true,
 											asset: {
 												coin: {
-													amount: amountConverter.userFacingToBlockchainValue(amountLuna),
-													denom: 'uluna',
+													amount: amountConverter.userFacingToBlockchainValue(amountNative),
+													denom: terraUtils.getDefaultChainDenom(),
 												},
 											},
 										},
 									},
 									coins: {
-										luna: amountConverter.userFacingToBlockchainValue(amountLuna),
+										luna: amountConverter.userFacingToBlockchainValue(amountNative),
 									},
 								},
 						  ]
@@ -260,7 +261,7 @@ class P2PTradingContract extends Contract {
 	static async addFundsToTrade(
 		tradeId: number,
 		amount: number,
-		currency: TerraCurrency
+		currency: NativeCurrency
 	): Promise<TxReceipt> {
 		const p2pContractAddress = terraUtils.getContractAddress(
 			CONTRACT_NAME.p2pTrade
@@ -277,7 +278,7 @@ class P2PTradingContract extends Contract {
 						asset: {
 							coin: {
 								amount: requiredAmount,
-								denom: getDenomForCurrency(currency.toLowerCase()),
+								denom: terraUtils.getDenomForCurrency(currency.toLowerCase()),
 							},
 						},
 						trade_id: tradeId,
@@ -375,61 +376,6 @@ class P2PTradingContract extends Contract {
 		return terraUtils.postManyTransactions(txs)
 	}
 
-	static async removeFromTrade(
-		tradeId: number,
-		assets: [number, Asset][]
-	): Promise<TxReceipt> {
-		const p2pContractAddress = terraUtils.getContractAddress(
-			CONTRACT_NAME.p2pTrade
-		)
-
-		const mappedAssets = assets.map(([position, asset]) => [
-			position,
-			{
-				...(asset.cw721Coin
-					? {
-							cw721_coin: {
-								token_id: asset.cw721Coin.tokenId,
-								address: asset.cw721Coin.address,
-							},
-					  }
-					: {}),
-
-				...(asset.cw20Coin
-					? {
-							cw20_coin: {
-								address: asset.cw20Coin.address,
-								amount: amountConverter.userFacingToBlockchainValue(
-									asset.cw20Coin.amount
-								),
-							},
-					  }
-					: {}),
-				...(asset.coin
-					? {
-							coin: {
-								amount: amountConverter.userFacingToBlockchainValue(asset.coin.amount),
-								denom: (asset.coin.denom || '')
-									.toLowerCase()
-									.replace('ust', 'uusd')
-									.replace('luna', 'uluna'),
-							},
-					  }
-					: {}),
-			},
-		])
-
-		return terraUtils.postTransaction({
-			contractAddress: p2pContractAddress,
-			message: {
-				remove_assets: {
-					trade_id: tradeId,
-					assets: mappedAssets,
-				},
-			},
-		})
-	}
-
 	static async addWhitelistedUsers(
 		tradeId: number,
 		whitelistedUsers: string[]
@@ -485,12 +431,12 @@ class P2PTradingContract extends Contract {
 
 	static async listCounterTradeOffer({
 		tradeId,
-		amountLuna,
+		amountNative,
 		comment,
 		cw721Tokens,
 	}: {
 		tradeId: number
-		amountLuna?: string
+		amountNative?: string
 		comment?: string
 		cw721Tokens: NFT[]
 	}) {
@@ -506,7 +452,7 @@ class P2PTradingContract extends Contract {
 				},
 			},
 
-			...(amountLuna
+			...(amountNative
 				? [
 						{
 							contractAddress: p2pContractAddress,
@@ -519,14 +465,14 @@ class P2PTradingContract extends Contract {
 									},
 									asset: {
 										coin: {
-											amount: amountConverter.userFacingToBlockchainValue(amountLuna),
-											denom: 'uluna',
+											amount: amountConverter.userFacingToBlockchainValue(amountNative),
+											denom: terraUtils.getDefaultChainDenom(),
 										},
 									},
 								},
 							},
 							coins: {
-								luna: amountConverter.userFacingToBlockchainValue(amountLuna),
+								luna: amountConverter.userFacingToBlockchainValue(amountNative),
 							},
 						},
 				  ]
@@ -593,7 +539,7 @@ class P2PTradingContract extends Contract {
 		counterTradeId: number,
 		tradeId: number,
 		amount: number,
-		currency: TerraCurrency
+		currency: NativeCurrency
 	): Promise<TxReceipt> {
 		const p2pContractAddress = terraUtils.getContractAddress(
 			CONTRACT_NAME.p2pTrade
@@ -611,7 +557,7 @@ class P2PTradingContract extends Contract {
 						asset: {
 							coin: {
 								amount: requiredAmount,
-								denom: getDenomForCurrency(currency.toLowerCase()),
+								denom: terraUtils.getDenomForCurrency(currency.toLowerCase()),
 							},
 						},
 					},
@@ -648,64 +594,6 @@ class P2PTradingContract extends Contract {
 		]
 
 		return terraUtils.postManyTransactions(txs)
-	}
-
-	static async removeFromCounterTrade(
-		counterId: number,
-		tradeId: number,
-		assets: [number, Asset][]
-	): Promise<TxReceipt> {
-		const p2pContractAddress = terraUtils.getContractAddress(
-			CONTRACT_NAME.p2pTrade
-		)
-
-		// eslint-disable-next-line sonarjs/no-identical-functions
-		const mappedAssets = assets.map(([position, asset]) => [
-			position,
-			{
-				...(asset.cw721Coin
-					? {
-							cw721_coin: {
-								token_id: asset.cw721Coin.tokenId,
-								address: asset.cw721Coin.address,
-							},
-					  }
-					: {}),
-
-				...(asset.cw20Coin
-					? {
-							cw20_coin: {
-								address: asset.cw20Coin.address,
-								amount: amountConverter.userFacingToBlockchainValue(
-									asset.cw20Coin.amount
-								),
-							},
-					  }
-					: {}),
-				...(asset.coin
-					? {
-							coin: {
-								amount: amountConverter.userFacingToBlockchainValue(asset.coin.amount),
-								denom: (asset.coin.denom || '')
-									.toLowerCase()
-									.replace('ust', 'uusd')
-									.replace('luna', 'uluna'),
-							},
-					  }
-					: {}),
-			},
-		])
-
-		return terraUtils.postTransaction({
-			contractAddress: p2pContractAddress,
-			message: {
-				remove_from_counter_trade: {
-					counter_id: counterId,
-					trade_id: tradeId,
-					assets: mappedAssets,
-				},
-			},
-		})
 	}
 
 	static async confirmCounterTrade(
@@ -746,7 +634,7 @@ class P2PTradingContract extends Contract {
 			coins: {
 				...(Number.parseInt(feeResponse.amount, 10)
 					? {
-							[{ uluna: 'luna', uusd: 'ust' }[feeResponse.denom ?? 'uluna'] as string]:
+							[{ uluna: 'luna' }[feeResponse.denom ?? 'uluna'] as string]:
 								feeResponse.amount,
 					  }
 					: {}),
@@ -857,9 +745,8 @@ class P2PTradingContract extends Contract {
 							coins: {
 								...(Number.parseInt(feeResponse.amount, 10)
 									? {
-											[{ uluna: 'luna', uusd: 'ust' }[
-												feeResponse.denom ?? 'uluna'
-											] as string]: feeResponse.amount,
+											[{ uluna: 'luna' }[feeResponse.denom ?? 'uluna'] as string]:
+												feeResponse.amount,
 									  }
 									: {}),
 							},
@@ -1035,7 +922,7 @@ class P2PTradingContract extends Contract {
 			coins: {
 				...(Number.parseInt(feeResponse.amount, 10)
 					? {
-							[{ uluna: 'luna', uusd: 'ust' }[feeResponse.denom ?? 'uluna'] as string]:
+							[{ uluna: 'luna' }[feeResponse.denom ?? 'uluna'] as string]:
 								feeResponse.amount,
 					  }
 					: {}),

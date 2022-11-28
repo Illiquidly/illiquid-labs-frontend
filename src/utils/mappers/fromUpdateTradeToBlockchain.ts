@@ -1,6 +1,5 @@
-import { getDenomForCurrency } from 'services/blockchain'
 import { LOOKING_FOR_TYPE } from 'types'
-import { amountConverter } from 'utils/blockchain/terraUtils'
+import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 
 export function fromUpdateTradeToBlockchain({
 	tokenAmount,
@@ -17,7 +16,7 @@ export function fromUpdateTradeToBlockchain({
 						amount: amountConverter.default.userFacingToBlockchainValue(
 							Number(tokenAmount)
 						),
-						denom: getDenomForCurrency(tokenName),
+						denom: terraUtils.getDenomForCurrency(tokenName),
 					},
 			  ]
 
