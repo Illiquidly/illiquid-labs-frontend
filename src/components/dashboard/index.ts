@@ -1,1 +1,5 @@
 export * from './styled'
+export { default as TradeOffers } from './TradeOffers'
+export { default as TradeOfferCard } from './TradeOfferCard'
+export { default as IncomingTradeOffers } from './IncomingTradeOffers'
+export { default as OutgoingTradeOffers } from './OutgoingTradeOffers'

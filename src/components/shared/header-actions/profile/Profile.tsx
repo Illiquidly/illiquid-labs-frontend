@@ -1,10 +1,15 @@
 import styled from '@emotion/styled'
 import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
+import NiceModal from '@ebay/nice-modal-react'
 import {
 	ChevronDownSmallIcon,
 	ChevronUpSmallIcon,
 } from 'assets/icons/24ptOutline'
 import { AvatarIcon } from 'assets/icons/mixed'
+import ViewUserProfileModal, {
+	ViewUserProfileModalProps,
+	ViewUserProfileResultProps,
+} from 'components/shared/modals/view-user-profile-modal/ViewUserProfileModal'
 import { Button, OverflowTip } from 'components/ui'
 import { HEADER_HEIGHT } from 'constants/components'
 
@@ -18,6 +23,7 @@ import { Img } from 'react-image'
 
 import { Box, Flex } from 'theme-ui'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import { asyncAction } from 'utils/js/asyncAction'
 import getShortText from 'utils/js/getShortText'
 
 const ProfileTitle = styled(Box)`
@@ -115,6 +121,16 @@ export default function Profile() {
 		setExpanded(false)
 	}
 
+	const viewMyProfile = React.useCallback(async () => {
+		setExpanded(false)
+
+		await asyncAction<ViewUserProfileResultProps>(
+			NiceModal.show(ViewUserProfileModal, {
+				user: nameServiceInfo,
+			} as ViewUserProfileModalProps)
+		)
+	}, [nameServiceInfo])
+
 	const publicName =
 		nameServiceInfo?.extension?.publicName ?? nameServiceInfo?.extension?.name
 
@@ -178,9 +194,10 @@ export default function Profile() {
 					<DropdownContainer>
 						{wallet.status === WalletStatus.WALLET_CONNECTED ? (
 							<>
-								{/* <DropdownItem onClick={() => setExpanded(false)}>
+								<DropdownItem onClick={viewMyProfile}>
 									{t('common:profile.view-profile')}
 								</DropdownItem>
+								{/*
 								<DropdownItem onClick={() => setExpanded(false)}>
 									{t('common:profile.my-nft-collection')}
 								</DropdownItem> */}

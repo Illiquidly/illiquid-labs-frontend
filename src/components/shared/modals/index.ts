@@ -1,5 +1,5 @@
 export * from './my-nfts-modal'
 export * from './tx-broadcasting-modal'
 export * from './view-nfts-modal'
-
+export * from './view-user-profile-modal'
 export * from './common'

@@ -124,5 +124,16 @@
 	"max-csv-file-size-label": "CSV (max. 5MB)",
 	"download-csv-template-file": "Download a template CSV file",
 	"upload-csv-file": "Upload CSV file",
-	"unnamed": "Unnamed"
+	"unnamed": "Unnamed",
+	"user-profile-modal": {
+		"title": "Your Profile",
+		"bio": "Bio",
+		"edit": "Edit",
+		"interested-in": "I’m interested in",
+		"view-collection": "View Collection",
+		"edit-profile": "Edit Profile",
+		"discard": "Discard",
+		"update": "Update",
+		"no-bio": "-"
+	}
 }
