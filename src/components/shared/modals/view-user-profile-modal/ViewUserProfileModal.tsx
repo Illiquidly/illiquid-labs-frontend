@@ -136,14 +136,14 @@ const ViewUserProfileModal = NiceModal.create(
 										</SectionText>
 									</Flex>
 								</SectionCard>
-								<Flex
+								{/* <Flex
 									sx={{
 										justifyContent: 'space-between',
 										gap: '12px',
 										marginTop: '24px',
 									}}
 								>
-									{/* <Button
+									<Button
 										variant='secondary'
 										fullWidth
 										onClick={() => {
@@ -160,8 +160,8 @@ const ViewUserProfileModal = NiceModal.create(
 										}}
 									>
 										{t('common:user-profile-modal.update')}
-									</Button> */}
-								</Flex>
+									</Button>
+								</Flex> */}
 							</ModalBody>
 						</ModalContent>
 					</ModalLayoutContainer>
