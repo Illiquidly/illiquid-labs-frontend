@@ -181,37 +181,48 @@ export default function Profile() {
 				</Flex>
 			</Button>
 			{expanded && (
-				<Box
-					sx={{
-						position: ['fixed', 'absolute'],
-						top: [`calc(${HEADER_HEIGHT} - 8px)`, 'unset'],
-						left: [0, 'unset'],
-						right: [0, 'unset'],
-						width: ['unset', '179px', '179px'],
-						margin: ['0 16px', '4px 0'],
-					}}
-				>
-					<DropdownContainer>
-						{wallet.status === WalletStatus.WALLET_CONNECTED ? (
-							<>
-								<DropdownItem onClick={viewMyProfile}>
-									{t('common:profile.view-profile')}
-								</DropdownItem>
-								{/*
+				<>
+					<Box
+						sx={{
+							position: ['fixed', 'absolute'],
+							top: [`calc(${HEADER_HEIGHT} - 8px)`, 'unset'],
+							left: [0, 'unset'],
+							right: [0, 'unset'],
+							width: ['unset', '179px', '179px'],
+							margin: ['0 16px', '4px 0'],
+							zIndex: 'headerPopup',
+						}}
+					>
+						<DropdownContainer>
+							{wallet.status === WalletStatus.WALLET_CONNECTED ? (
+								<>
+									<DropdownItem onClick={viewMyProfile}>
+										{t('common:profile.view-profile')}
+									</DropdownItem>
+									{/*
 								<DropdownItem onClick={() => setExpanded(false)}>
 									{t('common:profile.my-nft-collection')}
 								</DropdownItem> */}
-								<DropdownItem onClick={disconnectWallet}>
-									{t('common:profile.disconnect')}
+									<DropdownItem onClick={disconnectWallet}>
+										{t('common:profile.disconnect')}
+									</DropdownItem>
+								</>
+							) : (
+								<DropdownItem onClick={connectWallet}>
+									{t('common:profile.connect')}
 								</DropdownItem>
-							</>
-						) : (
-							<DropdownItem onClick={connectWallet}>
-								{t('common:profile.connect')}
-							</DropdownItem>
-						)}
-					</DropdownContainer>
-				</Box>
+							)}
+						</DropdownContainer>
+					</Box>
+					<Box
+						onClick={() => setExpanded(false)}
+						sx={{
+							position: ['fixed'],
+							inset: 0,
+							zIndex: 'headerPopupBackgroundOverlay',
+						}}
+					/>
+				</>
 			)}
 		</Box>
 	)

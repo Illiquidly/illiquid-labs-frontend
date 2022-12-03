@@ -20,18 +20,29 @@ export default function NotificationsBell() {
 				<NotificationOutlineIcon />
 			</Button>
 			{expanded && (
-				<Box
-					sx={{
-						position: ['fixed', 'absolute'],
-						top: [`calc(${HEADER_HEIGHT} - 8px)`, 'unset'],
-						left: [0, 'unset'],
-						right: [0, 'unset'],
-						width: ['unset', '341px', '341px'],
-						margin: ['0 16px', '4px 0'],
-					}}
-				>
-					<Notifications />
-				</Box>
+				<>
+					<Box
+						sx={{
+							position: ['fixed', 'absolute'],
+							top: [`calc(${HEADER_HEIGHT} - 8px)`, 'unset'],
+							left: [0, 'unset'],
+							right: [0, 'unset'],
+							width: ['unset', '341px', '341px'],
+							margin: ['0 16px', '4px 0'],
+							zIndex: 'headerPopup',
+						}}
+					>
+						<Notifications />
+					</Box>
+					<Box
+						onClick={() => setExpanded(false)}
+						sx={{
+							position: ['fixed'],
+							inset: 0,
+							zIndex: 'headerPopupBackgroundOverlay',
+						}}
+					/>
+				</>
 			)}
 		</Box>
 	)
