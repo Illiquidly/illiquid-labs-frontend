@@ -7,12 +7,20 @@
 			"raffles": "Raffles"
 		}
 	},
+	"feature": "Feature",
+	"features": {
+		"loan": "Loans",
+		"trade": "Trades",
+		"raffle": "Raffles"
+	},
 	"watch-list": {
 		"title": "Your Watch List",
 		"no-watching-any-listings": "You aren't watching any listings yet.",
-		"explore-trade-listings": "Go explore some trade offers from the community to find your next gem.",
-		"explore-raffle-listings": "Go explore some raffle listings from the community to find your next gem.",
-		"explore-loan-listings": "Go explore some loan listings from the community to find your next gem."
+		"explore-generic": "Explore Listings",
+		"explore-generic-description": "Go explore some offers from the community to find your next gem.",
+		"explore-trade-listings-description": "Go explore some trade offers from the community to find your next gem.",
+		"explore-raffle-listings-description": "Go explore some raffle listings from the community to find your next gem.",
+		"explore-loan-listings-description": "Go explore some loan listings from the community to find your next gem."
 	},
 	"raffles": {
 		"title": "Raffles"
