@@ -35,8 +35,10 @@ function Footer() {
 								maxHeight: ['38.63px', '42px'],
 							}}
 						>
-							<Link href={ROUTES.TRADE_LISTINGS}>
-								<IlliquidlyFooterLogo width='100%' height='100%' />
+							<Link passHref href={ROUTES.DASHBOARD}>
+								<a>
+									<IlliquidlyFooterLogo width='100%' height='100%' />
+								</a>
 							</Link>
 						</Box>
 						<LightText sx={{ margin: '16px 0 40px' }}>{t('description')}</LightText>

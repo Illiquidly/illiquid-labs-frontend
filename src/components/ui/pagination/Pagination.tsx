@@ -54,6 +54,7 @@ const Pagination: React.FC<PaginationProps> = ({
 				{pageArray.map(page => {
 					return (
 						<PageLabelContainer
+							key={page}
 							isActive={page === currentPage}
 							onClick={() => {
 								setPage(page)
