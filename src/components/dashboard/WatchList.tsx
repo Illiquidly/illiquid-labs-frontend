@@ -23,25 +23,23 @@ function WatchList() {
 
 	return (
 		<WatchListCard>
-			<Flex sx={{ my: ['32px', '32px', '106px'] }}>
-				<WatchListEmptyContainer>
-					<Title>{t('dashboard:watch-list.no-watching-any-listings')}</Title>
-					<Description>
-						{t('dashboard:watch-list.explore-generic-description')}
-					</Description>
-					<Flex sx={{ mt: '8px' }}>
-						{wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
-							<Button onClick={connectWallet} variant='gradient' size='large'>
-								{t('common:connect-wallet')}
-							</Button>
-						) : (
-							<Button variant='gradient' size='large' disabled>
-								{t('dashboard:watch-list.explore-generic')}
-							</Button>
-						)}
-					</Flex>
-				</WatchListEmptyContainer>
-			</Flex>
+			<WatchListEmptyContainer>
+				<Title>{t('dashboard:watch-list.no-watching-any-listings')}</Title>
+				<Description>
+					{t('dashboard:watch-list.explore-generic-description')}
+				</Description>
+				<Flex sx={{ mt: '8px' }}>
+					{wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
+						<Button onClick={connectWallet} variant='gradient' size='large'>
+							{t('common:connect-wallet')}
+						</Button>
+					) : (
+						<Button variant='gradient' size='large' disabled>
+							{t('dashboard:watch-list.explore-generic')}
+						</Button>
+					)}
+				</Flex>
+			</WatchListEmptyContainer>
 		</WatchListCard>
 	)
 }

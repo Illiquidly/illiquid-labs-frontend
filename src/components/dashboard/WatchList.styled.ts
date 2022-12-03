@@ -40,6 +40,7 @@ export const WatchListEmptyContainer = styled(Flex)``
 
 WatchListEmptyContainer.defaultProps = {
 	sx: {
+		my: ['48px', '48px', '106px'],
 		mx: ['16px', '32px', '82px'],
 		flex: 1,
 		maxWidth: ['unset', '517px'],
