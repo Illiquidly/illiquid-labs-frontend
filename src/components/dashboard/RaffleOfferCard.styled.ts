@@ -11,24 +11,34 @@ import { Box, Flex, Text } from 'theme-ui'
 export const Title = styled(Text)`
 	font-style: normal;
 	font-weight: 700;
-	font-size: 21px;
-	line-height: 30px;
 
 	letter-spacing: -0.02em;
 
 	color: ${props => props.theme.colors.natural50};
 `
 
+Title.defaultProps = {
+	sx: {
+		fontSize: ['21px', '36px'],
+		lineHeight: ['30px', '44px'],
+	},
+}
+
 export const Subtitle = styled(Text)`
 	font-style: normal;
 	font-weight: 500;
-	font-size: 14px;
-	line-height: 30px;
 
 	letter-spacing: -0.02em;
 
 	color: ${props => props.theme.colors.natural300};
 `
+
+Subtitle.defaultProps = {
+	sx: {
+		fontSize: ['14px'],
+		lineHeight: ['30px', '28px'],
+	},
+}
 
 Subtitle.defaultProps = {
 	sx: {},
@@ -58,9 +68,14 @@ ImageSection.defaultProps = {
 
 export const DescriptionSection = styled(Flex)`
 	flex-direction: column;
-	margin-top: 8px;
-	height: 62px;
+	margin-top: 12px;
 `
+
+DescriptionSection.defaultProps = {
+	sx: {
+		height: ['62px', 'unset'],
+	},
+}
 
 export const LookingForSection = styled(Flex)`
 	flex-direction: column;
@@ -72,7 +87,6 @@ export const LookingForSection = styled(Flex)`
 export const CardContainer = styled(Flex)`
 	width: 100%;
 	position: relative;
-	padding: 12px;
 
 	background: ${props => props.theme.colors.secondary500};
 

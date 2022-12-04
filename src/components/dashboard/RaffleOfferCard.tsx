@@ -98,7 +98,15 @@ function RaffleOfferCard({
 							) : null}
 						</ImageSection>
 
-						<Box sx={{ flex: [null, 1], pl: [0, '18px'] }}>
+						<Flex
+							sx={{
+								flex: [null, 1],
+								pb: ['12px', 0],
+								pl: ['12px', '18px'],
+								pr: ['12px'],
+								flexDirection: ['column'],
+							}}
+						>
 							<DescriptionSection>
 								<Flex>
 									<Flex sx={{ flex: 1 }}>
@@ -130,7 +138,15 @@ function RaffleOfferCard({
 									</Flex>
 								</Flex>
 							</DescriptionSection>
-							<Flex sx={{ flexDirection: 'column', gap: '6px', height: '130px' }}>
+							<Flex
+								sx={{
+									mt: 'auto',
+									flexDirection: 'column',
+									mb: '12px',
+									gap: '6px',
+									height: '130px',
+								}}
+							>
 								<AttributeCard>
 									<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
 										<Flex sx={{ flexDirection: 'column' }}>
@@ -172,7 +188,7 @@ function RaffleOfferCard({
 									</AttributeValue>
 								</AttributeCard>
 							</Flex>
-						</Box>
+						</Flex>
 					</CardContainer>
 				</a>
 			</Link>

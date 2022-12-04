@@ -67,7 +67,7 @@ export const DescriptionSection = styled(Flex)`
 
 DescriptionSection.defaultProps = {
 	sx: {
-		height: ['62px', null],
+		height: ['62px', 'unset'],
 	},
 }
 
