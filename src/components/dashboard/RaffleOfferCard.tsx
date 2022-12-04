@@ -201,10 +201,7 @@ function RaffleOfferCard({
 				</Button>
 			</Flex>
 			{showingParticipants && (
-				<RaffleParticipantsTable
-					// excludeTopBorder
-					raffle={raffle}
-				/>
+				<RaffleParticipantsTable excludeTopBorder raffle={raffle} />
 			)}
 		</Flex>
 	)

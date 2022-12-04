@@ -27,8 +27,12 @@ const Container = styled(Flex)`
 `
 interface RaffleParticipantsTableProps {
 	raffle?: Raffle
+	excludeTopBorder?: boolean
 }
-function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
+function RaffleParticipantsTable({
+	raffle,
+	excludeTopBorder,
+}: RaffleParticipantsTableProps) {
 	const { t } = useTranslation(['common', 'raffle-listings'])
 	const columns: Array<string> = t(
 		'raffle-listings:participants.table.columns',
@@ -39,7 +43,11 @@ function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
 
 	return (
 		<Container>
-			<Table>
+			<Table
+				style={
+					excludeTopBorder ? { borderTopRightRadius: 0, borderTopLeftRadius: 0 } : {}
+				}
+			>
 				<TableHead>
 					<TableHeadRow>
 						{(columns || []).map(col => (
@@ -108,6 +116,7 @@ function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
 
 RaffleParticipantsTable.defaultProps = {
 	raffle: undefined,
+	excludeTopBorder: false,
 }
 
 export default RaffleParticipantsTable
