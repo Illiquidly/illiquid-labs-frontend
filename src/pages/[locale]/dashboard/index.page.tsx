@@ -4,16 +4,25 @@ import React, { useState } from 'react'
 import { LayoutContainer, Page, Tab, Tabs } from 'components'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { Title, SectionTitle, WatchList } from 'components/dashboard'
+import {
+	Title,
+	SectionTitle,
+	WatchList,
+	OutgoingRaffleOffers,
+	IncomingRaffleOffers,
+} from 'components/dashboard'
 import { Flex } from 'theme-ui'
 import IncomingTradeOffers from 'components/dashboard/IncomingTradeOffers'
 import OutgoingTradeOffers from 'components/dashboard/OutgoingTradeOffers'
+import If from 'components/core/if-statement'
 
 const getStaticProps = makeStaticProps([
 	'common',
 	'dashboard',
 	'trade-listings',
 	'trade',
+	'raffle',
+	'raffle-listings',
 ])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
@@ -26,7 +35,7 @@ export enum ACTIVITY_TYPE {
 export enum FEATURE_TYPE {
 	trade = 'trade',
 	raffle = 'raffle',
-	loan = 'loan',
+	// loan = 'loan',
 }
 
 export default function Dashboard() {
@@ -65,6 +74,7 @@ export default function Dashboard() {
 					<Flex sx={{ mb: ['24px', '24px'] }}>
 						<WatchList />
 					</Flex>
+
 					<Title>{t('dashboard:activity.title')}</Title>
 					<Flex
 						sx={{
@@ -87,9 +97,27 @@ export default function Dashboard() {
 						</Tabs>
 					</Flex>
 					<SectionTitle />
+					<If condition={feature === FEATURE_TYPE.trade}>
+						<>
+							{activityType === ACTIVITY_TYPE.incomingActivity && (
+								<IncomingTradeOffers />
+							)}
+							{activityType === ACTIVITY_TYPE.outgoingActivity && (
+								<OutgoingTradeOffers />
+							)}
+						</>
+					</If>
+					<If condition={feature === FEATURE_TYPE.raffle}>
+						<>
+							{activityType === ACTIVITY_TYPE.incomingActivity && (
+								<IncomingRaffleOffers />
+							)}
+							{activityType === ACTIVITY_TYPE.outgoingActivity && (
+								<OutgoingRaffleOffers />
+							)}
+						</>
+					</If>
 				</Flex>
-				{activityType === ACTIVITY_TYPE.incomingActivity && <IncomingTradeOffers />}
-				{activityType === ACTIVITY_TYPE.outgoingActivity && <OutgoingTradeOffers />}
 			</LayoutContainer>
 		</Page>
 	)

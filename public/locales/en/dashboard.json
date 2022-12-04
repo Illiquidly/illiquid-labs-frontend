@@ -23,7 +23,24 @@
 		"explore-loan-listings-description": "Go explore some loan listings from the community to find your next gem."
 	},
 	"raffles": {
-		"title": "Raffles"
+		"title": "Raffles",
+		"no-offers": "You don't have any offers yet.",
+		"make-offer-to-appear": "Make an offer on a raffle for it to appear here.",
+		"explore-listings": "Explore Raffle Listings",
+		"statuses": ["Started", "Closed", "Finished", "Cancelled", "Claimed"],
+		"filters": {
+			"search-placeholder": "Search",
+			"status-label": "Status",
+			"collections-label": "Collections",
+			"looking-for-label": "Looking for",
+			"nft-collections-search-label": "NFT Collection",
+			"raffled-by-me-label": "Raffled by me",
+			"search-collections-placeholder": "Search collections...",
+			"search-looking-for-placeholder": "Search collections...",
+			"search-status-placeholder": "Search status..."
+		},
+		"see-participants": "View Participants",
+		"hide-participants": "Hide Participants"
 	},
 	"trades": {
 		"title": "Trades",

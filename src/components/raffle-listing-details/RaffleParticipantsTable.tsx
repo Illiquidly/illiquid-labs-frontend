@@ -14,28 +14,17 @@ import {
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 
-import { Box, Flex } from 'theme-ui'
+import { Flex } from 'theme-ui'
 
 import { Raffle } from 'services/api/rafflesService'
 import { ConfettiIcon } from 'assets/icons/mixed'
 import moment from 'moment'
-
-const Title = styled.div`
-	font-style: normal;
-	font-weight: 600;
-	font-size: 16px;
-	line-height: 24px;
-
-	text-align: left;
-	color: ${props => props.theme.colors.gray1000};
-`
 
 const Container = styled(Flex)`
 	flex-direction: column;
 	padding-bottom: 45px;
 	width: 100%;
 `
-
 interface RaffleParticipantsTableProps {
 	raffle?: Raffle
 }
@@ -50,9 +39,6 @@ function RaffleParticipantsTable({ raffle }: RaffleParticipantsTableProps) {
 
 	return (
 		<Container>
-			<Box sx={{ padding: '8px 0' }}>
-				<Title>{t('raffle-listings:participants.title')}</Title>
-			</Box>
 			<Table>
 				<TableHead>
 					<TableHeadRow>

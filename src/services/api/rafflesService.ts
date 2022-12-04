@@ -53,7 +53,7 @@ export interface Raffle {
 	participants?: RaffleParticipant[]
 }
 
-type RafflesResponse = APIGetAllResponse<Raffle>
+export type RafflesResponse = APIGetAllResponse<Raffle>
 
 type RaffleFilters = {
 	raffleIds?: string[]

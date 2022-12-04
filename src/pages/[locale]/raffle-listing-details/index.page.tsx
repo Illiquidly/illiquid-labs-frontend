@@ -26,6 +26,7 @@ import {
 	AttributesCard,
 	OwnerName,
 	OwnerAvatarImg,
+	ParticipantsTitle,
 } from 'components/raffle-listing-details'
 
 import {
@@ -476,7 +477,14 @@ export default function ListingDetails() {
 						</Flex>
 
 						<Row>
-							<RaffleParticipantsTable raffle={raffle} />
+							<Flex sx={{ flex: 1, flexDirection: 'column' }}>
+								<Box sx={{ padding: '8px 0' }}>
+									<ParticipantsTitle>
+										{t('raffle-listings:participants.title')}
+									</ParticipantsTitle>
+								</Box>
+								<RaffleParticipantsTable raffle={raffle} />
+							</Flex>
 						</Row>
 						<RaffleListingsYouMightLike
 							search={

@@ -269,3 +269,13 @@ export const OwnerAvatarImg = styled(Img)`
 	max-width: 100%;
 	max-height: 100%;
 `
+
+export const ParticipantsTitle = styled.div`
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+
+	text-align: left;
+	color: ${props => props.theme.colors.gray1000};
+`
