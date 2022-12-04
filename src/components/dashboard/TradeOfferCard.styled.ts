@@ -100,7 +100,8 @@ export const LookingForTitle = styled(Box)`
 export const CardContainer = styled(Flex)`
 	width: 100%;
 	position: relative;
-	padding: 0px;
+	padding: 0;
+	overflow: hidden;
 
 	background: ${props => props.theme.colors.secondary500};
 
