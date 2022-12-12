@@ -22,6 +22,6 @@ type ChainKeys = keyof typeof CHAIN_DENOMS
 
 export const CHAIN_CURRENCIES: { [key in ChainKeys]: string } = {
 	'pisco-1': 'luna',
-	'columbus-5': 'uluna',
+	'columbus-5': 'luna',
 	'phoenix-1': 'luna',
 }

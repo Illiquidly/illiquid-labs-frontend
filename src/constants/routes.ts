@@ -22,12 +22,6 @@ export const DASHBOARD = '/dashboard'
 export const DASHBOARD_NOTIFICATIONS = '/dashboard-notifications'
 
 // EXTERNAL LINKS
-export const LANDING_PAGE = ''
-export const STAKING_APP = ''
-export const DOCS = ''
-export const BRANDING = ''
-export const APPLICATION_FORM = ''
-export const PRICING = ''
 export const GITHUB = 'https://github.com/Illiquidly'
 export const GITBOOK =
 	'https://illiquidlabs.gitbook.io/litepaper/illiquid-labs-litepaper/introduction'

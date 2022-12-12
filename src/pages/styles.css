@@ -6,12 +6,8 @@ body {
 	background: #011d2c;
 	color: #f9fafb;
 	position: relative;
-	/* overflow: hidden; */
+	overflow-y: scroll;
 	font-family: 'Inter', sans-serif;
-}
-
-.overflow {
-	overflow-y: hidden;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -54,22 +50,23 @@ Not supports in Firefox and IE */
 
 /* total width */
 ::-webkit-scrollbar {
-    background-color: transparent;
-    width: 4px;
+	background-color: transparent;
+	width: 4px;
 }
 
 /* background of the scrollbar except button or resizer */
-::-webkit-scrollbar-track {}
+::-webkit-scrollbar-track {
+}
 
 /* scrollbar itself */
 ::-webkit-scrollbar-thumb {
-    border-radius: 16px;
-    border: 4px solid #9CA3AF;
+	border-radius: 16px;
+	border: 4px solid #9ca3af;
 }
 
 /* set button(top and bottom of the scrollbar) */
 ::-webkit-scrollbar-button {
-    display:none;
+	display: none;
 }
 
 ::-webkit-scrollbar-corner {
