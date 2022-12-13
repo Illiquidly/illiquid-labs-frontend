@@ -61,7 +61,7 @@ import {
 	FAVORITES_TRADES,
 	TRADES,
 	VERIFIED_COLLECTIONS,
-} from 'constants/use-query-keys'
+} from 'constants/useQueryKeys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { NetworkType } from 'types'

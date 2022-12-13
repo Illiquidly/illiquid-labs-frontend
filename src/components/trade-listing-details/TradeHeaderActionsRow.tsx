@@ -29,7 +29,7 @@ import { noop } from 'lodash'
 import { TxBroadcastingModal } from 'components/shared'
 import { useQueryClient } from '@tanstack/react-query'
 import useAddress from 'hooks/useAddress'
-import { TRADE } from 'constants/use-query-keys'
+import { TRADE } from 'constants/useQueryKeys'
 import { LinkButton } from 'components/link'
 import { P2PTradingContract } from 'services/blockchain'
 

@@ -13,7 +13,7 @@ import {
 } from 'services/api/favoriteTradesService'
 import useAddress from 'hooks/useAddress'
 import { useWallet } from '@terra-money/use-wallet'
-import { FAVORITES_TRADES } from 'constants/use-query-keys'
+import { FAVORITES_TRADES } from 'constants/useQueryKeys'
 import { NetworkType } from 'types'
 import { ListingCard } from './listing-card'
 

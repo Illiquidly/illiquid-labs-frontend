@@ -24,7 +24,7 @@ import {
 	FAVORITES_RAFFLES,
 	RAFFLES,
 	VERIFIED_COLLECTIONS,
-} from 'constants/use-query-keys'
+} from 'constants/useQueryKeys'
 
 import useAddress from 'hooks/useAddress'
 import {

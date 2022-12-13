@@ -15,7 +15,7 @@ import {
 import { CollectionsBoxesIcon, TargetIcon } from 'assets/icons/mixed'
 import { NFT } from 'services/api/walletNFTsService'
 import { useTranslation } from 'next-i18next'
-import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { SupportedCollectionsService } from 'services/api'
 import { useQuery } from '@tanstack/react-query'

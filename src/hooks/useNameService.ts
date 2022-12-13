@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import {
 	NAME_SERVICE_REGISTERED_DOMAINS,
 	NAME_SERVICE_REGISTERED_DOMAIN_INFO,
-} from 'constants/use-query-keys'
+} from 'constants/useQueryKeys'
 import pMap from 'p-map'
 import { NameServiceContract } from 'services/blockchain/contracts/nameservice'
 

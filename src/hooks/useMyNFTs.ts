@@ -2,7 +2,7 @@ import { useModal } from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
-import { FULL_WALLET_NFTS, PARTIAL_WALLET_NFTS } from 'constants/use-query-keys'
+import { FULL_WALLET_NFTS, PARTIAL_WALLET_NFTS } from 'constants/useQueryKeys'
 import React from 'react'
 import {
 	WalletNFTsService,

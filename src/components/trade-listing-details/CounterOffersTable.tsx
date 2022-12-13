@@ -39,7 +39,7 @@ import {
 import { asyncAction } from 'utils/js/asyncAction'
 import { TxBroadcastingModal } from 'components/shared'
 import useAddress from 'hooks/useAddress'
-import { COUNTER_TRADES } from 'constants/use-query-keys'
+import { COUNTER_TRADES } from 'constants/useQueryKeys'
 import { LunaIcon } from 'assets/icons/mixed'
 import { isNil } from 'lodash'
 import { P2PTradingContract } from 'services/blockchain'

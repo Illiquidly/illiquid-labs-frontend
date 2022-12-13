@@ -60,7 +60,7 @@ import {
 	FAVORITES_RAFFLES,
 	RAFFLE,
 	VERIFIED_COLLECTIONS,
-} from 'constants/use-query-keys'
+} from 'constants/useQueryKeys'
 import { NetworkType } from 'types'
 import {
 	FavoriteRaffleResponse,

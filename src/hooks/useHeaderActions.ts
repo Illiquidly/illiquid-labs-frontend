@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { HEADER_ACTIONS } from 'constants/use-query-keys'
+import { HEADER_ACTIONS } from 'constants/useQueryKeys'
 import React from 'react'
 
 export default function useHeaderActions(

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
-import { NOTIFICATIONS } from 'constants/use-query-keys'
+import { NOTIFICATIONS } from 'constants/useQueryKeys'
 import useAddress from 'hooks/useAddress'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'

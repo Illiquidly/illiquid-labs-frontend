@@ -26,7 +26,7 @@ import { Box, Flex, IconButton } from 'theme-ui'
 import { SupportedCollectionsService } from 'services/api'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import { SelectOption } from 'components/ui/select/Select'
-import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { isEmpty } from 'lodash'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {

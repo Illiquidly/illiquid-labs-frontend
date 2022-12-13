@@ -22,7 +22,7 @@ import NiceModal from '@ebay/nice-modal-react'
 import { TxBroadcastingModal } from 'components/shared'
 import { RafflesContract } from 'services/blockchain'
 import { useQueryClient } from '@tanstack/react-query'
-import { RAFFLE } from 'constants/use-query-keys'
+import { RAFFLE } from 'constants/useQueryKeys'
 import moment from 'moment'
 import RemoveModal, {
 	RemoveModalProps,

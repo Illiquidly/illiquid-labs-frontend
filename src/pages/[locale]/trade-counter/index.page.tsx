@@ -55,7 +55,7 @@ import {
 	FAVORITES_TRADES,
 	TRADE,
 	VERIFIED_COLLECTIONS,
-} from 'constants/use-query-keys'
+} from 'constants/useQueryKeys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'

@@ -21,7 +21,7 @@ import { SupportedCollectionsService } from 'services/api/supportedCollectionsSe
 import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
 import { uniqBy } from 'lodash'
-import { VERIFIED_COLLECTIONS } from 'constants/use-query-keys'
+import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import {
 	FiltersSection,
 	ModalBody,
