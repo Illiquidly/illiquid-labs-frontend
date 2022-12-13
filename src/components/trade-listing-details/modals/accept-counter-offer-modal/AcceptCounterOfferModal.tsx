@@ -19,10 +19,11 @@ import {
 } from 'components/trade-listing-details'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { NFT } from 'services/api/walletNFTsService'
-import { HumanCoin, Trade } from 'services/api/tradesService'
+import { Trade } from 'services/api/tradesService'
 import { LunaIcon } from 'assets/icons/mixed'
 import { TradeFee } from 'services/blockchain'
 import { TextAreaField } from 'components/form'
+import { HumanCoin } from 'types'
 import {
 	ModalBody,
 	ModalContainer,

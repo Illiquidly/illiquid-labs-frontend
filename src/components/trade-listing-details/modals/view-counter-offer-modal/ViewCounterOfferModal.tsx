@@ -24,7 +24,7 @@ import { uniqBy } from 'lodash'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
-import { HumanCoin } from 'services/api/tradesService'
+import { HumanCoin } from 'types'
 import {
 	CoinText,
 	CounterTradeComment,

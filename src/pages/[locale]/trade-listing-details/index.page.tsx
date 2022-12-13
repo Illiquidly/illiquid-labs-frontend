@@ -30,7 +30,7 @@ import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Coin, TradesService, TRADE_STATE } from 'services/api/tradesService'
+import { TradesService, TRADE_STATE } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { first, sample } from 'lodash'
@@ -59,7 +59,7 @@ import {
 } from 'constants/useQueryKeys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { CounterTrade } from 'services/api/counterTradesService'
-import { NetworkType } from 'types'
+import { Coin, Cw1155Coin, NetworkName } from 'types'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { LookingFor } from 'components/shared/trade/looking-for'
 import { P2PTradingContract } from 'services/blockchain'
@@ -131,7 +131,7 @@ export default function ListingDetails() {
 		[FAVORITES_TRADES, wallet.network, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
-				{ network: wallet.network.name as NetworkType },
+				{ network: wallet.network.name as NetworkName },
 				{
 					users: [myAddress],
 				}
@@ -178,7 +178,7 @@ export default function ListingDetails() {
 	const [tradePreview, setTradePreview] = React.useState<{
 		coin?: Coin
 		cw721Coin?: NFT
-		cw1155Coin?: any
+		cw1155Coin?: Cw1155Coin
 	} | null>(null)
 
 	React.useEffect(() => {
@@ -238,7 +238,7 @@ export default function ListingDetails() {
 		({ addFavoriteTrade, removeFavoriteTrade }[
 			liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
 		]({
-			network: wallet.network.name as NetworkType,
+			network: wallet.network.name as NetworkName,
 			tradeId: [Number(tradeId)],
 			user: myAddress,
 		}))

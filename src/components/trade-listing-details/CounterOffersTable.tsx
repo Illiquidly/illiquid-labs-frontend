@@ -21,7 +21,7 @@ import {
 	CounterTrade,
 	CounterTradesService,
 } from 'services/api/counterTradesService'
-import { HumanCoin, Trade, TRADE_STATE } from 'services/api/tradesService'
+import { Trade, TRADE_STATE } from 'services/api/tradesService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 
@@ -43,6 +43,7 @@ import { COUNTER_TRADES } from 'constants/useQueryKeys'
 import { LunaIcon } from 'assets/icons/mixed'
 import { isNil } from 'lodash'
 import { P2PTradingContract } from 'services/blockchain'
+import { HumanCoin } from 'types'
 import {
 	PreviewImage,
 	PreviewImageContainer,

@@ -1,25 +1,25 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { LookingFor, NetworkType } from 'types'
-import { APIGetAllResponse, APIPagination } from 'types/common'
-import { keysToCamel } from 'utils/js/keysToCamel'
-// TODO: remove dependency circle, this should be shared between these two
+import { LookingFor, NetworkName } from 'types'
 import {
+	APIGetAllResponse,
+	APIPagination,
 	Coin,
 	Cw1155Coin,
 	Cw721Coin,
 	HumanCoin,
-	NFTWanted,
-	TRADE_STATE,
-} from './tradesService'
+} from 'types/common'
+import { keysToCamel } from 'utils/js/keysToCamel'
+// TODO: remove dependency circle, this should be shared between these two
+import { NFTWanted, TRADE_STATE } from './tradesService'
 import { NFT } from './walletNFTsService'
 
 export interface CounterTrade {
 	id: number
-	network: NetworkType
+	network: NetworkName
 	tradeId: number
 	counterId: number
-	trade: { id: number; network: NetworkType; tradeId: number }
+	trade: { id: number; network: NetworkName; tradeId: number }
 	tradeInfo: {
 		acceptedInfo: {
 			counterId?: number

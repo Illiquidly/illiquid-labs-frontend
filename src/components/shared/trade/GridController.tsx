@@ -14,7 +14,7 @@ import {
 import useAddress from 'hooks/useAddress'
 import { useWallet } from '@terra-money/use-wallet'
 import { FAVORITES_TRADES } from 'constants/useQueryKeys'
-import { NetworkType } from 'types'
+import { NetworkName } from 'types'
 import { ListingCard } from './listing-card'
 
 export enum GRID_TYPE {
@@ -126,7 +126,7 @@ function GridController({
 						({ addFavoriteTrade, removeFavoriteTrade }[
 							liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
 						]({
-							network: wallet.network.name as NetworkType,
+							network: wallet.network.name as NetworkName,
 							tradeId: [Number(tradeId)],
 							user: myAddress,
 						}))

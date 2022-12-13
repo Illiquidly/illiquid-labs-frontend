@@ -1,7 +1,12 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { APIGetAllResponse, NetworkType } from 'types'
-import { APIPagination, HumanCoin, HumanCw20Coin } from 'types/common'
+import {
+	APIGetAllResponse,
+	NetworkName,
+	APIPagination,
+	HumanCoin,
+	HumanCw20Coin,
+} from 'types'
 import { keysToCamel } from 'utils/js/keysToCamel'
 import { NFT } from './walletNFTsService'
 
@@ -23,7 +28,7 @@ export interface RaffleParticipant {
 	raffle: string
 }
 export interface Raffle {
-	network: NetworkType
+	network: NetworkName
 	raffleId: number
 	id: number
 	raffleInfo: {

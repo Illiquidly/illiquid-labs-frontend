@@ -1,6 +1,6 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { APIGetAllResponse, APIPagination, NetworkType } from 'types'
+import { APIGetAllResponse, APIPagination, NetworkName } from 'types'
 import { NFT } from './walletNFTsService'
 
 export type SentAsset = {
@@ -12,7 +12,7 @@ export type SentAsset = {
 
 export interface SendTransaction {
 	id: number
-	network: NetworkType
+	network: NetworkName
 	blockHeight: number
 	date: string
 	txHash: string

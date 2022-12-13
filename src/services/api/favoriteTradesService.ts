@@ -1,20 +1,20 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { NetworkType } from 'types'
+import { NetworkName } from 'types'
 
 export type FavoriteTradeRequest = {
-	network: NetworkType
+	network: NetworkName
 	user: string
 	tradeId: (string | number)[]
 }
 
 export type FavoriteTradeResponse = {
 	id: number
-	network: NetworkType
+	network: NetworkName
 	user: string
 	trades: {
 		id: number
-		network: NetworkType
+		network: NetworkName
 		tradeId: number
 	}[]
 }
@@ -45,7 +45,7 @@ export class FavoriteTradesService {
 	}
 
 	static async getFavoriteTrades(
-		{ network }: { network: NetworkType },
+		{ network }: { network: NetworkName },
 		filters
 	): Promise<FavoriteTradeResponse[]> {
 		const queryBuilder = RequestQueryBuilder.create()

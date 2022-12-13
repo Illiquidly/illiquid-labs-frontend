@@ -61,7 +61,7 @@ import {
 	RAFFLE,
 	VERIFIED_COLLECTIONS,
 } from 'constants/useQueryKeys'
-import { NetworkType } from 'types'
+import { NetworkName } from 'types'
 import {
 	FavoriteRaffleResponse,
 	FavoriteRafflesService,
@@ -141,7 +141,7 @@ export default function ListingDetails() {
 		[FAVORITES_RAFFLES, wallet.network, myAddress],
 		async () =>
 			FavoriteRafflesService.getFavoriteRaffles(
-				{ network: wallet.network.name as NetworkType },
+				{ network: wallet.network.name as NetworkName },
 				{
 					users: [myAddress],
 				}
@@ -205,7 +205,7 @@ export default function ListingDetails() {
 		({ addFavoriteRaffle, removeFavoriteRaffle }[
 			liked ? 'removeFavoriteRaffle' : 'addFavoriteRaffle'
 		]({
-			network: wallet.network.name as NetworkType,
+			network: wallet.network.name as NetworkName,
 			raffleId: [Number(raffleId)],
 			user: myAddress,
 		}))

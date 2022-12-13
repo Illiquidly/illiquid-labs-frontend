@@ -30,7 +30,7 @@ import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Coin, TradesService } from 'services/api/tradesService'
+import { TradesService } from 'services/api/tradesService'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { CounterTradesService, SupportedCollectionsService } from 'services/api'
@@ -69,7 +69,7 @@ import SubmitCounterOfferSuccessModal, {
 	SubmitCounterOfferSuccessModalProps,
 } from 'components/trade-counter/modals/submit-counter-offer-success/SubmitCounterOfferSuccessModal'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
-import { NetworkType } from 'types'
+import { Coin, NetworkName } from 'types'
 import useAddress from 'hooks/useAddress'
 import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 import { TradeCounterValidationSchema } from 'constants/validation-schemas/trade-counter'
@@ -138,7 +138,7 @@ export default function TradeCounter() {
 		[FAVORITES_TRADES, wallet.network, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
-				{ network: wallet.network.name as NetworkType },
+				{ network: wallet.network.name as NetworkName },
 				{
 					users: [myAddress],
 				}
@@ -284,7 +284,7 @@ export default function TradeCounter() {
 		({ addFavoriteTrade, removeFavoriteTrade }[
 			liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
 		]({
-			network: wallet.network.name as NetworkType,
+			network: wallet.network.name as NetworkName,
 			tradeId: [Number(tradeId)],
 			user: myAddress,
 		}))

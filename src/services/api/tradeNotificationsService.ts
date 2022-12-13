@@ -1,6 +1,6 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { APIGetAllResponse, NetworkType } from 'types'
+import { APIGetAllResponse, NetworkName } from 'types'
 import { APIPagination } from 'types/common'
 import { NFT } from './walletNFTsService'
 
@@ -20,7 +20,7 @@ export enum READ_STATUS {
 
 export interface TradeNotification {
 	id: number
-	network: NetworkType
+	network: NetworkName
 	time: string
 	user: string
 	tradeId: number

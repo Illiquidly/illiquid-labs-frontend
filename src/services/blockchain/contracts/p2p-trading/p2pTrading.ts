@@ -5,9 +5,8 @@ import terraUtils, {
 	NativeCurrency,
 } from 'utils/blockchain/terraUtils'
 import { NFT } from 'services/api/walletNFTsService'
-import { Coin } from 'services/api/tradesService'
 import { keysToSnake } from 'utils/js/keysToSnake'
-import { ContractName } from 'types'
+import { Coin, ContractName } from 'types'
 import { CONTRACT_NAME } from 'constants/addresses'
 import { Contract } from '../shared'
 

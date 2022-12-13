@@ -31,6 +31,16 @@ export type Coin = {
 	denom: string
 }
 
+export type Cw721Coin = {
+	address: string
+	tokenId: string
+}
+
+export type Cw1155Coin = {
+	address: string
+	tokenId: string
+}
+
 // TODO: refactor move to constants
 export type ContractName =
 	| 'raffle'

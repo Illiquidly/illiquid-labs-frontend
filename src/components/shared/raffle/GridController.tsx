@@ -10,7 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useAddress from 'hooks/useAddress'
 import { useWallet } from '@terra-money/use-wallet'
 import { FAVORITES_RAFFLES } from 'constants/useQueryKeys'
-import { NetworkType } from 'types'
+import { NetworkName } from 'types'
 import { Raffle } from 'services/api/rafflesService'
 import {
 	FavoriteRaffleResponse,
@@ -135,7 +135,7 @@ function GridController({
 						({ addFavoriteRaffle, removeFavoriteRaffle }[
 							liked ? 'removeFavoriteRaffle' : 'addFavoriteRaffle'
 						]({
-							network: wallet.network.name as NetworkType,
+							network: wallet.network.name as NetworkName,
 							raffleId: [Number(raffleId)],
 							user: myAddress,
 						}))

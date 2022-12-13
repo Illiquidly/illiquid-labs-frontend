@@ -1,35 +1,20 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { keysToCamel } from 'utils/js/keysToCamel'
-import { APIGetAllResponse, LookingFor, NetworkType } from 'types'
-import { APIPagination } from 'types/common'
+import { APIGetAllResponse, LookingFor, NetworkName } from 'types'
+import {
+	APIPagination,
+	Coin,
+	Cw1155Coin,
+	Cw721Coin,
+	HumanCoin,
+} from 'types/common'
 import { NFT } from './walletNFTsService'
 import { CounterTrade } from './counterTradesService'
 
-// TODO: these should be moved to common types
-export type Coin = {
-	amount: string
-	denom: string
-}
-
-export type HumanCoin = {
-	amount: string
-	currency: string
-}
-
-export type Cw721Coin = {
-	address: string
-	tokenId: string
-}
-
-export type Cw1155Coin = {
-	address: string
-	tokenId: string
-}
-
 export type NFTWanted = {
 	id: number
-	network: NetworkType
+	network: NetworkName
 	collectionAddress: string
 	collectionName: string
 	symbol: string
@@ -47,7 +32,7 @@ export enum TRADE_STATE {
 export interface Trade {
 	id: number
 	counterTrades: CounterTrade[]
-	network: NetworkType
+	network: NetworkName
 	tradeId: number
 	tradeInfo: {
 		acceptedInfo: {

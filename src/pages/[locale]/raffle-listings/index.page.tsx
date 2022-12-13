@@ -33,7 +33,7 @@ import {
 	RAFFLE_STATE,
 } from 'services/api/rafflesService'
 import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
-import { NetworkType } from 'types'
+import { NetworkName } from 'types'
 import { GRID_TYPE } from 'components/shared/raffle/GridController'
 import { Box, Flex } from 'theme-ui'
 import {
@@ -158,7 +158,7 @@ export default function RaffleListings() {
 		[FAVORITES_RAFFLES, wallet.network, myAddress],
 		async () =>
 			FavoriteRafflesService.getFavoriteRaffles(
-				{ network: wallet.network.name as NetworkType },
+				{ network: wallet.network.name as NetworkName },
 				{
 					users: [myAddress],
 				}

@@ -1,4 +1,3 @@
-export * from './LookingFor'
 export * from './trade'
 export type {
 	APIGetAllResponse,
@@ -10,4 +9,6 @@ export type {
 	ContractName,
 	NetworkId,
 	NetworkName,
+	Cw721Coin,
+	Cw1155Coin,
 } from './common'

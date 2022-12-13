@@ -64,7 +64,7 @@ import {
 } from 'constants/useQueryKeys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
-import { NetworkType } from 'types'
+import { NetworkName } from 'types'
 import { TRADE_LISTINGS_TYPE } from 'constants/listings'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
@@ -156,7 +156,7 @@ export default function TradeListings() {
 		[FAVORITES_TRADES, wallet.network, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
-				{ network: wallet.network.name as NetworkType },
+				{ network: wallet.network.name as NetworkName },
 				{
 					users: [myAddress],
 				}
