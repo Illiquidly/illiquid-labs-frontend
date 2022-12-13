@@ -29,6 +29,7 @@ interface CoinsDetails {
 	luna?: string
 }
 
+// TODO: extract this, this is NetworkName
 type ChainKeys = keyof typeof CHAIN_DENOMS
 
 export type NativeCurrency = typeof CHAIN_DENOMS[ChainKeys]
@@ -63,7 +64,7 @@ export function getNetworkId(): NetworkId {
 		return wallet?.network?.chainID as NetworkId
 	}
 
-	return 'pisco-1' // phoenix-1
+	return 'pisco-1' // TODO: return whatever is default for new chain (IBC)
 }
 
 function getDefaultChainDenom(): string {
@@ -98,6 +99,7 @@ export async function getLCDClient(gasPrices?: any) {
 	})
 }
 
+// TODO: we can't use fcd for IBC. This is Terra thing.
 async function fetchGasPrices() {
 	const networkId = getNetworkId()
 
@@ -260,7 +262,7 @@ async function postManyTransactions(
 
 	return {
 		txId,
-		txFee: `< 1 LUNA`,
+		txFee: `< 1 LUNA`, // TODO: make this more generic, depending on chain, grab from contracts.
 		txTerraFinderUrl,
 	}
 }

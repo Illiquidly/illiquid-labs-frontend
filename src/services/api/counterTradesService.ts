@@ -3,6 +3,7 @@ import { axios } from 'services/axios'
 import { LookingFor, NetworkType } from 'types'
 import { APIGetAllResponse, APIPagination } from 'types/common'
 import { keysToCamel } from 'utils/js/keysToCamel'
+// TODO: remove dependency circle, this should be shared between these two
 import {
 	Coin,
 	Cw1155Coin,

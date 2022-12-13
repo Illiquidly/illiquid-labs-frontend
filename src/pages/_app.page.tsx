@@ -13,7 +13,7 @@ import { NextComponentType, NextPageContext } from 'next/types'
 import { ThemeProvider } from 'theme-ui'
 import { GoogleAnalytics } from 'nextjs-google-analytics'
 
-import { theme } from 'components'
+import { theme } from 'constants/theme'
 import blockchain from 'utils/blockchain/terraUtils'
 import './styles.css'
 

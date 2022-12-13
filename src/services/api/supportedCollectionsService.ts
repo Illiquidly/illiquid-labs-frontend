@@ -1,6 +1,7 @@
 import pMemoize from 'p-memoize'
 import { axios } from 'services/axios'
 
+// TODO: remove memo, react query can handle that
 const memoizedAxiosGet = pMemoize(axios.get)
 
 export type SupportedCollectionGetResponse = {

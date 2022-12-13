@@ -16,7 +16,7 @@ import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
 
 import { NavigationFooter } from 'components/shared/navigation-footer'
-import { AIRDROP_TYPE } from 'constants/send-types'
+import { AIRDROP_TYPE } from 'constants/sendTypes'
 import { SendFormStepsProps } from 'types/send'
 import React from 'react'
 import { UploadIcon } from 'assets/icons/mixed'

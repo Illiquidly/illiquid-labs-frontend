@@ -12,6 +12,7 @@ interface NFTAttribute {
 	value: string
 }
 
+// TODO:  move this out of this service, this is common type
 export interface NFT {
 	collectionAddress: string
 	tokenId: string
@@ -23,6 +24,7 @@ export interface NFT {
 	traits?: [string, string][]
 }
 
+// TODO: move this out
 export interface Collection {
 	collectionAddress: string
 	collectionName: string

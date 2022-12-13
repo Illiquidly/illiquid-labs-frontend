@@ -7,7 +7,7 @@ import { SendFormStepsProps } from 'types/send/types'
 import { Box, Flex } from 'theme-ui'
 
 import { useRouter } from 'next/router'
-import { AIRDROP_TYPE, SEND_TYPE } from 'constants/send-types'
+import { AIRDROP_TYPE, SEND_TYPE } from 'constants/sendTypes'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import {
 	ContentCard,

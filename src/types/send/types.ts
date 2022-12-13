@@ -1,4 +1,4 @@
-import { AIRDROP_TYPE } from 'constants/send-types'
+import { AIRDROP_TYPE } from 'constants/sendTypes'
 import { NFT } from 'services/api/walletNFTsService'
 
 export interface SendFormStepsProps {

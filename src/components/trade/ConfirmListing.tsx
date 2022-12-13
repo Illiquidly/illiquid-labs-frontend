@@ -1,7 +1,7 @@
 import { PrivateIcon, PublicIcon, TwitterIcon } from 'assets/icons/mixed'
 import ConfirmListingSuccessImage from 'assets/images/ConfirmListingSuccessImage'
 import If from 'components/core/if-statement'
-import { theme } from 'components/theme/theme'
+import { theme } from 'constants/theme'
 import { Button } from 'components/ui/button'
 import { Chip, VisibilityChip } from 'components/ui/chip'
 import { CopyField } from 'components/shared'

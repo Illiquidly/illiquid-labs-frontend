@@ -12,7 +12,7 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
-import { SEND_TYPE } from 'constants/send-types'
+import { SEND_TYPE } from 'constants/sendTypes'
 
 const getStaticProps = makeStaticProps(['common', 'send-transactions'])
 const getStaticPaths = makeStaticPaths()

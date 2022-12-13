@@ -51,7 +51,7 @@ import {
 	SendSelectNFTStepSchema,
 } from 'constants/validation-schemas/send'
 import { useRouter } from 'next/router'
-import { SEND_TYPE } from 'constants/send-types'
+import { SEND_TYPE } from 'constants/sendTypes'
 import { SendDetails } from 'components/send/SendDetails'
 import { ConfirmSend } from 'components/send/ConfirmSend'
 import { AirdropDetails } from 'components/send/AirdropDetails'

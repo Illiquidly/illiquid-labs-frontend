@@ -3,6 +3,7 @@ import * as React from 'react'
 
 type UseIsOverflow = [boolean, () => void]
 
+// TODO: use this hook to replace, functions in OverflowTip component.
 export const useIsOverflow = (ref, callback = noop): UseIsOverflow => {
 	const [isOverflow, setIsOverflow] = React.useState(false)
 

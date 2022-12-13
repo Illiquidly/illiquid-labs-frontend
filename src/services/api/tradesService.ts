@@ -6,6 +6,7 @@ import { APIPagination } from 'types/common'
 import { NFT } from './walletNFTsService'
 import { CounterTrade } from './counterTradesService'
 
+// TODO: these should be moved to common types
 export type Coin = {
 	amount: string
 	denom: string

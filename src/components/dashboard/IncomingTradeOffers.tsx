@@ -16,6 +16,7 @@ function IncomingTradeOffers() {
 	const myAddress = useAddress()
 	const { t } = useTranslation(['common', 'dashboard'])
 
+	// TODO: deconstruct to avoid magic numbers
 	const statusesLabels: Array<string> = t('dashboard:trades:statuses', {
 		returnObjects: true,
 	})

@@ -14,7 +14,7 @@ import { NavigationFooter } from 'components/shared/navigation-footer'
 import { SendFormStepsProps } from 'types/send'
 import { CREATE_SEND_FORM_STEPS } from 'constants/steps'
 import { useRouter } from 'next/router'
-import { SEND_TYPE } from 'constants/send-types'
+import { SEND_TYPE } from 'constants/sendTypes'
 import {
 	ContentCard,
 	ContentCardSubtitle,

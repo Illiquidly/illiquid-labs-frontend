@@ -1,7 +1,6 @@
 import numeral from 'numeral'
 import big, { BigSource } from 'big.js'
 
-export const UST_MAX_DECIMAL_POINTS = 6
 export const LUNA_MAX_DECIMALS_POINTS = 6
 
 export const toDecimal = (num: BigSource, decimalPoints = 2): string => {

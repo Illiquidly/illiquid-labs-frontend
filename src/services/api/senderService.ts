@@ -96,6 +96,7 @@ export class SenderService {
 		return response.data
 	}
 
+	// TODO: rename this to requestUpdate
 	public static async getTransaction(network: string): Promise<SendTransaction> {
 		const response = await axios.patch(
 			`/nft-transfer-transactions/update/${network}`

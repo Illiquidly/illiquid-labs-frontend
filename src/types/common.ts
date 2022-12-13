@@ -31,12 +31,15 @@ export type Coin = {
 	denom: string
 }
 
+// TODO: refactor move to constants
 export type ContractName =
 	| 'raffle'
 	| 'p2pTrade'
 	| 'feeCollector'
 	| 'nameService'
 
+// TODO: refactor remove
 export type NetworkId = 'columbus-5' | 'phoenix-1' | 'pisco-1'
 
+// TODO: refactor remove, this is duplicated
 export type NetworkName = 'mainnet' | 'classic' | 'testnet'

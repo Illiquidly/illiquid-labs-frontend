@@ -38,7 +38,7 @@ import { NFT } from 'services/api/walletNFTsService'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import EmptyBox from 'assets/images/EmptyBox'
-import { SEND_TYPE } from 'constants/send-types'
+import { SEND_TYPE } from 'constants/sendTypes'
 import {
 	PreviewImage,
 	PreviewImageContainer,

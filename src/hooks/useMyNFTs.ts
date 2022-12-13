@@ -18,6 +18,7 @@ export type UseMyNFTsFilters = {
 	sort: NFTS_SORT_VALUE
 }
 
+// TODO: this hook would have to be refactored, until we find better solution on backend for fetching wallet NFTs.
 export function useMyNFTs(filters: UseMyNFTsFilters) {
 	const wallet = useWallet()
 	const myAddress = useAddress()

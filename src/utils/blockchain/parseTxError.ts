@@ -8,6 +8,7 @@ import {
 import { AxiosError } from 'axios'
 import { amountConverter } from './terraUtils'
 
+// TODO: this can be written cleaner, but okay for now.
 const processErrorMessage = message => {
 	const coins = [...message.matchAll(/(\s+)([0-9]+)(u[a-zA-Z]+)/g)]
 	let processedMessage = message

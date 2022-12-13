@@ -18,9 +18,9 @@ export const CHAIN_DENOMS: { [key in NetworkId]: string } = {
 	'phoenix-1': 'uluna',
 }
 
-type ChainKeys = keyof typeof CHAIN_DENOMS
+export type NetworkName = keyof typeof CHAIN_DENOMS
 
-export const CHAIN_CURRENCIES: { [key in ChainKeys]: string } = {
+export const CHAIN_CURRENCIES: { [key in NetworkName]: string } = {
 	'pisco-1': 'luna',
 	'columbus-5': 'luna',
 	'phoenix-1': 'luna',

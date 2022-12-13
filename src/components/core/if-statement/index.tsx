@@ -14,6 +14,7 @@ interface StaticComponents {
 	Else: React.FC<{ children: any }>
 }
 
+// TODO: think about usage of this If statement, Babel has some similar solutions that could replace it. But needs some configuration
 export function If({ children, condition }: IfProps): any & StaticComponents {
 	if (React.Children.count(children) === 1) {
 		return condition ? children : null

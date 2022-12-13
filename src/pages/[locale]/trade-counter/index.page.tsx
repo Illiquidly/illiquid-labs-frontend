@@ -42,7 +42,6 @@ import {
 	LayoutContainer,
 	ModalTitle,
 	Page,
-	theme,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
@@ -76,6 +75,7 @@ import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 import { TradeCounterValidationSchema } from 'constants/validation-schemas/trade-counter'
 import { TradeCounterForm } from 'types/trade-counter'
 import { P2PTradingContract } from 'services/blockchain'
+import { theme } from 'constants/theme'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()

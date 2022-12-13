@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { theme } from 'components'
+import { theme } from 'constants/theme'
 import { HEADER_HEIGHT } from 'constants/components'
 import { Img } from 'react-image'
 

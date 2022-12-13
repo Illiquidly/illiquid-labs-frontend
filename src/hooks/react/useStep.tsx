@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react'
 
+// Note: this is implementation from react-use, refactor?
 interface Helpers {
 	goToNextStep: () => void
 	goToPrevStep: () => void

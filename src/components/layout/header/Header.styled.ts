@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { theme } from 'components/theme/theme'
+import { theme } from 'constants/theme'
 import { HEADER_HEIGHT } from 'constants/components'
 
 import { Flex } from 'theme-ui'

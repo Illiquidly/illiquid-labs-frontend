@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { HEADER_ACTIONS } from 'constants/useQueryKeys'
 import React from 'react'
 
+// Allows user to set header actions. On right section.
 export default function useHeaderActions(
 	headerComponent: React.ReactNode = null
 ) {

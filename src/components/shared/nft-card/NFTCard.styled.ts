@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { theme } from 'components/theme/theme'
+import { theme } from 'constants/theme'
 import { Img } from 'react-image'
 import { Flex, Text } from 'theme-ui'
 

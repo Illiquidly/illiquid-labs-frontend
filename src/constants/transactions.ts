@@ -1,5 +1,7 @@
+import { NetworkId } from 'types'
+
 export const txExplorerFactory: {
-	[k: string]: (txId) => string
+	[k in NetworkId]: (txId) => string
 } = {
 	'columbus-5': (txId: string) =>
 		`https://finder.terra.money/classic/tx/${txId}`,
