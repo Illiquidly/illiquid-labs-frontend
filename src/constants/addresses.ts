@@ -1,4 +1,4 @@
-import { NetworkId } from 'types'
+import { ContractName, NetworkId } from 'types'
 
 export enum CONTRACT_NAME {
 	raffle = 'raffle',
@@ -8,7 +8,7 @@ export enum CONTRACT_NAME {
 }
 
 export const contractAddresses: {
-	[k in NetworkId]: { [key in CONTRACT_NAME]: string }
+	[k in NetworkId]: { [key in ContractName]: string }
 } = {
 	'phoenix-1': {
 		raffle: '',

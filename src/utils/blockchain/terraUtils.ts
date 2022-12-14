@@ -29,10 +29,7 @@ interface CoinsDetails {
 	luna?: string
 }
 
-// TODO: extract this, this is NetworkName
-type ChainKeys = keyof typeof CHAIN_DENOMS
-
-export type NativeCurrency = typeof CHAIN_DENOMS[ChainKeys]
+export type NativeCurrency = typeof CHAIN_DENOMS[NetworkId]
 
 interface TransactionDetails {
 	contractAddress: string
@@ -77,14 +74,10 @@ function getContractAddress(contractName: ContractName): string {
 	return contractAddresses[networkId][contractName]
 }
 
-async function getLcdURL(): Promise<string> {
+export function getLCDClient(gasPrices?: any): LCDClient {
 	const networkId = getNetworkId()
-	return LCD_URLS[networkId]
-}
 
-export async function getLCDClient(gasPrices?: any) {
-	const url = await getLcdURL()
-	const networkId = getNetworkId()
+	const url = LCD_URLS[networkId]
 
 	return new LCDClient({
 		URL: url,
@@ -135,7 +128,8 @@ async function getWalletAddress(
 }
 
 async function sendQuery(contractAddress: string, query: object): Promise<any> {
-	const lcdClient = await getLCDClient()
+	const lcdClient = getLCDClient()
+
 	return lcdClient.wasm.contractQuery(contractAddress, query)
 }
 
@@ -159,7 +153,7 @@ async function estimateTxFee(messages: Msg[]) {
 
 	const gasPrices = await fetchGasPrices()
 
-	const lcdClient = await getLCDClient(gasPrices)
+	const lcdClient = getLCDClient(gasPrices)
 	const memo = 'estimate fee'
 
 	const accountInfo = await lcdClient.auth.accountInfo(address)
@@ -184,7 +178,7 @@ async function estimateTxFee(messages: Msg[]) {
 }
 
 async function getTxResult(txHash: string): Promise<TxInfo | undefined> {
-	const client = await getLCDClient()
+	const client = getLCDClient()
 
 	const [, response] = await asyncAction(client.tx.txInfo(txHash))
 
@@ -253,7 +247,7 @@ async function postManyTransactions(
 
 	return {
 		txId,
-		txFee: `< 1 LUNA`, // TODO: make this more generic, depending on chain, grab from contracts.
+		txFee: `< 0.2 ${getCurrencyForDenom(getDefaultChainDenom())}`,
 		txTerraFinderUrl,
 	}
 }
