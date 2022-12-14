@@ -19,9 +19,10 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { SupportedCollectionsService } from 'services/api'
 import { Flex } from 'theme-ui'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
-import { LOOKING_FOR_TYPE, TradeFormStepsProps } from 'types'
+import { TradeFormStepsProps } from 'types'
 import { NavigationFooter } from 'components/shared/navigation-footer'
 import { FieldLabel } from 'components/form/components'
+import { LOOKING_FOR_TYPE } from 'constants/trade'
 import {
 	ChipsWrapper,
 	ContentCard,

@@ -1,15 +1,8 @@
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import { LOOKING_FOR_TYPE, VISIBILITY_TYPE } from 'constants/trade'
 import { NFT } from 'services/api/walletNFTsService'
 import { NetworkName } from 'types/common'
 
-export enum LOOKING_FOR_TYPE {
-	SPECIFIC = 'SPECIFIC',
-	ANY = 'ANY',
-}
-export enum VISIBILITY_TYPE {
-	PUBLIC = 'PUBLIC',
-	PRIVATE = 'PRIVATE',
-}
 export interface TradeFormStepsProps {
 	tradeDetailsUrl: string
 	terraFinderUrl: string

@@ -1,4 +1,4 @@
-import { LOOKING_FOR_TYPE } from 'types'
+import { LOOKING_FOR_TYPE } from 'constants/trade'
 import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 
 export function fromUpdateTradeToBlockchain({

@@ -1,4 +1,4 @@
-import { LOOKING_FOR_TYPE, VISIBILITY_TYPE } from 'types'
+import { LOOKING_FOR_TYPE, VISIBILITY_TYPE } from 'constants/trade'
 import { isValidTerraAddress } from 'utils/blockchain/isValidAddress'
 import * as yup from 'yup'
 

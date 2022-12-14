@@ -1,3 +1,5 @@
+import { CONTRACT_NAME } from 'constants/addresses'
+
 export interface APIGetAllResponse<T> {
 	data: T[]
 	count: number
@@ -41,15 +43,10 @@ export type Cw1155Coin = {
 	tokenId: string
 }
 
-// TODO: refactor move to constants
-export type ContractName =
-	| 'raffle'
-	| 'p2pTrade'
-	| 'feeCollector'
-	| 'nameService'
+export type ContractName = keyof typeof CONTRACT_NAME
+
+// TODO: refactor remove from here
+export type NetworkId = 'phoenix-1' | 'pisco-1'
 
 // TODO: refactor remove
-export type NetworkId = 'columbus-5' | 'phoenix-1' | 'pisco-1'
-
-// TODO: refactor remove, this is duplicated
-export type NetworkName = 'mainnet' | 'classic' | 'testnet'
+export type NetworkName = 'mainnet' | 'testnet'

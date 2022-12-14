@@ -12,8 +12,9 @@ import { useFormContext } from 'react-hook-form'
 import { Box, Flex } from 'theme-ui'
 import PublicTradeListing from 'assets/images/PublicTradeListing'
 import PrivateTradeListing from 'assets/images/PrivateTradeListing'
-import { TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
+import { TradeFormStepsProps } from 'types'
 import { NavigationFooter } from 'components/shared/navigation-footer'
+import { VISIBILITY_TYPE } from 'constants/trade'
 import {
 	ContentCard,
 	ContentCardSubtitle,

@@ -82,11 +82,6 @@ async function getLcdURL(): Promise<string> {
 	return LCD_URLS[networkId]
 }
 
-function isClassic(): boolean {
-	const networkId = getNetworkId()
-	return networkId === 'columbus-5'
-}
-
 export async function getLCDClient(gasPrices?: any) {
 	const url = await getLcdURL()
 	const networkId = getNetworkId()
@@ -95,7 +90,6 @@ export async function getLCDClient(gasPrices?: any) {
 		URL: url,
 		chainID: networkId,
 		gasPrices,
-		isClassic: isClassic(),
 	})
 }
 
@@ -155,7 +149,6 @@ async function sendIndependentQuery(
 	const lcdClient = new LCDClient({
 		URL: url,
 		chainID: networkId,
-		isClassic: networkId === 'columbus-5',
 	})
 
 	return lcdClient.wasm.contractQuery(contractAddress, query)
@@ -177,7 +170,6 @@ async function estimateTxFee(messages: Msg[]) {
 		gasAdjustment: 1.4,
 		feeDenoms: [getDefaultChainDenom()],
 		memo,
-		isClassic: isClassic(),
 	}
 
 	return lcdClient.tx.estimateFee(
@@ -253,7 +245,6 @@ async function postManyTransactions(
 	const tx = await wallet.post({
 		fee,
 		msgs,
-		isClassic: isClassic(),
 		memo,
 	})
 	const txId = tx.result.txhash

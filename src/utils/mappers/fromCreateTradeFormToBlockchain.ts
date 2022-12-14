@@ -1,5 +1,6 @@
+import { LOOKING_FOR_TYPE, VISIBILITY_TYPE } from 'constants/trade'
 import { P2PTradeOffer } from 'services/blockchain'
-import { LOOKING_FOR_TYPE, TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
+import { TradeFormStepsProps } from 'types'
 import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 
 export function fromCreateTradeFormToBlockchain({

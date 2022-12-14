@@ -14,8 +14,9 @@ import { noop } from 'lodash'
 
 import { TwitterShareButton } from 'react-share'
 import { CREATE_TRADE_LISTING_FORM_STEPS } from 'constants/steps'
-import { TradeFormStepsProps, VISIBILITY_TYPE } from 'types'
+import { TradeFormStepsProps } from 'types'
 import { NavigationFooter } from 'components/shared/navigation-footer'
+import { VISIBILITY_TYPE } from 'constants/trade'
 import {
 	ContentCard,
 	ContentCardSubtitle,

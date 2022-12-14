@@ -33,8 +33,8 @@ import { TextAreaField, TokenInputField } from 'components/form'
 import { ModalLayoutContainer } from 'components/layout'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { TradeDetailsStepSchema } from 'constants/validation-schemas/trade'
-import { LOOKING_FOR_TYPE } from 'types'
 import { FieldLabel } from 'components/form/components'
+import { LOOKING_FOR_TYPE } from 'constants/trade'
 import {
 	ModalBody,
 	ModalContainer,

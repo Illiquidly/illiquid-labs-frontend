@@ -10,12 +10,6 @@ export enum CONTRACT_NAME {
 export const contractAddresses: {
 	[k in NetworkId]: { [key in CONTRACT_NAME]: string }
 } = {
-	'columbus-5': {
-		raffle: '',
-		p2pTrade: '',
-		feeCollector: '',
-		nameService: '',
-	},
 	'phoenix-1': {
 		raffle: '',
 		p2pTrade: 'terra1vvwcxnrhzvwjw7c0t7ks3pe0fvj82rcyrmpsejj22csg0rawpc9qs9fyv4',
