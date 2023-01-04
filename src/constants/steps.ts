@@ -1,8 +1,15 @@
+// TODO: Remove all enums from project, replace with object as const typescript
 export enum CREATE_TRADE_LISTING_FORM_STEPS {
 	SELECT_NFTS = 1,
 	TRADE_DETAILS = 2,
 	CHOOSE_VISIBILITY = 3,
 	CONFIRM_LISTING = 4,
+}
+
+export enum CREATE_LOAN_LISTING_FORM_STEPS {
+	SELECT_NFTS = 1,
+	LOAN_LISTINGS = 2,
+	CONFIRM_LISTING = 3,
 }
 
 export enum CREATE_RAFFLE_LISTING_FORM_STEPS {

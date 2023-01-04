@@ -1,0 +1,28 @@
+{
+	"title": "Loan NFTs",
+	"steps": ["Select NFTs", "Loan Details", "Confirm Listing"],
+	"select-NFTs": {
+		"question": "Which NFTs are you looking to provide as collateral",
+		"add-instruction": "Add them here by clicking below",
+		"select-nfts": "Select NFTs",
+		"selected-nfts": "Selected NFT's",
+		"selected-nfts-description": "These items will be included in the loan listing",
+		"search": "Search",
+		"type-here-to-search": "Type here to search...",
+		"a-to-z": "A to Z",
+		"z-to-a": "Z to A"
+	},
+	"loan-details": {
+		"question": "What are you looking for?",
+		"instructions": "Define your ideal terms for the loan that people can view and accept, or counter offer.",
+		"text-area-label": "Write a comment",
+		"text-area-placeholder": "Enter text",
+		"collections-placeholder": "Search collections...",
+		"tokens-label": "Tokens I'm interested in",
+		"tokens-placeholder": "Enter amount for {{token}}",
+		"interest-rate-label": "Interest rate offered",
+		"interest-rate-placeholder": "Enter interest rate",
+		"loan-period-label": "Load period",
+		"loan-period-placeholder": "Enter loan period in days"
+	}
+}

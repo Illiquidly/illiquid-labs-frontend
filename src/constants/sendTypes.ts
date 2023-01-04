@@ -1,3 +1,4 @@
+// TODO: remove enums
 export enum SEND_TYPE {
 	MULTI_SEND_TYPE = 'multisend',
 	AIRDROP_TYPE = 'airdrop',

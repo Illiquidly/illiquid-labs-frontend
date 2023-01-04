@@ -60,25 +60,32 @@ export default function Trade() {
 	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'trade'])
 	useHeaderActions(<ExitCreateTradeListing />)
-	const stepLabels: Array<string> = t('trade:steps', { returnObjects: true })
+	const [
+		selectNFTsLabel,
+		tradeDetailsLabel,
+		chooseVisibilityLabel,
+		confirmListingLabel,
+	]: Array<string> = t('trade:steps', {
+		returnObjects: true,
+	})
 	const [step, { setStep, goToNextStep, goToPrevStep, canGoToNextStep }] =
 		useStep(4)
 	const [steps] = useState([
 		{
 			id: CREATE_TRADE_LISTING_FORM_STEPS.SELECT_NFTS,
-			label: stepLabels[0],
+			label: selectNFTsLabel,
 		},
 		{
 			id: CREATE_TRADE_LISTING_FORM_STEPS.TRADE_DETAILS,
-			label: stepLabels[1],
+			label: tradeDetailsLabel,
 		},
 		{
 			id: CREATE_TRADE_LISTING_FORM_STEPS.CHOOSE_VISIBILITY,
-			label: stepLabels[2],
+			label: chooseVisibilityLabel,
 		},
 		{
 			id: CREATE_TRADE_LISTING_FORM_STEPS.CONFIRM_LISTING,
-			label: stepLabels[3],
+			label: confirmListingLabel,
 		},
 	])
 

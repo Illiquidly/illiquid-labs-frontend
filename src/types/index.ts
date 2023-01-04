@@ -1,4 +1,7 @@
 export * from './trade'
+export * from './raffle'
+export * from './loan'
+
 export type {
 	APIGetAllResponse,
 	APIPagination,
