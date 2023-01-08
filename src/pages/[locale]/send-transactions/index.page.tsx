@@ -35,7 +35,7 @@ export default function SendTransactions() {
 					}}
 				>
 					<SendingCard>
-						<MultisenderImg />
+						<MultisenderImg width={263} height={182} />
 						<Box sx={{ mt: '8px' }}>
 							<Title>{t('send-transactions:nft-multisender')}</Title>
 						</Box>
@@ -55,7 +55,7 @@ export default function SendTransactions() {
 						</Flex>
 					</SendingCard>
 					<SendingCard>
-						<AirdropperImg />
+						<AirdropperImg width={263} height={182} />
 						<Box sx={{ mt: '8px' }}>
 							<Title>{t('send-transactions:nft-airdropper')}</Title>
 						</Box>
