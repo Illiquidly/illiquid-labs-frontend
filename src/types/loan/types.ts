@@ -9,4 +9,11 @@ export interface LoanFormStepsProps {
 	coverNFT: NFT
 	selectedNFTs: NFT[]
 	isSuccessScreen: boolean
+
+	// LOAN_DETAILS STEP
+	tokenAmount: string
+	tokenName: string
+	interestRate: string
+	loanPeriod: string
+	comment: string
 }

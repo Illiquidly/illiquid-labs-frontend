@@ -13,12 +13,11 @@
 		"z-to-a": "Z to A"
 	},
 	"loan-details": {
-		"question": "What are you looking for?",
-		"instructions": "Define your ideal terms for the loan that people can view and accept, or counter offer.",
+		"title": "What are you looking for?",
+		"subtitle": "Define your ideal terms for the loan that people can view and accept, or counter offer.",
 		"text-area-label": "Write a comment",
 		"text-area-placeholder": "Enter text",
-		"collections-placeholder": "Search collections...",
-		"tokens-label": "Tokens I'm interested in",
+		"token-label": "Tokens I'm interested in",
 		"tokens-placeholder": "Enter amount for {{token}}",
 		"interest-rate-label": "Interest rate offered",
 		"interest-rate-placeholder": "Enter interest rate",
