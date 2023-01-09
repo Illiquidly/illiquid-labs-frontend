@@ -27,7 +27,7 @@ import { SupportedCollectionsService } from 'services/api'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import { SelectOption } from 'components/ui/select/Select'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
-import { isEmpty, truncate } from 'lodash'
+import { isEmpty } from 'lodash'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	FiltersSection,
@@ -209,7 +209,7 @@ export const MyNFTsModal = NiceModal.create(
 													onChange={collections => setSelectedCollections(collections)}
 													options={ownedCollections.map(
 														({ collectionName, collectionAddress }) => ({
-															label: truncate(collectionName, { length: 28 }),
+															label: collectionName,
 															value: collectionAddress,
 														})
 													)}
@@ -295,7 +295,7 @@ export const MyNFTsModal = NiceModal.create(
 															<CheckboxCard
 																checked={checked}
 																onChange={() => setSelectedCollections(setCollections)}
-																title={truncate(collectionName, { length: 28 })}
+																title={collectionName}
 															/>
 														</Box>
 													)

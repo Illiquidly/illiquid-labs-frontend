@@ -20,7 +20,7 @@ import { useTranslation } from 'next-i18next'
 import { SupportedCollectionsService } from 'services/api/supportedCollectionsService'
 import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
-import { truncate, uniqBy } from 'lodash'
+import { uniqBy } from 'lodash'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import {
 	FiltersSection,
@@ -140,7 +140,7 @@ export const ViewNFTsModal = NiceModal.create(
 												onChange={collections => setSelectedCollections(collections)}
 												options={availableCollections.map(
 													({ collectionAddress, collectionName }) => ({
-														label: truncate(collectionName, { length: 28 }),
+														label: collectionName,
 														value: collectionAddress,
 													})
 												)}
@@ -189,7 +189,7 @@ export const ViewNFTsModal = NiceModal.create(
 															<CheckboxCard
 																checked={checked}
 																onChange={() => setSelectedCollections(setCollections)}
-																title={truncate(collectionName, { length: 28 })}
+																title={collectionName}
 															/>
 														</Box>
 													)
