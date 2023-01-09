@@ -59,7 +59,7 @@ const ListOfSelectedNFTs = ({ goBackStep, goNextStep }: SelectNFTProps) => {
 								NiceModal.show(MyNFTsModal, {
 									selectedNFTs: getValues('selectedNFTs'),
 									title: t('common:my-nfts'),
-									addNFTsButtonLabel: t('common:add-nfs-to-loan'),
+									addNFTsButtonLabel: t('common:add-nfts-to-loan'),
 								} as MyNFTsModalProps)
 							)
 
@@ -128,7 +128,7 @@ const SelectNFTsEmpty = () => {
 						NiceModal.show(MyNFTsModal, {
 							selectedNFTs: getValues('selectedNFTs'),
 							title: t('common:my-nfts'),
-							addNFTsButtonLabel: t('common:add-nfs-to-loan'),
+							addNFTsButtonLabel: t('common:add-nfts-to-loan'),
 						} as MyNFTsModalProps)
 					)
 

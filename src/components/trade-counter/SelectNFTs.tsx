@@ -42,7 +42,7 @@ export default function SelectNFTs() {
 			NiceModal.show(MyNFTsModal, {
 				selectedNFTs: getValues('selectedNFTs'),
 				title: t('common:my-nfts'),
-				addNFTsButtonLabel: t('common:add-nfs-to-offer'),
+				addNFTsButtonLabel: t('common:add-nfts-to-offer'),
 			})
 		)
 

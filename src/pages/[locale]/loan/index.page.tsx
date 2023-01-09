@@ -45,6 +45,7 @@ import {
 	LoanDetailsStepSchema,
 	SelectNFTStepSchema,
 } from 'constants/validation-schemas/loan'
+import { LoanDetails } from 'components/loan/LoanDetails'
 
 const getStaticProps = makeStaticProps(['common', 'loan'])
 const getStaticPaths = makeStaticPaths()
@@ -65,7 +66,7 @@ export default function Loan() {
 			label: selectNFTsLabel,
 		},
 		{
-			id: CREATE_LOAN_LISTING_FORM_STEPS.LOAN_LISTINGS,
+			id: CREATE_LOAN_LISTING_FORM_STEPS.LOAN_DETAILS,
 			label: loanDetailsLabel,
 		},
 		{
@@ -77,7 +78,7 @@ export default function Loan() {
 	const getStepSchema = (currentStep: number) => {
 		const formSchemas = {
 			[CREATE_LOAN_LISTING_FORM_STEPS.SELECT_NFTS]: SelectNFTStepSchema,
-			[CREATE_LOAN_LISTING_FORM_STEPS.LOAN_LISTINGS]: LoanDetailsStepSchema,
+			[CREATE_LOAN_LISTING_FORM_STEPS.LOAN_DETAILS]: LoanDetailsStepSchema,
 		}
 
 		return formSchemas[currentStep] ?? SelectNFTStepSchema
@@ -161,6 +162,11 @@ export default function Loan() {
 								{/* STEP 1 */}
 								{step === CREATE_LOAN_LISTING_FORM_STEPS.SELECT_NFTS && (
 									<SelectNFTs goBackStep={goToPrevStep} goNextStep={goToNextStep} />
+								)}
+
+								{/* STEP 2 */}
+								{step === CREATE_LOAN_LISTING_FORM_STEPS.LOAN_DETAILS && (
+									<LoanDetails goBackStep={goToPrevStep} goNextStep={goToNextStep} />
 								)}
 							</BodyContainer>
 						</form>

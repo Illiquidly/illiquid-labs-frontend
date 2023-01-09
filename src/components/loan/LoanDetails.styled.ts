@@ -54,6 +54,15 @@ RadioWrapper.defaultProps = {
 	},
 }
 
+export const Label = styled.label`
+	color: ${props => props.theme.colors.gray1000};
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 20px;
+	display: block;
+	padding-bottom: 6px;
+`
+
 export const ChipsWrapper = styled(Flex)`
 	/* REMOVE SCROLLBAR */
 	-ms-overflow-style: none; /* Internet Explorer 10+ */

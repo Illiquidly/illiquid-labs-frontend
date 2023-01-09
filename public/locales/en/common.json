@@ -108,8 +108,9 @@
 	"to-see-reports": "to see reports",
 	"my-nfts": "My NFTs",
 	"all-nfts": "All NFTs",
-	"add-nfs-to-trade": "Add NFTs to Trade",
-	"add-nfs-to-offer": "Add NFTs to Offer",
+	"add-nfts-to-trade": "Add NFTs to Trade",
+	"add-nfts-to-offer": "Add NFTs to Offer",
+	"add-nfts-to-loan": "Add NFTs to Loan",
 	"select-NFTs": {
 		"select-nfts": "Select NFTs",
 		"selected-nfts-description": "These items will be included in the trade listing",
