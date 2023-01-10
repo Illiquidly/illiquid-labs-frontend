@@ -19,3 +19,5 @@ export const CHAIN_CURRENCIES: { [key in NetworkId]: string } = {
 	'pisco-1': 'luna',
 	'phoenix-1': 'luna',
 }
+
+export const BLOCKS_PER_DAY = 12758

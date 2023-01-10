@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { withForwardRef } from 'hoc'
 import { noop } from 'lodash'
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 import {
 	Button as ThemeUIButton,
 	ThemeUIStyleObject,
@@ -33,7 +33,7 @@ export interface ButtonProps {
 	endIcon?: React.ReactNode
 
 	children: React.ReactNode
-	onClick?: (e: any) => void
+	onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
 const StyledButton = styled(ThemeUIButton, {

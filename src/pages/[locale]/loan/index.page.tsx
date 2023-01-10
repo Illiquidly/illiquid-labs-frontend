@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
 import React, { useState } from 'react'
 import { Text } from 'theme-ui'
@@ -27,6 +26,7 @@ import {
 	StepsWrapper,
 	LoanBackgroundBlobContainer,
 	LoanBackgroundLogoContainer,
+	ConfirmListing,
 } from 'components/loan'
 
 import { CREATE_LOAN_LISTING_FORM_STEPS } from 'constants/steps'
@@ -46,6 +46,8 @@ import {
 	SelectNFTStepSchema,
 } from 'constants/validation-schemas/loan'
 import { LoanDetails } from 'components/loan/LoanDetails'
+import { LoansContract } from 'services/blockchain'
+import { LoansService } from 'services/api/loansService'
 
 const getStaticProps = makeStaticProps(['common', 'loan'])
 const getStaticPaths = makeStaticPaths()
@@ -59,7 +61,8 @@ export default function Loan() {
 		t('loan:steps', {
 			returnObjects: true,
 		})
-	const [step, { goToNextStep, goToPrevStep }] = useStep(4)
+	const [step, { goToNextStep, goToPrevStep, canGoToNextStep, setStep }] =
+		useStep(3)
 	const [steps] = useState([
 		{
 			id: CREATE_LOAN_LISTING_FORM_STEPS.SELECT_NFTS,
@@ -94,17 +97,32 @@ export default function Loan() {
 		},
 	})
 
-	const onSubmit: SubmitHandler<LoanFormStepsProps> = async values => {
+	const onSubmit: SubmitHandler<LoanFormStepsProps> = async ({
+		coverNFT,
+		selectedNFTs,
+		loanPeriod,
+		interestRate,
+		tokenAmount,
+		comment,
+	}) => {
 		const data: {
 			action: string
 			loanId: string
+			borrower: string
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: Promise.resolve(null),
+			transactionAction: LoansContract.depositCollaterals(
+				selectedNFTs,
+				loanPeriod,
+				interestRate,
+				tokenAmount,
+				coverNFT,
+				comment
+			),
 			closeOnFinish: true,
 		})
 
 		if (data) {
-			const { loanId, txTerraFinderUrl } = data
+			const { loanId, txTerraFinderUrl, borrower } = data
 
 			const origin =
 				typeof window !== 'undefined' && window.location.origin
@@ -112,15 +130,13 @@ export default function Loan() {
 					: ''
 			formMethods.setValue(
 				'loanDetailsUrl',
-				`${origin}${ROUTES.LOAN_LISTING_DETAILS}?loanId=${loanId}`
+				`${origin}${ROUTES.LOAN_LISTING_DETAILS}?loanId=${loanId}&borrower=${borrower}`
 			)
 			formMethods.setValue('terraFinderUrl', txTerraFinderUrl)
 			formMethods.setValue('isSuccessScreen', true)
 
-			// TODO: implement
-			console.warn(wallet.network.name, values)
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
-			// await LoanService.getLoan(wallet.network.name, loanId)
+			await LoansService.getLoan(wallet.network.name, loanId, borrower)
 		}
 	}
 
@@ -169,11 +185,19 @@ export default function Loan() {
 								{step === CREATE_LOAN_LISTING_FORM_STEPS.LOAN_DETAILS && (
 									<LoanDetails goBackStep={goToPrevStep} goNextStep={goToNextStep} />
 								)}
+
+								{/* STEP 3 */}
+								{step === CREATE_LOAN_LISTING_FORM_STEPS.CONFIRM_LISTING && (
+									<ConfirmListing
+										canGoToNextStep={canGoToNextStep}
+										goBackStep={goToPrevStep}
+										setStep={setStep}
+									/>
+								)}
 							</BodyContainer>
 						</form>
 					</FormProvider>
 				</Container>
-				<DevTool control={formMethods.control} />
 			</LayoutContainer>
 		</Page>
 	)

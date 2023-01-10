@@ -7,7 +7,6 @@ export const SelectNFTStepSchema = yup.object().shape({
 export const LoanDetailsStepSchema = yup.object().shape({
 	tokenAmount: yup
 		.number()
-		.nullable()
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
@@ -17,20 +16,23 @@ export const LoanDetailsStepSchema = yup.object().shape({
 	tokenName: yup.string(),
 	interestRate: yup
 		.number()
-		.nullable()
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
+		.max(100, 'loan-form-steps-interest-rate-maximum')
 		.typeError('loan-form-steps-interest-rate-must-be-number')
 		.positive('loan-form-steps-interest-rate-must-be-positive'),
 
 	loanPeriod: yup
 		.number()
-		.nullable()
 		.transform((value: string, originalValue: string) =>
 			originalValue.trim() === '' ? null : value
 		)
-		// .min(2, 'loan-form-steps-loan-period-minimum')
+		.test(
+			'minimumReached',
+			'loan-form-steps-loan-period-minimum',
+			value => +(value ?? 0) >= 2
+		)
 		.typeError('loan-form-steps-loan-period-must-be-number')
 		.positive('loan-form-steps-loan-period-must-be-positive'),
 })

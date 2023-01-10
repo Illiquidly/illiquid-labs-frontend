@@ -38,6 +38,7 @@ export const LoanDetails = ({ goNextStep, goBackStep }: LoanDetailsProps) => {
 					fieldError={
 						errors.tokenAmount && t(`common:errors.${errors.tokenAmount.message}`)
 					}
+					type='number'
 					error={!!errors.tokenAmount}
 					placeholder={t('loan:loan-details.tokens-placeholder', {
 						token: getValues('tokenName'),
@@ -54,6 +55,7 @@ export const LoanDetails = ({ goNextStep, goBackStep }: LoanDetailsProps) => {
 							errors.interestRate &&
 							t(`common:errors.${errors?.interestRate?.message}`)
 						}
+						type='number'
 						iconRight={<div>%</div>}
 						error={!!errors.interestRate}
 						placeholder={t('loan:loan-details.interest-rate-placeholder')}
@@ -63,6 +65,7 @@ export const LoanDetails = ({ goNextStep, goBackStep }: LoanDetailsProps) => {
 						label={t('loan:loan-details.loan-period-label')}
 						id='loanPeriod'
 						{...register('loanPeriod')}
+						type='number'
 						fieldError={
 							errors.loanPeriod && t(`common:errors.${errors?.loanPeriod?.message}`)
 						}

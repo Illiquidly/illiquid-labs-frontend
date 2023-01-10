@@ -23,5 +23,13 @@
 		"interest-rate-placeholder": "Enter interest rate",
 		"loan-period-label": "Load period",
 		"loan-period-placeholder": "Enter loan period in days"
+	},
+	"confirm-listing": {
+		"title-message": "Let’s double check everything looks good",
+		"instruction": "Review the details below and make any adjustments",
+		"what-are-you-offering": "Collateral you’re offering",
+		"loan-details": "Loan Details",
+		"comments": "Comments",
+		"day-loan": "{{day}} day loan"
 	}
 }
