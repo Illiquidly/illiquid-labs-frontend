@@ -75,6 +75,18 @@
 		"feel-free-to-add-amount-of-tickets": "Feel free to add amount of tickets you want",
 		"ticket-number": "Amount of tickets",
 		"enter-amount": "Enter amount",
-		"buy-raffle-ticket": "Buy Raffle Ticket"
+		"preview-purchase": "Preview Purchase"
+	},
+	"buy-raffle-review-modal": {
+		"title": "Raffle Preview",
+		"amount-of-tickets": "Amount of Tickets",
+		"tickets_zero": "{{count}} Tickets",
+		"tickets_one": "{{count}} Ticket",
+		"tickets_other": "{{count}} Tickets",
+		"raffle-start-date": "Raffle Start Date",
+		"ticket-cost": "Ticket Cost",
+		"raffle-ends-in": "Ticket End in",
+		"buy-ticket": "Buy Ticket",
+		"total-cost": "Total Cost"
 	}
 }

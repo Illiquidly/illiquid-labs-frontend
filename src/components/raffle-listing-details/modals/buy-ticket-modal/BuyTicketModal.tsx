@@ -123,7 +123,7 @@ const BuyTicketModal = NiceModal.create(() => {
 											fullWidth
 											type='submit'
 										>
-											{t('raffle-listings:buy-ticket-modal.buy-raffle-ticket')}
+											{t('raffle-listings:buy-ticket-modal.preview-purchase')}
 										</Button>
 									</ModalActions>
 								</ModalBody>

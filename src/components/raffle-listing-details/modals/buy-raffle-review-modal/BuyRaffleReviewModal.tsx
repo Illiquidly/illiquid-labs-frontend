@@ -1,11 +1,11 @@
 import React from 'react'
-import { Box, Flex, IconButton } from 'theme-ui'
+import { Flex, IconButton } from 'theme-ui'
 import { useTranslation } from 'next-i18next'
 
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { useTheme } from '@emotion/react'
 
-import { ModalCloseIcon, ModalSuccessCircleIcon } from 'assets/icons/modal'
+import { ModalCloseIcon } from 'assets/icons/modal'
 
 import { Button, Modal } from 'components/ui'
 
@@ -17,8 +17,6 @@ import {
 	ModalContainer,
 	ModalHeader,
 	ModalContent,
-	Title,
-	Subtitle,
 	DescriptionCard,
 	DescriptionCardLabel,
 	DescriptionCardContent,
@@ -60,33 +58,7 @@ const BuyRaffleReviewModal = NiceModal.create(
 								</IconButton>
 							</ModalHeader>
 							<ModalBody>
-								<Flex sx={{ gap: '8px' }}>
-									<Box sx={{ width: '32px', height: '32px' }}>
-										<ModalSuccessCircleIcon />
-									</Box>
-									<Box>
-										<Title>
-											{t('raffle-listings:buy-raffle-review-modal.removal-successful')}
-										</Title>
-										<Subtitle>
-											{t(
-												'raffle-listings:buy-raffle-review-modal.create-listing-suggestion'
-											)}
-										</Subtitle>
-									</Box>
-								</Flex>
 								<Flex sx={{ flexDirection: 'column', gap: '12px' }}>
-									<DescriptionCard>
-										<DescriptionCardLabel>
-											{t('raffle-listings:buy-raffle-review-modal.amount-of-tickets')}
-										</DescriptionCardLabel>
-										<DescriptionCardContent>
-											{t('raffle-listings:buy-raffle-review-modal.tickets', {
-												count: ticketNumber,
-											})}
-										</DescriptionCardContent>
-									</DescriptionCard>
-
 									<DescriptionCard>
 										<DescriptionCardLabel>
 											{t('raffle-listings:buy-raffle-review-modal.raffle-start-date')}
@@ -95,6 +67,24 @@ const BuyRaffleReviewModal = NiceModal.create(
 											{moment(
 												raffle?.raffleInfo?.raffleOptions?.raffleStartDate
 											).toLocaleString()}
+										</DescriptionCardContent>
+									</DescriptionCard>
+
+									<DescriptionCard>
+										<DescriptionCardLabel>
+											{t('raffle-listings:buy-raffle-review-modal.raffle-ends-in')}
+										</DescriptionCardLabel>
+										<DescriptionCardContent>{endsIn.fromNow()}</DescriptionCardContent>
+									</DescriptionCard>
+
+									<DescriptionCard>
+										<DescriptionCardLabel>
+											{t('raffle-listings:buy-raffle-review-modal.amount-of-tickets')}
+										</DescriptionCardLabel>
+										<DescriptionCardContent>
+											{t('raffle-listings:buy-raffle-review-modal.tickets', {
+												count: ticketNumber,
+											})}
 										</DescriptionCardContent>
 									</DescriptionCard>
 
@@ -116,22 +106,32 @@ const BuyRaffleReviewModal = NiceModal.create(
 
 									<DescriptionCard>
 										<DescriptionCardLabel>
-											{t('raffle-listings:buy-raffle-review-modal.raffle-ends-in')}
+											{t('raffle-listings:buy-raffle-review-modal.total-cost')}
 										</DescriptionCardLabel>
-										<DescriptionCardContent>{endsIn.fromNow()}</DescriptionCardContent>
+										<DescriptionCardContent>
+											{`${
+												Number(
+													raffle?.raffleInfo?.raffleTicketPrice?.coin?.amount ??
+														raffle?.raffleInfo?.raffleTicketPrice?.cw20Coin?.amount ??
+														0
+												) * ticketNumber
+											} ${
+												raffle?.raffleInfo?.raffleTicketPrice?.coin?.currency ??
+												raffle?.raffleInfo?.raffleTicketPrice?.cw20Coin?.currency
+											}`}
+										</DescriptionCardContent>
 									</DescriptionCard>
 								</Flex>
 								<Flex>
 									<Button
 										variant='gradient'
 										fullWidth
-										disabled
 										onClick={() => {
 											modal.resolve()
 											modal.remove()
 										}}
 									>
-										{t('raffle-listings:buy-raffle-review-modal.review-raffle')}
+										{t('raffle-listings:buy-raffle-review-modal.buy-ticket')}
 									</Button>
 								</Flex>
 							</ModalBody>

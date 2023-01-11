@@ -74,6 +74,7 @@ import BuyTicketModal, {
 } from 'components/raffle-listing-details/modals/buy-ticket-modal/BuyTicketModal'
 import useNameService from 'hooks/useNameService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import BuyRaffleReviewModal from 'components/raffle-listing-details/modals/buy-raffle-review-modal/BuyRaffleReviewModal'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -220,6 +221,11 @@ export default function ListingDetails() {
 		)
 
 		if (result) {
+			await NiceModal.show(BuyRaffleReviewModal, {
+				raffle,
+				ticketNumber: +result.ticketNumber,
+			})
+
 			const { coin, cw20Coin } = raffleInfo?.raffleTicketPrice ?? {}
 
 			await NiceModal.show(TxBroadcastingModal, {
@@ -232,7 +238,7 @@ export default function ListingDetails() {
 				closeOnFinish: true,
 			})
 
-			refetch()
+			await refetch()
 		}
 	}
 
