@@ -66,7 +66,7 @@ const BuyRaffleReviewModal = NiceModal.create(
 										<DescriptionCardContent>
 											{moment(
 												raffle?.raffleInfo?.raffleOptions?.raffleStartDate
-											).toLocaleString()}
+											).fromNow()}
 										</DescriptionCardContent>
 									</DescriptionCard>
 

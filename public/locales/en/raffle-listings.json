@@ -83,7 +83,7 @@
 		"tickets_zero": "{{count}} Tickets",
 		"tickets_one": "{{count}} Ticket",
 		"tickets_other": "{{count}} Tickets",
-		"raffle-start-date": "Raffle Start Date",
+		"raffle-start-date": "Raffle Started",
 		"ticket-cost": "Ticket Cost",
 		"raffle-ends-in": "Ticket End in",
 		"buy-ticket": "Buy Ticket",
