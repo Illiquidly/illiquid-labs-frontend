@@ -40,6 +40,10 @@ const BuyRaffleReviewModal = NiceModal.create(
 			'seconds'
 		)
 
+		const raffleStartDate = moment(
+			raffle?.raffleInfo?.raffleOptions?.raffleStartDate
+		)
+
 		return (
 			<Modal isOverHeader isOpen={modal.visible} onCloseModal={modal.remove}>
 				<ModalContainer>
@@ -64,9 +68,9 @@ const BuyRaffleReviewModal = NiceModal.create(
 											{t('raffle-listings:buy-raffle-review-modal.raffle-start-date')}
 										</DescriptionCardLabel>
 										<DescriptionCardContent>
-											{moment(
-												raffle?.raffleInfo?.raffleOptions?.raffleStartDate
-											).fromNow()}
+											{`${raffleStartDate.format(
+												'MMMM Do YYYY'
+											)} (${raffleStartDate.fromNow()})`}
 										</DescriptionCardContent>
 									</DescriptionCard>
 
@@ -74,7 +78,9 @@ const BuyRaffleReviewModal = NiceModal.create(
 										<DescriptionCardLabel>
 											{t('raffle-listings:buy-raffle-review-modal.raffle-ends-in')}
 										</DescriptionCardLabel>
-										<DescriptionCardContent>{endsIn.fromNow()}</DescriptionCardContent>
+										<DescriptionCardContent>{`${endsIn.format(
+											'MMMM Do YYYY'
+										)} (${endsIn.fromNow()})`}</DescriptionCardContent>
 									</DescriptionCard>
 
 									<DescriptionCard>
