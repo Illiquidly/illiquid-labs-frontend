@@ -1,11 +1,6 @@
 {
 	"activity": {
-		"title": "Activity",
-		"tabs": {
-			"outgoing-offers": "Outgoing Offers",
-			"incoming-offers": "Incoming Offers",
-			"raffles": "Raffles"
-		}
+		"title": "Activity"
 	},
 	"feature": "Feature",
 	"features": {
@@ -28,6 +23,10 @@
 		"make-offer-to-appear": "Make an offer on a raffle for it to appear here.",
 		"explore-listings": "Explore Raffle Listings",
 		"statuses": ["Started", "Closed", "Finished", "Cancelled", "Claimed"],
+		"activity": {
+			"outgoing": "Participating Raffles",
+			"incoming": "My Raffles"
+		},
 		"filters": {
 			"search-placeholder": "Search",
 			"status-label": "Status",
@@ -47,6 +46,10 @@
 		"no-offers": "You don't have any offers yet.",
 		"make-offer-to-appear": "Make an offer on a trade for it to appear here.",
 		"explore-listings": "Explore Trade Listings",
+		"activity": {
+			"outgoing": "Outgoing Offers",
+			"incoming": "Incoming Offers"
+		},
 		"statuses": [
 			"Active",
 			"Inactive",

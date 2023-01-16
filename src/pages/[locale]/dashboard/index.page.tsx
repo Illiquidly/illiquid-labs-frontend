@@ -95,10 +95,10 @@ export default function Dashboard() {
 							name='activityType'
 						>
 							<Tab value={ACTIVITY_TYPE.incomingActivity}>
-								{t('dashboard:activity.tabs.incoming-offers')}
+								{t(`dashboard:${feature}s.activity.incoming`)}
 							</Tab>
 							<Tab value={ACTIVITY_TYPE.outgoingActivity}>
-								{t('dashboard:activity.tabs.outgoing-offers')}
+								{t(`dashboard:${feature}s.activity.outgoing`)}
 							</Tab>
 						</Tabs>
 					</Flex>
