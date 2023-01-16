@@ -53,6 +53,7 @@ export const WatchListAssetImageContainer = styled(Flex)``
 WatchListAssetImageContainer.defaultProps = {
 	sx: {
 		width: ['124px', '164px', '280px'],
+		height: '100%',
 		mr: ['24px', '48px', '64px'],
 	},
 }
