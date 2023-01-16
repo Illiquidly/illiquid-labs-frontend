@@ -5,6 +5,7 @@ export const WatchListCard = styled(Flex)`
 	flex: 1;
 	background: ${props => props.theme.colors.dark400};
 	border-radius: 20px;
+	justify-content: space-between;
 `
 
 export const Title = styled(Box)`
@@ -44,7 +45,14 @@ WatchListEmptyContainer.defaultProps = {
 		mx: ['16px', '32px', '82px'],
 		flex: 1,
 		maxWidth: ['unset', '517px'],
-		flexDirection: 'column',
-		gap: ['12px'],
+	},
+}
+
+export const WatchListAssetImageContainer = styled(Flex)``
+
+WatchListAssetImageContainer.defaultProps = {
+	sx: {
+		width: ['124px', '164px', '280px'],
+		mr: ['24px', '48px', '64px'],
 	},
 }

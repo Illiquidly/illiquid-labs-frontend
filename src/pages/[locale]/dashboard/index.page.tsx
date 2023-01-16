@@ -7,7 +7,8 @@ import { makeStaticPaths, makeStaticProps } from 'lib'
 import {
 	Title,
 	SectionTitle,
-	WatchList,
+	WatchListTrade,
+	WatchListRaffles,
 	OutgoingRaffleOffers,
 	IncomingRaffleOffers,
 } from 'components/dashboard'
@@ -72,7 +73,12 @@ export default function Dashboard() {
 						</Tabs>
 					</Flex>
 					<Flex sx={{ mb: ['24px', '24px'] }}>
-						<WatchList />
+						<If condition={feature === FEATURE_TYPE.trade}>
+							<WatchListTrade />
+						</If>
+						<If condition={feature === FEATURE_TYPE.raffle}>
+							<WatchListRaffles />
+						</If>
 					</Flex>
 
 					<Title>{t('dashboard:activity.title')}</Title>
