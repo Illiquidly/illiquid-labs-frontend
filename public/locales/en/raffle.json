@@ -27,7 +27,6 @@
 
 		"terms": [
 			"When a raffle is created, the NFT you have chosen will be transferred from your wallet into an escrow contract.",
-			"An up-front fee (payable in $LUNA) will be taken in proportion to the number of tickets you are selling. This will be auto refunded if there is a winner.",
 			"Raffles will proceed regardless if all tickets are sold or not.",
 			"The raffle should run for a minimum of 12 hours.",
 			"There is a 5% commission fee from the ticket sales.",
