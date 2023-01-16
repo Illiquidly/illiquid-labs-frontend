@@ -154,6 +154,7 @@ const EditModal = NiceModal.create(
 												<TimePickerField
 													id='endTime'
 													label={t('raffle-listings:edit-modal.end-time-label')}
+													help={t('raffle-listings:edit-modal.end-time-help')}
 													value={getValues('endTime')}
 													onChange={([date]) =>
 														setValue('endTime', date, {

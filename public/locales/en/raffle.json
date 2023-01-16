@@ -12,9 +12,10 @@
 	"raffle-details": {
 		"question": "These items will be included in the raffle.",
 		"instructions": "Define the details of your raffle",
-		"tokens-placeholder": "Enter amount for {{token}}",
+		"tokens-placeholder": "Enter amount of {{token}} per ticket",
 		"end-date-label": "End date",
 		"end-time-label": "End time",
+		"end-time-help": "Time in local timezone",
 		"enter-time": "Enter time",
 		"enter-date": "DD/MM/YY",
 		"ticket-supply-label": "Ticket supply",

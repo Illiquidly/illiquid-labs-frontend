@@ -71,6 +71,7 @@ export const RaffleDetails = ({ goNextStep, goBackStep }: Props) => {
 
 							<TimePickerField
 								label={t('raffle:raffle-details.end-time-label')}
+								help={t('raffle:raffle-details.end-time-help')}
 								id='endTime'
 								value={getValues('endTime')}
 								onChange={([date]) =>
