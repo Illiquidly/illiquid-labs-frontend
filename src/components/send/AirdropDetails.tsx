@@ -1,5 +1,3 @@
-import AirdropDetailsUploadCSV from 'assets/images/TradeDetailsOpenToOffers'
-import AirdropDetailsNFTParticipants from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
 	FileDropZone,
 	LinkButton,
@@ -25,6 +23,8 @@ import { NFT } from 'services/api/walletNFTsService'
 import { isValidTerraAddress } from 'utils/blockchain/isValidAddress'
 import pMap from 'p-map'
 import * as ROUTES from 'constants/routes'
+import AirdropFolderImg from 'assets/images/AirdropFolderImg'
+import AirdropRecipientsImage from 'assets/images/AirdropRecipientsImage'
 import {
 	ContentCard,
 	ContentCardSubtitle,
@@ -69,13 +69,13 @@ const AirdropDetailsSelector = () => {
 					<RadioCardSelector
 						value={AIRDROP_TYPE.CSV}
 						title={t('send:airdrop-details.option-1')}
-						Image={<AirdropDetailsUploadCSV />}
+						Image={<AirdropFolderImg />}
 						{...register('airdropType')}
 					/>
 					<RadioCardSelector
 						value={AIRDROP_TYPE.PARTICIPANTS}
 						title={t('send:airdrop-details.option-2')}
-						Image={<AirdropDetailsNFTParticipants />}
+						Image={<AirdropRecipientsImage />}
 						{...register('airdropType')}
 					/>
 				</If.Else>
