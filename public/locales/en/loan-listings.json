@@ -1,0 +1,26 @@
+{
+	"item-not-available": "This item is no longer available",
+	"back-to-listings": "Back to Listings",
+	"back-to-listing": "Back to Listing",
+	"borrow": "Borrow",
+	"time-frame": "Timeframe",
+	"earn": "Earn",
+	"apr": "APR {{apr}}%",
+	"days_zero": "{{count}} days",
+	"days_one": "{{count}} day",
+	"days_other": "{{count}} days",
+	"filters": {
+		"search-placeholder": "Search",
+		"status-label": "Status",
+		"collections-label": "Collections",
+		"nft-collections-search-label": "NFT Collection",
+		"my-favorites-label": "My favorites",
+		"search-collections-placeholder": "Search collections...",
+		"search-status-placeholder": "Search status..."
+	},
+	"statuses": ["Published", "Started", "Defaulted", "Ended", "Withdrawn"],
+	"tabs": {
+		"all-listings": "All Loans",
+		"my-listings": "My Loans"
+	}
+}

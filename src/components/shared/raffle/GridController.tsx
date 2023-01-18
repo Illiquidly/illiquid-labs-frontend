@@ -113,9 +113,9 @@ function GridController({
 		>
 			{raffles.map(
 				({
+					id,
 					raffleId,
 					participants,
-
 					raffleInfo: {
 						raffleTicketPrice,
 						raffleOptions,
@@ -124,10 +124,8 @@ function GridController({
 					},
 				}) => {
 					const liked = Boolean(
-						(favoriteRaffles ?? []).find(
-							favoriteRaffle =>
-								favoriteRaffle.raffles.some(raffle => raffle.raffleId === raffleId) &&
-								favoriteRaffle.user === myAddress
+						(favoriteRaffles ?? []).find(favoriteRaffle =>
+							favoriteRaffle.raffles.some(raffle => raffle.id === id)
 						)
 					)
 
