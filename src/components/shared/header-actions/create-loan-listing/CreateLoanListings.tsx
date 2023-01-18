@@ -13,7 +13,7 @@ export default function CreateLoanListing() {
 	const { t } = useTranslation(['common'])
 	const wallet = useWallet()
 	return (
-		<Flex sx={{ gap: ['6px', '8px'], height: '40px' }}>
+		<Flex sx={{ gap: ['6px', '8px'] }}>
 			<Profile />
 			<NotificationsBell />
 			{wallet.status === WalletStatus.WALLET_CONNECTED && (
