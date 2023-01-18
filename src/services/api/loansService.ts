@@ -2,6 +2,7 @@ import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { APIGetAllResponse, APIPagination } from 'types'
 import { keysToCamel } from 'utils/js/keysToCamel'
+import { LoanOffer } from './loansOffersService'
 import { NFT } from './walletNFTsService'
 
 // TODO: move this to as const type, convert name to camelCase...
@@ -13,14 +14,6 @@ export enum LOAN_STATE {
 	Withdrawn = 'assets_withdrawn',
 }
 
-// TODO: move this to as const type, convert name to camelCase...
-export enum OFFER_STATE {
-	Published = 'published',
-	Accepted = 'accepted',
-	Refused = 'refused',
-	Cancelled = 'cancelled',
-}
-
 type Principle = {
 	denom: string
 	amount: string
@@ -30,26 +23,6 @@ type Terms = {
 	principle: Principle
 	interest: string
 	durationInBlocks: number
-}
-
-type DepositedFunds = {
-	denom: string
-	amount: string
-}
-
-type Offer = {
-	id: number
-	network: string
-	globalOfferId: string
-	borrower: string
-	loanId: number
-	lender: string
-	loan: string
-	terms: Terms
-	state: OFFER_STATE
-	listDate: string
-	depositedFunds: DepositedFunds
-	comment: string
 }
 
 type LoanFavorites = {
@@ -65,7 +38,7 @@ export type Loan = {
 	borrower: string
 	loanId: number
 	loanFavorites: LoanFavorites[]
-	offers: Offer[]
+	offers: LoanOffer[]
 	loanInfo: {
 		associatedAssets: [
 			{
