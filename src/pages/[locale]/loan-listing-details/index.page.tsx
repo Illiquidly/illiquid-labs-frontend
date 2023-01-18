@@ -17,7 +17,7 @@ export default function LoanListingDetails() {
 		<Page title={t('common:title')}>
 			<LayoutContainer>
 				<Flex sx={{ py: 48 }}>
-					<div>TODO</div>
+					<div>Coming soon!</div>
 				</Flex>
 			</LayoutContainer>
 		</Page>

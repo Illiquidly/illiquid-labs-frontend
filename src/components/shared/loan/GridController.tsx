@@ -2,19 +2,22 @@ import { Loader } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionGetResponse } from 'services/api/supportedCollectionsService'
-import { Trade } from 'services/api/tradesService'
-import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import {
-	FavoriteTradeResponse,
-	FavoriteTradesService,
-} from 'services/api/favoriteTradesService'
+
 import useAddress from 'hooks/useAddress'
 import { useWallet } from '@terra-money/use-wallet'
-import { FAVORITES_TRADES } from 'constants/useQueryKeys'
 import { NetworkName } from 'types'
+
+import {
+	FavoriteLoanResponse,
+	FavoriteLoansService,
+} from 'services/api/favoriteLoansService'
+import { Loan } from 'services/api/loansService'
+import { FAVORITES_LOANS } from 'constants/useQueryKeys'
+import { NFT } from 'services/api/walletNFTsService'
+import { BLOCKS_PER_DAY } from 'constants/core'
 import { ListingCard } from './listing-card'
 
 export enum GRID_TYPE {
@@ -23,11 +26,11 @@ export enum GRID_TYPE {
 }
 
 interface GridControllerProps {
-	trades: Trade[]
+	loans: Loan[]
 	gridType?: GRID_TYPE
 	verifiedCollections?: SupportedCollectionGetResponse[]
 	isLoading?: boolean
-	favoriteTrades?: FavoriteTradeResponse[]
+	favoriteLoans?: FavoriteLoanResponse[]
 }
 
 const stylesByGrid = {
@@ -52,11 +55,11 @@ const stylesByGrid = {
 }
 
 function GridController({
-	trades,
+	loans,
 	gridType = GRID_TYPE.SMALL,
 	verifiedCollections = [],
 	isLoading,
-	favoriteTrades,
+	favoriteLoans,
 }: GridControllerProps) {
 	const { t } = useTranslation()
 
@@ -66,23 +69,23 @@ function GridController({
 
 	const queryClient = useQueryClient()
 
-	const updateFavoriteTradeState = data =>
+	const updateFavoriteLoanState = (data: FavoriteLoanResponse) =>
 		queryClient.setQueryData(
-			[FAVORITES_TRADES, wallet.network, myAddress],
+			[FAVORITES_LOANS, wallet.network, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
-	const { mutate: addFavoriteTrade } = useMutation(
-		FavoriteTradesService.addFavoriteTrade,
+	const { mutate: addFavoriteLoan } = useMutation(
+		FavoriteLoansService.addFavoriteLoan,
 		{
-			onSuccess: updateFavoriteTradeState,
+			onSuccess: updateFavoriteLoanState,
 		}
 	)
 
-	const { mutate: removeFavoriteTrade } = useMutation(
-		FavoriteTradesService.removeFavoriteTrade,
+	const { mutate: removeFavoriteLoan } = useMutation(
+		FavoriteLoansService.removeFavoriteLoan,
 		{
-			onSuccess: updateFavoriteTradeState,
+			onSuccess: updateFavoriteLoanState,
 		}
 	)
 
@@ -109,56 +112,53 @@ function GridController({
 				...stylesByGrid[gridType],
 			}}
 		>
-			{trades.map(
+			{loans.map(
 				({
 					id,
-					tradeId,
-					tradeInfo: { additionalInfo, associatedAssets, whitelistedUsers },
+					loanId,
+					borrower,
+					loanInfo: { terms, loanPreview, associatedAssets },
 				}) => {
 					const liked = Boolean(
-						(favoriteTrades ?? []).find(favoriteTrade =>
-							favoriteTrade.trades.some(trade => trade.id === id)
+						(favoriteLoans ?? []).find(favoriteLoan =>
+							favoriteLoan.loans.some(loan => loan.id === id)
 						)
 					)
 
 					const toggleLike = () =>
-						({ addFavoriteTrade, removeFavoriteTrade }[
-							liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
+						({ addFavoriteLoan, removeFavoriteLoan }[
+							liked ? 'removeFavoriteLoan' : 'addFavoriteLoan'
 						]({
 							network: wallet.network.name as NetworkName,
-							tradeId: [Number(tradeId)],
+							loanId: [Number(loanId)],
+							borrower,
 							user: myAddress,
 						}))
 
 					return (
-						<Box key={tradeId}>
+						<Box key={loanId}>
 							<ListingCard
 								onLike={toggleLike}
-								unavailableText={t('trade-listings:listing-unavailable')}
-								description={additionalInfo?.tradePreview?.cw721Coin?.description ?? ''}
-								attributes={additionalInfo?.tradePreview?.cw721Coin?.attributes ?? []}
-								tokenId={additionalInfo?.tradePreview?.cw721Coin?.tokenId ?? ''}
-								collectionAddress={
-									additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ?? ''
-								}
-								href={`${ROUTES.TRADE_LISTING_DETAILS}?tradeId=${tradeId}`}
+								description={loanPreview?.cw721Coin?.description ?? ''}
+								attributes={loanPreview?.cw721Coin?.attributes ?? []}
+								tokenId={loanPreview?.cw721Coin?.tokenId ?? ''}
+								collectionAddress={loanPreview?.cw721Coin?.collectionAddress ?? ''}
+								href={`${ROUTES.LOAN_LISTING_DETAILS}?loanId=${loanId}&borrower=${borrower}`}
 								nfts={(associatedAssets || [])
 									.filter(nft => nft.cw721Coin)
 									.map(({ cw721Coin }) => cw721Coin as NFT)}
-								lookingFor={additionalInfo?.lookingFor ?? []}
-								imageUrl={additionalInfo?.tradePreview?.cw721Coin?.imageUrl ?? []}
-								name={additionalInfo?.tradePreview?.cw721Coin?.name ?? ''}
+								imageUrl={loanPreview?.cw721Coin?.imageUrl ?? []}
+								name={loanPreview?.cw721Coin?.name ?? ''}
 								liked={liked}
+								apr={Number(terms?.interest ?? 0)}
+								borrowAmount={Number(terms?.principle.amount ?? 0)}
+								timeFrame={Math.floor(Number(terms?.durationInBlocks / BLOCKS_PER_DAY))}
 								verified={verifiedCollections.some(
 									({ collectionAddress }) =>
-										additionalInfo?.tradePreview?.cw721Coin?.collectionAddress ===
-										collectionAddress
+										loanPreview?.cw721Coin?.collectionAddress === collectionAddress
 								)}
-								isPrivate={(whitelistedUsers || []).length > 0}
-								collectionName={
-									additionalInfo?.tradePreview?.cw721Coin?.collectionName || ''
-								}
-								hasLookingFor={gridType !== GRID_TYPE.BIG}
+								collectionName={loanPreview?.cw721Coin?.collectionName || ''}
+								isSmall={gridType === GRID_TYPE.BIG}
 							/>
 						</Box>
 					)
@@ -172,7 +172,7 @@ GridController.defaultProps = {
 	gridType: GRID_TYPE.SMALL,
 	verifiedCollections: [],
 	isLoading: false,
-	favoriteTrades: [],
+	favoriteLoans: [],
 }
 
 export default GridController

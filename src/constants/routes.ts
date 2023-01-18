@@ -17,7 +17,7 @@ export const RAFFLE_CREATE_LISTING = '/raffle'
 export const ANALYTICS = '/analytics'
 export const LOAN_LISTINGS = '/loan-listings'
 export const LOAN_LISTING_DETAILS = '/loan-listing-details'
-export const LOAN_CREATE_LISTING = '/loans'
+export const LOAN_CREATE_LISTING = '/loan'
 export const DASHBOARD = '/dashboard'
 export const DASHBOARD_NOTIFICATIONS = '/dashboard-notifications'
 

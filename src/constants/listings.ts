@@ -9,3 +9,8 @@ export enum RAFFLE_LISTINGS_TYPE {
 	MY_LISTINGS = '1',
 	PAST_LISTINGS = '2',
 }
+
+export enum LOAN_LISTINGS_TYPE {
+	ALL_LISTINGS = '0',
+	MY_LISTINGS = '1',
+}

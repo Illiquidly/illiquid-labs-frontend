@@ -1,7 +1,6 @@
 import client from 'axios'
-
-export const baseURL = 'https://api.illiquidlabs.io/'
+import { API_URL } from 'constants/core'
 
 export const axios = client.create({
-	baseURL,
+	baseURL: API_URL,
 })
