@@ -13,7 +13,7 @@ export const contractAddresses: {
 } = {
 	'phoenix-1': {
 		loan: '',
-		raffle: '',
+		raffle: 'terra1655tux08qla5rsl7w55xwx9nu4km9wuguy90ghqjxmcuh0c3zksq6jae9v',
 		p2pTrade: 'terra1vvwcxnrhzvwjw7c0t7ks3pe0fvj82rcyrmpsejj22csg0rawpc9qs9fyv4',
 		feeCollector:
 			'terra14j02llvrly27dzw9zqumfql9uw5ea3kl0f0wujp42p8uq7g8w67srcyfdw',
