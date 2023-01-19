@@ -22,5 +22,13 @@
 	"tabs": {
 		"all-listings": "All Loans",
 		"my-listings": "My Loans"
+	},
+	"loan-offers": {
+		"title": "Loan Counter Offers",
+		"table": {
+			"columns": ["User", "Tokens", "Status", "Date"],
+			"approve": "Approve",
+			"deny": "Deny"
+		}
 	}
 }

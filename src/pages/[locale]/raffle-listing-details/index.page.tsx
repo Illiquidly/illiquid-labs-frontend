@@ -194,11 +194,8 @@ export default function ListingDetails() {
 	const isMyRaffle = raffleInfo?.owner === myAddress
 
 	const liked = Boolean(
-		(favoriteRaffles ?? []).find(
-			favoriteRaffle =>
-				favoriteRaffle.raffles.some(
-					fRaffle => fRaffle.raffleId === Number(raffleId)
-				) && favoriteRaffle.user === myAddress
+		(favoriteRaffles ?? []).find(favoriteRaffle =>
+			favoriteRaffle.raffles.some(fRaffle => fRaffle.raffleId === Number(raffleId))
 		)
 	)
 

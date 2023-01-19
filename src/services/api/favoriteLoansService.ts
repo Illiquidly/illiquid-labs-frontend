@@ -6,7 +6,7 @@ export type FavoriteLoanRequest = {
 	network: NetworkName
 	user: string
 	loanId: (string | number)[]
-	borrower: string | number
+	borrower: string
 }
 
 export type FavoriteLoanResponse = {
