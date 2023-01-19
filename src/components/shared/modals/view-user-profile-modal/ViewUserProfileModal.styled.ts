@@ -108,14 +108,8 @@ export const ImageContainer = styled.div`
 `
 
 export const Image = styled(Img)`
-	max-width: 100%;
-	max-height: 100%;
-
-	transition: transform 0.2s;
-
-	&:hover {
-		transform: scale(1.02);
-	}
+	min-width: 100%;
+	min-height: 100%;
 `
 
 export const UserTitle = styled.div`
