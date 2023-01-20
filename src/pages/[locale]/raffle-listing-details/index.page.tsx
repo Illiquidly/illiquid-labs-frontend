@@ -166,7 +166,7 @@ export default function ListingDetails() {
 	} | null>(null)
 
 	React.useEffect(() => {
-		if (raffle && !rafflePreview) {
+		if (raffle) {
 			setRafflePreview(raffleOptions?.rafflePreview ?? null)
 		}
 	}, [raffle])
