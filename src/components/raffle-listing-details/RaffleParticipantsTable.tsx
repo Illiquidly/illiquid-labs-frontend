@@ -16,9 +16,11 @@ import React from 'react'
 
 import { Flex } from 'theme-ui'
 
-import { Raffle } from 'services/api/rafflesService'
+import { Raffle, RaffleParticipant } from 'services/api/rafflesService'
 import { ConfettiIcon } from 'assets/icons/mixed'
 import moment from 'moment'
+import { firstBy } from 'thenby'
+import useAddress from 'hooks/useAddress'
 
 const Container = styled(Flex)`
 	flex-direction: column;
@@ -41,6 +43,14 @@ function RaffleParticipantsTable({
 		}
 	)
 
+	const myAddress = useAddress()
+
+	const participants = (raffle?.participants ?? []).sort(
+		firstBy('winner', 'desc')
+			.thenBy((a: RaffleParticipant) => (a.user === myAddress ? -1 : 1))
+			.thenBy('ticketNumber', 'desc')
+	)
+
 	return (
 		<Container>
 			<Table
@@ -57,7 +67,7 @@ function RaffleParticipantsTable({
 					</TableHeadRow>
 				</TableHead>
 				<TableBody>
-					{(raffle?.participants ?? []).map(raffleParticipant => {
+					{participants.map(raffleParticipant => {
 						const isWinner = raffleParticipant?.user === raffle?.raffleInfo?.winner
 
 						return (
