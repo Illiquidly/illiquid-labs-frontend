@@ -22,4 +22,6 @@ export const CHAIN_CURRENCIES: { [key in NetworkId]: string } = {
 
 export const API_URL = 'https://api.illiquidlabs.io/'
 
+export const ASSETS_URL = 'https://assets.terra.money/'
+
 export const BLOCKS_PER_DAY = 12758
