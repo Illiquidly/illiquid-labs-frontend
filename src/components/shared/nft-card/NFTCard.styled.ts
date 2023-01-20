@@ -190,8 +190,8 @@ export const CoverLabel = styled.div<{ isCover?: boolean }>`
 `
 
 export const Image = styled(Img)`
-	max-width: 100%;
-	max-height: 100%;
+	width: 100%;
+	height: 100%;
 	overflow: hidden;
 	position: absolute;
 
