@@ -202,8 +202,7 @@ export const ConfirmListing = ({
 									<Flex sx={{ mr: '2px', alignItems: 'center' }}>
 										<LunaIcon />
 									</Flex>
-									{tokenAmount}
-									{tokenName}
+									{tokenAmount} {tokenName}
 								</Chip>
 								<Chip isViewMode>
 									{interestRate} % {t('common:apr')}
