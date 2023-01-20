@@ -56,6 +56,7 @@ export { getStaticPaths, getStaticProps }
 
 export default function Raffle() {
 	const wallet = useWallet()
+
 	const { t } = useTranslation(['common', 'raffle'])
 	useHeaderActions(<ExitCreateRaffleListing />)
 	const stepLabels: Array<string> = t('raffle:steps', { returnObjects: true })
