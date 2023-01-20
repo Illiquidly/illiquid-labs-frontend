@@ -40,11 +40,16 @@ import { asyncAction } from 'utils/js/asyncAction'
 import { TxBroadcastingModal } from 'components/shared'
 import useAddress from 'hooks/useAddress'
 import { COUNTER_TRADES } from 'constants/useQueryKeys'
-import { LunaIcon } from 'assets/icons/mixed'
+import { AvatarIcon, LunaIcon } from 'assets/icons/mixed'
 import { isNil } from 'lodash'
 import { P2PTradingContract } from 'services/blockchain'
 import { HumanCoin } from 'types'
+import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import useNameService from 'hooks/useNameService'
 import {
+	NameLabel,
+	NameServiceImage,
+	NameServiceImagePlaceholder,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -269,6 +274,10 @@ function CounterOffersTable({
 	const myAddress = useAddress()
 	const isMyTrade = trade?.tradeInfo?.owner === myAddress
 
+	const nameServiceResolutions = useNameService(
+		infiniteData.map(counterTrade => counterTrade?.tradeInfo?.owner ?? '')
+	)
+
 	const viewCounterTrade = async (counterTrade: CounterTrade) => {
 		await NiceModal.show(ViewCounterOfferModal, {
 			counterTrade,
@@ -292,7 +301,7 @@ function CounterOffersTable({
 					</TableHeadRow>
 				</TableHead>
 				<TableBody>
-					{infiniteData.map(counterTrade => {
+					{infiniteData.map((counterTrade, index) => {
 						const isMyCounterTrade = counterTrade?.tradeInfo?.owner === myAddress
 
 						const { id, tradeInfo: counterTradeInfo } = counterTrade
@@ -304,26 +313,35 @@ function CounterOffersTable({
 							.filter(x => x.coin)
 							.map(x => x.coin) as HumanCoin[]
 
+						const profileImage = nameServiceResolutions[index]?.extension?.image
+						const name = nameServiceResolutions[index]?.extension?.name ?? ''
+
 						return (
 							<TableBodyRow key={id} onClick={() => viewCounterTrade(counterTrade)}>
 								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
-									<Flex
-										sx={{
-											maxWidth: '354px',
-											flex: 1,
-											flexDirection: 'column',
-										}}
-									>
-										<OverflowTip>
-											<div>{counterTradeInfo?.owner ?? ''}</div>
-										</OverflowTip>
-										<OverflowTip>
-											<div>
-												{`''${
-													counterTradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
-												}''`}
-											</div>
-										</OverflowTip>
+									<Flex sx={{ gap: '12px', flex: 1 }}>
+										<NameServiceImagePlaceholder>
+											{profileImage ? (
+												<NameServiceImage src={fromIPFSImageURLtoImageURL(profileImage)} />
+											) : (
+												<AvatarIcon width='100%' height='100%' />
+											)}
+										</NameServiceImagePlaceholder>
+										<div>
+											<OverflowTip>
+												<NameLabel>{name}</NameLabel>
+											</OverflowTip>
+											<OverflowTip>
+												<div>{counterTradeInfo?.owner ?? ''}</div>
+											</OverflowTip>
+											<OverflowTip>
+												<div>
+													{`''${
+														counterTradeInfo?.additionalInfo?.ownerComment?.comment ?? ''
+													}''`}
+												</div>
+											</OverflowTip>
+										</div>
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
