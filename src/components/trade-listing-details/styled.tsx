@@ -332,3 +332,34 @@ export const OwnerAvatarImg = styled(Img)`
 	max-width: 100%;
 	max-height: 100%;
 `
+
+export const NameServiceImagePlaceholder = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0px;
+
+	width: 52px;
+	height: 52px;
+
+	background: ${props => props.theme.colors.dark100};
+	border-radius: 8px;
+
+	overflow: hidden;
+`
+
+export const NameServiceImage = styled(Img)`
+	min-width: 100%;
+	min-height: 100%;
+`
+
+export const NameLabel = styled.div`
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 20px;
+
+	color: ${props => props.theme.colors.gray1000};
+`
