@@ -153,7 +153,7 @@ export default function LoanListingDetails() {
 	} | null>(null)
 
 	React.useEffect(() => {
-		if (loan && !loanPreview) {
+		if (loan) {
 			setLoanPreview(loanInfo?.loanPreview ?? null)
 		}
 	}, [loan])

@@ -159,8 +159,8 @@ export const PreviewNFTsSection = styled.div`
 `
 
 export const Image = styled(Img)`
-	width: 100%;
-	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
 	overflow: hidden;
 	z-index: ${props => props.theme.zIndices.listingCardImg};
 	position: absolute;
