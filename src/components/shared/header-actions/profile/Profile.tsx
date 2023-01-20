@@ -91,8 +91,8 @@ const DropdownItem = styled(Flex)`
 `
 
 const Image = styled(Img)`
-	max-width: 100%;
-	max-height: 100%;
+	width: 100%;
+	height: 100%;
 	border-radius: 8px;
 `
 

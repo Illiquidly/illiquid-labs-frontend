@@ -264,7 +264,14 @@ export default function LoanListingDetails() {
 									<DescriptionCard>
 										<DescriptionCardItem>
 											<Flex sx={{ alignItems: 'center' }}>
-												<Box sx={{ width: '24px', height: '24px' }}>
+												<Box
+													sx={{
+														width: '24px',
+														height: '24px',
+														borderRadius: '4px',
+														overflow: 'hidden',
+													}}
+												>
 													{ownerInfo?.extension?.image ? (
 														<OwnerAvatarImg
 															src={fromIPFSImageURLtoImageURL(ownerInfo?.extension?.image)}
