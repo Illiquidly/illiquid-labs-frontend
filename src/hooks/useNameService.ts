@@ -21,7 +21,10 @@ export default function useNameService(addresses: string[]) {
 		async () =>
 			pMap(
 				reverseRecords?.records ?? [],
-				record => NameServiceContract.getDomainInfo(record.record?.tokenId ?? ''),
+				async record =>
+					record.record?.tokenId
+						? NameServiceContract.getDomainInfo(record.record?.tokenId ?? '')
+						: null,
 				{
 					concurrency: 5,
 				}

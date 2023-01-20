@@ -17,10 +17,13 @@ import React from 'react'
 import { Flex } from 'theme-ui'
 
 import { Raffle, RaffleParticipant } from 'services/api/rafflesService'
-import { ConfettiIcon } from 'assets/icons/mixed'
+import { AvatarIcon, ConfettiIcon } from 'assets/icons/mixed'
 import moment from 'moment'
 import { firstBy } from 'thenby'
 import useAddress from 'hooks/useAddress'
+import useNameService from 'hooks/useNameService'
+import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import { ImagePlaceholder, NameLabel, NameServiceImage } from './styled'
 
 const Container = styled(Flex)`
 	flex-direction: column;
@@ -51,6 +54,8 @@ function RaffleParticipantsTable({
 			.thenBy('ticketNumber', 'desc')
 	)
 
+	const nameServiceResolutions = useNameService(participants.map(p => p.user))
+
 	return (
 		<Container>
 			<Table
@@ -67,15 +72,32 @@ function RaffleParticipantsTable({
 					</TableHeadRow>
 				</TableHead>
 				<TableBody>
-					{participants.map(raffleParticipant => {
+					{participants.map((raffleParticipant, index) => {
 						const isWinner = raffleParticipant?.user === raffle?.raffleInfo?.winner
+
+						const name = nameServiceResolutions[index]?.extension?.name ?? ''
+						const profileImage = nameServiceResolutions[index]?.extension?.image ?? ''
 
 						return (
 							<TableBodyRow key={raffleParticipant.id}>
 								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
-									<OverflowTip>
-										<div>{raffleParticipant?.user ?? ''}</div>
-									</OverflowTip>
+									<Flex sx={{ gap: '12px' }}>
+										<ImagePlaceholder>
+											{profileImage ? (
+												<NameServiceImage src={fromIPFSImageURLtoImageURL(profileImage)} />
+											) : (
+												<AvatarIcon width='100%' height='100%' />
+											)}
+										</ImagePlaceholder>
+										<div>
+											<OverflowTip>
+												<NameLabel>{name}</NameLabel>
+											</OverflowTip>
+											<OverflowTip>
+												<div>{raffleParticipant?.user ?? ''}</div>
+											</OverflowTip>
+										</div>
+									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex
@@ -94,7 +116,7 @@ function RaffleParticipantsTable({
 											minWidth: '160px',
 										}}
 									>
-										{moment(raffleParticipant?.updatedAt).toLocaleString()}
+										{moment(raffleParticipant?.updatedAt).fromNow()}
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
