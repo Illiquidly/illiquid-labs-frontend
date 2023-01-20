@@ -43,5 +43,17 @@
 		"removal-successful": "Your listing has been successfully removed!",
 		"create-listing-suggestion": "Feel free to create another listing at any time",
 		"back-to-listing": "Back to Listing"
+	},
+	"edit-modal": {
+		"title": "Edit listing",
+		"discard-changes": "Discard Changes",
+		"update-listing": "Update Listing",
+		"write-comment": "Write a comment",
+		"token-label": "Tokens I'm interested in",
+		"tokens-placeholder": "Enter amount for {{token}}",
+		"interest-rate-label": "Interest rate offered",
+		"interest-rate-placeholder": "Enter interest rate",
+		"loan-period-label": "Load period",
+		"loan-period-placeholder": "Enter loan period in days"
 	}
 }

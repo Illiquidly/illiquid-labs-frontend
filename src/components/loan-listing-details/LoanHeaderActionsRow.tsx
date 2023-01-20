@@ -22,7 +22,14 @@ import { TxBroadcastingModal } from 'components/shared'
 import { LoansContract } from 'services/blockchain'
 import { LOAN } from 'constants/useQueryKeys'
 import { useQueryClient } from '@tanstack/react-query'
-import { RemoveModal, RemoveModalProps, RemoveSuccessModal } from './modals'
+import { BLOCKS_PER_DAY } from 'constants/core'
+import {
+	EditModal,
+	RemoveModal,
+	RemoveModalProps,
+	RemoveSuccessModal,
+} from './modals'
+import { EditModalProps, EditModalResult } from './modals/edit-modal/EditModal'
 
 interface LoanHeaderActionsRowProps {
 	loan?: Loan
@@ -66,6 +73,46 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 			}
 		}
 	}
+
+	const handleEditClick = async () => {
+		if (!loan) {
+			return
+		}
+
+		const initialTokenName = 'Luna'
+		const initialInterestRate = Number(loan?.loanInfo?.terms?.interest ?? 0)
+		const initialTokenAmount = loan?.loanInfo?.terms?.principle?.amount
+		const initialLoanPeriod =
+			loan?.loanInfo?.terms?.durationInBlocks / BLOCKS_PER_DAY
+
+		const [, result] = await asyncAction<EditModalResult>(
+			NiceModal.show(EditModal, {
+				initialTokenName,
+				initialInterestRate,
+				initialTokenAmount,
+				initialLoanPeriod,
+			} as EditModalProps)
+		)
+
+		if (result) {
+			const { loanPeriod, interestRate, tokenAmount, comment } = result
+			const modifyRaffleResponse = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: LoansContract.modifyLoanListing(
+					loan.loanId,
+					loanPeriod,
+					interestRate,
+					tokenAmount,
+					comment
+				),
+				closeOnFinish: true,
+			})
+
+			if (modifyRaffleResponse) {
+				await queryClient.invalidateQueries([LOAN])
+			}
+		}
+	}
+
 	const myAddress = useAddress()
 
 	const isMyLoanListing = borrower === myAddress
@@ -106,7 +153,7 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 						justifyContent: 'flex-end',
 					}}
 				>
-					<IconButton disable={editDisabled}>
+					<IconButton disabled={editDisabled} onClick={handleEditClick}>
 						<PenOutlineIcon />
 						<Box sx={{ ml: 9, display: ['none', 'none', 'block'] }}>
 							{t('common:edit')}

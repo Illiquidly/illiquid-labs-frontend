@@ -18,6 +18,35 @@ class LoansContract extends Contract {
 		})
 	}
 
+	static async modifyLoanListing(
+		loanId: string | number,
+		durationInDays: number,
+		interestRate: number,
+		amountNative: number | string,
+		comment?: string
+	) {
+		const loanContractAddress = terraUtils.getContractAddress(CONTRACT_NAME.loan)
+
+		return terraUtils.postTransaction({
+			contractAddress: loanContractAddress,
+			message: {
+				modify_collaterals: {
+					loan_id: loanId,
+					terms: {
+						duration_in_blocks: durationInDays * BLOCKS_PER_DAY,
+						interest: interestRate,
+						principle: {
+							amount:
+								amountConverter.default.userFacingToBlockchainValue(amountNative),
+							denom: terraUtils.getDefaultChainDenom(),
+						},
+					},
+					...(comment ? { comment } : {}),
+				},
+			},
+		})
+	}
+
 	static async createLoanListing(
 		nfts: NFT[],
 		durationInDays: number,
