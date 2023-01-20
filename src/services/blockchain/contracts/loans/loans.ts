@@ -5,7 +5,20 @@ import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 import { Contract } from '../shared'
 
 class LoansContract extends Contract {
-	static async depositCollaterals(
+	static async cancelLoanListing(loanId: string | number) {
+		const loanContractAddress = terraUtils.getContractAddress(CONTRACT_NAME.loan)
+
+		return terraUtils.postTransaction({
+			contractAddress: loanContractAddress,
+			message: {
+				withdraw_collaterals: {
+					loan_id: loanId,
+				},
+			},
+		})
+	}
+
+	static async createLoanListing(
 		nfts: NFT[],
 		durationInDays: number,
 		interestRate: number,

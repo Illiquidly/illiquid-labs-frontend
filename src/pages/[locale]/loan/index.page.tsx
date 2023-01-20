@@ -110,7 +110,7 @@ export default function Loan() {
 			loanId: string
 			borrower: string
 		} & TxReceipt = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: LoansContract.depositCollaterals(
+			transactionAction: LoansContract.createLoanListing(
 				selectedNFTs,
 				loanPeriod,
 				interestRate,
