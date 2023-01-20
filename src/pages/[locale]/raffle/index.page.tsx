@@ -59,21 +59,25 @@ export default function Raffle() {
 
 	const { t } = useTranslation(['common', 'raffle'])
 	useHeaderActions(<ExitCreateRaffleListing />)
-	const stepLabels: Array<string> = t('raffle:steps', { returnObjects: true })
+	const [
+		selectNFTsLabel,
+		raffleDetailsLabel,
+		confirmRaffleLabel,
+	]: Array<string> = t('raffle:steps', { returnObjects: true })
 	const [step, { setStep, goToNextStep, goToPrevStep, canGoToNextStep }] =
 		useStep(3)
 	const [steps] = useState([
 		{
 			id: CREATE_RAFFLE_LISTING_FORM_STEPS.SELECT_NFTS,
-			label: stepLabels[0],
+			label: selectNFTsLabel,
 		},
 		{
 			id: CREATE_RAFFLE_LISTING_FORM_STEPS.RAFFLE_DETAILS,
-			label: stepLabels[1],
+			label: raffleDetailsLabel,
 		},
 		{
 			id: CREATE_RAFFLE_LISTING_FORM_STEPS.CONFIRM_RAFFLE,
-			label: stepLabels[2],
+			label: confirmRaffleLabel,
 		},
 	])
 

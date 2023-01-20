@@ -1,7 +1,8 @@
 export { default as RemoveModal } from './remove-modal/RemoveModal'
+export { default as RemoveSuccessModal } from './remove-success-modal/RemoveSuccessModal'
 export { default as EditModal } from './edit-modal/EditModal'
 export { default as AcceptCounterOfferModal } from './accept-counter-offer-modal/AcceptCounterOfferModal'
-export { default as RemoveSuccessModal } from './remove-success-modal/RemoveSuccessModal'
+
 export { default as DenyCounterOfferModal } from './deny-counter-offer-modal/DenyCounterOfferModal'
 export { default as DenyCounterOfferSuccessModal } from './deny-counter-offer-success-modal/DenySuccessModal'
 export type {
