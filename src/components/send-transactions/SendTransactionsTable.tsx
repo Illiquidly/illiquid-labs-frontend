@@ -19,7 +19,6 @@ import React from 'react'
 import { Box, Flex } from 'theme-ui'
 
 import { useQuery } from '@tanstack/react-query'
-import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import NiceModal from '@ebay/nice-modal-react'
 import useAddress from 'hooks/useAddress'
 import { SendTransaction, SenderService } from 'services/api/senderService'
@@ -39,7 +38,14 @@ import { asyncAction } from 'utils/js/asyncAction'
 
 import EmptyBox from 'assets/images/EmptyBox'
 import { SEND_TYPE } from 'constants/sendTypes'
+import { AvatarIcon } from 'assets/icons/mixed'
+import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import useNameService from 'hooks/useNameService'
+import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import {
+	NameLabel,
+	NameServiceImage,
+	NameServiceImagePlaceholder,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -154,6 +160,12 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 		[transactions]
 	)
 
+	const uniqueTransfers = getUniqueTransferred(infiniteData)
+
+	const nameServiceResolutions = useNameService(
+		uniqueTransfers.map(ut => ut.recipient)
+	)
+
 	return (
 		<Container>
 			<TabsSection>
@@ -182,29 +194,38 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 						</TableHeadRow>
 					</TableHead>
 					<TableBody>
-						{getUniqueTransferred(infiniteData).map(transaction => {
+						{uniqueTransfers.map((transaction, index) => {
 							const { id } = transaction
 
 							const nfts = (transaction?.sentAssets ?? []).map(
 								asset => asset.cw721Token
 							)
 
+							const profileImage = nameServiceResolutions[index]?.extension?.image
+							const name = nameServiceResolutions[index]?.extension?.name
+
 							return (
 								<TableBodyRow key={id} onClick={() => handleViewAllNFTs(nfts)}>
 									<TableBodyRowCell>
-										<Flex
-											sx={{
-												maxWidth: '354px',
-												flex: 1,
-												flexDirection: 'column',
-											}}
-										>
-											<OverflowTip>
-												<div>{first(transaction?.sentAssets)?.recipient ?? ''}</div>
-											</OverflowTip>
-											<OverflowTip>
-												<div>{`"${last(transaction.memo.split(':'))}"`}</div>
-											</OverflowTip>
+										<Flex sx={{ gap: '12px', flex: 1 }}>
+											<NameServiceImagePlaceholder>
+												{profileImage ? (
+													<NameServiceImage src={fromIPFSImageURLtoImageURL(profileImage)} />
+												) : (
+													<AvatarIcon width='100%' height='100%' />
+												)}
+											</NameServiceImagePlaceholder>
+											<div>
+												<OverflowTip>
+													<NameLabel>{name}</NameLabel>
+												</OverflowTip>
+												<OverflowTip>
+													<div>{first(transaction?.sentAssets)?.recipient ?? ''}</div>
+												</OverflowTip>
+												<OverflowTip>
+													<div>{`"${last(transaction.memo.split(':'))}"`}</div>
+												</OverflowTip>
+											</div>
 										</Flex>
 									</TableBodyRowCell>
 									<TableBodyRowCell>
