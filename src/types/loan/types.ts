@@ -13,7 +13,7 @@ export interface LoanFormStepsProps {
 	// LOAN_DETAILS STEP
 	tokenAmount: string
 	tokenName: string
-	interestRate: number
-	loanPeriod: number
+	interestRate: string
+	loanPeriod: string
 	comment: string
 }

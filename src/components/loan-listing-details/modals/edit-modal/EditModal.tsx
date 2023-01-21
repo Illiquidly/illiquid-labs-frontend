@@ -26,24 +26,24 @@ import {
 export interface EditModalProps {
 	initialTokenAmount: string
 	initialTokenName: string
-	initialInterestRate: number
-	initialLoanPeriod: number
+	initialInterestRate: string
+	initialLoanPeriod: string
 	initialComment?: string
 }
 
 export interface EditModalResult {
 	tokenAmount: string
 	tokenName: string
-	interestRate: number
-	loanPeriod: number
+	interestRate: string
+	loanPeriod: string
 	comment?: string
 }
 
 export interface EditModalPropsState {
 	tokenAmount: string
 	tokenName: string
-	interestRate: number
-	loanPeriod: number
+	interestRate: string
+	loanPeriod: string
 	comment?: string
 }
 
@@ -129,7 +129,6 @@ const EditModal = NiceModal.create(
 												errors.tokenAmount &&
 												t(`common:errors.${errors.tokenAmount.message}`)
 											}
-											type='number'
 											error={!!errors.tokenAmount}
 											placeholder={t('loan-listings:edit-modal.tokens-placeholder', {
 												token: getValues('tokenName'),
@@ -146,7 +145,6 @@ const EditModal = NiceModal.create(
 													errors.interestRate &&
 													t(`common:errors.${errors?.interestRate?.message}`)
 												}
-												type='number'
 												iconRight={<div>%</div>}
 												error={!!errors.interestRate}
 												placeholder={t(
@@ -158,7 +156,6 @@ const EditModal = NiceModal.create(
 												label={t('loan-listings:edit-modal.loan-period-label')}
 												id='loanPeriod'
 												{...register('loanPeriod')}
-												type='number'
 												fieldError={
 													errors.loanPeriod &&
 													t(`common:errors.${errors?.loanPeriod?.message}`)
