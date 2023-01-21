@@ -1,4 +1,6 @@
+import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
+import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import {
 	Button,
 	StyledAttributeCard,
@@ -279,3 +281,76 @@ export const ParticipantsTitle = styled.div`
 	text-align: left;
 	color: ${props => props.theme.colors.gray1000};
 `
+
+export const HorizontalDividerLine = styled.div`
+	flex: 1;
+	height: 1px;
+	background: ${props => props.theme.colors.dark500};
+`
+
+export const VerticalDividerLine = styled.div`
+	flex: 1;
+	width: 1px;
+	background: ${props => props.theme.colors.dark500};
+`
+
+export const HorizontalLoanLine = () => {
+	const theme = useTheme()
+	return (
+		<Flex sx={{ mt: '10px', gap: '2px', mb: '10px', alignItems: 'center' }}>
+			<HorizontalDividerLine />
+			<Flex
+				sx={{
+					width: '20px',
+					height: '20px',
+					background: 'primary100',
+					borderWidth: '2px',
+					borderStyle: 'solid',
+					borderColor: 'dark400',
+					borderRadius: '6px',
+					alignItems: 'center',
+					justifyContent: 'center',
+					transform: 'rotate(90deg)',
+				}}
+			>
+				<TradeIcon color={theme.colors.dark400} width='12px' height='12px' />
+			</Flex>
+			<HorizontalDividerLine />
+		</Flex>
+	)
+}
+
+export const VerticalLoanLine = () => {
+	const theme = useTheme()
+	return (
+		<Flex
+			sx={{
+				height: '100%',
+				flexDirection: 'column',
+				ml: '10px',
+				gap: '2px',
+				mr: '10px',
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
+			<VerticalDividerLine />
+			<Flex
+				sx={{
+					width: '20px',
+					height: '20px',
+					background: 'primary100',
+					borderWidth: '2px',
+					borderStyle: 'solid',
+					borderColor: 'dark400',
+					borderRadius: '6px',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<TradeIcon color={theme.colors.dark400} width='12px' height='12px' />
+			</Flex>
+			<VerticalDividerLine />
+		</Flex>
+	)
+}

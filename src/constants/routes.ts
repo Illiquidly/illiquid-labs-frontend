@@ -18,6 +18,7 @@ export const ANALYTICS = '/analytics'
 export const LOAN_LISTINGS = '/loan-listings'
 export const LOAN_LISTING_DETAILS = '/loan-listing-details'
 export const LOAN_CREATE_LISTING = '/loan'
+export const LOAN_OFFER = '/loan-offer'
 export const DASHBOARD = '/dashboard'
 export const DASHBOARD_NOTIFICATIONS = '/dashboard-notifications'
 

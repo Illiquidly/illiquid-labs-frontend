@@ -47,6 +47,7 @@ import {
 	DescriptionRow,
 	ImageRow,
 	LayoutContainer,
+	LinkButton,
 	NFTPreviewImages,
 	Page,
 	ViewNFTsModal,
@@ -72,6 +73,8 @@ import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import { BLOCKS_PER_DAY } from 'constants/core'
 import terraUtils from 'utils/blockchain/terraUtils'
 import moment from 'moment'
+
+import * as ROUTES from 'constants/routes'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -377,9 +380,14 @@ export default function LoanListingDetails() {
 									<Button size='extraLarge' fullWidth variant='gradient'>
 										<div>{t('loan-listings:fund-loan')}</div>
 									</Button>
-									<Button size='extraLarge' fullWidth variant='dark'>
+									<LinkButton
+										href={`${ROUTES.LOAN_OFFER}?loanId=${loanId}&borrower=${borrower}`}
+										size='extraLarge'
+										fullWidth
+										variant='dark'
+									>
 										<div>{t('loan-listings:make-offer')}</div>
-									</Button>
+									</LinkButton>
 								</Row>
 							</Box>
 						</Flex>
