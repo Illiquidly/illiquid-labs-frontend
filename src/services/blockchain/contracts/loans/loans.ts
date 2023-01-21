@@ -20,8 +20,8 @@ class LoansContract extends Contract {
 
 	static async modifyLoanListing(
 		loanId: string | number,
-		durationInDays: number,
-		interestRate: number,
+		durationInDays: number | string,
+		interestRate: number | string,
 		amountNative: number | string,
 		comment?: string
 	) {
@@ -33,8 +33,8 @@ class LoansContract extends Contract {
 				modify_collaterals: {
 					loan_id: loanId,
 					terms: {
-						duration_in_blocks: durationInDays * BLOCKS_PER_DAY,
-						interest: interestRate,
+						duration_in_blocks: +durationInDays * BLOCKS_PER_DAY,
+						interest: String(interestRate),
 						principle: {
 							amount:
 								amountConverter.default.userFacingToBlockchainValue(amountNative),
@@ -49,8 +49,8 @@ class LoansContract extends Contract {
 
 	static async createLoanListing(
 		nfts: NFT[],
-		durationInDays: number,
-		interestRate: number,
+		durationInDays: number | string,
+		interestRate: number | string,
 		amountNative: number | string,
 		previewNFT: NFT,
 		comment?: string
@@ -68,8 +68,8 @@ class LoansContract extends Contract {
 						},
 					})),
 					terms: {
-						duration_in_blocks: durationInDays * BLOCKS_PER_DAY,
-						interest: interestRate,
+						duration_in_blocks: +durationInDays * BLOCKS_PER_DAY,
+						interest: String(interestRate),
 						principle: {
 							amount:
 								amountConverter.default.userFacingToBlockchainValue(amountNative),

@@ -40,7 +40,7 @@ import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { sample } from 'lodash'
+import { isNaN, sample } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
@@ -274,7 +274,7 @@ export default function ListingDetails() {
 	const myWinningOdds =
 		(((raffle?.participants ?? []).find(p => p.user === myAddress)
 			?.ticketNumber ?? 0) /
-			ticketsSold) *
+			+ticketsSold) *
 		100
 
 	const ownerName =
@@ -470,7 +470,7 @@ export default function ListingDetails() {
 										<AttributeCard>
 											<AttributeName>{t('raffle-listings:winning-odds')}</AttributeName>
 											<AttributeValue>
-												{`${Number(myWinningOdds).toFixed(2)} %`}
+												{`${(isNaN(myWinningOdds) ? 0 : myWinningOdds).toFixed(2)} %`}
 											</AttributeValue>
 										</AttributeCard>
 									</AttributesCard>

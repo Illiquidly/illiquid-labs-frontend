@@ -80,10 +80,15 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 		}
 
 		const initialTokenName = 'Luna'
-		const initialInterestRate = Number(loan?.loanInfo?.terms?.interest ?? 0)
-		const initialTokenAmount = loan?.loanInfo?.terms?.principle?.amount
-		const initialLoanPeriod =
+		const initialInterestRate = String(loan?.loanInfo?.terms?.interest ?? 0)
+		const initialTokenAmount = String(
+			loan?.loanInfo?.terms?.principle?.amount ?? 0
+		)
+		const initialLoanPeriod = String(
 			loan?.loanInfo?.terms?.durationInBlocks / BLOCKS_PER_DAY
+		)
+
+		const initialComment = loan?.loanInfo?.comment ?? ''
 
 		const [, result] = await asyncAction<EditModalResult>(
 			NiceModal.show(EditModal, {
@@ -91,6 +96,7 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 				initialInterestRate,
 				initialTokenAmount,
 				initialLoanPeriod,
+				initialComment,
 			} as EditModalProps)
 		)
 
