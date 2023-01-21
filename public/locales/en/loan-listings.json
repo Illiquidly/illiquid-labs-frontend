@@ -9,6 +9,15 @@
 	"days_zero": "{{count}} days",
 	"days_one": "{{count}} day",
 	"days_other": "{{count}} days",
+	"loan-period": "Loan Period",
+	"blocks-until-default": "Until Default",
+	"loan-amount": "Loan Amount",
+	"loan-principle": "{{amount}} {{currency}}",
+	"interest-rate-apr": "Interest Rate (APR %)",
+	"fund-loan": "Fund Loan",
+	"make-offer": "Make Offer",
+	"you-might-like": "Loan Listings You Might Like",
+	"view-all-nfts": "View all NFTs",
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
@@ -24,7 +33,7 @@
 		"my-listings": "My Loans"
 	},
 	"loan-offers": {
-		"title": "Loan Counter Offers",
+		"title": "Loan Offers",
 		"table": {
 			"columns": ["User", "Tokens", "Status", "Date"],
 			"approve": "Approve",

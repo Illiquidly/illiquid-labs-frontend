@@ -1,6 +1,6 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { APIGetAllResponse, APIPagination } from 'types'
+import { APIGetAllResponse, APIPagination, HumanCoin } from 'types'
 import { keysToCamel } from 'utils/js/keysToCamel'
 import { LoanOffer } from './loansOffersService'
 import { NFT } from './walletNFTsService'
@@ -14,13 +14,8 @@ export enum LOAN_STATE {
 	Withdrawn = 'assets_withdrawn',
 }
 
-type Principle = {
-	denom: string
-	amount: string
-}
-
 type Terms = {
-	principle: Principle
+	principle: HumanCoin
 	interest: string
 	durationInBlocks: number
 }

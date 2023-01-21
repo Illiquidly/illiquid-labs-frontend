@@ -28,7 +28,12 @@ import {
 	LoanOffersTable,
 } from 'components/loan-listing-details'
 
-import { AvatarIcon, CalendarIcon, WalletIcon } from 'assets/icons/mixed'
+import {
+	AvatarIcon,
+	CalendarIcon,
+	LunaIcon,
+	WalletIcon,
+} from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -55,6 +60,7 @@ import {
 } from 'services/api/favoriteLoansService'
 import {
 	FAVORITES_LOANS,
+	LATEST_BLOCK,
 	LOAN,
 	VERIFIED_COLLECTIONS,
 } from 'constants/useQueryKeys'
@@ -63,6 +69,9 @@ import useNameService from 'hooks/useNameService'
 import CreateLoanListing from 'components/shared/header-actions/create-loan-listing/CreateLoanListings'
 import { LOAN_STATE } from 'services/api/loansService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import { BLOCKS_PER_DAY } from 'constants/core'
+import terraUtils from 'utils/blockchain/terraUtils'
+import moment from 'moment'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -125,6 +134,11 @@ export default function LoanListingDetails() {
 			retry: true,
 			refetchInterval: 60 * 1000, // Refetch every minute
 		}
+	)
+
+	const { data: latestBlockHeight } = useQuery(
+		[LATEST_BLOCK, wallet.network],
+		async () => terraUtils.getLatestBlockHeight()
 	)
 
 	const { data: favoriteLoans } = useQuery(
@@ -307,7 +321,7 @@ export default function LoanListingDetails() {
 													flex: 1,
 												}}
 											>
-												<div />
+												{moment(loan?.loanInfo?.listDate).fromNow()}
 											</Box>
 										</DescriptionCardItem>
 									</DescriptionCard>
@@ -316,29 +330,55 @@ export default function LoanListingDetails() {
 								<Row>
 									<AttributesCard>
 										<AttributeCard>
-											<AttributeName>{t('loan-listings:loan-start-date')}</AttributeName>
-											<AttributeValue />
-										</AttributeCard>
-										<AttributeCard>
-											<AttributeName />
-											<AttributeValue />
-										</AttributeCard>
-										<AttributeCard>
-											<AttributeName>{t('loan-listings:loan-ticket-cost')}</AttributeName>
-											<AttributeValue />
+											<AttributeName>{t('loan-listings:loan-period')}</AttributeName>
+											<AttributeValue>
+												{t('loan-listings:days', {
+													count: Math.floor(
+														(loanInfo?.terms?.durationInBlocks ?? 0) / BLOCKS_PER_DAY
+													),
+												})}
+											</AttributeValue>
 										</AttributeCard>
 										<AttributeCard>
 											<AttributeName>
-												{t('loan-listings:loan-tickets-remaining')}
+												{t('loan-listings:blocks-until-default')}
 											</AttributeName>
-											<AttributeValue />
+											<AttributeValue>
+												{loanInfo?.startBlock
+													? `${latestBlockHeight} / ${
+															loanInfo?.startBlock + loanInfo?.terms?.durationInBlocks
+													  }`
+													: `-`}
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>{t('loan-listings:loan-amount')}</AttributeName>
+											<AttributeValue>
+												{t('loan-listings:loan-principle', {
+													amount: loanInfo?.terms?.principle?.amount,
+													currency: loanInfo?.terms?.principle?.currency,
+												})}
+
+												<Box sx={{ ml: 8 }}>
+													<LunaIcon />
+												</Box>
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>{t('loan-listings:interest-rate-apr')}</AttributeName>
+											<AttributeValue>
+												{t('common:percentage', { value: loanInfo?.terms?.interest ?? 0 })}
+											</AttributeValue>
 										</AttributeCard>
 									</AttributesCard>
 								</Row>
 
-								<Row>
+								<Row sx={{ gap: ['8px'], flexDirection: ['column', 'column', 'row'] }}>
 									<Button size='extraLarge' fullWidth variant='gradient'>
 										<div>{t('loan-listings:fund-loan')}</div>
+									</Button>
+									<Button size='extraLarge' fullWidth variant='dark'>
+										<div>{t('loan-listings:make-offer')}</div>
 									</Button>
 								</Row>
 							</Box>
@@ -348,7 +388,7 @@ export default function LoanListingDetails() {
 							<Flex sx={{ flex: 1, flexDirection: 'column' }}>
 								<Box sx={{ padding: '8px 0' }}>
 									<ParticipantsTitle>
-										{t('loan-listings:participants.title')}
+										{t('loan-listings:loan-offers.title')}
 									</ParticipantsTitle>
 								</Box>
 								<LoanOffersTable loan={loan} />
