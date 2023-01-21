@@ -136,7 +136,7 @@ function GridController({
 						}))
 
 					return (
-						<Box key={loanId}>
+						<Box key={`${loanId}_${borrower}`}>
 							<ListingCard
 								onLike={toggleLike}
 								description={loanPreview?.cw721Coin?.description ?? ''}
