@@ -259,7 +259,14 @@ async function postTransaction(
 	return postManyTransactions([tx], memo)
 }
 
+async function getLatestBlockHeight() {
+	const client = getLCDClient()
+	const blockInfo = await client.tendermint.blockInfo()
+
+	return blockInfo.block.header.height
+}
 export default {
+	getLatestBlockHeight,
 	sendQuery,
 	sendIndependentQuery,
 	postTransaction,

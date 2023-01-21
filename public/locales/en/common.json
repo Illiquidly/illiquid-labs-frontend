@@ -149,5 +149,6 @@
 		"update": "Update",
 		"no-bio": "-"
 	},
-	"apr": "APR"
+	"apr": "APR",
+	"percentage": "{{value}} %"
 }

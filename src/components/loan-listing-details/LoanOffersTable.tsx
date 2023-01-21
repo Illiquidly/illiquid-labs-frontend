@@ -9,6 +9,7 @@ import {
 	TableBodyRow,
 	TableBodyRowCell,
 	OverflowTip,
+	Button,
 } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -18,6 +19,11 @@ import { Box, Flex } from 'theme-ui'
 import { LunaIcon } from 'assets/icons/mixed'
 import moment from 'moment'
 import { Loan } from 'services/api/loansService'
+import { LOAN_OFFERS } from 'constants/useQueryKeys'
+import { useWallet } from '@terra-money/use-wallet'
+import { useQuery } from '@tanstack/react-query'
+import { isNil } from 'lodash'
+import { LoanOffer, LoanOffersService } from 'services/api/loansOffersService'
 import { TokenChip } from './styled'
 
 const Container = styled(Flex)`
@@ -31,9 +37,47 @@ interface LoanOffersTableProps {
 }
 function LoanOffersTable({ loan, excludeTopBorder }: LoanOffersTableProps) {
 	const { t } = useTranslation(['common', 'loan-listings'])
+	const wallet = useWallet()
 	const columns: Array<string> = t('loan-listings:loan-offers.table.columns', {
 		returnObjects: true,
 	})
+
+	const { loanId, borrower } = loan ?? {}
+
+	const [page, setPage] = React.useState(1)
+
+	// TODO extract this into hook, along with useQuery part.
+	const [infiniteData, setInfiniteData] = React.useState<LoanOffer[]>([])
+
+	React.useEffect(() => {
+		setInfiniteData([])
+		setPage(1)
+	}, [wallet.network, loanId, borrower])
+
+	const { data: loanOffers, isLoading } = useQuery(
+		[LOAN_OFFERS, wallet.network, page, borrower, loanId],
+		async () =>
+			LoanOffersService.getAllLoanOffers(
+				wallet.network.name,
+				{
+					loanIds: [`${loanId}`],
+					borrowers: [`${borrower}`],
+				},
+				{
+					limit: 20,
+					page,
+				}
+			),
+		{
+			enabled: !!wallet.network && !isNil(loanId) && !isNil(borrower),
+			retry: true,
+		}
+	)
+
+	React.useEffect(
+		() => loanOffers && setInfiniteData(prev => [...prev, ...loanOffers.data]),
+		[loanOffers]
+	)
 
 	return (
 		<Container>
@@ -51,7 +95,7 @@ function LoanOffersTable({ loan, excludeTopBorder }: LoanOffersTableProps) {
 					</TableHeadRow>
 				</TableHead>
 				<TableBody>
-					{(loan?.offers ?? []).map(offer => {
+					{(infiniteData ?? []).map(offer => {
 						return (
 							<TableBodyRow key={offer.id}>
 								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
@@ -95,6 +139,18 @@ function LoanOffersTable({ loan, excludeTopBorder }: LoanOffersTableProps) {
 					})}
 				</TableBody>
 			</Table>
+			<Flex sx={{ mt: '12px' }}>
+				{loanOffers?.data && !!loanOffers.data?.length && !isLoading && (
+					<Button
+						disabled={loanOffers?.page === loanOffers.pageCount}
+						fullWidth
+						variant='dark'
+						onClick={() => setPage(prev => prev + 1)}
+					>
+						{t('common:show-more')}
+					</Button>
+				)}
+			</Flex>
 		</Container>
 	)
 }

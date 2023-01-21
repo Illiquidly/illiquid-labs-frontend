@@ -17,3 +17,11 @@ export interface LoanFormStepsProps {
 	loanPeriod: string
 	comment: string
 }
+
+export type LoanOfferForm = {
+	tokenAmount: string
+	tokenName: string
+	interestRate: string
+	loanPeriod: string
+	comment: string
+}
