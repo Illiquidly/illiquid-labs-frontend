@@ -252,11 +252,30 @@ export default function ListingDetails() {
 		refetch()
 	}
 
-	const ticketsSold =
-		(raffleOptions?.maxParticipantNumber ?? 0) -
-		(raffle?.participants ?? [])
-			.map(p => p.ticketNumber)
-			.reduce((a, b) => a + b, 0)
+	const ticketsSold = (raffle?.participants ?? []).reduce(
+		(a, b) => a + b.ticketNumber,
+		0
+	)
+
+	const ticketsRemaining =
+		(raffleOptions?.maxParticipantNumber ?? 0) - ticketsSold
+
+	const ticketPrice = Number(
+		raffleInfo?.raffleTicketPrice?.coin?.amount ??
+			raffleInfo?.raffleTicketPrice?.cw20Coin?.amount ??
+			0
+	)
+
+	const ticketCurrency =
+		raffleInfo?.raffleTicketPrice?.coin?.currency ??
+		raffleInfo?.raffleTicketPrice?.cw20Coin?.currency ??
+		''
+
+	const myWinningOdds =
+		(((raffle?.participants ?? []).find(p => p.user === myAddress)
+			?.ticketNumber ?? 0) /
+			ticketsSold) *
+		100
 
 	const ownerName =
 		ownerInfo?.extension?.publicName ?? ownerInfo?.extension?.name
@@ -423,12 +442,7 @@ export default function ListingDetails() {
 												{t('raffle-listings:raffle-ticket-cost')}
 											</AttributeName>
 											<AttributeValue>
-												{raffleInfo?.raffleTicketPrice?.coin?.amount ??
-													raffleInfo?.raffleTicketPrice?.cw20Coin?.amount ??
-													''}{' '}
-												{raffleInfo?.raffleTicketPrice?.coin?.currency ??
-													raffleInfo?.raffleTicketPrice?.cw20Coin?.currency ??
-													''}
+												{ticketPrice} {ticketCurrency}
 												<Box sx={{ ml: 8 }}>
 													<LunaIcon />
 												</Box>
@@ -439,10 +453,24 @@ export default function ListingDetails() {
 												{t('raffle-listings:raffle-tickets-remaining')}
 											</AttributeName>
 											<AttributeValue>
-												{ticketsSold}
+												{ticketsRemaining}
 												{raffleOptions?.maxParticipantNumber
-													? `/ ${raffleOptions?.maxParticipantNumber}`
+													? ` / ${raffleOptions?.maxParticipantNumber}`
 													: ''}
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>{t('raffle-listings:total-volume')}</AttributeName>
+											<AttributeValue>
+												{`${Number(ticketPrice * ticketsSold).toFixed(
+													2
+												)} ${ticketCurrency}`}
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>{t('raffle-listings:winning-odds')}</AttributeName>
+											<AttributeValue>
+												{`${Number(myWinningOdds).toFixed(2)} %`}
 											</AttributeValue>
 										</AttributeCard>
 									</AttributesCard>

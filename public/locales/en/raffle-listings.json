@@ -42,6 +42,8 @@
 	"raffle-ends-in": "Ends in",
 	"raffle-ended": "Ended",
 	"raffle-start-date": "Raffle start date",
+	"winning-odds": "Winning odds",
+	"total-volume": "Volume",
 	"remove-modal": {
 		"title": "Remove listing",
 		"answer": "To proceed with the removal, make a selection below.",
