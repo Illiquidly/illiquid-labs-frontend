@@ -53,10 +53,11 @@ interface ListingCardProps extends NFT {
 	lookingForItemsLimit?: number
 	previewItemsLimit?: number
 	winner?: string
-	ticketPrice: string
+	ticketPrice: number
 	ticketCurrency: string
 	ticketNumber: number
-	ticketsSold: number
+	totalVolume: number
+	ticketsRemaining: number
 	endsIn: Date
 	isSmall?: boolean
 }
@@ -73,7 +74,8 @@ function ListingCard({
 	ticketPrice,
 	ticketCurrency,
 	ticketNumber,
-	ticketsSold,
+	totalVolume,
+	ticketsRemaining,
 	endsIn,
 	isSmall,
 	...NFTProps
@@ -182,27 +184,39 @@ function ListingCard({
 											</AttributeValue>
 										</Flex>
 										<Flex sx={{ flexDirection: 'column' }}>
-											<AttributeName isSmall={isSmall}>
+											<AttributeName style={{ alignSelf: 'flex-end' }} isSmall={isSmall}>
 												{t('raffle-listings:remaining')}
 											</AttributeName>
 
 											<AttributeValue isSmall={isSmall}>
 												<OverflowTip>
-													<div>{`${ticketsSold} / ${ticketNumber}`}</div>
+													<div>{`${ticketsRemaining} / ${ticketNumber}`}</div>
 												</OverflowTip>
 											</AttributeValue>
 										</Flex>
 									</Flex>
 								</AttributeCard>
 								<AttributeCard>
-									<AttributeName isSmall={isSmall}>
-										{t(
-											`raffle-listings:${moment().isAfter(endsIn) ? 'ended' : 'ends-in'}`
-										)}
-									</AttributeName>
-									<AttributeValue isSmall={isSmall}>
-										{moment(endsIn).fromNow()}
-									</AttributeValue>
+									<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
+										<Flex sx={{ flexDirection: 'column' }}>
+											<AttributeName isSmall={isSmall}>
+												{t(
+													`raffle-listings:${moment().isAfter(endsIn) ? 'ended' : 'ends-in'}`
+												)}
+											</AttributeName>
+											<AttributeValue isSmall={isSmall}>
+												{moment(endsIn).fromNow()}
+											</AttributeValue>
+										</Flex>
+										<Flex sx={{ flexDirection: 'column' }}>
+											<AttributeName style={{ alignSelf: 'flex-end' }} isSmall={isSmall}>
+												{t(`raffle-listings:total-volume`)}
+											</AttributeName>
+											<AttributeValue isSmall={isSmall}>
+												{`${totalVolume.toFixed(2)} ${ticketCurrency}`}
+											</AttributeValue>
+										</Flex>
+									</Flex>
 								</AttributeCard>
 							</Flex>
 						)}

@@ -138,9 +138,26 @@ function GridController({
 							user: myAddress,
 						}))
 
-					const ticketsSold =
-						(raffleOptions?.maxParticipantNumber ?? 0) -
-						(participants ?? []).map(p => p.ticketNumber).reduce((a, b) => a + b, 0)
+					const ticketsSold = (participants ?? []).reduce(
+						(a, b) => a + b.ticketNumber,
+						0
+					)
+
+					const ticketPrice = Number(
+						raffleTicketPrice?.coin?.amount ??
+							raffleTicketPrice?.cw20Coin?.amount ??
+							0
+					)
+
+					const ticketCurrency =
+						raffleTicketPrice?.coin?.currency ??
+						raffleTicketPrice?.cw20Coin?.currency ??
+						''
+
+					const totalVolume = ticketPrice * ticketsSold
+
+					const ticketsRemaining =
+						(raffleOptions?.maxParticipantNumber ?? 0) - ticketsSold
 
 					return (
 						<Box key={raffleId}>
@@ -168,17 +185,11 @@ function GridController({
 								collectionName={
 									raffleOptions?.rafflePreview?.cw721Coin?.collectionName || ''
 								}
-								ticketPrice={
-									raffleTicketPrice?.coin?.amount ??
-									raffleTicketPrice?.cw20Coin?.amount ??
-									0
-								}
-								ticketCurrency={
-									raffleTicketPrice?.coin?.currency ??
-									raffleTicketPrice?.cw20Coin?.currency
-								}
+								ticketPrice={ticketPrice}
+								ticketCurrency={ticketCurrency}
 								ticketNumber={raffleOptions.maxParticipantNumber}
-								ticketsSold={ticketsSold}
+								totalVolume={totalVolume}
+								ticketsRemaining={ticketsRemaining}
 								endsIn={moment(raffleOptions?.raffleStartDate)
 									.add(raffleOptions?.raffleDuration ?? 0, 'seconds')
 									.toDate()}

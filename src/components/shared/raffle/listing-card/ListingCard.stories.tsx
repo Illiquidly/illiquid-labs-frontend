@@ -34,8 +34,9 @@ export const RaffleListingCardExample = () => {
 					name='Fox #7561'
 					collectionName='Mutant Ape Yacht Club'
 					ticketCurrency='Luna'
-					ticketPrice='10'
-					ticketsSold={10}
+					ticketPrice={10}
+					ticketsRemaining={10}
+					totalVolume={10}
 					ticketNumber={100}
 					endsIn={moment().add(1, 'day').toDate()}
 				/>
