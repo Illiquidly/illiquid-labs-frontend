@@ -1,4 +1,5 @@
 import { CONTRACT_NAME } from 'constants/addresses'
+import { DrandResponse } from 'services/api/drandService'
 import { NFT } from 'services/api/walletNFTsService'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { HumanCoin, HumanCw20Coin } from 'types'
@@ -21,6 +22,22 @@ export interface RaffleOptions {
 }
 
 class RafflesContract extends Contract {
+	static async provideRandomness(raffleId: number, randomness: DrandResponse) {
+		const raffleContractAddress = terraUtils.getContractAddress(
+			CONTRACT_NAME.raffle
+		)
+
+		return terraUtils.postTransaction({
+			contractAddress: raffleContractAddress,
+			message: {
+				update_randomness: {
+					raffle_id: raffleId,
+					randomness,
+				},
+			},
+		})
+	}
+
 	static async createRaffleListing(
 		nfts: NFT[],
 		ticketPriceLuna: string | number,
