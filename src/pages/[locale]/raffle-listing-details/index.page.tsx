@@ -514,9 +514,7 @@ export default function ListingDetails() {
 
 								{raffle &&
 									[RAFFLE_STATE.Finished].includes(raffleInfo?.state as RAFFLE_STATE) &&
-									!raffleInfo?.winner &&
-									((raffle.participants ?? []).some(p => p.user === myAddress) ||
-										raffleInfo?.owner === myAddress) && (
+									!raffleInfo?.winner && (
 										<Row>
 											<Button
 												size='extraLarge'
