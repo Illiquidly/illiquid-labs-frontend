@@ -75,6 +75,7 @@ import BuyTicketModal, {
 import useNameService from 'hooks/useNameService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import BuyRaffleReviewModal from 'components/raffle-listing-details/modals/buy-raffle-review-modal/BuyRaffleReviewModal'
+import { DrandService } from 'services/api/drandService'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -92,7 +93,7 @@ export default function ListingDetails() {
 
 	const queryClient = useQueryClient()
 
-	const { raffleId } = route.query ?? {}
+	const { raffleId, randomnessProvider } = route.query ?? {}
 
 	const updateFavoriteRaffleState = (data: FavoriteRaffleResponse) =>
 		queryClient.setQueryData(
@@ -250,6 +251,22 @@ export default function ListingDetails() {
 		})
 
 		refetch()
+	}
+
+	const provideRandomness = async () => {
+		if (!raffle) {
+			return
+		}
+
+		const randomness = await DrandService.getRandomness()
+
+		await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: RafflesContract.provideRandomness(
+				raffle?.raffleId,
+				randomness
+			),
+			closeOnFinish: true,
+		})
 	}
 
 	const ticketsSold = (raffle?.participants ?? []).reduce(
@@ -508,6 +525,21 @@ export default function ListingDetails() {
 												variant='gradient'
 											>
 												<div>{t('raffle-listings:draw-raffle-ticket')}</div>
+											</Button>
+										</Row>
+									)}
+
+								{raffle &&
+									randomnessProvider &&
+									[RAFFLE_STATE.Closed].includes(raffleInfo?.state as RAFFLE_STATE) && (
+										<Row>
+											<Button
+												size='extraLarge'
+												onClick={provideRandomness}
+												fullWidth
+												variant='gradient'
+											>
+												<div>{t('raffle-listings:provide-randomness')}</div>
 											</Button>
 										</Row>
 									)}

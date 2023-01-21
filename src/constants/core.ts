@@ -24,4 +24,7 @@ export const API_URL = 'https://api.illiquidlabs.io:8443/'
 
 export const ASSETS_URL = 'https://assets.terra.money/'
 
+export const DRAND_URL =
+	'https://api.drand.sh/8990e7a9aaed2ffed73dbd7092123d6f289930540d7651336225dc172e51b2ce'
+
 export const BLOCKS_PER_DAY = 12758
