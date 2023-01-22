@@ -50,6 +50,7 @@ import {
 	LinkButton,
 	NFTPreviewImages,
 	Page,
+	TxBroadcastingModal,
 	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
@@ -75,6 +76,7 @@ import terraUtils from 'utils/blockchain/terraUtils'
 import moment from 'moment'
 
 import * as ROUTES from 'constants/routes'
+import { LoansContract } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -201,6 +203,23 @@ export default function LoanListingDetails() {
 		)
 	)
 
+	const fundLoan = async () => {
+		if (!loan) {
+			return
+		}
+
+		const fundLoanResponse = await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: LoansContract.fundLoan(
+				loan.loanId,
+				borrower as string,
+				loan?.loanInfo?.terms?.principle?.amount
+			),
+			closeOnFinish: true,
+		})
+
+		console.warn(fundLoanResponse)
+	}
+
 	const toggleLike = () =>
 		({ addFavoriteLoan, removeFavoriteLoan }[
 			liked ? 'removeFavoriteLoan' : 'addFavoriteLoan'
@@ -213,6 +232,8 @@ export default function LoanListingDetails() {
 
 	const ownerName =
 		ownerInfo?.extension?.publicName ?? ownerInfo?.extension?.name
+
+	const isMyLoan = loan?.borrower === myAddress
 
 	return (
 		<Page title={t('title')}>
@@ -376,19 +397,26 @@ export default function LoanListingDetails() {
 									</AttributesCard>
 								</Row>
 
-								<Row sx={{ gap: ['8px'], flexDirection: ['column', 'column', 'row'] }}>
-									<Button size='extraLarge' fullWidth variant='gradient'>
-										<div>{t('loan-listings:fund-loan')}</div>
-									</Button>
-									<LinkButton
-										href={`${ROUTES.LOAN_OFFER}?loanId=${loanId}&borrower=${borrower}`}
-										size='extraLarge'
-										fullWidth
-										variant='dark'
-									>
-										<div>{t('loan-listings:make-offer')}</div>
-									</LinkButton>
-								</Row>
+								{!isMyLoan && [LOAN_STATE.Published] && loan?.loanInfo?.state && (
+									<Row sx={{ gap: ['8px'], flexDirection: ['column', 'column', 'row'] }}>
+										<Button
+											size='extraLarge'
+											fullWidth
+											variant='gradient'
+											onClick={fundLoan}
+										>
+											<div>{t('loan-listings:fund-loan')}</div>
+										</Button>
+										<LinkButton
+											href={`${ROUTES.LOAN_OFFER}?loanId=${loanId}&borrower=${borrower}`}
+											size='extraLarge'
+											fullWidth
+											variant='dark'
+										>
+											<div>{t('loan-listings:make-offer')}</div>
+										</LinkButton>
+									</Row>
+								)}
 							</Box>
 						</Flex>
 

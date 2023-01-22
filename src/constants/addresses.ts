@@ -21,7 +21,7 @@ export const contractAddresses: {
 			'terra16a6qkmxpqzeyez8gh3w7qhrk7x3xe3arlv9nwfg944y8vzg9smrqntark3',
 	},
 	'pisco-1': {
-		loan: 'terra196f7nl00a0kfa6ph3ycc5ws6q2lm73r3uv8ra92huptnd2a8v4kqv9tea2',
+		loan: 'terra1md0gr59dy0fuzf6qqllz550evqqamr0f0q38gcfy2cnrc70y2rtqduxpmq',
 		raffle: 'terra1vmrf7z6yr34rgpkkv2yk0t28hdlfzwunql9ldusum9cc8ef272ksy6kjgz',
 		p2pTrade: 'terra1405pwjpdl629uemdqaf57gf765ufv7y3e2xszch4y8zhhwczapwsse2eh0',
 		feeCollector:

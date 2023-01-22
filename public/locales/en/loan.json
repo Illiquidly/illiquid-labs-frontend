@@ -30,6 +30,10 @@
 		"what-are-you-offering": "Collateral you’re offering",
 		"loan-details": "Loan Details",
 		"comments": "Comments",
-		"day-loan": "{{day}} day loan"
+		"day-loan": "{{day}} day loan",
+		"congratulations": "Congratulations!",
+		"congratulations-message": "Your Loan has been successfully created!",
+		"your-listing-url": "Your Loan URL",
+		"transaction-id": "Transaction ID"
 	}
 }
