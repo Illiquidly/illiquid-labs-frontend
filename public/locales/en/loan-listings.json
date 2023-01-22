@@ -16,6 +16,8 @@
 	"interest-rate-apr": "Interest Rate (APR %)",
 	"fund-loan": "Fund Loan",
 	"make-offer": "Make Offer",
+	"repay-loan": "Repay Loan",
+	"withdraw": "Withdraw Defaulted",
 	"you-might-like": "Loan Listings You Might Like",
 	"view-all-nfts": "View all NFTs",
 	"filters": {
@@ -39,6 +41,15 @@
 			"approve": "Approve",
 			"deny": "Deny"
 		}
+	},
+	"fund-loan-modal": {
+		"title": "Fund Loan",
+		"question": "Are you sure you’d like to fund loan from {{username}} ?",
+		"note": "Feel free to send include a message. How exciting!",
+		"send-message": "Send Message",
+		"enter-text": "Enter text",
+		"back-to-listing": "Back to Listing",
+		"accept-offer": "Fund Loan"
 	},
 	"remove-modal": {
 		"title": "Remove listing",

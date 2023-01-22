@@ -2,6 +2,7 @@ import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { APIGetAllResponse, APIPagination, HumanCoin } from 'types/common'
 import { keysToCamel } from 'utils/js/keysToCamel'
+import { Loan } from './loansService'
 
 // TODO: move this to as const type, convert name to camelCase...
 export enum OFFER_STATE {
@@ -16,16 +17,22 @@ export type LoanOffer = {
 	network: string
 	globalOfferId: string
 	borrower: string
-	loanId: number
-	lender: string
-	loan: string
-	state: OFFER_STATE
-	listDate: string
-	depositedFunds: HumanCoin
-	comment: string
+	loan: Loan
+	offerInfo: {
+		lender: string
+		terms: {
+			principle: HumanCoin
+			interest: string
+			durationInBlocks: number
+		}
+		state: OFFER_STATE
+		listDate: string
+		depositedFunds: HumanCoin
+		comment: string
+	}
 }
 
-export type CounterTradesResponse = APIGetAllResponse<LoanOffer>
+export type LoanOffersResponse = APIGetAllResponse<LoanOffer>
 
 type LoanOffersFilters = {
 	loanIds?: string[]
@@ -42,7 +49,7 @@ export class LoanOffersService {
 		filters?: LoanOffersFilters,
 		pagination?: APIPagination,
 		sort: 'ASC' | 'DESC' = 'DESC'
-	): Promise<CounterTradesResponse> {
+	): Promise<LoanOffersResponse> {
 		const queryBuilder = RequestQueryBuilder.create()
 
 		queryBuilder.search({
@@ -53,7 +60,7 @@ export class LoanOffersService {
 				...(filters?.loanIds?.length
 					? [
 							{
-								loanId: {
+								'loan.loanId': {
 									$in: filters?.loanIds,
 								},
 							},

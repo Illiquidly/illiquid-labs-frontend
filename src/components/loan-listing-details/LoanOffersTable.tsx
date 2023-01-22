@@ -111,11 +111,13 @@ function LoanOffersTable({ loan, excludeTopBorder }: LoanOffersTableProps) {
 									>
 										<TokenChip>
 											<Box sx={{ flex: 1, justifyContent: 'center' }}>
-												{offer?.depositedFunds ? (
-													<>
+												{offer?.offerInfo?.depositedFunds ? (
+													<Flex>
+														<Flex sx={{ mr: '2px', alignItems: 'center' }}>
+															{`${offer?.offerInfo?.terms?.principle?.amount} ${offer?.offerInfo?.terms?.principle?.currency}`}
+														</Flex>
 														<LunaIcon />
-														<div>{`${offer?.depositedFunds?.amount} ${offer?.depositedFunds?.currency}`}</div>
-													</>
+													</Flex>
 												) : (
 													<div>-</div>
 												)}
@@ -124,6 +126,7 @@ function LoanOffersTable({ loan, excludeTopBorder }: LoanOffersTableProps) {
 									</Flex>
 								</TableBodyRowCell>
 
+								<TableBodyRowCell>{offer?.offerInfo?.state}</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex
 										sx={{
@@ -131,9 +134,10 @@ function LoanOffersTable({ loan, excludeTopBorder }: LoanOffersTableProps) {
 											minWidth: '160px',
 										}}
 									>
-										{moment(offer?.listDate).toLocaleString()}
+										{moment(offer?.offerInfo.listDate).fromNow()}
 									</Flex>
 								</TableBodyRowCell>
+								<TableBodyRowCell />
 							</TableBodyRow>
 						)
 					})}
