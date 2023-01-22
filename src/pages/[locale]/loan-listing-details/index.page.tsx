@@ -475,6 +475,9 @@ export default function LoanListingDetails() {
 								{!isMyLoan &&
 									[LOAN_STATE.Defaulted].includes(
 										loan?.loanInfo?.state ?? ('' as LOAN_STATE)
+									) &&
+									(loan?.offers ?? []).some(
+										offer => offer?.offerInfo?.lender === myAddress
 									) && (
 										<Row>
 											<Button
@@ -523,7 +526,7 @@ export default function LoanListingDetails() {
 										{t('loan-listings:loan-offers.title')}
 									</ParticipantsTitle>
 								</Box>
-								<LoanOffersTable loan={loan} />
+								<LoanOffersTable refetchLoan={refetch} loan={loan} />
 							</Flex>
 						</Row>
 						<LoanListingsYouMightLike
