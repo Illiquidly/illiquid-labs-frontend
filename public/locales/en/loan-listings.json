@@ -40,6 +40,15 @@
 			"deny": "Deny"
 		}
 	},
+	"fund-loan-modal": {
+		"title": "Fund Loan",
+		"question": "Are you sure you’d like to fund loan from {{username}} ?",
+		"note": "Feel free to send include a message. How exciting!",
+		"send-message": "Send Message",
+		"enter-text": "Enter text",
+		"back-to-listing": "Back to Listing",
+		"accept-offer": "Fund Loan"
+	},
 	"remove-modal": {
 		"title": "Remove listing",
 		"answer": "This action cannot be undone and you will lose any current counter offers! To proceed with the removal, make a selection below.",

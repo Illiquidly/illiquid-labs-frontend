@@ -77,6 +77,9 @@ import moment from 'moment'
 
 import * as ROUTES from 'constants/routes'
 import { LoansContract } from 'services/blockchain'
+import FundLoanOfferModal, {
+	FundLoanOfferModalResult,
+} from 'components/loan-listing-details/modals/fund-loan-modal/FundLoanModal'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -126,7 +129,11 @@ export default function LoanListingDetails() {
 		}
 	)
 
-	const { data: loan, isLoading } = useQuery(
+	const {
+		data: loan,
+		isLoading,
+		refetch,
+	} = useQuery(
 		[LOAN, loanId, wallet.network],
 		async () =>
 			LoansService.getLoan(
@@ -208,16 +215,27 @@ export default function LoanListingDetails() {
 			return
 		}
 
-		const fundLoanResponse = await NiceModal.show(TxBroadcastingModal, {
-			transactionAction: LoansContract.fundLoan(
-				loan.loanId,
-				borrower as string,
-				loan?.loanInfo?.terms?.principle?.amount
-			),
-			closeOnFinish: true,
-		})
+		const [, result] = await asyncAction<FundLoanOfferModalResult>(
+			NiceModal.show(FundLoanOfferModal, {
+				loan,
+			})
+		)
 
-		console.warn(fundLoanResponse)
+		if (result) {
+			const fundLoanResponse = await NiceModal.show(TxBroadcastingModal, {
+				transactionAction: LoansContract.fundLoan(
+					loan.loanId,
+					borrower as string,
+					loan?.loanInfo?.terms?.principle?.amount,
+					result.comment
+				),
+				closeOnFinish: true,
+			})
+
+			if (fundLoanResponse) {
+				await refetch()
+			}
+		}
 	}
 
 	const toggleLike = () =>

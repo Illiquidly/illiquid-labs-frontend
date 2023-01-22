@@ -61,12 +61,12 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 		)
 
 		if (result) {
-			const cancelRaffleResponse = await NiceModal.show(TxBroadcastingModal, {
+			const cancelLoanResponse = await NiceModal.show(TxBroadcastingModal, {
 				transactionAction: LoansContract.cancelLoanListing(loan.loanId),
 				closeOnFinish: true,
 			})
 
-			if (cancelRaffleResponse) {
+			if (cancelLoanResponse) {
 				await queryClient.invalidateQueries([LOAN])
 
 				NiceModal.show(RemoveSuccessModal)
