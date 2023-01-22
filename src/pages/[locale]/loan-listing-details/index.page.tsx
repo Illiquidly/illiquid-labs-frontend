@@ -238,6 +238,47 @@ export default function LoanListingDetails() {
 		}
 	}
 
+	const repayLoan = async () => {
+		if (!loan) {
+			return
+		}
+
+		// TODO: this should be returned from contract to now exactly the amount for now just add 0.05% more than required
+		const TOLERANCE = 0.5
+
+		const fundLoanResponse = await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: LoansContract.repayBorrowedFunds(
+				loan.loanId,
+				Number(loanInfo?.terms?.principle?.amount ?? 0) +
+					(Number(loanInfo?.terms?.interest ?? 0 + TOLERANCE) / 100) *
+						Number(loanInfo?.terms?.principle?.amount ?? 0)
+			),
+			closeOnFinish: true,
+		})
+
+		if (fundLoanResponse) {
+			await refetch()
+		}
+	}
+
+	const withdrawDefaultedLoan = async () => {
+		if (!loan) {
+			return
+		}
+
+		const withdrawDefaultedResponse = await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: LoansContract.withdrawDefaultedLoan(
+				loan.loanId,
+				borrower as string
+			),
+			closeOnFinish: true,
+		})
+
+		if (withdrawDefaultedResponse) {
+			await refetch()
+		}
+	}
+
 	const toggleLike = () =>
 		({ addFavoriteLoan, removeFavoriteLoan }[
 			liked ? 'removeFavoriteLoan' : 'addFavoriteLoan'
@@ -415,26 +456,63 @@ export default function LoanListingDetails() {
 									</AttributesCard>
 								</Row>
 
-								{!isMyLoan && [LOAN_STATE.Published] && loan?.loanInfo?.state && (
-									<Row sx={{ gap: ['8px'], flexDirection: ['column', 'column', 'row'] }}>
-										<Button
-											size='extraLarge'
-											fullWidth
-											variant='gradient'
-											onClick={fundLoan}
+								{isMyLoan &&
+									[LOAN_STATE.Started].includes(
+										loan?.loanInfo?.state ?? ('' as LOAN_STATE)
+									) && (
+										<Row>
+											<Button
+												size='extraLarge'
+												fullWidth
+												variant='gradient'
+												onClick={repayLoan}
+											>
+												<div>{t('loan-listings:repay-loan')}</div>
+											</Button>
+										</Row>
+									)}
+
+								{!isMyLoan &&
+									[LOAN_STATE.Defaulted].includes(
+										loan?.loanInfo?.state ?? ('' as LOAN_STATE)
+									) && (
+										<Row>
+											<Button
+												size='extraLarge'
+												fullWidth
+												variant='gradient'
+												onClick={withdrawDefaultedLoan}
+											>
+												<div>{t('loan-listings:withdraw')}</div>
+											</Button>
+										</Row>
+									)}
+
+								{!isMyLoan &&
+									[LOAN_STATE.Published].includes(
+										loan?.loanInfo?.state ?? ('' as LOAN_STATE)
+									) && (
+										<Row
+											sx={{ gap: ['8px'], flexDirection: ['column', 'column', 'row'] }}
 										>
-											<div>{t('loan-listings:fund-loan')}</div>
-										</Button>
-										<LinkButton
-											href={`${ROUTES.LOAN_OFFER}?loanId=${loanId}&borrower=${borrower}`}
-											size='extraLarge'
-											fullWidth
-											variant='dark'
-										>
-											<div>{t('loan-listings:make-offer')}</div>
-										</LinkButton>
-									</Row>
-								)}
+											<Button
+												size='extraLarge'
+												fullWidth
+												variant='gradient'
+												onClick={fundLoan}
+											>
+												<div>{t('loan-listings:fund-loan')}</div>
+											</Button>
+											<LinkButton
+												href={`${ROUTES.LOAN_OFFER}?loanId=${loanId}&borrower=${borrower}`}
+												size='extraLarge'
+												fullWidth
+												variant='dark'
+											>
+												<div>{t('loan-listings:make-offer')}</div>
+											</LinkButton>
+										</Row>
+									)}
 							</Box>
 						</Flex>
 

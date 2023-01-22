@@ -57,35 +57,48 @@ class LoansContract extends Contract {
 	) {
 		const loanContractAddress = terraUtils.getContractAddress(CONTRACT_NAME.loan)
 
-		return terraUtils.postTransaction({
-			contractAddress: loanContractAddress,
-			message: {
-				deposit_collaterals: {
-					tokens: nfts.map(({ collectionAddress, tokenId }) => ({
-						cw721_coin: {
-							address: collectionAddress,
+		return terraUtils.postManyTransactions([
+			...nfts.flatMap(({ collectionAddress, tokenId }) => [
+				{
+					contractAddress: collectionAddress,
+					message: {
+						approve: {
+							spender: loanContractAddress,
 							token_id: tokenId,
 						},
-					})),
-					terms: {
-						duration_in_blocks: +durationInDays * BLOCKS_PER_DAY,
-						interest: String(interestRate),
-						principle: {
-							amount:
-								amountConverter.default.userFacingToBlockchainValue(amountNative),
-							denom: terraUtils.getDefaultChainDenom(),
-						},
 					},
-					comment,
-					loan_preview: {
-						cw721_coin: {
-							address: previewNFT.collectionAddress,
-							token_id: previewNFT.tokenId,
+				},
+			]),
+			{
+				contractAddress: loanContractAddress,
+				message: {
+					deposit_collaterals: {
+						tokens: nfts.map(({ collectionAddress, tokenId }) => ({
+							cw721_coin: {
+								address: collectionAddress,
+								token_id: tokenId,
+							},
+						})),
+						terms: {
+							duration_in_blocks: +durationInDays * BLOCKS_PER_DAY,
+							interest: String(interestRate),
+							principle: {
+								amount:
+									amountConverter.default.userFacingToBlockchainValue(amountNative),
+								denom: terraUtils.getDefaultChainDenom(),
+							},
+						},
+						comment,
+						loan_preview: {
+							cw721_coin: {
+								address: previewNFT.collectionAddress,
+								token_id: previewNFT.tokenId,
+							},
 						},
 					},
 				},
 			},
-		})
+		])
 	}
 
 	static async makeLoanOffer(

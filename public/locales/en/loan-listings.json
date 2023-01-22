@@ -16,6 +16,8 @@
 	"interest-rate-apr": "Interest Rate (APR %)",
 	"fund-loan": "Fund Loan",
 	"make-offer": "Make Offer",
+	"repay-loan": "Repay Loan",
+	"withdraw": "Withdraw Defaulted",
 	"you-might-like": "Loan Listings You Might Like",
 	"view-all-nfts": "View all NFTs",
 	"filters": {
