@@ -1,6 +1,6 @@
 import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
-import { APIGetAllResponse, APIPagination, HumanCoin } from 'types/common'
+import { APIGetAllResponse, APIPagination, Coin, HumanCoin } from 'types/common'
 import { keysToCamel } from 'utils/js/keysToCamel'
 import { Loan } from './loansService'
 
@@ -27,7 +27,7 @@ export type LoanOffer = {
 		}
 		state: OFFER_STATE
 		listDate: string
-		depositedFunds: HumanCoin
+		depositedFunds?: Coin
 		comment: string
 	}
 }

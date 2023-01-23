@@ -212,7 +212,7 @@ function LoanOffersTable({
 									>
 										<TokenChip>
 											<Box sx={{ flex: 1, justifyContent: 'center' }}>
-												{offer?.offerInfo?.depositedFunds ? (
+												{offer?.offerInfo?.terms?.principle?.amount ? (
 													<Flex>
 														<Flex sx={{ mr: '2px', alignItems: 'center' }}>
 															{`${offer?.offerInfo?.terms?.principle?.amount} ${offer?.offerInfo?.terms?.principle?.currency}`}
@@ -242,7 +242,6 @@ function LoanOffersTable({
 									<Flex
 										sx={{
 											justifyContent: 'flex-start',
-											minWidth: '160px',
 										}}
 									>
 										{moment(offer?.offerInfo.listDate).fromNow()}

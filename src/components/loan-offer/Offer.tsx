@@ -15,13 +15,15 @@ export default function Offer() {
 	} = useFormContext()
 
 	return (
-		<Card sx={{ flexDirection: 'column', p: '12px', gap: '16px' }}>
-			<Title>{t('loan-listings:loan-counter.offer-title')}</Title>
-			<Subtitle>{t('loan-listings:loan-counter.offer-subtitle')}</Subtitle>
+		<Card sx={{ flexDirection: 'column', p: '16px', gap: '16px' }}>
+			<Flex sx={{ flexDirection: 'column', gap: '2px' }}>
+				<Title>{t('loan-listings:loan-counter.offer-title')}</Title>
+				<Subtitle>{t('loan-listings:loan-counter.offer-subtitle')}</Subtitle>
+			</Flex>
 
 			<Flex sx={{ flexDirection: 'column' }}>
 				<TokenInputField
-					label={t('loan:loan-details.token-label')}
+					label={t('loan-listings:loan-counter.token-label')}
 					id='tokenAmount'
 					{...register('tokenAmount')}
 					fieldError={

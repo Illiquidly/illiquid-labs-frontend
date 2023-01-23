@@ -112,7 +112,9 @@ const FundLoanOfferModal = NiceModal.create(
 												}
 											>
 												<RadioCard value={CONFIRM_STATUS_TYPE.CONFIRMED}>
-													<RadioText>{t('loan-listings:remove-modal.radio-text')}</RadioText>
+													<RadioText>
+														{t('loan-listings:fund-loan-modal.radio-text')}
+													</RadioText>
 												</RadioCard>
 											</RadioInputGroupProvider>
 
