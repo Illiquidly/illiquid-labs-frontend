@@ -20,6 +20,7 @@
 	"withdraw": "Withdraw Defaulted",
 	"you-might-like": "Loan Listings You Might Like",
 	"view-all-nfts": "View all NFTs",
+	"listed": "Listed {{listed}}",
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
@@ -33,6 +34,12 @@
 	"tabs": {
 		"all-listings": "All Loans",
 		"my-listings": "My Loans"
+	},
+	"loan-counter": {
+		"title": "Make Offer",
+		"offer-title": "What would you like to do?",
+		"offer-subtitle": "Enter the details here and we’ll send it to the user.",
+		"review-offer": "Review Offer"
 	},
 	"loan-offers": {
 		"title": "Loan Offers",

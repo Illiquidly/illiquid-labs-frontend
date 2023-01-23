@@ -213,9 +213,7 @@ function LoanOffersTable({
 										*/}
 									{!isMyLoan &&
 										isMyOffer &&
-										[OFFER_STATE.Refused, OFFER_STATE.Cancelled].includes(
-											offer?.offerInfo?.state
-										) && (
+										[OFFER_STATE.Refused].includes(offer?.offerInfo?.state) && (
 											<Button onClick={async () => withdrawOffer(offer)}>
 												{t('common:withdraw')}
 											</Button>

@@ -13,7 +13,7 @@ import {
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import {
 	NotificationOutlineIcon,
-	WalletOutlineIcon,
+	// WalletOutlineIcon,
 } from 'assets/icons/24ptOutline'
 import { BurgerMenuIcon, CloseIcon } from 'assets/icons/mixed'
 import useIsTablet from 'hooks/react/useIsTablet'
@@ -61,11 +61,11 @@ function Header() {
 			name: 'send',
 			icon: <ArrowShapeRightOutlineIcon />,
 		},
-		{
-			route: ROUTES.LOAN_LISTINGS,
-			name: 'loans',
-			icon: <WalletOutlineIcon />,
-		},
+		// {
+		// 	route: ROUTES.LOAN_LISTINGS,
+		// 	name: 'loans',
+		// 	icon: <WalletOutlineIcon />,
+		// },
 		{
 			route: ROUTES.RAFFLE_LISTINGS,
 			name: 'raffles',

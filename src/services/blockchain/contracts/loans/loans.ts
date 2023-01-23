@@ -129,6 +129,9 @@ class LoansContract extends Contract {
 					comment,
 				},
 			},
+			coins: {
+				luna: amountConverter.default.userFacingToBlockchainValue(amountNative),
+			},
 		})
 	}
 
