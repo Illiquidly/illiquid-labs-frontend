@@ -44,7 +44,7 @@
 	"loan-offers": {
 		"title": "Loan Offers",
 		"table": {
-			"columns": ["User", "Tokens", "Status", "Date"],
+			"columns": ["User", "Tokens", "% APR", "Loan Period", "Status", "Date"],
 			"approve": "Approve",
 			"deny": "Deny"
 		}
