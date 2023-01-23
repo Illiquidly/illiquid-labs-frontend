@@ -21,7 +21,10 @@ export const VERIFIED_COLLECTIONS = 'verifiedCollections'
 export const NAME_SERVICE_REGISTERED_DOMAINS = 'nameServiceRegisteredDomains'
 export const NAME_SERVICE_REGISTERED_DOMAIN_INFO = 'nameServiceRegisteredInfo'
 export const HEADER_ACTIONS = 'headerActions'
-export const NOTIFICATIONS = 'notifications'
+
+export const TRADE_NOTIFICATIONS = 'tradeNotifications'
+export const LOAN_NOTIFICATIONS = 'loanNotifications'
+
 export const SEND_TRANSACTIONS = 'sendTransactions'
 export const SEND_TRANSACTION = 'sendTransaction'
 export const PARTIAL_WALLET_NFTS = 'partialWalletNFTs'
