@@ -32,7 +32,7 @@ import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { LoansService } from 'services/api'
+import { LoanOffersService, LoansService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -45,6 +45,7 @@ import {
 	ViewNFTsModalResult,
 	AttributeCard as PrimaryAttributeCard,
 	LinkButton,
+	TxBroadcastingModal,
 } from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import { FAVORITES_LOANS, LOAN } from 'constants/useQueryKeys'
@@ -56,6 +57,10 @@ import { FavoriteLoansService } from 'services/api/favoriteLoansService'
 import { Coin, NetworkName } from 'types'
 import CreateLoanListing from 'components/shared/header-actions/create-loan-listing/CreateLoanListings'
 import { LoanOfferForm } from 'types/loan/types'
+import Offer from 'components/loan-offer/Offer'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { LoanDetailsStepSchema } from 'constants/validation-schemas/loan'
+import { LoansContract } from 'services/blockchain'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings', 'loan'])
 const getStaticPaths = makeStaticPaths()
@@ -142,7 +147,7 @@ export default function LoanCounter() {
 
 	const formMethods = useForm<LoanOfferForm>({
 		mode: 'all',
-		// resolver: yupResolver(LoanCounterValidationSchema),
+		resolver: yupResolver(LoanDetailsStepSchema),
 		defaultValues: {
 			tokenName: 'Luna',
 		},
@@ -166,12 +171,36 @@ export default function LoanCounter() {
 		}
 	}
 
-	const onSubmit = async ({ comment, tokenAmount, tokenName }) => {
+	const onSubmit = async ({
+		tokenAmount,
+		interestRate,
+		loanPeriod,
+		comment,
+	}) => {
 		if (!loanId) {
 			return
 		}
 
-		console.warn({ comment, tokenAmount, tokenName })
+		const loanOfferResult: {
+			globalOfferId: string
+		} = await NiceModal.show(TxBroadcastingModal, {
+			transactionAction: LoansContract.makeLoanOffer(
+				loanId as string,
+				borrower as string,
+				loanPeriod,
+				interestRate,
+				tokenAmount,
+				comment
+			),
+			closeOnFinish: true,
+		})
+
+		formMethods.reset()
+
+		await LoanOffersService.getLoanOffer(
+			wallet.network.name,
+			loanOfferResult.globalOfferId
+		)
 	}
 
 	const liked = Boolean(
@@ -214,11 +243,19 @@ export default function LoanCounter() {
 										</LinkButton>
 									</Flex>
 									<Row>
-										<ModalTitle>
-											{t('loan-listings:loan-counter.submit-counter-offer')}
-										</ModalTitle>
+										<ModalTitle>{t('loan-listings:loan-counter.title')}</ModalTitle>
 									</Row>
 									<Flex sx={{ flexDirection: ['column', 'column', 'row'] }}>
+										<Flex
+											sx={{
+												flex: 1,
+												order: [1, 1, 3],
+											}}
+										>
+											<Box sx={{ width: '100%' }}>
+												<Offer />
+											</Box>
+										</Flex>
 										<Box
 											sx={{
 												order: 2,
@@ -342,7 +379,7 @@ export default function LoanCounter() {
 									<Loader />
 								</Flex>
 							)}
-						</Flex>{' '}
+						</Flex>
 					</form>
 				</FormProvider>
 			</LayoutContainer>
