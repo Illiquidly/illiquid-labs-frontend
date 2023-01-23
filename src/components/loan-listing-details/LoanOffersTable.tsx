@@ -231,23 +231,15 @@ function LoanOffersTable({
 										) &&
 										!isMyOffer &&
 										[OFFER_STATE.Published].includes(offer?.offerInfo.state) && (
-											<>
-												<Button
-													fullWidth
-													variant='primary'
-													onClick={() => handleApprove(offer)}
-												>
+											<Flex sx={{ gap: '8px' }}>
+												<Button variant='primary' onClick={() => handleApprove(offer)}>
 													{t('loan-listings:loan-offers.table.approve')}
 												</Button>
 
-												<Button
-													onClick={() => handleDeny(offer)}
-													variant='secondary'
-													fullWidth
-												>
+												<Button onClick={() => handleDeny(offer)} variant='secondary'>
 													{t('loan-listings:loan-offers.table.deny')}
 												</Button>
-											</>
+											</Flex>
 										)}
 
 									{/* {
