@@ -40,7 +40,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { sample } from 'lodash'
-import { LoansService, SupportedCollectionsService } from 'services/api'
+import {
+	LoanOffersService,
+	LoansService,
+	SupportedCollectionsService,
+} from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -61,6 +65,7 @@ import {
 	FavoriteLoansService,
 } from 'services/api/favoriteLoansService'
 import {
+	ACCEPTED_LOAN_OFFER,
 	FAVORITES_LOANS,
 	LATEST_BLOCK,
 	LOAN,
@@ -80,6 +85,7 @@ import { LoansContract } from 'services/blockchain'
 import FundLoanOfferModal, {
 	FundLoanOfferModalResult,
 } from 'components/loan-listing-details/modals/fund-loan-modal/FundLoanModal'
+import { OFFER_STATE } from 'services/api/loansOffersService'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -144,13 +150,41 @@ export default function LoanListingDetails() {
 		{
 			enabled: !!wallet.network,
 			retry: true,
-			refetchInterval: 60 * 1000, // Refetch every minute
+			refetchInterval: 60 * 1000,
 		}
 	)
 
+	const { data: acceptedOffers } = useQuery(
+		[ACCEPTED_LOAN_OFFER, loanId, borrower, wallet.network, myAddress],
+		async () =>
+			LoanOffersService.getAllLoanOffers(
+				wallet.network.name,
+				{
+					borrowers: [myAddress],
+					loanIds: [`${loanId}`],
+					states: [OFFER_STATE.Accepted],
+				},
+				{
+					limit: 1,
+					page: 1,
+				}
+			),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+		}
+	)
+
+	const [acceptedLoanOffer] = acceptedOffers?.data ?? []
+
 	const { data: latestBlockHeight } = useQuery(
 		[LATEST_BLOCK, wallet.network],
-		async () => terraUtils.getLatestBlockHeight()
+		async () => terraUtils.getLatestBlockHeight(),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+			refetchInterval: 60 * 1000,
+		}
 	)
 
 	const { data: favoriteLoans } = useQuery(
@@ -243,15 +277,20 @@ export default function LoanListingDetails() {
 			return
 		}
 
+		if (!acceptedLoanOffer) {
+			return
+		}
+
 		// TODO: this should be returned from contract to now exactly the amount for now just add 0.05% more than required
 		const TOLERANCE = 0.5
 
 		const fundLoanResponse = await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: LoansContract.repayBorrowedFunds(
 				loan.loanId,
-				Number(loanInfo?.terms?.principle?.amount ?? 0) +
-					(Number(loanInfo?.terms?.interest ?? 0 + TOLERANCE) / 100) *
-						Number(loanInfo?.terms?.principle?.amount ?? 0)
+				Number(acceptedLoanOffer?.offerInfo?.terms?.principle?.amount ?? 0) +
+					(Number(acceptedLoanOffer?.offerInfo.terms?.interest ?? 0 + TOLERANCE) /
+						100) *
+						Number(acceptedLoanOffer?.offerInfo.terms?.principle?.amount ?? 0)
 			),
 			closeOnFinish: true,
 		})
@@ -417,7 +456,9 @@ export default function LoanListingDetails() {
 											<AttributeValue>
 												{t('loan-listings:days', {
 													count: Math.floor(
-														(loanInfo?.terms?.durationInBlocks ?? 0) / BLOCKS_PER_DAY
+														(acceptedLoanOffer?.offerInfo?.terms?.durationInBlocks ??
+															loanInfo?.terms?.durationInBlocks ??
+															0) / BLOCKS_PER_DAY
 													),
 												})}
 											</AttributeValue>
@@ -428,18 +469,31 @@ export default function LoanListingDetails() {
 											</AttributeName>
 											<AttributeValue>
 												{loanInfo?.startBlock
-													? `${latestBlockHeight} / ${
-															loanInfo?.startBlock + loanInfo?.terms?.durationInBlocks
-													  }`
-													: `-`}
+													? t('loan-listings:days-estimated', {
+															estimated: (
+																((loanInfo?.startBlock ?? 0) +
+																	(acceptedLoanOffer?.offerInfo?.terms?.durationInBlocks ?? 0) -
+																	(Number(latestBlockHeight) ?? 0)) /
+																BLOCKS_PER_DAY
+															).toFixed(2),
+															blocks:
+																(loanInfo?.startBlock ?? 0) +
+																(acceptedLoanOffer?.offerInfo?.terms?.durationInBlocks ?? 0) -
+																(Number(latestBlockHeight) ?? 0),
+													  })
+													: '-'}
 											</AttributeValue>
 										</AttributeCard>
 										<AttributeCard>
 											<AttributeName>{t('loan-listings:loan-amount')}</AttributeName>
 											<AttributeValue>
 												{t('loan-listings:loan-principle', {
-													amount: loanInfo?.terms?.principle?.amount,
-													currency: loanInfo?.terms?.principle?.currency,
+													amount:
+														acceptedLoanOffer?.offerInfo?.terms?.principle?.amount ??
+														loanInfo?.terms?.principle?.amount,
+													currency:
+														acceptedLoanOffer?.offerInfo?.terms?.principle?.currency ??
+														loanInfo?.terms?.principle?.currency,
 												})}
 
 												<Box sx={{ ml: 8 }}>
@@ -450,13 +504,19 @@ export default function LoanListingDetails() {
 										<AttributeCard>
 											<AttributeName>{t('loan-listings:interest-rate-apr')}</AttributeName>
 											<AttributeValue>
-												{t('common:percentage', { value: loanInfo?.terms?.interest ?? 0 })}
+												{t('common:percentage', {
+													value:
+														acceptedLoanOffer?.offerInfo?.terms?.interest ??
+														loanInfo?.terms?.interest ??
+														0,
+												})}
 											</AttributeValue>
 										</AttributeCard>
 									</AttributesCard>
 								</Row>
 
 								{isMyLoan &&
+									acceptedLoanOffer &&
 									[LOAN_STATE.Started].includes(
 										loan?.loanInfo?.state ?? ('' as LOAN_STATE)
 									) && (

@@ -11,6 +11,7 @@
 	"days_other": "{{count}} days",
 	"loan-period": "Loan Period",
 	"blocks-until-default": "Until Default",
+	"days-estimated": " ~ {{estimated}} days / {{blocks}} blocks",
 	"loan-amount": "Loan Amount",
 	"loan-principle": "{{amount}} {{currency}}",
 	"interest-rate-apr": "Interest Rate (APR %)",
@@ -39,7 +40,8 @@
 		"title": "Make Offer",
 		"offer-title": "What would you like to do?",
 		"offer-subtitle": "Enter the details here and we’ll send it to the user.",
-		"review-offer": "Review Offer"
+		"review-offer": "Review Offer",
+		"token-label": "Loan amount"
 	},
 	"loan-offers": {
 		"title": "Loan Offers",
@@ -50,9 +52,10 @@
 		}
 	},
 	"fund-loan-modal": {
-		"title": "Fund Loan",
-		"question": "Are you sure you’d like to fund loan from {{username}} ?",
+		"title": "Fund Loan Listing",
+		"question": "Are you sure you’d like to fund listing from {{username}} ?",
 		"note": "Feel free to send include a message. How exciting!",
+		"radio-text": "Yes, I’m absolutely sure. Fund this listing!",
 		"send-message": "Send Message",
 		"enter-text": "Enter text",
 		"back-to-listing": "Back to Listing",
