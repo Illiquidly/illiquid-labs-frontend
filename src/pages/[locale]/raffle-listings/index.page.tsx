@@ -127,6 +127,8 @@ export default function RaffleListings() {
 
 	const [search, setSearch] = React.useState('')
 
+	const [sort, setSort] = React.useState<'ASC' | 'DESC'>('ASC')
+
 	const [debouncedSearch, setDebouncedSearch] = React.useState('')
 
 	useDebounce(() => setDebouncedSearch(search), 800, [search])
@@ -219,7 +221,8 @@ export default function RaffleListings() {
 				{
 					page,
 					limit: 28,
-				}
+				},
+				sort
 			),
 		{
 			enabled: !!wallet.network && !!favoriteRaffles,
@@ -230,8 +233,12 @@ export default function RaffleListings() {
 	React.useEffect(() => {
 		// eslint-disable-next-line security/detect-object-injection
 		const fnc = {
-			[RAFFLE_LISTINGS_TYPE.MY_LISTINGS]: () => setStatuses([]),
-			[RAFFLE_LISTINGS_TYPE.PAST_LISTINGS]: () =>
+			[RAFFLE_LISTINGS_TYPE.MY_LISTINGS]: () => {
+				setSort('ASC')
+				setStatuses([])
+			},
+			[RAFFLE_LISTINGS_TYPE.PAST_LISTINGS]: () => {
+				setSort('DESC')
 				setStatuses([
 					{
 						label: closedStatusLabel,
@@ -245,14 +252,17 @@ export default function RaffleListings() {
 						label: claimedStatusLabel,
 						value: JSON.stringify([RAFFLE_STATE.Claimed]),
 					},
-				]),
-			[RAFFLE_LISTINGS_TYPE.ALL_LISTINGS]: () =>
+				])
+			},
+			[RAFFLE_LISTINGS_TYPE.ALL_LISTINGS]: () => {
+				setSort('ASC')
 				setStatuses([
 					{
 						label: startedStatusLabel,
 						value: JSON.stringify([RAFFLE_STATE.Started]),
 					},
-				]),
+				])
+			},
 		}[listingsType]
 
 		fnc?.()

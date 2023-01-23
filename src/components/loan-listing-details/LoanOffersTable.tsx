@@ -16,7 +16,7 @@ import React from 'react'
 
 import { Box, Flex } from 'theme-ui'
 import NiceModal from '@ebay/nice-modal-react'
-import { LunaIcon } from 'assets/icons/mixed'
+import { AvatarIcon, LunaIcon } from 'assets/icons/mixed'
 import moment from 'moment'
 import { Loan, LOAN_STATE } from 'services/api/loansService'
 import { LOAN_OFFERS } from 'constants/useQueryKeys'
@@ -31,7 +31,15 @@ import {
 import useAddress from 'hooks/useAddress'
 import { TxBroadcastingModal } from 'components/shared'
 import { LoansContract } from 'services/blockchain'
-import { TokenChip } from './styled'
+import { BLOCKS_PER_DAY } from 'constants/core'
+import useNameService from 'hooks/useNameService'
+import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import {
+	NameLabel,
+	NameServiceImage,
+	NameServiceImagePlaceholder,
+	TokenChip,
+} from './styled'
 
 const Container = styled(Flex)`
 	flex-direction: column;
@@ -144,6 +152,10 @@ function LoanOffersTable({
 		await updateLoanOffer(offer)
 	}
 
+	const nameServiceResolutions = useNameService(
+		infiniteData.map(o => o?.offerInfo?.lender ?? '')
+	)
+
 	const isMyLoan = loan?.borrower === myAddress
 
 	return (
@@ -162,15 +174,35 @@ function LoanOffersTable({
 					</TableHeadRow>
 				</TableHead>
 				<TableBody>
-					{(infiniteData ?? []).map(offer => {
+					{(infiniteData ?? []).map((offer, index) => {
 						const isMyOffer = offer?.offerInfo?.lender === myAddress
+
+						const profileImage = nameServiceResolutions[index]?.extension?.image
+						const name = nameServiceResolutions[index]?.extension?.name ?? ''
 
 						return (
 							<TableBodyRow key={offer.id}>
 								<TableBodyRowCell style={{ verticalAlign: 'top' }}>
-									<OverflowTip>
-										<div>{offer?.borrower ?? ''}</div>
-									</OverflowTip>
+									<Flex sx={{ gap: '12px', flex: 1 }}>
+										<NameServiceImagePlaceholder>
+											{profileImage ? (
+												<NameServiceImage src={fromIPFSImageURLtoImageURL(profileImage)} />
+											) : (
+												<AvatarIcon width='100%' height='100%' />
+											)}
+										</NameServiceImagePlaceholder>
+										<div>
+											<OverflowTip>
+												<NameLabel>{name}</NameLabel>
+											</OverflowTip>
+											<OverflowTip>
+												<div>{offer?.offerInfo?.lender ?? ''}</div>
+											</OverflowTip>
+											<OverflowTip>
+												<div>{`''${offer?.offerInfo?.comment ?? ''}''`}</div>
+											</OverflowTip>
+										</div>
+									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex
@@ -194,6 +226,16 @@ function LoanOffersTable({
 										</TokenChip>
 									</Flex>
 								</TableBodyRowCell>
+								<TableBodyRowCell>
+									{t('common:percentage', { value: offer?.offerInfo?.terms?.interest })}
+								</TableBodyRowCell>
+								<TableBodyRowCell>
+									{t('loan-listings:days', {
+										count: Math.floor(
+											offer?.offerInfo?.terms?.durationInBlocks / BLOCKS_PER_DAY
+										),
+									})}
+								</TableBodyRowCell>
 
 								<TableBodyRowCell>{offer?.offerInfo?.state}</TableBodyRowCell>
 								<TableBodyRowCell>
@@ -209,11 +251,12 @@ function LoanOffersTable({
 								<TableBodyRowCell>
 									{/* 
 											When loan is not mine, loan is any state, my offer is refused (not accepted) or cancelled I can
-											* Withdraw my assets from counter trade.
+											* Withdraw my assets from offer.
 										*/}
 									{!isMyLoan &&
 										isMyOffer &&
-										[OFFER_STATE.Refused].includes(offer?.offerInfo?.state) && (
+										[OFFER_STATE.Refused].includes(offer?.offerInfo?.state) &&
+										offer?.offerInfo?.depositedFunds && (
 											<Button onClick={async () => withdrawOffer(offer)}>
 												{t('common:withdraw')}
 											</Button>
