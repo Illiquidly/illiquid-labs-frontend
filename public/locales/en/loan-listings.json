@@ -85,5 +85,20 @@
 		"interest-rate-placeholder": "Enter interest rate",
 		"loan-period-label": "Load period",
 		"loan-period-placeholder": "Enter loan period in days"
+	},
+	"submit-loan-offer-modal": {
+		"title": "Send Loan Offer",
+		"question": "Are you sure you’d like to offer the items below?",
+		"answer": "You’ll be able to remove your offer but only if its not accepted by the listing owner.",
+		"counter-offer": "Counter Offer",
+		"nft-collateral": "NFT Collateral",
+		"submit-offer": "Submit Offer",
+		"edit-offer": "Edit Offer",
+		"back-to-listing": "Back to Listing",
+		"loan-period": "Loan Period",
+		"loan-amount": "Loan Amount",
+		"loan-currency": "{{tokenAmount}} {{tokenName}}",
+		"interest-description": "{{apr}}% APR ({{amount}})",
+		"interest": "Interest"
 	}
 }
