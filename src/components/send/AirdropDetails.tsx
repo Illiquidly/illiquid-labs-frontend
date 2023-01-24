@@ -113,8 +113,10 @@ const AirdropDetailsForm = () => {
 		setError('selectedNFTs', { message })
 	}, [])
 
-	const getFilesFromEvent = async (files: any[]) => {
-		const fileList = await pMap(files, async fi => fi.getFile())
+	const getFilesFromEvent = async (input: any[] | any) => {
+		const fileList = input?.target?.files
+			? input.target.files
+			: input.map(fi => fi.getFile())
 
 		return pMap(
 			fileList,
