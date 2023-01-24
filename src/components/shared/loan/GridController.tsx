@@ -117,7 +117,7 @@ function GridController({
 					id,
 					loanId,
 					borrower,
-					loanInfo: { terms, loanPreview, associatedAssets },
+					loanInfo: { terms, loanPreview, associatedAssets, activeOffer },
 				}) => {
 					const liked = Boolean(
 						(favoriteLoans ?? []).find(favoriteLoan =>
@@ -150,9 +150,20 @@ function GridController({
 								imageUrl={loanPreview?.cw721Coin?.imageUrl ?? []}
 								name={loanPreview?.cw721Coin?.name ?? ''}
 								liked={liked}
-								apr={Number(terms?.interest ?? 0)}
-								borrowAmount={Number(terms?.principle.amount ?? 0)}
-								timeFrame={Math.floor(Number(terms?.durationInBlocks / BLOCKS_PER_DAY))}
+								apr={Number(
+									activeOffer?.offerInfo?.terms?.interest ?? terms?.interest ?? 0
+								)}
+								borrowAmount={Number(
+									activeOffer?.offerInfo?.terms?.principle?.amount ??
+										terms?.principle.amount ??
+										0
+								)}
+								timeFrame={Math.floor(
+									Number(
+										(activeOffer?.offerInfo?.terms?.durationInBlocks ??
+											terms?.durationInBlocks) / BLOCKS_PER_DAY
+									)
+								)}
 								verified={verifiedCollections.some(
 									({ collectionAddress }) =>
 										loanPreview?.cw721Coin?.collectionAddress === collectionAddress

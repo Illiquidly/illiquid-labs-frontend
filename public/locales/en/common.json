@@ -121,6 +121,8 @@
 	"refuse-offer-action-message": "Withdraw your offer",
 	"loan-accepted-message": "Your loan has been accepted!",
 	"loan-accepted-action-message": "Check your loan offer",
+	"offer-accepted-message": "Your offer has been accepted",
+	"offer-accepted-action-message": "Check offer",
 	"other-offer-accepted-message": "Other offer was accepted",
 	"other-offer-accepted-action-message": "Check your offer",
 	"total-fees": "{{amount}} {{currency}}",

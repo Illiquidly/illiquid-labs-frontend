@@ -43,7 +43,7 @@ export type Loan = {
 		listDate: string
 		state: LOAN_STATE
 		offerAmount: number
-		activeOffer?: number
+		activeOffer?: LoanOffer
 		startBlock?: number
 		comment: string
 		loanPreview: {
