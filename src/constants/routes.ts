@@ -30,7 +30,7 @@ export const AUDIT =
 	'https://illiquidlabs.gitbook.io/illiquid-labs/about-us/security'
 export const MIGRATION = 'https://migrate.illiquidlabs.io/migrate'
 export const SENDER_CSV_TEMPLATE =
-	'https://storageapi.fleek.co/e94e36b9-b22d-4296-8619-f1d3f529e744-bucket/nfts-csv-template.csv'
+	'https://storage.fleek.zone/e94e36b9-b22d-4296-8619-f1d3f529e744-bucket/nfts-csv-template.csv'
 // SOCIALS
 export const DISCORD = 'https://discord.com/invite/K4P5AKugpg'
 export const TELEGRAM = ''

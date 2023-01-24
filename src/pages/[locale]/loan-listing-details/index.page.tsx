@@ -40,11 +40,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { sample } from 'lodash'
-import {
-	LoanOffersService,
-	LoansService,
-	SupportedCollectionsService,
-} from 'services/api'
+import { LoansService, SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
@@ -65,7 +61,6 @@ import {
 	FavoriteLoansService,
 } from 'services/api/favoriteLoansService'
 import {
-	ACCEPTED_LOAN_OFFER,
 	FAVORITES_LOANS,
 	LATEST_BLOCK,
 	LOAN,
@@ -85,7 +80,6 @@ import { LoansContract } from 'services/blockchain'
 import FundLoanOfferModal, {
 	FundLoanOfferModalResult,
 } from 'components/loan-listing-details/modals/fund-loan-modal/FundLoanModal'
-import { OFFER_STATE } from 'services/api/loansOffersService'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -154,29 +148,6 @@ export default function LoanListingDetails() {
 		}
 	)
 
-	const { data: acceptedOffers } = useQuery(
-		[ACCEPTED_LOAN_OFFER, loanId, borrower, wallet.network, myAddress],
-		async () =>
-			LoanOffersService.getAllLoanOffers(
-				wallet.network.name,
-				{
-					borrowers: [myAddress],
-					loanIds: [`${loanId}`],
-					states: [OFFER_STATE.Accepted],
-				},
-				{
-					limit: 1,
-					page: 1,
-				}
-			),
-		{
-			enabled: !!wallet.network,
-			retry: true,
-		}
-	)
-
-	const [acceptedLoanOffer] = acceptedOffers?.data ?? []
-
 	const { data: latestBlockHeight } = useQuery(
 		[LATEST_BLOCK, wallet.network],
 		async () => terraUtils.getLatestBlockHeight(),
@@ -203,6 +174,8 @@ export default function LoanListingDetails() {
 	)
 
 	const [ownerInfo] = useNameService(loan?.borrower ? [loan?.borrower] : [])
+
+	const acceptedLoanOffer = loan?.loanInfo?.activeOffer ?? null
 
 	const { loanInfo, id } = loan ?? {}
 	const { comment } = loanInfo ?? {}
