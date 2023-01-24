@@ -61,6 +61,9 @@ import Offer from 'components/loan-offer/Offer'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoanDetailsStepSchema } from 'constants/validation-schemas/loan'
 import { LoansContract } from 'services/blockchain'
+import SubmitLoanOfferModal, {
+	SubmitLoanOfferModalProps,
+} from 'components/loan-offer/modals/SubmitLoanOfferModal'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings', 'loan'])
 const getStaticPaths = makeStaticPaths()
@@ -173,6 +176,7 @@ export default function LoanCounter() {
 
 	const onSubmit = async ({
 		tokenAmount,
+		tokenName,
 		interestRate,
 		loanPeriod,
 		comment,
@@ -180,6 +184,15 @@ export default function LoanCounter() {
 		if (!loanId) {
 			return
 		}
+
+		await NiceModal.show(SubmitLoanOfferModal, {
+			loan,
+			tokenAmount,
+			tokenName,
+			interestRate,
+			loanPeriod,
+			comment,
+		} as SubmitLoanOfferModalProps)
 
 		const loanOfferResult: {
 			globalOfferId: string
