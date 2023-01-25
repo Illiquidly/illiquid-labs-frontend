@@ -14,7 +14,7 @@ import {
 	FavoriteLoanResponse,
 	FavoriteLoansService,
 } from 'services/api/favoriteLoansService'
-import { Loan } from 'services/api/loansService'
+import { Loan, LOAN_STATE } from 'services/api/loansService'
 import { FAVORITES_LOANS } from 'constants/useQueryKeys'
 import { NFT } from 'services/api/walletNFTsService'
 import { BLOCKS_PER_DAY } from 'constants/core'
@@ -117,7 +117,7 @@ function GridController({
 					id,
 					loanId,
 					borrower,
-					loanInfo: { terms, loanPreview, associatedAssets, activeOffer },
+					loanInfo: { terms, loanPreview, associatedAssets, activeOffer, state },
 				}) => {
 					const liked = Boolean(
 						(favoriteLoans ?? []).find(favoriteLoan =>
@@ -139,7 +139,8 @@ function GridController({
 						<Box key={`${loanId}_${borrower}`}>
 							<ListingCard
 								onLike={toggleLike}
-								funded={Boolean(activeOffer)}
+								funded={[LOAN_STATE.Started].includes(state)}
+								defaulted={[LOAN_STATE.Defaulted].includes(state)}
 								description={loanPreview?.cw721Coin?.description ?? ''}
 								attributes={loanPreview?.cw721Coin?.attributes ?? []}
 								tokenId={loanPreview?.cw721Coin?.tokenId ?? ''}

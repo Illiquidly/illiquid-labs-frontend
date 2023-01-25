@@ -23,6 +23,7 @@
 	"view-all-nfts": "View all NFTs",
 	"listed": "Listed {{listed}}",
 	"funded": "Funded",
+	"defaulted": "Defaulted",
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
