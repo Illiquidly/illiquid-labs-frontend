@@ -63,7 +63,8 @@ import { LoanDetailsStepSchema } from 'constants/validation-schemas/loan'
 import { LoansContract } from 'services/blockchain'
 import SubmitLoanOfferModal, {
 	SubmitLoanOfferModalProps,
-} from 'components/loan-offer/modals/SubmitLoanOfferModal'
+} from 'components/loan-offer/modals/submit-loan-offer-modal/SubmitLoanOfferModal'
+import { SubmitLoanOfferSuccessModal } from 'components/loan-offer/modals'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings', 'loan'])
 const getStaticPaths = makeStaticPaths()
@@ -210,10 +211,15 @@ export default function LoanCounter() {
 
 		formMethods.reset()
 
-		await LoanOffersService.getLoanOffer(
-			wallet.network.name,
-			loanOfferResult.globalOfferId
-		)
+		await Promise.all([
+			NiceModal.show(SubmitLoanOfferSuccessModal, {
+				loan,
+			}),
+			LoanOffersService.getLoanOffer(
+				wallet.network.name,
+				loanOfferResult.globalOfferId
+			),
+		])
 	}
 
 	const liked = Boolean(

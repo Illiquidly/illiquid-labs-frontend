@@ -100,5 +100,12 @@
 		"loan-currency": "{{tokenAmount}} {{tokenName}}",
 		"interest-description": "{{apr}}% APR ({{amount}})",
 		"interest": "Interest"
+	},
+	"submit-loan-offer-success-modal": {
+		"title": "Submit counter offer",
+		"question": "You’ve successfully sent {{username}} your offer!",
+		"note": "We’ve sent them a message, so hang tight as they take a look.",
+		"view-all-listings": "View All Listings",
+		"go-to-listing": "Go To Listing"
 	}
 }

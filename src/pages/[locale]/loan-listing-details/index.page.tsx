@@ -506,12 +506,8 @@ export default function LoanListingDetails() {
 									)}
 
 								{!isMyLoan &&
-									[LOAN_STATE.Defaulted].includes(
-										loan?.loanInfo?.state ?? ('' as LOAN_STATE)
-									) &&
-									(loan?.offers ?? []).some(
-										offer => offer?.offerInfo?.lender === myAddress
-									) && (
+									[LOAN_STATE.Defaulted].includes(loan?.loanInfo?.state as LOAN_STATE) &&
+									loan?.loanInfo?.activeOffer?.offerInfo?.lender === myAddress && (
 										<Row>
 											<Button
 												size='extraLarge'
