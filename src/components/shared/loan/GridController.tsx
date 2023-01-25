@@ -139,6 +139,7 @@ function GridController({
 						<Box key={`${loanId}_${borrower}`}>
 							<ListingCard
 								onLike={toggleLike}
+								funded={Boolean(activeOffer)}
 								description={loanPreview?.cw721Coin?.description ?? ''}
 								attributes={loanPreview?.cw721Coin?.attributes ?? []}
 								tokenId={loanPreview?.cw721Coin?.tokenId ?? ''}
