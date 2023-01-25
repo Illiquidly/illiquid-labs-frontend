@@ -30,10 +30,10 @@ class RafflesContract extends Contract {
 		return terraUtils.postTransaction({
 			contractAddress: raffleContractAddress,
 			message: {
-				update_randomness: {
-					raffle_id: raffleId,
+				update_randomness: keysToSnake({
+					raffleId,
 					randomness,
-				},
+				}),
 			},
 		})
 	}

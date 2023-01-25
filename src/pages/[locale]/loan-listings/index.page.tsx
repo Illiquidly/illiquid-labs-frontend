@@ -213,6 +213,7 @@ export default function LoanListings() {
 					states: statuses.flatMap(({ value }) => JSON.parse(value)),
 					collections: collections.map(({ value }) => value),
 					favoritesOf: myFavoritesChecked ? myAddress : undefined,
+					fundedByMe: listingsType === LOAN_LISTINGS_TYPE.FUNDED_BY_ME,
 				},
 				{
 					page,
@@ -271,6 +272,9 @@ export default function LoanListings() {
 							</Tab>
 							<Tab value={LOAN_LISTINGS_TYPE.MY_LISTINGS}>
 								{t('loan-listings:tabs:my-listings')}
+							</Tab>
+							<Tab value={LOAN_LISTINGS_TYPE.FUNDED_BY_ME}>
+								{t('loan-listings:tabs:funded-by-me')}
 							</Tab>
 						</Tabs>
 					</TabsSection>

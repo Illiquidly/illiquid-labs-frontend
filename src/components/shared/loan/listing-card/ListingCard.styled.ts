@@ -246,6 +246,10 @@ export const FundedChip = styled(MoreChip)`
 	background: ${props => props.theme.colors.success200};
 `
 
+export const DefaultedChip = styled(MoreChip)`
+	background: ${props => props.theme.colors.error200};
+`
+
 export const AttributeCard = styled(StyledAttributeCard)`
 	align-items: flex-start;
 	width: 100%;

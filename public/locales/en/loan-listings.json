@@ -23,6 +23,7 @@
 	"view-all-nfts": "View all NFTs",
 	"listed": "Listed {{listed}}",
 	"funded": "Funded",
+	"defaulted": "Defaulted",
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
@@ -43,7 +44,8 @@
 	],
 	"tabs": {
 		"all-listings": "All Loans",
-		"my-listings": "My Loans"
+		"my-listings": "My Loans",
+		"funded-by-me": "Funded by me"
 	},
 	"loan-counter": {
 		"title": "Make Offer",
