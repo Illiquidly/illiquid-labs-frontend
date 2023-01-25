@@ -3,7 +3,7 @@ import { dRandAxios } from 'services/axios'
 export interface DrandResponse {
 	round: string
 	signature: string
-	previous_signature: string
+	previousSignature: string
 }
 
 export class DrandService {
@@ -15,7 +15,7 @@ export class DrandService {
 		return {
 			round: data.round,
 			signature: Buffer.from(data.signature, 'hex').toString('base64'),
-			previous_signature: Buffer.from(data.previous_signature, 'hex').toString(
+			previousSignature: Buffer.from(data.previous_signature, 'hex').toString(
 				'base64'
 			),
 		}
