@@ -15,6 +15,7 @@ import {
 	BottomImageArea,
 	CardContainer,
 	DescriptionSection,
+	FundedChip,
 	Image,
 	ImageSection,
 	LikeIconContainer,
@@ -43,6 +44,7 @@ interface ListingCardProps extends NFT {
 	apr: number
 	timeFrame: number
 	isSmall?: boolean
+	funded?: boolean
 }
 
 function ListingCard({
@@ -57,6 +59,7 @@ function ListingCard({
 	timeFrame,
 	apr,
 	borrowAmount,
+	funded,
 	...NFTProps
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -138,6 +141,13 @@ function ListingCard({
 											</OverflowTip>
 										</Flex>
 									)}
+									{Boolean(funded) && (
+										<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+											<OverflowTip>
+												<FundedChip>{t('loan-listings:funded')}</FundedChip>
+											</OverflowTip>
+										</Flex>
+									)}
 								</Flex>
 							</Flex>
 						</DescriptionSection>
@@ -199,6 +209,7 @@ ListingCard.defaultProps = {
 	lookingForItemsLimit: 4,
 	previewItemsLimit: 4,
 	isSmall: false,
+	funded: false,
 }
 
 export default ListingCard

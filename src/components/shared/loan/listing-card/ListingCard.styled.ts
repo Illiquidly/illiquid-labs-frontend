@@ -242,6 +242,10 @@ export const MoreChip = styled(Box)`
 	line-height: 18px;
 `
 
+export const FundedChip = styled(MoreChip)`
+	background: ${props => props.theme.colors.success200};
+`
+
 export const AttributeCard = styled(StyledAttributeCard)`
 	align-items: flex-start;
 	width: 100%;

@@ -22,6 +22,7 @@
 	"you-might-like": "Loan Listings You Might Like",
 	"view-all-nfts": "View all NFTs",
 	"listed": "Listed {{listed}}",
+	"funded": "Funded",
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
@@ -31,7 +32,15 @@
 		"search-collections-placeholder": "Search collections...",
 		"search-status-placeholder": "Search status..."
 	},
-	"statuses": ["Published", "Started", "Defaulted", "Ended", "Withdrawn"],
+	"statuses": [
+		"Active",
+		"Inactive",
+		"Published",
+		"Started",
+		"Defaulted",
+		"Ended",
+		"Withdrawn"
+	],
 	"tabs": {
 		"all-listings": "All Loans",
 		"my-listings": "My Loans"

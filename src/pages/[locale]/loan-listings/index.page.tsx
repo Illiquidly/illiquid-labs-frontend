@@ -86,6 +86,8 @@ export default function LoanListings() {
 		)
 
 	const [
+		activeStatusLabel,
+		inactiveStatusLabel,
 		publishedStatusLabel,
 		startedStatusLabel,
 		defaultedStatusLabel,
@@ -96,6 +98,18 @@ export default function LoanListings() {
 	})
 
 	const statusOptions = [
+		{
+			label: activeStatusLabel,
+			value: JSON.stringify([
+				LOAN_STATE.Published,
+				LOAN_STATE.Started,
+				LOAN_STATE.Defaulted,
+			]),
+		},
+		{
+			label: inactiveStatusLabel,
+			value: JSON.stringify([LOAN_STATE.Ended, LOAN_STATE.Withdrawn]),
+		},
 		{
 			label: publishedStatusLabel,
 			value: JSON.stringify([LOAN_STATE.Published]),
