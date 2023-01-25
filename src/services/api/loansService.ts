@@ -2,7 +2,7 @@ import { RequestQueryBuilder } from '@nestjsx/crud-request'
 import { axios } from 'services/axios'
 import { APIGetAllResponse, APIPagination, HumanCoin } from 'types'
 import { keysToCamel } from 'utils/js/keysToCamel'
-import { LoanOffer } from './loansOffersService'
+import { LoanOffer, OFFER_STATE } from './loansOffersService'
 import { NFT } from './walletNFTsService'
 
 // TODO: move this to as const type, convert name to camelCase...
@@ -64,6 +64,8 @@ export type LoanFilters = {
 	excludeLoans?: (string | number)[]
 	myAddress: string
 	favoritesOf?: string
+	offeredBy?: string[]
+	fundedByMe?: boolean
 }
 
 export type LoansResponse = APIGetAllResponse<Loan>
@@ -107,6 +109,35 @@ export class LoansService {
 							{
 								'cw721Assets_collection_join.collectionAddress': {
 									$in: filters?.collections,
+								},
+							},
+					  ]
+					: []),
+				...(filters?.offeredBy?.length
+					? [
+							{
+								'offers.lender': {
+									$in: filters?.offeredBy,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.fundedByMe
+					? [
+							{
+								'offers.lender': {
+									$in: [filters?.myAddress],
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.fundedByMe
+					? [
+							{
+								'offers.state': {
+									$in: [OFFER_STATE.Accepted],
 								},
 							},
 					  ]

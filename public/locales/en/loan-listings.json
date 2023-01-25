@@ -44,7 +44,8 @@
 	],
 	"tabs": {
 		"all-listings": "All Loans",
-		"my-listings": "My Loans"
+		"my-listings": "My Loans",
+		"funded-by-me": "Funded by me"
 	},
 	"loan-counter": {
 		"title": "Make Offer",

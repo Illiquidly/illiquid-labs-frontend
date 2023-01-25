@@ -13,4 +13,5 @@ export enum RAFFLE_LISTINGS_TYPE {
 export enum LOAN_LISTINGS_TYPE {
 	ALL_LISTINGS = '0',
 	MY_LISTINGS = '1',
+	FUNDED_BY_ME = '2',
 }
