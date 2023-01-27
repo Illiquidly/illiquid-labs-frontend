@@ -10,6 +10,7 @@ export enum LOAN_STATE {
 	Published = 'published',
 	Started = 'started',
 	Defaulted = 'defaulted',
+	PendingDefault = 'pending_default',
 	Ended = 'ended',
 	Withdrawn = 'assets_withdrawn',
 }

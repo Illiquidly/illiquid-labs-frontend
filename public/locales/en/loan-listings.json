@@ -24,6 +24,8 @@
 	"listed": "Listed {{listed}}",
 	"funded": "Funded",
 	"defaulted": "Defaulted",
+	"ended": "Ended",
+	"published": "Published",
 	"filters": {
 		"search-placeholder": "Search",
 		"status-label": "Status",
@@ -37,7 +39,7 @@
 		"Active",
 		"Inactive",
 		"Published",
-		"Started",
+		"Funded",
 		"Defaulted",
 		"Ended",
 		"Withdrawn"
