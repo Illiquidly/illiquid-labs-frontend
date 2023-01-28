@@ -27,6 +27,7 @@ import {
 	OwnerName,
 	OwnerAvatarImg,
 	ParticipantsTitle,
+	AttributeDescription,
 } from 'components/raffle-listing-details'
 
 import {
@@ -434,23 +435,20 @@ export default function ListingDetails() {
 											</AttributeName>
 											<AttributeValue>
 												{moment(raffleInfo?.raffleOptions?.raffleStartDate ?? '').format(
-													'L'
+													'L LT'
 												)}
 											</AttributeValue>
+											<AttributeDescription>
+												{moment(raffleInfo?.raffleOptions?.raffleStartDate ?? '').fromNow()}
+											</AttributeDescription>
 										</AttributeCard>
 										<AttributeCard>
-											<AttributeName>
-												{t(
-													`raffle-listings:${
-														moment().isAfter(raffleEndDate)
-															? 'raffle-ended'
-															: 'raffle-ends-in'
-													}`
-												)}
-											</AttributeName>
-											<AttributeValue> {raffleEndDate.format('L LTS')}</AttributeValue>
+											<AttributeName>{t(`raffle-listings:raffle-end-date`)}</AttributeName>
+											<AttributeValue> {raffleEndDate.format('L LT')}</AttributeValue>
 
-											<AttributeName>{raffleEndDate.fromNow()}</AttributeName>
+											<AttributeDescription>
+												{raffleEndDate.fromNow()}
+											</AttributeDescription>
 										</AttributeCard>
 										<AttributeCard>
 											<AttributeName>

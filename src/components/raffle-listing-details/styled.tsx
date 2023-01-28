@@ -244,6 +244,10 @@ export const AttributeName = styled(StyledAttributeName)`
 	text-transform: none;
 `
 
+export const AttributeDescription = styled(AttributeName)`
+	color: ${props => props.theme.colors.gray800};
+`
+
 export const AttributeValue = styled(StyledAttributeValue)`
 	align-items: center;
 	overflow: hidden;
