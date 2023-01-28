@@ -20,7 +20,7 @@ export const CHAIN_CURRENCIES: { [key in NetworkId]: string } = {
 	'phoenix-1': 'luna',
 }
 
-export const API_URL = 'https://api.illiquidlabs.io/'
+export const API_URL = 'https://api.illiquidlabs.io:8443/'
 
 export const ASSETS_URL = 'https://assets.terra.money/'
 
