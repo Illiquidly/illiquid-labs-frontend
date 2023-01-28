@@ -506,7 +506,10 @@ export default function LoanListingDetails() {
 									)}
 
 								{!isMyLoan &&
-									[LOAN_STATE.Defaulted].includes(loan?.loanInfo?.state as LOAN_STATE) &&
+									[LOAN_STATE.Started].includes(loan?.loanInfo?.state as LOAN_STATE) &&
+									(Number(latestBlockHeight) ?? 0) >
+										(loanInfo?.startBlock ?? 0) +
+											(acceptedLoanOffer?.offerInfo?.terms?.durationInBlocks ?? 0) &&
 									loan?.loanInfo?.activeOffer?.offerInfo?.lender === myAddress && (
 										<Row>
 											<Button

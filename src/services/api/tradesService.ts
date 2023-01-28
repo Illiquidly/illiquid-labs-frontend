@@ -86,6 +86,7 @@ type TradeFilters = {
 	excludeTrades?: (string | number)[]
 	myAddress: string
 	favoritesOf?: string
+	hasCounterTrades?: boolean
 }
 
 export class TradesService {
@@ -125,6 +126,22 @@ export class TradesService {
 				{
 					network,
 				},
+				...(filters?.hasCounterTrades
+					? [
+							{
+								'counterTrade_tradeInfo_join.state': {
+									$in: [
+										TRADE_STATE.Accepted,
+										TRADE_STATE.Cancelled,
+										TRADE_STATE.Countered,
+										TRADE_STATE.Created,
+										TRADE_STATE.Published,
+										TRADE_STATE.Refused,
+									],
+								},
+							},
+					  ]
+					: []),
 				...(filters?.tradeIds?.length
 					? [
 							{

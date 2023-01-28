@@ -103,7 +103,7 @@ export default function LoanListings() {
 			value: JSON.stringify([
 				LOAN_STATE.Published,
 				LOAN_STATE.Started,
-				LOAN_STATE.Defaulted,
+				LOAN_STATE.PendingDefault,
 			]),
 		},
 		{
@@ -120,7 +120,7 @@ export default function LoanListings() {
 		},
 		{
 			label: defaultedStatusLabel,
-			value: JSON.stringify([LOAN_STATE.Defaulted]),
+			value: JSON.stringify([LOAN_STATE.PendingDefault]),
 		},
 		{
 			label: endedStatusLabel,
@@ -128,7 +128,7 @@ export default function LoanListings() {
 		},
 		{
 			label: withdrawnLabel,
-			value: JSON.stringify([LOAN_STATE.Withdrawn]),
+			value: JSON.stringify([LOAN_STATE.Withdrawn, LOAN_STATE.Defaulted]),
 		},
 	]
 
