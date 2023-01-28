@@ -64,6 +64,7 @@ function IncomingRaffleOffers() {
 				{
 					myAddress,
 					owners: [myAddress],
+					hasParticipants: true,
 				},
 				{
 					page,

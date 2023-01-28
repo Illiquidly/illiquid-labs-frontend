@@ -16,33 +16,39 @@ function OutgoingTradeOffers() {
 	const myAddress = useAddress()
 	const { t } = useTranslation(['common', 'dashboard'])
 
-	// TODO: deconstruct to avoid magic numbers
-	const statusesLabels: Array<string> = t('dashboard:trades:statuses', {
+	const [
+		activeStatusLabel,
+		inactiveStatusLabel,
+		cancelledStatusLabel,
+		publishedStatusLabel,
+		counteredStatusLabel,
+		acceptedStatusLabel,
+	]: Array<string> = t('dashboard:trades:statuses', {
 		returnObjects: true,
 	})
 	const statusOptions = [
 		{
-			label: statusesLabels[0],
+			label: activeStatusLabel,
 			value: JSON.stringify([TRADE_STATE.Published, TRADE_STATE.Countered]),
 		},
 		{
-			label: statusesLabels[1],
+			label: inactiveStatusLabel,
 			value: JSON.stringify([TRADE_STATE.Cancelled, TRADE_STATE.Accepted]),
 		},
 		{
-			label: statusesLabels[2],
+			label: cancelledStatusLabel,
 			value: JSON.stringify([TRADE_STATE.Cancelled]),
 		},
 		{
-			label: statusesLabels[3],
+			label: publishedStatusLabel,
 			value: JSON.stringify([TRADE_STATE.Published]),
 		},
 		{
-			label: statusesLabels[4],
+			label: counteredStatusLabel,
 			value: JSON.stringify([TRADE_STATE.Countered]),
 		},
 		{
-			label: statusesLabels[5],
+			label: acceptedStatusLabel,
 			value: JSON.stringify([TRADE_STATE.Accepted]),
 		},
 	]

@@ -11,6 +11,9 @@ import {
 	WatchListRaffles,
 	OutgoingRaffleOffers,
 	IncomingRaffleOffers,
+	WatchListLoans,
+	IncomingLoanOffers,
+	OutgoingLoanOffers,
 } from 'components/dashboard'
 import { Flex } from 'theme-ui'
 import IncomingTradeOffers from 'components/dashboard/IncomingTradeOffers'
@@ -24,6 +27,8 @@ const getStaticProps = makeStaticProps([
 	'trade',
 	'raffle',
 	'raffle-listings',
+	'loan',
+	'loan-listings',
 ])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
@@ -36,7 +41,7 @@ export enum ACTIVITY_TYPE {
 export enum FEATURE_TYPE {
 	trade = 'trade',
 	raffle = 'raffle',
-	// loan = 'loan',
+	loan = 'loan',
 }
 
 export default function Dashboard() {
@@ -79,6 +84,9 @@ export default function Dashboard() {
 						<If condition={feature === FEATURE_TYPE.raffle}>
 							<WatchListRaffles />
 						</If>
+						<If condition={feature === FEATURE_TYPE.loan}>
+							<WatchListLoans />
+						</If>
 					</Flex>
 
 					<Title>{t('dashboard:activity.title')}</Title>
@@ -120,6 +128,16 @@ export default function Dashboard() {
 							)}
 							{activityType === ACTIVITY_TYPE.outgoingActivity && (
 								<OutgoingRaffleOffers />
+							)}
+						</>
+					</If>
+					<If condition={feature === FEATURE_TYPE.loan}>
+						<>
+							{activityType === ACTIVITY_TYPE.incomingActivity && (
+								<IncomingLoanOffers />
+							)}
+							{activityType === ACTIVITY_TYPE.outgoingActivity && (
+								<OutgoingLoanOffers />
 							)}
 						</>
 					</If>
