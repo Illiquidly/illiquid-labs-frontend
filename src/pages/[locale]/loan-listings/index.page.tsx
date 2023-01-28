@@ -103,7 +103,7 @@ export default function LoanListings() {
 			value: JSON.stringify([
 				LOAN_STATE.Published,
 				LOAN_STATE.Started,
-				LOAN_STATE.Defaulted,
+				LOAN_STATE.PendingDefault,
 			]),
 		},
 		{
