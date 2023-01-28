@@ -7,11 +7,13 @@ import {
 } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
+import useNameService from 'hooks/useNameService'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
+import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import getShortText from 'utils/js/getShortText'
 import { OverflowTip } from '../../../ui/overflow-tip'
 
@@ -29,6 +31,9 @@ import {
 	Line,
 	LineSection,
 	MoreChip,
+	NameLabel,
+	NameServiceImage,
+	NameServiceImagePlaceholder,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -82,6 +87,8 @@ function ListingCard({
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
 	const { t } = useTranslation(['common', 'raffle-listings'])
+
+	const [nameServiceResolution] = useNameService(winner ? [winner] : [])
 
 	return (
 		<Box sx={{ overflow: 'hidden' }}>
@@ -230,9 +237,22 @@ function ListingCard({
 								<Box>🥳</Box>
 								<Box>🎊</Box>
 							</RaffleWinnerBadge>
-							<Flex sx={{ gap: '10px', alignItems: 'flex-end' }}>
-								<AvatarIcon width='34px' height='34px' />
-								<RaffleWinnerAddress>{getShortText(winner, 10)}</RaffleWinnerAddress>
+							<Flex sx={{ gap: '10px', alignItems: 'center' }}>
+								<NameServiceImagePlaceholder>
+									{nameServiceResolution?.extension?.image ? (
+										<NameServiceImage
+											src={fromIPFSImageURLtoImageURL(
+												nameServiceResolution?.extension?.image
+											)}
+										/>
+									) : (
+										<AvatarIcon width='100%' height='100%' />
+									)}
+								</NameServiceImagePlaceholder>
+								<Flex sx={{ flexDirection: 'column', justifyContent: 'center' }}>
+									<NameLabel>{nameServiceResolution?.extension?.name ?? ''}</NameLabel>
+									<RaffleWinnerAddress>{getShortText(winner, 10)}</RaffleWinnerAddress>
+								</Flex>
 							</Flex>
 						</RaffleWinnerSection>
 					)}
