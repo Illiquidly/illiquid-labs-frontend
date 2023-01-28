@@ -4,13 +4,13 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { useWallet } from '@terra-money/use-wallet'
 import useAddress from 'hooks/useAddress'
-import { TradesService } from 'services/api'
-import { ALL_TRADES, TRADES } from 'constants/useQueryKeys'
-import { TRADE_STATE } from 'services/api/tradesService'
+import { LoansService } from 'services/api'
+import { ALL_LOANS, LOANS } from 'constants/useQueryKeys'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
-import TradeOffers from './TradeOffers'
+import { LOAN_STATE } from 'services/api/loansService'
+import LoanOffers from './LoanOffers'
 
-function IncomingTradeOffers() {
+function OutgoingLoanOffers() {
 	const wallet = useWallet()
 	const [page, setPage] = React.useState(1)
 	const myAddress = useAddress()
@@ -19,37 +19,47 @@ function IncomingTradeOffers() {
 	const [
 		activeStatusLabel,
 		inactiveStatusLabel,
-		cancelledStatusLabel,
 		publishedStatusLabel,
-		counteredStatusLabel,
-		acceptedStatusLabel,
-	]: Array<string> = t('dashboard:trades:statuses', {
+		startedStatusLabel,
+		defaultedStatusLabel,
+		endedStatusLabel,
+		withdrawnLabel,
+	]: Array<string> = t('dashboard:loan.statuses', {
 		returnObjects: true,
 	})
+
 	const statusOptions = [
 		{
 			label: activeStatusLabel,
-			value: JSON.stringify([TRADE_STATE.Published, TRADE_STATE.Countered]),
+			value: JSON.stringify([
+				LOAN_STATE.Published,
+				LOAN_STATE.Started,
+				LOAN_STATE.PendingDefault,
+			]),
 		},
 		{
 			label: inactiveStatusLabel,
-			value: JSON.stringify([TRADE_STATE.Cancelled, TRADE_STATE.Accepted]),
-		},
-		{
-			label: cancelledStatusLabel,
-			value: JSON.stringify([TRADE_STATE.Cancelled]),
+			value: JSON.stringify([LOAN_STATE.Ended, LOAN_STATE.Withdrawn]),
 		},
 		{
 			label: publishedStatusLabel,
-			value: JSON.stringify([TRADE_STATE.Published]),
+			value: JSON.stringify([LOAN_STATE.Published]),
 		},
 		{
-			label: counteredStatusLabel,
-			value: JSON.stringify([TRADE_STATE.Countered]),
+			label: startedStatusLabel,
+			value: JSON.stringify([LOAN_STATE.Started]),
 		},
 		{
-			label: acceptedStatusLabel,
-			value: JSON.stringify([TRADE_STATE.Accepted]),
+			label: defaultedStatusLabel,
+			value: JSON.stringify([LOAN_STATE.PendingDefault]),
+		},
+		{
+			label: endedStatusLabel,
+			value: JSON.stringify([LOAN_STATE.Ended]),
+		},
+		{
+			label: withdrawnLabel,
+			value: JSON.stringify([LOAN_STATE.Withdrawn, LOAN_STATE.Defaulted]),
 		},
 	]
 
@@ -61,15 +71,14 @@ function IncomingTradeOffers() {
 		MultiSelectAccordionInputOption[]
 	>([])
 
-	const { data: allTrades, isFetched: allFetched } = useQuery(
-		[ALL_TRADES, wallet.network, myAddress],
+	const { data: allLoans, isFetched: allFetched } = useQuery(
+		[ALL_LOANS, wallet.network, myAddress],
 		async () =>
-			TradesService.getAllTrades(
+			LoansService.getAllLoans(
 				wallet.network.name,
 				{
 					myAddress,
-					owners: [myAddress],
-					hasCounterTrades: true,
+					fundedByMe: true,
 				},
 				{
 					page,
@@ -83,21 +92,20 @@ function IncomingTradeOffers() {
 	)
 
 	const {
-		data: trades,
+		data: loans,
 		isLoading,
 		refetch,
-		isFetched: tradesFetched,
+		isFetched: loansFetched,
 	} = useQuery(
-		[TRADES, wallet.network, myAddress, page, statuses, collections, allFetched],
+		[LOANS, wallet.network, myAddress, page, statuses, collections, allFetched],
 		async () =>
-			TradesService.getAllTrades(
+			LoansService.getAllLoans(
 				wallet.network.name,
 				{
 					myAddress,
-					owners: [myAddress],
+					fundedByMe: true,
 					states: statuses.flatMap(({ value }) => JSON.parse(value)),
 					collections: collections.map(({ value }) => value),
-					hasCounterTrades: true,
 				},
 				{
 					page,
@@ -111,9 +119,9 @@ function IncomingTradeOffers() {
 	)
 
 	return (
-		<TradeOffers
-			trades={trades}
-			allTrades={allTrades}
+		<LoanOffers
+			loans={loans}
+			allLoans={allLoans}
 			setPage={setPage}
 			page={page}
 			isLoading={isLoading}
@@ -123,9 +131,9 @@ function IncomingTradeOffers() {
 			collections={collections}
 			setCollections={setCollections}
 			statusOptions={statusOptions}
-			tradesFetched={tradesFetched}
+			loansFetched={loansFetched}
 		/>
 	)
 }
 
-export default IncomingTradeOffers
+export default OutgoingLoanOffers

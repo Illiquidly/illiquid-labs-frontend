@@ -208,6 +208,7 @@ function LoanOffersTable({
 									<Flex
 										sx={{
 											justifyContent: 'flex-start',
+											minWidth: '160px',
 										}}
 									>
 										<TokenChip>
@@ -227,21 +228,28 @@ function LoanOffersTable({
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
-									{t('common:percentage', { value: offer?.offerInfo?.terms?.interest })}
+									<Flex sx={{ minWidth: '40px' }}>
+										{t('common:percentage', { value: offer?.offerInfo?.terms?.interest })}
+									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>
-									{t('loan-listings:days', {
-										count: Math.floor(
-											offer?.offerInfo?.terms?.durationInBlocks / BLOCKS_PER_DAY
-										),
-									})}
+									<Flex sx={{ minWidth: '80px' }}>
+										{t('loan-listings:days', {
+											count: Math.floor(
+												offer?.offerInfo?.terms?.durationInBlocks / BLOCKS_PER_DAY
+											),
+										})}
+									</Flex>
 								</TableBodyRowCell>
 
-								<TableBodyRowCell>{offer?.offerInfo?.state}</TableBodyRowCell>
+								<TableBodyRowCell>
+									<Flex sx={{ minWidth: '60px' }}>{offer?.offerInfo?.state}</Flex>
+								</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex
 										sx={{
 											justifyContent: 'flex-start',
+											minWidth: '90px',
 										}}
 									>
 										{moment(offer?.offerInfo.listDate).fromNow()}
