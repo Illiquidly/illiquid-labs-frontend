@@ -67,6 +67,7 @@ export type LoanFilters = {
 	favoritesOf?: string
 	offeredBy?: string[]
 	fundedByMe?: boolean
+	hasOffers?: boolean
 }
 
 export type LoansResponse = APIGetAllResponse<Loan>
@@ -110,6 +111,21 @@ export class LoansService {
 							{
 								'cw721Assets_collection_join.collectionAddress': {
 									$in: filters?.collections,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.hasOffers
+					? [
+							{
+								'offers.state': {
+									$in: [
+										OFFER_STATE.Accepted,
+										OFFER_STATE.Cancelled,
+										OFFER_STATE.Published,
+										OFFER_STATE.Refused,
+									],
 								},
 							},
 					  ]

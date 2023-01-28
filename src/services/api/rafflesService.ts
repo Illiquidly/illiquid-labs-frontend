@@ -72,6 +72,7 @@ type RaffleFilters = {
 	wonByMe?: boolean
 	excludeMyRaffles?: boolean
 	myAddress: string
+	hasParticipants?: boolean
 }
 
 export class RafflesService {
@@ -113,6 +114,16 @@ export class RafflesService {
 							{
 								'cw721Assets_collection_join.collectionAddress': {
 									$in: filters?.collections,
+								},
+							},
+					  ]
+					: []),
+
+				...(filters?.hasParticipants
+					? [
+							{
+								'participants.ticketNumber': {
+									$ne: 0,
 								},
 							},
 					  ]

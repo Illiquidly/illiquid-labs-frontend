@@ -90,6 +90,7 @@ function IncomingRaffleOffers() {
 					states: statuses.flatMap(({ value }) => JSON.parse(value)),
 					collections: collections.map(({ value }) => value),
 					owners: [myAddress],
+					hasParticipants: true,
 				},
 				{
 					page,
