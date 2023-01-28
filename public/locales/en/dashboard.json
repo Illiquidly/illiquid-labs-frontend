@@ -25,7 +25,7 @@
 		"statuses": ["Started", "Closed", "Finished", "Cancelled", "Claimed"],
 		"activity": {
 			"outgoing": "Participating Raffles",
-			"incoming": "My Raffles"
+			"incoming": "Selling Raffles"
 		},
 		"filters": {
 			"search-placeholder": "Search",

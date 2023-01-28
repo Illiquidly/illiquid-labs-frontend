@@ -48,11 +48,16 @@ function RaffleParticipantsTable({
 
 	const myAddress = useAddress()
 
-	const participants = (raffle?.participants ?? []).sort(
-		firstBy('winner', 'desc')
-			.thenBy((a: RaffleParticipant) => (a.user === myAddress ? -1 : 1))
-			.thenBy('ticketNumber', 'desc')
-	)
+	const participants = (raffle?.participants ?? [])
+		.map(raffleParticipant => ({
+			isWinner: raffleParticipant?.user === raffle?.raffleInfo?.winner,
+			...raffleParticipant,
+		}))
+		.sort(
+			firstBy('isWinner', 'desc')
+				.thenBy((a: RaffleParticipant) => (a.user === myAddress ? -1 : 1))
+				.thenBy('ticketNumber', 'desc')
+		)
 
 	const nameServiceResolutions = useNameService(participants.map(p => p.user))
 
@@ -73,8 +78,6 @@ function RaffleParticipantsTable({
 				</TableHead>
 				<TableBody>
 					{participants.map((raffleParticipant, index) => {
-						const isWinner = raffleParticipant?.user === raffle?.raffleInfo?.winner
-
 						const name = nameServiceResolutions[index]?.extension?.name ?? ''
 						const profileImage = nameServiceResolutions[index]?.extension?.image ?? ''
 
@@ -127,7 +130,7 @@ function RaffleParticipantsTable({
 											minWidth: '160px',
 										}}
 									>
-										{isWinner && (
+										{raffleParticipant.isWinner && (
 											<Button sx={{ pointerEvents: 'none' }} variant='primary'>
 												<Flex sx={{ mr: 10 }}>
 													<ConfettiIcon />
