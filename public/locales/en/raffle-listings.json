@@ -41,8 +41,9 @@
 	"raffle-tickets-remaining": "Tickets Remaining",
 	"raffle-ticket-cost": "Ticket cost",
 	"raffle-ends-in": "Ends in",
+	"raffle-end-date": "Raffle End Date",
 	"raffle-ended": "Ended",
-	"raffle-start-date": "Raffle start date",
+	"raffle-start-date": "Raffle Start Date",
 	"winning-odds": "Winning Odds",
 	"total-volume": "Volume",
 	"remove-modal": {
