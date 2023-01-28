@@ -68,6 +68,7 @@ export type LoanFilters = {
 	offeredBy?: string[]
 	fundedByMe?: boolean
 	hasOffers?: boolean
+	lenders?: string[]
 }
 
 export type LoansResponse = APIGetAllResponse<Loan>
@@ -139,7 +140,15 @@ export class LoansService {
 							},
 					  ]
 					: []),
-
+				...(filters?.lenders
+					? [
+							{
+								'offers.lender': {
+									$in: filters?.lenders,
+								},
+							},
+					  ]
+					: []),
 				...(filters?.fundedByMe
 					? [
 							{

@@ -78,7 +78,7 @@ function OutgoingLoanOffers() {
 				wallet.network.name,
 				{
 					myAddress,
-					fundedByMe: true,
+					lenders: [myAddress],
 				},
 				{
 					page,
@@ -103,7 +103,7 @@ function OutgoingLoanOffers() {
 				wallet.network.name,
 				{
 					myAddress,
-					fundedByMe: true,
+					lenders: [myAddress],
 					states: statuses.flatMap(({ value }) => JSON.parse(value)),
 					collections: collections.map(({ value }) => value),
 				},
