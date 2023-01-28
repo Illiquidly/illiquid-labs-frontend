@@ -297,6 +297,11 @@ export default function ListingDetails() {
 	const ownerName =
 		ownerInfo?.extension?.publicName ?? ownerInfo?.extension?.name
 
+	const raffleEndDate = moment(raffleInfo?.raffleOptions?.raffleStartDate).add(
+		raffleInfo?.raffleOptions?.raffleDuration ?? 0,
+		'seconds'
+	)
+
 	return (
 		<Page title={t('title')}>
 			<LayoutContainer>
@@ -437,22 +442,15 @@ export default function ListingDetails() {
 											<AttributeName>
 												{t(
 													`raffle-listings:${
-														moment().isAfter(
-															moment(raffleInfo?.raffleOptions?.raffleStartDate).add(
-																raffleInfo?.raffleOptions?.raffleDuration ?? 0,
-																'seconds'
-															)
-														)
+														moment().isAfter(raffleEndDate)
 															? 'raffle-ended'
 															: 'raffle-ends-in'
 													}`
 												)}
 											</AttributeName>
-											<AttributeValue>
-												{moment(raffleInfo?.raffleOptions?.raffleStartDate)
-													.add(raffleInfo?.raffleOptions?.raffleDuration ?? 0, 'seconds')
-													.fromNow()}
-											</AttributeValue>
+											<AttributeValue> {raffleEndDate.format('L LTS')}</AttributeValue>
+
+											<AttributeName>{raffleEndDate.fromNow()}</AttributeName>
 										</AttributeCard>
 										<AttributeCard>
 											<AttributeName>
