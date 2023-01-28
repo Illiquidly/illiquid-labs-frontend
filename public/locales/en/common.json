@@ -101,6 +101,8 @@
 	"notifications": "Notifications",
 	"new": "New",
 	"older": "Older",
+	"copy": "copy",
+	"copied": "copied",
 	"new-counter-trade-message": "You received an offer on your trade",
 	"counter-trade-review-message": "Your offer is in review",
 	"counter-trade-accepted-message": "Your offer has been accepted",
