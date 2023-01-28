@@ -67,8 +67,10 @@ function LoanOfferCard({
 	...NFTProps
 }: LoanOfferCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
-	const { t } = useTranslation(['common', 'Loan-listings'])
+	const { t } = useTranslation(['common', 'loan-listings', 'dashboard'])
 	const [showingOffers, setShowingOffers] = React.useState(false)
+
+	console.warn(loan?.loanInfo?.state)
 
 	return (
 		<Flex sx={{ flexDirection: 'column' }}>
@@ -139,35 +141,34 @@ function LoanOfferCard({
 														{t('common:more-nfts', { count: nfts.length })}
 													</MoreChip>
 												</OverflowTip>
-
-												{Boolean(published) && (
-													<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-														<OverflowTip>
-															<MoreChip>{t('dashboard:loans.published')}</MoreChip>
-														</OverflowTip>
-													</Flex>
-												)}
-												{Boolean(funded) && (
-													<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-														<OverflowTip>
-															<FundedChip>{t('dashboard:loans.funded')}</FundedChip>
-														</OverflowTip>
-													</Flex>
-												)}
-												{Boolean(defaulted) && (
-													<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-														<OverflowTip>
-															<DefaultedChip>{t('dashboard:loans.defaulted')}</DefaultedChip>
-														</OverflowTip>
-													</Flex>
-												)}
-												{Boolean(ended) && (
-													<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-														<OverflowTip>
-															<DefaultedChip>{t('dashboard:loans.ended')}</DefaultedChip>
-														</OverflowTip>
-													</Flex>
-												)}
+											</Flex>
+										)}
+										{Boolean(published) && (
+											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+												<OverflowTip>
+													<MoreChip>{t('dashboard:loans.published')}</MoreChip>
+												</OverflowTip>
+											</Flex>
+										)}
+										{Boolean(funded) && (
+											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+												<OverflowTip>
+													<FundedChip>{t('dashboard:loans.funded')}</FundedChip>
+												</OverflowTip>
+											</Flex>
+										)}
+										{Boolean(defaulted) && (
+											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+												<OverflowTip>
+													<DefaultedChip>{t('dashboard:loans.defaulted')}</DefaultedChip>
+												</OverflowTip>
+											</Flex>
+										)}
+										{Boolean(ended) && (
+											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+												<OverflowTip>
+													<DefaultedChip>{t('dashboard:loans.ended')}</DefaultedChip>
+												</OverflowTip>
 											</Flex>
 										)}
 									</Flex>
