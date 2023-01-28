@@ -8,19 +8,19 @@ type CopyFieldProps = {
 }
 
 export const CopyField = ({ data }: CopyFieldProps) => {
-	const { t } = useTranslation('trade')
-	const [copyText, setCopyText] = useState(t('confirm-listing.copy'))
+	const { t } = useTranslation('common')
+	const [copyText, setCopyText] = useState(t('common:copy'))
 	return (
 		<CopyFieldContainer>
 			<span>{data}</span>
 			<ActionButton
 				type='button'
 				data-copyText={copyText}
-				onMouseLeave={() => setCopyText(t('confirm-listing.copy'))}
+				onMouseLeave={() => setCopyText(t('common:copy'))}
 				onClick={() => {
 					navigator.clipboard
 						.writeText(data)
-						.then(() => setCopyText(t('confirm-listing.copied')))
+						.then(() => setCopyText(t('common:copied')))
 				}}
 			>
 				<CopyIcon />
