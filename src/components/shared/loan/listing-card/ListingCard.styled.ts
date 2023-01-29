@@ -49,14 +49,24 @@ export const ImageSection = styled(Flex)`
 export const LineSection = styled(Flex)`
 	flex-direction: column;
 	margin-top: 8px;
-	padding: 0 12px;
+	padding: 0 0px;
 	position: relative;
+	overflow: hidden;
+	border-radius: 4px;
+
+	border: 1.34px solid ${props => props.theme.colors.dark500};
 `
 
-export const Line = styled(Flex)`
-	width: 100%;
-	height: 0.8px;
-	background: rgba(57, 94, 113, 0.2);
+export const ProgressBar = styled(Flex)<{
+	progress: number
+	threshold: number
+}>`
+	width: ${props => props.progress ?? '0'}%;
+	height: 4.8px;
+	background: ${props =>
+		props.progress > props.threshold
+			? props.theme.colors.error200
+			: props.theme.colors.success200};
 `
 
 export const RightCutout = styled.div`

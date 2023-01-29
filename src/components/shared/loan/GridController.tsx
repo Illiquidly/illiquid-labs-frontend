@@ -4,7 +4,7 @@ import React from 'react'
 import { SupportedCollectionGetResponse } from 'services/api/supportedCollectionsService'
 import { Box, Flex } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import useAddress from 'hooks/useAddress'
 import { useWallet } from '@terra-money/use-wallet'
@@ -15,9 +15,11 @@ import {
 	FavoriteLoansService,
 } from 'services/api/favoriteLoansService'
 import { Loan, LOAN_STATE } from 'services/api/loansService'
-import { FAVORITES_LOANS } from 'constants/useQueryKeys'
+import { FAVORITES_LOANS, LATEST_BLOCK } from 'constants/useQueryKeys'
 import { NFT } from 'services/api/walletNFTsService'
 import { BLOCKS_PER_DAY } from 'constants/core'
+import terraUtils from 'utils/blockchain/terraUtils'
+import { calculateRangePercentage } from 'utils/js/calculateRangePercentage'
 import { ListingCard } from './listing-card'
 
 export enum GRID_TYPE {
@@ -69,6 +71,16 @@ function GridController({
 
 	const queryClient = useQueryClient()
 
+	const { data: latestBlockHeight } = useQuery(
+		[LATEST_BLOCK, wallet.network],
+		async () => terraUtils.getLatestBlockHeight(),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+			refetchInterval: 60 * 1000,
+		}
+	)
+
 	const updateFavoriteLoanState = (data: FavoriteLoanResponse) =>
 		queryClient.setQueryData(
 			[FAVORITES_LOANS, wallet.network, myAddress],
@@ -117,8 +129,18 @@ function GridController({
 					id,
 					loanId,
 					borrower,
-					loanInfo: { terms, loanPreview, associatedAssets, activeOffer, state },
+					loanInfo: {
+						terms,
+						loanPreview,
+						associatedAssets,
+						activeOffer,
+						state,
+						startBlock,
+					},
 				}) => {
+					const defaultBlock =
+						(startBlock ?? 0) + (activeOffer?.offerInfo?.terms?.durationInBlocks ?? 0)
+
 					const liked = Boolean(
 						(favoriteLoans ?? []).find(favoriteLoan =>
 							favoriteLoan.loans.some(loan => loan.id === id)
@@ -166,6 +188,16 @@ function GridController({
 										terms?.principle.amount ??
 										0
 								)}
+								defaultPercentage={
+									startBlock
+										? calculateRangePercentage(
+												Number(latestBlockHeight) ?? 0,
+												startBlock ?? 0,
+												defaultBlock ?? 0
+										  )
+										: 0
+								}
+								defaultThreshold={90}
 								timeFrame={Math.floor(
 									Number(
 										(activeOffer?.offerInfo?.terms?.durationInBlocks ??
