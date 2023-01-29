@@ -256,16 +256,11 @@ export default function LoanListingDetails() {
 			return
 		}
 
-		// TODO: this should be returned from contract to now exactly the amount for now just add 0.05% more than required
-		const TOLERANCE = 0.5
-
 		const repayLoanResponse = await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: LoansContract.repayBorrowedFunds(
 				loan.loanId,
-				Number(acceptedLoanOffer?.offerInfo?.terms?.principle?.amount ?? 0) +
-					(Number(acceptedLoanOffer?.offerInfo.terms?.interest ?? 0 + TOLERANCE) /
-						100) *
-						Number(acceptedLoanOffer?.offerInfo.terms?.principle?.amount ?? 0)
+				Number(acceptedLoanOffer?.offerInfo?.terms?.principle?.amount ?? 0),
+				acceptedLoanOffer?.offerInfo?.terms?.interest ?? '0'
 			),
 			closeOnFinish: true,
 		})
@@ -481,8 +476,8 @@ export default function LoanListingDetails() {
 											<AttributeValue>
 												{t('common:percentage', {
 													value:
-														acceptedLoanOffer?.offerInfo?.terms?.interest ??
-														loanInfo?.terms?.interest ??
+														acceptedLoanOffer?.offerInfo?.terms?.interestRate ??
+														loanInfo?.terms?.interestRate ??
 														0,
 												})}
 											</AttributeValue>

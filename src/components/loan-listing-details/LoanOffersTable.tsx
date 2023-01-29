@@ -229,7 +229,9 @@ function LoanOffersTable({
 								</TableBodyRowCell>
 								<TableBodyRowCell>
 									<Flex sx={{ minWidth: '40px' }}>
-										{t('common:percentage', { value: offer?.offerInfo?.terms?.interest })}
+										{t('common:percentage', {
+											value: offer?.offerInfo?.terms?.interestRate,
+										})}
 									</Flex>
 								</TableBodyRowCell>
 								<TableBodyRowCell>

@@ -80,7 +80,7 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 		}
 
 		const initialTokenName = 'Luna'
-		const initialInterestRate = String(loan?.loanInfo?.terms?.interest ?? 0)
+		const initialInterestRate = String(loan?.loanInfo?.terms?.interestRate ?? 0)
 		const initialTokenAmount = String(
 			loan?.loanInfo?.terms?.principle?.amount ?? 0
 		)
