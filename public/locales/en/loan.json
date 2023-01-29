@@ -34,6 +34,7 @@
 		"congratulations": "Congratulations!",
 		"congratulations-message": "Your Loan has been successfully created!",
 		"your-listing-url": "Your Loan URL",
-		"transaction-id": "Transaction ID"
+		"transaction-id": "Transaction ID",
+		"no-content-comments": "No comments specified"
 	}
 }

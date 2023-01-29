@@ -158,6 +158,8 @@ export default function LoanListings() {
 
 	const [myFavoritesChecked, setMyFavoritesChecked] = React.useState(false)
 
+	const [counteredByMeChecked, setCounteredByMeChecked] = React.useState(false)
+
 	const myAddress = useAddress()
 
 	const { data: favoriteLoans } = useQuery(
@@ -186,6 +188,7 @@ export default function LoanListings() {
 		statuses,
 		collections,
 		myFavoritesChecked,
+		counteredByMeChecked,
 		debouncedSearch,
 		myAddress,
 	])
@@ -198,6 +201,7 @@ export default function LoanListings() {
 			statuses,
 			collections,
 			myFavoritesChecked,
+			counteredByMeChecked,
 			debouncedSearch,
 			page,
 			myAddress,
@@ -214,6 +218,7 @@ export default function LoanListings() {
 					collections: collections.map(({ value }) => value),
 					favoritesOf: myFavoritesChecked ? myAddress : undefined,
 					fundedByMe: listingsType === LOAN_LISTINGS_TYPE.FUNDED_BY_ME,
+					offeredBy: counteredByMeChecked ? [myAddress] : undefined,
 				},
 				{
 					page,
@@ -247,6 +252,7 @@ export default function LoanListings() {
 				statuses,
 				collections,
 				myFavoritesChecked,
+				counteredByMeChecked,
 			} as LoanListingsFilterModalProps)
 		)
 
@@ -254,6 +260,7 @@ export default function LoanListings() {
 			setStatuses(filters.statuses)
 			setCollections(filters.collections)
 			setMyFavoritesChecked(filters.myFavoritesChecked)
+			setCounteredByMeChecked(filters.counteredByMeChecked)
 		}
 	}
 
@@ -351,6 +358,15 @@ export default function LoanListings() {
 											/>
 										</AccordionContentWrapper>
 									</Accordion>
+								</Box>
+
+								<Box mb='8px'>
+									<CheckboxCard
+										variant='medium'
+										title={t('loan-listings:filters:countered-by-me-label')}
+										onChange={e => setCounteredByMeChecked(e.target.checked)}
+										checked={counteredByMeChecked}
+									/>
 								</Box>
 
 								<Box mb='8px'>

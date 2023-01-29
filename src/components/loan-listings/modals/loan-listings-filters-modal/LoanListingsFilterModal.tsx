@@ -27,6 +27,7 @@ export type LoanListingsFilterModalProps = {
 	statusOptions: MultiSelectAccordionInputOption[]
 	participatedByMeChecked: boolean
 	wonByMeChecked: boolean
+	counteredByMeChecked: boolean
 }
 
 enum VIEW_TYPES {
@@ -42,6 +43,7 @@ const LoanListingsFilterModal = NiceModal.create(
 		myFavoritesChecked: defaultMyFavoritesChecked,
 		statusOptions,
 		verifiedCollections,
+		counteredByMeChecked: defaultCounteredByMeChecked,
 	}: LoanListingsFilterModalProps) => {
 		const modal = useModal()
 
@@ -57,6 +59,10 @@ const LoanListingsFilterModal = NiceModal.create(
 
 		const [myFavoritesChecked, setMyFavoritesChecked] = React.useState(
 			defaultMyFavoritesChecked
+		)
+
+		const [counteredByMeChecked, setCounteredByMeChecked] = React.useState(
+			defaultCounteredByMeChecked
 		)
 
 		return (
@@ -93,6 +99,8 @@ const LoanListingsFilterModal = NiceModal.create(
 								onNavigateCollections={() => setViewType(VIEW_TYPES.COLLECTIONS_FILTER)}
 								myFavoritesChecked={myFavoritesChecked}
 								setMyFavoritesChecked={setMyFavoritesChecked}
+								counteredByMeChecked={counteredByMeChecked}
+								setCounteredByMeChecked={setCounteredByMeChecked}
 							/>
 						)}
 						{viewType === VIEW_TYPES.STATUSES_FILTER && (

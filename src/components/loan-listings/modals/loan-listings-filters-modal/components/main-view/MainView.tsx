@@ -19,6 +19,8 @@ import {
 interface MainViewProps {
 	myFavoritesChecked: boolean
 	setMyFavoritesChecked: (v: boolean) => void
+	counteredByMeChecked: boolean
+	setCounteredByMeChecked: (v: boolean) => void
 	onNavigateStatuses: () => void
 	onNavigateCollections: () => void
 }
@@ -26,6 +28,8 @@ interface MainViewProps {
 function MainView({
 	myFavoritesChecked,
 	setMyFavoritesChecked,
+	counteredByMeChecked,
+	setCounteredByMeChecked,
 
 	onNavigateStatuses,
 	onNavigateCollections,
@@ -75,6 +79,17 @@ function MainView({
 					/>
 
 					<Box sx={{ flex: 1 }} />
+				</FilterSection>
+				<FilterSection>
+					<Checkbox
+						checked={counteredByMeChecked}
+						onChange={e => setCounteredByMeChecked(e.target.checked)}
+						label={
+							<FilterText>
+								{t('loan-listings:filters:countered-by-me-label')}
+							</FilterText>
+						}
+					/>
 				</FilterSection>
 			</CheckboxesContainer>
 		</>
