@@ -245,7 +245,9 @@ function LoanOffers({
 													imageUrl={loanPreview?.cw721Coin?.imageUrl ?? []}
 													name={loanPreview?.cw721Coin?.name ?? ''}
 													apr={Number(
-														activeOffer?.offerInfo?.terms?.interest ?? terms?.interest ?? 0
+														activeOffer?.offerInfo?.terms?.interestRate ??
+															terms?.interestRate ??
+															0
 													)}
 													borrowAmount={Number(
 														activeOffer?.offerInfo?.terms?.principle?.amount ??

@@ -18,6 +18,7 @@ export enum LOAN_STATE {
 type Terms = {
 	principle: HumanCoin
 	interest: string
+	interestRate: string
 	durationInBlocks: number
 }
 

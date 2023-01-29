@@ -81,7 +81,9 @@ class LoansContract extends Contract {
 						})),
 						terms: {
 							duration_in_blocks: +durationInDays * BLOCKS_PER_DAY,
-							interest: String(interestRate),
+							interest: amountConverter.default.userFacingToBlockchainValue(
+								(Number(amountNative ?? 0) * Number(interestRate ?? 0)) / 100
+							),
 							principle: {
 								amount:
 									amountConverter.default.userFacingToBlockchainValue(amountNative),
@@ -119,7 +121,9 @@ class LoansContract extends Contract {
 					loan_id: +loanId,
 					terms: {
 						duration_in_blocks: +durationInDays * BLOCKS_PER_DAY,
-						interest: String(interestRate),
+						interest: amountConverter.default.userFacingToBlockchainValue(
+							(Number(amountNative ?? 0) * Number(interestRate ?? 0)) / 100
+						),
 						principle: {
 							amount:
 								amountConverter.default.userFacingToBlockchainValue(amountNative),
@@ -210,7 +214,12 @@ class LoansContract extends Contract {
 		})
 	}
 
-	static async repayBorrowedFunds(loanId: number, amountNative: number) {
+	static async repayBorrowedFunds(
+		loanId: number,
+		amountNative: number,
+		interest: string
+	) {
+		const BASE_TOLERANCE = 10 // 10uNative
 		const loanContractAddress = terraUtils.getContractAddress(CONTRACT_NAME.loan)
 
 		return terraUtils.postTransaction({
@@ -221,7 +230,10 @@ class LoansContract extends Contract {
 				},
 			},
 			coins: {
-				luna: amountConverter.default.userFacingToBlockchainValue(amountNative),
+				luna: String(
+					Number(amountConverter.default.userFacingToBlockchainValue(amountNative)) +
+						Number(interest + BASE_TOLERANCE)
+				),
 			},
 		})
 	}
