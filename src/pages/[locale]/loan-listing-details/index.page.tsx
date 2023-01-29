@@ -64,6 +64,7 @@ import {
 	FAVORITES_LOANS,
 	LATEST_BLOCK,
 	LOAN,
+	LOAN_OFFERS,
 	VERIFIED_COLLECTIONS,
 } from 'constants/useQueryKeys'
 import { NetworkName } from 'types'
@@ -241,6 +242,7 @@ export default function LoanListingDetails() {
 
 			if (fundLoanResponse) {
 				await refetch()
+				await queryClient.refetchQueries([LOAN_OFFERS])
 			}
 		}
 	}
