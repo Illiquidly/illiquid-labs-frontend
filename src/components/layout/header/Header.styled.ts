@@ -74,6 +74,7 @@ export const HeaderDropdownContainer = styled(Flex)`
 	left: 0;
 	right: 0;
 	bottom: 0;
+	z-index: ${props => props.theme.zIndices.headerDropdown};
 `
 
 export const HeaderDropdownBackdrop = styled(Flex)`
