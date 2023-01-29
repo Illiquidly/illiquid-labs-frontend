@@ -2,6 +2,7 @@ import { VerifiedIcon } from 'assets/icons/16pt'
 import { HeartFilledIcon, HeartIcon, LunaIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
+import { clamp } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
@@ -20,12 +21,12 @@ import {
 	Image,
 	ImageSection,
 	LikeIconContainer,
-	Line,
 	LineSection,
 	MoreChip,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
+	ProgressBar,
 	RightTopImageArea,
 	Subtitle,
 	Title,
@@ -49,6 +50,8 @@ interface ListingCardProps extends NFT {
 	defaulted?: boolean
 	ended?: boolean
 	published?: boolean
+	defaultThreshold?: number
+	defaultPercentage?: number
 }
 
 function ListingCard({
@@ -67,6 +70,8 @@ function ListingCard({
 	defaulted,
 	ended,
 	published,
+	defaultPercentage,
+	defaultThreshold,
 	...NFTProps
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -120,7 +125,10 @@ function ListingCard({
 							) : null}
 						</ImageSection>
 						<LineSection>
-							<Line />
+							<ProgressBar
+								progress={ended ? 0 : clamp(defaultPercentage ?? 0, 0, 100)}
+								threshold={clamp(defaultThreshold ?? 0, 0, 100)}
+							/>
 						</LineSection>
 						<DescriptionSection>
 							<Flex>
@@ -242,6 +250,8 @@ ListingCard.defaultProps = {
 	defaulted: false,
 	ended: false,
 	published: false,
+	defaultPercentage: 0,
+	defaultThreshold: 0,
 }
 
 export default ListingCard
