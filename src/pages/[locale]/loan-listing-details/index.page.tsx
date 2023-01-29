@@ -259,7 +259,7 @@ export default function LoanListingDetails() {
 		// TODO: this should be returned from contract to now exactly the amount for now just add 0.05% more than required
 		const TOLERANCE = 0.5
 
-		const fundLoanResponse = await NiceModal.show(TxBroadcastingModal, {
+		const repayLoanResponse = await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: LoansContract.repayBorrowedFunds(
 				loan.loanId,
 				Number(acceptedLoanOffer?.offerInfo?.terms?.principle?.amount ?? 0) +
@@ -270,7 +270,7 @@ export default function LoanListingDetails() {
 			closeOnFinish: true,
 		})
 
-		if (fundLoanResponse) {
+		if (repayLoanResponse) {
 			await refetch()
 		}
 	}

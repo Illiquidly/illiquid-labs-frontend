@@ -33,7 +33,8 @@
 		"nft-collections-search-label": "NFT Collection",
 		"my-favorites-label": "My favorites",
 		"search-collections-placeholder": "Search collections...",
-		"search-status-placeholder": "Search status..."
+		"search-status-placeholder": "Search status...",
+		"countered-by-me-label": "Countered by me"
 	},
 	"statuses": [
 		"Active",
