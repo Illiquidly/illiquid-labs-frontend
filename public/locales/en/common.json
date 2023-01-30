@@ -86,6 +86,8 @@
 	},
 	"show-more": "Show more",
 	"checkout-my-trade": "Checkout my trade on Illiquid Labs",
+	"checkout-my-loan": "Checkout my loan on Illiquid Labs",
+	"checkout-my-raffle": "Checkout my raffle on Illiquid Labs",
 	"failed": "Failed",
 	"try-again": "Try again",
 	"processing": "Processing...",
