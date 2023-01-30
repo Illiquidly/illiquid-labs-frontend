@@ -4,6 +4,7 @@ import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import { LoanOffersTable } from 'components/loan-listing-details'
 import { Button, OverflowTip } from 'components/ui'
+import { clamp } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Loan } from 'services/api/loansService'
@@ -25,6 +26,8 @@ import {
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
+	ProgressBar,
+	ProgressBarContainer,
 	Subtitle,
 	Title,
 } from './LoanOfferCard.styled'
@@ -46,6 +49,9 @@ interface LoanOfferCardProps extends NFT {
 	published?: boolean
 	loan?: Loan
 	refetchLoan: () => void
+	defaultThreshold?: number
+	defaultPercentage?: number
+	daysUntilDefault?: string
 }
 
 function LoanOfferCard({
@@ -64,6 +70,9 @@ function LoanOfferCard({
 	published,
 	refetchLoan,
 	loan,
+	daysUntilDefault,
+	defaultThreshold,
+	defaultPercentage,
 	...NFTProps
 }: LoanOfferCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -172,11 +181,22 @@ function LoanOfferCard({
 									</Flex>
 								</Flex>
 							</DescriptionSection>
+							<Flex sx={{ mb: '12px' }}>
+								<ProgressBarContainer>
+									<ProgressBar
+										progress={ended ? 0 : clamp(defaultPercentage ?? 0, 0, 100)}
+										threshold={clamp(defaultThreshold ?? 0, 0, 100)}
+									/>
+								</ProgressBarContainer>
+							</Flex>
+
 							<Flex
 								sx={{
 									mt: 'auto',
+									flexDirection: 'column',
 									mb: '12px',
-									height: '64px',
+									gap: '6px',
+									height: '130px',
 								}}
 							>
 								<AttributeCard>
@@ -207,6 +227,10 @@ function LoanOfferCard({
 												</OverflowTip>
 											</AttributeValue>
 										</Flex>
+									</Flex>
+								</AttributeCard>
+								<AttributeCard>
+									<Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
 										<Flex sx={{ flexDirection: 'column' }}>
 											<AttributeName isSmall={isSmall}>
 												{t('dashboard:loans.time-frame')}
@@ -215,6 +239,26 @@ function LoanOfferCard({
 											<AttributeValue isSmall={isSmall}>
 												<OverflowTip>
 													<div>{t('dashboard:loans.days', { count: timeFrame })}</div>
+												</OverflowTip>
+											</AttributeValue>
+										</Flex>
+										<Flex sx={{ flexDirection: 'column' }}>
+											<AttributeName isSmall={isSmall}>
+												{t('dashboard:loans.days-until-default')}
+											</AttributeName>
+
+											<AttributeValue
+												style={{ justifyContent: 'flex-end' }}
+												isSmall={isSmall}
+											>
+												<OverflowTip>
+													<div>
+														{daysUntilDefault
+															? t('dashboard:loans.days-estimated', {
+																	estimated: daysUntilDefault,
+															  })
+															: '-'}
+													</div>
 												</OverflowTip>
 											</AttributeValue>
 										</Flex>
@@ -263,6 +307,9 @@ LoanOfferCard.defaultProps = {
 	ended: false,
 	published: false,
 	loan: undefined,
+	defaultPercentage: 0,
+	defaultThreshold: 0,
+	daysUntilDefault: undefined,
 }
 
 export default LoanOfferCard

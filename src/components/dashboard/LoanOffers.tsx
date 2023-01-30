@@ -15,7 +15,7 @@ import {
 import { CollectionsBoxesIcon, TargetIcon } from 'assets/icons/mixed'
 import { NFT } from 'services/api/walletNFTsService'
 import { useTranslation } from 'next-i18next'
-import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
+import { LATEST_BLOCK, VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { SupportedCollectionsService } from 'services/api'
 import { useQuery } from '@tanstack/react-query'
@@ -23,6 +23,8 @@ import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-acco
 import useIsTablet from 'hooks/react/useIsTablet'
 import { LoansResponse, LOAN_STATE } from 'services/api/loansService'
 import { BLOCKS_PER_DAY } from 'constants/core'
+import { calculateRangePercentage } from 'utils/js/calculateRangePercentage'
+import terraUtils from 'utils/blockchain/terraUtils'
 import LoanOfferCard from './LoanOfferCard'
 import {
 	AccordionContentWrapper,
@@ -77,6 +79,16 @@ function LoanOffers({
 		{
 			enabled: !!wallet.network,
 			retry: true,
+		}
+	)
+
+	const { data: latestBlockHeight } = useQuery(
+		[LATEST_BLOCK, wallet.network],
+		async () => terraUtils.getLatestBlockHeight(),
+		{
+			enabled: !!wallet.network,
+			retry: true,
+			refetchInterval: 60 * 1000,
 		}
 	)
 
@@ -221,8 +233,14 @@ function LoanOffers({
 												activeOffer,
 												state,
 												terms,
+												startBlock,
 											},
 										} = loan
+
+										const defaultBlock =
+											(startBlock ?? 0) +
+											(activeOffer?.offerInfo?.terms?.durationInBlocks ?? 0)
+
 										return (
 											<Box key={`${loanId}_${borrower}`}>
 												<LoanOfferCard
@@ -264,6 +282,26 @@ function LoanOffers({
 														({ collectionAddress }) =>
 															loanPreview?.cw721Coin?.collectionAddress === collectionAddress
 													)}
+													defaultPercentage={
+														startBlock
+															? calculateRangePercentage(
+																	Number(latestBlockHeight) ?? 0,
+																	startBlock ?? 0,
+																	defaultBlock ?? 0
+															  )
+															: 0
+													}
+													daysUntilDefault={
+														[LOAN_STATE.Started].includes(state)
+															? (
+																	((startBlock ?? 0) +
+																		(activeOffer?.offerInfo?.terms?.durationInBlocks ?? 0) -
+																		(Number(latestBlockHeight) ?? 0)) /
+																	BLOCKS_PER_DAY
+															  ).toFixed(2)
+															: undefined
+													}
+													defaultThreshold={90}
 													refetchLoan={refetch}
 													loan={loan}
 													collectionName={loanPreview?.cw721Coin?.collectionName || ''}
