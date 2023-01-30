@@ -259,8 +259,7 @@ export default function LoanListingDetails() {
 		const repayLoanResponse = await NiceModal.show(TxBroadcastingModal, {
 			transactionAction: LoansContract.repayBorrowedFunds(
 				loan.loanId,
-				Number(acceptedLoanOffer?.offerInfo?.terms?.principle?.amount ?? 0),
-				acceptedLoanOffer?.offerInfo?.terms?.interest ?? '0'
+				acceptedLoanOffer?.offerInfo?.terms?.totalAmountToRepay
 			),
 			closeOnFinish: true,
 		})

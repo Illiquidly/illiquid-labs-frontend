@@ -24,7 +24,8 @@ export type LoanOffer = {
 			principle: HumanCoin
 			interest: string
 			durationInBlocks: number
-			interestRate?: string
+			interestRate: string
+			totalAmountToRepay: string
 		}
 		state: OFFER_STATE
 		listDate: string

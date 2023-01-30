@@ -20,6 +20,7 @@ type Terms = {
 	interest: string
 	interestRate: string
 	durationInBlocks: number
+	totalAmountToRepay: string
 }
 
 type LoanFavorites = {
