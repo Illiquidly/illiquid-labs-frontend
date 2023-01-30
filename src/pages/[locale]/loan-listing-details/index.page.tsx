@@ -496,11 +496,13 @@ export default function LoanListingDetails() {
 											<AttributeName>{t('loan-listings:repayment-amount')}</AttributeName>
 											<AttributeValue>
 												{t('loan-listings:loan-repayment', {
-													amount: amountConverter.default.blockchainValueToUserFacing(
-														acceptedLoanOffer?.offerInfo?.terms?.totalAmountToRepay ??
-															loanInfo?.terms?.totalAmountToRepay ??
-															0
-													),
+													amount: amountConverter.default
+														.blockchainValueToUserFacing(
+															acceptedLoanOffer?.offerInfo?.terms?.totalAmountToRepay ??
+																loanInfo?.terms?.totalAmountToRepay ??
+																0
+														)
+														.toFixed(3),
 													currency:
 														acceptedLoanOffer?.offerInfo?.terms?.principle?.currency ??
 														loanInfo?.terms?.principle?.currency ??
