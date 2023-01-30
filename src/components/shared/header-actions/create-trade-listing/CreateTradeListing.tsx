@@ -6,8 +6,8 @@ import { useTranslation } from 'next-i18next'
 import { useWallet, WalletStatus } from '@terra-money/use-wallet'
 import { LinkButton } from 'components/link'
 import { OverflowTip } from 'components/ui'
-import { Profile } from '../profile'
 import { NotificationsBell } from '../notifications-bell'
+import { Profile } from '../profile'
 
 export default function CreateTradeListing() {
 	const { t } = useTranslation(['common'])

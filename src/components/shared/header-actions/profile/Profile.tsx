@@ -1,6 +1,11 @@
+import React from 'react'
+import { Img } from 'react-image'
+import { Box, Flex } from 'theme-ui'
 import styled from '@emotion/styled'
 import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import NiceModal from '@ebay/nice-modal-react'
+import { useTranslation } from 'next-i18next'
+
 import {
 	ChevronDownSmallIcon,
 	ChevronUpSmallIcon,
@@ -16,12 +21,7 @@ import { HEADER_HEIGHT } from 'constants/components'
 import useIsTablet from 'hooks/react/useIsTablet'
 import useAddress, { NO_WALLET } from 'hooks/useAddress'
 import useNameService from 'hooks/useNameService'
-import { useTranslation } from 'next-i18next'
 
-import React from 'react'
-import { Img } from 'react-image'
-
-import { Box, Flex } from 'theme-ui'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import { asyncAction } from 'utils/js/asyncAction'
 import getShortText from 'utils/js/getShortText'

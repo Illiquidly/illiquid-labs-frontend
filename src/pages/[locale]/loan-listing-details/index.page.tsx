@@ -1,6 +1,12 @@
 import React from 'react'
+import moment from 'moment'
+import { Box, Flex } from 'theme-ui'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
+import { sample } from 'lodash'
+import { useRouter } from 'next/router'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 
 import {
 	AttributeCard as UIAttributeCard,
@@ -12,7 +18,6 @@ import {
 } from 'components/ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { Box, Flex } from 'theme-ui'
 
 import {
 	Row,
@@ -35,26 +40,10 @@ import {
 	WalletIcon,
 } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { useRouter } from 'next/router'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { sample } from 'lodash'
 import { LoansService, SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
-import {
-	DescriptionRow,
-	ImageRow,
-	LayoutContainer,
-	LinkButton,
-	NFTPreviewImages,
-	Page,
-	TxBroadcastingModal,
-	ViewNFTsModal,
-	ViewNFTsModalProps,
-	ViewNFTsModalResult,
-} from 'components'
 import useAddress from 'hooks/useAddress'
 import {
 	FavoriteLoanResponse,
@@ -74,13 +63,22 @@ import { LOAN_STATE } from 'services/api/loansService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import { BLOCKS_PER_DAY } from 'constants/core'
 import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
-import moment from 'moment'
 
 import * as ROUTES from 'constants/routes'
 import { LoansContract } from 'services/blockchain'
 import FundLoanOfferModal, {
 	FundLoanOfferModalResult,
 } from 'components/loan-listing-details/modals/fund-loan-modal/FundLoanModal'
+import { DescriptionRow, ImageRow } from 'components/shared/trade'
+import {
+	NFTPreviewImages,
+	TxBroadcastingModal,
+	ViewNFTsModal,
+	ViewNFTsModalProps,
+	ViewNFTsModalResult,
+} from 'components/shared'
+import { LayoutContainer, Page } from 'components/layout'
+import { LinkButton } from 'components/link'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()

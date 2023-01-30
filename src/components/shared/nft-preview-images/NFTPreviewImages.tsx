@@ -1,10 +1,11 @@
-import styled from '@emotion/styled'
 import React from 'react'
 import { Img } from 'react-image'
+import styled from '@emotion/styled'
+
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { NFT } from 'services/api/walletNFTsService'
 
-export const PreviewNFTsSection = styled.div`
+const PreviewNFTsSection = styled.div`
 	display: flex;
 	height: 24px;
 	align-items: center;
@@ -18,7 +19,7 @@ export const PreviewNFTsSection = styled.div`
 	font-size: 12px;
 `
 
-export const Image = styled(Img)`
+const Image = styled(Img)`
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
@@ -26,11 +27,11 @@ export const Image = styled(Img)`
 	position: absolute;
 `
 
-export const PreviewImage = styled(Image)`
+const PreviewImage = styled(Image)`
 	position: unset;
 `
 
-export const PreviewImageContainer = styled.div`
+const PreviewImageContainer = styled.div`
 	overflow: hidden;
 	display: flex;
 	align-items: center;

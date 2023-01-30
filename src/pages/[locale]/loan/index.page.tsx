@@ -1,18 +1,11 @@
-import { useTranslation } from 'next-i18next'
 import React, { useState } from 'react'
 import { Text } from 'theme-ui'
+import { useTranslation } from 'next-i18next'
+import NiceModal from '@ebay/nice-modal-react'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import LoanBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import LoanBackgroundLogo from 'assets/images/TradeBackgroundLogo'
-import NiceModal from '@ebay/nice-modal-react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import {
-	LayoutContainer,
-	MobileSteps,
-	Page,
-	Steps,
-	TxBroadcastingModal,
-} from 'components'
 
 import {
 	SelectNFTs,
@@ -40,7 +33,6 @@ import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { useWallet } from '@terra-money/use-wallet'
 
 import { LoanFormStepsProps } from 'types'
-import { ExitCreateLoanListing } from 'components/shared/header-actions'
 import {
 	LoanDetailsStepSchema,
 	SelectNFTStepSchema,
@@ -48,6 +40,10 @@ import {
 import { LoanDetails } from 'components/loan/LoanDetails'
 import { LoansContract } from 'services/blockchain'
 import { LoansService } from 'services/api/loansService'
+import { TxBroadcastingModal } from 'components/shared'
+import { LayoutContainer, Page } from 'components/layout'
+import { MobileSteps, Steps } from 'components/ui'
+import { ExitCreateLoanListing } from 'components/shared/header-actions/exit-create-loan-listing'
 
 const getStaticProps = makeStaticProps(['common', 'loan'])
 const getStaticPaths = makeStaticPaths()

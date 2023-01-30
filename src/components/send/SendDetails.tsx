@@ -1,12 +1,12 @@
-import { TextAreaField, TextInputField } from 'components'
-import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import { Box, Flex } from 'theme-ui'
 import { useFieldArray, useFormContext } from 'react-hook-form'
+import { useTranslation } from 'next-i18next'
+import { TextAreaField, TextInputField } from 'components/form'
 
 import { NavigationFooter } from 'components/shared/navigation-footer'
 import { SendFormStepsProps } from 'types/send/types'
-import { Box, Flex } from 'theme-ui'
 
-import { useRouter } from 'next/router'
 import { AIRDROP_TYPE, SEND_TYPE } from 'constants/sendTypes'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import {

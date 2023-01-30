@@ -17,7 +17,7 @@ interface ImageRowProps extends Partial<NFT> {
 	onLike: (nft?: NFT) => void
 }
 
-export const ImageRow = ({ imageUrl, nft, onLike, liked }: ImageRowProps) => {
+function ImageRow({ imageUrl, nft, onLike, liked }: ImageRowProps) {
 	return (
 		<ImageSection>
 			{imageUrl?.every(img => img === '') ? (

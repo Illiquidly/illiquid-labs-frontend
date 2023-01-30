@@ -1,19 +1,15 @@
+import React, { useState } from 'react'
+import moment from 'moment'
+import NiceModal from '@ebay/nice-modal-react'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
+import { useWallet } from '@terra-money/use-wallet'
 import { Text } from 'theme-ui'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
-import NiceModal from '@ebay/nice-modal-react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import {
-	LayoutContainer,
-	MobileSteps,
-	Page,
-	Steps,
-	TxBroadcastingModal,
-} from 'components'
 
 import {
 	BodyContainer,
@@ -34,12 +30,10 @@ import {
 import { CREATE_RAFFLE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { useWallet } from '@terra-money/use-wallet'
 import ExitCreateRaffleListing from 'components/shared/header-actions/exit-create-raffle-listing/ExitCreateRaffleListing'
 import {
 	RaffleDetailsStepSchema,
@@ -47,8 +41,10 @@ import {
 } from 'constants/validation-schemas/raffle'
 import { RaffleFormStepsProps } from 'types/raffle/types'
 import { RafflesContract } from 'services/blockchain'
-import moment from 'moment'
 import { RafflesService } from 'services/api/rafflesService'
+import { TxBroadcastingModal } from 'components/shared'
+import { LayoutContainer, Page } from 'components/layout'
+import { MobileSteps, Steps } from 'components/ui'
 
 const getStaticProps = makeStaticProps(['common', 'raffle'])
 const getStaticPaths = makeStaticPaths()

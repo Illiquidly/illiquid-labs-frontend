@@ -1,7 +1,6 @@
-import { useTranslation } from 'next-i18next'
 import React, { useState } from 'react'
-
-import { LayoutContainer, Page, Tab, Tabs } from 'components'
+import { useTranslation } from 'next-i18next'
+import { Flex } from 'theme-ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import {
@@ -15,10 +14,11 @@ import {
 	IncomingLoanOffers,
 	OutgoingLoanOffers,
 } from 'components/dashboard'
-import { Flex } from 'theme-ui'
 import IncomingTradeOffers from 'components/dashboard/IncomingTradeOffers'
 import OutgoingTradeOffers from 'components/dashboard/OutgoingTradeOffers'
 import If from 'components/core/if-statement'
+import { LayoutContainer, Page } from 'components/layout'
+import { Tab, Tabs } from 'components/ui'
 
 const getStaticProps = makeStaticProps([
 	'common',

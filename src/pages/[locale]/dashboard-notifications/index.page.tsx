@@ -1,10 +1,10 @@
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-
-import { LayoutContainer, Notifications, Page } from 'components'
+import { Flex } from 'theme-ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { Flex } from 'theme-ui'
+import { LayoutContainer, Page } from 'components/layout'
+import { Notifications } from 'components/shared'
 
 const getStaticProps = makeStaticProps(['common', 'dashboard'])
 const getStaticPaths = makeStaticPaths()

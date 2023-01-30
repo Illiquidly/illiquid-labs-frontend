@@ -1,19 +1,14 @@
+import React, { useState } from 'react'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { useWallet } from '@terra-money/use-wallet'
 import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
 import { Text } from 'theme-ui'
+import NiceModal from '@ebay/nice-modal-react'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import TradeBackgroundBlob from 'assets/images/TradeBackgroundBlob'
 import TradeBackgroundLogo from 'assets/images/TradeBackgroundLogo'
-import NiceModal from '@ebay/nice-modal-react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import {
-	LayoutContainer,
-	MobileSteps,
-	Page,
-	Steps,
-	TxBroadcastingModal,
-} from 'components'
 
 import {
 	ChooseVisibility,
@@ -35,14 +30,12 @@ import {
 import { CREATE_TRADE_LISTING_FORM_STEPS } from 'constants/steps'
 import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { fromCreateTradeFormToBlockchain } from 'utils/mappers/fromCreateTradeFormToBlockchain'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import { TradesService } from 'services/api/tradesService'
-import { useWallet } from '@terra-money/use-wallet'
 import ExitCreateTradeListing from 'components/shared/header-actions/exit-create-trade-listing/ExitCreateTradeListing'
 import {
 	ChooseVisibilityStepSchema,
@@ -51,15 +44,19 @@ import {
 } from 'constants/validation-schemas/trade'
 import { TradeFormStepsProps } from 'types'
 import { P2PTradingContract } from 'services/blockchain'
+import { TxBroadcastingModal } from 'components/shared'
+import { LayoutContainer, Page } from 'components/layout'
+import { MobileSteps, Steps } from 'components/ui'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Trade() {
+	useHeaderActions(<ExitCreateTradeListing />)
+
 	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'trade'])
-	useHeaderActions(<ExitCreateTradeListing />)
 	const [
 		selectNFTsLabel,
 		tradeDetailsLabel,

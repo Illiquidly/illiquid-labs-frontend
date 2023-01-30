@@ -1,19 +1,18 @@
-import {
-	AccordionCard,
-	AccordionCardText,
-	TextAreaField,
-	TextInputField,
-	TokenInputField,
-} from 'components'
 import { useTranslation } from 'next-i18next'
 import { useFormContext } from 'react-hook-form'
+import { Box, Flex } from 'theme-ui'
+import moment from 'moment'
+import { AccordionCard, AccordionCardText } from 'components/ui'
 
 import { NavigationFooter } from 'components/shared/navigation-footer'
 import { RaffleFormStepsProps } from 'types/raffle/types'
-import { Box, Flex } from 'theme-ui'
-import { DatePickerField } from 'components/form/fields/date-picker-field'
-import { TimePickerField } from 'components/form/fields/time-picker-field'
-import moment from 'moment'
+import {
+	TextAreaField,
+	TextInputField,
+	TokenInputField,
+	DatePickerField,
+	TimePickerField,
+} from 'components/form'
 import {
 	ContentCard,
 	ContentCardSubtitle,

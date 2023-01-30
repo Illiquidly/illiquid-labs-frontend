@@ -8,6 +8,7 @@ import {
 	DescriptionCard,
 	DescriptionCardItem,
 	Loader,
+	AttributeCard as PrimaryAttributeCard,
 } from 'components/ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
@@ -36,19 +37,6 @@ import { NFT } from 'services/api/walletNFTsService'
 import { CounterTradesService, SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
-import {
-	DescriptionRow,
-	ImageRow,
-	LayoutContainer,
-	ModalTitle,
-	Page,
-	ViewNFTsModal,
-	ViewNFTsModalProps,
-	ViewNFTsModalResult,
-	AttributeCard as PrimaryAttributeCard,
-	TxBroadcastingModal,
-	LinkButton,
-} from 'components'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import {
 	FAVORITES_TRADES,
@@ -76,6 +64,16 @@ import { TradeCounterValidationSchema } from 'constants/validation-schemas/trade
 import { TradeCounterForm } from 'types/trade-counter'
 import { P2PTradingContract } from 'services/blockchain'
 import { theme } from 'constants/theme'
+import {
+	ModalTitle,
+	TxBroadcastingModal,
+	ViewNFTsModal,
+	ViewNFTsModalProps,
+	ViewNFTsModalResult,
+} from 'components/shared'
+import { LayoutContainer, Page } from 'components/layout'
+import { LinkButton } from 'components/link'
+import { DescriptionRow, ImageRow } from 'components/shared/trade'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -83,6 +81,8 @@ const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function TradeCounter() {
+	useHeaderActions(<CreateTradeListing />)
+
 	const { t } = useTranslation(['common', 'trade-listings'])
 
 	const route = useRouter()
@@ -163,8 +163,6 @@ export default function TradeCounter() {
 			setTradePreview(additionalInfo?.tradePreview ?? null)
 		}
 	}, [trade])
-
-	useHeaderActions(<CreateTradeListing />)
 
 	const formMethods = useForm<TradeCounterForm>({
 		mode: 'all',

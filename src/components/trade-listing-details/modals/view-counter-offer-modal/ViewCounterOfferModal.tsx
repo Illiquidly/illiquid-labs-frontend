@@ -1,30 +1,28 @@
+import React from 'react'
+import { Box, Flex, IconButton } from 'theme-ui'
+import { useWallet } from '@terra-money/use-wallet'
+import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'next-i18next'
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { useTheme } from '@emotion/react'
+import { uniqBy } from 'lodash'
+
 import { ModalCloseIcon } from 'assets/icons/modal'
 import {
 	CheckboxCard,
 	DropdownMultiselect,
 	Modal,
 	MultiSelectInputOption,
-	NFTCard,
 	SearchInput,
-} from 'components'
-
+} from 'components/ui'
 import { OnlyMobileAndTablet } from 'components/layout/layout'
-
-import React from 'react'
 import { NFT } from 'services/api/walletNFTsService'
-import { Box, Flex, IconButton } from 'theme-ui'
-
-import { useTranslation } from 'next-i18next'
 import { SupportedCollectionsService } from 'services/api/supportedCollectionsService'
-import { useWallet } from '@terra-money/use-wallet'
-import { useQuery } from '@tanstack/react-query'
-import { uniqBy } from 'lodash'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
 import { HumanCoin } from 'types'
+import { NFTCard } from 'components/shared'
 import {
 	CoinText,
 	CounterTradeComment,

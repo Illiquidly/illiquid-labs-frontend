@@ -1,14 +1,15 @@
+import React from 'react'
 import styled from '@emotion/styled'
+import { Box, Flex } from 'theme-ui'
+import { useTranslation } from 'next-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
-import { TradeGridController, GRID_TYPE } from 'components/shared'
+
+import { GRID_TYPE, TradeGridController } from 'components/shared/trade'
 import { TRADES, VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import useAddress from 'hooks/useAddress'
-import { useTranslation } from 'next-i18next'
-import React from 'react'
 import { SupportedCollectionsService } from 'services/api'
 import { TradesService, TRADE_STATE } from 'services/api/tradesService'
-import { Box, Flex } from 'theme-ui'
 
 const MightLikeText = styled(Flex)`
 	font-size: 20px;

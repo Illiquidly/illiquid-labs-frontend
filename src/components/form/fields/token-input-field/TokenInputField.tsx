@@ -1,4 +1,6 @@
-import { TokenInput } from 'components'
+import React from 'react'
+import { Flex } from 'theme-ui'
+import { TokenInput } from 'components/ui'
 import {
 	FieldContainer,
 	FieldError,
@@ -6,8 +8,6 @@ import {
 } from 'components/form/components'
 import { TokenInputProps } from 'components/ui/token-input/TokenInput'
 import { withForwardRef } from 'hoc'
-import React from 'react'
-import { Flex } from 'theme-ui'
 
 export interface TokenInputFieldProps extends TokenInputProps {
 	error?: boolean

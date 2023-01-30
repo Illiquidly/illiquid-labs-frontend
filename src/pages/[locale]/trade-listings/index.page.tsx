@@ -1,6 +1,6 @@
-import { useTranslation } from 'next-i18next'
 import React from 'react'
-
+import { Box, Flex } from 'theme-ui'
+import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
@@ -30,7 +30,6 @@ import useIsTablet from 'hooks/react/useIsTablet'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import { SupportedCollectionsService } from 'services/api'
 import { Trade, TradesService, TRADE_STATE } from 'services/api/tradesService'
-import { Box, Flex } from 'theme-ui'
 
 import { asyncAction } from 'utils/js/asyncAction'
 
@@ -44,18 +43,12 @@ import {
 	GridSwitchContainer,
 	ListingsNFTsContainer,
 	SearchInputContainer,
-	// SortSelectContainer,
 	TabsSection,
 	TradeListingsFilterModal,
 	TradeListingsFilterModalProps,
 } from 'components/trade-listings'
 import useHeaderActions from 'hooks/useHeaderActions'
-import {
-	GRID_TYPE,
-	LayoutContainer,
-	Page,
-	TradeGridController,
-} from 'components'
+
 import useAddress from 'hooks/useAddress'
 import {
 	FAVORITES_TRADES,
@@ -66,6 +59,8 @@ import CreateTradeListing from 'components/shared/header-actions/create-trade-li
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { NetworkName } from 'types'
 import { TRADE_LISTINGS_TYPE } from 'constants/listings'
+import { GRID_TYPE, TradeGridController } from 'components/shared/trade'
+import { LayoutContainer, Page } from 'components/layout'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()

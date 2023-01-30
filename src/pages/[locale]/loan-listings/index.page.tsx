@@ -1,29 +1,16 @@
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-
-import {
-	Accordion,
-	AccordionTitle,
-	Button,
-	CheckboxCard,
-	GridSwitch,
-	LayoutContainer,
-	MultiSelectAccordionInput,
-	Page,
-	SearchInput,
-	Tab,
-	Tabs,
-} from 'components'
 import NiceModal from '@ebay/nice-modal-react'
-import { makeStaticPaths, makeStaticProps } from 'lib'
-import { useWallet } from '@terra-money/use-wallet'
 import useHeaderActions from 'hooks/useHeaderActions'
+import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
+import { Box, Flex } from 'theme-ui'
+
+import { makeStaticPaths, makeStaticProps } from 'lib'
 
 import useAddress from 'hooks/useAddress'
 import { NetworkName } from 'types'
 import { GRID_TYPE } from 'components/shared/loan/GridController'
-import { Box, Flex } from 'theme-ui'
 import {
 	AccordionContentWrapper,
 	DesktopFiltersSection,
@@ -44,7 +31,9 @@ import {
 import useIsTablet from 'hooks/react/useIsTablet'
 import { SupportedCollectionsService } from 'services/api'
 import { useDebounce } from 'react-use'
-import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import MultiSelectAccordionInput, {
+	MultiSelectAccordionInputOption,
+} from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 
 import CreateLoanListing from 'components/shared/header-actions/create-loan-listing/CreateLoanListings'
 import {
@@ -61,6 +50,17 @@ import {
 	LoanListingsFilterModalProps,
 } from 'components/loan-listings/modals/loan-listings-filters-modal'
 import { asyncAction } from 'utils/js/asyncAction'
+import { LayoutContainer, Page } from 'components/layout'
+import {
+	Accordion,
+	AccordionTitle,
+	Button,
+	CheckboxCard,
+	GridSwitch,
+	SearchInput,
+	Tab,
+	Tabs,
+} from 'components/ui'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()

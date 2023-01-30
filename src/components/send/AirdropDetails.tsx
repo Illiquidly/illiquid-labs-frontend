@@ -1,30 +1,30 @@
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import { useFormContext } from 'react-hook-form'
+import { Box, Flex } from 'theme-ui'
+import pMap from 'p-map'
 import {
 	FileDropZone,
-	LinkButton,
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
 	UploadProgressBar,
-} from 'components'
+} from 'components/ui'
 import If from 'components/core/if-statement'
 
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import useIsMobile from 'hooks/react/useIsMobile'
-import { useTranslation } from 'next-i18next'
-import { useFormContext } from 'react-hook-form'
-import { Box, Flex } from 'theme-ui'
 
 import { NavigationFooter } from 'components/shared/navigation-footer'
 import { AIRDROP_TYPE } from 'constants/sendTypes'
 import { SendFormStepsProps } from 'types/send'
-import React from 'react'
 import { UploadIcon } from 'assets/icons/mixed'
 import { readCSVFile } from 'utils/js/readCSVFile'
 import { NFT } from 'services/api/walletNFTsService'
 import { isValidTerraAddress } from 'utils/blockchain/isValidAddress'
-import pMap from 'p-map'
 import * as ROUTES from 'constants/routes'
 import AirdropFolderImg from 'assets/images/AirdropFolderImg'
 import AirdropRecipientsImage from 'assets/images/AirdropRecipientsImage'
+import { LinkButton } from 'components/link'
 import {
 	ContentCard,
 	ContentCardSubtitle,

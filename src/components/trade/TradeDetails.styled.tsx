@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
-import { Card } from 'components'
-
 import { Flex, Text } from 'theme-ui'
+
+import { Card } from 'components/ui'
 
 export const ContentCardWrapper = styled.div`
 	flex: 1;
