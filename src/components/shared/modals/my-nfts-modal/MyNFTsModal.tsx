@@ -1,7 +1,12 @@
+import React, { useState } from 'react'
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
+import { Box, Flex, IconButton } from 'theme-ui'
 import { useTheme } from '@emotion/react'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
+import { isEmpty } from 'lodash'
+import { useTranslation } from 'next-i18next'
+
 import { ModalCloseIcon } from 'assets/icons/modal'
 import {
 	Button,
@@ -9,25 +14,21 @@ import {
 	DropdownMultiselect,
 	Modal,
 	MultiSelectInputOption,
-	NFTCard,
 	SearchInput,
 	SelectCard,
 	Loader,
-	OnlyMobileAndTablet,
 	Select,
-} from 'components'
+} from 'components/ui'
 
 import useMyNFTs from 'hooks/useMyNFTs'
-import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
 import { NFT } from 'services/api/walletNFTsService'
-import { Box, Flex, IconButton } from 'theme-ui'
 
 import { SupportedCollectionsService } from 'services/api'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import { SelectOption } from 'components/ui/select/Select'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
-import { isEmpty } from 'lodash'
+import { OnlyMobileAndTablet } from 'components/layout'
+import { NFTCard } from 'components/shared/nft-card'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	FiltersSection,

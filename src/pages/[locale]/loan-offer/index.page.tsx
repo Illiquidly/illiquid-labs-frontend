@@ -1,4 +1,8 @@
 import React from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 
@@ -8,6 +12,7 @@ import {
 	DescriptionCard,
 	DescriptionCardItem,
 	Loader,
+	AttributeCard as PrimaryAttributeCard,
 } from 'components/ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
@@ -28,25 +33,18 @@ import {
 } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
-import { useRouter } from 'next/router'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { LoanOffersService, LoansService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
 import {
-	ImageRow,
-	LayoutContainer,
-	ModalTitle,
-	Page,
-	ViewNFTsModal,
 	ViewNFTsModalProps,
 	ViewNFTsModalResult,
-	AttributeCard as PrimaryAttributeCard,
-	LinkButton,
+	ViewNFTsModal,
 	TxBroadcastingModal,
-} from 'components'
+	ModalTitle,
+} from 'components/shared'
+
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import { FAVORITES_LOANS, LOAN } from 'constants/useQueryKeys'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -58,13 +56,15 @@ import { Coin, NetworkName } from 'types'
 import CreateLoanListing from 'components/shared/header-actions/create-loan-listing/CreateLoanListings'
 import { LoanOfferForm } from 'types/loan/types'
 import Offer from 'components/loan-offer/Offer'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { LoanDetailsStepSchema } from 'constants/validation-schemas/loan'
 import { LoansContract } from 'services/blockchain'
 import SubmitLoanOfferModal, {
 	SubmitLoanOfferModalProps,
 } from 'components/loan-offer/modals/submit-loan-offer-modal/SubmitLoanOfferModal'
 import { SubmitLoanOfferSuccessModal } from 'components/loan-offer/modals'
+import { ImageRow } from 'components/shared/trade'
+import { LayoutContainer, Page } from 'components/layout'
+import { LinkButton } from 'components/link'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings', 'loan'])
 const getStaticPaths = makeStaticPaths()

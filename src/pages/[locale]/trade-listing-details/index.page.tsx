@@ -1,6 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
+import { Box, Flex } from 'theme-ui'
+import moment from 'moment'
+import { first, sample } from 'lodash'
+import { useWallet } from '@terra-money/use-wallet'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/router'
 
 import {
 	AttributeCard,
@@ -12,8 +18,6 @@ import {
 } from 'components/ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { Box, Flex } from 'theme-ui'
-import moment from 'moment'
 
 import {
 	Row,
@@ -28,26 +32,11 @@ import {
 import { AvatarIcon, CalendarIcon, WalletIcon } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
 import * as ROUTES from 'constants/routes'
-import { useRouter } from 'next/router'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { TradesService, TRADE_STATE } from 'services/api/tradesService'
-import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
-import { first, sample } from 'lodash'
 import { CounterTradesService, SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
-import {
-	DescriptionRow,
-	ImageRow,
-	LayoutContainer,
-	LinkButton,
-	Page,
-	TxBroadcastingModal,
-	ViewNFTsModal,
-	ViewNFTsModalProps,
-	ViewNFTsModalResult,
-} from 'components'
 import useAddress from 'hooks/useAddress'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
@@ -57,7 +46,6 @@ import {
 	TRADE,
 	VERIFIED_COLLECTIONS,
 } from 'constants/useQueryKeys'
-import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { CounterTrade } from 'services/api/counterTradesService'
 import { Coin, Cw1155Coin, NetworkName } from 'types'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
@@ -65,6 +53,16 @@ import { LookingFor } from 'components/shared/trade/looking-for'
 import { P2PTradingContract } from 'services/blockchain'
 import useNameService from 'hooks/useNameService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import {
+	TxBroadcastingModal,
+	ViewNFTsModal,
+	ViewNFTsModalProps,
+	ViewNFTsModalResult,
+} from 'components/shared'
+import { LayoutContainer, Page } from 'components/layout'
+import { DescriptionRow, ImageRow } from 'components/shared/trade'
+import { LinkButton } from 'components/link'
+import { CreateTradeListing } from 'components/shared/header-actions/create-trade-listing'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -72,6 +70,8 @@ const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function ListingDetails() {
+	useHeaderActions(<CreateTradeListing />)
+
 	const { t } = useTranslation(['common', 'trade-listings'])
 
 	const route = useRouter()
@@ -186,8 +186,6 @@ export default function ListingDetails() {
 			setTradePreview(additionalInfo?.tradePreview ?? null)
 		}
 	}, [trade])
-
-	useHeaderActions(<CreateTradeListing />)
 
 	const countererWithdrawAccepted = async (counterTrade: CounterTrade) => {
 		await NiceModal.show(TxBroadcastingModal, {

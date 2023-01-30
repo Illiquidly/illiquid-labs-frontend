@@ -1,11 +1,11 @@
-import { TextInput } from 'components'
+import React from 'react'
+import { Flex } from 'theme-ui'
+import { TextInput } from 'components/ui'
 import {
 	FieldContainer,
 	FieldError,
 	FieldLabel,
 } from 'components/form/components'
-import React from 'react'
-import { Flex } from 'theme-ui'
 
 export interface TextInputFieldProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {

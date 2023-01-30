@@ -1,6 +1,7 @@
-import { Button } from 'components'
-import { useTranslation } from 'next-i18next'
 import { Flex } from 'theme-ui'
+import { useTranslation } from 'next-i18next'
+
+import { Button } from 'components/ui'
 
 interface Props {
 	goBackStep: () => void

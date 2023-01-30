@@ -1,6 +1,9 @@
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import { Box, Flex } from 'theme-ui'
+
 import AirdropperImg from 'assets/images/AirdropperImg'
 import MultisenderImg from 'assets/images/MultisenderImg'
-import { LayoutContainer, LinkButton, Page } from 'components'
 import {
 	CardSubtitle,
 	SendingCard,
@@ -8,11 +11,10 @@ import {
 	Title,
 } from 'components/send-transactions'
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { useTranslation } from 'next-i18next'
-import React from 'react'
-import { Box, Flex } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
 import { SEND_TYPE } from 'constants/sendTypes'
+import { LinkButton } from 'components/link'
+import { LayoutContainer, Page } from 'components/layout'
 
 const getStaticProps = makeStaticProps(['common', 'send-transactions'])
 const getStaticPaths = makeStaticPaths()

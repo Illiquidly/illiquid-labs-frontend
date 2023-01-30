@@ -1,8 +1,9 @@
 import React from 'react'
+import styled from '@emotion/styled'
+import { Box, Flex } from 'theme-ui'
+import { useTranslation } from 'next-i18next'
 
 import { OverflowTip, Tooltip } from 'components/ui'
-import { Box, Flex } from 'theme-ui'
-
 import {
 	StatusIconContainer,
 	Title,
@@ -11,21 +12,14 @@ import {
 
 import { VerifiedIcon } from 'assets/icons/16pt'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
-import styled from '@emotion/styled'
-import { useTranslation } from 'next-i18next'
 
-export const DescriptionSection = styled(Flex)`
+const DescriptionSection = styled(Flex)`
 	flex-direction: column;
 	margin-top: 12px;
 	flex: 1;
 `
 
-export const DescriptionRow = ({
-	name,
-	isPrivate,
-	collectionName,
-	verified,
-}) => {
+function DescriptionRow({ name, isPrivate, collectionName, verified }) {
 	const { t } = useTranslation()
 	return (
 		<DescriptionSection>

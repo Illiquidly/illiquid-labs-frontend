@@ -1,25 +1,14 @@
-import { useTranslation } from 'next-i18next'
 import React from 'react'
-
-import {
-	Accordion,
-	AccordionTitle,
-	Button,
-	CheckboxCard,
-	GridSwitch,
-	LayoutContainer,
-	MultiSelectAccordionInput,
-	Page,
-	SearchInput,
-	Tab,
-	Tabs,
-} from 'components'
+import { useTranslation } from 'next-i18next'
+import { useDebounce } from 'react-use'
 import NiceModal from '@ebay/nice-modal-react'
-import { makeStaticPaths, makeStaticProps } from 'lib'
 import { useWallet } from '@terra-money/use-wallet'
+import { useQuery } from '@tanstack/react-query'
+import { Box, Flex } from 'theme-ui'
+
+import { makeStaticPaths, makeStaticProps } from 'lib'
 import useHeaderActions from 'hooks/useHeaderActions'
 import CreateRaffleListing from 'components/shared/header-actions/create-raffle-listing/CreateRaffleListing'
-import { useQuery } from '@tanstack/react-query'
 import {
 	FAVORITES_RAFFLES,
 	RAFFLES,
@@ -35,7 +24,6 @@ import {
 import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
 import { NetworkName } from 'types'
 import { GRID_TYPE } from 'components/shared/raffle/GridController'
-import { Box, Flex } from 'theme-ui'
 import {
 	AccordionContentWrapper,
 	DesktopFiltersSection,
@@ -56,24 +44,35 @@ import {
 import useIsTablet from 'hooks/react/useIsTablet'
 import { SupportedCollectionsService } from 'services/api'
 import { RAFFLE_LISTINGS_TYPE } from 'constants/listings'
-import { useDebounce } from 'react-use'
-import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { RaffleGridController } from 'components/shared/raffle'
 import {
 	RaffleListingsFilterModal,
 	RaffleListingsFilterModalProps,
 } from 'components/raffle-listings/modals'
 import { asyncAction } from 'utils/js/asyncAction'
+import { LayoutContainer, Page } from 'components/layout'
+import {
+	Accordion,
+	AccordionTitle,
+	Button,
+	CheckboxCard,
+	GridSwitch,
+	MultiSelectAccordionInput,
+	MultiSelectAccordionInputOption,
+	SearchInput,
+	Tab,
+	Tabs,
+} from 'components/ui'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function RaffleListings() {
+	useHeaderActions(<CreateRaffleListing />)
+
 	const { t } = useTranslation(['common', 'raffle-listings'])
 	const wallet = useWallet()
-
-	useHeaderActions(<CreateRaffleListing />)
 
 	const isTablet = useIsTablet()
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)

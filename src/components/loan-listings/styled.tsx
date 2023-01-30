@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
-import { Button } from 'components'
 import { Flex } from 'theme-ui'
+import { Button } from 'components/ui'
 
 export const TabsSection = styled(Flex)``
 

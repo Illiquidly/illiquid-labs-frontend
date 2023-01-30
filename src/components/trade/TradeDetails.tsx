@@ -1,28 +1,28 @@
+import { Flex } from 'theme-ui'
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
 import { useWallet } from '@terra-money/use-wallet'
+import { useTranslation } from 'next-i18next'
+
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
 import TradeDetailsSpecifiedCollection from 'assets/images/TradeDetailsSpecifiedCollection'
 import {
 	MultiSelectInput,
 	RadioCard as RadioCardSelector,
 	RadioInputGroupProvider,
-	TextAreaField,
-	TokenInputField,
-} from 'components'
+} from 'components/ui'
 import If from 'components/core/if-statement'
 import { Chip } from 'components/ui/chip'
 import { TextInputField } from 'components/form/fields/text-input-field'
 import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 import useIsMobile from 'hooks/react/useIsMobile'
-import { useTranslation } from 'next-i18next'
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { SupportedCollectionsService } from 'services/api'
-import { Flex } from 'theme-ui'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { TradeFormStepsProps } from 'types'
 import { NavigationFooter } from 'components/shared/navigation-footer'
 import { FieldLabel } from 'components/form/components'
 import { LOOKING_FOR_TYPE } from 'constants/trade'
+import { TextAreaField, TokenInputField } from 'components/form'
 import {
 	ChipsWrapper,
 	ContentCard,

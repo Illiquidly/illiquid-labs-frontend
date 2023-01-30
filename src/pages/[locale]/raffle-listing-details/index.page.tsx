@@ -1,6 +1,11 @@
 import React from 'react'
+import { useRouter } from 'next/router'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useWallet } from '@terra-money/use-wallet'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
+import { Box, Flex } from 'theme-ui'
+import moment from 'moment'
 
 import {
 	AttributeCard as UIAttributeCard,
@@ -12,8 +17,6 @@ import {
 } from 'components/ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { Box, Flex } from 'theme-ui'
-import moment from 'moment'
 
 import {
 	Row,
@@ -37,24 +40,11 @@ import {
 	WalletIcon,
 } from 'assets/icons/mixed'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { useRouter } from 'next/router'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { isNaN, sample } from 'lodash'
 import { SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
 
-import {
-	DescriptionRow,
-	ImageRow,
-	LayoutContainer,
-	Page,
-	TxBroadcastingModal,
-	ViewNFTsModal,
-	ViewNFTsModalProps,
-	ViewNFTsModalResult,
-} from 'components'
 import useAddress from 'hooks/useAddress'
 import NFTPreviewImages from 'components/shared/nft-preview-images/NFTPreviewImages'
 import {
@@ -77,6 +67,14 @@ import useNameService from 'hooks/useNameService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import BuyRaffleReviewModal from 'components/raffle-listing-details/modals/buy-raffle-review-modal/BuyRaffleReviewModal'
 import { DrandService } from 'services/api/drandService'
+import {
+	TxBroadcastingModal,
+	ViewNFTsModal,
+	ViewNFTsModalProps,
+	ViewNFTsModalResult,
+} from 'components/shared'
+import { DescriptionRow, ImageRow } from 'components/shared/trade'
+import { LayoutContainer, Page } from 'components/layout'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()

@@ -1,19 +1,17 @@
+import React, { useState } from 'react'
+import { useStep } from 'hooks/react/useStep'
+import { useRouter } from 'next/router'
+import { useWallet } from '@terra-money/use-wallet'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
-import { Text } from 'theme-ui'
-import * as yup from 'yup'
-import SendBackgroundBlob from 'assets/images/TradeBackgroundBlob'
-import SendBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 import NiceModal from '@ebay/nice-modal-react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-	LayoutContainer,
-	MobileSteps,
-	Page,
-	Steps,
-	TxBroadcastingModal,
-} from 'components'
+import { Text } from 'theme-ui'
+import * as yup from 'yup'
+
+import SendBackgroundBlob from 'assets/images/TradeBackgroundBlob'
+import SendBackgroundLogo from 'assets/images/TradeBackgroundLogo'
 
 import {
 	BodyContainer,
@@ -33,16 +31,12 @@ import {
 	CREATE_AIRDROP_FROM_STEPS,
 	CREATE_SEND_FORM_STEPS,
 } from 'constants/steps'
-import { useStep } from 'hooks/react/useStep'
 import { makeStaticPaths, makeStaticProps } from 'lib'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { useWallet } from '@terra-money/use-wallet'
 
 import { Cw721Contract } from 'services/blockchain'
-import { ExitSend } from 'components/shared/header-actions'
 import { SendFormStepsProps } from 'types/send'
 import { SenderService } from 'services/api/senderService'
 import {
@@ -50,20 +44,24 @@ import {
 	SendMultiSendRecipientSchema,
 	SendSelectNFTStepSchema,
 } from 'constants/validation-schemas/send'
-import { useRouter } from 'next/router'
 import { SEND_TYPE } from 'constants/sendTypes'
 import { SendDetails } from 'components/send/SendDetails'
 import { ConfirmSend } from 'components/send/ConfirmSend'
 import { AirdropDetails } from 'components/send/AirdropDetails'
+import { TxBroadcastingModal } from 'components/shared'
+import { LayoutContainer, Page } from 'components/layout'
+import { MobileSteps, Steps } from 'components/ui'
+import { ExitSend } from 'components/shared/header-actions/exit-send'
 
 const getStaticProps = makeStaticProps(['common', 'send'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Send() {
+	useHeaderActions(<ExitSend />)
+
 	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'send'])
-	useHeaderActions(<ExitSend />)
 
 	const router = useRouter()
 

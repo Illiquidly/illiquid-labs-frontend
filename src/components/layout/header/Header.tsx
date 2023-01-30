@@ -19,7 +19,7 @@ import { BurgerMenuIcon, CloseIcon } from 'assets/icons/mixed'
 import useIsTablet from 'hooks/react/useIsTablet'
 import React from 'react'
 import { useRouter } from 'next/router'
-import { DefaultActions } from 'components/shared/header-actions'
+import { DefaultActions } from 'components/shared/header-actions/default-actions'
 import { LayoutContainer } from '../layout'
 import {
 	HeaderDropdown,

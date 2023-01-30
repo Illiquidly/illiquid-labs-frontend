@@ -1,11 +1,10 @@
+import React from 'react'
+import { Box } from 'theme-ui'
+
 import { NotificationOutlineIcon } from 'assets/icons/20ptOutline'
-import { Notifications } from 'components'
+import { Notifications } from 'components/shared/notifications'
 import { Button } from 'components/ui'
 import { HEADER_HEIGHT } from 'constants/components'
-
-import React from 'react'
-
-import { Box } from 'theme-ui'
 
 export default function NotificationsBell() {
 	const [expanded, setExpanded] = React.useState(false)
