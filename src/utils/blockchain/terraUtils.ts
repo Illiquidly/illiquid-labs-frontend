@@ -265,9 +265,38 @@ async function getLatestBlockHeight() {
 
 	return blockInfo.block.header.height
 }
+
+const networkBlocksPerDayCache = {}
+
+async function getAverageBlockTime() {
+	const BLOCK_RANGE = 10_000
+
+	const client = getLCDClient()
+
+	if (Object.keys(networkBlocksPerDayCache).includes(wallet.network.chainID)) {
+		return networkBlocksPerDayCache[wallet.network.chainID]
+	}
+
+	const latestBlock = await client.tendermint.blockInfo()
+
+	const oldBlock = await client.tendermint.blockInfo(
+		parseInt(latestBlock.block.header.height, 10) - BLOCK_RANGE
+	)
+
+	const blockTime =
+		(new Date(latestBlock.block.header.time).getTime() -
+			new Date(oldBlock.block.header.time).getTime()) /
+		BLOCK_RANGE
+
+	networkBlocksPerDayCache[wallet.network.chainID] = blockTime
+
+	return blockTime
+}
+
 export default {
 	getLatestBlockHeight,
 	sendQuery,
+
 	sendIndependentQuery,
 	postTransaction,
 	postManyTransactions,
@@ -281,6 +310,7 @@ export default {
 	getTxResult,
 	getTransactionExplorer,
 	getContractAddress,
+	getAverageBlockTime,
 }
 
 export type { TransactionDetails }

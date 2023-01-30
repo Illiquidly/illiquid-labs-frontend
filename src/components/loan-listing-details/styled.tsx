@@ -228,7 +228,7 @@ export const AttributesCard = styled(Box)`
 AttributesCard.defaultProps = {
 	sx: {
 		display: 'grid',
-		gridTemplateColumns: ['1fr', '1fr 1fr', '1fr 1fr'],
+		gridTemplateColumns: ['1fr', '1fr 1fr 1fr', '1fr 1fr 1fr'],
 		gap: '8px',
 	},
 }

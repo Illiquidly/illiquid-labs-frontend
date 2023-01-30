@@ -73,7 +73,7 @@ import CreateLoanListing from 'components/shared/header-actions/create-loan-list
 import { LOAN_STATE } from 'services/api/loansService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import { BLOCKS_PER_DAY } from 'constants/core'
-import terraUtils from 'utils/blockchain/terraUtils'
+import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
 import moment from 'moment'
 
 import * as ROUTES from 'constants/routes'
@@ -438,6 +438,21 @@ export default function LoanListingDetails() {
 											</AttributeName>
 											<AttributeValue>
 												{loanInfo?.startBlock
+													? t('loan-listings:blocks-estimated', {
+															count:
+																(loanInfo?.startBlock ?? 0) +
+																(acceptedLoanOffer?.offerInfo?.terms?.durationInBlocks ?? 0) -
+																(Number(latestBlockHeight) ?? 0),
+													  })
+													: '-'}
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>
+												{t('loan-listings:days-until-default')}
+											</AttributeName>
+											<AttributeValue>
+												{loanInfo?.startBlock
 													? t('loan-listings:days-estimated', {
 															estimated: (
 																((loanInfo?.startBlock ?? 0) +
@@ -445,10 +460,6 @@ export default function LoanListingDetails() {
 																	(Number(latestBlockHeight) ?? 0)) /
 																BLOCKS_PER_DAY
 															).toFixed(2),
-															blocks:
-																(loanInfo?.startBlock ?? 0) +
-																(acceptedLoanOffer?.offerInfo?.terms?.durationInBlocks ?? 0) -
-																(Number(latestBlockHeight) ?? 0),
 													  })
 													: '-'}
 											</AttributeValue>
@@ -479,6 +490,25 @@ export default function LoanListingDetails() {
 														loanInfo?.terms?.interestRate ??
 														0,
 												})}
+											</AttributeValue>
+										</AttributeCard>
+										<AttributeCard>
+											<AttributeName>{t('loan-listings:repayment-amount')}</AttributeName>
+											<AttributeValue>
+												{t('loan-listings:loan-repayment', {
+													amount: amountConverter.default.blockchainValueToUserFacing(
+														acceptedLoanOffer?.offerInfo?.terms?.totalAmountToRepay ??
+															loanInfo?.terms?.totalAmountToRepay ??
+															0
+													),
+													currency:
+														acceptedLoanOffer?.offerInfo?.terms?.principle?.currency ??
+														loanInfo?.terms?.principle?.currency ??
+														'',
+												})}
+												<Box sx={{ ml: 8 }}>
+													<LunaIcon />
+												</Box>
 											</AttributeValue>
 										</AttributeCard>
 									</AttributesCard>

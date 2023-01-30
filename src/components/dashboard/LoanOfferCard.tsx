@@ -70,8 +70,6 @@ function LoanOfferCard({
 	const { t } = useTranslation(['common', 'loan-listings', 'dashboard'])
 	const [showingOffers, setShowingOffers] = React.useState(false)
 
-	console.warn(loan?.loanInfo?.state)
-
 	return (
 		<Flex sx={{ flexDirection: 'column' }}>
 			<Link passHref href={href} disabled={disabled}>
