@@ -122,8 +122,9 @@ class RafflesContract extends Contract {
 						? {
 								raffle_ticket_price: {
 									coin: {
-										amount:
-											amountConverter.userFacingToBlockchainValue(ticketPriceAmount),
+										amount: amountConverter.userFacingToBlockchainValue(
+											Number(ticketPriceAmount).toFixed(3)
+										),
 										denom: terraUtils.getDenomForCurrency(ticketPriceCurrency ?? ''),
 									},
 								},
@@ -168,7 +169,7 @@ class RafflesContract extends Contract {
 								increase_allowance: {
 									spender: raffleContractAddress,
 									amount: amountConverter.userFacingToBlockchainValue(
-										+cw20Coin.amount * ticketNumber
+										(+cw20Coin.amount * ticketNumber).toFixed(6)
 									),
 								},
 							},
@@ -187,7 +188,7 @@ class RafflesContract extends Contract {
 								? {
 										cw20_coin: {
 											amount: amountConverter.userFacingToBlockchainValue(
-												+cw20Coin.amount * ticketNumber
+												(+cw20Coin.amount * ticketNumber).toFixed(6)
 											),
 											address: cw20Coin.address,
 										},
@@ -197,7 +198,7 @@ class RafflesContract extends Contract {
 								? {
 										coin: {
 											amount: amountConverter.userFacingToBlockchainValue(
-												+coin.amount * ticketNumber
+												(+coin.amount * ticketNumber).toFixed(6)
 											),
 											denom: terraUtils.getDenomForCurrency(coin.currency),
 										},
@@ -210,7 +211,7 @@ class RafflesContract extends Contract {
 					? {
 							coins: {
 								luna: amountConverter.userFacingToBlockchainValue(
-									+coin.amount * ticketNumber
+									(+coin.amount * ticketNumber).toFixed(6)
 								),
 							},
 					  }
