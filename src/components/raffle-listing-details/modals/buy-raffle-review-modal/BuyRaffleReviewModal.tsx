@@ -115,13 +115,13 @@ const BuyRaffleReviewModal = NiceModal.create(
 											{t('raffle-listings:buy-raffle-review-modal.total-cost')}
 										</DescriptionCardLabel>
 										<DescriptionCardContent>
-											{`${
+											{`${(
 												Number(
 													raffle?.raffleInfo?.raffleTicketPrice?.coin?.amount ??
 														raffle?.raffleInfo?.raffleTicketPrice?.cw20Coin?.amount ??
 														0
 												) * ticketNumber
-											} ${
+											).toFixed(3)} ${
 												raffle?.raffleInfo?.raffleTicketPrice?.coin?.currency ??
 												raffle?.raffleInfo?.raffleTicketPrice?.cw20Coin?.currency
 											}`}
