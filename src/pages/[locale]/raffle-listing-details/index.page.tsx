@@ -209,7 +209,7 @@ export default function ListingDetails() {
 		}))
 
 	const purchaseTicket = async () => {
-		if (!raffle) {
+		if (!raffle || !raffleInfo) {
 			return
 		}
 
@@ -223,13 +223,13 @@ export default function ListingDetails() {
 				ticketNumber: +result.ticketNumber,
 			})
 
-			const { coin, cw20Coin } = raffleInfo?.raffleTicketPrice ?? {}
+			const { cw20Coin, coin } = raffleInfo.raffleTicketPrice ?? {}
 
 			await NiceModal.show(TxBroadcastingModal, {
 				transactionAction: RafflesContract.purchaseRaffleTickets(
 					raffle?.raffleId,
 					+result.ticketNumber,
-					coin,
+					coin.rawAmount,
 					cw20Coin
 				),
 				closeOnFinish: true,
