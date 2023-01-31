@@ -48,6 +48,7 @@ export interface MyNFTsModalProps {
 	title?: string
 	children?: React.ReactNode
 	addNFTsButtonLabel?: string
+	inViewMode?: boolean
 	selectedNFTs?: NFT[]
 }
 
@@ -56,6 +57,7 @@ export const MyNFTsModal = NiceModal.create(
 		title,
 		addNFTsButtonLabel,
 		selectedNFTs: defaultSelectedNFTs = [],
+		inViewMode = false,
 	}: MyNFTsModalProps) => {
 		const wallet = useWallet()
 		const modal = useModal()
@@ -134,21 +136,23 @@ export const MyNFTsModal = NiceModal.create(
 									<Flex sx={{ width: '100%' }}>
 										<ModalTitle>{title}</ModalTitle>
 										<Box sx={{ ml: 'auto' }}>
-											<Button
-												variant='gradient'
-												sx={{
-													display: ['none', 'none', 'flex'],
-													p: '10px 16px',
-													fontWeight: 400,
-												}}
-												fullWidth
-												onClick={() => {
-													modal.resolve(selectedNFTs)
-													modal.remove()
-												}}
-											>
-												{addNFTsButtonLabel}
-											</Button>
+											{!inViewMode && (
+												<Button
+													variant='gradient'
+													sx={{
+														display: ['none', 'none', 'flex'],
+														p: '10px 16px',
+														fontWeight: 400,
+													}}
+													fullWidth
+													onClick={() => {
+														modal.resolve(selectedNFTs)
+														modal.remove()
+													}}
+												>
+													{addNFTsButtonLabel}
+												</Button>
+											)}
 										</Box>
 									</Flex>
 									<OnlyMobileAndTablet>
@@ -238,17 +242,19 @@ export const MyNFTsModal = NiceModal.create(
 												pb: ['16px', '32px'],
 											}}
 										>
-											<Button
-												variant='gradient'
-												sx={{ p: '12px 0', fontWeight: 400 }}
-												fullWidth
-												onClick={() => {
-													modal.resolve(selectedNFTs)
-													modal.remove()
-												}}
-											>
-												{addNFTsButtonLabel}
-											</Button>
+											{!inViewMode && (
+												<Button
+													variant='gradient'
+													sx={{ p: '12px 0', fontWeight: 400 }}
+													fullWidth
+													onClick={() => {
+														modal.resolve(selectedNFTs)
+														modal.remove()
+													}}
+												>
+													{addNFTsButtonLabel}
+												</Button>
+											)}
 										</Flex>
 									</Box>
 
@@ -358,4 +364,5 @@ MyNFTsModal.defaultProps = {
 	title: 'My NFTs',
 	addNFTsButtonLabel: 'Add NFTs to Trade',
 	selectedNFTs: [],
+	inViewMode: false,
 }

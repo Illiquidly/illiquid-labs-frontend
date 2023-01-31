@@ -25,6 +25,7 @@ import useNameService from 'hooks/useNameService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import { asyncAction } from 'utils/js/asyncAction'
 import getShortText from 'utils/js/getShortText'
+import { MyNFTsModal } from 'components/shared/modals'
 
 const ProfileTitle = styled(Box)`
 	font-family: 'Inter';
@@ -131,6 +132,16 @@ export default function Profile() {
 		)
 	}, [nameServiceInfo])
 
+	const viewMyCollections = async () => {
+		setExpanded(false)
+
+		await NiceModal.show(MyNFTsModal, {
+			selectedNFTs: [],
+			title: t('common:my-nfts'),
+			inViewMode: true,
+		})
+	}
+
 	const publicName =
 		nameServiceInfo?.extension?.publicName ?? nameServiceInfo?.extension?.name
 
@@ -199,10 +210,10 @@ export default function Profile() {
 									<DropdownItem onClick={viewMyProfile}>
 										{t('common:profile.view-profile')}
 									</DropdownItem>
-									{/*
-								<DropdownItem onClick={() => setExpanded(false)}>
-									{t('common:profile.my-nft-collection')}
-								</DropdownItem> */}
+
+									<DropdownItem onClick={viewMyCollections}>
+										{t('common:profile.my-nft-collections')}
+									</DropdownItem>
 									<DropdownItem onClick={disconnectWallet}>
 										{t('common:profile.disconnect')}
 									</DropdownItem>
