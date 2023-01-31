@@ -2,7 +2,7 @@ import { CONTRACT_NAME } from 'constants/addresses'
 import { DrandResponse } from 'services/api/drandService'
 import { NFT } from 'services/api/walletNFTsService'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { HumanCoin, HumanCw20Coin } from 'types'
+import { HumanCw20Coin } from 'types'
 import terraUtils, {
 	amountConverter as converter,
 } from 'utils/blockchain/terraUtils'
@@ -153,7 +153,7 @@ class RafflesContract extends Contract {
 	static async purchaseRaffleTickets(
 		raffleId: number,
 		ticketNumber: number,
-		coin?: HumanCoin,
+		rawAmount: string,
 		cw20Coin?: HumanCw20Coin
 	): Promise<TxReceipt> {
 		const raffleContractAddress = terraUtils.getContractAddress(
@@ -194,25 +194,21 @@ class RafflesContract extends Contract {
 										},
 								  }
 								: {}),
-							...(coin
+							...(rawAmount
 								? {
 										coin: {
-											amount: amountConverter.userFacingToBlockchainValue(
-												(+coin.amount * ticketNumber).toFixed(6)
-											),
-											denom: terraUtils.getDenomForCurrency(coin.currency),
+											amount: String(+rawAmount * ticketNumber),
+											denom: terraUtils.getDefaultChainDenom(),
 										},
 								  }
 								: {}),
 						},
 					},
 				},
-				...(coin
+				...(rawAmount
 					? {
 							coins: {
-								luna: amountConverter.userFacingToBlockchainValue(
-									(+coin.amount * ticketNumber).toFixed(6)
-								),
+								luna: String(+rawAmount * ticketNumber),
 							},
 					  }
 					: {}),

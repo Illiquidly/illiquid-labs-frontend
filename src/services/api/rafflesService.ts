@@ -36,8 +36,8 @@ export interface Raffle {
 		owner: string
 		allAssociatedAssets: { cw721Coin?: NFT; cw1155Coin?: any }[]
 		raffleTicketPrice: {
-			cw20Coin: HumanCw20Coin
-			coin: HumanCoin
+			cw20Coin: HumanCw20Coin & { rawAmount: string }
+			coin: HumanCoin & { rawAmount: string }
 		}
 		numberOfTickets: number
 		randomnessOwner?: string
