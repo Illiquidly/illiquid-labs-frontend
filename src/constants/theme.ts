@@ -68,6 +68,7 @@ export const theme = makeTheme({
 		error100: '#EA3943',
 		error200: '#FF3B30',
 		error300: '#DC2626',
+
 		error400: 'rgba(255, 59, 48, 0.2)',
 
 		warning100: '#FF6628',

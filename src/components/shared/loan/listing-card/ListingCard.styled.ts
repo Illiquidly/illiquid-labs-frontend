@@ -69,36 +69,6 @@ export const ProgressBar = styled(Flex)<{
 			: props.theme.colors.success200};
 `
 
-export const RightCutout = styled.div`
-	position: absolute;
-	border: 1.34px solid ${props => props.theme.colors.dark500};
-	right: -14px;
-	bottom: -11.39px;
-
-	border-top-left-radius: 22.78px;
-	border-bottom-left-radius: 22.78px;
-	border-right-width: 0;
-
-	height: 22.78px;
-	width: 12.39px;
-	background-color: ${props => props.theme.colors.dark100};
-`
-
-export const LeftCutout = styled.div`
-	position: absolute;
-	border: 1.34px solid ${props => props.theme.colors.dark500};
-	left: -14px;
-	bottom: -11.39px;
-
-	border-top-right-radius: 22.78px;
-	border-bottom-right-radius: 22.78px;
-	border-left-width: 0;
-
-	height: 22.78px;
-	width: 12.39px;
-	background-color: ${props => props.theme.colors.dark100};
-`
-
 export const DescriptionSection = styled(Flex)`
 	flex-direction: column;
 	margin-top: 8px;
