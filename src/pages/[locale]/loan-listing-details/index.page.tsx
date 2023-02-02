@@ -263,7 +263,7 @@ export default function LoanListingDetails() {
 		})
 
 		if (repayLoanResponse) {
-			await refetch()
+			refetch()
 		}
 	}
 
@@ -281,7 +281,7 @@ export default function LoanListingDetails() {
 		})
 
 		if (withdrawDefaultedResponse) {
-			await refetch()
+			refetch()
 		}
 	}
 
