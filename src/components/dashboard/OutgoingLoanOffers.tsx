@@ -24,7 +24,7 @@ function OutgoingLoanOffers() {
 		defaultedStatusLabel,
 		endedStatusLabel,
 		withdrawnLabel,
-	]: Array<string> = t('dashboard:loan.statuses', {
+	]: Array<string> = t('dashboard:loans.statuses', {
 		returnObjects: true,
 	})
 
