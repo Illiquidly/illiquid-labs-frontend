@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'next-i18next'
 import { Flex } from 'theme-ui'
-
+import { queryTypes, useQueryState } from 'next-usequerystate'
 import { makeStaticPaths, makeStaticProps } from 'lib'
 import {
 	Title,
@@ -46,11 +46,19 @@ export enum FEATURE_TYPE {
 
 export default function Dashboard() {
 	const { t } = useTranslation(['common', 'dashboard'])
-	const [activityType, setActivityType] = React.useState(
-		ACTIVITY_TYPE.incomingActivity
+	const [activityType, setActivityType] = useQueryState(
+		'activityType',
+		queryTypes
+			.stringEnum<ACTIVITY_TYPE>(Object.values(ACTIVITY_TYPE))
+			.withDefault(ACTIVITY_TYPE.incomingActivity)
 	)
 
-	const [feature, setFeature] = useState(FEATURE_TYPE.trade)
+	const [feature, setFeature] = useQueryState(
+		'featureType',
+		queryTypes
+			.stringEnum<FEATURE_TYPE>(Object.values(FEATURE_TYPE))
+			.withDefault(FEATURE_TYPE.trade)
+	)
 
 	return (
 		<Page title={t('common:title')}>
