@@ -1,12 +1,12 @@
 import { ArrowLeftIcon } from 'assets/icons/mixed'
 import { Flex } from 'theme-ui'
-import * as ROUTES from 'constants/routes'
 import { useTranslation } from 'next-i18next'
 
 import NotFoundImg from 'assets/images/NotFoundImg'
 import React from 'react'
 import styled from '@emotion/styled'
-import { LinkButton } from 'components/link'
+import { Button } from 'components/ui'
+import { useRouter } from 'next/router'
 
 const NotFoundText = styled(Flex)`
 	font-family: 'Inter';
@@ -25,6 +25,8 @@ NotFoundText.defaultProps = {
 export const NoLongerExist = () => {
 	const { t } = useTranslation(['common', 'trade-listings'])
 
+	const router = useRouter()
+
 	return (
 		<>
 			<Flex
@@ -33,14 +35,14 @@ export const NoLongerExist = () => {
 					padding: '22px 0',
 				}}
 			>
-				<LinkButton
-					href={ROUTES.TRADE_LISTINGS}
+				<Button
+					onClick={() => router.back()}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}
 				>
 					{t('trade-listings:back-to-listings')}
-				</LinkButton>
+				</Button>
 			</Flex>
 			<Flex sx={{ justifyContent: 'center', marginTop: '48px' }}>
 				<NotFoundImg />

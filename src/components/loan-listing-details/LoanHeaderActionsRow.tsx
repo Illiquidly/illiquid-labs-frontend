@@ -2,8 +2,9 @@ import React from 'react'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 import { Box, Flex } from 'theme-ui'
+import { useQueryClient } from '@tanstack/react-query'
+
 import { IconButton } from 'components/trade-listing-details'
-import * as ROUTES from 'constants/routes'
 import { TwitterShareButton } from 'react-share'
 import {
 	DeleteOutlineIcon,
@@ -15,14 +16,13 @@ import {
 import { useRouter } from 'next/router'
 import { noop } from 'lodash'
 import useAddress from 'hooks/useAddress'
-import { LinkButton } from 'components/link'
 import { Loan, LOAN_STATE } from 'services/api/loansService'
 import { asyncAction } from 'utils/js/asyncAction'
 import { TxBroadcastingModal } from 'components/shared'
 import { LoansContract } from 'services/blockchain'
 import { LOAN } from 'constants/useQueryKeys'
-import { useQueryClient } from '@tanstack/react-query'
 import { BLOCKS_PER_DAY } from 'constants/core'
+import { Button } from 'components/ui'
 import {
 	EditModal,
 	RemoveModal,
@@ -143,14 +143,14 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 					justifyContent: 'flex-start',
 				}}
 			>
-				<LinkButton
-					href={ROUTES.LOAN_LISTINGS}
+				<Button
+					onClick={() => router.back()}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}
 				>
 					{t('loan-listings:back-to-listings')}
-				</LinkButton>
+				</Button>
 			</Flex>
 			{isMyLoanListing && (
 				<Flex
