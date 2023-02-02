@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next'
 
 import { Box, Flex } from 'theme-ui'
 import { IconButton } from 'components/trade-listing-details'
-import * as ROUTES from 'constants/routes'
 import { TwitterShareButton } from 'react-share'
 import {
 	DeleteOutlineIcon,
@@ -15,7 +14,6 @@ import {
 import { useRouter } from 'next/router'
 import { noop } from 'lodash'
 import useAddress from 'hooks/useAddress'
-import { LinkButton } from 'components/link'
 import { Raffle, RAFFLE_STATE } from 'services/api/rafflesService'
 import { asyncAction } from 'utils/js/asyncAction'
 import NiceModal from '@ebay/nice-modal-react'
@@ -24,6 +22,7 @@ import { RafflesContract } from 'services/blockchain'
 import { useQueryClient } from '@tanstack/react-query'
 import { RAFFLE } from 'constants/useQueryKeys'
 import moment from 'moment'
+import { Button } from 'components/ui'
 import RemoveModal, {
 	RemoveModalProps,
 } from './modals/remove-modal/RemoveModal'
@@ -172,14 +171,14 @@ export const RaffleHeaderActionsRow = ({
 					justifyContent: 'flex-start',
 				}}
 			>
-				<LinkButton
-					href={ROUTES.RAFFLE_LISTINGS}
+				<Button
+					onClick={() => router.back()}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}
 				>
 					{t('raffle-listings:back-to-listings')}
-				</LinkButton>
+				</Button>
 			</Flex>
 			{isMyRaffleListing && (
 				<Flex

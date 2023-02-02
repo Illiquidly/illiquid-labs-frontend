@@ -4,7 +4,6 @@ import { useTranslation } from 'next-i18next'
 import { Box, Flex } from 'theme-ui'
 import NiceModal from '@ebay/nice-modal-react'
 import { IconButton } from 'components/trade-listing-details'
-import * as ROUTES from 'constants/routes'
 import { TwitterShareButton } from 'react-share'
 import {
 	DeleteOutlineIcon,
@@ -30,8 +29,8 @@ import { TxBroadcastingModal } from 'components/shared'
 import { useQueryClient } from '@tanstack/react-query'
 import useAddress from 'hooks/useAddress'
 import { TRADE } from 'constants/useQueryKeys'
-import { LinkButton } from 'components/link'
 import { P2PTradingContract } from 'services/blockchain'
+import { Button } from 'components/ui'
 
 interface TradeHeaderActionsRowProps {
 	trade?: Trade
@@ -146,14 +145,14 @@ export const TradeHeaderActionsRow = ({
 					justifyContent: 'flex-start',
 				}}
 			>
-				<LinkButton
-					href={ROUTES.TRADE_LISTINGS}
+				<Button
+					onClick={() => router.back()}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}
 				>
 					{t('trade-listings:back-to-listings')}
-				</LinkButton>
+				</Button>
 			</Flex>
 			{isMyTradeListing && (
 				<Flex
