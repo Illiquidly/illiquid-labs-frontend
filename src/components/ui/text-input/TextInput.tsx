@@ -99,7 +99,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 		const { children, iconLeft, iconRight, ...rest } = props
 		const inputRef = React.useRef<HTMLInputElement>(null)
 
-		const handleClick = () => inputRef?.current?.click()
+		const handleClick = () => inputRef?.current?.focus()
 
 		React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
 

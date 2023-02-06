@@ -94,7 +94,7 @@ export const TextArea = React.forwardRef<
 	const { children, ...rest } = props
 	const inputRef = React.useRef<HTMLTextAreaElement>(null)
 
-	const handleClick = () => inputRef?.current?.click()
+	const handleClick = () => inputRef?.current?.focus()
 
 	React.useImperativeHandle(ref, () => inputRef.current as HTMLTextAreaElement)
 

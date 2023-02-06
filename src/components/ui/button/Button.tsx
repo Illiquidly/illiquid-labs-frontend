@@ -9,26 +9,27 @@ import {
 	ButtonProps as ThemeUIButtonProps,
 } from 'theme-ui'
 
+export type ButtonTypeVariants =
+	| 'primary'
+	| 'secondary'
+	| 'ghost'
+	| 'destructive'
+	| 'dark'
+	| 'gradient'
+	| 'select'
+
+export type ButtonSizeVariants = 'small' | 'medium' | 'large' | 'extraLarge'
+
 export interface ButtonProps {
 	fullWidth?: boolean
 	disabled?: boolean
 	sx?: ThemeUIStyleObject
 	forwardedRef?: React.LegacyRef<HTMLButtonElement | HTMLAnchorElement>
 
-	// Style variants
-	variant?:
-		| 'primary'
-		| 'secondary'
-		| 'ghost'
-		| 'destructive'
-		| 'dark'
-		| 'gradient'
-		| 'select'
+	variant?: ButtonTypeVariants
 
-	// Size variants
-	size?: 'small' | 'medium' | 'large' | 'extraLarge'
+	size?: ButtonSizeVariants
 
-	// Icons
 	startIcon?: React.ReactNode
 	endIcon?: React.ReactNode
 
