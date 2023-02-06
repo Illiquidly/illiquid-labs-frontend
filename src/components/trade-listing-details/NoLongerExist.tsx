@@ -8,6 +8,8 @@ import styled from '@emotion/styled'
 import { Button } from 'components/ui'
 import { useRouter } from 'next/router'
 
+import * as ROUTES from 'constants/routes'
+
 const NotFoundText = styled(Flex)`
 	font-family: 'Inter';
 	font-style: normal;
@@ -36,7 +38,11 @@ export const NoLongerExist = () => {
 				}}
 			>
 				<Button
-					onClick={() => router.back()}
+					onClick={() =>
+						window?.history?.state?.idx > 0
+							? router.back()
+							: router.push(ROUTES.TRADE_LISTINGS)
+					}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}

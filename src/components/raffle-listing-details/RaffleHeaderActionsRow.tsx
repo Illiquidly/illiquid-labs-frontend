@@ -23,6 +23,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { RAFFLE } from 'constants/useQueryKeys'
 import moment from 'moment'
 import { Button } from 'components/ui'
+import * as ROUTES from 'constants/routes'
 import RemoveModal, {
 	RemoveModalProps,
 } from './modals/remove-modal/RemoveModal'
@@ -172,7 +173,11 @@ export const RaffleHeaderActionsRow = ({
 				}}
 			>
 				<Button
-					onClick={() => router.back()}
+					onClick={() =>
+						window?.history?.state?.idx > 0
+							? router.back()
+							: router.push(ROUTES.RAFFLE_LISTINGS)
+					}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}

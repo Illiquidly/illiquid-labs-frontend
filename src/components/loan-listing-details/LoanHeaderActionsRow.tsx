@@ -23,6 +23,7 @@ import { LoansContract } from 'services/blockchain'
 import { LOAN } from 'constants/useQueryKeys'
 import { BLOCKS_PER_DAY } from 'constants/core'
 import { Button } from 'components/ui'
+import * as ROUTES from 'constants/routes'
 import {
 	EditModal,
 	RemoveModal,
@@ -144,7 +145,11 @@ export const LoanHeaderActionsRow = ({ loan }: LoanHeaderActionsRowProps) => {
 				}}
 			>
 				<Button
-					onClick={() => router.back()}
+					onClick={() =>
+						window?.history?.state?.idx > 0
+							? router.back()
+							: router.push(ROUTES.LOAN_LISTINGS)
+					}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}

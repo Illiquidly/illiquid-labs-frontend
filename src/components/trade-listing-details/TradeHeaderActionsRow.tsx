@@ -32,6 +32,8 @@ import { TRADE } from 'constants/useQueryKeys'
 import { P2PTradingContract } from 'services/blockchain'
 import { Button } from 'components/ui'
 
+import * as ROUTES from 'constants/routes'
+
 interface TradeHeaderActionsRowProps {
 	trade?: Trade
 }
@@ -146,7 +148,11 @@ export const TradeHeaderActionsRow = ({
 				}}
 			>
 				<Button
-					onClick={() => router.back()}
+					onClick={() =>
+						window?.history?.state?.idx > 0
+							? router.back()
+							: router.push(ROUTES.TRADE_LISTINGS)
+					}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}
