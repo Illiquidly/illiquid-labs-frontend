@@ -6,11 +6,13 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Flex } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
+import WatchListLoansAsset from 'assets/images/WatchListLoansAsset'
 import {
 	WatchListCard,
 	Title,
 	Description,
 	WatchListEmptyContainer,
+	WatchListAssetImageContainer,
 } from './WatchList.styled'
 
 function WatchListRaffles() {
@@ -44,9 +46,9 @@ function WatchListRaffles() {
 					</Flex>
 				</Flex>
 			</WatchListEmptyContainer>
-			{/* <WatchListAssetImageContainer>
-				<WatchListRaffleAsset />
-			</WatchListAssetImageContainer> */}
+			<WatchListAssetImageContainer>
+				<WatchListLoansAsset />
+			</WatchListAssetImageContainer>
 		</WatchListCard>
 	)
 }
