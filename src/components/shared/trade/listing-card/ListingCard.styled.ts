@@ -45,6 +45,7 @@ export const DescriptionSection = styled(Flex)`
 	flex-direction: column;
 	margin-top: 12px;
 	height: 62px;
+	justify-content: flex-end;
 `
 
 export const LookingForSection = styled(Flex)`
