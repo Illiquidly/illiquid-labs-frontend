@@ -3,7 +3,7 @@ import { LunaIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import { RaffleParticipantsTable } from 'components/raffle-listing-details'
-import { Button, OverflowTip } from 'components/ui'
+import { Badge, Button, OverflowTip } from 'components/ui'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -20,7 +20,6 @@ import {
 	DescriptionSection,
 	Image,
 	ImageSection,
-	MoreChip,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -129,9 +128,9 @@ function RaffleOfferCard({
 										{Boolean(nfts.length > 1) && (
 											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
-													<MoreChip>
+													<Badge bg='primary200'>
 														{t('common:more-nfts', { count: nfts.length })}
-													</MoreChip>
+													</Badge>
 												</OverflowTip>
 											</Flex>
 										)}

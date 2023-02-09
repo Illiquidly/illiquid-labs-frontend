@@ -3,7 +3,7 @@ import { LunaIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import { LoanOffersTable } from 'components/loan-listing-details'
-import { Button, OverflowTip } from 'components/ui'
+import { Badge, Button, OverflowTip } from 'components/ui'
 import { clamp } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -17,12 +17,9 @@ import {
 	AttributeValue,
 	BottomImageArea,
 	CardContainer,
-	DefaultedChip,
 	DescriptionSection,
-	FundedChip,
 	Image,
 	ImageSection,
-	MoreChip,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -144,37 +141,37 @@ function LoanOfferCard({
 										{Boolean(nfts.length > 1) && (
 											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
-													<MoreChip>
+													<Badge bg='primary200'>
 														{t('common:more-nfts', { count: nfts.length })}
-													</MoreChip>
+													</Badge>
 												</OverflowTip>
 											</Flex>
 										)}
 										{Boolean(published) && (
 											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
-													<MoreChip>{t('dashboard:loans.published')}</MoreChip>
+													<Badge bg='primary200'>{t('dashboard:loans.published')}</Badge>
 												</OverflowTip>
 											</Flex>
 										)}
 										{Boolean(funded) && (
 											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
-													<FundedChip>{t('dashboard:loans.funded')}</FundedChip>
+													<Badge bg='success200'>{t('dashboard:loans.funded')}</Badge>
 												</OverflowTip>
 											</Flex>
 										)}
 										{Boolean(defaulted) && (
 											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
-													<DefaultedChip>{t('dashboard:loans.defaulted')}</DefaultedChip>
+													<Badge bg='error200'>{t('dashboard:loans.defaulted')}</Badge>
 												</OverflowTip>
 											</Flex>
 										)}
 										{Boolean(ended) && (
 											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
-													<DefaultedChip>{t('dashboard:loans.ended')}</DefaultedChip>
+													<Badge bg='error200'>{t('dashboard:loans.ended')}</Badge>
 												</OverflowTip>
 											</Flex>
 										)}

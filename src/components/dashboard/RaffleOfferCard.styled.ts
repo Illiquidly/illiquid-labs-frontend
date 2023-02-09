@@ -6,7 +6,7 @@ import {
 	StyledAttributeValue,
 } from 'components/ui'
 import { Img } from 'react-image'
-import { Box, Flex, Text } from 'theme-ui'
+import { Flex, Text } from 'theme-ui'
 
 export const Title = styled(Text)`
 	font-style: normal;
@@ -210,23 +210,6 @@ export const ListingOverlay = styled(Flex)`
 	text-align: center;
 
 	color: ${props => props.theme.colors.gray600};
-`
-
-export const MoreChip = styled(Box)`
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	padding: 2px 8px;
-
-	background: ${props => props.theme.colors.primary200};
-	border-radius: 16px;
-
-	font-family: 'Inter';
-	font-style: normal;
-	font-weight: 500;
-	font-size: 12px;
-	line-height: 18px;
 `
 
 export const AttributeCard = styled(StyledAttributeCard)`

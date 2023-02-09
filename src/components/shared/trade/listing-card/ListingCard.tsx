@@ -3,6 +3,7 @@ import { HeartFilledIcon, HeartIcon } from 'assets/icons/mixed'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
+import { Badge } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Collection, NFT } from 'services/api/walletNFTsService'
@@ -18,7 +19,6 @@ import {
 	ImageSection,
 	LikeIconContainer,
 	ListingOverlay,
-	MoreChip,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -144,7 +144,9 @@ function ListingCard({
 								{Boolean(nfts.length > 1) && (
 									<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 										<OverflowTip>
-											<MoreChip>{t('common:more-nfts', { count: nfts.length })}</MoreChip>
+											<Badge bg='primary200'>
+												{t('common:more-nfts', { count: nfts.length })}
+											</Badge>
 										</OverflowTip>
 									</Flex>
 								)}
