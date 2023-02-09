@@ -4,7 +4,7 @@ import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import { LookingFor } from 'components/shared/trade'
 import { CounterOffersTable } from 'components/trade-listing-details'
-import { Button, OverflowTip } from 'components/ui'
+import { Badge, Button, OverflowTip } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Trade } from 'services/api/tradesService'
@@ -17,7 +17,6 @@ import {
 	DescriptionSection,
 	Image,
 	ImageSection,
-	MoreChip,
 	PreviewImage,
 	PreviewImageContainer,
 	PreviewNFTsSection,
@@ -126,9 +125,9 @@ function TradeOfferCard({
 										{Boolean(nfts.length > 1) && (
 											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
-													<MoreChip>
+													<Badge bg='primary200'>
 														{t('common:more-nfts', { count: nfts.length })}
-													</MoreChip>
+													</Badge>
 												</OverflowTip>
 											</Flex>
 										)}

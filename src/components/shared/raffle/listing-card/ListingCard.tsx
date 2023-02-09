@@ -7,6 +7,7 @@ import {
 } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
+import { Badge } from 'components/ui'
 import useNameService from 'hooks/useNameService'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'
@@ -30,7 +31,6 @@ import {
 	LikeIconContainer,
 	Line,
 	LineSection,
-	MoreChip,
 	NameLabel,
 	NameServiceImage,
 	NameServiceImagePlaceholder,
@@ -164,7 +164,9 @@ function ListingCard({
 									{Boolean(nfts.length > 1) && (
 										<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
 											<OverflowTip>
-												<MoreChip>{t('common:more-nfts', { count: nfts.length })}</MoreChip>
+												<Badge bg='primary200'>
+													{t('common:more-nfts', { count: nfts.length })}
+												</Badge>
 											</OverflowTip>
 										</Flex>
 									)}
