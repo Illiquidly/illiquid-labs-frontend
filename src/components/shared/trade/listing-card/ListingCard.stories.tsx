@@ -1,6 +1,7 @@
 // Footer.stories.ts|tsx
 
 import React from 'react'
+import { TRADE_STATE } from 'services/api/tradesService'
 import { Box, Flex } from 'theme-ui'
 import ListingCard from './ListingCard'
 
@@ -19,6 +20,7 @@ export const TradeListingCardExample = () => {
 			<Box as='h3'>Default Card</Box>
 			<Flex sx={{ gap: 8, flex: 1, width: '345px' }}>
 				<ListingCard
+					state={TRADE_STATE.Created}
 					verified
 					description='2'
 					attributes={[]}

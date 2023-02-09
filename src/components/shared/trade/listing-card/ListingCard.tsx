@@ -6,10 +6,12 @@ import { Link } from 'components/link'
 import { Badge } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
+import { TRADE_STATE } from 'services/api/tradesService'
 import { Collection, NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../../../ui/overflow-tip'
 import { LookingFor } from '../looking-for'
+import TradeStateBadge from '../TradeStateBadge'
 
 import {
 	BottomImageArea,
@@ -46,6 +48,7 @@ interface ListingCardProps extends NFT {
 	previewItemsLimit?: number
 	isPrivate?: boolean
 	hasLookingFor?: boolean
+	state: TRADE_STATE
 }
 
 function ListingCard({
@@ -62,6 +65,7 @@ function ListingCard({
 	previewItemsLimit = 4,
 	isPrivate,
 	hasLookingFor = true,
+	state,
 	...NFTProps
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -150,6 +154,8 @@ function ListingCard({
 										</OverflowTip>
 									</Flex>
 								)}
+
+								<TradeStateBadge tradeState={state} />
 							</Flex>
 						</Flex>
 					</DescriptionSection>

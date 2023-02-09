@@ -1,6 +1,7 @@
 // ListingCard.stories.ts|tsx
 
 import React from 'react'
+import { LOAN_STATE } from 'services/api/loansService'
 import { Box, Flex } from 'theme-ui'
 import ListingCard from './ListingCard'
 
@@ -19,6 +20,7 @@ export const LoanListingCardExample = () => {
 			<Box as='h3'>Default Card</Box>
 			<Flex sx={{ gap: 8, flex: 1, width: '345px' }}>
 				<ListingCard
+					state={LOAN_STATE.Defaulted}
 					verified
 					description='2'
 					attributes={[]}

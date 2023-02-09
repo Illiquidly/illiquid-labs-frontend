@@ -2,6 +2,7 @@
 
 import moment from 'moment'
 import React from 'react'
+import { RAFFLE_STATE } from 'services/api/rafflesService'
 import { Box, Flex } from 'theme-ui'
 import ListingCard from './ListingCard'
 
@@ -20,6 +21,7 @@ export const RaffleListingCardExample = () => {
 			<Box as='h3'>Default Card</Box>
 			<Flex sx={{ gap: 8, flex: 1, width: '345px' }}>
 				<ListingCard
+					state={RAFFLE_STATE.Claimed}
 					verified
 					description='2'
 					attributes={[]}

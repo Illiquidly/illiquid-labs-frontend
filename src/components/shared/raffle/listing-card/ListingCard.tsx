@@ -12,6 +12,7 @@ import useNameService from 'hooks/useNameService'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
+import { RAFFLE_STATE } from 'services/api/rafflesService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
@@ -46,6 +47,7 @@ import {
 	Subtitle,
 	Title,
 } from './ListingCard.styled'
+import RaffleStateBadge from './RaffleStateBadge'
 
 interface ListingCardProps extends NFT {
 	liked?: boolean
@@ -65,6 +67,7 @@ interface ListingCardProps extends NFT {
 	ticketsRemaining: number
 	endsIn: Date
 	isSmall?: boolean
+	state: RAFFLE_STATE
 }
 
 function ListingCard({
@@ -83,6 +86,7 @@ function ListingCard({
 	ticketsRemaining,
 	endsIn,
 	isSmall,
+	state,
 	...NFTProps
 }: ListingCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -170,6 +174,7 @@ function ListingCard({
 											</OverflowTip>
 										</Flex>
 									)}
+									<RaffleStateBadge raffleState={state} />
 								</Flex>
 							</Flex>
 						</DescriptionSection>

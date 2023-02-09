@@ -222,6 +222,7 @@ function RaffleOffers({
 												raffleTicketPrice,
 												raffleOptions,
 												allAssociatedAssets,
+												state,
 											},
 										} = raffle
 
@@ -234,6 +235,7 @@ function RaffleOffers({
 										return (
 											<Box key={raffleId}>
 												<RaffleOfferCard
+													state={state}
 													raffle={raffle}
 													description={
 														raffleOptions?.rafflePreview?.cw721Coin?.description ?? ''

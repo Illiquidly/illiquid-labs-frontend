@@ -3,11 +3,12 @@ import { LunaIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import { RaffleParticipantsTable } from 'components/raffle-listing-details'
+import RaffleStateBadge from 'components/shared/raffle/listing-card/RaffleStateBadge'
 import { Badge, Button, OverflowTip } from 'components/ui'
 import moment from 'moment'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { Raffle } from 'services/api/rafflesService'
+import { Raffle, RAFFLE_STATE } from 'services/api/rafflesService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 
@@ -42,6 +43,7 @@ interface RaffleOfferCardProps extends NFT {
 	ticketsSold: number
 	endsIn: Date
 	raffle: Raffle
+	state: RAFFLE_STATE
 }
 
 function RaffleOfferCard({
@@ -57,6 +59,7 @@ function RaffleOfferCard({
 	ticketsSold,
 	endsIn,
 	raffle,
+	state,
 	...NFTProps
 }: RaffleOfferCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -135,6 +138,7 @@ function RaffleOfferCard({
 											</Flex>
 										)}
 									</Flex>
+									<RaffleStateBadge raffleState={state} />
 								</Flex>
 							</DescriptionSection>
 							<Flex

@@ -244,14 +244,7 @@ function LoanOffers({
 										return (
 											<Box key={`${loanId}_${borrower}`}>
 												<LoanOfferCard
-													ended={[
-														LOAN_STATE.Withdrawn,
-														LOAN_STATE.Defaulted,
-														LOAN_STATE.Ended,
-													].includes(state)}
-													published={[LOAN_STATE.Published].includes(state)}
-													funded={[LOAN_STATE.Started].includes(state)}
-													defaulted={[LOAN_STATE.PendingDefault].includes(state)}
+													state={state}
 													description={loanPreview?.cw721Coin?.description ?? ''}
 													attributes={loanPreview?.cw721Coin?.attributes ?? []}
 													tokenId={loanPreview?.cw721Coin?.tokenId ?? ''}

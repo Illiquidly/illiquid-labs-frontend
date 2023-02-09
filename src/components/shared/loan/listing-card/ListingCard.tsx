@@ -6,6 +6,7 @@ import { Badge } from 'components/ui'
 import { clamp } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
+import { LOAN_STATE } from 'services/api/loansService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 import { OverflowTip } from '../../../ui/overflow-tip'
@@ -29,6 +30,7 @@ import {
 	Subtitle,
 	Title,
 } from './ListingCard.styled'
+import LoanStateBadge from './LoanStateBadge'
 
 interface ListingCardProps extends NFT {
 	liked?: boolean
@@ -44,10 +46,7 @@ interface ListingCardProps extends NFT {
 	apr: number
 	timeFrame: number
 	isSmall?: boolean
-	funded?: boolean
-	defaulted?: boolean
-	ended?: boolean
-	published?: boolean
+	state: LOAN_STATE
 	defaultThreshold?: number
 	defaultPercentage?: number
 }
@@ -64,10 +63,7 @@ function ListingCard({
 	timeFrame,
 	apr,
 	borrowAmount,
-	funded,
-	defaulted,
-	ended,
-	published,
+	state,
 	defaultPercentage,
 	defaultThreshold,
 	...NFTProps
@@ -124,7 +120,15 @@ function ListingCard({
 						</ImageSection>
 						<LineSection>
 							<ProgressBar
-								progress={ended ? 0 : clamp(defaultPercentage ?? 0, 0, 100)}
+								progress={
+									[
+										LOAN_STATE.Withdrawn,
+										LOAN_STATE.Defaulted,
+										LOAN_STATE.Ended,
+									].includes(state)
+										? 0
+										: clamp(defaultPercentage ?? 0, 0, 100)
+								}
 								threshold={clamp(defaultThreshold ?? 0, 0, 100)}
 							/>
 						</LineSection>
@@ -157,34 +161,7 @@ function ListingCard({
 										</Flex>
 									)}
 
-									{Boolean(published) && (
-										<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-											<OverflowTip>
-												<Badge bg='primary200'>{t('loan-listings:published')}</Badge>
-											</OverflowTip>
-										</Flex>
-									)}
-									{Boolean(funded) && (
-										<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-											<OverflowTip>
-												<Badge bg='success200'>{t('loan-listings:funded')}</Badge>
-											</OverflowTip>
-										</Flex>
-									)}
-									{Boolean(defaulted) && (
-										<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-											<OverflowTip>
-												<Badge bg='error200'>{t('loan-listings:defaulted')}</Badge>
-											</OverflowTip>
-										</Flex>
-									)}
-									{Boolean(ended) && (
-										<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-											<OverflowTip>
-												<Badge bg='error200'>{t('loan-listings:ended')}</Badge>
-											</OverflowTip>
-										</Flex>
-									)}
+									<LoanStateBadge loanState={state} />
 								</Flex>
 							</Flex>
 						</DescriptionSection>
@@ -246,10 +223,6 @@ ListingCard.defaultProps = {
 	lookingForItemsLimit: 4,
 	previewItemsLimit: 4,
 	isSmall: false,
-	funded: false,
-	defaulted: false,
-	ended: false,
-	published: false,
 	defaultPercentage: 0,
 	defaultThreshold: 0,
 }

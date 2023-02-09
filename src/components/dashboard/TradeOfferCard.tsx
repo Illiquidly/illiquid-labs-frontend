@@ -2,12 +2,12 @@ import { VerifiedIcon } from 'assets/icons/16pt'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
-import { LookingFor } from 'components/shared/trade'
+import { LookingFor, TradeStateBadge } from 'components/shared/trade'
 import { CounterOffersTable } from 'components/trade-listing-details'
 import { Badge, Button, OverflowTip } from 'components/ui'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { Trade } from 'services/api/tradesService'
+import { Trade, TRADE_STATE } from 'services/api/tradesService'
 import { Collection, NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 
@@ -41,6 +41,7 @@ interface TradeOfferCardProps extends NFT {
 	hasLookingFor?: boolean
 	refetchTrade: () => void
 	trade: Trade
+	state: TRADE_STATE
 }
 
 function TradeOfferCard({
@@ -54,6 +55,7 @@ function TradeOfferCard({
 	isPrivate,
 	hasLookingFor = true,
 	trade,
+	state,
 	refetchTrade,
 	...NFTProps
 }: TradeOfferCardProps) {
@@ -131,6 +133,7 @@ function TradeOfferCard({
 												</OverflowTip>
 											</Flex>
 										)}
+										<TradeStateBadge tradeState={state} />
 									</Flex>
 								</Flex>
 							</DescriptionSection>
