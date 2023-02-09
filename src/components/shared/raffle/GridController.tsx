@@ -121,6 +121,7 @@ function GridController({
 						raffleOptions,
 						allAssociatedAssets,
 						winner,
+						state,
 					},
 				}) => {
 					const liked = Boolean(
@@ -162,6 +163,7 @@ function GridController({
 					return (
 						<Box key={raffleId}>
 							<ListingCard
+								state={state}
 								winner={winner}
 								onLike={toggleLike}
 								description={raffleOptions?.rafflePreview?.cw721Coin?.description ?? ''}

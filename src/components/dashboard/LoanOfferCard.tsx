@@ -3,11 +3,12 @@ import { LunaIcon } from 'assets/icons/mixed'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import { Link } from 'components/link'
 import { LoanOffersTable } from 'components/loan-listing-details'
+import { LoanStateBadge } from 'components/shared/loan/listing-card'
 import { Badge, Button, OverflowTip } from 'components/ui'
 import { clamp } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { Loan } from 'services/api/loansService'
+import { Loan, LOAN_STATE } from 'services/api/loansService'
 import { NFT } from 'services/api/walletNFTsService'
 import { Box, Flex } from 'theme-ui'
 
@@ -40,15 +41,12 @@ interface LoanOfferCardProps extends NFT {
 	apr: number
 	timeFrame: number
 	isSmall?: boolean
-	funded?: boolean
-	defaulted?: boolean
-	ended?: boolean
-	published?: boolean
 	loan?: Loan
 	refetchLoan: () => void
 	defaultThreshold?: number
 	defaultPercentage?: number
 	daysUntilDefault?: string
+	state: LOAN_STATE
 }
 
 function LoanOfferCard({
@@ -61,15 +59,12 @@ function LoanOfferCard({
 	apr,
 	timeFrame,
 	isSmall,
-	funded,
-	defaulted,
-	ended,
-	published,
 	refetchLoan,
 	loan,
 	daysUntilDefault,
 	defaultThreshold,
 	defaultPercentage,
+	state,
 	...NFTProps
 }: LoanOfferCardProps) {
 	const { name, collectionName, imageUrl } = NFTProps
@@ -147,41 +142,22 @@ function LoanOfferCard({
 												</OverflowTip>
 											</Flex>
 										)}
-										{Boolean(published) && (
-											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-												<OverflowTip>
-													<Badge bg='primary200'>{t('dashboard:loans.published')}</Badge>
-												</OverflowTip>
-											</Flex>
-										)}
-										{Boolean(funded) && (
-											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-												<OverflowTip>
-													<Badge bg='success200'>{t('dashboard:loans.funded')}</Badge>
-												</OverflowTip>
-											</Flex>
-										)}
-										{Boolean(defaulted) && (
-											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-												<OverflowTip>
-													<Badge bg='error200'>{t('dashboard:loans.defaulted')}</Badge>
-												</OverflowTip>
-											</Flex>
-										)}
-										{Boolean(ended) && (
-											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
-												<OverflowTip>
-													<Badge bg='error200'>{t('dashboard:loans.ended')}</Badge>
-												</OverflowTip>
-											</Flex>
-										)}
+										<LoanStateBadge loanState={state} />
 									</Flex>
 								</Flex>
 							</DescriptionSection>
 							<Flex sx={{ mb: '12px' }}>
 								<ProgressBarContainer>
 									<ProgressBar
-										progress={ended ? 0 : clamp(defaultPercentage ?? 0, 0, 100)}
+										progress={
+											[
+												LOAN_STATE.Withdrawn,
+												LOAN_STATE.Defaulted,
+												LOAN_STATE.Ended,
+											].includes(state)
+												? 0
+												: clamp(defaultPercentage ?? 0, 0, 100)
+										}
 										threshold={clamp(defaultThreshold ?? 0, 0, 100)}
 									/>
 								</ProgressBarContainer>
@@ -299,10 +275,6 @@ LoanOfferCard.defaultProps = {
 	disabled: false,
 	previewItemsLimit: 4,
 	isSmall: false,
-	funded: false,
-	defaulted: false,
-	ended: false,
-	published: false,
 	loan: undefined,
 	defaultPercentage: 0,
 	defaultThreshold: 0,

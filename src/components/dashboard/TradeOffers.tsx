@@ -213,13 +213,19 @@ function TradeOffers({
 									(trades?.data ?? []).map(trade => {
 										const {
 											tradeId,
-											tradeInfo: { additionalInfo, associatedAssets, whitelistedUsers },
+											tradeInfo: {
+												additionalInfo,
+												associatedAssets,
+												whitelistedUsers,
+												state,
+											},
 										} = trade
 										return (
 											<Box key={tradeId}>
 												<TradeOfferCard
 													refetchTrade={refetch}
 													trade={trade}
+													state={state}
 													description={
 														additionalInfo?.tradePreview?.cw721Coin?.description ?? ''
 													}

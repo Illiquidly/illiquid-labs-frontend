@@ -113,7 +113,7 @@ function GridController({
 				({
 					id,
 					tradeId,
-					tradeInfo: { additionalInfo, associatedAssets, whitelistedUsers },
+					tradeInfo: { additionalInfo, associatedAssets, whitelistedUsers, state },
 				}) => {
 					const liked = Boolean(
 						(favoriteTrades ?? []).find(favoriteTrade =>
@@ -159,6 +159,7 @@ function GridController({
 									additionalInfo?.tradePreview?.cw721Coin?.collectionName || ''
 								}
 								hasLookingFor={gridType !== GRID_TYPE.BIG}
+								state={state}
 							/>
 						</Box>
 					)

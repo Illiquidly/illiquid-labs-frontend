@@ -166,5 +166,18 @@
 		"no-bio": "-"
 	},
 	"apr": "APR",
-	"percentage": "{{value}} %"
+	"percentage": "{{value}} %",
+	"published": "Published",
+	"inactive": "Inactive",
+	"active": "Active",
+	"cancelled": "Cancelled",
+	"countered": "Countered",
+	"accepted": "Accepted",
+	"finished": "Finished",
+	"closed": "Closed",
+	"claimed": "Claimed",
+	"started": "Started",
+	"ended": "Ended",
+	"defaulted": "Defaulted",
+	"funded": "Funded"
 }
