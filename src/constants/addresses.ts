@@ -12,7 +12,7 @@ export const contractAddresses: {
 	[k in NetworkId]: { [key in ContractName]: string }
 } = {
 	'phoenix-1': {
-		loan: '',
+		loan: 'terra1ymhtlmsvmglmsf4r47n2yy4xhjvyxtlhyxws46chc6evk0r80s7qw0sumk',
 		raffle: 'terra1655tux08qla5rsl7w55xwx9nu4km9wuguy90ghqjxmcuh0c3zksq6jae9v',
 		p2pTrade: 'terra1vvwcxnrhzvwjw7c0t7ks3pe0fvj82rcyrmpsejj22csg0rawpc9qs9fyv4',
 		feeCollector:
