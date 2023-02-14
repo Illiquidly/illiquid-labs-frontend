@@ -39,7 +39,7 @@ function OutgoingLoanOffers() {
 		},
 		{
 			label: inactiveStatusLabel,
-			value: JSON.stringify([LOAN_STATE.Ended, LOAN_STATE.Withdrawn]),
+			value: JSON.stringify([LOAN_STATE.Ended, LOAN_STATE.Inactive]),
 		},
 		{
 			label: publishedStatusLabel,
@@ -59,7 +59,7 @@ function OutgoingLoanOffers() {
 		},
 		{
 			label: withdrawnLabel,
-			value: JSON.stringify([LOAN_STATE.Withdrawn, LOAN_STATE.Defaulted]),
+			value: JSON.stringify([LOAN_STATE.Inactive, LOAN_STATE.Defaulted]),
 		},
 	]
 
