@@ -121,11 +121,9 @@ function ListingCard({
 						<LineSection>
 							<ProgressBar
 								progress={
-									[
-										LOAN_STATE.Withdrawn,
-										LOAN_STATE.Defaulted,
-										LOAN_STATE.Ended,
-									].includes(state)
+									[LOAN_STATE.Inactive, LOAN_STATE.Defaulted, LOAN_STATE.Ended].includes(
+										state
+									)
 										? 0
 										: clamp(defaultPercentage ?? 0, 0, 100)
 								}

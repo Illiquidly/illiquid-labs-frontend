@@ -108,7 +108,7 @@ export default function LoanListings() {
 		},
 		{
 			label: inactiveStatusLabel,
-			value: JSON.stringify([LOAN_STATE.Ended, LOAN_STATE.Withdrawn]),
+			value: JSON.stringify([LOAN_STATE.Ended, LOAN_STATE.Inactive]),
 		},
 		{
 			label: publishedStatusLabel,
@@ -128,7 +128,7 @@ export default function LoanListings() {
 		},
 		{
 			label: withdrawnLabel,
-			value: JSON.stringify([LOAN_STATE.Withdrawn, LOAN_STATE.Defaulted]),
+			value: JSON.stringify([LOAN_STATE.Inactive, LOAN_STATE.Defaulted]),
 		},
 	]
 

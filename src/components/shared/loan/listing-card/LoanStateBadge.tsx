@@ -31,9 +31,9 @@ export default function LoanStateBadge({
 			bg: 'success200',
 			translation: 'common:funded',
 		},
-		[LOAN_STATE.Withdrawn]: {
+		[LOAN_STATE.Inactive]: {
 			bg: 'error200',
-			translation: 'common:ended',
+			translation: 'common:inactive',
 		},
 	}[loanState]
 

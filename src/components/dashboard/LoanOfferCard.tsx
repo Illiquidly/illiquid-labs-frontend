@@ -151,7 +151,7 @@ function LoanOfferCard({
 									<ProgressBar
 										progress={
 											[
-												LOAN_STATE.Withdrawn,
+												LOAN_STATE.Inactive,
 												LOAN_STATE.Defaulted,
 												LOAN_STATE.Ended,
 											].includes(state)
