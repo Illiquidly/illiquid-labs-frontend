@@ -8,7 +8,7 @@ import useAddress from 'hooks/useAddress'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { LoansService, SupportedCollectionsService } from 'services/api'
-import { LOAN_STATE } from 'services/api/loansService'
+import { Loan, LOAN_STATE } from 'services/api/loansService'
 import { Box, Flex } from 'theme-ui'
 
 const MightLikeText = styled(Flex)`
@@ -28,13 +28,12 @@ MightLikeText.defaultProps = {
 
 export interface LoanListingsYouMightLikeProps {
 	search: string
-	loanId?: string | number
-	borrower?: string
+	loan?: Loan
 }
 
 function LoanListingsYouMightLike({
 	search,
-	loanId,
+	loan,
 }: LoanListingsYouMightLikeProps) {
 	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'loan-listings'])
@@ -60,7 +59,7 @@ function LoanListingsYouMightLike({
 					search,
 					states: [LOAN_STATE.Started],
 					excludeMyLoans: true,
-					...(loanId ? { excludeLoans: [loanId] } : {}),
+					excludeLoans: loan?.id ? [loan.id] : [],
 				},
 				{
 					page: 1,

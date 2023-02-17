@@ -592,7 +592,7 @@ export default function LoanListingDetails() {
 								sample(verifiedCollections ?? [])?.collectionName ??
 								''
 							}
-							loanId={loan?.loanId}
+							loan={loan}
 						/>
 					</>
 				) : (

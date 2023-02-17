@@ -64,7 +64,7 @@ export type LoanFilters = {
 	hasLiquidAsset?: boolean
 	search?: string
 	excludeMyLoans?: boolean
-	excludeLoans?: (string | number)[]
+	excludeLoans?: string | number[]
 	myAddress: string
 	favoritesOf?: string
 	offeredBy?: string[]
@@ -201,10 +201,10 @@ export class LoansService {
 					  ]
 					: []),
 
-				...(filters?.excludeLoans
+				...(filters?.excludeLoans?.length
 					? [
 							{
-								loanId: {
+								id: {
 									$notin: filters?.excludeLoans,
 								},
 							},

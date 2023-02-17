@@ -10,6 +10,7 @@ import { TRADES, VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import useAddress from 'hooks/useAddress'
 import { SupportedCollectionsService } from 'services/api'
 import { TradesService, TRADE_STATE } from 'services/api/tradesService'
+import { isNil } from 'lodash'
 
 const MightLikeText = styled(Flex)`
 	font-size: 20px;
@@ -59,7 +60,7 @@ function TradeListingsYouMightLike({
 					search,
 					states: [TRADE_STATE.Published, TRADE_STATE.Countered],
 					excludeMyTrades: true,
-					...(tradeId ? { excludeTrades: [tradeId] } : {}),
+					...(!isNil(tradeId) ? { excludeTrades: [tradeId] } : {}),
 				},
 				{
 					page: 1,

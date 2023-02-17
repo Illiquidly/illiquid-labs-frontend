@@ -5,6 +5,7 @@ import { RaffleGridController } from 'components/shared/raffle'
 import { GRID_TYPE } from 'components/shared/raffle/GridController'
 import { RAFFLES, VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import useAddress from 'hooks/useAddress'
+import { isNil } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { SupportedCollectionsService } from 'services/api'
@@ -59,7 +60,7 @@ function RaffleListingsYouMightLike({
 					search,
 					states: [RAFFLE_STATE.Started],
 					excludeMyRaffles: true,
-					...(raffleId ? { excludeRaffles: [raffleId] } : {}),
+					...(!isNil(raffleId) ? { excludeRaffles: [raffleId] } : {}),
 				},
 				{
 					page: 1,
