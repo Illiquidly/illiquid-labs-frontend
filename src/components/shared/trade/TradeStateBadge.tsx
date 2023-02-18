@@ -34,7 +34,7 @@ const TradeStateBadge = ({ tradeState }: { tradeState: TRADE_STATE }) => {
 	}[tradeState]
 
 	return (
-		<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+		<Flex sx={{ ml: '4px', maxHeight: '18px' }}>
 			<OverflowTip>
 				<Badge bg={badge.bg}>{t(badge.translation)}</Badge>
 			</OverflowTip>

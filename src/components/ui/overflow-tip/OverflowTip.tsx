@@ -28,7 +28,9 @@ function OverflowTip({
 	return (
 		<Tooltip
 			placement='top'
-			overlay={React.cloneElement(children, { style: { color: '#000' } })}
+			overlay={React.cloneElement(children, {
+				style: { background: 'transparent', color: '#000' },
+			})}
 			{...(!isOverflowed ? { visible: false } : {})}
 		>
 			{React.cloneElement(React.Children.only(children), {

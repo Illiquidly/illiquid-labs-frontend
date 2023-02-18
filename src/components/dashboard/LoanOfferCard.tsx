@@ -134,7 +134,7 @@ function LoanOfferCard({
 									)}
 									<Flex sx={{ ml: 'auto' }}>
 										{Boolean(nfts.length > 1) && (
-											<Flex sx={{ mx: '4px', maxHeight: '18px' }}>
+											<Flex sx={{ ml: '4px', maxHeight: '18px' }}>
 												<OverflowTip>
 													<Badge bg='primary200'>
 														{t('common:more-nfts', { count: nfts.length })}
