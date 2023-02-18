@@ -173,11 +173,7 @@ export const RaffleHeaderActionsRow = ({
 				}}
 			>
 				<Button
-					onClick={() =>
-						window?.history?.state?.idx > 0
-							? router.back()
-							: router.push(ROUTES.RAFFLE_LISTINGS)
-					}
+					onClick={() => router.push(ROUTES.RAFFLE_LISTINGS)}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}

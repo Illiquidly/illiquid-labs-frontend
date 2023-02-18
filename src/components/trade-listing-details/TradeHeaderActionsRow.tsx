@@ -148,11 +148,7 @@ export const TradeHeaderActionsRow = ({
 				}}
 			>
 				<Button
-					onClick={() =>
-						window?.history?.state?.idx > 0
-							? router.back()
-							: router.push(ROUTES.TRADE_LISTINGS)
-					}
+					onClick={() => router.push(ROUTES.TRADE_LISTINGS)}
 					sx={{ height: '40px', padding: '13px' }}
 					variant='secondary'
 					startIcon={<ArrowLeftIcon />}
