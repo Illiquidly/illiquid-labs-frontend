@@ -165,7 +165,7 @@
 		"update": "Update",
 		"no-bio": "-"
 	},
-	"apr": "APR",
+	"interest-rate": "interest",
 	"percentage": "{{value}} %",
 	"published": "Published",
 	"inactive": "Inactive",

@@ -5,7 +5,7 @@
 	"borrow": "Borrow",
 	"time-frame": "Timeframe",
 	"earn": "Earn",
-	"apr": "APR {{apr}}%",
+	"apr": "{{apr}}%",
 	"days_zero": "{{count}} days",
 	"days_one": "{{count}} day",
 	"days_other": "{{count}} days",
@@ -21,7 +21,7 @@
 	"repayment-amount": "Repayment Amount",
 	"loan-repayment": "{{amount}} {{currency}}",
 	"loan-principle": "{{amount}} {{currency}}",
-	"interest-rate-apr": "Interest Rate (APR %)",
+	"interest-rate-apr": "Interest Rate (%)",
 	"fund-loan": "Fund Loan",
 	"make-offer": "Make Offer",
 	"repay-loan": "Repay Loan",
@@ -67,7 +67,14 @@
 	"loan-offers": {
 		"title": "Loan Offers",
 		"table": {
-			"columns": ["User", "Tokens", "% APR", "Loan Period", "Status", "Date"],
+			"columns": [
+				"User",
+				"Tokens",
+				"Interest Rate (%)",
+				"Loan Period",
+				"Status",
+				"Date"
+			],
 			"approve": "Approve",
 			"deny": "Deny"
 		}
@@ -119,7 +126,7 @@
 		"loan-period": "Loan Period",
 		"loan-amount": "Loan Amount",
 		"loan-currency": "{{tokenAmount}} {{tokenName}}",
-		"interest-description": "{{apr}}% APR ({{amount}})",
+		"interest-description": "{{apr}}% ({{amount}} {{tokenName}})",
 		"interest": "Interest"
 	},
 	"submit-loan-offer-success-modal": {

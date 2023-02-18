@@ -102,7 +102,7 @@
 		"published": "Published",
 		"time-frame": "Timeframe",
 		"earn": "Earn",
-		"apr": "APR {{apr}}%",
+		"apr": "{{apr}}%",
 		"days_zero": "{{count}} days",
 		"days_one": "{{count}} day",
 		"days_other": "{{count}} days",

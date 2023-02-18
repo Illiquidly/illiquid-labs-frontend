@@ -143,6 +143,7 @@ const SubmitLoanOfferModal = NiceModal.create(
 													{t('loan-listings:submit-loan-offer-modal.interest-description', {
 														apr: interestRate,
 														amount: (+interestRate / 100) * +tokenAmount,
+														tokenName,
 													})}
 												</OfferCardSubtitle>
 											</OfferCard>

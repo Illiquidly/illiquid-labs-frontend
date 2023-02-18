@@ -205,7 +205,7 @@ export const ConfirmListing = ({
 									{tokenAmount} {tokenName}
 								</Chip>
 								<Chip isViewMode>
-									{interestRate} % {t('common:apr')}
+									{interestRate}% {t('common:interest-rate')}
 								</Chip>
 								<Chip isViewMode>
 									{t('loan:confirm-listing.day-loan', { day: loanPeriod })}
