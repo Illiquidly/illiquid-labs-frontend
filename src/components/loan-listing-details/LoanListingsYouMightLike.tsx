@@ -57,7 +57,7 @@ function LoanListingsYouMightLike({
 				{
 					myAddress,
 					search,
-					states: [LOAN_STATE.Started],
+					states: [LOAN_STATE.Published],
 					excludeMyLoans: true,
 					excludeLoans: loan?.id ? [loan.id] : [],
 				},

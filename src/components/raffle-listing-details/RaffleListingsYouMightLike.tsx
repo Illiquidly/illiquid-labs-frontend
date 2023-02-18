@@ -58,7 +58,7 @@ function RaffleListingsYouMightLike({
 				{
 					myAddress,
 					search,
-					states: [RAFFLE_STATE.Started],
+					states: [RAFFLE_STATE.Created, RAFFLE_STATE.Started],
 					excludeMyRaffles: true,
 					...(!isNil(raffleId) ? { excludeRaffles: [raffleId] } : {}),
 				},
