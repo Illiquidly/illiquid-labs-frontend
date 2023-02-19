@@ -22,7 +22,7 @@ export const LoanDetailsStepSchema = yup.object().shape({
 		.max(100, 'loan-form-steps-interest-rate-maximum')
 		.integer('loan-form-steps-interest-rate-must-be-an-integer')
 		.typeError('loan-form-steps-interest-rate-must-be-number')
-		.positive('loan-form-steps-interest-rate-must-be-positive'),
+		.min(0, 'loan-form-steps-interest-rate-must-be-positive'),
 
 	loanPeriod: yup
 		.number()
@@ -32,9 +32,13 @@ export const LoanDetailsStepSchema = yup.object().shape({
 		.test(
 			'minimumReached',
 			'loan-form-steps-loan-period-minimum',
-			value => +(value ?? 0) >= 2
+			function (value) {
+				const { interestRate } = this.parent
+
+				return Number(interestRate) > 0 ? +(value ?? 0) >= 2 : true
+			}
 		)
 		.integer('loan-form-steps-loan-period-must-be-an-integer')
 		.typeError('loan-form-steps-loan-period-must-be-number')
-		.positive('loan-form-steps-loan-period-must-be-positive'),
+		.min(0, 'loan-form-steps-loan-period-must-be-positive'),
 })
