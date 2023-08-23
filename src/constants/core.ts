@@ -22,7 +22,7 @@ export const CHAIN_CURRENCIES: { [key in NetworkId]: string } = {
 
 export const API_URL = 'https://api.illiquidlabs.io/'
 
-export const ASSETS_URL = 'https://assets.terra.money/'
+export const ASSETS_URL = 'https://assets.terra.dev/'
 
 export const DRAND_URL =
 	'https://api.drand.sh/8990e7a9aaed2ffed73dbd7092123d6f289930540d7651336225dc172e51b2ce'
