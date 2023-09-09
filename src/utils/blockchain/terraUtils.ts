@@ -61,11 +61,13 @@ function setLcdClient(lcdClient: LCDClient) {
 }
 
 export function getNetworkName(): NetworkName {
-	if (connectedWallet?.network === 'mainnet') {
+	const chainIds = Object.keys(connectedWallet?.addresses ?? {})
+
+	if (chainIds.includes('phoenix-1')) {
 		return 'mainnet'
 	}
 
-	if (connectedWallet?.network === 'testnet') {
+	if (chainIds.includes('pisco-1')) {
 		return 'testnet'
 	}
 
@@ -73,11 +75,11 @@ export function getNetworkName(): NetworkName {
 }
 
 export function getChainId(): ChainId {
-	if (connectedWallet?.network === 'testnet') {
+	if (getNetworkName() === 'testnet') {
 		return 'pisco-1'
 	}
 
-	if (connectedWallet?.network === 'mainnet') {
+	if (getNetworkName() === 'mainnet') {
 		return 'phoenix-1'
 	}
 
@@ -161,7 +163,7 @@ function checkWallet(parentFunctionName: string): void {
 }
 
 export const getTransactionExplorer = (txId?: string) =>
-	txExplorerFactory[getChainId() ?? 'pisco-1'](txId)
+	txExplorerFactory[getChainId()](txId)
 
 async function estimateTxFee(messages: Msg[]) {
 	const address = await getWalletAddress()
