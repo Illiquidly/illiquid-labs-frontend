@@ -7,8 +7,6 @@ import * as ROUTES from 'constants/routes'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import useAddress from 'hooks/useAddress'
-import { useWallet } from '@terra-money/use-wallet'
-import { NetworkName } from 'types'
 
 import {
 	FavoriteLoanResponse,
@@ -18,7 +16,7 @@ import { Loan } from 'services/api/loansService'
 import { FAVORITES_LOANS, LATEST_BLOCK } from 'constants/useQueryKeys'
 import { NFT } from 'services/api/walletNFTsService'
 import { BLOCKS_PER_DAY } from 'constants/core'
-import terraUtils from 'utils/blockchain/terraUtils'
+import terraUtils, { getNetworkName } from 'utils/blockchain/terraUtils'
 import { calculateRangePercentage } from 'utils/js/calculateRangePercentage'
 import { ListingCard } from './listing-card'
 
@@ -65,17 +63,16 @@ function GridController({
 }: GridControllerProps) {
 	const { t } = useTranslation()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const myAddress = useAddress()
 
 	const queryClient = useQueryClient()
 
 	const { data: latestBlockHeight } = useQuery(
-		[LATEST_BLOCK, wallet.network],
+		[LATEST_BLOCK, networkName],
 		async () => terraUtils.getLatestBlockHeight(),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 			refetchInterval: 60 * 1000,
 		}
@@ -83,7 +80,7 @@ function GridController({
 
 	const updateFavoriteLoanState = (data: FavoriteLoanResponse) =>
 		queryClient.setQueryData(
-			[FAVORITES_LOANS, wallet.network, myAddress],
+			[FAVORITES_LOANS, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -151,7 +148,7 @@ function GridController({
 						({ addFavoriteLoan, removeFavoriteLoan }[
 							liked ? 'removeFavoriteLoan' : 'addFavoriteLoan'
 						]({
-							network: wallet.network.name as NetworkName,
+							network: networkName,
 							loanId: [Number(loanId)],
 							borrower,
 							user: myAddress,

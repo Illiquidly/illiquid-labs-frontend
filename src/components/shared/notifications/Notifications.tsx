@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import TradeIcon from 'assets/icons/mixed/components/TradeIcon'
 import useAddress from 'hooks/useAddress'
 import moment from 'moment'
@@ -17,6 +16,7 @@ import {
 	LOAN_NOTIFICATION_TYPE,
 } from 'services/api/loanNotificationsService'
 import { WalletIcon } from 'assets/icons/mixed'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import NotificationCard from '../notifications-card/NotificationCard'
 
 interface NotificationsProps {
@@ -24,7 +24,7 @@ interface NotificationsProps {
 }
 function Notifications({ fullWidth }: NotificationsProps) {
 	const { t } = useTranslation()
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 	const myAddress = useAddress()
 	const router = useRouter()
 
@@ -32,7 +32,7 @@ function Notifications({ fullWidth }: NotificationsProps) {
 		[TRADE_NOTIFICATION_TYPE, myAddress],
 		async () =>
 			TradeNotificationsService.getTradeNotifications(
-				wallet.network.name,
+				networkName,
 				{
 					user: myAddress,
 				},
@@ -42,7 +42,7 @@ function Notifications({ fullWidth }: NotificationsProps) {
 				}
 			),
 		{
-			enabled: !!wallet.network.name && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -51,7 +51,7 @@ function Notifications({ fullWidth }: NotificationsProps) {
 		[LOAN_NOTIFICATION_TYPE, myAddress],
 		async () =>
 			LoanNotificationsService.getLoanNotifications(
-				wallet.network.name,
+				networkName,
 				{
 					user: myAddress,
 				},
@@ -61,7 +61,7 @@ function Notifications({ fullWidth }: NotificationsProps) {
 				}
 			),
 		{
-			enabled: !!wallet.network.name && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)

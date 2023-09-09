@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import ImagePlaceholder from 'assets/images/ImagePlaceholder'
 import NiceModal from '@ebay/nice-modal-react'
 import {
@@ -46,6 +45,7 @@ import { P2PTradingContract } from 'services/blockchain'
 import { HumanCoin } from 'types'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import useNameService from 'hooks/useNameService'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import {
 	NameLabel,
 	NameServiceImage,
@@ -77,12 +77,13 @@ function CounterOffersTable({
 	trade,
 	refetchTrade,
 }: CounterOffersTableProps) {
-	const wallet = useWallet()
 	const previewItemsLimit = 5
 
 	const [page, setPage] = React.useState(1)
 
 	const { tradeId, tradeInfo } = trade ?? {}
+
+	const networkName = getNetworkName()
 
 	// TODO extract this into hook, along with useQuery part.
 	const [infiniteData, setInfiniteData] = React.useState<CounterTrade[]>([])
@@ -90,13 +91,13 @@ function CounterOffersTable({
 	React.useEffect(() => {
 		setInfiniteData([])
 		setPage(1)
-	}, [wallet.network, tradeId])
+	}, [networkName, tradeId])
 
 	const { data: counterTrades, isLoading } = useQuery(
-		[COUNTER_TRADES, wallet.network, page, tradeId],
+		[COUNTER_TRADES, networkName, page, tradeId],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
-				wallet.network.name,
+				networkName,
 				{
 					tradeIds: [`${tradeId}`],
 				},
@@ -106,7 +107,7 @@ function CounterOffersTable({
 				}
 			),
 		{
-			enabled: !!wallet.network && !isNil(tradeId),
+			enabled: !isNil(tradeId),
 			retry: true,
 		}
 	)
@@ -121,7 +122,7 @@ function CounterOffersTable({
 		refetchTrade()
 
 		const updatedCounter = await CounterTradesService.getCounterTrade(
-			wallet.network.name,
+			networkName,
 			counterTrade.trade.tradeId,
 			counterTrade.counterId
 		)

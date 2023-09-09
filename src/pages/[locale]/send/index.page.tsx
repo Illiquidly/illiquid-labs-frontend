@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useStep } from 'hooks/react/useStep'
 import { useRouter } from 'next/router'
-import { useWallet } from '@terra-money/use-wallet'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
@@ -52,6 +51,7 @@ import { TxBroadcastingModal } from 'components/shared'
 import { LayoutContainer, Page } from 'components/layout'
 import { MobileSteps, Steps } from 'components/ui'
 import { ExitSend } from 'components/shared/header-actions/exit-send'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'send'])
 const getStaticPaths = makeStaticPaths()
@@ -60,7 +60,8 @@ export { getStaticPaths, getStaticProps }
 export default function Send() {
 	useHeaderActions(<ExitSend />)
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
+
 	const { t } = useTranslation(['common', 'send'])
 
 	const router = useRouter()
@@ -209,7 +210,7 @@ export default function Send() {
 			formMethods.setValue('terraFinderUrl', txTerraFinderUrl)
 			formMethods.setValue('isSuccessScreen', true)
 
-			await SenderService.getTransaction(wallet.network.name)
+			await SenderService.getTransaction(networkName)
 		}
 	}
 

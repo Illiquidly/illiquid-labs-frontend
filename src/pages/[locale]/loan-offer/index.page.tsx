@@ -2,7 +2,6 @@ import React from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 
@@ -65,6 +64,7 @@ import { SubmitLoanOfferSuccessModal } from 'components/loan-offer/modals'
 import { ImageRow } from 'components/shared/trade'
 import { LayoutContainer, Page } from 'components/layout'
 import { LinkButton } from 'components/link'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings', 'loan'])
 const getStaticPaths = makeStaticPaths()
@@ -76,7 +76,7 @@ export default function LoanCounter() {
 
 	const route = useRouter()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const { loanId, borrower } = route.query ?? {}
 
@@ -86,7 +86,7 @@ export default function LoanCounter() {
 
 	const updateFavoriteLoanState = data =>
 		queryClient.setQueryData(
-			[FAVORITES_LOANS, wallet.network, myAddress],
+			[FAVORITES_LOANS, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -105,30 +105,25 @@ export default function LoanCounter() {
 	)
 
 	const { data: loan, isLoading } = useQuery(
-		[LOAN, loanId, wallet.network],
+		[LOAN, loanId, networkName],
 		async () =>
-			LoansService.getLoan(
-				wallet.network.name,
-				loanId as string,
-				borrower as string
-			),
+			LoansService.getLoan(networkName, loanId as string, borrower as string),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
 
 	const { data: favoriteLoans } = useQuery(
-		[FAVORITES_LOANS, wallet.network, myAddress],
+		[FAVORITES_LOANS, networkName, myAddress],
 		async () =>
 			FavoriteLoansService.getFavoriteLoans(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName as NetworkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -215,10 +210,7 @@ export default function LoanCounter() {
 			NiceModal.show(SubmitLoanOfferSuccessModal, {
 				loan,
 			}),
-			LoanOffersService.getLoanOffer(
-				wallet.network.name,
-				loanOfferResult.globalOfferId
-			),
+			LoanOffersService.getLoanOffer(networkName, loanOfferResult.globalOfferId),
 		])
 	}
 
@@ -232,7 +224,7 @@ export default function LoanCounter() {
 		({ addFavoriteLoan, removeFavoriteLoan }[
 			liked ? 'removeFavoriteLoan' : 'addFavoriteLoan'
 		]({
-			network: wallet.network.name as NetworkName,
+			network: networkName,
 			loanId: [`${loanId}`],
 			borrower: `${borrower}`,
 			user: myAddress,

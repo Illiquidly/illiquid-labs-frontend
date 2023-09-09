@@ -1,11 +1,16 @@
-import { useConnectedWallet } from '@terra-money/wallet-provider'
+import { useConnectedWallet } from '@terra-money/wallet-kit'
+import { getChainId } from 'utils/blockchain/terraUtils'
 
 export const NO_WALLET = 'no-wallet'
 
-// TODO: rename this to useMyAddress to be more specific
 const useAddress = () => {
 	const connectedWallet = useConnectedWallet()
-	return connectedWallet?.terraAddress ?? NO_WALLET
+
+	if (!connectedWallet?.network) {
+		return NO_WALLET
+	}
+
+	return connectedWallet?.addresses[getChainId()] ?? NO_WALLET
 }
 
 export default useAddress

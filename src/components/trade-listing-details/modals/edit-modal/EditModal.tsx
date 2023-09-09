@@ -19,7 +19,6 @@ import RadioCard, { RadioCardText } from 'components/ui/radio/RadioCardInput'
 
 import { SupportedCollectionsService } from 'services/api'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 
 import {
 	Controller,
@@ -35,6 +34,7 @@ import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { TradeDetailsStepSchema } from 'constants/validation-schemas/trade'
 import { FieldLabel } from 'components/form/components'
 import { LOOKING_FOR_TYPE } from 'constants/trade'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import {
 	ModalBody,
 	ModalContainer,
@@ -77,14 +77,12 @@ export interface EditModalPropsState {
 
 const EditModal = NiceModal.create(
 	({ initialLookingFor, initialComment }: EditModalProps) => {
-		const wallet = useWallet()
+		const networkName = getNetworkName()
 
 		const { data: verifiedCollections } = useQuery(
 			[VERIFIED_COLLECTIONS],
-			async () =>
-				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			async () => SupportedCollectionsService.getSupportedCollections(networkName),
 			{
-				enabled: !!wallet.network,
 				retry: true,
 			}
 		)

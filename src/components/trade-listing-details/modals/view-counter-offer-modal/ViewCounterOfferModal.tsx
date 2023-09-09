@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Flex, IconButton } from 'theme-ui'
-import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'next-i18next'
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
@@ -23,6 +22,7 @@ import { CounterTrade } from 'services/api/counterTradesService'
 import getShortText from 'utils/js/getShortText'
 import { HumanCoin } from 'types'
 import { NFTCard } from 'components/shared'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import {
 	CoinText,
 	CounterTradeComment,
@@ -49,7 +49,7 @@ export const ViewCounterOfferModal = NiceModal.create(
 		const { t } = useTranslation()
 		const modal = useModal()
 		const theme = useTheme()
-		const wallet = useWallet()
+		const networkName = getNetworkName()
 		const nfts = React.useMemo(
 			() =>
 				(counterTrade?.tradeInfo.associatedAssets ?? [])
@@ -67,11 +67,9 @@ export const ViewCounterOfferModal = NiceModal.create(
 		)
 
 		const { data: verifiedCollections } = useQuery(
-			[VERIFIED_COLLECTIONS],
-			async () =>
-				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			[VERIFIED_COLLECTIONS, networkName],
+			async () => SupportedCollectionsService.getSupportedCollections(networkName),
 			{
-				enabled: !!wallet.network,
 				retry: true,
 			}
 		)

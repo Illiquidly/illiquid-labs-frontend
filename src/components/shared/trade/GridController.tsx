@@ -12,9 +12,8 @@ import {
 	FavoriteTradesService,
 } from 'services/api/favoriteTradesService'
 import useAddress from 'hooks/useAddress'
-import { useWallet } from '@terra-money/use-wallet'
 import { FAVORITES_TRADES } from 'constants/useQueryKeys'
-import { NetworkName } from 'types'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import { ListingCard } from './listing-card'
 
 export enum GRID_TYPE {
@@ -60,7 +59,7 @@ function GridController({
 }: GridControllerProps) {
 	const { t } = useTranslation()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const myAddress = useAddress()
 
@@ -68,7 +67,7 @@ function GridController({
 
 	const updateFavoriteTradeState = data =>
 		queryClient.setQueryData(
-			[FAVORITES_TRADES, wallet.network, myAddress],
+			[FAVORITES_TRADES, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -125,7 +124,7 @@ function GridController({
 						({ addFavoriteTrade, removeFavoriteTrade }[
 							liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
 						]({
-							network: wallet.network.name as NetworkName,
+							network: networkName,
 							tradeId: [Number(tradeId)],
 							user: myAddress,
 						}))

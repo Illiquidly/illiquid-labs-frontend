@@ -1,6 +1,5 @@
 import { useModal } from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { NFTS_SORT_VALUE } from 'components/shared/modals/my-nfts-modal/MyNFTsModal.model'
 import { FULL_WALLET_NFTS, PARTIAL_WALLET_NFTS } from 'constants/useQueryKeys'
 import React from 'react'
@@ -10,6 +9,7 @@ import {
 } from 'services/api/walletNFTsService'
 import { asyncAction } from 'utils/js/asyncAction'
 
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import useAddress from './useAddress'
 
 export type UseMyNFTsFilters = {
@@ -20,9 +20,8 @@ export type UseMyNFTsFilters = {
 
 // TODO: this hook would have to be refactored, until we find better solution on backend for fetching wallet NFTs.
 export function useMyNFTs(filters: UseMyNFTsFilters) {
-	const wallet = useWallet()
 	const myAddress = useAddress()
-
+	const networkName = getNetworkName()
 	const modal = useModal()
 
 	const {
@@ -31,11 +30,11 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 		refetch: refetchPartial,
 	} = useQuery([PARTIAL_WALLET_NFTS, myAddress, modal.visible], async () => {
 		const [error, data] = await asyncAction(
-			WalletNFTsService.requestUpdateNFTs(wallet.network.name, myAddress)
+			WalletNFTsService.requestUpdateNFTs(networkName, myAddress)
 		)
 
 		if (error) {
-			return WalletNFTsService.requestNFTs(wallet.network.name, myAddress)
+			return WalletNFTsService.requestNFTs(networkName, myAddress)
 		}
 
 		return data
@@ -44,10 +43,7 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 	const { data: fullData, isLoading: fullyLoading } = useQuery(
 		[FULL_WALLET_NFTS, myAddress, partialData],
 		async () => {
-			const data = await WalletNFTsService.requestNFTs(
-				wallet.network.name,
-				myAddress
-			)
+			const data = await WalletNFTsService.requestNFTs(networkName, myAddress)
 
 			if (data.state === WALLET_NFT_STATE.isUpdating) {
 				return Promise.reject(new Error('Not loaded fully reject!'))
@@ -61,7 +57,7 @@ export function useMyNFTs(filters: UseMyNFTsFilters) {
 			return data
 		},
 		{
-			enabled: !!wallet.network && !!partialData && !!myAddress,
+			enabled: !!partialData && !!myAddress,
 			retry: true,
 		}
 	)

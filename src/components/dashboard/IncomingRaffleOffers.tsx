@@ -2,17 +2,18 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { useWallet } from '@terra-money/use-wallet'
 import useAddress from 'hooks/useAddress'
 import { OUTGOING_RAFFLES, RAFFLES } from 'constants/useQueryKeys'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { RafflesService, RAFFLE_STATE } from 'services/api/rafflesService'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import RaffleOffers from './RafflesOffers'
 
 function IncomingRaffleOffers() {
-	const wallet = useWallet()
 	const [page, setPage] = React.useState(1)
 	const myAddress = useAddress()
+	const networkName = getNetworkName()
+
 	const { t } = useTranslation(['common', 'dashboard'])
 
 	const [
@@ -57,10 +58,10 @@ function IncomingRaffleOffers() {
 	>([])
 
 	const { data: allRaffles, isFetched: allFetched } = useQuery(
-		[OUTGOING_RAFFLES, wallet.network, myAddress],
+		[OUTGOING_RAFFLES, networkName, myAddress],
 		async () =>
 			RafflesService.getAllRaffles(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					owners: [myAddress],
@@ -72,7 +73,6 @@ function IncomingRaffleOffers() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
@@ -82,10 +82,10 @@ function IncomingRaffleOffers() {
 		isLoading,
 		isFetched: rafflesFetched,
 	} = useQuery(
-		[RAFFLES, wallet.network, myAddress, page, statuses, collections, allFetched],
+		[RAFFLES, networkName, myAddress, page, statuses, collections, allFetched],
 		async () =>
 			RafflesService.getAllRaffles(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					states: statuses.flatMap(({ value }) => JSON.parse(value)),
@@ -100,7 +100,7 @@ function IncomingRaffleOffers() {
 				'DESC'
 			),
 		{
-			enabled: !!wallet.network && allFetched,
+			enabled: allFetched,
 			retry: true,
 		}
 	)

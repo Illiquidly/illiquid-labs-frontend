@@ -2,16 +2,16 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { useWallet } from '@terra-money/use-wallet'
 import useAddress from 'hooks/useAddress'
 import { TradesService } from 'services/api'
 import { COUNTERED_TRADES, TRADES } from 'constants/useQueryKeys'
 import { TRADE_STATE } from 'services/api/tradesService'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import TradeOffers from './TradeOffers'
 
 function OutgoingTradeOffers() {
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 	const [page, setPage] = React.useState(1)
 	const myAddress = useAddress()
 	const { t } = useTranslation(['common', 'dashboard'])
@@ -62,10 +62,10 @@ function OutgoingTradeOffers() {
 	>([])
 
 	const { data: allTrades, isFetched: allFetched } = useQuery(
-		[COUNTERED_TRADES, wallet.network, myAddress],
+		[COUNTERED_TRADES, networkName, myAddress],
 		async () =>
 			TradesService.getAllTrades(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					counteredBy: [myAddress],
@@ -76,7 +76,6 @@ function OutgoingTradeOffers() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
@@ -87,10 +86,10 @@ function OutgoingTradeOffers() {
 		refetch,
 		isFetched: tradesFetched,
 	} = useQuery(
-		[TRADES, wallet.network, myAddress, page, statuses, collections, allFetched],
+		[TRADES, networkName, myAddress, page, statuses, collections, allFetched],
 		async () =>
 			TradesService.getAllTrades(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					states: statuses.flatMap(({ value }) => JSON.parse(value)),
@@ -103,7 +102,7 @@ function OutgoingTradeOffers() {
 				}
 			),
 		{
-			enabled: !!wallet.network && allFetched,
+			enabled: allFetched,
 			retry: true,
 		}
 	)

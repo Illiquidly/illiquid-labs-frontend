@@ -45,8 +45,6 @@ export type Cw1155Coin = {
 
 export type ContractName = keyof typeof CONTRACT_NAME
 
-// TODO: refactor remove from here
-export type NetworkId = 'phoenix-1' | 'pisco-1'
+export type ChainId = 'phoenix-1' | 'pisco-1'
 
-// TODO: refactor remove
 export type NetworkName = 'mainnet' | 'testnet'

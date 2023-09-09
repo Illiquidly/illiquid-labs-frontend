@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'next-i18next'
 import { useDebounce } from 'react-use'
 import NiceModal from '@ebay/nice-modal-react'
-import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
 import { Box, Flex } from 'theme-ui'
 
@@ -22,7 +21,6 @@ import {
 	RAFFLE_STATE,
 } from 'services/api/rafflesService'
 import { FavoriteRafflesService } from 'services/api/favoriteRafflesService'
-import { NetworkName } from 'types'
 import { GRID_TYPE } from 'components/shared/raffle/GridController'
 import {
 	AccordionContentWrapper,
@@ -63,6 +61,7 @@ import {
 	Tab,
 	Tabs,
 } from 'components/ui'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -72,17 +71,15 @@ export default function RaffleListings() {
 	useHeaderActions(<CreateRaffleListing />)
 
 	const { t } = useTranslation(['common', 'raffle-listings'])
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const isTablet = useIsTablet()
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
-			[VERIFIED_COLLECTIONS, wallet.network],
-			async () =>
-				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			[VERIFIED_COLLECTIONS, networkName],
+			async () => SupportedCollectionsService.getSupportedCollections(networkName),
 			{
-				enabled: !!wallet.network,
 				retry: true,
 			}
 		)
@@ -156,16 +153,16 @@ export default function RaffleListings() {
 	const myAddress = useAddress()
 
 	const { data: favoriteRaffles } = useQuery(
-		[FAVORITES_RAFFLES, wallet.network, myAddress],
+		[FAVORITES_RAFFLES, networkName, myAddress],
 		async () =>
 			FavoriteRafflesService.getFavoriteRaffles(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -176,7 +173,7 @@ export default function RaffleListings() {
 		setInfiniteData([])
 		setPage(1)
 	}, [
-		wallet.network,
+		networkName,
 		listingsType,
 		statuses,
 		collections,
@@ -190,7 +187,7 @@ export default function RaffleListings() {
 	const { data: raffles, isLoading } = useQuery(
 		[
 			RAFFLES,
-			wallet.network,
+			networkName,
 			listingsType,
 			statuses,
 			collections,
@@ -203,7 +200,7 @@ export default function RaffleListings() {
 		],
 		async () =>
 			RafflesService.getAllRaffles(
-				wallet.network.name,
+				networkName,
 				{
 					search: debouncedSearch,
 					myAddress,
@@ -224,7 +221,7 @@ export default function RaffleListings() {
 				sort
 			),
 		{
-			enabled: !!wallet.network && !!favoriteRaffles,
+			enabled: !!favoriteRaffles,
 			retry: true,
 		}
 	)

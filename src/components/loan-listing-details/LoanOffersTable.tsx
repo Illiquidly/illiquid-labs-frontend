@@ -20,7 +20,6 @@ import { AvatarIcon, LunaIcon } from 'assets/icons/mixed'
 import moment from 'moment'
 import { Loan, LOAN_STATE } from 'services/api/loansService'
 import { LOAN_OFFERS } from 'constants/useQueryKeys'
-import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
 import { isNil } from 'lodash'
 import {
@@ -34,6 +33,7 @@ import { LoansContract } from 'services/blockchain'
 import { BLOCKS_PER_DAY } from 'constants/core'
 import useNameService from 'hooks/useNameService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import {
 	NameLabel,
 	NameServiceImage,
@@ -57,7 +57,7 @@ function LoanOffersTable({
 	refetchLoan,
 }: LoanOffersTableProps) {
 	const { t } = useTranslation(['common', 'loan-listings'])
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 	const myAddress = useAddress()
 
 	const columns: Array<string> = t('loan-listings:loan-offers.table.columns', {
@@ -74,13 +74,13 @@ function LoanOffersTable({
 	React.useEffect(() => {
 		setInfiniteData([])
 		setPage(1)
-	}, [wallet.network, loanId, borrower])
+	}, [networkName, loanId, borrower])
 
 	const { data: loanOffers, isLoading } = useQuery(
-		[LOAN_OFFERS, wallet.network, page, borrower, loanId],
+		[LOAN_OFFERS, networkName, page, borrower, loanId],
 		async () =>
 			LoanOffersService.getAllLoanOffers(
-				wallet.network.name,
+				networkName ?? 'mainnet',
 				{
 					loanIds: [`${loanId}`],
 					borrowers: [`${borrower}`],
@@ -91,7 +91,7 @@ function LoanOffersTable({
 				}
 			),
 		{
-			enabled: !!wallet.network && !isNil(loanId) && !isNil(borrower),
+			enabled: !isNil(loanId) && !isNil(borrower),
 			retry: true,
 		}
 	)
@@ -105,7 +105,7 @@ function LoanOffersTable({
 		refetchLoan()
 
 		const updatedOffer = await LoanOffersService.getLoanOffer(
-			wallet.network.name,
+			networkName,
 			offer.globalOfferId
 		)
 

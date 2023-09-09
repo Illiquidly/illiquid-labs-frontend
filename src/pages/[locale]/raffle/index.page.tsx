@@ -4,7 +4,6 @@ import NiceModal from '@ebay/nice-modal-react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
-import { useWallet } from '@terra-money/use-wallet'
 import { Text } from 'theme-ui'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
@@ -45,13 +44,14 @@ import { RafflesService } from 'services/api/rafflesService'
 import { TxBroadcastingModal } from 'components/shared'
 import { LayoutContainer, Page } from 'components/layout'
 import { MobileSteps, Steps } from 'components/ui'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'raffle'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Raffle() {
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const { t } = useTranslation(['common', 'raffle'])
 	useHeaderActions(<ExitCreateRaffleListing />)
@@ -149,7 +149,7 @@ export default function Raffle() {
 			formMethods.setValue('isSuccessScreen', true)
 
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
-			await RafflesService.getRaffle(wallet.network.name, raffleId)
+			await RafflesService.getRaffle(networkName, raffleId)
 		}
 	}
 

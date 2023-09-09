@@ -3,7 +3,6 @@ import { Box, Flex } from 'theme-ui'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { useDebounce } from 'react-use'
 
 import {
@@ -57,10 +56,10 @@ import {
 } from 'constants/useQueryKeys'
 import CreateTradeListing from 'components/shared/header-actions/create-trade-listing/CreateTradeListing'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
-import { NetworkName } from 'types'
 import { TRADE_LISTINGS_TYPE } from 'constants/listings'
 import { GRID_TYPE, TradeGridController } from 'components/shared/trade'
 import { LayoutContainer, Page } from 'components/layout'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -68,7 +67,7 @@ export { getStaticPaths, getStaticProps }
 
 export default function TradeListings() {
 	const { t } = useTranslation(['common', 'trade-listings'])
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	useHeaderActions(<CreateTradeListing />)
 
@@ -76,11 +75,9 @@ export default function TradeListings() {
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
-			[VERIFIED_COLLECTIONS, wallet.network],
-			async () =>
-				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			[VERIFIED_COLLECTIONS, networkName],
+			async () => SupportedCollectionsService.getSupportedCollections(networkName),
 			{
-				enabled: !!wallet.network,
 				retry: true,
 			}
 		)
@@ -148,16 +145,16 @@ export default function TradeListings() {
 	const myAddress = useAddress()
 
 	const { data: favoriteTrades } = useQuery(
-		[FAVORITES_TRADES, wallet.network, myAddress],
+		[FAVORITES_TRADES, networkName, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -168,7 +165,6 @@ export default function TradeListings() {
 		setInfiniteData([])
 		setPage(1)
 	}, [
-		wallet.network,
 		listingsType,
 		statuses,
 		lookingForCollections,
@@ -183,7 +179,7 @@ export default function TradeListings() {
 	const { data: trades, isLoading } = useQuery(
 		[
 			TRADES,
-			wallet.network,
+			networkName,
 			listingsType,
 			statuses,
 			lookingForCollections,
@@ -197,7 +193,7 @@ export default function TradeListings() {
 		],
 		async () =>
 			TradesService.getAllTrades(
-				wallet.network.name,
+				networkName,
 				{
 					owners:
 						listingsType === TRADE_LISTINGS_TYPE.MY_LISTINGS
@@ -218,7 +214,7 @@ export default function TradeListings() {
 				}
 			),
 		{
-			enabled: !!wallet.network && !!favoriteTrades,
+			enabled: !!favoriteTrades,
 			retry: true,
 		}
 	)

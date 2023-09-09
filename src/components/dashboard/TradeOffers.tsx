@@ -1,3 +1,4 @@
+import NiceModal from '@ebay/nice-modal-react'
 import EmptyBox from 'assets/images/EmptyBox'
 import { LinkButton } from 'components/link'
 import React from 'react'
@@ -17,11 +18,12 @@ import { NFT } from 'services/api/walletNFTsService'
 import { TradesResponse } from 'services/api/tradesService'
 import { useTranslation } from 'next-i18next'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
-import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
+import { WalletStatus, useWallet } from '@terra-money/wallet-kit'
 import { SupportedCollectionsService } from 'services/api'
 import { useQuery } from '@tanstack/react-query'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
-import useIsTablet from 'hooks/react/useIsTablet'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
+import { ConnectWalletModal } from 'components/shared/modals/connect-wallet-modal/ConnectWalletModal'
 import TradeOfferCard from './TradeOfferCard'
 import {
 	AccordionContentWrapper,
@@ -66,21 +68,19 @@ function TradeOffers({
 	statusOptions,
 }: TradeOffersProps) {
 	const { t } = useTranslation()
+	const networkName = getNetworkName()
 	const wallet = useWallet()
-	const isTablet = useIsTablet()
 
 	const { data: verifiedCollections } = useQuery(
-		[VERIFIED_COLLECTIONS, wallet.network],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		[VERIFIED_COLLECTIONS, networkName],
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
 
 	const connectWallet = () => {
-		wallet.connect(isTablet ? ConnectType.WALLETCONNECT : undefined)
+		NiceModal.show(ConnectWalletModal)
 	}
 
 	return (
@@ -100,7 +100,7 @@ function TradeOffers({
 							</ActivityCardEmptyTitle>
 						</Box>
 
-						{wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
+						{wallet.status === WalletStatus.NOT_CONNECTED ? (
 							<Button onClick={connectWallet} variant='gradient' size='large'>
 								{t('common:connect-wallet')}
 							</Button>

@@ -10,7 +10,7 @@ export type {
 	Cw20Coin,
 	Coin,
 	ContractName,
-	NetworkId,
+	ChainId,
 	NetworkName,
 	Cw721Coin,
 	Cw1155Coin,

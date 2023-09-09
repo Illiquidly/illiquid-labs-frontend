@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { useWallet } from '@terra-money/use-wallet'
 import { DevTool } from '@hookform/devtools'
 import { useTranslation } from 'next-i18next'
 import { Text } from 'theme-ui'
@@ -47,6 +46,7 @@ import { P2PTradingContract } from 'services/blockchain'
 import { TxBroadcastingModal } from 'components/shared'
 import { LayoutContainer, Page } from 'components/layout'
 import { MobileSteps, Steps } from 'components/ui'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'trade'])
 const getStaticPaths = makeStaticPaths()
@@ -55,7 +55,6 @@ export { getStaticPaths, getStaticProps }
 export default function Trade() {
 	useHeaderActions(<ExitCreateTradeListing />)
 
-	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'trade'])
 	const [
 		selectNFTsLabel,
@@ -135,7 +134,7 @@ export default function Trade() {
 			formMethods.setValue('isSuccessScreen', true)
 
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
-			await TradesService.getTrade(wallet.network.name, tradeId)
+			await TradesService.getTrade(getNetworkName(), tradeId)
 		}
 	}
 

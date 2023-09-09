@@ -2,14 +2,12 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import NiceModal from '@ebay/nice-modal-react'
 import useHeaderActions from 'hooks/useHeaderActions'
-import { useWallet } from '@terra-money/use-wallet'
 import { useQuery } from '@tanstack/react-query'
 import { Box, Flex } from 'theme-ui'
 
 import { makeStaticPaths, makeStaticProps } from 'lib'
 
 import useAddress from 'hooks/useAddress'
-import { NetworkName } from 'types'
 import { GRID_TYPE } from 'components/shared/loan/GridController'
 import {
 	AccordionContentWrapper,
@@ -61,6 +59,7 @@ import {
 	Tab,
 	Tabs,
 } from 'components/ui'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'loan-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -68,7 +67,7 @@ export { getStaticPaths, getStaticProps }
 
 export default function LoanListings() {
 	const { t } = useTranslation(['common', 'loan-listings'])
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	useHeaderActions(<CreateLoanListing />)
 
@@ -76,11 +75,9 @@ export default function LoanListings() {
 	const [filtersExpanded, setFiltersExpanded] = React.useState(false)
 	const { data: verifiedCollections, isFetched: verifiedCollectionsFetched } =
 		useQuery(
-			[VERIFIED_COLLECTIONS, wallet.network],
-			async () =>
-				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			[VERIFIED_COLLECTIONS, networkName],
+			async () => SupportedCollectionsService.getSupportedCollections(networkName),
 			{
-				enabled: !!wallet.network,
 				retry: true,
 			}
 		)
@@ -163,16 +160,16 @@ export default function LoanListings() {
 	const myAddress = useAddress()
 
 	const { data: favoriteLoans } = useQuery(
-		[FAVORITES_LOANS, wallet.network, myAddress],
+		[FAVORITES_LOANS, networkName, myAddress],
 		async () =>
 			FavoriteLoansService.getFavoriteLoans(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -183,7 +180,7 @@ export default function LoanListings() {
 		setInfiniteData([])
 		setPage(1)
 	}, [
-		wallet.network,
+		networkName,
 		listingsType,
 		statuses,
 		collections,
@@ -196,7 +193,7 @@ export default function LoanListings() {
 	const { data: loans, isLoading } = useQuery(
 		[
 			LOANS,
-			wallet.network,
+			networkName,
 			listingsType,
 			statuses,
 			collections,
@@ -208,7 +205,7 @@ export default function LoanListings() {
 		],
 		async () =>
 			LoansService.getAllLoans(
-				wallet.network.name,
+				networkName,
 				{
 					search: debouncedSearch,
 					myAddress,
@@ -226,7 +223,7 @@ export default function LoanListings() {
 				}
 			),
 		{
-			enabled: !!wallet.network && !!favoriteLoans,
+			enabled: !!favoriteLoans,
 			retry: true,
 		}
 	)

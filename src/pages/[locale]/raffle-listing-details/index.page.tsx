@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { useTranslation } from 'next-i18next'
 import NiceModal from '@ebay/nice-modal-react'
 import { Box, Flex } from 'theme-ui'
@@ -52,7 +51,6 @@ import {
 	RAFFLE,
 	VERIFIED_COLLECTIONS,
 } from 'constants/useQueryKeys'
-import { NetworkName } from 'types'
 import {
 	FavoriteRaffleResponse,
 	FavoriteRafflesService,
@@ -75,6 +73,7 @@ import {
 } from 'components/shared'
 import { DescriptionRow, ImageRow } from 'components/shared/trade'
 import { LayoutContainer, Page } from 'components/layout'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'raffle-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -86,7 +85,7 @@ export default function ListingDetails() {
 
 	const route = useRouter()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const myAddress = useAddress()
 
@@ -96,7 +95,7 @@ export default function ListingDetails() {
 
 	const updateFavoriteRaffleState = (data: FavoriteRaffleResponse) =>
 		queryClient.setQueryData(
-			[FAVORITES_RAFFLES, wallet.network, myAddress],
+			[FAVORITES_RAFFLES, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -115,11 +114,9 @@ export default function ListingDetails() {
 	)
 
 	const { data: verifiedCollections } = useQuery(
-		[VERIFIED_COLLECTIONS, wallet.network],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		[VERIFIED_COLLECTIONS, networkName],
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
@@ -129,26 +126,25 @@ export default function ListingDetails() {
 		isLoading,
 		refetch,
 	} = useQuery(
-		[RAFFLE, raffleId, wallet.network],
-		async () => RafflesService.getRaffle(wallet.network.name, raffleId as string),
+		[RAFFLE, raffleId, networkName],
+		async () => RafflesService.getRaffle(networkName, raffleId as string),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 			refetchInterval: 60 * 1000, // Refetch every minute
 		}
 	)
 
 	const { data: favoriteRaffles } = useQuery(
-		[FAVORITES_RAFFLES, wallet.network, myAddress],
+		[FAVORITES_RAFFLES, networkName, myAddress],
 		async () =>
 			FavoriteRafflesService.getFavoriteRaffles(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -203,7 +199,7 @@ export default function ListingDetails() {
 		({ addFavoriteRaffle, removeFavoriteRaffle }[
 			liked ? 'removeFavoriteRaffle' : 'addFavoriteRaffle'
 		]({
-			network: wallet.network.name as NetworkName,
+			network: networkName,
 			raffleId: [Number(raffleId)],
 			user: myAddress,
 		}))

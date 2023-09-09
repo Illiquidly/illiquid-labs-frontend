@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { LoansGridController } from 'components/shared/loan'
 import { GRID_TYPE } from 'components/shared/loan/GridController'
 import { LOAN, VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
@@ -10,6 +9,7 @@ import React from 'react'
 import { LoansService, SupportedCollectionsService } from 'services/api'
 import { Loan, LOAN_STATE } from 'services/api/loansService'
 import { Box, Flex } from 'theme-ui'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const MightLikeText = styled(Flex)`
 	font-size: 20px;
@@ -35,25 +35,23 @@ function LoanListingsYouMightLike({
 	search,
 	loan,
 }: LoanListingsYouMightLikeProps) {
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 	const { t } = useTranslation(['common', 'loan-listings'])
 	const myAddress = useAddress()
 
 	const { data: verifiedCollections } = useQuery(
-		[VERIFIED_COLLECTIONS, wallet.network],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		[VERIFIED_COLLECTIONS, networkName],
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
 
 	const { data: loans, isLoading } = useQuery(
-		[LOAN, wallet.network, search, myAddress],
+		[LOAN, networkName, search, myAddress],
 		async () =>
 			LoansService.getAllLoans(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					search,
@@ -67,7 +65,6 @@ function LoanListingsYouMightLike({
 				}
 			),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)

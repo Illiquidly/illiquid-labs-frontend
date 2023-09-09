@@ -32,7 +32,6 @@ import * as ROUTES from 'constants/routes'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { TradesService } from 'services/api/tradesService'
-import { useWallet } from '@terra-money/use-wallet'
 import { NFT } from 'services/api/walletNFTsService'
 import { CounterTradesService, SupportedCollectionsService } from 'services/api'
 import { asyncAction } from 'utils/js/asyncAction'
@@ -57,9 +56,12 @@ import SubmitCounterOfferSuccessModal, {
 	SubmitCounterOfferSuccessModalProps,
 } from 'components/trade-counter/modals/submit-counter-offer-success/SubmitCounterOfferSuccessModal'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
-import { Coin, NetworkName } from 'types'
+import { Coin } from 'types'
 import useAddress from 'hooks/useAddress'
-import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
+import terraUtils, {
+	amountConverter,
+	getNetworkName,
+} from 'utils/blockchain/terraUtils'
 import { TradeCounterValidationSchema } from 'constants/validation-schemas/trade-counter'
 import { TradeCounterForm } from 'types/trade-counter'
 import { P2PTradingContract } from 'services/blockchain'
@@ -87,7 +89,7 @@ export default function TradeCounter() {
 
 	const route = useRouter()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const { tradeId } = route.query ?? {}
 
@@ -97,7 +99,7 @@ export default function TradeCounter() {
 
 	const updateFavoriteTradeState = data =>
 		queryClient.setQueryData(
-			[FAVORITES_TRADES, wallet.network, myAddress],
+			[FAVORITES_TRADES, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -116,35 +118,32 @@ export default function TradeCounter() {
 	)
 
 	const { data: verifiedCollections } = useQuery(
-		[VERIFIED_COLLECTIONS, wallet.network],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		[VERIFIED_COLLECTIONS, networkName],
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
 
 	const { data: trade, isLoading } = useQuery(
-		[TRADE, tradeId, wallet.network],
-		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
+		[TRADE, tradeId, networkName],
+		async () => TradesService.getTrade(networkName, tradeId as string),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
 
 	const { data: favoriteTrades } = useQuery(
-		[FAVORITES_TRADES, wallet.network, myAddress],
+		[FAVORITES_TRADES, networkName, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -259,7 +258,7 @@ export default function TradeCounter() {
 
 			await Promise.all([
 				CounterTradesService.getCounterTrade(
-					wallet.network.name,
+					networkName,
 					tradeId as string,
 					counterId
 				),
@@ -282,7 +281,7 @@ export default function TradeCounter() {
 		({ addFavoriteTrade, removeFavoriteTrade }[
 			liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
 		]({
-			network: wallet.network.name as NetworkName,
+			network: networkName,
 			tradeId: [Number(tradeId)],
 			user: myAddress,
 		}))

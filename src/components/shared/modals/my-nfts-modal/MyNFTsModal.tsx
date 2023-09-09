@@ -3,7 +3,6 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { Box, Flex, IconButton } from 'theme-ui'
 import { useTheme } from '@emotion/react'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'next-i18next'
 
@@ -29,6 +28,7 @@ import { SelectOption } from 'components/ui/select/Select'
 import { VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
 import { OnlyMobileAndTablet } from 'components/layout'
 import { NFTCard } from 'components/shared/nft-card'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import useSelectedNFTs from './hooks/useSelectedNFTs'
 import {
 	FiltersSection,
@@ -59,7 +59,7 @@ export const MyNFTsModal = NiceModal.create(
 		selectedNFTs: defaultSelectedNFTs = [],
 		inViewMode = false,
 	}: MyNFTsModalProps) => {
-		const wallet = useWallet()
+		const networkName = getNetworkName()
 		const modal = useModal()
 		const theme = useTheme()
 		const [selectedCollections, setSelectedCollections] = React.useState<
@@ -99,10 +99,8 @@ export const MyNFTsModal = NiceModal.create(
 
 		const { data: verifiedCollections } = useQuery(
 			[VERIFIED_COLLECTIONS],
-			async () =>
-				SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+			async () => SupportedCollectionsService.getSupportedCollections(networkName),
 			{
-				enabled: !!wallet.network,
 				retry: true,
 			}
 		)

@@ -8,15 +8,14 @@ import * as ROUTES from 'constants/routes'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import useAddress from 'hooks/useAddress'
-import { useWallet } from '@terra-money/use-wallet'
 import { FAVORITES_RAFFLES } from 'constants/useQueryKeys'
-import { NetworkName } from 'types'
 import { Raffle } from 'services/api/rafflesService'
 import {
 	FavoriteRaffleResponse,
 	FavoriteRafflesService,
 } from 'services/api/favoriteRafflesService'
 import moment from 'moment'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import { ListingCard } from './listing-card'
 
 export enum GRID_TYPE {
@@ -62,7 +61,7 @@ function GridController({
 }: GridControllerProps) {
 	const { t } = useTranslation()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const myAddress = useAddress()
 
@@ -70,7 +69,7 @@ function GridController({
 
 	const updateFavoriteRaffleState = (data: FavoriteRaffleResponse) =>
 		queryClient.setQueryData(
-			[FAVORITES_RAFFLES, wallet.network, myAddress],
+			[FAVORITES_RAFFLES, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -134,7 +133,7 @@ function GridController({
 						({ addFavoriteRaffle, removeFavoriteRaffle }[
 							liked ? 'removeFavoriteRaffle' : 'addFavoriteRaffle'
 						]({
-							network: wallet.network.name as NetworkName,
+							network: networkName,
 							raffleId: [Number(raffleId)],
 							user: myAddress,
 						}))

@@ -22,11 +22,13 @@ import { useQuery } from '@tanstack/react-query'
 import NiceModal from '@ebay/nice-modal-react'
 import useAddress from 'hooks/useAddress'
 import { SendTransaction, SenderService } from 'services/api/senderService'
-import { useWallet } from '@terra-money/use-wallet'
 import { SEND_TRANSACTIONS } from 'constants/useQueryKeys'
 import { first, groupBy, last, omit } from 'lodash'
 import moment from 'moment'
-import { getTransactionExplorer } from 'utils/blockchain/terraUtils'
+import {
+	getNetworkName,
+	getTransactionExplorer,
+} from 'utils/blockchain/terraUtils'
 import getShortText from 'utils/js/getShortText'
 import {
 	ViewNFTsModal,
@@ -83,7 +85,7 @@ export enum SEND_TYPE_TABS {
 	ALL = 'ALL',
 }
 function SendTransactionsTable({ previewItemsLimit = 4 }) {
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 	const [sendType, setSendType] = React.useState<SEND_TYPE_TABS>(
 		SEND_TYPE_TABS.ALL
 	)
@@ -111,13 +113,13 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 	React.useEffect(() => {
 		setInfiniteData([])
 		setPage(1)
-	}, [wallet.network, sendType])
+	}, [networkName, sendType])
 
 	const { data: transactions, isLoading } = useQuery(
-		[SEND_TRANSACTIONS, wallet.network, page, sendType, myAddress],
+		[SEND_TRANSACTIONS, networkName, page, sendType, myAddress],
 		async () =>
 			SenderService.getAllTransactions(
-				wallet.network.name,
+				networkName,
 				{
 					senders: [myAddress],
 					memo: {
@@ -132,7 +134,7 @@ function SendTransactionsTable({ previewItemsLimit = 4 }) {
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)

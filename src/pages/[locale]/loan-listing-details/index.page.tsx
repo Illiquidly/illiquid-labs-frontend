@@ -6,7 +6,6 @@ import NiceModal from '@ebay/nice-modal-react'
 import { sample } from 'lodash'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 
 import {
 	AttributeCard as UIAttributeCard,
@@ -56,13 +55,15 @@ import {
 	LOAN_OFFERS,
 	VERIFIED_COLLECTIONS,
 } from 'constants/useQueryKeys'
-import { NetworkName } from 'types'
 import useNameService from 'hooks/useNameService'
 import CreateLoanListing from 'components/shared/header-actions/create-loan-listing/CreateLoanListings'
 import { LOAN_STATE } from 'services/api/loansService'
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import { BLOCKS_PER_DAY } from 'constants/core'
-import terraUtils, { amountConverter } from 'utils/blockchain/terraUtils'
+import terraUtils, {
+	amountConverter,
+	getNetworkName,
+} from 'utils/blockchain/terraUtils'
 
 import * as ROUTES from 'constants/routes'
 import { LoansContract } from 'services/blockchain'
@@ -90,7 +91,7 @@ export default function LoanListingDetails() {
 
 	const route = useRouter()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const myAddress = useAddress()
 
@@ -100,7 +101,7 @@ export default function LoanListingDetails() {
 
 	const updateFavoriteLoanState = (data: FavoriteLoanResponse) =>
 		queryClient.setQueryData(
-			[FAVORITES_LOANS, wallet.network, myAddress],
+			[FAVORITES_LOANS, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -119,11 +120,9 @@ export default function LoanListingDetails() {
 	)
 
 	const { data: verifiedCollections } = useQuery(
-		[VERIFIED_COLLECTIONS, wallet.network],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		[VERIFIED_COLLECTIONS, networkName],
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
@@ -133,41 +132,35 @@ export default function LoanListingDetails() {
 		isLoading,
 		refetch,
 	} = useQuery(
-		[LOAN, loanId, wallet.network],
+		[LOAN, loanId, networkName],
 		async () =>
-			LoansService.getLoan(
-				wallet.network.name,
-				loanId as string,
-				borrower as string
-			),
+			LoansService.getLoan(networkName, loanId as string, borrower as string),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 			refetchInterval: 60 * 1000,
 		}
 	)
 
 	const { data: latestBlockHeight } = useQuery(
-		[LATEST_BLOCK, wallet.network],
+		[LATEST_BLOCK, networkName],
 		async () => terraUtils.getLatestBlockHeight(),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 			refetchInterval: 60 * 1000,
 		}
 	)
 
 	const { data: favoriteLoans } = useQuery(
-		[FAVORITES_LOANS, wallet.network, myAddress],
+		[FAVORITES_LOANS, networkName, myAddress],
 		async () =>
 			FavoriteLoansService.getFavoriteLoans(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
@@ -289,7 +282,7 @@ export default function LoanListingDetails() {
 		({ addFavoriteLoan, removeFavoriteLoan }[
 			liked ? 'removeFavoriteLoan' : 'addFavoriteLoan'
 		]({
-			network: wallet.network.name as NetworkName,
+			network: networkName,
 			loanId: [Number(loanId)],
 			borrower: borrower as string,
 			user: myAddress,

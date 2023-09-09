@@ -1,7 +1,6 @@
 import { Flex } from 'theme-ui'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { useTranslation } from 'next-i18next'
 
 import TradeDetailsOpenToOffers from 'assets/images/TradeDetailsOpenToOffers'
@@ -23,6 +22,7 @@ import { NavigationFooter } from 'components/shared/navigation-footer'
 import { FieldLabel } from 'components/form/components'
 import { LOOKING_FOR_TYPE } from 'constants/trade'
 import { TextAreaField, TokenInputField } from 'components/form'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import {
 	ChipsWrapper,
 	ContentCard,
@@ -90,7 +90,8 @@ const TradeDetailsForm = () => {
 		watch,
 		formState: { errors },
 	} = useFormContext<TradeFormStepsProps>()
-	const wallet = useWallet()
+
+	const networkName = getNetworkName()
 
 	const { remove } = useFieldArray({
 		control,
@@ -99,10 +100,8 @@ const TradeDetailsForm = () => {
 
 	const { data: verifiedCollections } = useQuery(
 		[VERIFIED_COLLECTIONS],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)

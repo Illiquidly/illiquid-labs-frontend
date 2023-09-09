@@ -3,7 +3,7 @@ import React from 'react'
 import { Box, Flex } from 'theme-ui'
 import * as ROUTES from 'constants/routes'
 import { useTranslation } from 'next-i18next'
-import { useWallet, WalletStatus } from '@terra-money/use-wallet'
+import { useWallet, WalletStatus } from '@terra-money/wallet-kit'
 import { LinkButton } from 'components/link'
 import { OverflowTip } from 'components/ui'
 import { Profile } from '../profile'
@@ -16,7 +16,7 @@ export default function CreateLoanListing() {
 		<Flex sx={{ gap: ['6px', '8px'] }}>
 			<Profile />
 			<NotificationsBell />
-			{wallet.status === WalletStatus.WALLET_CONNECTED && (
+			{wallet.status === WalletStatus.CONNECTED && (
 				<LinkButton
 					variant='gradient'
 					size='medium'

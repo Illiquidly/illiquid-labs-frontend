@@ -30,7 +30,6 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import * as ROUTES from 'constants/routes'
 import useHeaderActions from 'hooks/useHeaderActions'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { useWallet } from '@terra-money/use-wallet'
 
 import { LoanFormStepsProps } from 'types'
 import {
@@ -44,13 +43,13 @@ import { TxBroadcastingModal } from 'components/shared'
 import { LayoutContainer, Page } from 'components/layout'
 import { MobileSteps, Steps } from 'components/ui'
 import { ExitCreateLoanListing } from 'components/shared/header-actions/exit-create-loan-listing'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'loan'])
 const getStaticPaths = makeStaticPaths()
 export { getStaticPaths, getStaticProps }
 
 export default function Loan() {
-	const wallet = useWallet()
 	const { t } = useTranslation(['common', 'loan'])
 	useHeaderActions(<ExitCreateLoanListing />)
 	const [selectNFTsLabel, loanDetailsLabel, confirmListingLabel]: Array<string> =
@@ -132,7 +131,7 @@ export default function Loan() {
 			formMethods.setValue('isSuccessScreen', true)
 
 			// NOTE: backend is doing refetch on it's own,over sockets, but trigger for safety
-			await LoansService.getLoan(wallet.network.name, loanId, borrower)
+			await LoansService.getLoan(getNetworkName(), loanId, borrower)
 		}
 	}
 

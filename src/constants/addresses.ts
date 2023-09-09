@@ -1,4 +1,4 @@
-import { ContractName, NetworkId } from 'types'
+import { ContractName, ChainId } from 'types'
 
 export enum CONTRACT_NAME {
 	loan = 'loan',
@@ -9,7 +9,7 @@ export enum CONTRACT_NAME {
 }
 
 export const contractAddresses: {
-	[k in NetworkId]: { [key in ContractName]: string }
+	[k in ChainId]: { [key in ContractName]: string }
 } = {
 	'phoenix-1': {
 		loan: 'terra1ymhtlmsvmglmsf4r47n2yy4xhjvyxtlhyxws46chc6evk0r80s7qw0sumk',

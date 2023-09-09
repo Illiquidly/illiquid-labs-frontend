@@ -1,26 +1,20 @@
 import {
-	LCDClient,
 	MsgExecuteContract,
 	Coins,
 	Coin,
-	Msg,
 	TxInfo,
+	LCDClient,
 	ExtensionOptions,
-} from '@terra-money/terra.js'
-import { Wallet } from '@terra-money/wallet-provider'
-import axios from 'axios'
+	Msg,
+} from '@terra-money/feather.js'
+import { ConnectResponse, WalletResponse } from '@terra-money/wallet-kit'
+
 import { contractAddresses } from 'constants/addresses'
-import {
-	CHAIN_CURRENCIES,
-	CHAIN_DENOMS,
-	FCD_URLS,
-	LCD_URLS,
-} from 'constants/core'
+import { CHAIN_CURRENCIES, CHAIN_DENOMS } from 'constants/core'
 import { txExplorerFactory } from 'constants/transactions'
-import { pick } from 'lodash'
 
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
-import { ContractName, NetworkId } from 'types'
+import { ContractName, ChainId, NetworkName } from 'types'
 import { asyncAction } from 'utils/js/asyncAction'
 
 export const DEFAULT_DECIMALS = 6
@@ -29,7 +23,7 @@ interface CoinsDetails {
 	luna?: string
 }
 
-export type NativeCurrency = typeof CHAIN_DENOMS[NetworkId]
+export type NativeCurrency = typeof CHAIN_DENOMS[ChainId]
 
 interface TransactionDetails {
 	contractAddress: string
@@ -49,50 +43,56 @@ export const amountConverter = {
 	default: createAmountConverter(DEFAULT_DECIMALS),
 }
 
-let wallet: Wallet
+let wallet: WalletResponse | undefined
+let connectedWallet: ConnectResponse | undefined
+let client: LCDClient
 
-function setWallet(newWallet: Wallet) {
+function setWallet(newWallet: WalletResponse) {
 	// console.log(`Setting a new wallet in blockchain.ts module`, { newWallet });
 	wallet = newWallet
 }
 
-export function getNetworkId(): NetworkId {
-	if (wallet) {
-		return wallet?.network?.chainID as NetworkId
+function setConnectedWallet(newWallet?: ConnectResponse) {
+	connectedWallet = newWallet
+}
+
+function setLcdClient(lcdClient: LCDClient) {
+	client = lcdClient
+}
+
+export function getNetworkName(): NetworkName {
+	if (connectedWallet?.network === 'mainnet') {
+		return 'mainnet'
 	}
 
-	return 'pisco-1' // TODO: return whatever is default for new chain (IBC)
+	if (connectedWallet?.network === 'testnet') {
+		return 'testnet'
+	}
+
+	return 'mainnet'
+}
+
+export function getChainId(): ChainId {
+	if (connectedWallet?.network === 'testnet') {
+		return 'pisco-1'
+	}
+
+	if (connectedWallet?.network === 'mainnet') {
+		return 'phoenix-1'
+	}
+
+	return 'phoenix-1'
 }
 
 function getDefaultChainDenom(): string {
-	const networkId = getNetworkId()
-	return CHAIN_DENOMS[networkId]
+	const chainId = getChainId()
+
+	return CHAIN_DENOMS[chainId]
 }
 
 function getContractAddress(contractName: ContractName): string {
-	const networkId = getNetworkId()
-	return contractAddresses[networkId][contractName]
-}
-
-export function getLCDClient(gasPrices?: any): LCDClient {
-	const networkId = getNetworkId()
-
-	const url = LCD_URLS[networkId]
-
-	return new LCDClient({
-		URL: url,
-		chainID: networkId,
-		gasPrices,
-	})
-}
-
-// TODO: we can't use fcd for IBC. This is Terra thing.
-async function fetchGasPrices() {
-	const networkId = getNetworkId()
-
-	const response = await axios.get(`${FCD_URLS[networkId]}/v1/txs/gas_prices`)
-
-	return pick(response.data, [getDefaultChainDenom()])
+	const chainId = getChainId()
+	return contractAddresses[chainId][contractName]
 }
 
 const DEFAULT_DELAY = 1000
@@ -102,85 +102,27 @@ export async function sleep(ms: number = DEFAULT_DELAY): Promise<void> {
 	return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-async function getWalletAddress(
-	maxTries = 3,
-	retryIntervalMilliseconds = 1000,
-	throwErrorIfNoWallet = true
-): Promise<string> {
-	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < maxTries; i++) {
-		const address = wallet?.wallets[0]?.terraAddress
-		if (address) {
-			return address
-		}
-		console.log(
-			`Haven't got wallet address. Retrying in ${retryIntervalMilliseconds} ms`
-		)
-		// eslint-disable-next-line no-await-in-loop
-		await sleep(retryIntervalMilliseconds)
-	}
+async function getWalletAddress(): Promise<string> {
+	const chainId = getChainId()
 
-	if (throwErrorIfNoWallet) {
-		throw new Error('Unable to get wallet address')
-	} else {
-		return ''
-	}
+	return connectedWallet?.addresses[chainId] ?? ''
 }
 
 async function sendQuery(contractAddress: string, query: object): Promise<any> {
-	const lcdClient = getLCDClient()
-
-	return lcdClient.wasm.contractQuery(contractAddress, query)
+	return client.wasm.contractQuery(contractAddress, query)
 }
 
 async function sendIndependentQuery(
-	networkId: NetworkId,
 	contractAddress: string,
 	query: object
 ): Promise<any> {
-	const url = LCD_URLS[networkId]
-
-	const lcdClient = new LCDClient({
-		URL: url,
-		chainID: networkId,
-	})
-
-	return lcdClient.wasm.contractQuery(contractAddress, query)
-}
-
-async function estimateTxFee(messages: Msg[]) {
-	const address = await getWalletAddress()
-
-	const gasPrices = await fetchGasPrices()
-
-	const lcdClient = getLCDClient(gasPrices)
-	const memo = 'estimate fee'
-
-	const accountInfo = await lcdClient.auth.accountInfo(address)
-
-	const txOptions: ExtensionOptions = {
-		msgs: messages,
-		gasPrices,
-		gasAdjustment: 1.4,
-		feeDenoms: [getDefaultChainDenom()],
-		memo,
-	}
-
-	return lcdClient.tx.estimateFee(
-		[
-			{
-				sequenceNumber: accountInfo.getSequenceNumber(),
-				publicKey: accountInfo.getPublicKey(),
-			},
-		],
-		txOptions
-	)
+	return client.wasm.contractQuery(contractAddress, query)
 }
 
 async function getTxResult(txHash: string): Promise<TxInfo | undefined> {
-	const client = getLCDClient()
+	const chainId = getChainId()
 
-	const [, response] = await asyncAction(client.tx.txInfo(txHash))
+	const [, response] = await asyncAction(client.tx.txInfo(txHash, chainId))
 
 	return response
 }
@@ -218,9 +160,33 @@ function checkWallet(parentFunctionName: string): void {
 	}
 }
 
-export const getTransactionExplorer = (txId: string) =>
-	txExplorerFactory[getNetworkId() ?? 'pisco-1'](txId)
+export const getTransactionExplorer = (txId?: string) =>
+	txExplorerFactory[getChainId() ?? 'pisco-1'](txId)
 
+async function estimateTxFee(messages: Msg[]) {
+	const address = await getWalletAddress()
+
+	const memo = 'estimate fee'
+
+	const accountInfo = await client.auth.accountInfo(address)
+
+	const txOptions: ExtensionOptions = {
+		chainID: getChainId(),
+		msgs: messages,
+		gasAdjustment: 1.4,
+		memo,
+	}
+
+	return client.tx.estimateFee(
+		[
+			{
+				sequenceNumber: accountInfo.getSequenceNumber(),
+				publicKey: accountInfo.getPublicKey(),
+			},
+		],
+		txOptions
+	)
+}
 async function postManyTransactions(
 	txs: TransactionDetails[],
 	memo?: string
@@ -236,12 +202,13 @@ async function postManyTransactions(
 
 	const fee = await estimateTxFee(msgs)
 
-	const tx = await wallet.post({
-		fee,
+	const tx = await wallet?.post({
+		chainID: getChainId(),
 		msgs,
 		memo,
+		fee,
 	})
-	const txId = tx.result.txhash
+	const txId = tx?.txhash ?? ''
 
 	const txTerraFinderUrl = getTransactionExplorer(txId)
 
@@ -260,8 +227,8 @@ async function postTransaction(
 }
 
 async function getLatestBlockHeight() {
-	const client = getLCDClient()
-	const blockInfo = await client.tendermint.blockInfo()
+	const chainId = getChainId()
+	const blockInfo = await client.tendermint.blockInfo(chainId)
 
 	return blockInfo.block.header.height
 }
@@ -271,15 +238,16 @@ const networkBlocksPerDayCache = {}
 async function getAverageBlockTime() {
 	const BLOCK_RANGE = 10_000
 
-	const client = getLCDClient()
+	const chainId = getChainId()
 
-	if (Object.keys(networkBlocksPerDayCache).includes(wallet.network.chainID)) {
-		return networkBlocksPerDayCache[wallet.network.chainID]
+	if (Object.keys(networkBlocksPerDayCache).includes(chainId)) {
+		return networkBlocksPerDayCache[chainId]
 	}
 
-	const latestBlock = await client.tendermint.blockInfo()
+	const latestBlock = await client.tendermint.blockInfo(chainId)
 
 	const oldBlock = await client.tendermint.blockInfo(
+		chainId,
 		parseInt(latestBlock.block.header.height, 10) - BLOCK_RANGE
 	)
 
@@ -288,7 +256,7 @@ async function getAverageBlockTime() {
 			new Date(oldBlock.block.header.time).getTime()) /
 		BLOCK_RANGE
 
-	networkBlocksPerDayCache[wallet.network.chainID] = blockTime
+	networkBlocksPerDayCache[chainId] = blockTime
 
 	return blockTime
 }
@@ -296,11 +264,12 @@ async function getAverageBlockTime() {
 export default {
 	getLatestBlockHeight,
 	sendQuery,
-
+	setConnectedWallet,
+	setLcdClient,
 	sendIndependentQuery,
 	postTransaction,
 	postManyTransactions,
-	getNetworkId,
+	getChainId,
 	getWalletAddress,
 	setWallet,
 	getDefaultChainDenom,

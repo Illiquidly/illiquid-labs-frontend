@@ -1,9 +1,9 @@
+import NiceModal from '@ebay/nice-modal-react'
 import React from 'react'
 import { Img } from 'react-image'
 import { Box, Flex } from 'theme-ui'
 import styled from '@emotion/styled'
-import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
-import NiceModal from '@ebay/nice-modal-react'
+import { useWallet, WalletStatus } from '@terra-money/wallet-kit'
 import { useTranslation } from 'next-i18next'
 
 import {
@@ -17,15 +17,13 @@ import ViewUserProfileModal, {
 } from 'components/shared/modals/view-user-profile-modal/ViewUserProfileModal'
 import { Button, OverflowTip } from 'components/ui'
 import { HEADER_HEIGHT } from 'constants/components'
-
-import useIsTablet from 'hooks/react/useIsTablet'
 import useAddress, { NO_WALLET } from 'hooks/useAddress'
 import useNameService from 'hooks/useNameService'
-
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import { asyncAction } from 'utils/js/asyncAction'
 import getShortText from 'utils/js/getShortText'
 import { MyNFTsModal } from 'components/shared/modals'
+import { ConnectWalletModal } from 'components/shared/modals/connect-wallet-modal/ConnectWalletModal'
 
 const ProfileTitle = styled(Box)`
 	font-family: 'Inter';
@@ -104,8 +102,6 @@ export default function Profile() {
 
 	const wallet = useWallet()
 
-	const isTablet = useIsTablet()
-
 	const [nameServiceInfo] = useNameService([myAddress])
 
 	const { t } = useTranslation(['common'])
@@ -117,7 +113,7 @@ export default function Profile() {
 	}
 
 	const connectWallet = () => {
-		wallet.connect(isTablet ? ConnectType.WALLETCONNECT : undefined)
+		NiceModal.show(ConnectWalletModal)
 
 		setExpanded(false)
 	}
@@ -205,12 +201,11 @@ export default function Profile() {
 						}}
 					>
 						<DropdownContainer>
-							{wallet.status === WalletStatus.WALLET_CONNECTED ? (
+							{wallet.status === WalletStatus.CONNECTED ? (
 								<>
 									<DropdownItem onClick={viewMyProfile}>
 										{t('common:profile.view-profile')}
 									</DropdownItem>
-
 									<DropdownItem onClick={viewMyCollections}>
 										{t('common:profile.my-nft-collections')}
 									</DropdownItem>
@@ -219,9 +214,11 @@ export default function Profile() {
 									</DropdownItem>
 								</>
 							) : (
-								<DropdownItem onClick={connectWallet}>
-									{t('common:profile.connect')}
-								</DropdownItem>
+								<>
+									<DropdownItem onClick={connectWallet}>
+										{t('common:profile.connect')}
+									</DropdownItem>
+								</>
 							)}
 						</DropdownContainer>
 					</Box>

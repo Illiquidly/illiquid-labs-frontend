@@ -2,18 +2,18 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { useWallet } from '@terra-money/use-wallet'
 import useAddress from 'hooks/useAddress'
 import { LoansService } from 'services/api'
 import { ALL_LOANS, LOANS } from 'constants/useQueryKeys'
 import { MultiSelectAccordionInputOption } from 'components/ui/multi-select-accordion-input/MultiSelectAccordionInput'
 import { LOAN_STATE } from 'services/api/loansService'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 import LoanOffers from './LoanOffers'
 
 function IncomingLoanOffers() {
-	const wallet = useWallet()
 	const [page, setPage] = React.useState(1)
 	const myAddress = useAddress()
+	const networkName = getNetworkName()
 	const { t } = useTranslation(['common', 'dashboard'])
 
 	const [
@@ -72,10 +72,10 @@ function IncomingLoanOffers() {
 	>([])
 
 	const { data: allLoans, isFetched: allFetched } = useQuery(
-		[ALL_LOANS, wallet.network, myAddress],
+		[ALL_LOANS, networkName, myAddress],
 		async () =>
 			LoansService.getAllLoans(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					borrowers: [myAddress],
@@ -87,7 +87,6 @@ function IncomingLoanOffers() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
@@ -98,10 +97,10 @@ function IncomingLoanOffers() {
 		refetch,
 		isFetched: loansFetched,
 	} = useQuery(
-		[LOANS, wallet.network, myAddress, page, statuses, collections, allFetched],
+		[LOANS, networkName, myAddress, page, statuses, collections, allFetched],
 		async () =>
 			LoansService.getAllLoans(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					borrowers: [myAddress],
@@ -115,7 +114,7 @@ function IncomingLoanOffers() {
 				}
 			),
 		{
-			enabled: !!wallet.network && allFetched,
+			enabled: allFetched,
 			retry: true,
 		}
 	)

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import { RaffleGridController } from 'components/shared/raffle'
 import { GRID_TYPE } from 'components/shared/raffle/GridController'
 import { RAFFLES, VERIFIED_COLLECTIONS } from 'constants/useQueryKeys'
@@ -11,6 +10,7 @@ import React from 'react'
 import { SupportedCollectionsService } from 'services/api'
 import { RafflesService, RAFFLE_STATE } from 'services/api/rafflesService'
 import { Box, Flex } from 'theme-ui'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const MightLikeText = styled(Flex)`
 	font-size: 20px;
@@ -36,25 +36,23 @@ function RaffleListingsYouMightLike({
 	search,
 	raffleId,
 }: RaffleListingsYouMightLikeProps) {
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 	const { t } = useTranslation(['common', 'raffle-listings'])
 	const myAddress = useAddress()
 
 	const { data: verifiedCollections } = useQuery(
-		[VERIFIED_COLLECTIONS, wallet.network],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		[VERIFIED_COLLECTIONS, networkName],
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
 
 	const { data: raffles, isLoading } = useQuery(
-		[RAFFLES, wallet.network, search, myAddress],
+		[RAFFLES, networkName, search, myAddress],
 		async () =>
 			RafflesService.getAllRaffles(
-				wallet.network.name,
+				networkName,
 				{
 					myAddress,
 					search,
@@ -68,7 +66,6 @@ function RaffleListingsYouMightLike({
 				}
 			),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)

@@ -1,12 +1,15 @@
 import NiceModal from '@ebay/nice-modal-react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useWallet } from '@terra-money/use-wallet'
 import {
-	getChainOptions,
-	StaticWalletProvider,
-	WalletControllerChainOptions,
+	InfoResponse,
 	WalletProvider,
-} from '@terra-money/wallet-provider'
+	getInitialConfig,
+	useConnectedWallet,
+	useLcdClient,
+	useWallet,
+} from '@terra-money/wallet-kit'
+import TerraStationMobileWallet from '@terra-money/terra-station-mobile'
+
 import { appWithTranslation } from 'next-i18next'
 import { AppProps } from 'next/app'
 import { NextComponentType, NextPageContext } from 'next/types'
@@ -19,7 +22,7 @@ import './styles.css'
 
 import 'rc-tooltip/assets/bootstrap_white.css'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import i18nConfig from '../../next-i18next.config'
 
 const queryClient = new QueryClient({
@@ -41,8 +44,12 @@ const Main = ({
 	pageProps: any
 }) => {
 	const wallet = useWallet()
+	const connectedWallet = useConnectedWallet()
+	const lcdClient = useLcdClient()
 
 	blockchain.setWallet(wallet)
+	blockchain.setConnectedWallet(connectedWallet)
+	blockchain.setLcdClient(lcdClient)
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -57,33 +64,24 @@ const Main = ({
 }
 
 const App = (props: AppProps) => {
-	const [chainOptions, setChainOptions] =
-		React.useState<WalletControllerChainOptions | null>(null)
+	const [defaultNetworks, setDefaultNetworks] = useState<InfoResponse | null>(
+		null
+	)
 
-	async function fetchChainOptions() {
-		const options = await getChainOptions()
-
-		setChainOptions(options)
-	}
-	React.useEffect(() => {
-		fetchChainOptions()
+	useEffect(() => {
+		getInitialConfig().then(networks => setDefaultNetworks(networks))
 	}, [])
 
-	if (!chainOptions) {
+	if (!defaultNetworks) {
 		return null
 	}
-	const { defaultNetwork, walletConnectChainIds } = chainOptions
-	return typeof window !== 'undefined' ? (
+	return (
 		<WalletProvider
-			defaultNetwork={defaultNetwork}
-			walletConnectChainIds={walletConnectChainIds}
+			defaultNetworks={defaultNetworks}
+			extraWallets={[new TerraStationMobileWallet()]}
 		>
 			<Main {...props} />
 		</WalletProvider>
-	) : (
-		<StaticWalletProvider defaultNetwork={defaultNetwork}>
-			<Main {...props} />
-		</StaticWalletProvider>
 	)
 }
 

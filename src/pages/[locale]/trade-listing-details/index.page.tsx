@@ -4,7 +4,6 @@ import NiceModal from '@ebay/nice-modal-react'
 import { Box, Flex } from 'theme-ui'
 import moment from 'moment'
 import { first, sample } from 'lodash'
-import { useWallet } from '@terra-money/use-wallet'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 
@@ -47,7 +46,7 @@ import {
 	VERIFIED_COLLECTIONS,
 } from 'constants/useQueryKeys'
 import { CounterTrade } from 'services/api/counterTradesService'
-import { Coin, Cw1155Coin, NetworkName } from 'types'
+import { Coin, Cw1155Coin } from 'types'
 import { FavoriteTradesService } from 'services/api/favoriteTradesService'
 import { LookingFor } from 'components/shared/trade/looking-for'
 import { P2PTradingContract } from 'services/blockchain'
@@ -63,6 +62,7 @@ import { LayoutContainer, Page } from 'components/layout'
 import { DescriptionRow, ImageRow } from 'components/shared/trade'
 import { LinkButton } from 'components/link'
 import { CreateTradeListing } from 'components/shared/header-actions/create-trade-listing'
+import { getNetworkName } from 'utils/blockchain/terraUtils'
 
 const getStaticProps = makeStaticProps(['common', 'trade-listings'])
 const getStaticPaths = makeStaticPaths()
@@ -76,7 +76,7 @@ export default function ListingDetails() {
 
 	const route = useRouter()
 
-	const wallet = useWallet()
+	const networkName = getNetworkName()
 
 	const myAddress = useAddress()
 
@@ -86,7 +86,7 @@ export default function ListingDetails() {
 
 	const updateFavoriteTradeState = data =>
 		queryClient.setQueryData(
-			[FAVORITES_TRADES, wallet.network, myAddress],
+			[FAVORITES_TRADES, networkName, myAddress],
 			(old: any) => [...old.filter(o => o.id !== data.id), data]
 		)
 
@@ -105,11 +105,9 @@ export default function ListingDetails() {
 	)
 
 	const { data: verifiedCollections } = useQuery(
-		[VERIFIED_COLLECTIONS, wallet.network],
-		async () =>
-			SupportedCollectionsService.getSupportedCollections(wallet.network.name),
+		[VERIFIED_COLLECTIONS, networkName],
+		async () => SupportedCollectionsService.getSupportedCollections(networkName),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
@@ -119,34 +117,33 @@ export default function ListingDetails() {
 		isLoading,
 		refetch,
 	} = useQuery(
-		[TRADE, tradeId, wallet.network],
-		async () => TradesService.getTrade(wallet.network.name, tradeId as string),
+		[TRADE, tradeId, networkName],
+		async () => TradesService.getTrade(networkName, tradeId as string),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
 
 	const { data: favoriteTrades } = useQuery(
-		[FAVORITES_TRADES, wallet.network, myAddress],
+		[FAVORITES_TRADES, networkName, myAddress],
 		async () =>
 			FavoriteTradesService.getFavoriteTrades(
-				{ network: wallet.network.name as NetworkName },
+				{ network: networkName },
 				{
 					users: [myAddress],
 				}
 			),
 		{
-			enabled: !!wallet.network && !!myAddress,
+			enabled: !!myAddress,
 			retry: true,
 		}
 	)
 
 	const { data: acceptedCounterTrades } = useQuery(
-		[ACCEPTED_COUNTER_TRADE, tradeId, wallet.network, myAddress],
+		[ACCEPTED_COUNTER_TRADE, tradeId, networkName, myAddress],
 		async () =>
 			CounterTradesService.getAllCounterTrades(
-				wallet.network.name,
+				networkName,
 				{
 					owners: [myAddress],
 					tradeIds: [`${tradeId}`],
@@ -158,7 +155,6 @@ export default function ListingDetails() {
 				}
 			),
 		{
-			enabled: !!wallet.network,
 			retry: true,
 		}
 	)
@@ -198,7 +194,7 @@ export default function ListingDetails() {
 		refetch()
 
 		await CounterTradesService.getCounterTrade(
-			wallet.network.name,
+			networkName,
 			counterTrade.trade.tradeId,
 			counterTrade.counterId
 		)
@@ -236,7 +232,7 @@ export default function ListingDetails() {
 		({ addFavoriteTrade, removeFavoriteTrade }[
 			liked ? 'removeFavoriteTrade' : 'addFavoriteTrade'
 		]({
-			network: wallet.network.name as NetworkName,
+			network: networkName,
 			tradeId: [Number(tradeId)],
 			user: myAddress,
 		}))
