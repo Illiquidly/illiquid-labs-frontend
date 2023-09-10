@@ -6,9 +6,7 @@
 		"dev": "next --port 4300",
 		"build": "next build && next export",
 		"start": "next start",
-		"type-check": "tsc",
-		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook"
+		"type-check": "tsc"
 	},
 	"dependencies": {
 		"@ebay/nice-modal-react": "^1.2.6",
@@ -61,14 +59,6 @@
 	"devDependencies": {
 		"@babel/core": "^7.18.10",
 		"@next/eslint-plugin-next": "^12.2.3",
-		"@storybook/addon-actions": "^6.5.10",
-		"@storybook/addon-essentials": "^6.5.10",
-		"@storybook/addon-interactions": "^6.5.10",
-		"@storybook/addon-links": "^6.5.10",
-		"@storybook/builder-webpack5": "^6.5.10",
-		"@storybook/manager-webpack5": "^6.5.10",
-		"@storybook/react": "^6.5.10",
-		"@storybook/testing-library": "^0.0.13",
 		"@svgr/webpack": "^6.3.1",
 		"@types/react": "^18.0.0",
 		"@types/react-dom": "^17.0.11",

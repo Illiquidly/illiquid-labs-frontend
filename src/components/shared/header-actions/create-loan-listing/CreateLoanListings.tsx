@@ -26,7 +26,6 @@ export default function CreateLoanListing() {
 					}}
 				>
 					<CreateListingAddIcon />
-
 					<OverflowTip>
 						<Box sx={{ display: ['none', 'block'], ml: '8px' }}>
 							{t('common:create-listing')}
