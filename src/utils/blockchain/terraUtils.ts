@@ -6,6 +6,7 @@ import {
 	LCDClient,
 	ExtensionOptions,
 	Msg,
+	Fee,
 } from '@terra-money/feather.js'
 import { ConnectResponse, WalletResponse } from '@terra-money/wallet-kit'
 
@@ -18,6 +19,8 @@ import { ContractName, ChainId, NetworkName } from 'types'
 import { asyncAction } from 'utils/js/asyncAction'
 
 export const DEFAULT_DECIMALS = 6
+
+const DEFAULT_GAS_TOKEN = 'uluna'
 
 interface CoinsDetails {
 	luna?: string
@@ -204,11 +207,19 @@ async function postManyTransactions(
 
 	const fee = await estimateTxFee(msgs)
 
+	// We choose the right fee amount to broadcast
+	const singleFee = new Fee(
+		fee.gas_limit,
+		fee.amount.filter(c => c.denom === DEFAULT_GAS_TOKEN),
+		fee.payer,
+		fee.granter
+	)
+
 	const tx = await wallet?.post({
 		chainID: getChainId(),
 		msgs,
 		memo,
-		fee,
+		fee: singleFee,
 	})
 	const txId = tx?.txhash ?? ''
 
